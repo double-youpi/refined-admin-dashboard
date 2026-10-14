@@ -1,0 +1,1550 @@
+// =============================================================
+// 20. UNIVERSAL DARK-MODE COVERAGE — WP & plugin surfaces
+//
+// Many WP admin screens (popups, modals, filter bars, editor panels)
+// have `background: #fff` or `background-color: #f0f0f1` hardcoded in
+// wp-admin CSS. Without a `body.dy-admin`-scoped override, these surfaces
+// appear WHITE on our dark background — inconsistent.
+//
+// Strategy: target the CLASS SELECTORS of WP components reused everywhere
+// (modals, filter bars, nav-tab-wrapper, code editors, etc.) and pull them
+// into the design system. Defensive approach: override only colours (bg,
+// color, border) — not geometry, which may be driven by their JS.
+// =============================================================
+
+// ── (a) Generic modals & overlays ────────────────────────────
+// Cible le pattern WP `.media-modal`, `.theme-overlay`, `.attachment-details`
+// + tout `.wp-overlay`-like.
+body.dy-admin .media-modal,
+body.dy-admin .theme-overlay,
+body.dy-admin .wp-overlay,
+body.dy-admin div[role="dialog"]:not(.dy-rail-tip) {
+  // background-color is on .media-modal-content / .theme-wrap, not the wrapper
+  color: var(--dya-ink);
+}
+// media-frame stacked surfaces: keep paper ONLY on the modal (which floats
+// over an overlay) and blocks with their own visual meaning (toolbar, uploader).
+// The content area (.media-frame-content + .attachments-browser) stays
+// transparent → inherits --dya-bg from the page, no useless paper-coloured box
+// behind the grid.
+body.dy-admin .media-modal-content,
+body.dy-admin .theme-overlay .theme-wrap,
+body.dy-admin .theme-overlay .theme-info,
+body.dy-admin .theme-overlay .theme-actions,
+body.dy-admin .attachment-details,
+body.dy-admin .media-frame-toolbar,
+body.dy-admin .media-frame-menu,
+body.dy-admin .media-frame-title,
+body.dy-admin .uploader-inline,
+body.dy-admin .uploader-inline-content {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+  box-shadow: none;
+}
+
+// media-frame content areas: transparent. The apparent bg comes from
+// body.dy-admin via --dya-bg; attachment tiles (paper-2) stand out against
+// that background, sharper than over a paper rectangle.
+body.dy-admin .media-frame-router,
+body.dy-admin .media-frame-content,
+body.dy-admin .attachments-browser,
+body.dy-admin .attachments-wrapper {
+  background: transparent !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+  box-shadow: none;
+}
+
+// Toolbars (filters + search at the top of the grid): paper-2 to signal
+// their status as a slightly elevated "control bar". Bottom border --dya-line
+// to separate from the grid below.
+body.dy-admin .media-toolbar,
+body.dy-admin .media-toolbar-secondary,
+body.dy-admin .wp-filter {
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-md) !important;
+}
+
+// `.attachment-preview`: WP-native forces `bg #f0f0f1` which appears as a
+// light grey behind transparent images (SVG, PNG without background).
+// Switch to --dya-paper-2 to match the parent tile → no light patch on dark background.
+body.dy-admin .attachment-preview {
+  background: var(--dya-paper-2) !important;
+}
+
+// The attachment tile itself keeps --dya-paper-2 (already set in _cards.scss)
+// but ensure the hover creates a visible state. Since the blocks lost their
+// outline (doc 16), repainting the hairline says nothing any more: the cue is
+// a soft accent ring, the vocabulary of the selected state at half strength.
+body.dy-admin ul.attachments .attachment:hover {
+  border-color: var(--dya-edge-strong) !important;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--dya-accent) 45%, transparent) !important;
+}
+
+// ── Attachment modal (upload.php?item=X) ─────────────────
+// WP renders the right panel `.attachment-info` with bg `#f6f7f7` + text
+// `#646970` (a leftover from admin-color-fresh). Override the entire
+// typographic hierarchy + surfaces.
+body.dy-admin .attachment-info {
+  background: var(--dya-paper-2) !important;
+  border-color: var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+  border-radius: var(--dya-r-md);
+}
+body.dy-admin .attachment-info .filename,
+body.dy-admin .attachment-info .uploaded,
+body.dy-admin .attachment-info .file-size,
+body.dy-admin .attachment-info .dimensions,
+body.dy-admin .attachment-info .details {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .attachment-info .filename strong {
+  color: var(--dya-ink) !important;
+  font-weight: 600;
+}
+body.dy-admin .attachment-info .copy-attachment-url {
+  background: var(--dya-paper-3) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin .attachment-info a {
+  color: var(--dya-accent) !important;
+}
+body.dy-admin .attachment-info a:hover {
+  color: var(--dya-ink) !important;
+}
+
+// Settings panel (alt-text, title, caption, description fields).
+body.dy-admin .attachment-details .setting,
+body.dy-admin .attachment-details .compat-attachment-fields {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .attachment-details .setting label,
+body.dy-admin .attachment-details .setting .name,
+body.dy-admin .attachment-details .compat-field-label {
+  color: var(--dya-ink) !important;
+  font-weight: 500;
+}
+body.dy-admin .attachment-details .setting .description,
+body.dy-admin .attachment-details .setting .help {
+  color: var(--dya-ink-soft) !important;
+}
+
+// Navigation arrows (prev / next attachment) + close icon.
+body.dy-admin .media-modal-icon,
+body.dy-admin .media-modal-prev .left,
+body.dy-admin .media-modal-next .right,
+body.dy-admin .left.dashicons,
+body.dy-admin .right.dashicons {
+  color: var(--dya-ink-soft) !important;
+  background: transparent !important;
+}
+body.dy-admin .media-modal-prev:hover .left,
+body.dy-admin .media-modal-next:hover .right {
+  color: var(--dya-ink) !important;
+  background: var(--dya-paper-2) !important;
+  border-radius: var(--dya-r-sm);
+}
+
+// Modal backdrop: pure black → soften it with a --dya-bg mix to avoid the
+// extreme contrast between the modal (--dya-paper) and the backdrop.
+body.dy-admin .media-modal-backdrop {
+  background: color-mix(in srgb, var(--dya-bg) 92%, transparent) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+// `.thumbnail-image` (the large left-side preview): match the bg of the
+// left panel (`.media-modal-content` = --dya-paper) so the image floats with
+// no coloured frame. The separator between the two panels is already provided
+// by `border-left: 1px solid --dya-line` on `.attachment-info` (see below) —
+// definitely NO border-right on `.attachment-media-view`: WP gives it
+// `box-sizing: content-box` with `width: 65%`, while `.attachment-info`
+// is `box-sizing: border-box` with `width: 35%`. Adding 1px of border-right
+// pushes the total above 100% → the right panel wraps below the preview.
+body.dy-admin .attachment-media-view {
+  background: var(--dya-paper) !important;
+}
+body.dy-admin .attachment-media-view .thumbnail,
+body.dy-admin .attachment-media-view .thumbnail-image {
+  background: var(--dya-paper) !important;
+}
+body.dy-admin .attachment-media-view .thumbnail img {
+  border-radius: var(--dya-r-md);
+}
+
+// ── Modal corners + internal dividers ────────────────────
+// Border-radius on the modal shell + clip overflow so that
+// child elements (attachment-info on the right) respect the radius.
+body.dy-admin .media-modal-content,
+body.dy-admin .media-modal {
+  border-radius: var(--dya-r-md) !important;
+}
+body.dy-admin .media-modal-content {
+  overflow: hidden;
+  border: 1px solid var(--dya-edge) !important;
+}
+// The right panel (.attachment-info) had its own 8px radius which created
+// round corners INSIDE the modal → conflict. Flatten it so it hugs the shell.
+body.dy-admin .attachment-info {
+  border-radius: 0 !important;
+}
+
+// ── Internal separators in attachment-details panel ──────
+// WP-native sets `border-bottom: 1px solid #ededee` (light grey)
+// between `.details`, `.settings`, `.delete-attachment` → prominent white
+// bands in dark mode. Remap them to --dya-line (white 7%).
+body.dy-admin .attachment-details .details,
+body.dy-admin .attachment-details .settings,
+body.dy-admin .attachment-details .actions,
+body.dy-admin .attachment-info .details,
+body.dy-admin .attachment-info .settings,
+body.dy-admin .attachment-details .button-link.delete-attachment,
+body.dy-admin .media-sidebar .delete-attachment {
+  border-color: var(--dya-edge) !important;
+}
+
+// Separators between nav buttons (prev / next / close) at the top-right:
+// WP sets `border-left: 1px solid #a8a9ad` (medium grey). Soften to
+// --dya-line-strong (white 14%) — less prominent, keeps the separation.
+body.dy-admin .media-modal .left.dashicons,
+body.dy-admin .media-modal .right.dashicons,
+body.dy-admin .media-modal-close {
+  border-left-color: var(--dya-line-strong) !important;
+}
+
+// ── Bridge Admin ↔ Media Library module ──────────────────────────────
+//
+// When the Media Library module is active IN ADDITION to the admin, its
+// `#dy-folder-panel` is `position: fixed` with `left: calc(160px +
+// var(--dy-gutter))`. The 160 = native WP menu width — not relevant here,
+// where the DY rail has a variable width (`--dya-rail-w-current`,
+// collapsed ≈ 64px, expanded 240px). Without this override, the panel
+// floats 180px from the viewport edge regardless of rail state → large
+// gap between rail and panel when collapsed, or overlap with content when expanded.
+//
+// Track the rail directly, and align the transition with the rail snap
+// (380ms ease-out) so that opening/closing the rail drags the folder panel
+// without a jank.
+//
+// The panel top is offset +10px from the nominal Media Library module
+// calculation to breathe better under the admin chipbar.
+body.dy-admin.upload-php #dy-folder-panel,
+body.dy-admin.upload-php.folded #dy-folder-panel,
+body.dy-admin.upload-php.auto-fold #dy-folder-panel {
+  left: calc(var(--dya-rail-w-current, var(--dya-rail-w)) + var(--dy-gutter, 20px)) !important;
+  // `--dy-panel-top` is measured by the Media Library module on the toolbar
+  // row, because our header is not a constant: the section bar, the page
+  // title and any notice all change its height. The old calculation stays as
+  // the fallback, for a build where that measurement never runs.
+  top:  var(--dy-panel-top, calc(var(--wp-admin--admin-bar--height, 32px) + var(--dy-title-h, 60px) + var(--dy-gutter, 20px) + 10px)) !important;
+  transition:
+    left var(--dya-rail-snap-dur, 380ms) var(--dya-rail-snap-easing, cubic-bezier(.16, 1, .3, 1)),
+    top  0.3s cubic-bezier(0.2, 0.7, 0.2, 1) !important;
+}
+
+// Scroll phase: when `body.dy-panel-expanded` is added by the folder-tree
+// JS (title scrolled out of the viewport), the panel is promoted to "sticky":
+// top = topbar + chipbar + gutter — it floats just below the fixed admin
+// chrome (admin bar + chipbar), animated by the top transition set above.
+// While `#wpcontent` scrolls internally, the panel stays pinned. Mirror of
+// `body.dy-panel-expanded #dy-folder-panel` in media-library.scss, but
+// adapted to our chrome.
+body.dy-admin.upload-php.dy-panel-expanded #dy-folder-panel {
+  top: calc(var(--dya-topbar-h, 44px) + var(--dya-chipbar-h, 44px) + var(--dy-gutter, 20px)) !important;
+}
+
+// The grid/list to the right of the folder panel uses `margin-left: min(
+// --dy-fw, 35vw, 360px)` (clamped to the effective sidebar width). We keep
+// an EXTRA gutter to compensate for the `--dy-gutter` that visually
+// separates panel and grid. For this calculation to give EXACTLY 20px of
+// space, we kill the `padding-left: --dy-gutter` on `#wpbody-content`
+// injected by media-library.scss (useful without the Admin module, but
+// double-counted here since the admin grid already handles the rail offset).
+// The Media Library module prints its own brand block above the panel,
+// pinned `position: fixed`. Our section bar already names the screen and
+// occupies that exact spot, so the two collided. Ours wins: the module is
+// the guest on a screen we dress (Raphaël, 22/09/2026).
+body.dy-admin.upload-php #dy-panel-brand {
+  display: none !important;
+}
+
+body.dy-admin.upload-php #wpbody-content {
+  padding-left: 0 !important;
+}
+
+// #wpcontent scrollbar: the Admin module sets `overflow-y: auto` on
+// #wpcontent → the native scrollbar reserves ~10px inside the content-box,
+// which visually shifts the grid 10px to the left. Force
+// `scrollbar-gutter: stable` to ALWAYS reserve that space (uniform whether
+// or not there is overflow), and adjust `.wrap`'s `margin-right` accordingly
+// to get exactly 20px between the grid and the right viewport edge.
+body.dy-admin.upload-php #wpcontent {
+  scrollbar-gutter: stable;
+}
+// Right visual padding on the #wpcontent content-box. Applies ONLY when
+// the detail panel is closed — when it opens, it takes the right-side space
+// and the padding becomes redundant (the `.media-frame` margin-right calc
+// handles the offset at that point). Use `:not(:has(...))` rather than a
+// double-override rule to stay explicit about the targeted state.
+body.dy-admin.upload-php:not(:has(.dy-detail-open)) #wpcontent {
+  padding-right: 20px;
+}
+// `.wrap` margin-right:
+//   - detail panel CLOSED: 0 (the grid hugs the content-box edge;
+//     the #wpcontent scrollbar absorbs the remaining 10px between the
+//     visual edge and the viewport edge).
+//   - detail panel OPEN: margin is no longer the right lever — the
+//     `body:has(.dy-detail-open) .wrap > .media-frame` rule (media-library)
+//     handles the offset via margin-right to make room for the
+//     #dy-detail-panel (position: fixed).
+// `:not(:has(.dy-detail-open))` explicitly targets the closed state to
+// stay compatible with the CSS-only detail toggle.
+// Like the margin-left below: this reset only makes sense WHEN the Refined
+// Media Library folder panel occupies the left side (the grid then manages
+// its own right inset). Without the ML module, `#dy-folder-panel` does not
+// exist and forcing `margin-right: 0` would break native `.wrap` centering. Gate :has.
+body.dy-admin.upload-php:has(#dy-folder-panel) .wrap {
+  margin-right: 0 !important;
+}
+
+// IMPORTANT: this offset only applies IF the Refined Media Library folder
+// panel is present in the DOM. Without the Media Library module (or with
+// folders disabled), `#dy-folder-panel` does not exist → we would otherwise
+// leave a large empty margin-left on the grid. `:has(#dy-folder-panel)` gates this cleanly.
+body.dy-admin.upload-php:has(#dy-folder-panel) .wrap > .media-frame,
+body.dy-admin.upload-php:has(#dy-folder-panel) .wrap > .notice,
+body.dy-admin.upload-php:has(#dy-folder-panel) .wrap > .updated,
+body.dy-admin.upload-php:has(#dy-folder-panel) .wrap > .error,
+body.dy-admin.upload-php:has(#dy-folder-panel) .wrap > .wp-filter,
+body.dy-admin.upload-php:has(#dy-folder-panel) .wrap > .subsubsub,
+body.dy-admin.upload-php:has(#dy-folder-panel) .wrap > #posts-filter,
+body.dy-admin.upload-php:has(#dy-folder-panel) .wrap > .search-box {
+  margin-left: calc(min(var(--dy-fw, 220px), 35vw, 360px) + var(--dy-gutter, 20px)) !important;
+}
+
+// Native WP `.wp-filter` carries a `margin: 25px 0 5px` that creates a
+// vertical gap between the search bar and the top of the page. In admin
+// mode the spacing already comes from the folder panel `top` + `.wrap`
+// padding — the margin-top is not needed.
+body.dy-admin.upload-php .wp-filter {
+  margin-top: 0 !important;
+}
+
+// Chipbar + subchipbar on upload.php: the page is full-width (no
+// max-width `.wrap`), so the boxed chip display (max-width 1280px
+// centred, padding 32px) creates a misalignment that does not line up
+// with the folder panel or the grid. Unbox: full width, left-aligned
+// with the folder panel edge.
+//
+// The chipbar is already placed after the rail by the admin grid, so its
+// inner content starts at `rail-edge + padding-left`. To match the folder
+// panel (which starts at `rail-w-current + dy-gutter`), set
+// `padding-left: var(--dy-gutter)` — pixel-perfect alignment.
+body.dy-admin.upload-php .dy-chipbar-inner,
+body.dy-admin.upload-php .dy-subchipbar-inner {
+  max-width: none !important;
+  margin: 0 !important;
+  padding-left: var(--dy-gutter, 20px) !important;
+  padding-right: var(--dy-gutter, 20px) !important;
+}
+
+// ── Heading row (title / button / eyebrow) ───────────────────────────
+//
+// 1. `.wp-heading-inline` receives `margin-left: -20px` from the Media
+//    Library module (compensates for #wpbody-content padding-left in non-admin).
+//    Here the wrap is already `+dy-gutter` from the rail → the title must
+//    inherit that gutter, not be pulled underneath it. Reset.
+//
+// 2. `.page-title-action` is triple-styled (admin layout, media-library
+//    upload-php, post-type-attachment) with `!important` on the bg/border/color
+//    that wins. Force the Admin module's "inverse" pill
+//    (background: ink / color: bg), identical to `edit.php?post_type=page`.
+//    margin-top reset to 0 — vertical alignment is handled by
+//    `vertical-align: middle` below.
+//
+// 3. Vertical alignment: h1 + button + dy-page-sub share
+//    `display: inline-flex; vertical-align: middle` + the same baseline.
+//    Cancel spurious `margin-top` values so all three rectangles align
+//    on their optical centre.
+body.dy-admin.upload-php .wp-heading-inline {
+  margin-left: 0 !important;
+  display: inline-flex !important;
+  align-items: center;
+  vertical-align: middle;
+}
+
+body.dy-admin.upload-php .wrap .page-title-action,
+body.dy-admin.upload-php .wrap .page-title-action:active {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px !important;
+  margin: 0 0 0 12px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  min-height: 0 !important;
+  height: auto !important;
+  top: 0;
+  color: var(--dya-bg) !important;
+  background: var(--dya-ink) !important;
+  border: 1px solid var(--dya-ink) !important;
+  border-radius: var(--dya-r-md) !important;
+  vertical-align: middle;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  text-decoration: none !important;
+  transition:
+    background var(--dya-t-fast) ease,
+    border-color var(--dya-t-fast) ease,
+    transform var(--dya-t-fast) ease;
+}
+body.dy-admin.upload-php .wrap .page-title-action:hover {
+  background: var(--dya-ink-soft) !important;
+  border-color: var(--dya-ink-soft) !important;
+  color: var(--dya-bg) !important;
+}
+body.dy-admin.upload-php .wrap .page-title-action:focus,
+body.dy-admin.upload-php .wrap .page-title-action:focus-visible {
+  background: var(--dya-ink) !important;
+  border-color: var(--dya-accent) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--dya-accent) 35%, transparent) !important;
+  outline: none;
+}
+
+// Button injected by Elementor ("Generate with Elementor AI"): it is an `<a>`
+// with a hashed emotion class (unstable) inside the stable container
+// `#e-image-ai-media-library`, rendered as a light pill with out-of-theme
+// purple text. As this is a SECONDARY action (the primary remains "Add media
+// file"), align it with the DS in "ghost" variant (paper surface, border, ink
+// text), with the AI icon in accent. Target via the stable ID, never
+// emotion's css-xxxx classes.
+body.dy-admin.upload-php #e-image-ai-media-library a,
+body.dy-admin.upload-php #e-image-ai-media-library a:active {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 6px 14px !important;
+  min-height: 0 !important;
+  height: auto !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  color: var(--dya-ink) !important;
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-md) !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  text-decoration: none !important;
+  cursor: pointer;
+  transition: background var(--dya-t-fast) ease, border-color var(--dya-t-fast) ease;
+}
+body.dy-admin.upload-php #e-image-ai-media-library a:hover {
+  background: var(--dya-paper-3) !important;
+  border-color: var(--dya-edge-strong) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin.upload-php #e-image-ai-media-library a:focus,
+body.dy-admin.upload-php #e-image-ai-media-library a:focus-visible {
+  background: var(--dya-paper-2) !important;
+  border-color: var(--dya-accent) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--dya-accent) 35%, transparent) !important;
+  outline: none;
+}
+// The AI icon uses the theme accent (not Elementor's brand purple).
+body.dy-admin.upload-php #e-image-ai-media-library a i,
+body.dy-admin.upload-php #e-image-ai-media-library a [class*="eicon"] {
+  color: var(--dya-accent) !important;
+}
+
+// When the button is relocated (cloned into the folder panel by
+// `folder-tree.js → relocateAddMediaButton`), the original is marked
+// `.dy-action-relocated` and must disappear visually WITHOUT being
+// removed from the DOM (the clone forwards clicks to it to reuse the WP
+// handlers). This rule needs higher specificity than the `.page-title-action`
+// block above (0,4,1); add the `.dy-action-relocated` class to reach 0,5,1.
+body.dy-admin.upload-php .wrap > .page-title-action.dy-action-relocated {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+  background: transparent !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+// ── Add Media CTA (relocated into the folder panel) ──────────────────
+//
+// In Media Library-only mode, the clone inherits a full-width CTA
+// (see `#dy-add-media-action` in media-library.scss). In Admin + Media
+// Library mode, rewrite the button to match the "inverse" pill of other
+// admin pages (background: ink / color: bg).
+//
+// Layout: the pill spans the column instead of being centred in it.
+//
+// It used to sit centred via `align-self: center`, which left it 42px from
+// the panel's left edge. Measured, the column has exactly two alignment
+// rails: 260px for section headers such as "FOLDERS", and 274px for every
+// list entry, from "Show all media" down to the last folder. A centred pill
+// sat on neither, which reads as a misalignment rather than as a deliberate
+// composition, since everything below it runs edge to edge.
+//
+// Stretching it to a 14px inline margin puts its left edge on the 274px
+// rail, in line with the list it sits above, and gives the screen's primary
+// action the weight it deserves at the head of the column. The pill styling
+// itself is untouched: this stays RAD's inverse pill, not Media Library's
+// own full-width CTA.
+//
+// margin-top: 0 because the panel has no border or background in this mode
+// (see the panel override below), so the pill sits flush with the top edge.
+// margin-bottom 20px to breathe before the "show-all" / folder list.
+//
+// Specificity: 0,3,1 + body.dy-admin.upload-php → 0,5,1. Beats the
+// media-library.scss rules which are at 0,2,0 (id #).
+body.dy-admin.upload-php #dy-add-media-action {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  gap: 6px;
+  margin: 0 14px 20px !important;
+  padding: 6px 14px !important;
+  background: var(--dya-ink) !important;
+  color: var(--dya-bg) !important;
+  border: 1px solid var(--dya-ink) !important;
+  border-bottom: 1px solid var(--dya-ink) !important; // override media-library border-bottom rule
+  border-radius: var(--dya-r-md) !important;
+  font-family: var(--dya-font-body) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  letter-spacing: 0 !important;
+  transition:
+    background var(--dya-t-fast) ease,
+    border-color var(--dya-t-fast) ease,
+    color var(--dya-t-fast) ease,
+    transform var(--dya-t-fast) ease;
+}
+body.dy-admin.upload-php #dy-add-media-action:hover {
+  background: var(--dya-ink-soft) !important;
+  border-color: var(--dya-ink-soft) !important;
+  color: var(--dya-bg) !important;
+}
+body.dy-admin.upload-php #dy-add-media-action:focus,
+body.dy-admin.upload-php #dy-add-media-action:focus-visible {
+  outline: none;
+  border-color: var(--dya-accent) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--dya-accent) 35%, transparent) !important;
+}
+body.dy-admin.upload-php #dy-add-media-action .dashicons {
+  font-size: 14px !important;
+  width: 14px;
+  height: 14px;
+  line-height: 1;
+}
+
+// ── Folder panel: chrome stripping in admin mode ───────────────────
+//
+// In Media Library-only mode, the panel has a `--dya-bg-soft` background and a
+// `border-right: 1px solid --dya-line` to separate from the grid (see lines
+// 205-206 of media-library.scss). In admin mode, the rail bg on the left +
+// the `--dy-gutter` already provide this visual separation → the bg +
+// border-right become redundant and create an ugly "tile-within-tile".
+// Cancel them.
+body.dy-admin.upload-php #dy-folder-panel {
+  background: transparent !important;
+  border-right: none !important;
+}
+
+// `.dy-page-sub` has nothing left to do on the media library.
+//
+// It used to be aligned against the page h1, with a 33px line-height and a
+// hand-measured 14px nudge to land on that heading's optical centre. Refined
+// Media Library takes the h1 out of the flow entirely (`position: absolute;
+// width: 1px`) and rebuilds the title as a wordmark inside the folder panel,
+// so there was no longer anything on that line to align with. What remained
+// was a 90px band between the chipbar and the grid, holding a single 11px
+// label with its whole right-hand side empty.
+//
+// The count itself has since moved where it belongs. The folder panel gives
+// every folder a count badge, and `Show all media` now carries the total in
+// that same badge, next to `Media without folder` and its own. Keeping the
+// label here would print the same number twice on one screen, which reads
+// worse than either placement alone.
+//
+// So the sub is dropped on this screen, and the `.wrap` top padding with it:
+// that padding reserves room for a heading that never paints here. The h1
+// stays in the DOM for screen readers, and the total is announced by the
+// panel entry it belongs to, so nothing is lost to assistive technology.
+//
+// On the padding: dropping it to zero was measured and rejected. The grid
+// toolbar then touched the sticky chipbar at 0px and the folder panel cleared
+// it by 6px, which reads as a collision rather than as a tight layout. 16px
+// is the grid's own rhythm and gives the toolbar a visible gap and the panel
+// 22px, without reserving room for a heading that never paints.
+//
+// Measured band between chipbar and content: 90px at the start, 48px after
+// the alignment fix, 16px now.
+body.dy-admin.upload-php .wrap > .dy-page-sub {
+  display: none !important;
+}
+
+body.dy-admin.upload-php .wrap {
+  padding-top: 16px !important;
+}
+
+// ── Rail flyout: keep it out of the media library's link colour ──────
+//
+// Refined Media Library paints every link on the attachment screens with the
+// brand accent, via `body.post-type-attachment a` (specificity 0,1,2). That
+// is meant for links inside the media interface, but a bare `a` selector
+// catches everything on the page, including the rail flyout, which is Admin
+// Dashboard chrome and has nothing to do with the media library. Its own
+// rule, `.dy-rail-fly__item`, is only 0,1,0 and loses the cascade, so every
+// entry in the flyout turned accent-coloured.
+//
+// The four colour states are restated here with enough specificity to win,
+// scoped to the attachment screens so the rest of the rail is untouched.
+// Note the subitems are `--dya-ink-mute`, not `--dya-ink`: they are a
+// deliberately quieter level, and flattening them would lose that.
+//
+// The real cause is upstream, in Refined Media Library: a selector scoped to
+// "every link on this screen" will bite again. Worth narrowing there.
+body.dy-admin.post-type-attachment .dy-rail-fly__item {
+  color: var(--dya-ink);
+}
+
+body.dy-admin.post-type-attachment .dy-rail-fly__subitem {
+  color: var(--dya-ink-mute);
+}
+
+body.dy-admin.post-type-attachment .dy-rail-fly__item:hover,
+body.dy-admin.post-type-attachment .dy-rail-fly__item:focus-visible,
+body.dy-admin.post-type-attachment .dy-rail-fly__subitem:hover,
+body.dy-admin.post-type-attachment .dy-rail-fly__subitem:focus-visible {
+  color: var(--dya-ink);
+}
+
+// Declared last so a current entry keeps its section colour on hover, which
+// is the order the flyout's own stylesheet relies on.
+body.dy-admin.post-type-attachment .dy-rail-fly__item.is-current,
+body.dy-admin.post-type-attachment .dy-rail-fly__item.is-current .dy-chip-icon,
+body.dy-admin.post-type-attachment .dy-rail-fly__item.is-current .dot {
+  color: var(--dyf-ink);
+}
+
+// ── Notices trigger: the dock has to go full-bleed like the rest ─────
+//
+// Everywhere else, `.dy-notice-dock__inner`, `.dy-chipbar-inner` and `.wrap`
+// share the same two constraints: a readability cap of 1497.6px and an inline
+// gutter. The trigger, right-aligned inside the dock, therefore lands exactly
+// on the content's right edge.
+//
+// The media library breaks that agreement on purpose. Refined Media Library
+// lifts the cap from `.chipbar-inner` and `.wrap` and moves the gutter to
+// `#wpcontent`, so the grid can use the whole screen. It does not lift it
+// from the notice dock, which keeps both the cap and the gutter and drifts
+// away from everything around it.
+//
+// Measured, panel closed, at four widths: content and trigger land on
+// 1250/1250 and 1410/1410, then diverge to 1650/1600 and 1890/1814. The
+// divergence only starts once the 1497.6px cap begins to bite, which is why
+// an earlier fix that only removed the gutter looked correct at 1440 and was
+// wrong everywhere above it.
+//
+// So the dock follows the same rules as the chipbar on this screen: no cap,
+// no gutter, right edge flush with `.wrap`.
+body.dy-admin.upload-php .dy-notice-dock__inner {
+  max-width: none !important;
+  padding-right: 0 !important;
+}
+
+// ── Media frame: padding-right ──────────────────────────────────────
+//
+// WP-native applies `padding-right: 20px` on `.media-frame`; combined
+// with our `margin-right: 0` on the frame, this creates 20px of useless
+// space BEFORE the right edge of the frame, adding to the 20px that `.wrap`
+// already has on the viewport side → 40px visual gap. Kill this padding
+// so that visible content (grid / list / toolbar) reaches exactly
+// `wrap.right` = 20px from the viewport. When the detail panel is open,
+// its own width reserves the necessary space.
+body.dy-admin.upload-php .media-frame {
+  padding-right: 0 !important;
+}
+
+// ── media-new.php: drag-drop zone ───────────────────────────────────
+//
+// The upload screen shows `.drag-drop .drag-drop-inside` which centres
+// the drop zone content. WP-native sets neither margin auto nor padding-top
+// → the zone sticks to the top of `.drag-drop`. Add breathing room with
+// `margin: 30px auto` (matches the density of other admin screens where
+// internal block content is inset ~24-32px). Rule scoped to the admin
+// module: Media Library does not need to be active.
+body.dy-admin.media-new-php .drag-drop .drag-drop-inside {
+  margin: 30px auto;
+}
+
+// `.uploader-inline` (the block that wraps the drop zone, progress UI,
+// and "Select files" button) appears in the media modal on upload.php,
+// in the post editor, and anywhere WP opens its media-frame. Not confined
+// to media-new.php → scope to the general admin module so it matches
+// `--dya-paper` (light & dark) everywhere it appears.
+//
+// Second bridge rule: on upload.php, media-library.scss applies
+// `body.upload-php .uploader-inline { background: transparent !important }`
+// (specificity 0,2,1, same as ours, but loaded after → wins). Bump to
+// 0,3,1 with `body.dy-admin.upload-php` to take control when both modules
+// coexist.
+body.dy-admin .uploader-inline {
+  background: var(--dya-paper) !important;
+}
+body.dy-admin.upload-php .uploader-inline {
+  background: var(--dya-paper) !important;
+}
+
+// `#uploader-window` is the full-viewport overlay that appears when the
+// user drags a file from the OS into the admin window (on any WP screen
+// with a mounted media-frame). Rewrite it in DS style: translucent paper
+// background + accent border on the content.
+//
+// Same rule duplicated in media-library.scss for the case where Media
+// Library is active without the Admin module (the user can disable Admin
+// and keep ML — a supported scenario). When both modules are active the
+// values are identical → no conflict.
+body.dy-admin #uploader-window {
+  background: color-mix(in srgb, var(--dya-paper, #161a23) 75%, transparent) !important;
+}
+body.dy-admin #uploader-window > .uploader-window-content {
+  border-color: var(--dya-accent, #5b3efe) !important;
+}
+
+// `.uploader-editor-title` — title inside the drop overlay. WP-native:
+// hard white. Make it consistent with the theme via --dya-ink which swaps
+// dark/light automatically.
+body.dy-admin .uploader-editor-title {
+  color: var(--dya-ink) !important;
+}
+
+body.dy-admin .media-modal-content .compat-attachment-fields th,
+body.dy-admin .media-modal-content .compat-attachment-fields td,
+body.dy-admin .attachment-details .setting label,
+body.dy-admin .attachment-details .name,
+body.dy-admin .attachment-details .details-image {
+  background: transparent !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .media-modal-close,
+body.dy-admin .theme-overlay .close { color: var(--dya-ink-soft); }
+body.dy-admin .media-modal-close:hover,
+body.dy-admin .theme-overlay .close:hover { color: var(--dya-ink); background: var(--dya-paper-2); }
+body.dy-admin .theme-overlay .theme-name,
+body.dy-admin .theme-overlay h2,
+body.dy-admin .theme-overlay h3 { color: var(--dya-ink) !important; }
+body.dy-admin .theme-overlay .theme-description,
+body.dy-admin .theme-overlay .theme-tags,
+body.dy-admin .theme-overlay p { color: var(--dya-ink-soft) !important; }
+
+// ── (b) Filter bars `.wp-filter` (Add Theme, Add Plugin, Media, …) ────
+// Surface bg set by the media section above (--dya-paper-2). Keep here only
+// the text/border/padding properties to avoid breaking the source-order cascade.
+body.dy-admin .wp-filter {
+  padding: 12px 14px !important;
+  box-shadow: none !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .wp-filter .filter-links,
+body.dy-admin .wp-filter .filter-links li,
+body.dy-admin .wp-filter .filter-links a {
+  color: var(--dya-ink-soft) !important;
+  background: transparent !important;
+  border: 0 !important;
+  text-shadow: none !important;
+}
+body.dy-admin .wp-filter .filter-links a.current,
+body.dy-admin .wp-filter .filter-links li.current a {
+  color: var(--dya-ink) !important;
+  background: var(--dya-paper-2) !important;
+  border-radius: var(--dya-r-sm) !important;
+}
+body.dy-admin .wp-filter input[type="search"],
+body.dy-admin .wp-filter input[type="text"] {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin .wp-filter .drawer-toggle,
+body.dy-admin .wp-filter .button.drawer-toggle {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+}
+
+// ── (c) `.theme-browser .theme` + `.plugin-card` (grid items) ────────
+body.dy-admin .theme-browser .theme,
+body.dy-admin .plugin-card,
+body.dy-admin .plugin-install-php .plugin-card {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  box-shadow: none !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .theme-browser .theme:hover,
+body.dy-admin .plugin-card:hover {
+  border-color: var(--dya-edge-strong) !important;
+}
+body.dy-admin .theme-browser .theme .theme-name,
+body.dy-admin .plugin-card .plugin-name,
+body.dy-admin .plugin-card-top .name,
+body.dy-admin .plugin-card-top h3 {
+  background: transparent !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .theme-browser .theme .theme-author,
+body.dy-admin .plugin-card-top p.authors,
+body.dy-admin .plugin-card-top .desc,
+body.dy-admin .plugin-card-bottom {
+  background: transparent !important;
+  color: var(--dya-ink-soft) !important;
+  border-color: var(--dya-edge) !important;
+}
+// Active theme strip — the accent can be very light (custom-brand neon
+// green, yellow…) or very dark depending on the user setting. Flat `#fff`
+// gives no contrast guarantee. Use `--dya-bg` (near-black, `#0c0e13`) which
+// contrasts strongly against any saturated accent, with a fallback to
+// `--dya-ink` when the accent is very dark via color-contrast() — but that is
+// fragile cross-browser, so simple fallback: dark text on accented background.
+//
+// Colour the CONTAINER (`.theme-id-container`) rather than the inner `<h2>`
+// so the strip fills the full card width with no surrounding gap. The h2
+// inherits text styles (color, font-weight) via its colour override.
+body.dy-admin .theme-browser .theme.active .theme-id-container {
+  background: var(--dya-accent) !important;
+  padding: 14px !important;
+}
+body.dy-admin .theme-browser .theme.active .theme-name {
+  color: var(--dya-bg) !important;
+  font-weight: 600 !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+
+// Action strip (appears on hover of a NON-active theme card). WP renders
+// `.theme-actions` on a light `#f0f0f1` background with native buttons →
+// in dark mode, "Activate" appears light grey on white (unreadable). Reskin
+// the strip and its buttons to the DS: neutral secondaries, primary
+// "Activate" action (.activate) in accent.
+body.dy-admin .theme-browser .theme .theme-actions {
+  background: var(--dya-paper-2) !important;
+  border-top: 1px solid var(--dya-line) !important;
+  box-shadow: none !important;
+}
+body.dy-admin .theme-browser .theme .theme-actions .button:not(.activate):not(.button-primary),
+body.dy-admin .theme-browser .theme .theme-actions .button-secondary {
+  background: var(--dya-paper-3) !important;
+  border: 1px solid var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+body.dy-admin .theme-browser .theme .theme-actions .button:not(.activate):not(.button-primary):hover,
+body.dy-admin .theme-browser .theme .theme-actions .button-secondary:hover {
+  background: var(--dya-paper) !important;
+  border-color: var(--dya-accent) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .theme-browser .theme .theme-actions .activate,
+body.dy-admin .theme-browser .theme .theme-actions .button-primary {
+  background: var(--dya-accent) !important;
+  border: 1px solid var(--dya-accent) !important;
+  color: var(--dya-accent-on, var(--dya-bg)) !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+body.dy-admin .theme-browser .theme .theme-actions .activate:hover,
+body.dy-admin .theme-browser .theme .theme-actions .button-primary:hover {
+  filter: brightness(1.06);
+  color: var(--dya-accent-on, var(--dya-bg)) !important;
+}
+
+// ── (c-bis) Plugin install screen — `#the-list` grid wrapper ──────────
+// WP-default renders `#the-list` as a flex row without wrap → cards at full
+// width. Force a responsive auto-fill grid of 2-3 cols depending on the viewport.
+// The INTERNAL styling of `.plugin-card` lives in `_cards.scss` (flex column
+// + absolute icon + .plugin-card-bottom in a 2×2 grid). Only touch the
+// `#the-list` wrapper here.
+body.dy-admin.plugin-install-php #the-list {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)) !important;
+  gap: 18px !important;
+}
+// "Install now" / "Activate" buttons in accent (`.action-links` is
+// position absolute top-right via _cards.scss).
+body.dy-admin.plugin-install-php .plugin-card .install-now,
+body.dy-admin.plugin-install-php .plugin-card .activate-now {
+  background: var(--dya-accent) !important;
+  color: var(--dya-accent-on, var(--dya-ink)) !important;
+  border: 1px solid var(--dya-accent) !important;
+  border-radius: var(--dya-r-md) !important;
+  padding: 6px 14px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  line-height: 1 !important;
+  min-height: 0 !important;
+  height: auto !important;
+}
+body.dy-admin.plugin-install-php .plugin-card .button-disabled {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink-mute) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin.plugin-install-php .plugin-card .thickbox {
+  font-size: 11.5px !important;
+  color: var(--dya-ink-soft) !important;
+  text-decoration: none !important;
+}
+body.dy-admin.plugin-install-php .plugin-card .thickbox:hover {
+  color: var(--dya-accent) !important;
+}
+
+// `.popular-tags` (tag cloud on the sidebar) — WP-default is on a white
+// background; switch to a paper card.
+body.dy-admin.plugin-install-php p.popular-tags,
+body.dy-admin .wp-filter .popular-tags,
+body.dy-admin .popular-tags {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-md) !important;
+  padding: 16px !important;
+}
+
+// Plugin information iframe ("More details" popup) — body in `dialog-body`
+// + `dialog-container`. WP minimal layout imposes a white bg; override it.
+// Our DY CSS is loaded inside the iframe (admin_enqueue_scripts fires there);
+// sufficient to cover the bg + WP-default components that populate the popup.
+body.dy-admin.dialog-body {
+  background: var(--dya-bg) !important;
+  color: var(--dya-ink) !important;
+}
+// Banner header: WP-native inline <style> in the iframe sets
+// `#plugin-information-title.with-banner { background-image: url(...) }`
+// for the plugin cover image. Our `background: var(--dya-paper) !important`
+// was overriding it → image lost. Solution: do NOT touch the background
+// here, only color + border. For the case where there is NO banner image
+// (.with-banner absent), set a paper bg as fallback.
+body.dy-admin.dialog-body #plugin-information-title {
+  color: var(--dya-ink) !important;
+  border-bottom: 1px solid var(--dya-line) !important;
+}
+body.dy-admin.dialog-body #plugin-information-title:not(.with-banner) {
+  background: var(--dya-paper) !important;
+}
+body.dy-admin.dialog-body #plugin-information-title.with-banner h2 {
+  text-shadow: 0 1px 3px rgba(0,0,0,.6) !important;
+  color: #fff !important;
+}
+body.dy-admin.dialog-body #plugin-information-tabs {
+  background: var(--dya-paper-2) !important;
+  border-bottom: 1px solid var(--dya-line) !important;
+  padding: 0 16px !important;
+}
+body.dy-admin.dialog-body #plugin-information-tabs a {
+  color: var(--dya-ink-soft) !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 2px solid transparent !important;
+  text-decoration: none !important;
+  padding: 12px 14px !important;
+  margin: 0 2px !important;
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+}
+body.dy-admin.dialog-body #plugin-information-tabs a.current {
+  color: var(--dya-ink) !important;
+  border-bottom-color: var(--dya-accent) !important;
+}
+body.dy-admin.dialog-body #plugin-information-content {
+  background: var(--dya-bg) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin.dialog-body #section-holder {
+  background: transparent !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin.dialog-body #section-holder h2,
+body.dy-admin.dialog-body #section-holder h3,
+body.dy-admin.dialog-body #section-holder h4 {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin.dialog-body #section-holder p,
+body.dy-admin.dialog-body #section-holder li {
+  color: var(--dya-ink-soft) !important;
+}
+body.dy-admin.dialog-body #section-holder code {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge) !important;
+}
+body.dy-admin.dialog-body .fyi {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-md) !important;
+  color: var(--dya-ink-soft) !important;
+}
+body.dy-admin.dialog-body .fyi h3 {
+  color: var(--dya-ink) !important;
+  border-bottom: 1px solid var(--dya-line) !important;
+  padding-bottom: 8px !important;
+}
+body.dy-admin.dialog-body .fyi ul li,
+body.dy-admin.dialog-body .fyi p {
+  color: var(--dya-ink-soft) !important;
+}
+body.dy-admin.dialog-body .fyi strong {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin.dialog-body .fyi a {
+  color: var(--dya-accent) !important;
+}
+// Popup footer with the "Install now" CTA
+body.dy-admin.dialog-body #plugin-information-footer {
+  background: var(--dya-paper-2) !important;
+  border-top: 1px solid var(--dya-line) !important;
+}
+body.dy-admin.dialog-body #plugin-information-footer .button-primary,
+body.dy-admin.dialog-body #plugin-information-footer .install-now {
+  background: var(--dya-accent) !important;
+  color: var(--dya-accent-on, var(--dya-ink)) !important;
+  border-color: var(--dya-accent) !important;
+}
+// Rating stars in the sidebar
+body.dy-admin.dialog-body .counter-container .counter-back,
+body.dy-admin.dialog-body .counter-container .counter-bar {
+  background: var(--dya-paper-2) !important;
+}
+body.dy-admin.dialog-body .counter-container .counter-bar {
+  background: var(--dya-accent) !important;
+}
+
+
+// =============================================================
+// jQuery UI Datepicker (#ui-datepicker-div) — GLOBAL unthemed component
+// (WC order date, ACF fallback, various plugins). Rendered as a white 3D
+// widget by default → unreadable in dark mode. Map to the design system
+// (dark + light). It is appended to <body> (so body.dy-admin applies).
+// =============================================================
+body.dy-admin #ui-datepicker-div.ui-datepicker {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-md) !important;
+  box-shadow: var(--dya-shadow-lg) !important;
+  padding: 8px !important;
+  color: var(--dya-ink) !important;
+  font-family: var(--dya-font-body) !important;
+  width: auto !important;
+  z-index: 100000 !important;
+}
+body.dy-admin #ui-datepicker-div .ui-datepicker-header {
+  background: transparent !important;
+  border: 0 !important;
+  color: var(--dya-ink) !important;
+  padding: 2px 0 6px !important;
+  position: relative;
+}
+body.dy-admin #ui-datepicker-div .ui-datepicker-title {
+  color: var(--dya-ink) !important;
+  font-weight: 500 !important;
+  font-size: 12.5px !important;
+}
+body.dy-admin #ui-datepicker-div .ui-datepicker-prev,
+body.dy-admin #ui-datepicker-div .ui-datepicker-next {
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-sm) !important;
+  cursor: pointer;
+  top: 2px !important;
+  width: 24px !important; height: 22px !important;
+}
+body.dy-admin #ui-datepicker-div .ui-datepicker-prev { left: 2px !important; }
+body.dy-admin #ui-datepicker-div .ui-datepicker-next { right: 2px !important; }
+body.dy-admin #ui-datepicker-div .ui-datepicker-prev-hover,
+body.dy-admin #ui-datepicker-div .ui-datepicker-next-hover {
+  background: var(--dya-paper-3) !important;
+  border-color: var(--dya-edge-strong) !important;
+  top: 2px !important;
+}
+body.dy-admin #ui-datepicker-div .ui-datepicker-prev .ui-icon,
+body.dy-admin #ui-datepicker-div .ui-datepicker-next .ui-icon { display: none !important; }
+body.dy-admin #ui-datepicker-div .ui-datepicker-prev::after,
+body.dy-admin #ui-datepicker-div .ui-datepicker-next::after {
+  content: "‹";
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--dya-ink-soft); font-size: 15px; line-height: 1;
+}
+body.dy-admin #ui-datepicker-div .ui-datepicker-next::after { content: "›"; }
+body.dy-admin #ui-datepicker-div .ui-datepicker-calendar { border-collapse: collapse !important; margin: 0 !important; }
+body.dy-admin #ui-datepicker-div .ui-datepicker-calendar th {
+  color: var(--dya-ink-mute) !important;
+  font-weight: 500 !important;
+  font-size: 10.5px !important;
+  padding: 4px !important;
+  border: 0 !important;
+}
+body.dy-admin #ui-datepicker-div .ui-datepicker-calendar td { padding: 1px !important; border: 0 !important; }
+body.dy-admin #ui-datepicker-div .ui-datepicker-calendar td a,
+body.dy-admin #ui-datepicker-div .ui-datepicker-calendar td span {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  color: var(--dya-ink-soft) !important;
+  text-align: center !important;
+  padding: 5px !important;
+  border-radius: var(--dya-r-sm) !important;
+  font-size: 12px !important;
+}
+body.dy-admin #ui-datepicker-div .ui-datepicker-calendar td span { color: var(--dya-ink-fade) !important; }
+body.dy-admin #ui-datepicker-div .ui-datepicker-calendar td a:hover {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin #ui-datepicker-div .ui-datepicker-calendar td.ui-datepicker-today a {
+  border-color: var(--dya-edge-strong) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin #ui-datepicker-div .ui-datepicker-calendar td.ui-datepicker-current-day a,
+body.dy-admin #ui-datepicker-div .ui-datepicker-calendar td a.ui-state-active {
+  background: var(--dya-accent) !important;
+  color: var(--dya-accent-on) !important;
+  border-color: var(--dya-accent) !important;
+}
+body.dy-admin #ui-datepicker-div .ui-datepicker-buttonpane {
+  background: transparent !important;
+  border-top: 1px solid var(--dya-line) !important;
+  margin: 6px 0 0 !important;
+  padding-top: 8px !important;
+}
+body.dy-admin #ui-datepicker-div .ui-datepicker-buttonpane button {
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+  border-radius: var(--dya-r-sm) !important;
+  padding: 4px 10px !important;
+  cursor: pointer;
+  font-size: 11.5px !important;
+  font-family: var(--dya-font-body) !important;
+}
+body.dy-admin #ui-datepicker-div .ui-datepicker-buttonpane button:hover {
+  background: var(--dya-paper-3) !important;
+  border-color: var(--dya-edge-strong) !important;
+}
+
+// =============================================================
+// 21. WP-CORE LIGHT ISLANDS — screens found unthemed in DARK
+//     (QA campagne dy-rad-demo, WP 7.0.2). Bugs DARK-ONLY : en light
+//     ces surfaces sont blanches/crème natives (correct), donc on
+//     s'appuie sur les tokens theme-aware :
+//       --dya-paper  = blanc (light)  → dark (dark)
+//       --dya-ink    = sombre (light) → clair (dark)
+//     Résultat : light inchangé, dark corrigé. Couleurs uniquement.
+// =============================================================
+
+// ── (F4) update-core.php : table de mise à jour extensions/thèmes ──
+// Les bandeaux thead/tfoot « Tout sélectionner » restaient en #fff.
+body.dy-admin #update-plugins-table,
+body.dy-admin #update-themes-table {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+  box-shadow: none;
+}
+body.dy-admin #update-plugins-table thead td,
+body.dy-admin #update-plugins-table tfoot td,
+body.dy-admin #update-themes-table thead td,
+body.dy-admin #update-themes-table tfoot td,
+body.dy-admin #update-plugins-table .check-column,
+body.dy-admin #update-themes-table .check-column {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin #update-plugins-table .plugin-title strong,
+body.dy-admin #update-themes-table .theme-title strong {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin #update-plugins-table .plugin-title p,
+body.dy-admin #update-plugins-table .plugin-title,
+body.dy-admin #update-themes-table .theme-title p {
+  color: var(--dya-ink-soft) !important;
+}
+
+// ── (F5) edit-comments.php : ligne de commentaire EN ATTENTE ──
+// WP peint le crème natif (#fcf9e8) sur chaque CELLULE (td/th), pas sur
+// le <tr> → cibler les cellules. On teinte avec --dya-warn : pâle-ambré en
+// light (affordance « en attente » gardée), ambré-sombre lisible en dark.
+body.dy-admin .comments tr.unapproved > td,
+body.dy-admin .comments tr.unapproved > th,
+body.dy-admin .wp-list-table.comments tr.unapproved > td,
+body.dy-admin .wp-list-table.comments tr.unapproved > th {
+  background: color-mix(in srgb, var(--dya-warn) 13%, var(--dya-paper)) !important;
+}
+body.dy-admin .comments tr.unapproved .comment-author strong,
+body.dy-admin .comments tr.unapproved .author,
+body.dy-admin .comments tr.unapproved .column-comment,
+body.dy-admin .comments tr.unapproved .column-comment p,
+body.dy-admin .comments tr.unapproved .comment-excerpt {
+  // Texte plein (--dya-ink) : la teinte ambrée réduit le contraste, un muted
+  // y serait trop faible. La ligne « en attente » doit rester la plus lisible.
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .comments tr.unapproved .comment-author .comment-author-email,
+body.dy-admin .comments tr.unapproved .column-date,
+body.dy-admin .comments tr.unapproved .column-response {
+  color: var(--dya-ink-soft) !important;
+}
+
+// ── (F6) revision.php : scrubber de révisions (nouveau WP 7.0) ──
+// Tout le panneau de diff restait blanc → « Titre/Retiré/Ajouté » +
+// contenu en texte clair invisible en dark.
+body.dy-admin .revisions,
+body.dy-admin .revisions-control-frame,
+body.dy-admin .revisions-diff,
+body.dy-admin .diff-content,
+body.dy-admin .revision-diff-error {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin table.diff,
+body.dy-admin table.diff td,
+body.dy-admin table.diff th,
+body.dy-admin .diff-title,
+body.dy-admin .revisions-meta,
+body.dy-admin .diff-meta {
+  background: transparent !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin .diff-meta {
+  background: var(--dya-paper-2) !important;
+}
+// Cellules de diff : teinte sémantique (rouge/vert) fonctionnant dans
+// les deux thèmes via color-mix sur --dya-paper.
+body.dy-admin table.diff .diff-deletedline,
+body.dy-admin table.diff td.diff-deletedline {
+  background: color-mix(in srgb, var(--dya-danger) 14%, var(--dya-paper)) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin table.diff .diff-addedline,
+body.dy-admin table.diff td.diff-addedline {
+  background: color-mix(in srgb, var(--dya-success) 14%, var(--dya-paper)) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin table.diff .diff-deletedline del,
+body.dy-admin table.diff .diff-deletedline ins,
+body.dy-admin table.diff .diff-addedline del,
+body.dy-admin table.diff .diff-addedline ins {
+  color: var(--dya-ink) !important;
+  text-decoration: none;
+}
+body.dy-admin table.diff .diff-deletedline del {
+  background: color-mix(in srgb, var(--dya-danger) 28%, var(--dya-paper)) !important;
+}
+body.dy-admin table.diff .diff-addedline ins {
+  background: color-mix(in srgb, var(--dya-success) 28%, var(--dya-paper)) !important;
+}
+// Curseur de comparaison (input range natif) : au moins le rendre visible.
+body.dy-admin .wp-slider .ui-slider-handle,
+body.dy-admin .revisions-tickmarks {
+  border-color: var(--dya-edge-strong) !important;
+}
+
+// =============================================================
+// 22. AUDIT-2 (2026-09) — leaks of WP-native colours in dark mode
+// =============================================================
+
+// ── `.widefat p/ol/ul` : WP forces #2c3338 (invisible on dark) ──
+// Hit comments (comment text), plugins ("Requires:"), updates table…
+body.dy-admin .widefat p,
+body.dy-admin .widefat ol,
+body.dy-admin .widefat ul {
+  color: inherit;
+}
+
+// ── Importers (tools > import): white table + #50575e actions ──
+body.dy-admin .wrap .importers,
+body.dy-admin .wrap .importers tbody,
+body.dy-admin .wrap .importers tr,
+body.dy-admin .wrap .importers td {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+body.dy-admin .wrap .importers .importer-action,
+body.dy-admin .wrap .importers .importer-action a {
+  color: var(--dya-ink-soft);
+}
+body.dy-admin .wrap .importers .importer-action a:hover {
+  color: var(--dya-accent-text, var(--dya-accent));
+}
+
+// ── Empty list-table row (`tr.no-items`) : white band ──
+body.dy-admin .wp-list-table .no-items,
+body.dy-admin .wp-list-table .no-items td {
+  background: var(--dya-paper) !important;
+}
+
+// ── revision.php : muted date + native range slider ──
+body.dy-admin .revisions .author-card .date,
+body.dy-admin .revisions-meta .date,
+body.dy-admin .diff-meta .date {
+  color: var(--dya-ink-mute) !important;
+}
+body.dy-admin .revisions-controls .wp-slider {
+  background: var(--dya-paper-3) !important;
+  border-color: var(--dya-edge-strong) !important;
+  border-radius: var(--dya-r-pill);
+}
+body.dy-admin .revisions-controls .wp-slider .ui-slider-handle {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge-strong) !important;
+  box-shadow: var(--dya-shadow-sm);
+}
+
+// ── plugin-install.php cards: WP forces #2c3338 on `.plugin-card-top p` ──
+body.dy-admin .plugin-card p,
+body.dy-admin .plugin-card .column-description p,
+body.dy-admin .plugin-card .plugin-card-bottom {
+  color: inherit;
+}
+body.dy-admin .plugin-card .column-compatibility .compatibility-compatible strong {
+  color: var(--dya-success);
+}
+
+// ── Inline <code> / <kbd> in descriptions (#50575e on dark) ──
+body.dy-admin .wrap code,
+body.dy-admin .wrap kbd,
+body.dy-admin .description code {
+  background: var(--dya-paper-3);
+  color: var(--dya-ink);
+  border-radius: var(--dya-r-xs);
+  padding: 1px 5px;
+  font-family: var(--dya-font-mono);
+  font-size: .92em;
+}
+
+// ── Theme / plugin file editors: the current file link carries `.notice` ──
+// (our notice component collapses it to height 0 → the whole tree vanished).
+body.dy-admin #templateside .notice,
+body.dy-admin #pluginside .notice,
+body.dy-admin #templateside a.notice.notice-info,
+body.dy-admin #pluginside a.notice.notice-info {
+  display: block !important;
+  height: auto !important;
+  opacity: 1 !important;
+  overflow: visible !important;
+  margin: 0 !important;
+  padding: 5px 8px !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+  border-radius: var(--dya-r-sm);
+  font-weight: 600;
+}
+body.dy-admin #templateside .notice::before,
+body.dy-admin #pluginside .notice::before {
+  content: none;
+  display: none;
+}
+
+// ── options-connectors.php (WP 7.0): AI plugin callout painted light ──
+body.dy-admin .ai-plugin-callout,
+body.dy-admin .connectors-page__callout {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge) !important;
+}
+body.dy-admin .ai-plugin-callout p,
+body.dy-admin .ai-plugin-callout strong {
+  color: var(--dya-ink) !important;
+}
+
+// ── about.php / credits / freedoms / privacy / contribute ──
+// WP's about pages ship their own palette as custom properties on
+// `.about__container` (+ a hard `#fff` on body/#wpcontent). Users land here
+// after EVERY core update, so the page must follow the theme. We remap the
+// variables rather than restyling each section.
+body.dy-admin.about-php,
+body.dy-admin.credits-php,
+body.dy-admin.freedoms-php,
+body.dy-admin.privacy-php,
+body.dy-admin.contribute-php,
+body.dy-admin.about-php #wpcontent,
+body.dy-admin.credits-php #wpcontent,
+body.dy-admin.freedoms-php #wpcontent,
+body.dy-admin.privacy-php #wpcontent,
+body.dy-admin.contribute-php #wpcontent {
+  background: var(--dya-bg) !important;
+}
+body.dy-admin .about__container {
+  --background: var(--dya-paper);
+  --subtle-background: var(--dya-paper-2);
+  --text: var(--dya-ink);
+  --text-light: var(--dya-ink);
+  --accent-1: var(--dya-accent-text, var(--dya-accent));
+  --accent-2: var(--dya-accent);
+  --accent-3: var(--dya-line-strong);
+  --accent-gradient: linear-gradient(90deg, var(--dya-paper-3) 4.7%, var(--dya-accent) 83.84%);
+  --nav-background: var(--dya-paper);
+  --nav-border: var(--dya-line);
+  --nav-color: var(--dya-ink-soft);
+  --nav-current: var(--dya-accent-text, var(--dya-accent));
+  color: var(--dya-ink);
+}
+body.dy-admin .about__container .about__header-title,
+body.dy-admin .about__container .about__header-text,
+body.dy-admin .about__container h1,
+body.dy-admin .about__container h2,
+body.dy-admin .about__container h3,
+body.dy-admin .about__container p,
+body.dy-admin .about__container li {
+  color: var(--text);
+}
+body.dy-admin .about__container .about__header-navigation a {
+  color: var(--nav-color);
+}
+body.dy-admin .about__container .about__header-navigation a.is-active,
+body.dy-admin .about__container .about__header-navigation a:hover {
+  color: var(--nav-current);
+}
+body.dy-admin .about__container .about__section.has-accent-background-color {
+  background: var(--dya-paper-2);
+  color: var(--dya-ink);
+}
+body.dy-admin .about__container .about__section.has-accent-background-color * {
+  color: var(--dya-ink);
+}
+body.dy-admin .about__container a:not(.button) { color: var(--dya-accent-text, var(--dya-accent)); }
+body.dy-admin .about__container .wp-people-group .wp-person a { color: var(--dya-ink); }
+body.dy-admin .about__container .wp-people-group .wp-person .title { color: var(--dya-ink-soft); }
+body.dy-admin .about__container .about__image,
+body.dy-admin .about__container .about__image img {
+  background: var(--dya-paper-2);
+  border-radius: var(--dya-r-lg);
+}
+
+// ── plugin-install.php: empty search result ──
+body.dy-admin .no-plugin-results {
+  color: var(--dya-ink-mute) !important;
+}
+
+// ── Media modal: left "Actions" menu (classic editor "Add media") kept
+// WP's #f6f7f7 ground ──
+body.dy-admin .media-modal .media-menu,
+body.dy-admin .media-frame-menu .media-menu {
+  background: var(--dya-paper-2) !important;
+  border-right: 1px solid var(--dya-line) !important;
+}
+body.dy-admin .media-modal .media-menu .media-menu-item {
+  color: var(--dya-ink-soft);
+}
+body.dy-admin .media-modal .media-menu .media-menu-item:hover,
+body.dy-admin .media-modal .media-menu .media-menu-item.active {
+  color: var(--dya-ink);
+  background: var(--dya-paper-3);
+}
+body.dy-admin .media-modal .media-menu .separator {
+  border-color: var(--dya-edge) !important;
+}
+
+// ── Theme details overlay: light backdrop showed as pale bands above and
+// below the panel ──
+body.dy-admin .theme-overlay .theme-backdrop {
+  background: rgba(0, 0, 0, .7) !important;
+}
+
+// ── jQuery UI selectmenu (Polylang language / flag pickers, other plugins) ──
+// Rendered as a white button + white popup menu outside our theming.
+body.dy-admin .ui-selectmenu-button,
+body.dy-admin .ui-selectmenu-button.ui-button {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge-strong) !important;
+  border-radius: var(--dya-r-sm) !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+body.dy-admin .ui-selectmenu-button:hover,
+body.dy-admin .ui-selectmenu-button.ui-selectmenu-button-open {
+  border-color: var(--dya-accent) !important;
+}
+body.dy-admin .ui-selectmenu-button .ui-selectmenu-text { color: var(--dya-ink) !important; }
+body.dy-admin .ui-selectmenu-button .ui-icon { filter: invert(1) opacity(.7); }
+body.dy-admin.dy-theme-light .ui-selectmenu-button .ui-icon { filter: none; }
+body.dy-admin .ui-selectmenu-menu .ui-menu,
+body.dy-admin .ui-selectmenu-menu .ui-widget-content {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge-strong) !important;
+  border-radius: var(--dya-r-sm) !important;
+  box-shadow: var(--dya-shadow-lg) !important;
+}
+body.dy-admin .ui-selectmenu-menu .ui-menu-item-wrapper {
+  color: var(--dya-ink) !important;
+  background: transparent !important;
+  border: 0 !important;
+}
+body.dy-admin .ui-selectmenu-menu .ui-menu-item-wrapper.ui-state-active,
+body.dy-admin .ui-selectmenu-menu .ui-menu-item-wrapper:hover {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+  margin: 0 !important;
+}
+body.dy-admin .ui-selectmenu-menu .ui-menu-item-wrapper.ui-state-disabled { color: var(--dya-ink-mute) !important; }
+
+// ── audit-2, sweep post-renommage (R03) : trois fuites cœur restantes ──
+// Tables `.widefat` hors list-table (importateurs…) : cellules #50575e.
+body.dy-admin .widefat:not(.wp-list-table) td,
+body.dy-admin .widefat:not(.wp-list-table) th {
+  color: var(--dya-ink-soft);
+}
+// Éditeur de fichiers : « (style.css) » en `.nonessential` #646970.
+body.dy-admin .nonessential {
+  color: var(--dya-ink-mute);
+}
+// Connecteurs (7.0) : paragraphe d'aide #949494 sous la liste.
+body.dy-admin .connectors-page > p,
+body.dy-admin .connectors-page > p a {
+  color: var(--dya-ink-mute);
+}
+// Thèmes : la fiche de détail (`.theme-wrap`, fixed) est calée sur la largeur
+// du menu natif (left 190px) et empiétait sur notre rail.
+body.dy-admin .theme-overlay .theme-wrap {
+  left: calc(var(--dya-rail-w-current, 240px) + 24px);
+}
+// Commentaires (vue native / mode cartes) : cœur colore les actions de ligne
+// avec un poids d'id (`#the-comment-list .approve a` #007017, 2.8:1 sur notre
+// papier). Mêmes intentions, nos tokens sémantiques.
+body.dy-admin #the-comment-list .row-actions .approve a {
+  color: var(--dya-success);
+}
+body.dy-admin #the-comment-list .row-actions .unapprove a {
+  color: var(--dya-warn);
+}
+body.dy-admin #the-comment-list .row-actions .spam a,
+body.dy-admin #the-comment-list .row-actions .trash a,
+body.dy-admin #the-comment-list .row-actions .delete a {
+  color: var(--dya-danger);
+}

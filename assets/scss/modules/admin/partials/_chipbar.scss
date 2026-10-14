@@ -1,0 +1,188 @@
+// =============================================================
+// _chipbar.scss
+// Horizontal submenu surfaced at the top of #wpcontent.
+// Rendered server-side in PHP (see GUIDE.md §6), client-side
+// receives static HTML and only animates the .dy-track underline.
+// =============================================================
+
+// Outer chipbar spans full viewport width (border-bottom reaches edge).
+// Inner is constrained to wrap-max with its own padding-x so the
+// chip column lines up EXACTLY with the .wrap content column below.
+body.dy-admin .dy-chipbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  // Opaque BG (solid --dya-bg, no more translucency + backdrop-blur).
+  //
+  // Why: during cross-document view transitions, the element snapshot
+  // captured the translucent version of the chipbar. With 8% transparency
+  // and a backdrop-filter, the snapshot had semi-transparent pixels
+  // → during the old/new cross-fade, the outgoing page (directional root
+  // animation) slid visible BEHIND the two snapshots → visual "flickering"
+  // during the 320ms morph (most noticeable in the `sibling` direction
+  // where the root animation is lateral and amplifies the artifact).
+  //
+  // Opaque bg = opaque snapshots = clean cross-fade, the chipbar
+  // stays flush on the outgoing/incoming page without peek-through.
+  //
+  // Accepted tradeoff: we lose the frosted-glass effect when content
+  // scrolls under the chipbar (it used to scroll blurred behind it).
+  // Content now disappears cleanly under the chipbar —
+  // consistent with other apps that prioritize chrome readability over glassmorphism.
+  // Dark: --dya-bg (#0c0e13) — chipbar blends into the page background, the
+  // "integrated" look requested by the user.
+  // Light: --dya-paper (accent 4% + white mix) — without the tint, the chipbar
+  // disappeared against the pure white --dya-bg in light mode.
+  background: var(--dya-bg);
+  border-bottom: 1px solid var(--dya-line);
+  padding: 0;
+}
+body.dy-admin.dy-theme-light .dy-chipbar {
+  background: var(--dya-paper);
+}
+
+body.dy-admin .dy-chipbar-inner {
+  max-width: var(--dya-wrap-max);
+  margin: 0 auto;
+  padding: 0 var(--dya-wrap-pad-x);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: var(--dya-chipbar-h);
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  // Custom scrollbar — slim, sits at the bottom of the chipbar.
+  // Track is transparent so it disappears when no overflow exists;
+  // thumb is rule-color, intensifies on hover. Firefox uses
+  // scrollbar-width/color; WebKit uses ::-webkit-* pseudos.
+  scrollbar-width: thin;
+  scrollbar-color: var(--dya-line-strong) transparent;
+}
+body.dy-admin .dy-chipbar-inner::-webkit-scrollbar         { height: 6px; }
+body.dy-admin .dy-chipbar-inner::-webkit-scrollbar-track   { background: transparent; }
+body.dy-admin .dy-chipbar-inner::-webkit-scrollbar-thumb   {
+  background: var(--dya-line-strong);
+  border-radius: var(--dya-r-pill);
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  transition: background var(--dya-t-fast) var(--dya-ease);
+}
+body.dy-admin .dy-chipbar-inner:hover::-webkit-scrollbar-thumb { background: var(--dya-ink-fade); }
+
+body.dy-admin .dy-chipbar-label {
+  font-family: var(--dya-font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  color: var(--dya-line-color, var(--dya-ink-mute));
+  margin-right: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+}
+body.dy-admin .dy-chipbar-label .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--dya-line-color, var(--dya-line-content));
+}
+
+body.dy-admin .dy-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: var(--dya-r-md);
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--dya-ink-mute);
+  background: transparent;
+  border: 0;
+  transition: color var(--dya-t-fast), background var(--dya-t-fast);
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+body.dy-admin .dy-chip:hover {
+  color: var(--dya-ink);
+  background: var(--dya-paper-2);
+}
+body.dy-admin .dy-chip.current {
+  color: var(--dya-ink);
+  background: var(--dya-line-soft-color, var(--dya-line-content-soft));
+}
+
+body.dy-admin .dy-chip > .dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--dya-line-color, var(--dya-line-content));
+  opacity: .45;
+  transition: opacity var(--dya-t-fast);
+}
+body.dy-admin .dy-chip:hover > .dot,
+body.dy-admin .dy-chip.current > .dot { opacity: 1; }
+
+body.dy-admin .dy-chip-count {
+  font-family: var(--dya-font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .02em;
+  padding: 1px 6px;
+  border-radius: var(--dya-r-pill);
+  background: var(--dya-paper-3);
+  color: var(--dya-ink-soft);
+  margin-left: 2px;
+}
+body.dy-admin .dy-chip-count.accent {
+  background: var(--dya-line-color, var(--dya-line-content));
+  color: var(--dya-bg);
+  opacity: .92;
+}
+body.dy-admin .dy-chip:hover .dy-chip-count,
+body.dy-admin .dy-chip.current .dy-chip-count { color: var(--dya-ink); }
+
+body.dy-admin .dy-chip-divider {
+  width: 1px;
+  height: 16px;
+  background: var(--dya-line);
+  margin: 0 4px;
+  align-self: center;
+  flex-shrink: 0;
+}
+
+// Animated underline that slides between chips.
+body.dy-admin .dy-track {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  background: var(--dya-line-color, var(--dya-line-content));
+  opacity: .85;
+  transition: transform var(--dya-t-med) var(--dya-ease), width var(--dya-t-med) var(--dya-ease);
+  pointer-events: none;
+  will-change: transform, width;
+}
+
+// ── Per-line palette propagation ────────────────────────
+// The chipbar inherits its color from a `data-line` attribute
+// set by PHP. This lets the same DOM serve every section.
+body.dy-admin .dy-chipbar[data-line="line-content"]    { --dya-line-color: var(--dya-line-content);    --dya-line-soft-color: var(--dya-line-content-soft); }
+body.dy-admin .dy-chipbar[data-line="line-commerce"]   { --dya-line-color: var(--dya-line-commerce);   --dya-line-soft-color: var(--dya-line-commerce-soft); }
+body.dy-admin .dy-chipbar[data-line="line-users"]      { --dya-line-color: var(--dya-line-users);      --dya-line-soft-color: var(--dya-line-users-soft); }
+body.dy-admin .dy-chipbar[data-line="line-community"]  { --dya-line-color: var(--dya-line-community);  --dya-line-soft-color: var(--dya-line-community-soft); }
+body.dy-admin .dy-chipbar[data-line="line-site"]       { --dya-line-color: var(--dya-line-site);       --dya-line-soft-color: var(--dya-line-site-soft); }
+body.dy-admin .dy-chipbar[data-line="line-system"]     { --dya-line-color: var(--dya-line-system);     --dya-line-soft-color: var(--dya-line-system-soft); }
+body.dy-admin .dy-chipbar[data-line="line-developer"]  { --dya-line-color: var(--dya-line-developer);  --dya-line-soft-color: var(--dya-line-developer-soft); }
+
+// Empty state (single top-level page with no subitems).
+body.dy-admin .dy-chipbar-empty {
+  color: var(--dya-ink-fade);
+  font-size: 12px;
+  font-family: var(--dya-font-mono);
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  padding: 0 8px;
+}

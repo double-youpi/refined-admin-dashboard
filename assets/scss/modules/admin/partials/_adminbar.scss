@@ -1,0 +1,1022 @@
+// =============================================================
+// _adminbar.scss
+// #wpadminbar — keep every native node, restyle. WP renders it
+// at 32px tall by default, we override to 44px with internal
+// chrome that mirrors macOS toolbars.
+// =============================================================
+
+body.dy-admin #wpadminbar {
+  background: var(--dya-bg);
+  border-bottom: 1px solid var(--dya-line);
+  position: relative;
+  z-index: 30;
+  height: var(--dya-topbar-h);
+  font-family: var(--dya-font-body);
+  font-size: 12px;
+}
+
+// WP sets html.wp-toolbar { padding-top: 32px }. Our grid layout
+// already reserves space for the bar; cancel the padding.
+body.dy-admin.wp-toolbar,
+body.dy-admin html.wp-toolbar { padding-top: 0 !important; }
+
+body.dy-admin #wpadminbar .quicklinks {
+  height: 100%;
+  display: flex;
+  align-items: stretch;
+  padding: 0 12px 0 12px;
+}
+
+body.dy-admin #wpadminbar .ab-top-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+}
+
+body.dy-admin #wpadminbar .ab-top-secondary { margin-left: auto; }
+
+body.dy-admin #wpadminbar .ab-top-menu > li {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+body.dy-admin #wpadminbar .ab-top-menu > li > a,
+body.dy-admin #wpadminbar .ab-top-menu > li > .ab-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: var(--dya-r-sm);
+  font-size: 12px;
+  color: var(--dya-ink-soft);
+  transition: color var(--dya-t-fast), background var(--dya-t-fast);
+  text-shadow: none;
+}
+body.dy-admin #wpadminbar .ab-top-menu > li > a:hover,
+body.dy-admin #wpadminbar .ab-top-menu > li > .ab-item:hover {
+  color: var(--dya-ink);
+  background: var(--dya-paper-2);
+}
+
+// FOCUS color on bar items. The global focus reset
+// (_wp-production.scss : `body.dy-admin a:focus { color: inherit !important }`)
+// neutralizes the WP-native blue pattern on links — correct for content links
+// (`inherit` = themed text color). BUT inside #wpadminbar,
+// `inherit` resolves to the WHITE color of the WP-native bar (colors.min
+// `#wpadminbar { color:#f0f0f1 }`). Result: after an actual click, the focused
+// item turned white — most visible on the theme toggle whose icon
+// (stroke=currentColor) disappeared on a light background in light mode.
+// We restore a visible themed color, with `!important` + 2 ids to override
+// the reset (0,2,2). The `box-shadow: none` from the reset remains active (no
+// blue ring); the proper keyboard ring is handled via `:focus-visible` elsewhere.
+body.dy-admin #wpadminbar .ab-item:focus {
+  color: var(--dya-ink) !important;
+}
+
+// Icons (.ab-icon) — WP emits them as ::before pseudo on <span>.
+// We accept both ::before AND inline <svg> (our preferred form).
+//
+// `color: inherit` is CRITICAL: WP `colors.min.css` colors the span
+// `.ab-icon` (and its `::before`) with `#f3f1f1` — a near-white intended
+// for the dark WP-native bar. Our `.ab-icon::before { color:
+// inherit }` would then inherit that white FROM the span, not from the
+// themed `<a>`. Result: in light mode the glyphs (+ New, search,
+// sun/moon) turned white on a white background → nearly invisible. By
+// forcing the span to inherit from its `<a>` parent (already themed via
+// tokens), icons correctly follow ink-soft↔ink in both themes.
+// Specificity (1,2,1) > colors.min (1,1,1).
+body.dy-admin #wpadminbar .ab-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 14px;
+  height: 14px;
+  margin-right:0;
+  color: inherit;
+}
+body.dy-admin #wpadminbar .ab-icon::before {
+  font-family: dashicons;
+  font-size: 16px;
+  line-height: 1;
+  color: inherit;
+}
+body.dy-admin #wpadminbar .ab-icon svg { width: 14px; height: 14px;}
+
+// WP colors.min recolors `.ab-icon::before` on <li> hover via
+// `li:hover .ab-icon::before { color:#7b90ff }` (+ .hover/:focus variants)
+// — a highlight blue intended for the dark WP-native bar. The trap:
+// the rule is keyed on `li:hover` (the entire <li>), so it fires whenever
+// you hover ANYWHERE in the item — including when descending into an open
+// dropdown (the `> a` is no longer `:hover` but the `li` still is) or
+// re-hovering an icon (search loupe, etc.). Without an override, glyphs
+// would turn blue (or white-on-white in light mode).
+//
+// We force `inherit` in all these states: each icon follows the themed
+// color of its <a>. Specificity (1,3,3) > colors.min (1,3,2). Per-item
+// overrides anchored by ID (2 ids, e.g. the accent on « + New ») remain
+// higher priority above this base.
+body.dy-admin #wpadminbar li:hover .ab-icon,
+body.dy-admin #wpadminbar li:hover .ab-icon::before,
+body.dy-admin #wpadminbar li.hover .ab-icon,
+body.dy-admin #wpadminbar li.hover .ab-icon::before,
+body.dy-admin #wpadminbar li > .ab-item:focus .ab-icon,
+body.dy-admin #wpadminbar li > .ab-item:focus .ab-icon::before {
+  color: inherit;
+}
+
+// Same trap for the LABEL (the pill): colors.min recolors on hover via
+// `#wpadminbar:not(.mobile)>#wp-toolbar li:hover span.ab-label { color:#7b90ff }`
+// (blue, 2 ids). We keep the comments pill on the accent in all
+// states (hover / .hover lingering / focus). `body.dy-admin` + the 2 native ids
+// → specificity (2,4,2) > the native rule (2,3,2), without `!important`.
+body.dy-admin #wpadminbar:not(.mobile) > #wp-toolbar li#wp-admin-bar-comments:hover .ab-label,
+body.dy-admin #wpadminbar:not(.mobile) > #wp-toolbar li#wp-admin-bar-comments.hover .ab-label,
+body.dy-admin #wpadminbar:not(.mobile) > #wp-toolbar #wp-admin-bar-comments > .ab-item:focus .ab-label {
+  color: var(--dya-accent);
+}
+
+@media (max-width: 782px) {
+  #wpadminbar #wp-admin-bar-site-name>.ab-item,
+  #wpadminbar #wp-admin-bar-my-account>.ab-item{
+    width:30px!important;
+    padding:0!important;
+  }
+  body.dy-admin #wpadminbar #wp-admin-bar-theme-toggle .ab-icon svg {
+    position:absolute; left:0;
+  }
+  #wpadminbar #wp-admin-bar-site-name>.ab-item:before{
+    top:0;
+  }
+}
+
+// Hide WP's default "AB" chevron submenus on root level — by default
+// the admin bar is a STATUS SURFACE, not a navigation hub. We nonetheless
+// expose the sub-menu for `new-content` and `my-account` (styled dropdown
+// below) because those two items are action destinations.
+//
+// For these two items we keep the DOM but make the surface invisible
+// (`visibility/opacity/pointer-events`) instead of `display: none`.
+// Why: `display: none` skips layout, so the first visible frame of the
+// dropdown is placed AFTER reflow → a "height jump" effect if an internal
+// asset (Gravatar avatar) has not yet loaded at first hover. With a
+// permanent layout-on, the dropdown is measured once at pageload, and
+// appearance is purely opacity-based.
+body.dy-admin #wpadminbar .ab-sub-wrapper { display: none; }
+body.dy-admin #wp-admin-bar-new-content > .ab-sub-wrapper,
+body.dy-admin #wp-admin-bar-my-account > .ab-sub-wrapper {
+  display: block;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+// ── Items to hide completely ──────────────────────────
+// WP always outputs a hamburger for menu collapse (useless given
+// our interactive rail via dy-rail-toggle) and the WP "About" logo
+// (already covered by the brand row of the rail).
+body.dy-admin #wp-admin-bar-menu-toggle,
+body.dy-admin #wp-admin-bar-wp-logo { display: none !important; }
+
+// Site name — clickable "View site". Decorative chevron (::after)
+// removed: it triggered no action. On hover, a native tooltip is shown
+// via `title=""` injected by PHP (Brand::filter_site_name_title) — no
+// custom CSS tooltip, to stay consistent with other OS tooltips.
+body.dy-admin #wpadminbar #wp-admin-bar-site-name > .ab-item,
+body.dy-admin #wpadminbar #wp-admin-bar-site-name > a {
+  font-weight: 500;
+  color: var(--dya-ink);
+  // First item in the bar: 12px on each side (consistent with the quicklinks
+  // gutter). 2 ids → overrides the generic `.ab-top-menu > li > a` padding.
+  padding: 0 12px 0 12px;
+}
+// Hide the home dashicon WP injects via :before on site-name's <a>.
+// WP outputs `content: "\f102"` (dashicons-admin-home). We remove it to
+// leave only the site name text.
+body.dy-admin #wp-admin-bar-site-name > .ab-item::before,
+body.dy-admin #wp-admin-bar-site-name > a::before {
+  display: none !important;
+  content: none !important;
+}
+
+// Updates pill (#wp-admin-bar-updates)
+body.dy-admin #wp-admin-bar-updates .ab-label {
+  font-family: var(--dya-font-mono);
+  font-size: 10px;
+  background: var(--dya-line-soft);
+  padding: 1px 6px;
+  border-radius: var(--dya-r-pill);
+  color: var(--dya-line-users);
+}
+
+// Comments bubble (#wp-admin-bar-comments)
+// The `#wpadminbar > #wp-toolbar span.ab-label` selector (WP core, 2 ids) is
+// included so the pill text colour beats WP's forced white (invisible on the
+// pale pill in light mode).
+body.dy-admin #wpadminbar > #wp-toolbar #wp-admin-bar-comments span.ab-label,
+body.dy-admin #wp-admin-bar-comments .ab-label,
+body.dy-admin #wp-admin-bar-comments .ab-label.awaiting-mod {
+  font-family: var(--dya-font-mono);
+  font-size: 10px;
+  background: var(--dya-line-content-soft);
+  color: var(--dya-line-content);
+  padding: 1px 6px;
+  border-radius: var(--dya-r-pill);
+  // The pill inherited WP's native line-height → floated too high vs. the icon.
+  // line-height:0 + fixed height recenters it in the bar.
+  line-height: 0;
+  height: 20px;
+}
+
+// + New — + icon, "New" label in small mono CAPS to match the
+// typography of other bar elements. Previously: 12px font close to
+// body size, oversized. Icon centered via flex.
+//
+// Specificity: we prepend `#wpadminbar` to override the WP-native rule
+// `#wpadminbar:not(.mobile) .ab-top-menu>li>.ab-item:focus`
+// (specificity 1,4,2) which forces `background:#2c3338;color:#72aee6`
+// on keyboard focus — without this upgrade we lose specificity and the
+// button flashes WP-grey/blue text when focused.
+body.dy-admin #wpadminbar #wp-admin-bar-new-content > .ab-item,
+body.dy-admin #wpadminbar #wp-admin-bar-new-content > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--dya-edge);
+  background: var(--dya-paper);
+  font-family: var(--dya-font-mono);
+  font-size: 10px;
+  letter-spacing: var(--dya-tracking-label);
+  text-transform: uppercase;
+  color: var(--dya-ink-soft);
+  height: 26px;
+  // Asymmetric padding: 10px left (snug against the + icon) / 12px
+  // right (breathes after the label) — optically centered since the +
+  // has less visual mass than the word "New".
+  padding: 0 12px 0 10px;
+}
+body.dy-admin #wpadminbar #wp-admin-bar-new-content > .ab-item:hover,
+body.dy-admin #wpadminbar #wp-admin-bar-new-content > a:hover {
+  color: var(--dya-ink);
+  background: var(--dya-paper-2);
+  border-color: var(--dya-edge-strong);
+}
+// On hover, the + icon switches to the accent color (not WP-native
+// highlight blue). We key on the <li> (`:hover` / `.hover` lingering /
+// `:focus-within`) and NOT on `> a:hover`: when the dropdown opens and
+// the user moves into it, the `> a` is no longer `:hover` but the `li`
+// still is — without this the + would revert to blue while browsing the
+// menu. The `+` glyph is a `.ab-icon::before` (dashicon), so we also
+// target the pseudo. Two IDs at the front → we override the `inherit`
+// base (1 id) and colors.min. The "New" label stays at --dya-ink: only the
+// action glyph lights up.
+body.dy-admin #wpadminbar #wp-admin-bar-new-content:hover .ab-icon,
+body.dy-admin #wpadminbar #wp-admin-bar-new-content:hover .ab-icon::before,
+body.dy-admin #wpadminbar #wp-admin-bar-new-content.hover .ab-icon,
+body.dy-admin #wpadminbar #wp-admin-bar-new-content.hover .ab-icon::before,
+body.dy-admin #wpadminbar #wp-admin-bar-new-content:focus-within .ab-icon,
+body.dy-admin #wpadminbar #wp-admin-bar-new-content:focus-within .ab-icon::before {
+  color: var(--dya-accent);
+}
+// Focus state — when the user targets the button with the keyboard, or
+// when the dropdown opens via `:focus-within`. Accent ring
+// (2px outline + offset) rather than a bg change alone → makes the
+// state explicit without breaking the hover/idle visual. Outline is
+// uniformly 2px regardless of the pill's internal borders.
+body.dy-admin #wpadminbar #wp-admin-bar-new-content > .ab-item:focus,
+body.dy-admin #wpadminbar #wp-admin-bar-new-content > a:focus,
+body.dy-admin #wpadminbar #wp-admin-bar-new-content > .ab-item:focus-visible,
+body.dy-admin #wpadminbar #wp-admin-bar-new-content > a:focus-visible {
+  color: var(--dya-ink);
+  background: var(--dya-paper-2);
+  border-color: var(--dya-accent);
+  outline: 2px solid var(--dya-accent);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--dya-accent) 18%, transparent);
+}
+body.dy-admin #wp-admin-bar-new-content .ab-icon {
+  width: 12px;
+  height: 12px;
+}
+body.dy-admin #wp-admin-bar-new-content .ab-icon svg {
+  width: 12px;
+  height: 12px;
+}
+body.dy-admin #wp-admin-bar-new-content .ab-label {
+  line-height: 0;
+  // WP-native applies `#wpadminbar > #wp-toolbar span.ab-label { color:
+  // #f0f0f1 }` (white forced for the original dark WP-native theme).
+  // In our light mode, this white becomes unreadable on the white bg
+  // of our `--dya-paper` pill. Force `color: inherit` so the label
+  // follows the color of its `<a>` parent (= --dya-ink-soft, which swaps
+  // correctly between both themes via tokens).
+  color: inherit !important;
+}
+
+// Vertical centering of the dashicon ::before on the icon (.ab-icon) — WP
+// positions it with a default top offset that visually misaligns the glyph
+// within its 12×12 square. top:0 realigns it to the grid place-items baseline.
+body.dy-admin #wpadminbar #wp-admin-bar-comments .ab-icon::before,
+body.dy-admin #wpadminbar #wp-admin-bar-new-content .ab-icon::before {
+  top: 0;
+}
+
+// The "0" label (Comments) and "New" label (New content) must be vertically
+// centered with their ab-icon — without this the pill sits slightly above
+// the icon due to WP's native baseline behavior.
+body.dy-admin #wp-admin-bar-comments .ab-label,
+body.dy-admin #wp-admin-bar-new-content .ab-label {
+  display: inline-flex;
+  align-items: center;
+}
+
+// Howdy + avatar (#wp-admin-bar-my-account)
+//
+// Neutralizes the dark WP-native background on the trigger. As with the
+// static badge, colors.min applies `li.menupop.hover > .ab-item { background:
+// #0c0c0c }` + blue highlight text. The `.hover` class (hoverIntent
+// JS) persists after mouseleave → a black box with blue "Howdy," would flash
+// when leaving the hover area. We theme all states (hover, .hover, focus,
+// focus-within) as --dya-paper-2 / --dya-ink, anchored on the ID (2 ids) to override
+// colors.min. Consistent with the hover of the « + New » button.
+body.dy-admin #wpadminbar #wp-admin-bar-my-account.hover > .ab-item,
+body.dy-admin #wpadminbar #wp-admin-bar-my-account > .ab-item:hover,
+body.dy-admin #wpadminbar #wp-admin-bar-my-account > .ab-item:focus,
+body.dy-admin #wpadminbar #wp-admin-bar-my-account:focus-within > .ab-item {
+  background: var(--dya-paper-2);
+  color: var(--dya-ink);
+}
+
+body.dy-admin #wp-admin-bar-my-account .display-name {
+  color: var(--dya-ink);
+  margin-right: 4px;
+}
+
+// The "Howdy, admin + avatar" trigger: we make it a vertically centered
+// flex container. WP-core sets `height: auto` + a negative margin on the avatar
+// that push it upward (hence "admin" being misaligned) — flex fixes text +
+// image centering in one go, regardless of those quirks.
+body.dy-admin #wpadminbar #wp-admin-bar-my-account.with-avatar > a {
+  display: flex;
+  align-items: center;
+  height: 32px;
+}
+
+// Avatar 20px, no border or parasitic margin. The 2-id selector overrides the
+// WP-core rule with the same target (border + -2px negative margin).
+body.dy-admin #wp-admin-bar-my-account img.avatar,
+body.dy-admin #wpadminbar #wp-admin-bar-my-account.with-avatar > a img {
+  width: 20px;
+  height: 20px;
+  margin: 0 0 0 2px;         // small left gap, no vertical margin
+  border: 0;                 // no circle/border around the avatar
+  box-shadow: none;
+  border-radius: 50%;
+  vertical-align: middle;
+  flex: 0 0 auto;            // do not stretch/shrink inside the flex container
+}
+
+@media (max-width: 782px) {
+body.dy-admin #wpadminbar .quicklinks li#wp-admin-bar-my-account.with-avatar > a img {
+    max-height: 25px;
+    max-width: 25px;
+    top: 5px;
+    right:0;
+  }
+}
+body.dy-admin #wp-admin-bar-my-account .avatar:not(img) {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--dya-line-content), var(--dya-line-system));
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+  font-weight: 600;
+  font-family: var(--dya-font-mono);
+}
+
+// Theme toggle — custom node our PHP adds. 28×28 square (not 32×28)
+// to match the other icon squares. Repositioned in flexbox BEFORE
+// `#wp-admin-bar-my-account` via `order: -1` (without touching PHP order).
+body.dy-admin #wpadminbar .ab-top-secondary {
+  display: flex;
+  align-items: center;
+}
+body.dy-admin #wp-admin-bar-theme-toggle { order: -1; }
+// The item is rendered BY WP with its default padding (0 10px). We force
+// the 28×28 square by removing the inherited lateral padding, otherwise
+// the button becomes a rectangle on hover.
+body.dy-admin #wp-admin-bar-theme-toggle {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+}
+body.dy-admin #wp-admin-bar-theme-toggle .ab-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0 !important;
+  margin: auto;
+  border-radius: var(--dya-r-sm);
+  color: var(--dya-ink-mute);
+  cursor: pointer;
+  transition: color var(--dya-t-fast), background var(--dya-t-fast);
+  gap: 0 !important;
+}
+// `#wpadminbar` prefixed → 2 ids, required to override colors.min
+// `.ab-top-menu > li:hover > .ab-item { background:#0c0c0c }` (1 id, 4 classes)
+// keyed on the real `li:hover`. Without this, a near-black background appeared
+// behind the icon on hover — invisible in dark theme, glaring after a
+// dark→light switch. We cover hover AND focus (focus return after click).
+body.dy-admin #wpadminbar #wp-admin-bar-theme-toggle .ab-item:hover,
+body.dy-admin #wpadminbar #wp-admin-bar-theme-toggle .ab-item:focus {
+  color: var(--dya-ink);
+  background: var(--dya-bg-elev);
+}
+body.dy-admin #wp-admin-bar-theme-toggle svg { width: 14px; height: 14px; }
+
+body.dy-admin #wp-admin-bar-theme-toggle .icon-light,
+body.dy-admin #wp-admin-bar-theme-toggle .icon-dark { line-height: 0; }
+
+body.dy-admin            #wp-admin-bar-theme-toggle .icon-light { display: inline; }
+body.dy-admin            #wp-admin-bar-theme-toggle .icon-dark  { display: none; }
+body.dy-admin.dy-theme-light #wp-admin-bar-theme-toggle .icon-light { display: none; }
+body.dy-admin.dy-theme-light #wp-admin-bar-theme-toggle .icon-dark  { display: inline; }
+
+// ── Hover dropdowns: new-content + my-account ───────
+// By default we hide all `.ab-sub-wrapper` (see above).
+// Here we re-show them ONLY for the two items that deserve a
+// dropdown: "+ New" (available post types) and "Howdy admin"
+// (Profile / Log Out). We follow the WP native hover pattern
+// while applying our design system: surface var(--dya-paper-3), border,
+// large shadow, mono small caps items, etc.
+//
+// TRAP — no `margin-top` between the button and the dropdown: a
+// physical gap would break hover (cursor leaves the parent:hover zone,
+// dropdown closes). We use `padding-top` on the dropdown itself
+// + background-clip so the zone is visually the same but
+// remains hover-able. The panel's own surface is drawn via a
+// `::after` pseudo that excludes the padding-top zone.
+// Panel common to both dropdowns. Always in layout (see above:
+// display: block, opacity: 0, visibility: hidden, pointer-events:
+// none). On hover/focus we flip the visibility triad. Smooth transition
+// on opacity + translate + scale for a gentle appearance — no
+// `@keyframes` that would force an absolute from→to (the transition is
+// more forgiving when the user opens/closes rapidly multiple times).
+body.dy-admin #wp-admin-bar-new-content > .ab-sub-wrapper,
+body.dy-admin #wp-admin-bar-my-account > .ab-sub-wrapper {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  min-width: 220px;
+  margin: 0;
+  padding: 6px 6px 6px;
+  background: var(--dya-paper-3) padding-box;
+  border: 1px solid var(--dya-edge-strong);
+  border-radius: var(--dya-r-md);
+  box-shadow: var(--dya-shadow-lg);
+  z-index: 99999;
+  transform: translateY(-6px) scale(.985);
+  transform-origin: top right;
+  transition:
+    opacity      .22s cubic-bezier(.16, 1, .3, 1),
+    transform    .28s cubic-bezier(.16, 1, .3, 1),
+    visibility   0s linear .28s;
+  will-change: opacity, transform;
+}
+// LIGHT mode: --dya-paper-3 = mix(accent 12%, white) → as a floating surface
+// above content, the result is too tinted and reads as an "active" panel
+// rather than a neutral menu. We force pure white so the dropdown reads
+// as a standard UI overlay surface, and soften the border to stay
+// within the DS tone.
+body.dy-admin.dy-theme-light #wp-admin-bar-new-content > .ab-sub-wrapper,
+body.dy-admin.dy-theme-light #wp-admin-bar-my-account > .ab-sub-wrapper {
+  background: #ffffff padding-box;
+  border-color: var(--dya-edge-strong);
+}
+body.dy-admin #wp-admin-bar-new-content:hover > .ab-sub-wrapper,
+body.dy-admin #wp-admin-bar-new-content:focus-within > .ab-sub-wrapper,
+body.dy-admin #wp-admin-bar-my-account:hover > .ab-sub-wrapper,
+body.dy-admin #wp-admin-bar-my-account:focus-within > .ab-sub-wrapper {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+  // No delay on visibility when opening.
+  transition:
+    opacity   .22s cubic-bezier(.16, 1, .3, 1),
+    transform .28s cubic-bezier(.16, 1, .3, 1),
+    visibility 0s;
+}
+
+// New content dropdown — origin top-left since it aligns to the left edge
+// of the button (`left: 0; right: auto`).
+body.dy-admin #wp-admin-bar-new-content > .ab-sub-wrapper {
+  left: 0;
+  right: auto;
+  transform-origin: top left;
+}
+
+// Transparent bridge that EXTENDS the hover zone of the parent (`li`) down
+// to the top of the dropdown. Without this, `top: 100%` creates a gap the
+// cursor cannot cross without losing the hover state.
+body.dy-admin #wp-admin-bar-new-content,
+body.dy-admin #wp-admin-bar-my-account {
+  position: relative;
+}
+body.dy-admin #wp-admin-bar-new-content:hover::after,
+body.dy-admin #wp-admin-bar-new-content:focus-within::after,
+body.dy-admin #wp-admin-bar-my-account:hover::after,
+body.dy-admin #wp-admin-bar-my-account:focus-within::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 8px; // matches the dropdown's padding-top
+  z-index: 99998;
+}
+
+// ── Internal dropdown list ──────────────────────────────────────
+// List reset + base item common to all dropdowns. The my-account
+// uses a specific layout (user-info header + action) defined further
+// below for a genuine visual hierarchy.
+body.dy-admin #wpadminbar .ab-sub-wrapper .ab-submenu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+// New content dropdown (Post / Page / Media) — plain text items,
+// same base as the my-account actions.
+body.dy-admin #wp-admin-bar-new-content .ab-sub-wrapper .ab-submenu .ab-item,
+body.dy-admin #wp-admin-bar-new-content .ab-sub-wrapper .ab-submenu a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  padding: 6px 12px;
+  border-radius: var(--dya-r-sm);
+  font-family: var(--dya-font-body);
+  font-size: 12.5px;
+  color: var(--dya-ink-soft);
+  text-decoration: none;
+  text-shadow: none;
+  white-space: nowrap;
+  background: transparent;
+  line-height: 1.4;
+  transition: background var(--dya-t-fast, .12s) ease, color var(--dya-t-fast, .12s) ease;
+}
+body.dy-admin #wp-admin-bar-new-content .ab-sub-wrapper .ab-submenu a:hover,
+body.dy-admin #wp-admin-bar-new-content .ab-sub-wrapper .ab-submenu .ab-item:hover {
+  color: var(--dya-ink);
+  background: var(--dya-paper-2);
+}
+
+// ── My-account dropdown — clean design system ───────────────────────
+//
+// Layout in two blocks:
+//   1. HEADER user-info — card-like, 38px avatar on the left, name + link
+//      "Edit Profile" in a column on the right. The whole area is ONE
+//      <a> pointing to profile.php → the entire zone is clickable,
+//      hover = light paper-2 tint.
+//   2. ACTION logout — classic 36px row with an animated chevron that
+//      appears on hover (subtle micro-interaction).
+//
+// The panel itself keeps its paper-3 surface + line-strong border
+// already declared above. Width widened to 260px (≈ 65×4) to give
+// the header genuine breathing room.
+
+// Design direction: technical card inspired by Linear/Vercel shells
+// with a light terminal aesthetic. Three zones:
+//   1. EYEBROW "SESSION" mono caps + green pulse dot (status indicator)
+//   2. IDENTITY 32px avatar + display-font name + mono caps role
+//   3. ACTIONS mono caps rows with accent ribbon that appears on hover
+// The panel gets a diagonal gradient + SVG grain noise to add depth
+// without shouting. We preserve `position: absolute` set above
+// by the common panel rule (cf. line ~314).
+body.dy-admin #wp-admin-bar-my-account > .ab-sub-wrapper {
+  min-width: 264px !important;
+  padding: 0 !important;
+  background:
+    radial-gradient(120% 80% at 100% 0%,
+      color-mix(in srgb, var(--dya-accent) 4%, var(--dya-paper-3)) 0%,
+      var(--dya-paper-3) 55%,
+      color-mix(in srgb, #000 8%, var(--dya-paper-3)) 100%)
+    padding-box !important;
+}
+// Inline SVG grain texture (mix-blend overlay 35%) — atmosphere.
+body.dy-admin #wp-admin-bar-my-account > .ab-sub-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: .35;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .35 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+// Full reset of default paddings/heights on the my-account list.
+body.dy-admin #wp-admin-bar-user-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+// ── HEADER: user-info ──────────────────────────────────────────────
+// IDENTITY — avatar + display-font name + mono caps role.
+//
+// Layout via CSS Grid with explicit template-areas. The avatar spans
+// both rows in height (grid-area: avatar) while the name and role label
+// stack vertically, FLUSH TOGETHER, to its right.
+// `align-content: center` on the right column ensures they align to
+// the avatar's vertical center even if their combined height is less
+// than 32px.
+//
+// Prerequisite: neutralize the `position: absolute; left: -72px` that
+// WP-core places on `.avatar` — without this the image escapes the grid
+// and floats outside the frame.
+body.dy-admin #wpadminbar #wp-admin-bar-user-info > .ab-item {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "avatar name"
+    "avatar role";
+  align-content: center;
+  align-items: center;
+  column-gap: 12px;
+  row-gap: 4px;
+  padding: 0 0 14px;
+  border-radius: 0;
+  background: transparent !important;
+  text-decoration: none;
+  text-shadow: none;
+  min-height: 0;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--dya-line);
+  transition: opacity var(--dya-t-fast, .12s) ease;
+}
+body.dy-admin #wpadminbar #wp-admin-bar-user-info{
+  margin-left:16px !important;
+  margin-bottom: 0 !important;
+}
+body.dy-admin #wpadminbar #wp-admin-bar-logout{
+  margin-left:16px !important;
+}
+body.dy-admin #wpadminbar #wp-admin-bar-user-info > .ab-item:hover {
+  opacity: .92;
+}
+
+// Avatar 32px — full reset of WP-core positioning (absolute, top, left)
+// so it fits into the grid-area "avatar" (col 1, rows 1-2).
+body.dy-admin #wpadminbar #wp-admin-bar-user-info .avatar {
+  grid-area: avatar;
+  align-self: center;
+  justify-self: center;
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 50% !important;
+  background: var(--dya-paper-2);
+  box-shadow:
+    0 0 0 1px var(--dya-line-strong),
+    0 0 0 4px color-mix(in srgb, var(--dya-accent) 8%, transparent);
+}
+
+// Name — grid-area name (col 2, row 1). align-self: end so the name
+// sits flush against the role label row below (tight typographic
+// rhythm, the name+role pair reads as a cohesive block).
+body.dy-admin #wpadminbar #wp-admin-bar-user-info .display-name:not(.edit-profile) {
+  grid-area: name;
+  align-self: end;
+  display: block;
+  color: var(--dya-ink);
+  font-family: var(--dya-font-display);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.015em;
+}
+
+// Role label — grid-area role (col 2, row 2). align-self: start so
+// it stays flush against the name above, creating a tight visual pair.
+body.dy-admin #wpadminbar #wp-admin-bar-user-info .display-name.edit-profile {
+  grid-area: role;
+  align-self: start;
+  display: block;
+  font-family: var(--dya-font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dya-ink-mute);
+  line-height: 2;
+  margin: 0;
+  padding: 0;
+  transition: color var(--dya-t-fast, .12s) ease, letter-spacing var(--dya-t-fast, .12s) ease;
+}
+body.dy-admin #wpadminbar #wp-admin-bar-user-info > .ab-item:hover .display-name.edit-profile {
+  color: var(--dya-accent);
+  letter-spacing: 0.20em;
+}
+
+// The divider between IDENTITY and ACTIONS is carried by the border-bottom
+// of the `> .ab-item` user-info (see above). No need for a separator
+// on the `#wp-admin-bar-user-info` element itself.
+
+// ACTIONS — logout / edit-profile.
+// Dense mono caps rows. No full-row bg on hover: we use a 2px accent
+// ribbon that appears on the left (scaleY 0 → 1) + a 4px rightward
+// text shift. More subtle, more designed than a plain hover background.
+body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item,
+body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 32px;
+  padding: 0 4px 0 14px;
+  border-radius: 0;
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dya-ink-soft);
+  text-decoration: none;
+  text-shadow: none;
+  background: transparent;
+  position: relative;
+  transition:
+    color var(--dya-t-fast, .12s) ease,
+    padding-left var(--dya-t-fast, .12s) ease;
+}
+
+// 2px accent ribbon that pushes out from the vertical center.
+body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item::before,
+body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 50%;
+  width: 2px;
+  height: 12px;
+  background: var(--dya-accent);
+  transform: translateY(-50%) scaleY(0);
+  transform-origin: center;
+  transition: transform .25s cubic-bezier(.16, 1, .3, 1);
+}
+
+// Right-side mono glyph chevron that slides and colors on hover.
+body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item::after,
+body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item::after {
+  content: "→";
+  font-family: var(--dya-font-mono);
+  font-size: 12px;
+  letter-spacing: 0;
+  color: var(--dya-ink-mute);
+  opacity: .4;
+  transform: translateX(-2px);
+  transition:
+    opacity   var(--dya-t-fast, .12s) ease,
+    transform var(--dya-t-fast, .12s) cubic-bezier(.16, 1, .3, 1),
+    color     var(--dya-t-fast, .12s) ease;
+}
+
+body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item:hover,
+body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item:focus-visible,
+body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item:hover,
+body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item:focus-visible {
+  color: var(--dya-ink);
+  padding-left: 18px;
+  background: transparent;
+}
+body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item:hover::before,
+body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item:focus-visible::before,
+body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item:hover::before,
+body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item:focus-visible::before {
+  transform: translateY(-50%) scaleY(1);
+}
+body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item:hover::after,
+body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item:focus-visible::after,
+body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item:hover::after,
+body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item:focus-visible::after {
+  opacity: 1;
+  transform: translateX(2px);
+  color: var(--dya-accent);
+}
+
+// .ab-sub-secondary — secondary action block separated by a rule,
+// for any items added by other plugins.
+body.dy-admin #wpadminbar .ab-sub-wrapper .ab-sub-secondary {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--dya-line);
+}
+
+// =============================================================
+// Responsive ≤782px — Override of the WP-native cascade that
+// breaks our design (height 46px, icon-only square pills badly
+// aligned, labels hidden without control, inconsistent gaps, etc.)
+//
+// We keep the philosophy: pill items, centered icons, optional
+// labels based on available width. We override the .ab-icon::before
+// pseudo-elements (font-size 20px) that WP enlarges on mobile.
+// =============================================================
+@media (max-width: 782px) {
+  body.dy-admin #wpadminbar {
+    // WP applies `min-height: 46px !important` at <782 — we neutralize
+    // to keep our topbar token (44px by default).
+    height: var(--dya-topbar-h) !important;
+    min-height: var(--dya-topbar-h) !important;
+    overflow: visible;
+  }
+  // WP targets html:not(.wp-toolbar) with margin-top:46px and other tricks.
+  // We neutralize to preserve our grid layout.
+  body.dy-admin #wpadminbar .quicklinks {
+    padding: 0 8px 0 12px;
+    height: 100%;
+    align-items: center !important;
+  }
+  // Standardizes vertical alignment across ALL columns of the bar:
+  // by default .ab-top-menu uses `align-items: stretch` (items take the
+  // full bar height) while .ab-top-secondary uses `center`. This caused
+  // a visual inconsistency where "+", the chat bubble stuck to the top
+  // while theme-toggle/avatar floated at the bottom.
+  body.dy-admin #wpadminbar .ab-top-menu,
+  body.dy-admin #wpadminbar .ab-top-secondary {
+    align-items: center !important;
+    height: 100%;
+    gap: 2px;
+  }
+  body.dy-admin #wpadminbar .ab-top-menu > li,
+  body.dy-admin #wpadminbar .ab-top-secondary > li {
+    height: 30px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+  }
+  body.dy-admin #wpadminbar .ab-top-menu > li > a,
+  body.dy-admin #wpadminbar .ab-top-menu > li > .ab-item {
+    height: 30px !important;
+    padding: 0 8px !important;
+    line-height: 1 !important;
+  }
+  // Reset WP's @media rules that make each ab-item a 46×46 px square
+  body.dy-admin #wpadminbar .ab-top-menu > li > .ab-item .ab-icon,
+  body.dy-admin #wpadminbar .ab-top-menu > li > a .ab-icon {
+    width: 14px !important;
+    height: 14px !important;
+    padding: 0 !important;
+    margin-right: 0;
+  }
+  body.dy-admin #wpadminbar .ab-icon::before {
+    font-size: 16px !important;
+    line-height: 1 !important;
+    width: auto !important;
+    height: auto !important;
+    padding: 0 !important;
+  }
+  body.dy-admin #wpadminbar .ab-label {
+    line-height: 1 !important;
+  }
+
+  // `site-name` at <782: we transform the item into a simple external-link
+  // icon (dashicons-external \f504) to convey "Open the site in a new tab".
+  // The LI remains visible but reduced to a 30×30 square. The native site
+  // name text is hidden by font-size: 0 on the ab-item.
+  body.dy-admin #wp-admin-bar-site-name {
+    display: block !important;
+  }
+  body.dy-admin #wp-admin-bar-site-name > .ab-item,
+  body.dy-admin #wp-admin-bar-site-name > a {
+    font-size: 0 !important;
+    padding: 0 8px !important;
+    height: 30px !important;
+    width: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0 !important;
+  }
+  // External link icon — dashicons-external (\f504). We force the ::before
+  // (which the global `display: none !important` rule above hides).
+  body.dy-admin #wp-admin-bar-site-name > .ab-item::before,
+  body.dy-admin #wp-admin-bar-site-name > a::before {
+    display: inline-block !important;
+    content: "\f504" !important;
+    font-family: dashicons !important;
+    font-size: 18px !important;
+    line-height: 1 !important;
+    color: var(--dya-ink-soft) !important;
+    width: 18px;
+    height: 18px;
+    text-align: center;
+  }
+  body.dy-admin #wp-admin-bar-site-name > .ab-item:hover::before,
+  body.dy-admin #wp-admin-bar-site-name > a:hover::before {
+    color: var(--dya-ink) !important;
+  }
+
+  // Comments: fully hidden at <782 — we keep the view clean and focused
+  // on the main actions (create + visit site + theme + account).
+  // Specificity boosted via #wpadminbar to override the generic
+  // `.ab-top-menu > li { display: inline-flex !important }` rule above.
+  body.dy-admin #wpadminbar li#wp-admin-bar-comments {
+    display: none !important;
+  }
+
+  // The New button (+ new-content) keeps its icon + a "+" label implied
+  // by the icon — we hide the "NEW" text label.
+  body.dy-admin #wp-admin-bar-new-content > .ab-item,
+  body.dy-admin #wp-admin-bar-new-content > a {
+    padding: 0 8px !important;
+    height: 26px !important;
+  }
+  body.dy-admin #wp-admin-bar-new-content .ab-label {
+    display: none !important;  // keep just the "+" icon
+  }
+
+  // My-account: at <782 hide the "Howdy," text node + .display-name,
+  // keep only the avatar. WP renders as `<a>Howdy, <span class="display-name">admin</span> <img class="avatar"></a>`.
+  // The "Howdy," text is a direct TEXT NODE inside .ab-item, not inside
+  // .display-name. We force `font-size: 0` on the ab-item to hide all
+  // text, then restore font-size on the avatar fallback span.
+  body.dy-admin #wp-admin-bar-my-account > .ab-item,
+  body.dy-admin #wp-admin-bar-my-account > a {
+    font-size: 0 !important;
+    padding: 0 4px !important;
+    height: 32px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0 !important;
+  }
+  body.dy-admin #wp-admin-bar-my-account .display-name,
+  body.dy-admin #wp-admin-bar-my-account .username {
+    display: none !important;
+  }
+  body.dy-admin #wp-admin-bar-my-account img.avatar,
+  body.dy-admin #wp-admin-bar-my-account .avatar:not(img) {
+    width: 24px !important;
+    height: 24px !important;
+    font-size: 10px !important; // if avatar fallback initials are in a <span>
+  }
+
+  // Theme toggle: keep the 28×28 square, not the 46×46 forced by WP
+  body.dy-admin #wp-admin-bar-theme-toggle {
+    width: 32px !important;
+    height: 32px !important;
+    padding: 0 !important;
+  }
+
+  // "Static · Dynamic" (our Bricks-static badge): at <782 we tighten
+  // the badge noticeably (reduced padding + font-size) to leave more
+  // room for other items. Specificity boosted via #wpadminbar to override
+  // the generic `.ab-top-menu > li > a` rule above.
+  body.dy-admin #wpadminbar li#wp-admin-bar-doubleyoupi-static-mode > .ab-item,
+  body.dy-admin #wpadminbar li#wp-admin-bar-doubleyoupi-static-mode > a {
+    padding: 3px 8px !important;
+    height: 22px !important;
+    font-size: 10px !important;
+    line-height: 1 !important;
+  }
+  body.dy-admin #wpadminbar li#wp-admin-bar-doubleyoupi-static-mode .ab-label {
+    font-size: 10px !important;
+  }
+  body.dy-admin #wpadminbar li#wp-admin-bar-doubleyoupi-static-mode .ab-icon {
+    width: 12px !important;
+    height: 12px !important;
+    font-size: 10px !important;
+  }
+
+  // Dropdowns: we do not change the pattern, just ensure they remain
+  // visible and properly positioned to the right.
+  body.dy-admin #wp-admin-bar-new-content:hover > .ab-sub-wrapper,
+  body.dy-admin #wp-admin-bar-my-account:hover > .ab-sub-wrapper {
+    min-width: 180px;
+  }
+}
+
+// ≤600: even more compact version if needed. For now we let it
+// inherit from <=782 — can be refined here if too cramped.
+@media (max-width: 600px) {
+  body.dy-admin #wpadminbar .quicklinks {
+    padding: 0 6px 0 8px;
+  }
+}

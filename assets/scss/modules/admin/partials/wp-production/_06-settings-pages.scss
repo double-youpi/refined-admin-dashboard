@@ -1,0 +1,386 @@
+// =============================================================
+// SITE-EDITOR.PHP — no specific coverage (revert pt 9-10).
+// Previous attempts broke the rendering — let the editor render with
+// its native Gutenberg theme and avoid touching it.
+// =============================================================
+
+// =============================================================
+// OPTIONS-PRIVACY.PHP — tabs + accordion panels (Policy guide)
+//
+// WP renders the active tab with `box-shadow: inset 0 -3px #3582c4` (vivid blue)
+// which clashes on dark. Additionally, the guide's accordion triggers and panels
+// use a hardcoded `background: #fff` → unreadable on the DY background.
+// =============================================================
+body.dy-admin.options-privacy-php .privacy-settings-tab {
+  color: var(--dya-ink-soft) !important;
+  background: transparent !important;
+}
+body.dy-admin.options-privacy-php .privacy-settings-tab:hover {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin.options-privacy-php .privacy-settings-tab.active {
+  color: var(--dya-ink) !important;
+  box-shadow: inset 0 -3px var(--dya-accent) !important;
+  background: transparent !important;
+}
+body.dy-admin.options-privacy-php .privacy-settings-tabs-wrapper {
+  border-bottom: 1px solid var(--dya-line) !important;
+}
+// Policy guide accordion
+body.dy-admin.options-privacy-php .privacy-settings-accordion {
+  background: transparent !important;
+  // WP wraps the entire accordion in a border (#c3c4c7) → double frame with
+  // our already-bordered triggers. Remove it: each row carries its own
+  // card border.
+  border: 0 !important;
+  box-shadow: none !important;
+}
+body.dy-admin.options-privacy-php .privacy-settings-accordion-heading {
+  background: transparent !important;
+  margin: 0 0 8px !important;
+}
+body.dy-admin.options-privacy-php .privacy-settings-accordion-trigger {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-md) !important;
+  padding: 14px 18px !important;
+  text-align: left !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  cursor: pointer;
+  transition: background var(--dya-t-fast) ease;
+}
+body.dy-admin.options-privacy-php .privacy-settings-accordion-trigger:hover {
+  background: var(--dya-paper-2) !important;
+}
+body.dy-admin.options-privacy-php .privacy-settings-accordion-trigger[aria-expanded="true"] {
+  background: var(--dya-paper-2) !important;
+  border-color: var(--dya-edge-strong) !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+body.dy-admin.options-privacy-php .privacy-settings-accordion-panel,
+body.dy-admin.options-privacy-php .privacy-text-box-body {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink-soft) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-top: 0 !important;
+  border-bottom-left-radius: var(--dya-r-md) !important;
+  border-bottom-right-radius: var(--dya-r-md) !important;
+  padding: 16px 18px !important;
+  margin: 0 0 12px !important;
+}
+body.dy-admin.options-privacy-php .privacy-settings-accordion-panel p,
+body.dy-admin.options-privacy-php .privacy-settings-accordion-panel li,
+body.dy-admin.options-privacy-php .privacy-text-section p {
+  color: var(--dya-ink-soft) !important;
+}
+body.dy-admin.options-privacy-php .privacy-settings-accordion-panel strong,
+body.dy-admin.options-privacy-php .privacy-settings-accordion-panel h4,
+body.dy-admin.options-privacy-php .privacy-text-section h4 {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin.options-privacy-php .privacy-settings-accordion-panel a {
+  color: var(--dya-accent) !important;
+}
+// Description text below the H1
+body.dy-admin.options-privacy-php .privacy-settings-section-description,
+body.dy-admin.options-privacy-php .privacy-text-actions p {
+  color: var(--dya-ink-soft) !important;
+}
+// Buttons: "Copy selected text", "View help"…
+body.dy-admin.options-privacy-php .privacy-text-actions .button,
+body.dy-admin.options-privacy-php .privacy-text-copy {
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+}
+
+// =============================================================
+// OPTIONS-GENERAL.PHP — site icon preview
+//
+// Light mode issue: the preview backdrop inherits `--dya-paper` (mint in light
+// mode). Many favicons (including ours) are themselves green/mint → the icon
+// blends into the background. Set a NEUTRAL backdrop (pure white `--dya-bg`),
+// a thin border on the app-icon to detach it, and a light fake browser with
+// a readable tab title.
+// =============================================================
+body.dy-admin #site-icon-preview,
+body.dy-admin #site-icon-preview.has-site-icon {
+  background: var(--dya-bg) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-md) !important;
+  padding: 20px;
+  max-width: max-content;
+}
+// WP sets a `::after` = BLURRED 522px copy of the favicon as the preview
+// background ("frosted" effect). In light mode, this mint halo fills the box
+// and the favicon (also mint) blends into it → unreadable. Remove the backdrop
+// for a clean preview on a white background (the favicon stands out via its drop shadow).
+body.dy-admin #site-icon-preview::after {
+  display: none !important;
+  content: none !important;
+}
+// App-icon (large favicon, often mint/green): a border alone is not enough
+// in light mode (mint on white = low contrast). Add a drop shadow + border →
+// the tile "floats" and stands out clearly, regardless of theme.
+body.dy-admin #site-icon-preview #app-icon-preview {
+  border-radius: var(--dya-r-md);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, .14), 0 0 0 1px var(--dya-edge);
+}
+// Fake browser: light frame, no dark band.
+body.dy-admin #site-icon-preview .site-icon-preview-browser {
+  background: transparent;
+}
+body.dy-admin #site-icon-preview .browser-buttons {
+  fill: var(--dya-ink-fade);
+}
+body.dy-admin #site-icon-preview .site-icon-preview-tab {
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge);
+  border-bottom: 0;
+  border-radius: var(--dya-r-sm) var(--dya-r-sm) 0 0;
+  color: var(--dya-ink) !important;
+}
+// The tab title is `.site-icon-preview-site-title` (WP colours it via
+// `--site-icon-address-bar-text`, a grey that is barely readable on the light tab).
+// Force our strong ink + neutralise the WP variable for both themes.
+body.dy-admin #site-icon-preview .site-icon-preview-site-title,
+body.dy-admin #site-icon-preview .site-icon-preview-tab-title,
+body.dy-admin #site-icon-preview .site-icon-preview-tab span {
+  color: var(--dya-ink) !important;
+  --site-icon-address-bar-text: var(--dya-ink);
+}
+
+// =============================================================
+// UPDRAFTPLUS (options-general.php?page=updraftplus) — tabs
+//
+// WP/Updraft render the tabs as stacked grey buttons (#f0f0f1 active,
+// #dcdcde inactive, border #c3c4c7, radius 0). Convert to DS underline tabs:
+// transparent, accent indicator under the active tab.
+// =============================================================
+body.dy-admin .nav-tab-wrapper:has(.updraftplus-nav-tab) {
+  border-bottom: 1px solid var(--dya-line) !important;
+  display: flex;
+  gap: 2px;
+}
+body.dy-admin .updraftplus-nav-tab {
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 2px solid transparent !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  color: var(--dya-ink-soft) !important;
+  padding: 10px 16px !important;
+  font-weight: 500;
+  box-shadow: none !important;
+}
+body.dy-admin .updraftplus-nav-tab:hover {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .updraftplus-nav-tab.nav-tab-active {
+  background: transparent !important;
+  color: var(--dya-ink) !important;
+  border-bottom-color: var(--dya-accent) !important;
+}
+
+// =============================================================
+// "boot-layout" apps (WordPress.com) — AI Connectors + Font Library
+// (font-library.php). Same React framework: a
+// `.boot-layout--single-page { background:#141d22 }` (dark background
+// designed for a dark chrome) → ugly dark band in light mode. Neutralise
+// the background (generic, covers both pages) and anchor the @wordpress/
+// components cards to our surfaces.
+// =============================================================
+body.dy-admin .boot-layout,
+body.dy-admin [class*="boot-layout"] {
+  background: transparent !important;
+}
+body.dy-admin .boot-layout-container .components-item,
+body.dy-admin .boot-layout-container [class*="connector-item"],
+body.dy-admin .boot-layout-container .components-card {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-md) !important;
+  color: var(--dya-ink) !important;
+  overflow: hidden;
+}
+body.dy-admin .boot-layout-container .components-item *,
+body.dy-admin .boot-layout-container [class*="connector-item"] * {
+  color: inherit;
+}
+
+// ── W3: Font Library (font-library.php) — uncovered residuals ──────────
+// The @wordpress/components React app leaves some elements at the default
+// Gutenberg colours (#1e1e1e, #757575) invisible in dark mode, plus a white
+// modal footer. Pull them into the DS.
+body.dy-admin .font-library__footer {
+  background: var(--dya-paper) !important;
+  border-top: 1px solid var(--dya-line) !important;
+}
+// Font preview (demo text rendered in the typeface) + card labels.
+body.dy-admin .font-library__font-variant_demo-text,
+body.dy-admin .font-library__font-card .components-truncate,
+body.dy-admin .font-library__font-card__name {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .font-library__font-card__count {
+  color: var(--dya-ink-mute) !important;
+}
+// Modal tabs/labels (Media Library / Upload / Installed): Gutenberg
+// hardcodes `#1e1e1e`. Force DS ink on the tabpanel tab-buttons.
+body.dy-admin [class*="font-library"] .components-tab-panel__tabs .components-button,
+body.dy-admin [class*="font-library"] .components-navigator-screen .components-button.is-tertiary,
+body.dy-admin .font-library-page__tablist button,
+body.dy-admin .font-library-page__tablist [role="tab"],
+body.dy-admin .font-library-page__tablist [role="tab"] span {
+  color: var(--dya-ink) !important;
+}
+// Active tab gets accent (underline), inactive tabs in ink-mute.
+body.dy-admin .font-library-page__tablist [role="tab"][aria-selected="true"],
+body.dy-admin .font-library-page__tablist [role="tab"][aria-selected="true"] span {
+  color: var(--dya-accent) !important;
+}
+
+// =============================================================
+// CLASSIC EDITOR — post-status-info + Categories/Tags metaboxes
+//
+// `#post-status-info` is the TinyMCE bottom status bar (word count /
+// last saved). WP-default bg grey-100 → unreadable in dark mode.
+// `LI.tabs` is the active tab of the "Most Used / All" metaboxes in
+// the Categories and Tags boxes — WP uses a white bg + border-bottom: 0
+// to merge the tab with the panel below, but in dark mode the white clashes.
+// =============================================================
+body.dy-admin #post-status-info {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink-mute) !important;
+  border-color: var(--dya-edge) !important;
+  border-top: 1px solid var(--dya-line) !important;
+}
+body.dy-admin #post-status-info td {
+  color: var(--dya-ink-mute) !important;
+}
+body.dy-admin .categorydiv .tabs-panel,
+body.dy-admin .tagsdiv .tabs-panel,
+body.dy-admin .customlinkdiv .tabs-panel,
+body.dy-admin .posttypediv .tabs-panel {
+  background: transparent !important;
+  border-color: var(--dya-edge) !important;
+  color: var(--dya-ink-soft) !important;
+}
+body.dy-admin ul.category-tabs li,
+body.dy-admin ul.add-menu-item-tabs li {
+  color: var(--dya-ink-soft) !important;
+  background: transparent !important;
+}
+body.dy-admin ul.category-tabs li.tabs,
+body.dy-admin ul.add-menu-item-tabs li.tabs {
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-bottom-color: transparent !important;
+  color: var(--dya-ink) !important;
+}
+// T5 — the tab's inner LINK ("All" / "Most Used") kept the WP link colour
+// (dark) → unreadable in dark mode. Force the ink colour.
+body.dy-admin ul.category-tabs li a,
+body.dy-admin ul.add-menu-item-tabs li a { color: var(--dya-ink-soft) !important; text-decoration: none !important; }
+body.dy-admin ul.category-tabs li.tabs a,
+body.dy-admin ul.add-menu-item-tabs li.tabs a { color: var(--dya-ink) !important; }
+
+// T5 — checkbox ↔ category name alignment in taxonomy checklists
+// (native metabox AND ACF field). The `li` was falling back to `inline` → misaligned.
+body.dy-admin .categorychecklist li { display: block !important; }
+body.dy-admin .categorychecklist li label {
+  display: flex !important; align-items: center !important; gap: 7px !important;
+  line-height: 1.4 !important; color: var(--dya-ink) !important;
+}
+body.dy-admin .categorychecklist li label input[type="checkbox"] {
+  margin: 0 !important; flex: 0 0 auto !important;
+}
+
+// =============================================================
+// BRICKS FONTS — variant cards (bricks_fonts post type)
+// `.bricks-font-variant` is not covered by `.font-variant-row`.
+// =============================================================
+body.dy-admin.post-type-bricks_fonts .bricks-font-variant {
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-md) !important;
+  color: var(--dya-ink) !important;
+}
+
+// =============================================================
+// WIDGETS.PHP — "Clear inactive widgets" button
+// =============================================================
+body.dy-admin.widgets-php #inactive-widgets-control-remove {
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge) !important;
+  color: var(--dya-danger) !important;
+  border-radius: var(--dya-r-md) !important;
+}
+body.dy-admin.widgets-php #inactive-widgets-control-remove:hover {
+  background: color-mix(in srgb, var(--dya-danger) 8%, var(--dya-paper-2)) !important;
+  border-color: color-mix(in srgb, var(--dya-danger) 35%, var(--dya-line)) !important;
+}
+
+// =============================================================
+// THEMES — theme-overlay popup, "Parent theme" row
+// `<p class="parent-theme">` rendered with an inline white bg by WP.
+// =============================================================
+body.dy-admin .theme-overlay .parent-theme,
+body.dy-admin p.parent-theme {
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge) !important;
+  color: var(--dya-ink-soft) !important;
+  padding: 8px 12px !important;
+  border-radius: var(--dya-r-sm) !important;
+}
+
+// =============================================================
+// MEDIA PAGES — upload.php + media-new.php white surfaces
+// =============================================================
+body.dy-admin.upload-php #wp-media-grid {
+  background: transparent !important;
+}
+body.dy-admin.upload-php .media-frame,
+body.dy-admin.upload-php .media-frame.mode-grid {
+  background: transparent !important;
+}
+body.dy-admin.media-new-php .wrap {
+  background: transparent !important;
+}
+
+// (The canonical site-icon-preview block is defined above — OPTIONS-GENERAL.PHP
+// section. The old `--dya-paper` duplicate was removed because it won on specificity
+// and re-tinted the backdrop mint.)
+
+// =============================================================
+// SITE-HEALTH.PHP — tabs (same bug as options-privacy)
+//
+// WP renders `.health-check-tab.active` with `box-shadow: inset 0 -3px #3582c4`
+// (vivid WP-default blue). In both dark AND light mode the blue clashes.
+// Override with `var(--dya-accent)` — exactly the same fix applied for
+// `.privacy-settings-tab.active`.
+// =============================================================
+body.dy-admin.site-health-php .health-check-tab {
+  color: var(--dya-ink-soft) !important;
+  background: transparent !important;
+}
+body.dy-admin.site-health-php .health-check-tab:hover {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin.site-health-php .health-check-tab.active {
+  color: var(--dya-ink) !important;
+  border-bottom-color: var(--dya-accent) !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+// The rule under the tabs is set by `.health-check-tabs-wrapper`
+// (see _misc, standard header). Do NOT add a border-bottom to
+// `.health-check-header` (otherwise a line appears below the entire header).
+body.dy-admin.site-health-php .health-check-header {
+  background: transparent !important;
+}
+

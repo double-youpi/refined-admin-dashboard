@@ -1,0 +1,542 @@
+// =============================================================
+// _notices-center.scss
+// Notices center — badge (dock) anchored to the right of the chipbar +
+// centered popup (width = content column) + micro-toasts.
+//
+// All WP/plugin notices are intercepted by notices.js and moved into
+// the modal; this file styles the feature chrome. Aligned with the
+// Stations DS (tokens _tokens.scss), dark-first with automatic swap
+// to light via body.dy-theme-light.
+// =============================================================
+
+// ── Dock: zero-height sticky layer, content anchored top-right ──
+// Rendered in `in_admin_header` (priority 5, before the chipbar). height:0 →
+// pushes no content; the button overflows downward and centers vertically
+// within the chipbar band (--dya-chipbar-h). z-index above the chipbar (20)
+// so it remains clickable on top.
+body.dy-admin .dy-notice-dock {
+  position: sticky;
+  top: 0;
+  z-index: 21;
+  height: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+body.dy-admin .dy-notice-dock__inner {
+  max-width: var(--dya-wrap-max);
+  margin: 0 auto;
+  padding: 0 var(--dya-wrap-pad-x);
+  display: flex;
+  justify-content: flex-end;
+}
+
+body.dy-admin .dy-notice-trigger {
+  pointer-events: auto;
+  // Vertically center within the chipbar band (button ~34px tall).
+  margin-top: calc((var(--dya-chipbar-h) - 34px) / 2);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 10px 0 12px;
+  border-radius: var(--dya-r-pill);
+  border: 1px solid var(--dya-edge-strong);
+  background: var(--dya-paper);
+  color: var(--dya-ink-soft);
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: var(--dya-shadow-sm);
+  transition:
+    color var(--dya-t-fast) var(--dya-ease),
+    border-color var(--dya-t-fast) var(--dya-ease),
+    background var(--dya-t-fast) var(--dya-ease),
+    transform var(--dya-t-fast) var(--dya-ease),
+    box-shadow var(--dya-t-fast) var(--dya-ease);
+}
+body.dy-admin .dy-notice-trigger:hover {
+  color: var(--dya-ink);
+  border-color: var(--dya-ink-fade);
+  background: var(--dya-paper-2);
+  transform: translateY(-1px);
+  box-shadow: var(--dya-shadow-md);
+}
+body.dy-admin .dy-notice-trigger:focus-visible {
+  outline: none;
+  border-color: var(--dya-line-color, var(--dya-accent));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--dya-line-color, var(--dya-accent)) 30%, transparent);
+}
+
+body.dy-admin .dy-notice-trigger__icon {
+  flex-shrink: 0;
+  color: var(--dya-ink-mute);
+  transition: color var(--dya-t-fast) var(--dya-ease), transform var(--dya-t-med) var(--dya-ease);
+}
+body.dy-admin .dy-notice-trigger:hover .dy-notice-trigger__icon { color: var(--dya-ink-soft); }
+
+body.dy-admin .dy-notice-trigger__label {
+  letter-spacing: .005em;
+}
+
+// Counter — accented mono chip (color of the active page line).
+body.dy-admin .dy-notice-trigger__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: var(--dya-r-pill);
+  font-family: var(--dya-font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  background: var(--dya-line-color, var(--dya-accent));
+  color: var(--dya-line-color-on, var(--dya-accent-on, var(--dya-bg)));
+  transition: transform var(--dya-t-med) var(--dya-ease), opacity var(--dya-t-fast);
+}
+
+// Empty state — quiet badge: counter hidden, reduced contrast.
+body.dy-admin .dy-notice-dock[data-empty="true"] .dy-notice-trigger {
+  color: var(--dya-ink-mute);
+  border-color: var(--dya-edge);
+  box-shadow: none;
+}
+body.dy-admin .dy-notice-dock[data-empty="true"] .dy-notice-trigger__count {
+  display: none;
+}
+body.dy-admin .dy-notice-dock[data-empty="true"] .dy-notice-trigger__icon { color: var(--dya-ink-fade); }
+
+// "Unseen" state — soft halo + icon that briefly animates.
+body.dy-admin .dy-notice-dock[data-unseen="true"] .dy-notice-trigger {
+  border-color: color-mix(in srgb, var(--dya-line-color, var(--dya-accent)) 55%, var(--dya-line-strong));
+}
+body.dy-admin .dy-notice-dock[data-unseen="true"] .dy-notice-trigger__count {
+  animation: dy-notice-pulse 2.4s var(--dya-ease) infinite;
+}
+body.dy-admin .dy-notice-dock[data-unseen="true"] .dy-notice-trigger__icon {
+  animation: dy-notice-ring .9s var(--dya-ease) 1;
+  transform-origin: 50% 2px;
+}
+
+@keyframes dy-notice-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--dya-line-color, var(--dya-accent)) 55%, transparent); }
+  50%      { box-shadow: 0 0 0 4px color-mix(in srgb, var(--dya-line-color, var(--dya-accent)) 0%, transparent); }
+}
+@keyframes dy-notice-ring {
+  0%, 100% { transform: rotate(0); }
+  20% { transform: rotate(-11deg); }
+  40% { transform: rotate(9deg); }
+  60% { transform: rotate(-6deg); }
+  80% { transform: rotate(3deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.dy-admin .dy-notice-dock[data-unseen="true"] .dy-notice-trigger__count,
+  body.dy-admin .dy-notice-dock[data-unseen="true"] .dy-notice-trigger__icon { animation: none; }
+  body.dy-admin .dy-notice-trigger:hover { transform: none; }
+}
+
+// =============================================================
+// Modal — native <dialog> (backdrop + focus-trap + Esc for free).
+// Width matches the content column (--dya-wrap-max), clamped to the
+// viewport. The <dialog> is the centering layer (transparent);
+// `.dy-notices-modal__chrome` is the visible card.
+// =============================================================
+body.dy-admin dialog.dy-notices-modal {
+  width: min(var(--dya-wrap-max), calc(100vw - 64px));
+  max-width: none;
+  max-height: min(82vh, 860px);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--dya-ink);
+  overflow: visible;
+}
+// Scope module tokens onto the <dialog> because the top layer removes it
+// from `body.dy-admin` for the inheritance cascade of some properties —
+// font family and color are forced here.
+body.dy-admin dialog.dy-notices-modal {
+  font-family: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+}
+
+body.dy-admin dialog.dy-notices-modal::backdrop {
+  background: color-mix(in srgb, #05070b 62%, transparent);
+  backdrop-filter: blur(3px) saturate(.9);
+  -webkit-backdrop-filter: blur(3px) saturate(.9);
+}
+
+body.dy-admin .dy-notices-modal__chrome {
+  display: flex;
+  flex-direction: column;
+  max-height: min(82vh, 860px);
+  background: var(--dya-bg-elev);
+  border: 1px solid var(--dya-edge-strong);
+  border-radius: var(--dya-r-lg);
+  box-shadow: var(--dya-shadow-lg);
+  overflow: hidden;
+}
+
+// Entry — orchestrated scale+fade. The <dialog> toggles `open`; we animate
+// via [open]. (No native exit animation without allow-discrete everywhere
+// → we keep the entry; the exit is instant, which is acceptable.)
+body.dy-admin dialog.dy-notices-modal[open] .dy-notices-modal__chrome {
+  animation: dy-notices-in 320ms var(--dya-ease);
+}
+body.dy-admin dialog.dy-notices-modal[open]::backdrop {
+  animation: dy-notices-backdrop-in 320ms var(--dya-ease);
+}
+@keyframes dy-notices-in {
+  from { opacity: 0; transform: translateY(10px) scale(.985); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes dy-notices-backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.dy-admin dialog.dy-notices-modal[open] .dy-notices-modal__chrome { animation: none; }
+}
+
+// ── Modal header ──────────────────────────────────────────────
+body.dy-admin .dy-notices-modal__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--dya-line);
+  flex-shrink: 0;
+}
+body.dy-admin .dy-notices-modal__heading {
+  display: flex;
+  align-items: baseline;
+  gap: 11px;
+}
+body.dy-admin .dy-notices-modal__title {
+  margin: 0;
+  padding: 0;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: var(--dya-tracking-tight);
+  color: var(--dya-ink);
+}
+// Counter — same accented bubble as the button, for a seamless morph
+// (the counter flies from the dock to here) and clear readability at the top right.
+body.dy-admin .dy-notices-modal__counter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 7px;
+  font-family: var(--dya-font-mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  border: 0;
+  border-radius: var(--dya-r-pill);
+  background: var(--dya-line-color, var(--dya-accent));
+  color: var(--dya-line-color-on, var(--dya-accent-on, var(--dya-bg)));
+}
+
+body.dy-admin .dy-notices-modal__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+body.dy-admin .dy-notices-modal__clear {
+  appearance: none;
+  border: 1px solid var(--dya-edge);
+  background: transparent;
+  color: var(--dya-ink-mute);
+  font-family: var(--dya-font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  padding: 6px 10px;
+  border-radius: var(--dya-r-sm);
+  cursor: pointer;
+  transition: color var(--dya-t-fast), border-color var(--dya-t-fast), background var(--dya-t-fast);
+}
+body.dy-admin .dy-notices-modal__clear:hover {
+  color: var(--dya-ink);
+  border-color: var(--dya-ink-fade);
+  background: var(--dya-paper-2);
+}
+body.dy-admin .dy-notices-modal__close {
+  appearance: none;
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--dya-edge);
+  background: transparent;
+  color: var(--dya-ink-mute);
+  border-radius: var(--dya-r-sm);
+  cursor: pointer;
+  transition: color var(--dya-t-fast), border-color var(--dya-t-fast), background var(--dya-t-fast), transform var(--dya-t-fast);
+}
+body.dy-admin .dy-notices-modal__close:hover {
+  color: var(--dya-ink);
+  border-color: var(--dya-ink-fade);
+  background: var(--dya-paper-2);
+}
+body.dy-admin .dy-notices-modal__close:active { transform: scale(.94); }
+
+// ── Scrollable body ─────────────────────────────────────────────────
+body.dy-admin .dy-notices-modal__body {
+  position: relative;
+  overflow-y: auto;
+  padding: 20px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--dya-line-strong) transparent;
+}
+body.dy-admin .dy-notices-modal__body::-webkit-scrollbar { width: 8px; }
+body.dy-admin .dy-notices-modal__body::-webkit-scrollbar-track { background: transparent; }
+body.dy-admin .dy-notices-modal__body::-webkit-scrollbar-thumb {
+  background: var(--dya-line-strong);
+  border-radius: var(--dya-r-pill);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+body.dy-admin .dy-notices-modal__list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+// Notices captured inside the modal — forced to their revealed state (the
+// default collapse from _notices.scss must not hide them here), margins
+// reset, top alignment for multi-line notices and action buttons.
+body.dy-admin .dy-notices-modal__list .notice,
+body.dy-admin .dy-notices-modal__list div.updated,
+body.dy-admin .dy-notices-modal__list div.error,
+body.dy-admin .dy-notices-modal__list .update-nag {
+  height: auto;
+  opacity: 1;
+  overflow: visible;
+  margin: 0;
+  padding: 14px 16px 14px 36px;
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  animation: none;
+  transition: none;
+}
+// The dot stays aligned to the first line inside the modal (top, not centred).
+body.dy-admin .dy-notices-modal__list .notice::before,
+body.dy-admin .dy-notices-modal__list div.updated::before,
+body.dy-admin .dy-notices-modal__list div.error::before {
+  top: 20px;
+  transform: none;
+}
+
+// Empty-state.
+body.dy-admin .dy-notices-modal__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  padding: 48px 24px 54px;
+  color: var(--dya-ink-mute);
+}
+body.dy-admin .dy-notices-modal__empty[hidden] { display: none; }
+body.dy-admin .dy-notices-modal__empty svg {
+  color: var(--dya-success);
+  opacity: .8;
+  margin-bottom: 6px;
+}
+body.dy-admin .dy-notices-modal__empty-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--dya-ink-soft);
+}
+body.dy-admin .dy-notices-modal__empty-sub {
+  margin: 0;
+  max-width: 38ch;
+  font-size: 12.5px;
+  line-height: var(--dya-lh-base, 1.5);
+  color: var(--dya-ink-mute);
+}
+
+// =============================================================
+// Micro-toasts — ephemeral action feedback, bottom-right.
+// =============================================================
+body.dy-admin .dy-notice-toast-host {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 100000;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 10px;
+  pointer-events: none;
+  max-width: min(380px, calc(100vw - 48px));
+}
+
+body.dy-admin .dy-notice-toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 12px 12px 12px 14px;
+  background: var(--dya-bg-elev);
+  border: 1px solid var(--dya-edge-strong);
+  border-radius: var(--dya-r-md);
+  box-shadow: var(--dya-shadow-lg);
+  color: var(--dya-ink);
+  font-size: 13px;
+  line-height: var(--dya-lh-base, 1.5);
+  opacity: 0;
+  transform: translateX(16px) scale(.98);
+  transition:
+    opacity var(--dya-t-med) var(--dya-ease),
+    transform var(--dya-t-med) var(--dya-ease);
+}
+body.dy-admin .dy-notice-toast.is-in { opacity: 1; transform: translateX(0) scale(1); }
+body.dy-admin .dy-notice-toast.is-out { opacity: 0; transform: translateX(16px) scale(.98); }
+
+body.dy-admin .dy-notice-toast__dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  margin-top: 6px;
+  border-radius: 50%;
+  background: var(--dya-ink-mute);
+}
+body.dy-admin .dy-notice-toast[data-tone="success"] .dy-notice-toast__dot { background: var(--dya-success); }
+body.dy-admin .dy-notice-toast[data-tone="error"]   .dy-notice-toast__dot { background: var(--dya-danger); }
+body.dy-admin .dy-notice-toast[data-tone="warning"] .dy-notice-toast__dot { background: var(--dya-warn); }
+body.dy-admin .dy-notice-toast[data-tone="info"]    .dy-notice-toast__dot { background: var(--dya-info); }
+
+body.dy-admin .dy-notice-toast__msg {
+  margin: 0;
+  padding: 0;
+  flex: 1 1 auto;
+  color: var(--dya-ink-soft);
+}
+body.dy-admin .dy-notice-toast__close {
+  flex-shrink: 0;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: var(--dya-ink-fade);
+  border-radius: var(--dya-r-xs);
+  cursor: pointer;
+  transition: color var(--dya-t-fast), background var(--dya-t-fast);
+}
+body.dy-admin .dy-notice-toast__close:hover { color: var(--dya-ink); background: var(--dya-paper-2); }
+
+@media (prefers-reduced-motion: reduce) {
+  body.dy-admin .dy-notice-toast { transition-duration: 1ms; }
+}
+
+// =============================================================
+// Responsive — below the tablet breakpoint, the badge drops its
+// label (icon + counter only) and the modal takes the full screen.
+// =============================================================
+@media (max-width: 782px) {
+  body.dy-admin .dy-notice-trigger__label { display: none; }
+  body.dy-admin .dy-notice-trigger { padding: 0 8px; gap: 6px; }
+
+  body.dy-admin dialog.dy-notices-modal {
+    width: calc(100vw - 24px);
+    max-height: 88vh;
+  }
+  body.dy-admin .dy-notices-modal__chrome { max-height: 88vh; }
+  body.dy-admin .dy-notice-toast-host { left: 12px; right: 12px; bottom: 12px; max-width: none; }
+}
+
+// The feedback tab (src/Admin/Feedback) sits on the bottom-right edge:
+// toasts stack above it instead of covering it.
+body.dy-admin:has(.dy-feedback-tab) .dy-notice-toast-host { bottom: 52px; }
+
+// =============================================================
+// Button ↔ popup morph — isolated FLIP "container transform"
+// -------------------------------------------------------------
+// IMPORTANT: we do NOT use the native View Transitions API here. The Admin
+// module already drives it globally for navigation (root cross-fade,
+// content blur `filter: blur(12px)`, rail/chipbar chrome morph).
+// Any `document.startViewTransition` wakes that backdrop → page blur,
+// depth jank, flash. Cannot be cleanly isolated.
+//
+// Instead: a FLIP via the Web Animations API applied DIRECTLY to
+// `.dy-notices-modal__chrome` — which already lives in the <dialog> top
+// layer, above the backdrop (a normal-flow element would pass behind it).
+// We invert the panel to the button's geometry then animate it to identity.
+// Content is hidden during the scale (no distorted text), then cascades in.
+// 100% independent of the VT chrome.
+// =============================================================
+
+// During the morph (`dy-notif-busy`): content is hidden (the scale must not
+// distort any text) and the `dy-notices-in` entry animation is neutralized
+// (the FLIP drives the entry). The post-handoff state (`dy-notif-revealed`)
+// is also covered so `dy-notices-in` does not re-trigger when JS removes
+// `dy-notif-busy` (otherwise a double-animation / flash would occur).
+body.dy-admin.dy-notif-busy dialog.dy-notices-modal[open] .dy-notices-modal__chrome,
+body.dy-admin dialog.dy-notices-modal[open] .dy-notices-modal__chrome.dy-notif-revealed {
+  animation: none;
+}
+body.dy-admin.dy-notif-busy .dy-notices-modal__head,
+body.dy-admin.dy-notif-busy .dy-notices-modal__body {
+  opacity: 0;
+}
+
+// Content reveal AFTER the morph (class `dy-notif-revealed` set on the
+// chrome by JS at handoff). The header fades in, notices cascade in
+// (fade + slide). Outside the morph (reduced-motion / fallback) none
+// of these classes are set → content displays normally.
+body.dy-admin .dy-notices-modal__chrome.dy-notif-revealed .dy-notices-modal__head {
+  animation: dy-notif-head-in 320ms var(--dya-ease) both;
+}
+body.dy-admin .dy-notices-modal__chrome.dy-notif-revealed .dy-notices-modal__body {
+  animation: dy-notif-head-in 320ms var(--dya-ease) both;
+  animation-delay: 40ms;
+}
+body.dy-admin .dy-notices-modal__chrome.dy-notif-revealed .dy-notices-modal__list .notice,
+body.dy-admin .dy-notices-modal__chrome.dy-notif-revealed .dy-notices-modal__list div.updated,
+body.dy-admin .dy-notices-modal__chrome.dy-notif-revealed .dy-notices-modal__list div.error,
+body.dy-admin .dy-notices-modal__chrome.dy-notif-revealed .dy-notices-modal__list .update-nag {
+  animation: dy-notif-item-in 440ms var(--dya-ease) both;
+  animation-delay: calc(80ms + var(--dy-stagger, 0) * 42ms);
+}
+@keyframes dy-notif-head-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes dy-notif-item-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// Fade the backdrop on close (JS sets `dy-notif-closing` before actually
+// closing the dialog once the ghost has returned to the button).
+body.dy-admin.dy-notif-closing dialog.dy-notices-modal[open]::backdrop {
+  animation: dy-notif-scrim-out 360ms var(--dya-ease) forwards;
+}
+@keyframes dy-notif-scrim-out {
+  to { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.dy-admin .dy-notices-modal__chrome.dy-notif-revealed .dy-notices-modal__head,
+  body.dy-admin .dy-notices-modal__chrome.dy-notif-revealed .dy-notices-modal__body,
+  body.dy-admin .dy-notices-modal__chrome.dy-notif-revealed .dy-notices-modal__list .notice {
+    animation: none;
+  }
+}

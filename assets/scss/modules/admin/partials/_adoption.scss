@@ -1,0 +1,282 @@
+// =============================================================
+// _adoption.scss
+// Elements tagged client-side (data-dy-adopt="role") by the Adopter JS.
+// Loaded last to override hashed plugin styles / Emotion.
+// =============================================================
+
+// Elementor wrapper `#e-image-ai-media-library`.
+body.dy-admin [data-dy-adopt="toolbar-widget"] {
+  padding: 0 !important;
+  margin: 0 0 12px !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+// The Elementor wrapper inserts a `<div style="padding: 0.5em;">` around the `<a>`
+// that the adopter cannot tag (no stable signature). We neutralize it
+// at the CSS direct-child level.
+body.dy-admin [data-dy-adopt="toolbar-widget"] > div {
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+}
+
+// Generic buttons (DS secondary).
+body.dy-admin [data-dy-adopt="button"],
+body.dy-admin a[data-dy-adopt="button"] {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 9px 14px !important;
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  font-family: inherit !important;
+  line-height: 1 !important;
+  color: var(--dya-ink) !important;
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-md) !important;
+  text-decoration: none !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  cursor: pointer !important;
+  vertical-align: middle !important;
+
+  *,
+  i[class^="eicon"]::before {
+    color: inherit !important;
+    text-decoration: inherit !important;
+  }
+
+  i[class^="eicon"] {
+    font-size: 14px !important;
+    line-height: 1 !important;
+  }
+}
+
+// CTA / primary — aligned with `_buttons.scss` (.button-primary).
+body.dy-admin [data-dy-adopt="button-primary"],
+body.dy-admin a[data-dy-adopt="button-primary"] {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 9px 16px !important;
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  font-family: inherit !important;
+  line-height: 1 !important;
+  background: var(--dya-ink) !important;
+  color: var(--dya-bg) !important;
+  border: 1px solid var(--dya-ink) !important;
+  border-radius: var(--dya-r-md) !important;
+  text-shadow: none !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+  cursor: pointer !important;
+  vertical-align: middle !important;
+
+  *,
+  i[class^="eicon"]::before {
+    color: inherit !important;
+    text-decoration: inherit !important;
+  }
+
+  i[class^="eicon"] {
+    font-size: 14px !important;
+    line-height: 1 !important;
+  }
+}
+
+// Notices (Elementor `.e-notice`, Rank Math, ACF).
+body.dy-admin [data-dy-adopt="notice"],
+body.dy-admin [data-dy-adopt="notice-cta"] {
+  position: relative !important;
+  align-items: flex-start !important;
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-md);
+  box-shadow: var(--dya-shadow-sm) !important;
+  color: var(--dya-ink) !important;
+
+  border-left-width: 1px !important;
+  border-left-color: var(--dya-line) !important;
+}
+
+// `_notices.scss` adds a dot ::before on every `.notice`. Elementor adopted
+// notices already have their own icon (.e-notice__icon-wrapper)
+// → we remove the native dot to avoid duplication.
+body.dy-admin [data-dy-adopt="notice"]::before,
+body.dy-admin [data-dy-adopt="notice-cta"]::before {
+  content: none !important;
+  display: none !important;
+}
+
+// Elementor internals (layout + typo).
+body.dy-admin [data-dy-adopt="notice"] .e-notice__aside,
+body.dy-admin [data-dy-adopt="notice-cta"] .e-notice__aside {
+  background: transparent !important;
+}
+
+body.dy-admin [data-dy-adopt="notice"] .e-notice__content,
+body.dy-admin [data-dy-adopt="notice-cta"] .e-notice__content {
+  color: inherit !important;
+}
+
+body.dy-admin [data-dy-adopt="notice"] .e-notice__content p,
+body.dy-admin [data-dy-adopt="notice-cta"] .e-notice__content p {
+  margin: 0 0 8px !important;
+  font-size: 13px !important;
+  line-height: var(--dya-lh-base);
+  color: var(--dya-ink-soft) !important;
+}
+
+body.dy-admin [data-dy-adopt="notice"] .e-notice__content p:last-child,
+body.dy-admin [data-dy-adopt="notice-cta"] .e-notice__content p:last-child {
+  margin-bottom: 0 !important;
+}
+
+body.dy-admin [data-dy-adopt="notice"] .e-notice__icon-wrapper,
+body.dy-admin [data-dy-adopt="notice-cta"] .e-notice__icon-wrapper {
+  border: 1px solid var(--dya-edge);
+  border-radius: var(--dya-r-md);
+}
+
+body.dy-admin [data-dy-adopt="notice"] .e-notice__icon-wrapper .eicon-elementor-circle,
+body.dy-admin [data-dy-adopt="notice-cta"] .e-notice__icon-wrapper .eicon-elementor-circle,
+body.dy-admin [data-dy-adopt="notice"] .e-notice__icon-wrapper .eicon-elementor-circle::before,
+body.dy-admin [data-dy-adopt="notice-cta"] .e-notice__icon-wrapper .eicon-elementor-circle::before {
+  color: var(--dya-ink-mute) !important;
+}
+
+// Title in the Elementor notice column.
+body.dy-admin [data-dy-adopt="notice-title"] {
+  margin: 0 0 6px !important;
+  padding: 0 !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0 !important;
+  color: var(--dya-ink) !important;
+  line-height: var(--dya-lh-tight, 1.25) !important;
+}
+
+// Elementor pseudo-dismiss `<i>` (role=button).
+body.dy-admin i[data-dy-adopt="notice-dismiss"] {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 24px !important;
+  height: 24px !important;
+  cursor: pointer;
+  color: var(--dya-ink-fade) !important;
+  border-radius: var(--dya-r-xs);
+  opacity: 1 !important;
+  background: transparent !important;
+
+  &::before {
+    color: inherit !important;
+  }
+
+  &:hover {
+    background: var(--dya-paper-2) !important;
+    color: var(--dya-ink) !important;
+  }
+}
+
+// Generic cards.
+body.dy-admin [data-dy-adopt="card"] {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-xl) !important;
+  color: var(--dya-ink) !important;
+  box-shadow: var(--dya-shadow-sm) !important;
+}
+
+body.dy-admin [data-dy-adopt="badge"] {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  font-family: inherit !important;
+  color: var(--dya-ink-soft) !important;
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-pill) !important;
+}
+
+// Yoast-style score pills (column SEO score / readability) and equivalent
+// indicator badges. The background color (green / yellow / red) is set by
+// the plugin via a modifier class — we neutralize the chrome (border /
+// padding) to align with the DS, but let the tint pass through via the
+// variable chain if it is inline.
+body.dy-admin [data-dy-adopt="pill"] {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 24px;
+  padding: 2px 8px !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  font-family: inherit !important;
+  line-height: 1 !important;
+  color: var(--dya-ink) !important;
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-pill) !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+
+  // Yoast often places an inline SVG inside the pill: we give it the
+  // current text color so it aligns with the DS tone.
+  svg,
+  .yoast-svg-icon {
+    fill: currentColor !important;
+    color: currentColor !important;
+  }
+}
+
+// Inputs / textareas / radios injected by plugins (Elementor modal,
+// Rank Math inline edit). We enforce the _forms.scss DS.
+body.dy-admin input[data-dy-adopt="field"],
+body.dy-admin textarea[data-dy-adopt="field"],
+body.dy-admin select[data-dy-adopt="field"] {
+  background: var(--dya-bg) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-md) !important;
+  padding: 8px 10px !important;
+  font-family: inherit !important;
+  font-size: 13px !important;
+  line-height: var(--dya-lh-base) !important;
+  box-shadow: none !important;
+  outline: none !important;
+
+  &:focus,
+  &:focus-visible {
+    border-color: var(--dya-edge-strong) !important;
+    box-shadow: 0 0 0 2px var(--dya-accent) !important;
+  }
+}
+
+body.dy-admin input[data-dy-adopt="field"][type="checkbox"],
+body.dy-admin input[data-dy-adopt="field"][type="radio"] {
+  padding: 0 !important;
+  width: 16px !important;
+  height: 16px !important;
+}
+
+// Yoast SVG icons outside pills (tooltips, etc.).
+body.dy-admin .yoast-svg-icon {
+  fill: currentColor !important;
+}

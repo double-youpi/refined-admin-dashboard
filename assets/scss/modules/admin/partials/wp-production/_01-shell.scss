@@ -1,0 +1,371 @@
+// =============================================================
+// _wp-production.scss
+//
+// Overrides for the REAL WordPress admin DOM, which differs from the
+// mockup's flat structure. WP emits :
+//
+//   <body class="wp-admin wp-toolbar dy-admin …">
+//     <a class="screen-reader-shortcut">…</a>
+//     <div id="wpadminbar">…</div>          ← SIBLING of #wpwrap (NOT inside)
+//     <div id="wpwrap">
+//       <a class="screen-reader-shortcut">…</a>
+//       <div id="adminmenumain" role="navigation">  ← extra wrapper
+//         <div id="adminmenuback"></div>
+//         <div id="adminmenuwrap">
+//           <ul id="adminmenu">…</ul>
+//         </div>
+//       </div>
+//       <div id="wpcontent">…</div>
+//       <div id="wpfooter">…</div>
+//       <div class="clear"></div>
+//     </div>
+//     …scripts…
+//
+// The mockup (after _shell.js renames `dy-shell-*`) emits a flat DOM
+// where #wpadminbar IS inside #wpwrap and #adminmenuwrap is a direct
+// child. The fixes below are designed to work for BOTH structures :
+//
+//   1. `body.wp-toolbar` resets — WP applies margin-top:32px on the
+//      body to reserve room for the admin bar. We use our own grid
+//      row spacing inside #wpwrap, so the body margin is redundant
+//      and creates a 32px gap at the top.
+//
+//   2. #wpadminbar fixed-positioned at top of viewport, offset by
+//      var(--dya-rail-w-current) on the left so the rail's brand row stays
+//      visible top-left. Works in both DOMs.
+//
+//   3. #adminmenumain via `display: contents` is removed from layout
+//      so its child #adminmenuwrap becomes a direct child of #wpwrap.
+//      The grid-area:rail then applies directly. In the mockup this
+//      rule is harmless (no #adminmenumain element exists).
+//
+//   4. #wpfooter and the trailing `.clear` div are out-of-grid : hide
+//      them to prevent stray grid cells from disrupting the layout.
+//
+//   5. The aria/skip-link anchors WP injects before each landmark are
+//      out-of-grid via `display: contents` so they don't claim cells.
+//
+// NOTE — use of `!important`: this partial (and the Admin module in general)
+// relies heavily on `!important`. This is INTENTIONAL and structural, not
+// sloppy: we override CSS from WP core and third-party plugins, often loaded
+// AFTER ours and/or with high specificity (`#id` selectors, inline styles).
+// Without `!important`, these overrides would lose the cascade. Team rule:
+// `!important` is allowed here to beat WP/plugins, but should be avoided in
+// fully in-house components (rail, chipbar, command-palette…) where we already
+// control specificity.
+// =============================================================
+
+// 1. Reset WP margin/padding on html + body. WP applies
+//      html.wp-toolbar { padding-top: 32px }
+//    to reserve room for the admin bar. Our grid handles spacing
+//    internally via `grid-template-rows`, so this outer padding
+//    creates a 32px gap at the top of the page. Same for body.
+html:has(body.dy-admin),
+html.wp-toolbar:has(body.dy-admin) {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+body.dy-admin.wp-admin,
+body.dy-admin.wp-admin.wp-toolbar {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+// 2. Admin bar : fix to top of viewport, offset by the rail width so
+//    the rail occupies the top-left corner (matches mockup layout).
+//    Works for both DOMs because position:fixed lifts the element out
+//    of normal flow regardless of where it sits in the tree.
+body.dy-admin #wpadminbar {
+  position: fixed;
+  top: 0;
+  left: var(--dya-rail-w-current);
+  right: 0;
+  height: var(--dya-topbar-h);
+  z-index: 99998; // below the rail toggle / above the page content
+  width: auto;
+  // Override WP defaults that conflict.
+  margin: 0;
+  padding: 0;
+}
+
+// 3. Lift #adminmenuwrap to be a direct grid child of #wpwrap (real
+//    WP nests it inside #adminmenumain).
+body.dy-admin #adminmenumain {
+  display: contents;
+}
+
+// 4. WP injects #wpfooter and stray .clear / scripts inside #wpwrap —
+//    they auto-place into spurious grid cells. Force them out.
+body.dy-admin #wpwrap > #wpfooter,
+body.dy-admin #wpwrap > script,
+body.dy-admin #wpwrap > .clear,
+body.dy-admin #wpwrap > #wp-auth-check-wrap,
+body.dy-admin #wpwrap > a.screen-reader-shortcut {
+  display: none;
+}
+
+// 5. Accessibility skip-link anchors WP places before each landmark.
+body.dy-admin #wpwrap a.screen-reader-shortcut,
+body.dy-admin #wpwrap > .skip-link {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+// 6. WP's grid row should explicitly reserve the bar row height since
+//    the bar is now position:fixed (out of flow) — the grid cell is
+//    empty but still consumes vertical space, pushing the content
+//    down to start below the bar.
+//
+// The _layout.scss already declares :
+//   grid-template-rows: var(--dya-topbar-h) 1fr;
+//   grid-template-areas: "rail bar" / "rail content";
+// → the `bar` cell stays empty when the bar is fixed; the `rail` and
+//   `content` cells still get their natural heights. No change needed.
+
+// 7. Native WP styles add `position: absolute; top: 32px` on
+//    #adminmenuback and similar tricks that conflict with our grid.
+//    Already hidden by _layout.scss (`#adminmenuback { display: none }`)
+//    so they don't affect us.
+
+// 8. Override WP's `#wpcontent` left-margin (default 160px). Our grid
+//    handles content positioning ; the margin would push content past
+//    the grid cell.
+body.dy-admin #wpcontent {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+// 9. WP applies `min-width: 600px` on .wrap on some pages → forces
+//    horizontal scroll at narrow widths. Reset.
+body.dy-admin .wrap {
+  min-width: 0;
+}
+
+// 11. H1 .wp-heading-inline — WP default is `display: inline-block` which
+//     causes the .page-title-action button + .dy-page-sub eyebrow + the
+//     .subsubsub filter to sit ON THE SAME line as the H1 title.
+//     The mockup intends a block-level H1 (browser default for <h1>),
+//     so the related controls wrap to a row below the title. Restore.
+body.dy-admin .wp-heading-inline {
+  display: block;
+}
+
+// 12. .subsubsub — _tables.scss currently sets `display: flex` (block-level)
+//     to defeat WP's `float: left`, but block forces the pill onto its
+//     own line even when h1 is already block. Switch to inline-flex so
+//     the pill flows naturally next to siblings on the row below H1,
+//     matching the mockup layout (action + eyebrow + subsubsub on row 2).
+body.dy-admin ul.subsubsub {
+  display: inline-flex;
+}
+
+// 10. Responsive : at < 783px WP toggles `auto-fold` on body and
+//     forces the rail collapsed. The mockup's _responsive.scss handles
+//     this via token swaps ; we just need to make sure the chipbar
+//     doesn't overflow when the rail is collapsed AND the bar fixed
+//     position recomputes.
+@media (max-width: 782px) {
+  // Keep the same bar as desktop for visual consistency. WP was forcing
+  // 46px on mobile for its own 24px icons; our 30px items fit within the
+  // `--dya-topbar-h` token (44px by default, clampable) without overflow.
+  // Without this reset, items appear to float 8px from the top/bottom
+  // inside an oversized bar.
+  body.dy-admin #wpadminbar {
+    height: var(--dya-topbar-h);
+    min-height: var(--dya-topbar-h);
+  }
+}
+
+// 13. WP native CSS at @media (max-width: 782px) declares two competing rules :
+//       (a) `.wp-list-table tr:not(.inline-edit-row):not(.no-items)
+//             :is(td, th).column-primary ~ td:not(.check-column)` → display: none
+//           Specificity (0,3,3).
+//       (b) `#wpbody-content .wp-list-table.plugins td` → display: block
+//           Specificity (1,2,2) — wins for the Plugins table.
+//
+//     Our cards-mode rule in _responsive.scss is `body.dy-admin
+//     .wp-list-table tbody td[data-colname]` (0,3,3) — beats (a) by tie-break,
+//     but LOSES to (b) because (b) has an ID. Result : on Plugins (and any
+//     other ID-anchored WP rule), our metadata grid doesn't apply.
+//
+//     Add an `#wpbody-content` prefix here so we match WP's specificity bump
+//     and surpass it with extra classes : (1,5,2) > (1,2,2). Scope to ≤600
+//     because that's where _responsive.scss flips the table into cards mode
+//     (`tr { display: block }`).
+@media (max-width: 600px) {
+  body.dy-admin #wpbody-content .wp-list-table tbody td[data-colname]:not(.check-column):not(.dy-card-title) {
+    display: grid;
+    grid-template-columns: 88px minmax(0, 1fr);
+  }
+  // Primary cell : stays block (card header). Same specificity bump so it
+  // doesn't fall back to WP's plugins-specific `display: block` (which would
+  // be fine here anyway but keep the override explicit for clarity).
+  body.dy-admin #wpbody-content .wp-list-table tbody :is(td, th).column-primary,
+  body.dy-admin #wpbody-content .wp-list-table tbody :is(td, th).dy-card-title {
+    display: block;
+  }
+}
+
+// 14. WP native CSS at common.min.css declares :
+//       `.striped > tbody > :nth-child(odd) { background-color: #f6f7f7 }`
+//     Specificity (0,1,2). This is the WP "striped table" alternate-row
+//     fill — designed for the LIGHT admin. On our dark theme it paints
+//     odd rows BRIGHT WHITE (#f6f7f7), creating an unreadable contrast
+//     bomb on the first/third/fifth visible row. The empty-state row
+//     (`tr.no-items`) is always odd, so a posts page with no entries
+//     becomes a giant white slab.
+//
+//     We add the film-grain `background-image` on the SAME rows in
+//     _tables.scss, but only image — no background-color — so WP's
+//     #f6f7f7 fills wins underneath the noise SVG.
+//
+//     Override the background-color to transparent so the table's own
+//     `var(--dya-paper)` shows through, with the noise SVG layered on top.
+//     Specificity (0,4,3) > WP's (0,1,2).
+body.dy-admin .wp-list-table.striped > tbody > tr:nth-child(odd),
+body.dy-admin .wp-list-table.striped > tbody > tr.alternate {
+  background-color: transparent;
+}
+
+// 15. WP native CSS sets `background:#fff` on .welcome-panel-column-container
+//     (the lower 3-column section of the dashboard welcome panel) with
+//     specificity (0,2,0). Our _welcome.scss only sets `display: grid` on
+//     this selector — so the white WP bg shows through, creating a bright
+//     bottom half on an otherwise dark-themed panel.
+//
+//     Override to inherit from the panel itself (which we already theme
+//     in _welcome.scss via `body.dy-admin #welcome-panel.welcome-panel`).
+body.dy-admin .welcome-panel .welcome-panel-column-container {
+  background: transparent;
+}
+
+// 16. Same WP gotcha for .welcome-panel itself — WP sets background:#fff
+//     on .welcome-panel which our _welcome.scss override only catches via
+//     the more specific `#welcome-panel.welcome-panel`. Some installs
+//     emit the panel without an `id` attribute on the outer div. Belt-
+//     and-suspenders override matching just the class.
+body.dy-admin div.welcome-panel {
+  background-color: var(--dya-paper);
+}
+
+// 17. WP injects a decorative `.welcome-panel-header-image` SVG into the
+//     welcome-panel header, with a hardcoded `<path fill="#151515">`.
+//     In dark mode this flat black clashes with our paper #161a23 (slightly
+//     different); in light mode it creates a BLACK band in the middle of a
+//     panel that should be white. In both cases we don't use this decoration:
+//     we hide the image entirely and let the radial-gradient from _welcome.scss
+//     do the visual work.
+body.dy-admin .welcome-panel-header-image { display: none !important; }
+
+// 18. The header text uses WP's native `color: #fff` — fine in dark
+//     (our --dya-ink #ededee is close), but in light mode it gives white
+//     on a light background = invisible. Force header text to follow
+//     --dya-ink, which adapts to both themes.
+body.dy-admin .welcome-panel-header,
+body.dy-admin .welcome-panel-header * { color: var(--dya-ink); }
+
+// 19. ACF — neutralises ACF's branded header (dark band with logo +
+//     tabs + WP Engine badge) and the "Title / Add" headerbar.
+//     The goal is not to strip ACF's identity but to make it consistent
+//     with our palette. The wp-list-table tables below already inherit
+//     from the design system, so here we only handle ACF's custom elements.
+body.dy-admin .acf-admin-toolbar,
+body.dy-admin .acf-headerbar {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+  border-bottom: 1px solid var(--dya-line) !important;
+  box-shadow: none !important;
+}
+body.dy-admin .acf-admin-toolbar a,
+body.dy-admin .acf-admin-toolbar .acf-tab,
+body.dy-admin .acf-admin-toolbar .acf-tab-icon {
+  color: var(--dya-ink-soft) !important;
+  text-shadow: none !important;
+}
+body.dy-admin .acf-admin-toolbar a:hover,
+body.dy-admin .acf-admin-toolbar .acf-tab.is-active {
+  color: var(--dya-ink) !important;
+  background: var(--dya-paper-3) !important;
+}
+body.dy-admin .acf-admin-toolbar .acf-logo,
+body.dy-admin .acf-admin-toolbar .acf-tab-group {
+  filter: none;
+}
+
+// ACF buttons — .acf-btn aliases :
+body.dy-admin .acf-btn,
+body.dy-admin a.acf-btn,
+body.dy-admin button.acf-btn {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 14px !important;
+  font-size: 12.5px !important;
+  font-weight: 500;
+  font-family: var(--dya-font-body) !important;
+  letter-spacing: 0;
+  line-height: 1;
+  color: var(--dya-ink) !important;
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-md) !important;
+  text-decoration: none !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  height: auto !important;
+}
+body.dy-admin .acf-btn.acf-btn-primary {
+  background: var(--dya-ink) !important;
+  color: var(--dya-bg) !important;
+  border-color: var(--dya-ink) !important;
+}
+body.dy-admin .acf-btn:hover { background: var(--dya-paper-3) !important; }
+body.dy-admin .acf-btn.acf-btn-primary:hover { transform: translateY(-1px); }
+
+// ACF tables internes (acf-table, .acf-fields, etc.) — reset surface.
+body.dy-admin .acf-table,
+body.dy-admin .acf-field-list,
+body.dy-admin .acf-postbox > .inside {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin .acf-table thead th,
+body.dy-admin .acf-table tbody td,
+body.dy-admin .acf-table tbody th {
+  background: transparent !important;
+  color: inherit !important;
+  border-color: var(--dya-edge) !important;
+}
+
+// ACF wp-list-table columns — ACF sets bg:#fff on its custom td elements (acf-description,
+// acf-post-types, acf-field-groups, acf-key, acf-location). We reset them to
+// transparent so they inherit the row background.
+body.dy-admin .wp-list-table td.acf-description,
+body.dy-admin .wp-list-table td.acf-post-types,
+body.dy-admin .wp-list-table td.acf-field-groups,
+body.dy-admin .wp-list-table td.acf-key,
+body.dy-admin .wp-list-table td.acf-location,
+body.dy-admin .wp-list-table td.acf-fields,
+body.dy-admin .wp-list-table td.acf-terms,
+body.dy-admin .wp-list-table td[class*="acf-"] {
+  background: transparent !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+
+// ACF first column white bug — on the `acf-field-group`,
+// `acf-post-type`, and `acf-taxonomy` screens, the first column
+// (.check-column + .column-title) sometimes inherits a white background
+// via the WP-native striped cascade. Reset to transparent so it follows the row.
+body.dy-admin[class*="post-type-acf-"] .wp-list-table tbody tr td:first-child,
+body.dy-admin[class*="post-type-acf-"] .wp-list-table tbody tr th:first-child,
+body.dy-admin[class*="post-type-acf-"] .wp-list-table tbody tr td.check-column,
+body.dy-admin[class*="post-type-acf-"] .wp-list-table tbody tr :is(td, th).column-title {
+  background-color: transparent !important;
+}
+

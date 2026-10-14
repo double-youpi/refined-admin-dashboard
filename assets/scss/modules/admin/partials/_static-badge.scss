@@ -1,0 +1,139 @@
+// =============================================================
+// _static-badge.scss
+// "Static · {mode}" badge injected into the admin bar by
+// src/Modules/StaticSite/Serving/AdminBarBadge.php.
+//
+// Active only when the Admin module is ON. The PHP guard
+// (AdminBarBadge::inject_styles()) then short-circuits its hardcoded
+// hex inline fallback and delegates to this SCSS — which consumes the
+// admin DS tokens (paper, ink, line, accent) to stay consistent
+// with the dark/light theme and the user's custom accent.
+// =============================================================
+
+@use "tokens" as *;
+
+body.dy-admin {
+
+	#wpadminbar .doubleyoupi-bar-pill {
+		display: inline-flex;
+		align-items: center;
+		gap: 7px;
+		padding: 0 11px 0 9px;
+		height: 22px;
+		line-height: 1;
+		border-radius: var(--dya-r-pill);
+		background: var(--dya-paper-2);
+		border: 1px solid var(--dya-edge-strong);
+		color: var(--dya-ink);
+		font-family: var(--dya-font-mono);
+		font-size: 11px;
+		font-weight: 500;
+		letter-spacing: var(--dya-tracking-mono);
+		text-transform: none;
+		white-space: nowrap;
+		transition: background var(--dya-t-fast) var(--dya-ease),
+		            border-color var(--dya-t-fast) var(--dya-ease),
+		            color var(--dya-t-fast) var(--dya-ease);
+
+		// Semantic dot before the label. Color changes according to mode.
+		&::before {
+			content: "";
+			display: inline-block;
+			width: 7px;
+			height: 7px;
+			border-radius: 50%;
+			background: var(--dya-ink-mute);
+			transition: background var(--dya-t-fast) var(--dya-ease),
+			            transform var(--dya-t-fast) var(--dya-ease),
+			            box-shadow var(--dya-t-med) var(--dya-ease);
+			flex-shrink: 0;
+		}
+
+		// ── Mode DYNAMIC: static serving DISABLED → red dot ────────────────
+		// Semantics: "off / paused". We use --dya-danger (not --dya-line-system,
+		// which is rewritten to the user's custom accent →
+		// the dot was taking the accent color instead of a neutral signal).
+		&.mode-dynamic::before {
+			background: var(--dya-danger);
+		}
+
+		// ── Mode STATIC_FALLBACK : info accent (mode hybride) ───────────
+		&.mode-static_fallback::before {
+			background: var(--dya-info);
+			box-shadow: 0 0 0 3px var(--dya-info-soft, rgba(34, 113, 177, .14));
+		}
+
+		// ── Mode STATIC_STRICT: user's custom accent (strict static mode
+		//   — production-grade, served 100% by static HTML) ────────────────
+		&.mode-static_strict {
+			background: var(--dya-accent-soft, rgba(var(--dya-accent-rgb, 34, 113, 177), .12));
+			border-color: rgba(var(--dya-accent-rgb, 34, 113, 177), .35);
+			color: var(--dya-accent);
+
+			&::before {
+				background: var(--dya-accent);
+				box-shadow: 0 0 0 3px rgba(var(--dya-accent-rgb, 34, 113, 177), .18);
+				animation: dy-static-badge-pulse 2400ms var(--dya-ease) infinite;
+			}
+		}
+	}
+
+	// Neutralizes the native WP dark background on the badge WRAPPER. colors.min
+	// applies `.ab-top-menu > li.menupop.hover > .ab-item { background:#0c0c0c }`
+	// — a background designed for the dark WP bar. The `.hover` class is toggled
+	// by WP's hoverIntent JS and PERSISTS on mouseleave (whereas `:hover`
+	// disappears instantly) → a black box flashed around the pill when
+	// leaving the hover area ("hover then leave"). We anchor on the ID (2 IDs →
+	// beats colors.min's 1 ID) to keep the wrapper transparent in all
+	// states: only the pill carries the visual feedback.
+	#wpadminbar #wp-admin-bar-doubleyoupi-static-mode > .ab-item,
+	#wpadminbar #wp-admin-bar-doubleyoupi-static-mode.hover > .ab-item,
+	#wpadminbar #wp-admin-bar-doubleyoupi-static-mode > .ab-item:hover,
+	#wpadminbar #wp-admin-bar-doubleyoupi-static-mode > .ab-item:focus {
+		background: transparent;
+	}
+
+	// Hover on the parent button (admin bar item) — the dot grows slightly
+	// and the background lightens. Targets the selector that WP applies on
+	// hover (`#wp-admin-bar-doubleyoupi-static-mode.hover .ab-item .doubleyoupi-bar-pill`).
+	#wpadminbar #wp-admin-bar-doubleyoupi-static-mode:hover .doubleyoupi-bar-pill,
+	#wpadminbar #wp-admin-bar-doubleyoupi-static-mode.hover .doubleyoupi-bar-pill {
+		background: var(--dya-paper-3);
+		border-color: var(--dya-ink-mute);
+
+		&::before {
+			transform: scale(1.25);
+		}
+	}
+
+	// Responsive (≤782px): the WP adminbar switches to mobile mode.
+	// Reduce padding and hide text (keep dot + "Static").
+	@media (max-width: 782px) {
+		#wpadminbar .doubleyoupi-bar-pill {
+			padding: 0 8px 0 6px;
+			font-size: 10px;
+			gap: 5px;
+
+			&::before {
+				width: 6px;
+				height: 6px;
+			}
+		}
+	}
+}
+
+// ── Animation: dot pulse for strict mode ───────────────────
+@keyframes dy-static-badge-pulse {
+	0%, 100% {
+		box-shadow: 0 0 0 3px rgba(var(--dya-accent-rgb, 34, 113, 177), .18);
+	}
+	50% {
+		box-shadow: 0 0 0 6px rgba(var(--dya-accent-rgb, 34, 113, 177), .06);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body.dy-admin #wpadminbar .doubleyoupi-bar-pill.mode-static_strict::before {
+		animation: none;
+	}
+}

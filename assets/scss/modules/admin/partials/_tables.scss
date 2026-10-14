@@ -1,0 +1,1268 @@
+// =============================================================
+// _tables.scss
+// .wp-list-table — the workhorse of WP admin.
+//
+// Universal patterns extracted from the Media Library refit
+// (assets/scss/modules/media-library/media-library.scss):
+//   1. Sticky thead — header stays visible while scrolling long
+//      lists. Anchored under the main chipbar (and sub-chipbar if
+//      visible) via :has() detection.
+//   2. Hover state with left-edge accent ribbon (3px inset box-shadow)
+//      — distinctive without being noisy.
+//   3. Selected-row state via :has() on a checked checkbox — modern
+//      browsers tint the row + show the ribbon when something is
+//      selected. Falls back gracefully on older browsers (row just
+//      stays uncolored — fully functional).
+//   4. Custom sort indicators — two stacked triangle arrows drawn
+//      via ::before/::after on the .sorting-indicators wrapper.
+//      Asc/desc highlight independently on the active sort.
+//   5. Responsive column priority — secondary columns hide at
+//      pre-defined breakpoints (1280 / 1100 / 900 / 600) following
+//      common WP class names. Custom columns can opt-in via the
+//      same naming pattern.
+//   6. Row-actions polished — dot separator, hover-only by default.
+//   7. Empty state generous & quiet.
+//   8. Mobile (≤ 600 px) — rows stack as cards with labels.
+//
+// Also handles .subsubsub, .tablenav, .search-box, .post-state pills.
+// =============================================================
+
+// ── Filter bar above tables (.subsubsub) ──────────────
+// WP renders the .subsubsub directly after the H1 + .page-title-action,
+// both of which are inline. Without forcing a new line, inline-flex on
+// the UL puts it horizontally NEXT to the H1, overlapping it. Using
+// `display: flex` + `width: fit-content` keeps the capsule pill look
+// AND forces the UL to be a block (own line).
+body.dy-admin ul.subsubsub {
+  list-style: none;
+  margin: 14px 0 14px;
+  padding: 4px;
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 2px;
+  flex-wrap: wrap;
+  border: 1px solid var(--dya-edge);
+  border-radius: var(--dya-r-md);
+  background: var(--dya-paper);
+  font-size: 12px;
+  color: var(--dya-ink-mute);
+  font-style: normal;
+  clear: both;
+  // WP admin CSS applies `float: left` to .subsubsub — kill it so it
+  // sits on its own line below the H1, not floating beside it.
+  float: none !important;
+}
+body.dy-admin ul.subsubsub li {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  // WP emits a literal " |" text node between </a> and </li> as
+  // a visual separator. font-size: 0 hides that text; the <a>
+  // resets its own font-size below so its content stays visible.
+  font-size: 0;
+}
+body.dy-admin ul.subsubsub li a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  line-height: 1;            // beat WP's `.subsubsub a { line-height: 2 }`
+  border-radius: var(--dya-r-sm);
+  color: var(--dya-ink-mute);
+  transition: color var(--dya-t-fast), background var(--dya-t-fast);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 12px; // reset after parent <li> font-size:0 hides the " |" text
+}
+body.dy-admin ul.subsubsub li a:hover { color: var(--dya-ink); background: var(--dya-paper-2); }
+// Active filter chip — intentionally softened so the `.page-title-action`
+// (already inverted ink↔bg) remains the most saturated element on the H1 line.
+// Visual hierarchy: page-title-action > subsubsub.current > h1.
+body.dy-admin ul.subsubsub li a.current,
+body.dy-admin ul.subsubsub li.current a {
+  background: var(--dya-paper-3);
+  color: var(--dya-ink);
+  border: 1px solid var(--dya-edge-strong);
+}
+body.dy-admin ul.subsubsub li .count {
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  color: var(--dya-ink-fade);
+}
+body.dy-admin ul.subsubsub li a.current .count,
+body.dy-admin ul.subsubsub li.current a .count {
+  color: var(--dya-ink-soft);
+  opacity: 1;
+}
+body.dy-admin ul.subsubsub li::after {
+  content: "";
+  width: 1px;
+  height: 14px;
+  background: var(--dya-line);
+  margin: 0 2px;
+}
+body.dy-admin ul.subsubsub li:last-child::after { display: none; }
+
+// ── Tablenav (top/bottom pagination + bulk actions) ──
+body.dy-admin .tablenav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  background: transparent;
+  height: auto;
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--dya-ink-soft);
+  gap: 12px;
+  flex-wrap: wrap;
+}
+body.dy-admin .tablenav.bottom { margin-top: 8px; }
+body.dy-admin .tablenav .alignleft,
+body.dy-admin .tablenav .alignright {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  float: none;
+  // `flex-wrap: nowrap` prevents a sub-pixel overflow (common between the
+  // select + Apply button in bulk actions, which can reach 279px against a
+  // 278px parent at certain viewports) from wrapping the button to the next
+  // line. Selects/inputs with `min-width: 0` can shrink as needed.
+  flex-wrap: nowrap;
+  min-width: 0;
+}
+body.dy-admin .tablenav .alignleft > *,
+body.dy-admin .tablenav .alignright > * {
+  min-width: 0;
+}
+body.dy-admin .tablenav select {
+  flex: 0 1 auto;
+}
+// .search-box is a WP <p>, SIBLING of the <form> (not a child of .tablenav).
+// Forced to flex to align the input + button, and the input is allowed to
+// shrink (min-width:0 + flex:1) so no overlap appears at narrow viewports.
+// `float:none` neutralizes the native WP float.
+body.dy-admin .search-box,
+body.dy-admin p.search-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  float: none;
+  flex-wrap: nowrap;
+  margin: 0 0 12px;
+  max-width: 100%;
+}
+body.dy-admin .search-box input[type="search"],
+body.dy-admin p.search-box input[type="search"] {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+body.dy-admin .search-box input[type="submit"],
+body.dy-admin .search-box .button,
+body.dy-admin p.search-box input[type="submit"] {
+  flex: 0 0 auto;
+}
+body.dy-admin .tablenav br.clear { display: none; }
+
+// ── "Too many columns" guard (NATIVE display) ────────────────────
+// Safety net: the table holds a minimum width (set by JS) → it scrolls
+// horizontally instead of crushing cells into an unreadable mess.
+body.dy-admin .dy-table-wrapper.dy-cols-guarded { overflow-x: auto; }
+// Column count indicator, injected at the end of .tablenav.top. Neutral by
+// default, RED beyond the recommended count (click → switches to reimagined view).
+body.dy-admin .dy-coltip {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 30px; padding: 0 11px;
+  border: 1px solid var(--dya-edge); border-radius: var(--dya-r-sm);
+  background: transparent; color: var(--dya-ink-soft);
+  font-family: var(--dya-font-mono); font-size: 11px; line-height: 1;
+  cursor: pointer; box-sizing: border-box; white-space: nowrap;
+  transition: color var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease);
+}
+body.dy-admin .dy-coltip svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.6; }
+body.dy-admin .dy-coltip__n { font-variant-numeric: tabular-nums; }
+body.dy-admin .dy-coltip:hover { color: var(--dya-ink); border-color: var(--dya-edge-strong); }
+body.dy-admin .dy-coltip.is-over {
+  color: #ff6b6b;
+  border-color: color-mix(in srgb, #ff6b6b 55%, var(--dya-line));
+  background: color-mix(in srgb, #ff6b6b 14%, var(--dya-paper-2));
+}
+body.dy-admin .dy-coltip.is-over:hover { border-color: #ff6b6b; background: color-mix(in srgb, #ff6b6b 20%, var(--dya-paper-2)); }
+
+body.dy-admin .tablenav select,
+body.dy-admin .tablenav input[type="text"],
+body.dy-admin .tablenav input[type="search"] {
+  background: var(--dya-paper);
+  border: 1px solid var(--dya-edge);
+  border-radius: var(--dya-r-sm);
+  padding: 5px 10px;
+  color: var(--dya-ink);
+  font-size: 12px;
+  height: auto;
+  line-height: 1;
+  min-height: 0;
+  box-shadow: none;
+  font-family: inherit;
+}
+body.dy-admin .tablenav select { padding-right: 28px; }
+
+body.dy-admin .tablenav-pages {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--dya-font-mono);
+  font-size: 11px;
+  color: var(--dya-ink-mute);
+}
+body.dy-admin .tablenav-pages .displaying-num {
+  color: var(--dya-ink-mute);
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-mono);
+  // WP applies font-size: 14px and `position: absolute` to .tablenav.bottom
+  // .displaying-num below 782px via its native responsive CSS. position:absolute
+  // "blockifies" the display (cf. CSS 2.1 spec § 9.7) → position must also be
+  // reset to keep the element in the flex flow.
+  font-size: 11px !important;
+  display: inline-block !important;
+  position: static !important;
+  margin: 0;
+}
+body.dy-admin .tablenav-pages .pagination-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+// ── Arrow buttons (‹, ›) — discreet square pills ──
+// WP always renders 4 nav buttons: « ‹ › » even when there is only one page.
+// Displayed as 24×24 squares with no visible border by default;
+// the border only appears on hover for active links. Disabled `span` elements
+// (wrapped in `.button.disabled`) visually fade to .25 opacity.
+body.dy-admin .tablenav-pages .pagination-links a,
+body.dy-admin .tablenav-pages .pagination-links span.tablenav-pages-navspan {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  min-width: 0;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--dya-r-sm);
+  color: var(--dya-ink-soft);
+  background: transparent;
+  font-family: var(--dya-font-mono);
+  font-size: 13px;
+  line-height: 1;
+  text-decoration: none;
+  // WP `button` reset — neutralizes button/disabled classes that add a bg.
+  box-shadow: none;
+  text-shadow: none;
+  transition: color var(--dya-t-fast) var(--dya-ease),
+              background var(--dya-t-fast) var(--dya-ease),
+              border-color var(--dya-t-fast) var(--dya-ease);
+}
+body.dy-admin .tablenav-pages .pagination-links a:hover {
+  background: var(--dya-paper-2);
+  color: var(--dya-ink);
+  border-color: var(--dya-edge-strong);
+}
+body.dy-admin .tablenav-pages .pagination-links span.tablenav-pages-navspan {
+  opacity: .25;
+  cursor: default;
+  background: transparent !important;
+  border-color: transparent !important;
+}
+
+// ── Paging input wrapper ("X of N") — typographic only, no box ──
+// Structure rendered by WP: <span class="paging-input">
+//   <span class="current-page">1</span> of <span class="total-pages">7</span>
+// </span>
+// Active number reads in accent color; "of 7" is muted. No pill, no
+// background — the eye finds the active page through color hierarchy.
+body.dy-admin .tablenav-pages .pagination-links .paging-input {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 8px;
+  min-width: auto;
+  height: 30px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  font-family: var(--dya-font-mono);
+  font-size: 12px;
+  color: var(--dya-ink-fade);
+  letter-spacing: 0;
+}
+body.dy-admin .tablenav-pages .pagination-links .current-page,
+body.dy-admin .tablenav-pages .pagination-links .paging-input .current-page,
+body.dy-admin .tablenav-pages .pagination-links .total-pages {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  font-family: var(--dya-font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--dya-accent);
+  min-width: auto;
+  height: auto;
+}
+body.dy-admin .tablenav-pages .pagination-links .total-pages {
+  color: var(--dya-ink-soft);
+  font-weight: 400;
+}
+// When current-page is actually an editable input (e.g. "Go to page X"):
+// `field-sizing: content` (Chrome 123+, Edge 123+) makes the input take
+// EXACTLY the width of its content. No fixed em width or JS measurement needed.
+// Fallback `min-width: 2.5em` for browsers without support (Safari < 17.4,
+// FF < 122) → preserves the old behavior.
+body.dy-admin .tablenav-pages .pagination-links input.current-page,
+body.dy-admin .tablenav-pages #current-page-selector {
+  field-sizing: content;
+  min-width: 1.8em;       // keeps a minimum hit area even with "1"
+  max-width: 6em;         // guards against a very large pasted value
+  text-align: center;
+  background: var(--dya-paper-2);
+  border: 1px solid var(--dya-edge);
+  border-radius: var(--dya-r-xs);
+  color: var(--dya-accent);
+  padding: 2px 6px;
+  height: auto;
+}
+
+// ── Column headers with icon: adoption transforms them into pills
+// (padding + bg + border) which offsets the icon and breaks the <thead> grid.
+// In a list-table header we want a PLAIN icon → the pill is neutralized
+// (more specific than `body.dy-admin [data-dy-adopt="pill"]`, so wins
+// even against its !important).
+body.dy-admin .wp-list-table thead [data-dy-adopt="pill"] {
+  display: inline-flex !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+// ── The list table itself ─────────────────────────────
+// table-layout: fixed is critical so row-actions text can't push
+// the title column outside its cell. Width 100% fills .wrap.
+body.dy-admin .wp-list-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  // In dark mode we used to darken paper by 25% to set the table apart from
+  // the background; in light mode that formula produced a barely readable grey.
+  // Using --dya-paper directly works in both modes:
+  //   dark : paper ≈ #161a23 (already dark vs --dya-bg #0c0e13)
+  //   light: paper ≈ #fafffe (slightly accent-tinted vs --dya-bg #fff)
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge);
+  border-radius: var(--dya-r-xl);
+  // NO overflow:hidden — would break sticky thead.
+  overflow: visible;
+  box-shadow: var(--dya-shadow-sm);
+  font-size: 13px;
+  color: var(--dya-ink-soft);
+}
+// tbody.has-* + tr.iedit force WP-default background: #fff on rows.
+// Override so the table stays tinted with the design system.
+body.dy-admin .wp-list-table tbody,
+body.dy-admin .wp-list-table tbody tr {
+  background: transparent !important;
+}
+// Zebra striping (WP renders tr:nth-child(odd) with a specific white bg).
+body.dy-admin .wp-list-table.striped > tbody > :nth-child(odd) {
+  background: color-mix(in srgb, var(--dya-paper) 70%, var(--dya-paper-2)) !important;
+}
+
+// ── Sticky thead ──────────────────────────────────────
+// Anchored just below the chipbar. When a sub-chipbar is visible,
+// the sticky offset bumps to clear it too. Uses :has() to detect
+// presence of a non-hidden sub-chipbar; modern browsers only —
+// older browsers stick at chipbar-h, the worst case is the thead
+// briefly overlapping the sub-chipbar during scroll. Acceptable.
+body.dy-admin .wp-list-table thead {
+  position: sticky;
+  top: var(--dya-chipbar-h);
+  z-index: 10;
+}
+body.dy-admin:has(.dy-subchipbar:not([hidden])) .wp-list-table thead {
+  top: calc(var(--dya-chipbar-h) + 36px);
+}
+// ── Horizontal scroll wrapper (.dy-cols-guarded): DISABLES sticky ──
+// `.dy-cols-guarded` sets `overflow-x: auto`; per spec, overflow-y then becomes
+// `auto` as well → the container becomes the sticky positioning block, and
+// `top: var(--dya-chipbar-h)` (86px) offsets the thead by 86px DOWN inside the
+// container → the header overlaps the first rows (bug observed on native tables
+// that overflow: terms, etc.). In this specific context, thead is reverted to
+// normal flow (header at the top of the table, no offset).
+body.dy-admin .dy-cols-guarded .wp-list-table thead {
+  position: static !important;
+  top: auto !important;
+}
+
+body.dy-admin .wp-list-table thead th,
+body.dy-admin .wp-list-table thead td,
+body.dy-admin .wp-list-table tfoot th,
+body.dy-admin .wp-list-table tfoot td {
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  color: var(--dya-ink-mute);
+  padding: 12px 14px;
+  background: var(--dya-bg-elev);
+  border-bottom: 1px solid var(--dya-line);
+  border-top: 0;
+  text-align: left;
+  vertical-align: middle;
+  // No truncation on headers: `nowrap` prevents multi-line wrapping and
+  // `overflow: visible` neutralizes WP's native `overflow: hidden` applied
+  // via the striped cascade. Combined with `min-width: max-content` on
+  // body cells when needed, the label stays readable regardless of how narrow
+  // the column gets (the table can introduce horizontal scroll rather than
+  // truncate).
+  white-space: nowrap;
+  overflow: visible;
+}
+body.dy-admin .wp-list-table tfoot th,
+body.dy-admin .wp-list-table tfoot td {
+  border-top: 1px solid var(--dya-line);
+  border-bottom: 0;
+  position: static;            // tfoot doesn't stick
+}
+
+// Sortable column headers — clickable links
+body.dy-admin .wp-list-table thead th.sortable a,
+body.dy-admin .wp-list-table thead th.sorted a {
+  color: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+}
+body.dy-admin .wp-list-table thead th.sorted a {
+  color: var(--dya-ink);
+}
+body.dy-admin .wp-list-table thead th.sortable:hover a {
+  color: var(--dya-ink);
+}
+
+// ── Custom sort indicators ────────────────────────────
+// WP markup:
+//   <th class="sortable [asc|desc]"><a>
+//     <span>Label</span>
+//     <span class="sorting-indicators">
+//       <span class="sorting-indicator asc"></span>
+//       <span class="sorting-indicator desc"></span>
+//     </span>
+//   </a></th>
+// We hide WP's empty inner spans, then draw two triangle arrows
+// (up + down) on the wrapper via ::before/::after. The active
+// direction lights up in accent color.
+body.dy-admin .wp-list-table .sorting-indicator,
+body.dy-admin .wp-list-table .sorting-indicators .sorting-indicator {
+  background: none !important;
+  background-image: none !important;
+  display: none !important;
+}
+body.dy-admin .wp-list-table .sorting-indicators {
+  display: inline-block;
+  position: relative;
+  width: 8px;
+  height: 14px;
+  margin-left: 4px;
+  vertical-align: middle;
+  background: none;
+  background-image: none;
+}
+body.dy-admin .wp-list-table .sorting-indicators::before,
+body.dy-admin .wp-list-table .sorting-indicators::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  opacity: .35;
+  transition: opacity var(--dya-t-fast), border-color var(--dya-t-fast);
+}
+body.dy-admin .wp-list-table .sorting-indicators::before {
+  top: 2px;
+  border-bottom: 4px solid var(--dya-ink-mute);
+}
+body.dy-admin .wp-list-table .sorting-indicators::after {
+  bottom: 2px;
+  border-top: 4px solid var(--dya-ink-mute);
+}
+body.dy-admin .wp-list-table th.sorted.asc  .sorting-indicators::before {
+  border-bottom-color: var(--dya-accent);
+  opacity: 1;
+}
+body.dy-admin .wp-list-table th.sorted.desc .sorting-indicators::after {
+  border-top-color: var(--dya-accent);
+  opacity: 1;
+}
+body.dy-admin .wp-list-table th.sortable a:hover .sorting-indicators::before,
+body.dy-admin .wp-list-table th.sortable a:hover .sorting-indicators::after {
+  opacity: .75;
+}
+
+// ── Body cells ────────────────────────────────────────
+body.dy-admin .wp-list-table tbody td,
+body.dy-admin .wp-list-table tbody th {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--dya-line-soft);
+  vertical-align: middle;
+  color: var(--dya-ink-soft);
+  // Single-line by default. Overridden for title/parent columns below.
+  overflow: hidden;
+  white-space: nowrap;
+}
+// Columns that need multi-line internal layout (filename + slug,
+// title + row-actions, parent + detach link, etc.)
+body.dy-admin .wp-list-table tbody :is(td, th).column-title,
+body.dy-admin .wp-list-table tbody :is(td, th).column-fichier,
+body.dy-admin .wp-list-table tbody :is(td, th).column-name,
+body.dy-admin .wp-list-table tbody :is(td, th).column-username,
+body.dy-admin .wp-list-table tbody :is(td, th).column-parent,
+body.dy-admin .wp-list-table tbody :is(td, th).column-description,
+body.dy-admin .wp-list-table tbody :is(td, th).plugin-description,
+body.dy-admin .wp-list-table tbody :is(td, th).plugin-title {
+  white-space: normal;
+}
+body.dy-admin .wp-list-table tbody tr:last-child td,
+body.dy-admin .wp-list-table tbody tr:last-child th {
+  border-bottom: 0;
+}
+
+// ── Row hover — accent ribbon on the left ──────────────
+// Inset 3px box-shadow gives a distinct "you're hovering here"
+// affordance without flooding the row with color. The bg-tint
+// is layered on top.
+body.dy-admin .wp-list-table tbody tr {
+  box-shadow: inset 3px 0 0 transparent;
+  transition: background var(--dya-t-fast), box-shadow var(--dya-t-fast);
+}
+body.dy-admin .wp-list-table tbody tr:hover {
+  background: var(--dya-paper-2);
+  box-shadow: inset 3px 0 0 var(--dya-accent);
+}
+body.dy-admin .wp-list-table tbody tr:hover .row-actions {
+  visibility: visible;
+  opacity: 1;
+}
+
+// ── Selected row — :has() on checked checkbox ──────────
+body.dy-admin .wp-list-table tbody tr:has(.check-column input:checked) {
+  background: color-mix(in srgb, var(--dya-accent) 8%, transparent);
+  box-shadow: inset 3px 0 0 var(--dya-accent);
+}
+
+// ── Column widths ─────────────────────────────────────
+// Explicit widths on every "secondary" column. The PRIMARY column
+// (title, name, username, fichier) is left at `width: auto` so it
+// soaks up the leftover space — and grows when responsive rules
+// hide columns to its right. Critical for table-layout: fixed:
+// without these widths, hidden columns leave dead space.
+body.dy-admin .wp-list-table .column-cb,
+body.dy-admin .wp-list-table .check-column { width: 36px; padding-left: 14px; }
+
+body.dy-admin .wp-list-table .column-thumb,
+body.dy-admin .wp-list-table .column-icon       { width: 60px; }
+
+body.dy-admin .wp-list-table .column-author     { width: 12%; }
+body.dy-admin .wp-list-table .column-categories { width: 16%; }
+body.dy-admin .wp-list-table .column-tags       { width: 16%; }
+body.dy-admin .wp-list-table .column-parent     { width: 14%; }
+body.dy-admin .wp-list-table .column-comments   { width: 70px; text-align: center; padding-left: 6px; padding-right: 6px; }
+body.dy-admin .wp-list-table .column-date       { width: 14%; min-width: 130px; }
+
+// Users-screen specific columns
+body.dy-admin .wp-list-table .column-name       { width: 16%; }
+body.dy-admin .wp-list-table .column-email      { width: 18%; }
+body.dy-admin .wp-list-table .column-role       { width: 10%; }
+body.dy-admin .wp-list-table .column-posts      { width: 70px; text-align: right; }
+
+// Plugins / themes
+body.dy-admin .wp-list-table .column-rating     { width: 90px; }
+body.dy-admin .wp-list-table .column-downloaded { width: 110px; }
+
+// Primary columns — always width: auto so they absorb hidden cols
+body.dy-admin .wp-list-table .column-title,
+body.dy-admin .wp-list-table .column-fichier,
+body.dy-admin .wp-list-table .column-username,
+body.dy-admin .wp-list-table .column-description,
+body.dy-admin .wp-list-table .plugin-title,
+body.dy-admin .wp-list-table .plugin-description { width: auto; }
+body.dy-admin .wp-list-table .check-column input[type="checkbox"] {
+  margin: 0;
+}
+// Hide the .check-column <label> screen-reader-text PROPERLY.
+//
+// WP's native rule for this label uses `position: absolute` WITHOUT
+// `clip`/`overflow:hidden`. When the tfoot `<th>` has no positioned
+// containing block, the label stretches to the size of the ENTIRE table
+// (1500×400px observed in production) and intercepts hover + clicks.
+// Result: `tr:hover` is never triggered, and a click anywhere in the
+// table activates `for="cb-select-all"`.
+//
+// Forcing a standard accessible hide (clip + 1×1px). pointer-events:none
+// ensures that even if a third-party rule overrides the geometry, the
+// label blocks nothing.
+body.dy-admin .wp-list-table .check-column label,
+body.dy-admin .wp-list-table .column-cb label {
+  position: absolute !important;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  word-wrap: normal !important;
+  pointer-events: none;
+}
+
+// ── Title link ─────────────────────────────────────────
+body.dy-admin .wp-list-table .row-title,
+body.dy-admin .wp-list-table strong > a.row-title,
+body.dy-admin .wp-list-table .column-title strong a,
+body.dy-admin .wp-list-table .column-fichier strong a,
+body.dy-admin .wp-list-table .column-name strong a,
+body.dy-admin .wp-list-table .column-username strong a {
+  color: var(--dya-ink);
+  font-weight: 500;
+  font-size: 13.5px;
+  text-decoration: none;
+}
+body.dy-admin .wp-list-table .row-title:hover,
+body.dy-admin .wp-list-table .column-title strong a:hover,
+body.dy-admin .wp-list-table .column-fichier strong a:hover {
+  color: var(--dya-accent);
+}
+
+// Secondary metadata under the title (filename, slug, etc.)
+body.dy-admin .wp-list-table .filename,
+body.dy-admin .wp-list-table .column-name .slug {
+  display: block;
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  color: var(--dya-ink-fade);
+  margin: 2px 0 0;
+  text-transform: lowercase;
+  letter-spacing: 0;
+}
+
+// ── Text selection / cell interactions ─────────────────
+// By default, clicking or dragging inside a table cell (outside a link)
+// selects text across neighboring cells via the native `display: table` +
+// table-layout: fixed behavior (each cell acts as a selection "block").
+// The user perceives this as "everything gets selected when I click anywhere."
+// Selection is disabled on <td> elements and re-enabled only on TEXT elements
+// that are directly useful to copy (row titles, cell values in card mode,
+// row-actions).
+body.dy-admin .wp-list-table tbody td,
+body.dy-admin .wp-list-table tbody th {
+  user-select: none;
+  cursor: default;
+}
+body.dy-admin .wp-list-table tbody a,
+body.dy-admin .wp-list-table tbody .row-title,
+body.dy-admin .wp-list-table tbody .dy-cell-value,
+body.dy-admin .wp-list-table tbody .row-actions,
+body.dy-admin .wp-list-table tbody input,
+body.dy-admin .wp-list-table tbody label {
+  user-select: text;
+  cursor: auto;
+}
+body.dy-admin .wp-list-table tbody a,
+body.dy-admin .wp-list-table tbody .row-title,
+body.dy-admin .wp-list-table tbody label,
+body.dy-admin .wp-list-table tbody input[type="checkbox"],
+body.dy-admin .wp-list-table tbody .row-actions a {
+  cursor: pointer;
+}
+
+// ── Row actions (Edit, Trash, Quick Edit, …) ───────────
+// Hover-only by default. Dot separator between actions.
+//
+// IMPORTANT — WP native CSS positions `.row-actions` off-screen via:
+//   `.row-actions { position: relative; left: -9999em }`
+// then brings it back on hover via `tr:hover .row-actions { position: static }`.
+// This technique is fragile: if another rule re-applies `position: relative`
+// to this node, `left: -9999em` becomes active again and row-actions
+// disappears to -114988px on the left. This is exactly the bug observed in
+// production: depending on which cell is hovered, row-actions stays off-screen.
+//
+// Worked around by enforcing `left: 0` within our `body.dy-admin` scope:
+// the offset is neutralized, show/hide is handled via `visibility +
+// opacity` in normal flow — no risk of compounding positions.
+body.dy-admin .wp-list-table .row-actions {
+  position: relative;
+  left: 0;               // beat WP's `left: -9999em`
+  margin-top: 4px;
+  font-size: 11.5px;
+  color: var(--dya-ink-fade);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity var(--dya-t-fast), visibility 0s linear var(--dya-t-fast);
+}
+body.dy-admin .wp-list-table tr:hover .row-actions,
+body.dy-admin .wp-list-table tr:focus-within .row-actions,
+body.dy-admin .wp-list-table tr.is-expanded .row-actions {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity var(--dya-t-fast), visibility 0s;
+}
+// `font-size: 0` hides the " | " text node WP emits between </a> and </span>.
+// The inner <a> resets its font-size to 11.5px to remain visible.
+// Without this, WP's native pipes visually stack with our `·` ::before.
+body.dy-admin .wp-list-table .row-actions span {
+  display: inline;
+  margin-right: 0;
+  font-size: 0;
+}
+body.dy-admin .wp-list-table .row-actions a,
+body.dy-admin .wp-list-table .row-actions button.button-link {
+  color: var(--dya-ink-mute);
+  border-bottom: 0;
+  padding: 0;
+  text-decoration: none;
+  font-size: 11.5px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transition: color var(--dya-t-fast);
+}
+body.dy-admin .wp-list-table .row-actions a:hover,
+body.dy-admin .wp-list-table .row-actions button.button-link:hover {
+  color: var(--dya-accent);
+}
+body.dy-admin .wp-list-table .row-actions .trash a,
+body.dy-admin .wp-list-table .row-actions .delete a {
+  color: var(--dya-danger);
+}
+body.dy-admin .wp-list-table .row-actions .trash a:hover,
+body.dy-admin .wp-list-table .row-actions .delete a:hover {
+  color: var(--dya-danger);
+  filter: brightness(1.15);
+}
+// Dot separator between actions — font-size restored locally because the parent
+// span is set to font-size:0 to hide WP's " | " text node.
+body.dy-admin .wp-list-table .row-actions span + span::before {
+  content: "·";
+  font-size: 11.5px;
+  color: var(--dya-ink-fade);
+  margin: 0 10px;
+  vertical-align: baseline;
+}
+
+// ── Common column treatments ───────────────────────────
+// IMPORTANT: target the <a> inside .column-author/categories/tags
+// when removing the link's text-decoration. Targeting the cell
+// itself (`.column-author { border-bottom: 0 }`) would remove the
+// row's bottom border too — making the row separator disappear
+// only under that column. Subtle bug, easy to miss.
+body.dy-admin .wp-list-table .column-author {
+  font-size: 12.5px;
+  color: var(--dya-ink-mute);
+}
+body.dy-admin .wp-list-table .column-author a {
+  color: var(--dya-ink-mute);
+  border-bottom: 0;
+  text-decoration: none;
+}
+body.dy-admin .wp-list-table .column-categories,
+body.dy-admin .wp-list-table .column-tags {
+  font-size: 12.5px;
+  color: var(--dya-ink-soft);
+}
+body.dy-admin .wp-list-table .column-categories a,
+body.dy-admin .wp-list-table .column-tags a {
+  color: var(--dya-ink-soft);
+  border-bottom: 0;
+  text-decoration: none;
+}
+body.dy-admin .wp-list-table .column-date {
+  font-family: var(--dya-font-mono);
+  font-size: 11px;
+  color: var(--dya-ink-mute);
+  letter-spacing: 0;
+}
+body.dy-admin .wp-list-table .column-date b {
+  color: var(--dya-ink-soft);
+  font-weight: 500;
+  display: block;
+  margin-bottom: 2px;
+}
+body.dy-admin .wp-list-table .column-thumb img,
+body.dy-admin .wp-list-table .column-icon img {
+  border-radius: var(--dya-r-sm);
+  border: 1px solid var(--dya-edge);
+  background: var(--dya-paper-2);
+}
+// Comment-count column (a small bubble)
+body.dy-admin .wp-list-table .column-comments a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--dya-ink-mute);
+  border-bottom: 0;
+}
+body.dy-admin .wp-list-table .column-comments .post-com-count {
+  font-family: var(--dya-font-mono);
+  font-size: 11px;
+  color: var(--dya-ink-soft);
+}
+// thead chat-bubble icon — sized to read in-line with the other
+// column headers without dominating the cell.
+body.dy-admin .wp-list-table thead .column-comments-icon {
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  vertical-align: middle;
+  color: var(--dya-ink-mute);
+}
+
+// ── Post-state pills ──────────────────────────────────
+body.dy-admin .wp-list-table .post-state,
+body.dy-admin .wp-list-table .privacy-text {
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-mono);
+  background: var(--dya-paper-2);
+  color: var(--dya-ink-mute);
+  padding: 1px 6px;
+  border-radius: var(--dya-r-pill);
+  margin-left: 4px;
+  font-weight: 500;
+}
+
+// Quick Edit / Bulk Edit inline rows
+body.dy-admin .wp-list-table tr.inline-edit-row td {
+  padding: 16px 14px;
+  background: var(--dya-paper-2);
+  white-space: normal;
+}
+
+// ── Screen options gear (per-table popover) ──────────
+// Auto-injected by admin.js as a child of a `.dy-table-wrapper`
+// (the JS wraps each <table> in this div so the gear can be
+// positioned relative to the TABLE, not relative to a specific
+// column cell. That way the gear stays visible even when the
+// user hides the Date column from the panel itself.)
+//
+// Behaves like a native dropdown: click to open, click outside or
+// Esc to close. Persists nothing yet — in production the gear
+// would POST to wp-admin/admin-ajax.php updating per-user meta.
+body.dy-admin .dy-table-wrapper {
+  position: relative;
+}
+// The native gear injected by admin.js DIRECTLY on the table (absolute,
+// top-right) was overlapping column labels. It is hidden: controls now live
+// in the switchbar, next to the toggle button (options gear in reimagined view,
+// column indicator in native view → click = toggle).
+body.dy-admin .dy-table-wrapper > .dy-table-options {
+  display: none !important;
+}
+body.dy-admin .dy-table-options-trigger {
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--dya-r-sm);
+  color: var(--dya-ink-mute);
+  cursor: pointer;
+  padding: 0;
+  transition: color var(--dya-t-fast) var(--dya-ease),
+              background var(--dya-t-fast) var(--dya-ease),
+              border-color var(--dya-t-fast) var(--dya-ease);
+}
+// Colonnes apparues depuis la dernière visite (extension installée) : point
+// d'accent sur l'engrenage jusqu'à sa première ouverture (ColumnWatch).
+body.dy-admin .dy-table-options-trigger { position: relative; }
+body.dy-admin .dy-table-options-trigger.is-new::after {
+  content: ""; position: absolute; top: 4px; right: 4px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--dya-accent);
+  box-shadow: 0 0 0 2px var(--dya-paper);
+}
+body.dy-admin .dy-table-options-trigger:hover {
+  color: var(--dya-ink);
+  background: var(--dya-paper-2);
+  border-color: var(--dya-edge);
+}
+body.dy-admin .dy-table-options-trigger[aria-expanded="true"] {
+  color: var(--dya-accent);
+  border-color: var(--dya-accent);
+  background: var(--dya-paper-2);
+}
+body.dy-admin .dy-table-options-trigger svg {
+  width: 13px;
+  height: 13px;
+  transition: transform var(--dya-t-med) var(--dya-ease);
+}
+body.dy-admin .dy-table-options-trigger[aria-expanded="true"] svg {
+  transform: rotate(30deg);
+}
+
+body.dy-admin .dy-table-options-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: var(--dya-paper);
+  border: 1px solid var(--dya-edge);
+  border-radius: var(--dya-r-md);
+  padding: 16px 18px;
+  box-shadow: var(--dya-shadow-lg);
+  z-index: 100;
+  min-width: 240px;
+  max-width: 320px;
+  font-size: 13px;
+  color: var(--dya-ink-soft);
+  // Subtle scale-in on open
+  animation: dy-popover-in 200ms var(--dya-ease) backwards;
+}
+body.dy-admin .dy-table-options-panel[hidden] {
+  display: none;
+}
+
+@keyframes dy-popover-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+body.dy-admin .dy-table-options-panel h3 {
+  font-family: var(--dya-font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  color: var(--dya-ink-mute);
+  margin: 0 0 10px;
+  font-weight: 500;
+}
+body.dy-admin .dy-table-options-panel h3 + h3 {
+  margin-top: 18px;
+}
+
+body.dy-admin .dy-table-options-panel ul {
+  list-style: none;
+  margin: 0 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+body.dy-admin .dy-table-options-panel label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--dya-ink);
+  cursor: pointer;
+  user-select: none;
+  text-transform: capitalize;
+}
+body.dy-admin .dy-table-options-panel label:hover {
+  color: var(--dya-accent);
+}
+
+body.dy-admin .dy-table-options-panel-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--dya-ink);
+}
+body.dy-admin .dy-table-options-panel input[type="number"] {
+  width: 70px;
+  text-align: center;
+  font-family: var(--dya-font-mono);
+}
+
+// (Mobile hide for the gear lives in _responsive.scss alongside
+// the rest of the card-mode rules — same selector / specificity
+// as the desktop placement, so the @media block wins via order.)
+
+// ── Search box (top-right above table) ────────────────
+// WP outputs .search-box as a <p> SIBLING of .tablenav.top (not inside).
+// To get the mockup look (search inline with the tablenav controls), we
+// position the search box absolutely at the top-right of the form, but
+// ONLY when the form ALSO has a .tablenav (posts-filter, users-filter,
+// comments-form, edit-tags). Plugin and Themes pages use a STANDALONE
+// search form (search-plugins, etc.) without tablenav — leave those
+// in normal flow.
+body.dy-admin .wrap form:has(> .search-box):has(> .tablenav.top) {
+  position: relative;
+}
+body.dy-admin .wrap form:has(> .search-box):has(> .tablenav.top) > .search-box {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px 0;
+  z-index: 2;
+}
+body.dy-admin .wrap form:has(> .search-box):has(> .tablenav.top) > .tablenav.top {
+  // Reserve room for the absolutely-positioned search box (input + a long
+  // localized button can reach ~380px) and let the filter groups wrap under
+  // the bulk actions instead of sliding beneath the search field.
+  padding-right: 390px;
+  flex-wrap: wrap;
+  row-gap: 8px;
+}
+
+body.dy-admin .search-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  float: none;
+  margin: 0;
+}
+
+// On edit-tags.php and similar 2-col layouts, the standalone
+// .search-form sits at the top of .wrap with full width. Align its
+// .search-box to the right so it visually lines up with the table
+// column rather than overlapping the "Add new" form column.
+body.dy-admin .wrap form.search-form {
+  display: flex;
+  justify-content: flex-end;
+  margin: 14px 0;
+}
+body.dy-admin .search-box input[type="search"] {
+  background: var(--dya-paper);
+  border: 1px solid var(--dya-edge);
+  border-radius: var(--dya-r-sm);
+  padding: 6px 10px;
+  font-size: 12px;
+  color: var(--dya-ink);
+  min-width: 220px;
+  height: auto;
+}
+body.dy-admin .search-box .button {
+  padding: 6px 12px;
+}
+
+// ── Empty state ───────────────────────────────────────
+body.dy-admin .wp-list-table .no-items td {
+  text-align: center;
+  padding: 60px 14px;
+  color: var(--dya-ink-mute);
+  font-family: var(--dya-font-body);
+  font-style: italic;
+  font-size: 14px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+// ── Alternating rows via film grain ────────────────────
+// Odd rows carry a subtle grain texture. SVG noise tile painted
+// directly on <tr> as background-image — no pseudo-element, no
+// position:relative on tr (which breaks table layout in WebKit).
+//
+// Particle color follows the theme INK, NOT pure white/black:
+//   • Dark theme:  R/G/B = 0.93 ≈ #ededee  (= var(--dya-ink))
+//   • Light theme: R/G/B = 0.09 ≈ #18181a  (= var(--dya-ink))
+// Using pure white on dark would create stark grey speckles that
+// feel disconnected from the rest of the surface palette. Inking
+// the noise into the same tone as the body text keeps the texture
+// part of the visual family.
+//
+// Finer noise (baseFrequency 1.4 + smaller tile) reads as
+// grain instead of mottling. Alpha multiplier intentionally low
+// — the effect should be barely perceptible.
+// DARK mode: table bg = --dya-paper, striped rows = solid bg slightly
+// darker. The noise texture (5% white alpha) is removed because it
+// RAISES perceived lightness instead of lowering it — exactly the
+// opposite of the intended effect. Solid color = clean differentiation,
+// stripes visibly darker than the table without speckle.
+body.dy-admin:not(.dy-theme-light) .wp-list-table tbody tr:nth-child(even),
+body.dy-admin:not(.dy-theme-light) .wp-list-table tbody tr.alternate {
+  // `!important` required because `_wp-production.scss` (loaded after this file)
+  // sets `background-color: transparent` on odd striped rows (overriding a
+  // WP-native rule that painted white #f6f7f7 on dark).
+  background-color: color-mix(in srgb, var(--dya-paper) 85%, black) !important;
+  background-image: none !important;
+}
+
+// LIGHT mode: pure white table bg + alternating rows in a very light
+// cool grey (#f4f5f7, ≈ 96% L OKLCH with a slight blue tint).
+//
+// Why cool grey and not accent-tinted: tables are dense content surfaces
+// the eye returns to often; tinting rows with the accent adds unnecessary
+// color and competes visually with other accent-tinted elements
+// (notices, paper-cards). Cool grey stays neutral, just segments rows
+// visually without imposing itself.
+//
+// `!important` required because `_wp-production.scss` (loaded after this
+// file in admin.scss) declares `body.dy-admin .wp-list-table.
+// striped > tbody > tr:nth-child(odd) { background: transparent }`
+// with the same specificity (0,4,3). Source order makes it win →
+// our tint would be crushed to transparent. !important bypasses that.
+// Light mode: using --dya-paper (4% accent mix + white) instead of pure
+// white to follow the consistent DS tint (chipbar, postboxes, notices
+// share the same tint). Audit 2026-05-20.
+body.dy-admin.dy-theme-light .wp-list-table {
+  background: var(--dya-paper) !important;
+}
+body.dy-admin.dy-theme-light .wp-list-table tbody tr:nth-child(odd),
+body.dy-admin.dy-theme-light .wp-list-table tbody tr.alternate {
+  background: var(--dya-paper-2) !important;
+}
+
+// ── Title column with thumbnail (Media list, WC products) ─
+// WP 7.1 renders the primary cell as <th> (row header): every primary-cell
+// selector of the module is now `:is(td, th)` (audit-2, R04).
+// Opt-in via the .has-media-icon class on the <strong> OR the
+// presence of a .media-icon inside the cell. Layout: thumb 60×60
+// pinned left, text content flows in a 86px-indented column.
+// Refined Media Library draws this screen itself, thumbnail included: when it
+// is active (body.dy-media-library) we step back rather than position its
+// thumbnail a second time, which stacked our absolute icon on its filename.
+// Manifesto rule: whoever does it better keeps it (Raphaël, 22/09/2026).
+body.dy-admin:not(.dy-media-library) .wp-list-table tbody :is(td, th).column-title:has(.media-icon),
+body.dy-admin:not(.dy-media-library) .wp-list-table tbody :is(td, th).column-fichier:has(.media-icon) {
+  position: relative;
+  padding-left: 86px;
+  min-height: 60px;
+}
+body.dy-admin:not(.dy-media-library) .wp-list-table .column-title .media-icon,
+body.dy-admin:not(.dy-media-library) .wp-list-table .column-fichier .media-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: block;
+  width: 60px;
+  height: 60px;
+  margin: 0;
+}
+body.dy-admin:not(.dy-media-library) .wp-list-table .media-icon img,
+body.dy-admin:not(.dy-media-library) .wp-list-table .column-title .media-icon img,
+body.dy-admin:not(.dy-media-library) .wp-list-table .column-fichier .media-icon img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: var(--dya-r-sm);
+  border: 1px solid var(--dya-edge);
+  display: block;
+  transition: transform var(--dya-t-med) var(--dya-ease);
+}
+// File-type icons (audio, video, PDF, archives…): a vector sheet resting on
+// a paper tile, never stretched into the square like a photo. Icons come
+// from MimeIcons (assets/images/mime) through the core filter.
+body.dy-admin:not(.dy-media-library) .wp-list-table .media-icon:not(.image-icon) img {
+  object-fit: contain;
+  padding: 6px;
+  box-sizing: border-box;
+  background: var(--dya-paper-2);
+}
+body.dy-admin:not(.dy-media-library) .wp-list-table tbody tr:hover .media-icon img {
+  transform: scale(1.06);
+}
+// The WP toggle-row button (mobile-style expand) doesn't fit our
+// design — hidden universally.
+body.dy-admin .wp-list-table .toggle-row { display: none; }
+
+// =============================================================
+// RESPONSIVE COLUMN PRIORITY
+// =============================================================
+// Each tier drops a class of columns. The .column-cb and the
+// .column-title (and its sibling slugs across screens) always
+// stay. Custom plugins can opt-in by reusing these class names.
+//
+//   Tier 1 — hide at ≤ 1280 px
+//     .column-parent           Media parent / nav-menus parent
+//     .column-comments         Inline comment count bubble
+//     .column-rating           Plugin/theme star rating
+//
+//   Tier 2 — hide at ≤ 1100 px
+//     .column-author           Post / user author
+//     .column-tags             Post tag list
+//     .column-format           Post format (gallery, aside…)
+//
+//   Tier 3 — hide at ≤ 900 px
+//     .column-date             Date column
+//     .column-categories       Post categories
+//     .column-role             User role
+//     .column-posts            Per-user post count
+//     .column-email            User email
+//
+// At ≤ 600 px the table switches to stacked card mode (defined
+// in _responsive.scss). Columns are no longer hidden — they
+// become labeled rows inside the row "card".
+// =============================================================
+
+@media (max-width: 1280px) {
+  body.dy-admin .wp-list-table .column-parent,
+  body.dy-admin .wp-list-table .column-comments,
+  body.dy-admin .wp-list-table .column-rating { display: none; }
+}
+@media (max-width: 1100px) {
+  body.dy-admin .wp-list-table .column-author,
+  body.dy-admin .wp-list-table .column-tags,
+  body.dy-admin .wp-list-table .column-format { display: none; }
+}
+@media (max-width: 900px) {
+  body.dy-admin .wp-list-table .column-date,
+  body.dy-admin .wp-list-table .column-categories,
+  body.dy-admin .wp-list-table .column-role,
+  body.dy-admin .wp-list-table .column-posts,
+  body.dy-admin .wp-list-table .column-email { display: none; }
+}
+
+// audit-2 (F24 / R04) : en-têtes mono capitales plus larges que certaines
+// colonnes fixes (« AUTEUR/AUTRICE » de la médiathèque débordait sur la colonne
+// voisine, le tfoot passait la flèche de tri à la ligne). Ellipse plutôt que
+// débord ou retour à la ligne.
+body.dy-admin .wp-list-table thead th,
+body.dy-admin .wp-list-table tfoot th {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+body.dy-admin .wp-list-table thead th > a,
+body.dy-admin .wp-list-table tfoot th > a {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  white-space: nowrap;
+}
+body.dy-admin .wp-list-table thead th > a > span:first-child,
+body.dy-admin .wp-list-table tfoot th > a > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+// Médiathèque en liste : colonnes Auteur (10 % en cœur) et Téléversé sur un
+// peu plus larges pour que les en-têtes tiennent à 1440.
+body.dy-admin table.wp-list-table.media .column-author { width: 18%; }
+body.dy-admin table.wp-list-table.media .column-parent { width: 15%; }
+
+// Single page: core hides the pagination links (`.one-page`) and keeps the
+// item count; our inline-flex on `.pagination-links` re-enabled them
+// ("‹ 1 sur 1 ›" with nothing to page). Back to core behaviour.
+body.dy-admin .tablenav .one-page .pagination-links {
+  display: none;
+}

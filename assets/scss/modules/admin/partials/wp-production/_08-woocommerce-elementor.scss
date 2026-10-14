@@ -1,0 +1,1204 @@
+// =============================================================
+// WOOCOMMERCE — admin pages + wc-admin React dashboard + wizard
+//
+// WC loads its own React app `wc-admin` which populates the pages
+// `?page=wc-admin&path=…` (Dashboard, Orders, Products, Customers,
+// Analytics, Marketing, Setup Wizard…). The app uses custom `.woocommerce-*`
+// classes that do not match our WP-default selectors.
+//
+// Strategy: cover the main wizard + dashboard surfaces with an override
+// scoped to `body.woocommerce-admin-page` to avoid leaking into the rest
+// of the admin.
+// =============================================================
+
+// Setup wizard fullscreen (woocommerce-admin-full-screen) — hides the
+// default admin chrome. Force our rail/chipbar to remain visible
+// + apply our dark bg.
+body.dy-admin.woocommerce-admin-full-screen,
+body.dy-admin.woocommerce-admin-page {
+  background: var(--dya-bg) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .woocommerce-profile-wizard__body,
+body.dy-admin .woocommerce-layout,
+body.dy-admin .woocommerce-layout__main,
+body.dy-admin .woocommerce-layout__primary {
+  background: transparent !important;
+  color: var(--dya-ink) !important;
+}
+
+// (0) The WP admin bar (#wpadminbar) is hidden by full-screen mode
+// (is-wp-toolbar-disabled). However 44px of space is still reserved at the top
+// (the chipbar sits at top:44) → restore the bar, which fits into that gap.
+body.dy-admin.woocommerce-admin-full-screen #wpadminbar {
+  display: block !important;
+}
+
+// (1) The wizard full-page also hides our chipbar (display:none) → restore
+// it and place it ABOVE the wizard.
+body.dy-admin.woocommerce-admin-full-screen .dy-chipbar {
+  display: block !important;
+  z-index: 60 !important;
+}
+// (2) Rail (#adminmenuwrap): the disabled admin bar (is-wp-toolbar-disabled)
+// removes the 44px offset → the rail overflowed the viewport height.
+// Constrain it to 100vh.
+body.dy-admin.woocommerce-admin-full-screen #adminmenuwrap {
+  height: 100vh !important;
+  max-height: 100vh !important;
+}
+
+// (4) Wizard height: WC sets `min-height:100vh` on #wpcontent /
+// #wpbody-content, but those containers are OFFSET below the admin bar
+// (--dya-topbar-h) and below the chipbar (--dya-chipbar-h) → 100vh + these offsets =
+// the wizard overflowed the bottom of the viewport. Subtract the chrome
+// heights (responsive tokens) so the whole fits exactly within 100vh.
+body.dy-admin.woocommerce-admin-full-screen #wpcontent {
+  min-height: calc(100vh - var(--dya-topbar-h)) !important;
+}
+body.dy-admin.woocommerce-admin-full-screen #wpbody-content {
+  min-height: calc(100vh - var(--dya-topbar-h) - var(--dya-chipbar-h)) !important;
+}
+// Same for the profiler step wrappers which also carry `min-height:100vh`
+// (intro/opt-in, etc.). Here we additionally subtract the vertical padding
+// of the `.wrap` container (--dya-wrap-pad-y, top and bottom) — hence the
+// +80px safety margin — otherwise a slight residual overflow.
+body.dy-admin.woocommerce-admin-full-screen .woocommerce-profiler-intro-opt-in,
+body.dy-admin.woocommerce-admin-full-screen .woocommerce-profiler-wrapper,
+body.dy-admin.woocommerce-admin-full-screen .woocommerce-profiler-page {
+  min-height: calc(100vh - var(--dya-topbar-h) - var(--dya-chipbar-h) - (var(--dya-wrap-pad-y) + 80px)) !important;
+}
+
+// (3) Profiler question labels ("Assign a name…", "Where is it located…")
+// rendered in near-black grey → unreadable in dark mode.
+body.dy-admin .woocommerce-profiler-question-label,
+body.dy-admin .woocommerce-profiler-question-label * { color: var(--dya-ink) !important; }
+
+// (3b) Plugin card titles (the "plugins" step) — dark text →
+// unreadable in dark mode. (Descriptions, already in light grey, are fine.)
+body.dy-admin .woocommerce-profiler-plugins-plugin-card-title { color: var(--dya-ink) !important; }
+
+// Hero h1 + wizard headings.
+body.dy-admin .woocommerce-profiler-heading__title,
+body.dy-admin .woocommerce-profile-wizard__step h1,
+body.dy-admin .woocommerce-profile-wizard__step h2,
+body.dy-admin .woocommerce-profile-wizard__heading,
+body.dy-admin .woocommerce-profile-wizard__step .components-heading,
+body.dy-admin .woocommerce-layout__header-heading {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .woocommerce-profiler-heading__subtitle,
+body.dy-admin .woocommerce-profile-wizard__step .components-text,
+body.dy-admin .woocommerce-profile-wizard__step p {
+  color: var(--dya-ink-soft) !important;
+}
+
+// Wizard progress bar (top of page) — WP-default blue → accent.
+body.dy-admin .woocommerce-progress-bar,
+body.dy-admin .woocommerce-profile-wizard__progress-bar,
+body.dy-admin .woocommerce-profiler-progress-bar,
+body.dy-admin .woocommerce-profiler-progress-bar__container {
+  background: var(--dya-paper-2) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin .woocommerce-progress-bar__filler,
+body.dy-admin .woocommerce-profile-wizard__progress-bar-fill,
+body.dy-admin .woocommerce-profiler-progress-bar__filler,
+body.dy-admin .woocommerce-progress-bar > div:first-child {
+  background: var(--dya-accent) !important;
+}
+
+// Cards / panels (.components-card, .woocommerce-card)
+body.dy-admin .components-card,
+body.dy-admin .woocommerce-card,
+body.dy-admin .woocommerce-onboarding-card,
+body.dy-admin .woocommerce-task-card {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-xl) !important;
+  box-shadow: var(--dya-shadow-sm) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .components-card__header,
+body.dy-admin .components-card__body,
+body.dy-admin .components-card__footer {
+  background: transparent !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+
+// Buttons — primary in accent, secondary in paper-2.
+body.dy-admin .components-button.is-primary,
+body.dy-admin .woocommerce-button.is-primary,
+body.dy-admin .woocommerce-profile-wizard__continue,
+body.dy-admin button.woocommerce-button.is-primary {
+  background: var(--dya-accent) !important;
+  color: var(--dya-accent-on, var(--dya-ink)) !important;
+  border: 1px solid var(--dya-accent) !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+body.dy-admin .components-button.is-primary:hover {
+  background: color-mix(in srgb, var(--dya-accent) 90%, var(--dya-ink)) !important;
+}
+body.dy-admin .components-button.is-secondary,
+body.dy-admin .woocommerce-button:not(.is-primary):not(.is-link) {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge) !important;
+  text-shadow: none !important;
+}
+body.dy-admin .components-button.is-link,
+body.dy-admin .woocommerce-button.is-link {
+  color: var(--dya-accent-text, var(--dya-accent)) !important;  // readable in light mode (G6)
+  background: transparent !important;
+}
+body.dy-admin .components-button.is-tertiary {
+  color: var(--dya-ink-soft) !important;
+  background: transparent !important;
+}
+body.dy-admin .components-button:focus-visible {
+  box-shadow: 0 0 0 2px var(--dya-accent) !important;
+  outline: none !important;
+}
+
+// Inputs & form controls in the wizard.
+body.dy-admin .components-text-control__input,
+body.dy-admin .components-select-control__input,
+body.dy-admin .woocommerce-profile-wizard__step input[type="text"],
+body.dy-admin .woocommerce-profile-wizard__step input[type="email"],
+body.dy-admin .woocommerce-profile-wizard__step input[type="url"],
+body.dy-admin .woocommerce-profile-wizard__step select,
+body.dy-admin .woocommerce-profile-wizard__step textarea {
+  background: var(--dya-bg) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-md) !important;
+}
+body.dy-admin .components-base-control__label,
+body.dy-admin .components-form-token-field__label {
+  color: var(--dya-ink-soft) !important;
+}
+
+// Wizard checkboxes / radios.
+body.dy-admin .components-checkbox-control__input[type="checkbox"]:checked,
+body.dy-admin .components-radio-control__input[type="radio"]:checked {
+  background: var(--dya-accent) !important;
+  border-color: var(--dya-accent) !important;
+}
+
+// Skip link ("Skip guided setup")
+body.dy-admin .woocommerce-profile-wizard__skip,
+body.dy-admin .woocommerce-profile-wizard__skip-link {
+  color: var(--dya-ink-mute) !important;
+  text-decoration: none !important;
+  border-bottom: 1px solid transparent;
+}
+body.dy-admin .woocommerce-profile-wizard__skip:hover {
+  color: var(--dya-ink) !important;
+  border-bottom-color: var(--dya-line) !important;
+}
+
+// Activity panel (Notices sidebar) + Inbox.
+body.dy-admin .woocommerce-layout__activity-panel,
+body.dy-admin .woocommerce-activity-panel,
+body.dy-admin .woocommerce-inbox-message {
+  background: var(--dya-paper) !important;
+  border-color: var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+}
+
+// WP-default tabs reused by WC (e.g. Orders list filters)
+body.dy-admin .woocommerce-page .nav-tab-wrapper .nav-tab,
+body.dy-admin .woocommerce-page .subsubsub a {
+  color: var(--dya-ink-soft) !important;
+}
+body.dy-admin .woocommerce-page .subsubsub a.current {
+  color: var(--dya-ink) !important;
+}
+
+// Modal (WC popups: settings step confirmation, etc.)
+body.dy-admin .components-modal__frame,
+body.dy-admin .woocommerce-onboarding-modal {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-xl) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .components-modal__header {
+  border-bottom: 1px solid var(--dya-line) !important;
+  background: var(--dya-paper-2) !important;
+}
+body.dy-admin .components-modal__header h1 {
+  color: var(--dya-ink) !important;
+}
+
+// =============================================================
+// WC-ADMIN (React @wordpress/components) — unthemed surfaces.
+// Dark/light audit: the wc-admin app renders light backgrounds everywhere
+// (activity panel, summaries, tables, graphs, inputs, lists).
+// =============================================================
+
+// — Fixed wc-admin header (.woocommerce-layout__header): REMOVED outside
+// the wizard. It was ~90% redundant with the DY chrome (title = duplicate of
+// the subchipbar; nav = chipbar+subchipbar; "View store" = admin bar;
+// notices = DY notification centre; the rest = promo inbox + onboarding
+// reminder). Hide it and reclaim the space reserved at the top.
+body.dy-admin.woocommerce-admin-page:not(.woocommerce-admin-full-screen) .woocommerce-layout__header {
+  display: none !important;
+}
+// The wc-admin content had a top margin to clear this fixed header →
+// neutralise it so the content rises flush under the subchipbar.
+body.dy-admin.woocommerce-admin-page:not(.woocommerce-admin-full-screen) .woocommerce-layout__primary {
+  margin-top: 0 !important;
+}
+
+// — Activity panel (right): wrapper + tabs + inbox.
+body.dy-admin .woocommerce-layout__activity-panel-wrapper,
+body.dy-admin .woocommerce-layout__activity-panel-tabs,
+body.dy-admin .woocommerce-layout__activity-panel-content,
+body.dy-admin .woocommerce-layout__inbox-panel,
+body.dy-admin .woocommerce-layout__inbox-panel-body {
+  background: var(--dya-paper) !important; border-color: var(--dya-edge) !important; color: var(--dya-ink) !important;
+}
+body.dy-admin .woocommerce-layout__activity-panel-tab { color: var(--dya-ink-soft) !important; }
+body.dy-admin .woocommerce-layout__activity-panel-tab.is-active { color: var(--dya-ink) !important; box-shadow: inset 0 -3px 0 var(--dya-accent) !important; }
+
+// — Summary cards (stats at the top of the page).
+body.dy-admin .woocommerce-summary,
+body.dy-admin .woocommerce-summary__item-container,
+body.dy-admin .woocommerce-summary__item {
+  background: var(--dya-paper) !important; border-color: var(--dya-edge) !important;
+}
+body.dy-admin .woocommerce-summary__item.is-selected,
+body.dy-admin .woocommerce-summary__item:hover { background: var(--dya-paper-2) !important; }
+
+// — wc-admin tables (.woocommerce-table: analytics, customers…).
+body.dy-admin .woocommerce-table,
+body.dy-admin .woocommerce-card.woocommerce-table,
+body.dy-admin .woocommerce-table__table {
+  background: var(--dya-paper) !important; border-color: var(--dya-edge) !important;
+}
+body.dy-admin .woocommerce-table__header,
+body.dy-admin .woocommerce-table__header.is-sortable,
+body.dy-admin .woocommerce-table thead th {
+  background: var(--dya-paper-2) !important; color: var(--dya-ink-soft) !important; border-color: var(--dya-edge) !important;
+}
+body.dy-admin .woocommerce-table__item,
+body.dy-admin .woocommerce-table tbody td {
+  background: transparent !important; border-color: var(--dya-line-soft) !important;
+}
+body.dy-admin .woocommerce-table__row:hover .woocommerce-table__item,
+body.dy-admin .woocommerce-table tbody tr:hover td { background: var(--dya-paper-2) !important; }
+body.dy-admin .woocommerce-table a:not(.button) { color: var(--dya-accent) !important; }
+
+// — Graphs (.woocommerce-chart + d3: axes, grid, tooltip).
+body.dy-admin .woocommerce-chart,
+body.dy-admin .woocommerce-chart__body,
+body.dy-admin .woocommerce-chart__header,
+body.dy-admin .woocommerce-chart__footer {
+  background: var(--dya-paper) !important; border-color: var(--dya-edge) !important; color: var(--dya-ink) !important;
+}
+body.dy-admin .d3-chart__tooltip {
+  background: var(--dya-paper-2) !important; border-color: var(--dya-edge) !important; color: var(--dya-ink) !important;
+}
+body.dy-admin .d3-chart svg text,
+body.dy-admin .woocommerce-chart svg .tick text,
+body.dy-admin .d3-chart .axis text { fill: var(--dya-ink-mute) !important; }
+body.dy-admin .d3-chart .grid line,
+body.dy-admin .d3-chart .tick line,
+body.dy-admin .d3-chart .domain { stroke: var(--dya-line) !important; }
+
+// — React inputs / selects / popovers.
+body.dy-admin .components-input-control__container,
+body.dy-admin .components-input-control__input,
+body.dy-admin .woocommerce-select-control__control,
+body.dy-admin .woocommerce-search .components-form-token-field__input-container,
+body.dy-admin .components-base-control .components-text-control__input {
+  background: var(--dya-bg) !important; border-color: var(--dya-edge) !important; color: var(--dya-ink) !important;
+}
+body.dy-admin .woocommerce-select-control__listbox,
+body.dy-admin .components-popover__content,
+body.dy-admin .woocommerce-select-control__option {
+  background: var(--dya-paper) !important; border-color: var(--dya-edge) !important; color: var(--dya-ink) !important;
+}
+body.dy-admin .woocommerce-select-control__option:hover,
+body.dy-admin .woocommerce-select-control__option.is-selected { background: var(--dya-paper-2) !important; }
+
+// — Experimental lists + task-list card + steppers.
+body.dy-admin .woocommerce-experimental-list,
+body.dy-admin .woocommerce-experimental-list__item,
+body.dy-admin .woocommerce-list__item,
+body.dy-admin .woocommerce-task-list,
+body.dy-admin .woocommerce-task-list__item,
+body.dy-admin .woocommerce-stepper {
+  background: var(--dya-paper) !important; border-color: var(--dya-edge) !important; color: var(--dya-ink) !important;
+}
+body.dy-admin .woocommerce-experimental-list__item:hover,
+body.dy-admin .woocommerce-list__item.has-action:hover,
+body.dy-admin .woocommerce-task-list__item:hover { background: var(--dya-paper-2) !important; }
+
+// — Generic @wordpress/components text (summary values, labels…):
+// many are in near-black grey → unreadable once surfaces are dark.
+// NB: the React app carries the class `woocommerce-admin-page` (NOT
+// `woocommerce-page`, reserved for classic WC).
+body.dy-admin.woocommerce-admin-page .components-text,
+body.dy-admin.woocommerce-admin-page .components-truncate,
+body.dy-admin .woocommerce-page .components-text,
+body.dy-admin .woocommerce-page .components-truncate,
+body.dy-admin .woocommerce-summary__item-label,
+body.dy-admin .woocommerce-summary__item-value,
+body.dy-admin .woocommerce-chart__title,
+body.dy-admin .woocommerce-layout__header h1,
+body.dy-admin h1.components-truncate {
+  color: var(--dya-ink) !important; background: transparent !important;
+}
+// Table column headers (SPAN without class) → soft readable ink.
+body.dy-admin .woocommerce-table__header span { color: var(--dya-ink-soft) !important; }
+// Data import status bar (analytics).
+body.dy-admin .woocommerce-analytics-import-status-bar-wrapper__label,
+body.dy-admin .woocommerce-analytics-import-status-bar__value { color: var(--dya-ink-soft) !important; }
+
+// — Task reminder bar (WC blue #007cba) → accent.
+body.dy-admin .woocommerce-layout__header-tasks-reminder-bar {
+  background: var(--dya-accent) !important;
+}
+body.dy-admin .woocommerce-layout__header-tasks-reminder-bar,
+body.dy-admin .woocommerce-layout__header-tasks-reminder-bar * { color: var(--dya-accent-on) !important; }
+
+// — Loader/end-of-wizard screen (white flash in dark mode).
+body.dy-admin .woocommerce-profiler-loader,
+body.dy-admin .woocommerce-onboarding-loader,
+body.dy-admin .woocommerce-profiler-loader__wrapper,
+body.dy-admin .woocommerce-profile-wizard__step-loader {
+  background: var(--dya-bg) !important; color: var(--dya-ink) !important;
+}
+
+// — LIGHT: `--wp-admin-theme-color` = var(--dya-accent) (vivid green) colours ALL
+// @wordpress/components text/links → unreadable on white in light mode. We
+// reset these texts to dark ink ONLY in light mode (in dark mode, accent on a
+// dark surface remains readable and looks fine).
+body.dy-admin.dy-theme-light .woocommerce-task-list__item-title,
+body.dy-admin.dy-theme-light .woocommerce-list__item-title,
+body.dy-admin.dy-theme-light .woocommerce-layout__activity-panel-tab,
+body.dy-admin.dy-theme-light .woocommerce-ellipsis-menu__toggle,
+body.dy-admin.dy-theme-light .woocommerce-experimental-list__item .components-truncate,
+body.dy-admin.dy-theme-light .woocommerce-inbox-message,
+body.dy-admin.dy-theme-light .woocommerce-inbox-message *,
+body.dy-admin.dy-theme-light .woocommerce-table a:not(.button),
+body.dy-admin.dy-theme-light.woocommerce-admin-page a:not(.button):not(.components-button):not(.is-primary):not(.is-secondary):not(.is-link):not(.page-title-action) {
+  color: var(--dya-ink) !important;
+}
+
+// — Audit residuals: unstyled buttons in charts/cards (white background).
+body.dy-admin.woocommerce-admin-page .woocommerce-chart button:not(.is-primary):not(.is-link),
+body.dy-admin.woocommerce-admin-page .woocommerce-table button:not(.is-primary):not(.is-link),
+body.dy-admin.woocommerce-admin-page .woocommerce-card button:not(.is-primary):not(.is-link) {
+  background: var(--dya-paper-2) !important; color: var(--dya-ink-soft) !important; border-color: var(--dya-edge) !important;
+}
+// H1/H2 titles of task cards (e.g. "Set up payments!") — dark text.
+body.dy-admin.woocommerce-admin-page .woocommerce-task__headline,
+body.dy-admin.woocommerce-admin-page .woocommerce-task-card h1,
+body.dy-admin.woocommerce-admin-page .woocommerce-task-card h2,
+body.dy-admin.woocommerce-admin-page .woocommerce-stepper h1,
+body.dy-admin.woocommerce-admin-page .woocommerce-task-list h1 { color: var(--dya-ink) !important; }
+// Light: "View store" tab in the activity panel (specificity: .components-button).
+body.dy-admin.dy-theme-light .components-button.woocommerce-layout__activity-panel-tab { color: var(--dya-ink) !important; }
+
+// — Extension marketplace (.woocommerce-marketplace): header, banner,
+// product cards, footer — all white by default.
+body.dy-admin .woocommerce-marketplace__header,
+body.dy-admin .woocommerce-marketplace__search,
+body.dy-admin .woocommerce-marketplace__main,
+body.dy-admin .woocommerce-marketplace__sidebar,
+body.dy-admin .woocommerce-marketplace__product-card,
+body.dy-admin .woocommerce-marketplace__product-card__content,
+body.dy-admin .woocommerce-marketplace__product-card__details,
+body.dy-admin .woocommerce-marketplace__footer,
+body.dy-admin .woocommerce-marketplace__footer-content {
+  background: var(--dya-paper) !important; color: var(--dya-ink) !important; border-color: var(--dya-edge) !important;
+}
+body.dy-admin .woocommerce-marketplace__banner {
+  background: var(--dya-paper-2) !important; color: var(--dya-ink) !important; border-color: var(--dya-edge) !important;
+}
+body.dy-admin .woocommerce-marketplace__product-card__title,
+body.dy-admin .woocommerce-marketplace__product-card__title a,
+body.dy-admin .woocommerce-marketplace__product-card__vendor,
+body.dy-admin .woocommerce-marketplace__product-card__vendor a { color: var(--dya-ink) !important; }
+body.dy-admin .woocommerce-marketplace__product-card__description { color: var(--dya-ink-soft) !important; }
+body.dy-admin .woocommerce-marketplace__category-selector,
+body.dy-admin .woocommerce-marketplace__category-tabs,
+body.dy-admin .woocommerce-marketplace__tabs { border-color: var(--dya-edge) !important; }
+body.dy-admin .woocommerce-marketplace__tab-button { color: var(--dya-ink-soft) !important; }
+body.dy-admin .woocommerce-marketplace__tab-button.is-active { color: var(--dya-ink) !important; }
+// The extension icon/logo often sits on a light background (brand assets):
+// we frame it cleanly without forcing the background (consistent with e-mail preview).
+body.dy-admin .woocommerce-marketplace__product-card__icon { border: 1px solid var(--dya-edge) !important; border-radius: var(--dya-r-sm) !important; }
+
+// — WC secondary texts hard-coded to #1e1e1e (descriptions, dates, labels,
+// estimates) → unreadable in dark mode. Multi-screen sweep → soft ink.
+body.dy-admin .woocommerce-inbox-message__date,
+body.dy-admin .woocommerce-marketplace__icon-group-description,
+body.dy-admin .woocommerce_marketing_plugin_card_body__details-description,
+body.dy-admin .woocommerce-marketing-card-header-description,
+body.dy-admin .woocommerce-marketing-card-body-description,
+body.dy-admin .woocommerce-task__estimated-time,
+body.dy-admin .woocommerce-analytics-import-status-bar__label,
+body.dy-admin .components-country-select-control__label,
+body.dy-admin .woocommerce-woopayments-payment-methods-logos-count {
+  color: var(--dya-ink-soft) !important;
+}
+body.dy-admin .woocommerce-table .yes,
+body.dy-admin .wc_status_table .yes,
+body.dy-admin .wc-shipping-zone-worldwide .yes,
+body.dy-admin td.private { color: var(--dya-ink) !important; }
+
+// — WC filter popovers (date range, advanced filters, segmented, calendar).
+// Content uses hard-coded white .woocommerce-* classes inside a popover.
+body.dy-admin .woocommerce-dropdown-button__content,
+body.dy-admin .woocommerce-filters-date,
+body.dy-admin .woocommerce-filters-date__content,
+body.dy-admin .woocommerce-filters-date__content-controls,
+body.dy-admin .woocommerce-filters-advanced,
+body.dy-admin .woocommerce-filters-advanced__list,
+body.dy-admin .woocommerce-calendar,
+body.dy-admin .woocommerce-calendar__inputs {
+  background: var(--dya-paper) !important; color: var(--dya-ink) !important; border-color: var(--dya-edge) !important;
+}
+body.dy-admin .woocommerce-segmented-selection,
+body.dy-admin .woocommerce-segmented-selection__container {
+  background: var(--dya-paper-2) !important; border-color: var(--dya-edge) !important;
+}
+body.dy-admin .woocommerce-segmented-selection__label {
+  background: transparent !important; color: var(--dya-ink-soft) !important;
+}
+body.dy-admin .woocommerce-segmented-selection input:checked + .woocommerce-segmented-selection__label,
+body.dy-admin .woocommerce-segmented-selection__label.is-selected {
+  background: var(--dya-accent) !important; color: var(--dya-accent-on) !important;
+}
+// react-dates calendar used by the WC date-picker.
+body.dy-admin .DayPicker,
+body.dy-admin .CalendarMonth,
+body.dy-admin .CalendarMonthGrid,
+body.dy-admin .DayPicker_transitionContainer,
+body.dy-admin .DayPickerNavigation_button {
+  background: var(--dya-paper) !important; color: var(--dya-ink) !important; border-color: var(--dya-edge) !important;
+}
+body.dy-admin .CalendarDay__default {
+  background: transparent !important; color: var(--dya-ink) !important; border-color: var(--dya-line-soft) !important;
+}
+body.dy-admin .CalendarDay__default:hover { background: var(--dya-paper-2) !important; }
+body.dy-admin .CalendarDay__selected,
+body.dy-admin .CalendarDay__selected_span,
+body.dy-admin .CalendarDay__hovered_span {
+  background: var(--dya-accent) !important; color: var(--dya-accent-on) !important; border-color: var(--dya-accent) !important;
+}
+body.dy-admin .CalendarMonth_caption { color: var(--dya-ink) !important; }
+body.dy-admin .woocommerce-filters-date__text { background: transparent !important; color: var(--dya-ink) !important; }
+body.dy-admin .woocommerce-filters-filter__button:not(.is-primary) {
+  background: var(--dya-paper-2) !important; color: var(--dya-ink) !important; border-color: var(--dya-edge) !important;
+}
+
+// =============================================================
+// WC SETTINGS (admin.php?page=wc-settings) — form-table + tables custom.
+// =============================================================
+// The settings <form> carries WP grey #f0f0f1 → light background in dark mode, and
+// makes .nav-tab tabs low-contrast. We neutralise it.
+//
+// ⚠️ The Payments tab (React) injects `body.woocommerce-settings-payments-tab
+// #mainform { background:#fff }` (ID selector → high specificity). Our generic
+// rule on `form` (no ID) LOST against it → the entire background stayed white.
+// We therefore target #mainform BY ID, with a body class to beat WC's
+// specificity, across all settings tabs.
+body.dy-admin.woocommerce_page_wc-settings form,
+body.dy-admin.woocommerce_page_wc-settings #mainform,
+body.dy-admin.woocommerce-settings-payments-tab #mainform,
+body.dy-admin .woocommerce #mainform,
+body.dy-admin .woocommerce form.woocommerce-settings { background: transparent !important; }
+
+// ⚠️ Payments tab / WC "embed" pages: the TRUE white surface is
+// #wpcontent (WC forces it white via .woocommerce-embed-page /
+// .woocommerce-settings-payments-tab, ID specificity). We reset it to --dya-bg.
+body.dy-admin.woocommerce-embed-page #wpcontent,
+body.dy-admin.woocommerce-embed-page #wpbody,
+body.dy-admin.woocommerce-embed-page #wpbody-content,
+body.dy-admin.woocommerce-embed-page .woocommerce-embedded-layout,
+body.dy-admin.woocommerce-settings-payments-tab #wpcontent,
+body.dy-admin.woocommerce-settings-payments-tab #wpbody-content,
+body.dy-admin.woocommerce_page_wc-settings #wpcontent {
+  background: var(--dya-bg) !important;
+}
+
+// Rail overflowing below the viewport: WC "embed" pages set an oversized
+// min-height on #wpcontent (≈ viewport, without subtracting the chrome)
+// → the "content" row of the #wpwrap grid (height:100vh, overflow:hidden)
+// is pushed beyond 100vh, and the rail (grid-area:rail, spanning both rows)
+// overflows a few px below the bottom of the viewport. We cancel this
+// min-height: #wpcontent already occupies the 1fr row and scrolls internally
+// (overflow-y:auto, see _layout). Scoped to embed pages only to avoid touching
+// the full-screen React dashboard.
+body.dy-admin.woocommerce-embed-page #wpcontent,
+body.dy-admin.woocommerce-embed-page #wpbody-content {
+  min-height: 0 !important;
+}
+
+// Settings tabs (WP .nav-tab reused by WC). Specificity raised via the
+// body class to beat the global nav-tab theme (which left them at
+// --dya-ink-mute, contrast ~2.3 — too low for nav labels).
+body.dy-admin.woocommerce_page_wc-settings .nav-tab-wrapper .nav-tab,
+body.dy-admin .woocommerce .nav-tab-wrapper .nav-tab,
+body.dy-admin .nav-tab-wrapper.woo-nav-tab-wrapper .nav-tab {
+  color: var(--dya-ink-soft) !important; background: transparent !important; border-color: var(--dya-edge) !important;
+}
+body.dy-admin .woocommerce .nav-tab-wrapper .nav-tab-active,
+body.dy-admin .nav-tab-wrapper.woo-nav-tab-wrapper .nav-tab-active {
+  color: var(--dya-ink) !important; background: var(--dya-paper) !important;
+  border-color: var(--dya-edge) !important; border-bottom-color: var(--dya-paper) !important;
+}
+
+// Custom WC settings tables (shipping zones, classes, e-mails, gateways).
+body.dy-admin .wc-shipping-zones,
+body.dy-admin .wc-shipping-classes,
+body.dy-admin .wc_emails,
+body.dy-admin table.wc_gateways,
+body.dy-admin .wc_payment_gateways_wrapper table {
+  background: var(--dya-paper) !important; border-color: var(--dya-edge) !important; color: var(--dya-ink) !important;
+}
+body.dy-admin .wc-shipping-zones th,
+body.dy-admin .wc-shipping-classes th,
+body.dy-admin .wc_emails th,
+body.dy-admin table.wc_gateways th {
+  background: var(--dya-paper-2) !important; color: var(--dya-ink-soft) !important; border-color: var(--dya-edge) !important;
+}
+body.dy-admin .wc-shipping-zones td,
+body.dy-admin .wc-shipping-classes td,
+body.dy-admin .wc_emails td,
+body.dy-admin table.wc_gateways td {
+  background: transparent !important; color: var(--dya-ink) !important; border-color: var(--dya-line-soft) !important;
+}
+body.dy-admin .wc-shipping-zones tbody tr:hover td,
+body.dy-admin .wc_emails tbody tr:hover td { background: var(--dya-paper-2) !important; }
+body.dy-admin .wc_emails td a:not(.button),
+body.dy-admin .wc-shipping-zones td a:not(.button) { color: var(--dya-accent) !important; }
+// E-mail on/off status (toggle pill) + type labels.
+body.dy-admin .wc_emails .wc-email-settings-table-status .woocommerce-input-toggle { border-color: var(--dya-edge) !important; }
+
+// Payments tab (React settings-payment-gateways).
+body.dy-admin .settings-payment-gateways,
+body.dy-admin .settings-payment-gateways__header-select-container,
+body.dy-admin .woocommerce-recommended-payment-methods,
+body.dy-admin .settings-payment-gateways__list-item,
+body.dy-admin .other-payment-gateways,
+body.dy-admin .other-payment-gateways__header,
+body.dy-admin .other-payment-gateways__content,
+body.dy-admin .other-payment-gateways__expander {
+  background: var(--dya-paper) !important; border-color: var(--dya-edge) !important; color: var(--dya-ink) !important;
+}
+// Provider titles (`.woocommerce-list__item-title`) + header: hard-coded to
+// #1e1e1e (rgb 30,30,30) → invisible in dark mode. We force ink in both modes.
+body.dy-admin .woocommerce-list__item-title,
+body.dy-admin .woocommerce-list__item-title a,
+body.dy-admin .woocommerce-settings-payments-header__title,
+body.dy-admin .settings-payment-gateways__title,
+body.dy-admin .other-payment-gateways__header__title {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .woocommerce-list__item-content,
+body.dy-admin .woocommerce-list__item .woocommerce-list__item-after,
+body.dy-admin .woocommerce-settings-payments-header__description { color: var(--dya-ink-soft) !important; }
+
+// "Add zone / class" buttons on WC pages: see unified `.page-title-action`
+// block below (ink-primary variant, same as everywhere else).
+
+// React "embedded layout" container (shipping zones) — WP grey background.
+body.dy-admin .woocommerce-embedded-layout__primary,
+body.dy-admin .woocommerce-embedded-layout,
+body.dy-admin .woocommerce-embedded-layout__main { background: transparent !important; }
+
+// WC primary action buttons (.button-primary "Add a zone"): the
+// "ink button" variant rendered ink-on-ink in light mode → DS accent.
+body.dy-admin .woocommerce .button-primary,
+body.dy-admin .wc-shipping-zones-heading .button-primary,
+body.dy-admin .woocommerce-embedded-layout .button-primary {
+  background: var(--dya-accent) !important; color: var(--dya-accent-on) !important; border-color: var(--dya-accent) !important;
+}
+
+// NB: the e-mail preview (.wc-settings-email-preview) intentionally stays WHITE
+// — it previews a real e-mail (white background). Left as-is.
+
+// =============================================================
+// WC CLASSIC — product editor, HPOS order, system status, lists.
+// =============================================================
+// "Add" button (.page-title-action) on ALL WC pages: we force the ink-primary
+// variant IDENTICAL to the posts/pages list (bg=--dya-ink, text=--dya-bg → always
+// contrasted in both themes, no more ink-on-ink because both tokens are forced).
+// Cross-screen consistency is required.
+body.dy-admin.post-type-product .page-title-action,
+body.dy-admin.post-type-shop_coupon .page-title-action,
+body.dy-admin.woocommerce_page_wc-orders .page-title-action,
+body.dy-admin .woocommerce .page-title-action,
+body.dy-admin .wc-shipping-zones-heading .page-title-action {
+  background: var(--dya-ink) !important; color: var(--dya-bg) !important; border: 1px solid var(--dya-ink) !important;
+}
+body.dy-admin.post-type-product .page-title-action:hover,
+body.dy-admin.post-type-shop_coupon .page-title-action:hover,
+body.dy-admin.woocommerce_page_wc-orders .page-title-action:hover,
+body.dy-admin .woocommerce .page-title-action:hover,
+body.dy-admin .wc-shipping-zones-heading .page-title-action:hover {
+  background: var(--dya-ink-soft) !important; border-color: var(--dya-ink-soft) !important; color: var(--dya-bg) !important;
+}
+
+// "Product data" panel (#woocommerce-product-data): tabs + panels.
+body.dy-admin #woocommerce-product-data ul.wc-tabs,
+body.dy-admin #woocommerce-product-data .wc-tabs li {
+  background: var(--dya-paper-2) !important; border-color: var(--dya-edge) !important;
+}
+body.dy-admin #woocommerce-product-data .wc-tabs li a { color: var(--dya-ink-soft) !important; }
+body.dy-admin #woocommerce-product-data .wc-tabs li.active { background: var(--dya-paper) !important; }
+body.dy-admin #woocommerce-product-data .wc-tabs li.active a { color: var(--dya-ink) !important; }
+body.dy-admin #woocommerce-product-data .panel,
+body.dy-admin #woocommerce-product-data .panel-wrap,
+body.dy-admin .panel-wrap.product_data,
+body.dy-admin #woocommerce-product-data .inside,
+body.dy-admin #woocommerce-product-data .wc-metaboxes-wrapper,
+body.dy-admin .woocommerce_options_panel,
+body.dy-admin #woocommerce-product-data .wc-metabox {
+  background: var(--dya-paper) !important; color: var(--dya-ink) !important; border-color: var(--dya-edge) !important;
+}
+
+// Order line items table (HPOS order edit) + notes.
+body.dy-admin .woocommerce_order_items,
+body.dy-admin #woocommerce-order-items .inside {
+  background: var(--dya-paper) !important; color: var(--dya-ink) !important;
+}
+body.dy-admin .woocommerce_order_items th {
+  background: var(--dya-paper-2) !important; color: var(--dya-ink-soft) !important; border-color: var(--dya-edge) !important;
+}
+body.dy-admin .woocommerce_order_items td {
+  background: transparent !important; border-color: var(--dya-line-soft) !important; color: var(--dya-ink) !important;
+}
+body.dy-admin ul.order_notes li .note_content {
+  background: var(--dya-paper-2) !important; color: var(--dya-ink) !important; border-color: var(--dya-edge) !important;
+}
+body.dy-admin ul.order_notes li.system-note .note_content { background: var(--dya-paper-3) !important; }
+// Order totals rows / bulk actions + save button.
+body.dy-admin .wc-order-data-row,
+body.dy-admin .wc-order-totals-items,
+body.dy-admin .wc-order-bulk-actions {
+  background: var(--dya-paper-2) !important; color: var(--dya-ink) !important; border-color: var(--dya-edge) !important;
+}
+body.dy-admin .button.save_order,
+body.dy-admin button.save_order {
+  background: var(--dya-accent) !important; color: var(--dya-accent-on) !important; border-color: var(--dya-accent) !important;
+}
+// Order status pills: in light mode, the tinted text (vivid green/orange)
+// fell below the contrast threshold → readable ink in light, hue preserved in dark.
+body.dy-admin.dy-theme-light .order-status,
+body.dy-admin.dy-theme-light mark.order-status,
+body.dy-admin.dy-theme-light .order-status > span { color: var(--dya-ink) !important; }
+
+// System Status table.
+body.dy-admin .wc_status_table {
+  background: var(--dya-paper) !important; border-color: var(--dya-edge) !important; color: var(--dya-ink) !important;
+}
+body.dy-admin .wc_status_table th,
+body.dy-admin .wc_status_table h2,
+body.dy-admin .wc_status_table thead td {
+  background: var(--dya-paper-2) !important; color: var(--dya-ink) !important; border-color: var(--dya-edge) !important;
+}
+body.dy-admin .wc_status_table td {
+  background: transparent !important; color: var(--dya-ink) !important; border-color: var(--dya-line-soft) !important;
+}
+
+// NB: the Yoast SEO metabox (.wpseo-*/.yst-*) on the product editor is WHITE
+// but belongs to the Yoast plugin (outside WooCommerce scope) — handle separately.
+
+// =============================================================
+// ELEMENTOR — admin pages (Templates, Settings, Tools, System Info)
+// Elementor uses `.e-*` classes throughout. We cover the main surfaces
+// so the admin panel stays within the DS.
+// =============================================================
+body.dy-admin.toplevel_page_elementor,
+body.dy-admin[class*="elementor_page_"] {
+  background: var(--dya-bg) !important;
+}
+body.dy-admin .e-page,
+body.dy-admin .e-admin-page,
+body.dy-admin .elementor-settings-form-page,
+body.dy-admin .elementor-button-state-wrapper {
+  background: transparent !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .e-card,
+body.dy-admin .elementor-box,
+body.dy-admin .elementor-system-info-fieldset {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-xl) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .elementor-button,
+body.dy-admin .elementor-button-default {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge) !important;
+}
+body.dy-admin .elementor-button-primary,
+body.dy-admin .elementor-button.elementor-button-success {
+  background: var(--dya-accent) !important;
+  color: var(--dya-accent-on, var(--dya-ink)) !important;
+  border-color: var(--dya-accent) !important;
+}
+
+
+// =============================================================
+// WC — Table NATIVE des commandes (admin.php?page=wc-orders).
+// WC lets the "Status" column absorb all available space (≈850px) → order number
+// and date are crushed, right-side columns (Total/Origin) overlap. We distribute
+// balanced widths on desktop; on mobile, WC keeps its consolidated view.
+// =============================================================
+@media (min-width: 783px) {
+  body.dy-admin .wc-orders-list-table { table-layout: fixed; }
+  body.dy-admin .wc-orders-list-table .check-column { width: 2.5em !important; }
+  body.dy-admin .wc-orders-list-table .column-order_number { width: 34% !important; white-space: normal; }
+  body.dy-admin .wc-orders-list-table .column-order_date   { width: 16% !important; }
+  body.dy-admin .wc-orders-list-table .column-order_status { width: 16% !important; }
+  body.dy-admin .wc-orders-list-table .column-order_total  { width: 16% !important; }
+  body.dy-admin .wc-orders-list-table .column-origin       { width: 16% !important; }
+  // If the user re-enables Billing/Shipping via Screen Options,
+  // these columns get a reasonable width (otherwise ignored as they are hidden).
+  body.dy-admin .wc-orders-list-table .column-billing_address,
+  body.dy-admin .wc-orders-list-table .column-shipping_address { width: 20%; }
+  body.dy-admin .wc-orders-list-table td.column-order_number,
+  body.dy-admin .wc-orders-list-table td.column-order_date,
+  body.dy-admin .wc-orders-list-table td.column-billing_address { overflow: hidden; text-overflow: ellipsis; }
+}
+
+// =============================================================
+// WC — Barre de FILTRES native des commandes (#wc-orders-filter).
+// Problem: WP <select> elements fall back to ~24px while buttons / search box /
+// customer select2 are ~32px → controls misaligned vertically, messy look. We
+// harmonise ALL controls to 32px and align the select2 to match the posts list.
+// (select2 itself is already themed in _02-acf.)
+// =============================================================
+body.dy-admin #wc-orders-filter .tablenav.top select,
+body.dy-admin #wc-orders-filter .tablenav.top input.button,
+body.dy-admin #wc-orders-filter .tablenav.top input[type="submit"],
+body.dy-admin #wc-orders-filter .search-box input[type="search"],
+body.dy-admin #wc-orders-filter .search-box select,
+body.dy-admin #wc-orders-filter .search-box input[type="submit"],
+body.dy-admin #wc-orders-filter .search-box .button {
+  height: 32px !important;
+  box-sizing: border-box !important;
+  vertical-align: middle;
+}
+// Vertical text centering for fixed-height <select> elements.
+body.dy-admin #wc-orders-filter .tablenav.top select,
+body.dy-admin #wc-orders-filter .search-box select {
+  padding-top: 0 !important; padding-bottom: 0 !important; line-height: 30px !important;
+}
+// select2 "Filter by registered customer": same height + internal alignment.
+body.dy-admin #wc-orders-filter .select2-container { min-width: 220px; }
+body.dy-admin #wc-orders-filter .select2-container .select2-selection--single {
+  height: 32px !important;
+}
+body.dy-admin #wc-orders-filter .select2-container--default .select2-selection--single .select2-selection__rendered {
+  line-height: 30px !important;
+}
+body.dy-admin #wc-orders-filter .select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 30px !important;
+}
+// The WC search box ("Search orders") contains an extra <select> on top of the
+// input + button → ~480px wide, much wider than the 320px right-side reserve
+// allocated for absolute top-right positioning (see _tables.scss). It therefore
+// overflowed to the left and overlapped the filters. We put it back into the
+// normal flow (its own row above the filters) and cancel the padding reserve.
+body.dy-admin .wrap form#wc-orders-filter > .search-box {
+  position: static !important;
+  margin: 0 0 10px !important;
+  flex-wrap: wrap;
+}
+body.dy-admin .wrap form#wc-orders-filter > .tablenav.top { padding-right: 0 !important; }
+
+// Order title link (number + customer = a.order-view): aligned with the
+// `.row-title` of other tables — ink at rest, ACCENT on hover (WC used native blue).
+// The "preview" link (eye icon) also follows the accent.
+body.dy-admin .wc-orders-list-table .column-order_number a.order-view {
+  color: var(--dya-ink) !important; font-weight: 500; text-decoration: none;
+}
+body.dy-admin .wc-orders-list-table .column-order_number a.order-view:hover,
+body.dy-admin .wc-orders-list-table .column-order_number a.order-view:focus,
+body.dy-admin .wc-orders-list-table .column-order_number a.order-preview:hover,
+body.dy-admin .wc-orders-list-table .column-order_number a.order-preview:focus {
+  color: var(--dya-accent) !important;
+}
+
+// Check-column checkbox: the native padding (14px in td, 10.5px in th)
+// caused a horizontal offset (th ≠ td) and overflow on a ~26px-wide column
+// (14+16+14 > 26), with no vertical centering on tall rows. We cancel the
+// padding and centre both H and V, in th as well as td.
+body.dy-admin .wc-orders-list-table th.check-column,
+body.dy-admin .wc-orders-list-table td.check-column,
+body.dy-admin .wc-orders-list-table th.column-cb,
+body.dy-admin .wc-orders-list-table td.column-cb {
+  padding: 0 !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+body.dy-admin .wc-orders-list-table .check-column input[type="checkbox"],
+body.dy-admin .wc-orders-list-table .column-cb input[type="checkbox"] {
+  margin: 0 auto !important;
+  float: none !important;
+  vertical-align: middle !important;
+}
+
+// =============================================================
+// WC — Quick order preview (Backbone modal .wc-backbone-modal,
+// triggered by the eye icon / .order-preview link). WC forces WHITE backgrounds
+// (#fff / #fcfcfc) on content/header/footer → light text unreadable in dark.
+// We remap all surfaces to the design system (dark + light).
+// =============================================================
+body.dy-admin .wc-backbone-modal-backdrop { background: rgba(0, 0, 0, .6) !important; opacity: 1 !important; }
+body.dy-admin .wc-backbone-modal .wc-backbone-modal-content {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-lg) !important;
+  box-shadow: var(--dya-shadow-lg) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .wc-backbone-modal .wc-backbone-modal-header {
+  background: var(--dya-paper-2) !important;
+  border-bottom: 1px solid var(--dya-line) !important;
+  border-radius: var(--dya-r-lg) var(--dya-r-lg) 0 0 !important;
+}
+body.dy-admin .wc-backbone-modal .wc-backbone-modal-header h1 { color: var(--dya-ink) !important; }
+body.dy-admin .wc-backbone-modal .modal-close,
+body.dy-admin .wc-backbone-modal .modal-close-link,
+body.dy-admin .wc-backbone-modal .modal-close .dashicons { color: var(--dya-ink-soft) !important; }
+// Vertical separator for the close button: more subtle (soft rule).
+body.dy-admin .wc-backbone-modal .modal-close-link { border-left-color: var(--dya-line-soft) !important; }
+body.dy-admin .wc-backbone-modal .modal-close:hover,
+body.dy-admin .wc-backbone-modal .modal-close:hover .dashicons { color: var(--dya-ink) !important; }
+body.dy-admin .wc-backbone-modal article,
+body.dy-admin .wc-backbone-modal .wc-order-preview { background: transparent !important; color: var(--dya-ink) !important; }
+body.dy-admin .wc-backbone-modal footer {
+  background: var(--dya-paper-2) !important;
+  border-top: 1px solid var(--dya-line) !important;
+  border-radius: 0 0 var(--dya-r-lg) var(--dya-r-lg) !important;
+}
+// Addresses + note: headings in ink, body in soft ink, links in accent.
+body.dy-admin .wc-order-preview-address,
+body.dy-admin .wc-order-preview-note { color: var(--dya-ink-soft) !important; }
+body.dy-admin .wc-order-preview h2,
+body.dy-admin .wc-order-preview-address strong,
+body.dy-admin .wc-order-preview-note strong { color: var(--dya-ink) !important; }
+body.dy-admin .wc-order-preview-address a { color: var(--dya-accent) !important; }
+// Product table (order line items).
+body.dy-admin .wc-order-preview-table { border-color: var(--dya-edge) !important; color: var(--dya-ink) !important; }
+body.dy-admin .wc-order-preview-table th { color: var(--dya-ink-mute) !important; border-bottom-color: var(--dya-line-soft) !important; }
+body.dy-admin .wc-order-preview-table td { color: var(--dya-ink) !important; border-color: var(--dya-line-soft) !important; }
+// "Edit" button (edit link) → accent primary.
+body.dy-admin .wc-backbone-modal footer .button-primary {
+  background: var(--dya-accent) !important; color: var(--dya-accent-on) !important;
+  border-color: var(--dya-accent) !important; text-shadow: none !important; box-shadow: none !important;
+}
+body.dy-admin .wc-backbone-modal footer .button-primary:hover { background: color-mix(in srgb, var(--dya-accent) 90%, var(--dya-ink)) !important; }
+
+// (Order edit page layout — see _woocommerce.scss, section
+// "Single-order detail page", corrected compound selectors.)
+
+// ═══════════════════════════════════════════════════════════════════
+// QA campagne (retours Raphaël) — dark-mode WooCommerce : wizard + home
+// ═══════════════════════════════════════════════════════════════════
+
+// (1) Chevrons des selects (wizard business-info : fill noir hardcodé → illisible).
+body.dy-admin .woocommerce-select-control svg,
+body.dy-admin .woocommerce-profiler-select-control svg,
+body.dy-admin .components-base-control.woocommerce-select-control svg,
+body.dy-admin .components-custom-select-control__button svg {
+  fill: var(--dya-ink-soft) !important;
+}
+
+// (2) Valeur sélectionnée / saisie des selects WC (ex. « France » gris foncé illisible).
+body.dy-admin .woocommerce-select-control__control,
+body.dy-admin .woocommerce-select-control__control-input,
+body.dy-admin .woocommerce-select-control .components-base-control__field,
+body.dy-admin .woocommerce-select-control input {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .woocommerce-select-control input::placeholder,
+body.dy-admin .woocommerce-select-control__control-input::placeholder {
+  color: var(--dya-ink-mute) !important;
+}
+
+// (4) Badges de compteur (#f0f0f0 hardcodé → clair-sur-clair) : ronds « Inbox » /
+// « Étapes suivantes » + carrés delta de « Stats overview ».
+body.dy-admin .woocommerce-badge,
+body.dy-admin .woocommerce-summary__item-delta,
+body.dy-admin .woocommerce-stats-overview__stats-badge,
+body.dy-admin .woocommerce-sparkline {
+  background: var(--dya-paper-3) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+
+// Boutons ronds « blancs » sur la home (collapse Orders/Stock, actions rondes).
+body.dy-admin .woocommerce-card .components-button.is-secondary,
+body.dy-admin .woocommerce-list__item .components-button[aria-expanded],
+body.dy-admin .woocommerce-ellipsis-menu__toggle {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+
+// (3) Bandeau footer du wizard plugins (dégradé transparent→blanc, cassé en dark) :
+// on neutralise le dégradé blanc, en gardant le fond de page dark.
+body.dy-admin [class*="__plugins-continue"],
+body.dy-admin [class*="woocommerce-profile-wizard__footer"] {
+  background: transparent !important;
+  background-image: none !important;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// audit-2 (2026-09) — WooCommerce home (console QA W04), extensions
+// ═══════════════════════════════════════════════════════════════════
+
+// (W04-a) « Gestion de la boutique » : category headers sat flush left while
+// the links below carry a 24px inner padding (icon at +24px).
+body.dy-admin .woocommerce-quick-links__category-header {
+  margin-left: 0 !important;
+  padding-left: 24px;
+  color: var(--dya-ink-mute) !important;
+}
+// (W04-b) Quick links hover: WC paints a white ground with a blue border
+// (`.woocommerce-list__item:hover`, no `.has-action`) → white band, white text.
+body.dy-admin .woocommerce-list__item:hover,
+body.dy-admin .woocommerce-quick-links__item-link:hover,
+body.dy-admin .woocommerce-quick-links__item-link:focus {
+  background: var(--dya-paper-2) !important;
+  border-color: var(--dya-accent) !important;
+}
+body.dy-admin .woocommerce-list__item:hover .woocommerce-list__item-title,
+body.dy-admin .woocommerce-quick-links__item-link:hover .woocommerce-list__item-title {
+  color: var(--dya-ink) !important;
+}
+// (W04-c) Activity panel (Orders / Stock / Reviews expanded): the cards are
+// white with our light ink on top.
+body.dy-admin .woocommerce-activity-card,
+body.dy-admin .woocommerce-order-activity-card,
+body.dy-admin .woocommerce-stock-activity-card,
+body.dy-admin .woocommerce-review-activity-card,
+body.dy-admin .woocommerce-activity-card__header,
+body.dy-admin .woocommerce-activity-card__body,
+body.dy-admin .woocommerce-activity-card__actions,
+body.dy-admin .woocommerce-empty-activity-card {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin .woocommerce-activity-card__title,
+body.dy-admin .woocommerce-activity-card__title a,
+body.dy-admin .woocommerce-activity-card__body,
+body.dy-admin .woocommerce-order-activity-card__label {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .woocommerce-activity-card__date,
+body.dy-admin .woocommerce-activity-card__subtitle,
+body.dy-admin .woocommerce-activity-card .woocommerce-order-status {
+  color: var(--dya-ink-mute) !important;
+}
+body.dy-admin .woocommerce-activity-card + .woocommerce-activity-card {
+  border-top: 1px solid var(--dya-line) !important;
+}
+body.dy-admin .woocommerce-activity-panel .components-panel__body.is-opened,
+body.dy-admin .woocommerce-homescreen-card.components-panel__body {
+  background: var(--dya-paper) !important;
+  border-color: var(--dya-edge) !important;
+}
+// Extensions marketplace: card footer (price / « Free download ») in #1a1a1a.
+body.dy-admin .woocommerce-marketplace__product-card__footer,
+body.dy-admin .woocommerce-marketplace__product-card__price,
+body.dy-admin .woocommerce-marketplace__product-card__price-label,
+body.dy-admin .woocommerce-marketplace__product-card__price-billing,
+body.dy-admin .woocommerce-marketplace__product-card__footer * {
+  color: var(--dya-ink) !important;
+}
+
+// ── audit-2 : WC classic screens (batch 2) ─────────────────────────────
+// Data tabs (.wc-tabs) on EVERY WC panel (product, coupon, order): the
+// column was white with our ink on top on coupons.
+body.dy-admin .woocommerce_options_panel ~ ul.wc-tabs,
+body.dy-admin .panel-wrap ul.wc-tabs,
+body.dy-admin .panel-wrap .wc-tabs li,
+body.dy-admin #woocommerce-coupon-data ul.wc-tabs,
+body.dy-admin #woocommerce-coupon-data .wc-tabs li {
+  background: var(--dya-paper-2) !important; border-color: var(--dya-edge) !important;
+}
+body.dy-admin .panel-wrap .wc-tabs li a,
+body.dy-admin #woocommerce-coupon-data .wc-tabs li a { color: var(--dya-ink-soft) !important; }
+body.dy-admin .panel-wrap .wc-tabs li.active,
+body.dy-admin #woocommerce-coupon-data .wc-tabs li.active { background: var(--dya-paper) !important; }
+body.dy-admin .panel-wrap .wc-tabs li.active a,
+body.dy-admin #woocommerce-coupon-data .wc-tabs li.active a { color: var(--dya-ink) !important; }
+body.dy-admin #woocommerce-coupon-data .inside,
+body.dy-admin #woocommerce-coupon-data .panel-wrap,
+body.dy-admin #woocommerce-coupon-data .panel {
+  background: var(--dya-paper) !important; color: var(--dya-ink) !important;
+}
+// Order data panel: #555 secondary text.
+body.dy-admin #woocommerce-order-data .order_data_column p,
+body.dy-admin #woocommerce-order-data .order_data_column .address,
+body.dy-admin #woocommerce-order-data .order_data_column a.edit_address,
+body.dy-admin #woocommerce-order-data .woocommerce-order-data__meta {
+  color: var(--dya-ink-soft) !important;
+}
+
+// Legacy reports (wc-reports, console QA W05): range tabs, chart sidebar.
+body.dy-admin .stats_range ul,
+body.dy-admin .stats_range ul li a,
+body.dy-admin .stats_range ul li.custom {
+  background: var(--dya-paper-2) !important; color: var(--dya-ink-soft) !important; border-color: var(--dya-edge) !important;
+}
+body.dy-admin .stats_range ul li.active a,
+body.dy-admin .stats_range ul li.active {
+  background: var(--dya-paper) !important; color: var(--dya-ink) !important;
+}
+body.dy-admin .stats_range ul li.custom input,
+body.dy-admin .stats_range ul li.custom .button { color: var(--dya-ink) !important; }
+body.dy-admin .stats_range .export-csv { color: var(--dya-ink-soft) !important; }
+body.dy-admin .woocommerce-reports-wide .postbox,
+body.dy-admin .woocommerce-reports-wrap .postbox,
+body.dy-admin .chart-sidebar,
+body.dy-admin .chart-sidebar .chart-legend,
+body.dy-admin .chart-sidebar .chart-legend li,
+body.dy-admin .chart-sidebar .chart-widget,
+body.dy-admin .chart-sidebar .chart-widget-content {
+  background: var(--dya-paper) !important; color: var(--dya-ink-soft) !important; border-color: var(--dya-edge) !important;
+}
+body.dy-admin .chart-sidebar .chart-legend li strong,
+body.dy-admin .chart-sidebar .chart-legend li .woocommerce-Price-amount { color: var(--dya-ink) !important; }
+body.dy-admin .chart-sidebar .chart-legend li:hover { background: var(--dya-paper-2) !important; }
+body.dy-admin .chart-sidebar .chart-widget-title { background: var(--dya-paper-2) !important; color: var(--dya-ink) !important; border-color: var(--dya-edge) !important; }
+// The chart itself stays a white canvas (flot); give it a soft frame.
+body.dy-admin .chart-container { background: var(--dya-paper-2) !important; }
+body.dy-admin .chart-placeholder .flot-text { color: var(--dya-ink-mute) !important; }
+
+// Shipping zones blank state: embossed text (white text-shadow on dark ink).
+body.dy-admin .wc-shipping-zones-blank-state p,
+body.dy-admin .wc-shipping-zones-blank-state li,
+body.dy-admin .wc-shipping-zone-method-blank-state p,
+body.dy-admin table.wc-shipping-zones td.wc-shipping-zones-blank-state p,
+body.dy-admin table.wc-shipping-zones td.wc-shipping-zones-blank-state li {
+  color: var(--dya-ink-soft) !important; text-shadow: none !important;
+}
+body.dy-admin .wc-shipping-zones-blank-state::before,
+body.dy-admin table.wc-shipping-zones td.wc-shipping-zones-blank-state::before {
+  opacity: .06;
+}
+body.dy-admin .wc-shipping-zone-methods li,
+body.dy-admin td.wc-shipping-zone-methods ul li,
+body.dy-admin .wc-shipping-zone-help { color: var(--dya-ink-soft) !important; }
+body.dy-admin .wc-shipping-zone-help a { color: var(--dya-accent-text, var(--dya-accent)) !important; }
+// « Discover other solutions… » promo line under settings tabs.
+body.dy-admin .woocommerce #mainform > p.wc-settings-solutions,
+body.dy-admin .woocommerce #mainform > p:has(> a[target="_blank"]:only-child),
+body.dy-admin .wc-settings-prevent-change-event + p { color: var(--dya-ink-mute) !important; }
+// E-mail preview header (sender / subject) painted white by WC.
+body.dy-admin .wc-settings-email-preview-header,
+body.dy-admin .wc-settings-email-preview-header * {
+  background: var(--dya-paper-2) !important; color: var(--dya-ink) !important;
+}
+// Site visibility (React slot-fill).
+body.dy-admin #wc_settings_site_visibility_slotfill,
+body.dy-admin #wc_settings_site_visibility_slotfill p,
+body.dy-admin #wc_settings_site_visibility_slotfill .site-visibility-settings-slotfill__description,
+body.dy-admin #wc_settings_site_visibility_slotfill .components-radio-control__label,
+body.dy-admin #wc_settings_site_visibility_slotfill .components-toggle-control__label {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin #wc_settings_site_visibility_slotfill .components-base-control__help,
+body.dy-admin #wc_settings_site_visibility_slotfill .woocommerce-site-visibility__description,
+body.dy-admin #wc_settings_site_visibility_slotfill [class*="description"] { color: var(--dya-ink-soft) !important; }
+body.dy-admin #wc_settings_site_visibility_slotfill a { color: var(--dya-accent-text, var(--dya-accent)) !important; }
+// System status marks.
+body.dy-admin table.wc_status_table mark.error,
+body.dy-admin table.wc_status_table mark.error a,
+body.dy-admin table.wc_status_table th mark.error { color: var(--dya-danger) !important; background: transparent !important; }
+body.dy-admin table.wc_status_table mark.yes { color: var(--dya-success) !important; background: transparent !important; }
+body.dy-admin table.wc_status_table mark.info-icon,
+body.dy-admin table.wc_status_table mark.no { color: var(--dya-ink-soft) !important; background: transparent !important; }
+// WC admin notices on the RAD dashboard stack: « Dismiss » link.
+body.dy-admin .woocommerce-message .woocommerce-message-close,
+body.dy-admin .notice .woocommerce-message-close { color: var(--dya-ink-soft) !important; }
+// (W04-d) Each activity card is wrapped in a <button class="components-button">:
+// the generic 32px inline-flex button sizing crushed the cards on top of
+// each other once the panel expanded.
+body.dy-admin .woocommerce-activity-card__button.components-button,
+body.dy-admin .woocommerce-activity-panel .components-button.woocommerce-activity-card__button {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  text-align: left !important;
+  white-space: normal !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+body.dy-admin .woocommerce-activity-card__button.components-button:hover .woocommerce-activity-card {
+  background: var(--dya-paper-2) !important;
+}
+// Light-mode leftovers: marketplace meta (#949494), order data placeholders (#999).
+body.dy-admin .woocommerce-marketplace__product-card__meta,
+body.dy-admin .woocommerce-marketplace__product-card__meta *,
+body.dy-admin .woocommerce-marketplace__product-card__rating-count { color: var(--dya-ink-mute) !important; }
+body.dy-admin .woocommerce-marketplace__product-card__price { color: var(--dya-ink) !important; }
+body.dy-admin #woocommerce-order-data .address p.none_set,
+body.dy-admin #woocommerce-order-data .address p.none_set strong { color: var(--dya-ink-mute) !important; }
+body.dy-admin .woocommerce-chart__footer,
+body.dy-admin .woocommerce-chart__header,
+body.dy-admin .woocommerce-chart__footer *,
+body.dy-admin .woocommerce-chart__header * { color: var(--dya-ink-soft) !important; }
+// Active data tab link keeps WC's #eee ground.
+body.dy-admin .panel-wrap .wc-tabs li a,
+body.dy-admin .panel-wrap .wc-tabs li.active a,
+body.dy-admin #woocommerce-coupon-data .wc-tabs li a,
+body.dy-admin #woocommerce-product-data .wc-tabs li a { background: transparent !important; }
+// Activity panel accordion: core pads the body 16px so the header's -16px
+// margins cancel out; our reset left the header and cards 16px wider than
+// the panel.
+body.dy-admin .woocommerce-activity-panel .components-panel__body {
+  padding: 0 16px !important;
+}
+body.dy-admin .woocommerce-activity-panel .woocommerce-activity-card {
+  padding: 16px 8px !important;
+}
+// The column behind the data tabs is a separate absolutely positioned
+// element (`.wc-tabs-back`, WC's #fafafa).
+body.dy-admin .wc-tabs-back,
+body.dy-admin #woocommerce-coupon-data .wc-tabs-back,
+body.dy-admin #woocommerce-product-data .wc-tabs-back {
+  background: var(--dya-paper-2) !important;
+  border-color: var(--dya-edge) !important;
+}
+// WC fills the tab column with a giant `ul.wc-tabs::after` (#fafafa, 130k px).
+body.dy-admin #woocommerce-coupon-data ul.wc-tabs::after,
+body.dy-admin #woocommerce-product-data ul.wc-tabs::after,
+body.dy-admin .panel-wrap ul.wc-tabs::after {
+  background: var(--dya-paper-2) !important;
+}
+
+// audit-2 (banc combiné) : lien marketplace sous les onglets de réglages
+// (« Découvrez d'autres solutions… », #50575e en dur, 2.6:1 en dark).
+body.dy-admin .woocommerce .wc-settings-marketplace-link,
+body.dy-admin .woocommerce .wc-settings-marketplace-link a {
+  color: var(--dya-ink-mute) !important;
+}
+
+// audit-2 (T-08) : logo du widget « Vue d'ensemble Elementor » sur le
+// dashboard, icône `--e-a-color-circle-logo` (noir) invisible sur nos tuiles.
+body.dy-admin .e-dashboard-overview .e-logo-wrapper i {
+  color: var(--dya-ink) !important;
+}

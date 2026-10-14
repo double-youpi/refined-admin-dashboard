@@ -1,0 +1,404 @@
+// =============================================================
+// _builder-native.scss
+// Builders with an "externalized" admin UI (Elementor & co): their
+// interface is a proprietary SPA that does not use native WP layouts.
+// We KEEP the rail + top bar shell for navigation consistency, but
+// hand the content area back to the builder without polluting it:
+// no film-grain overlay, no inherited typography/canvas, and our
+// chipbar + notice dock are hidden.
+//
+// Driven by the body class `dy-builder-native`, set by
+// BuilderScreen on the relevant screens (see PHP).
+// =============================================================
+
+// ── dy-native-content : extensions with a self-contained UI (Rank Math, Yoast)
+// We KEEP the rail + chipbar (unlike dy-builder-native), but render
+// the content area on a native WP canvas → no more "half-styled" look.
+// The native canvas applies in BOTH themes (these UIs do not handle
+// dark mode): we step back rather than imposing a broken half-tint.
+// audit-2: the same native reset (ink tokens, WP theme colour, inputs,
+// buttons, form-table) is needed on builder-native screens too. Elementor 4
+// « Editor One » keeps its settings/tools pages inside #wpbody-content on a
+// white ground, and our DS text tokens (light ink) leaked onto it.
+// `.dy-editor-reimagined` excluded (audit-2, T-06): the classic editor of a
+// builder post type (Elementor templates) keeps our full dark editor, so the
+// native ink/canvas reset must not apply there.
+body.dy-admin.dy-native-content,
+body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) {
+  // Global film grain (fixed ::after) removed on this area.
+  &::after { content: none; }
+
+  // Native WP canvas: light grey background, system typography + ink. Beats
+  // `body.dy-admin` thanks to the #wpcontent/#wpbody-content ID.
+  #wpcontent {
+    background: #f0f0f1 !important;
+    // Native ink on the whole content column, not only #wpbody-content:
+    // Elementor's "Editor One" mounts its nav/top bar as siblings of
+    // #wpbody-content and inherited our light `--dya-ink` (audit-2, T-07).
+    color: #3c434a;
+  }
+  // @wordpress/components panels back to their native white (our generic
+  // "transparent panel" rules elsewhere emptied Kadence's dashboard cards).
+  #wpbody-content .components-panel,
+  #wpbody-content .components-panel__body {
+    background: #fff;
+  }
+  #wpbody-content {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    color: #3c434a;
+    letter-spacing: normal;
+    --dya-ink: #3c434a;
+    --dya-ink-soft: #50575e;
+    --dya-ink-mute: #646970;
+  }
+
+  // Restores the NATIVE WP admin theme color (our DS repaints it to mint
+  // #00ffa7 on `body.dy-admin`). Rank Math / Yoast use it for their
+  // mode buttons (Easy/Advanced "is-active"), focus rings, and
+  // toggles → they were rendering in a "broken" mint. We restore the
+  // native blue tint ("modern" scheme) so these UIs render as on a
+  // vanilla site. Set on the host (body) AND on #wpbody-content (id) to
+  // beat our `body.dy-admin` override.
+  --wp-admin-theme-color: #3858e9;
+  --wp-admin-theme-color-darker-10: #1d35c4;
+  --wp-admin-theme-color-darker-20: #182ca8;
+  --wp-components-color-accent: #3858e9;
+  #wpbody-content {
+    --wp-admin-theme-color: #3858e9;
+    --wp-admin-theme-color-darker-10: #1d35c4;
+    --wp-admin-theme-color-darker-20: #182ca8;
+    --wp-components-color-accent: #3858e9;
+  }
+
+  // ── Reset DS components to the native WP look ──────────────────
+  // Our design system colors buttons/inputs/cards via `body.dy-admin X`
+  // (mint tint, rounded corners…) → these UIs were rendering "half-styled".
+  // We re-impose native WP values under `#wpbody-content`
+  // (id → beats `body.dy-admin`), so the extension renders on its
+  // expected base (and its own CSS can then take over).
+  #wpbody-content {
+
+    // Adopted cards / plugin boxes → native white.
+    [data-dy-adopt],
+    .rank-math-box,
+    .postbox {
+      background: #fff !important;
+      border: 1px solid #c3c4c7 !important;
+      border-radius: 4px !important;
+      box-shadow: none !important;
+      color: #3c434a !important;
+    }
+
+    // NB: we do NOT reset buttons here. Rank Math/Yoast style their own
+    // buttons (Easy/Advanced Mode header, etc.); forcing native WP styles
+    // broke them. We leave our DS `.button` (which was working).
+
+    // Form fields → native.
+    input[type="text"], input[type="search"], input[type="email"],
+    input[type="url"], input[type="password"], input[type="number"],
+    input[type="tel"], input[type="date"], select, textarea {
+      background: #fff !important;
+      border: 1px solid #8c8f94 !important;
+      color: #2c3338 !important;
+      border-radius: 4px !important;
+      box-shadow: none !important;
+    }
+    input[type="text"]:focus, input[type="search"]:focus,
+    input[type="email"]:focus, input[type="url"]:focus,
+    input[type="password"]:focus, input[type="number"]:focus,
+    select:focus, textarea:focus {
+      border-color: #2271b1 !important;
+      box-shadow: 0 0 0 1px #2271b1 !important;
+      outline: 2px solid transparent !important;
+    }
+
+    // NB: we do NOT reset checkboxes here. Rank Math turns them into custom
+    // toggles (`.toggle-container`); setting `appearance:auto` broke their
+    // visual. The dedicated `.toggle-container` fix further below (after our
+    // checkbox styling) hides the checkbox to let the track render properly.
+
+    // form-table → native layout (not our card).
+    .form-table,
+    .form-table th,
+    .form-table td {
+      background: transparent !important;
+      border: 0 !important;
+    }
+  }
+}
+
+// ── "Native content" islands: SEO plugin metaboxes (Rank Math, Yoast)
+// embedded in screens we style (profile.php, editor…). These self-contained
+// UIs were rendering "half-styled" (mint background, hybrid controls).
+// We isolate them on a native WHITE island → readable in both dark and
+// light (self-contained), same philosophy as dy-native-content.
+body.dy-admin #wpbody-content .rank-math-metabox-frame,
+body.dy-admin #wpbody-content .wpseo-metabox-content,
+body.dy-admin #wpbody-content #wpseo-metabox-root,
+body.dy-admin #wpbody-content .yoast-settings {
+  color: #3c434a !important;
+  --dya-ink: #3c434a;
+  --dya-ink-soft: #50575e;
+  --dya-ink-mute: #646970;
+
+  // Neutralize our card / control tints inside the island.
+  [data-dy-adopt],
+  .postbox,
+  .components-panel__body {
+    background: transparent !important;
+    border-color: #dcdcde !important;
+    box-shadow: none !important;
+  }
+  input[type="text"], input[type="url"], input[type="email"],
+  input[type="number"], select, textarea {
+    background: #fff !important;
+    border: 1px solid #8c8f94 !important;
+    color: #2c3338 !important;
+    border-radius: 4px !important;
+    box-shadow: none !important;
+  }
+  .button, .button-secondary {
+    background: #f6f7f7 !important;
+    border: 1px solid #2271b1 !important;
+    color: #2271b1 !important;
+    border-radius: 3px !important;
+  }
+}
+body.dy-admin #wpbody-content .rank-math-metabox-wrap,
+body.dy-admin #wpbody-content .wpseo-metabox-content{
+  background: #fff !important;
+  color: #3c434a !important;
+  border: 1px solid #c3c4c7 !important;
+  border-radius: 6px !important;
+  overflow: hidden !important;
+}
+body.dy-admin #wpbody-content .wpseo-metabox-content .yoast{
+  background: #fff !important;
+}
+body.dy-admin #wpbody-content .rank-math-tab-content-general *{
+  color: #3c434a !important;
+}
+body.dy-admin #wpbody-content #wpseo_meta>.postbox-header{
+  color: var(--dya-ink) !important;
+}
+
+// ── "Yoast SEO Settings" block (profile.php) ───────────────────
+// `.yoast-settings` had NO island (unlike Rank Math metaboxes)
+// → Yoast applied its own "hanging label" pattern:
+//   .yoast-settings        { padding-left: 220px }
+//   .yoast-settings label  { margin-left: -220px; width: 200px }
+// i.e. a label anchored in a 220px gutter. Without a visible island,
+// labels "overflowed to the left" of the block (see feedback). We apply
+// the native white island as for Rank Math, AND cancel the gutter: labels
+// pulled back to the left, auto width, stacked above their field (native form look).
+body.dy-admin #wpbody-content .yoast-settings {
+  background: #fff !important;
+  border: 1px solid #c3c4c7 !important;
+  border-radius: 6px !important;
+  padding: 16px 20px !important;        // overrides Yoast's padding-left: 220px
+}
+body.dy-admin #wpbody-content .yoast-settings label {
+  margin-left: 0 !important;            // cancels the hanging margin-left: -220px
+  width: auto !important;               // cancels the fixed width: 200px
+  max-width: 100% !important;
+}
+
+// ── Rank Math: header + breadcrumb + buttons (dashboard) ───
+// Our DS was repainting `.rank-math-header` in mint + large radius + border;
+// combined with Rank Math's native `margin-left: -20px`, the banner appeared
+// offset under the rail with unsightly rounded corners. We restore a FLAT
+// header: aligned (ml:0), white background, NO border NO radius (on the
+// native canvas, in both themes).
+body.dy-admin.dy-native-content .rank-math-header {
+  margin-left: 0 !important;
+  background: #fff !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: #3c434a !important;
+}
+// Breadcrumb slightly inset from the left edge.
+body.dy-admin.dy-native-content .rank-math-breadcrumbs-wrap {
+  margin-left: 16px !important;
+}
+// Solid buttons (BUY, Settings…): DS mint background → native WP grey. We spare
+// "link" buttons (Easy/Advanced mode selector, intentionally transparent)
+// via `:not(.button-link):not(.is-link)`.
+body.dy-admin.dy-native-content #wpbody-content .button:not(.button-link):not(.is-link),
+body.dy-admin.dy-native-content #wpbody-content .button-secondary:not(.button-link):not(.is-link),
+body.dy-admin.dy-native-content #wpbody-content .module-settings {
+  background: #f6f7f7 !important;
+  border: 1px solid #c3c4c7 !important;
+  color: #2c3338 !important;
+  border-radius: 4px !important;
+}
+
+body.dy-admin.dy-builder-native {
+  // The global film grain is a fixed ::after covering the entire viewport
+  // (rail + content + builder UI). We remove it here.
+  &::after { content: none; }
+
+  // DY chrome targeting the content column — hidden on these screens.
+  // (PHP no longer renders them; belt-and-suspenders in case a fragment
+  //  was injected before boot.)
+  .dy-chipbar,
+  .dy-notice-dock { display: none !important; }
+
+  // Returns #wpcontent to a native WP canvas: the builder app must not
+  // rely on our dark surface or inherit our typography.
+  #wpcontent {
+    background: #f0f0f1;
+  }
+  #wpbody-content {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    color: #3c434a;
+    letter-spacing: normal;
+  }
+
+  // ── Builder top bar (Elementor = MUI AppBar) ──────────────────
+  // Elementor pins its top bar at `top: 32px` (native WP admin bar height).
+  // Our admin bar uses `--dya-topbar-h` (~54px) → the Elementor bar ends up
+  // BEHIND ours (lower z-index) and gets clipped by ~22px at the top.
+  // We realign it just below our admin bar; it then cleanly covers the
+  // spacer (toolbar) Elementor already reserves at the top of `#wpcontent`.
+  header.MuiAppBar-root,
+  header[class*="MuiAppBar"] {
+    top: var(--dya-topbar-h, 54px) !important;
+  }
+
+  // ── Notices: we hand full control back to the plugin / WP ────
+  // We do NOT force a native style here: plugin notices
+  // (Rank Math promo banner, Elementor e-notice…) have their own
+  // complete design; forcing a "native WP" background/border breaks
+  // those banners (Rank Math light text on a forced white background, etc.).
+  // Instead, our notice restyle is disabled on these screens
+  // (selectors `body.dy-admin:not(.dy-builder-native)` in
+  // `_notices.scss`), and notices.js + the adopter do not run. Each
+  // notice therefore renders exactly as its plugin (or WP) intended.
+  //
+  // Readability safeguard: the INHERITED text color must remain dark
+  // even when Double Youpi is in dark mode (otherwise a WP notice with
+  // a white background would inherit a light `--dya-ink` → unreadable). We
+  // lock the content ink to a native value via `#wpbody-content`
+  // above (id > body.dy-admin), sufficient for notices that do not
+  // impose their own color.
+}
+
+// ── audit-2: native list tables on builder-native screens ──────────────
+// Elementor 4 lists its template library (edit.php?post_type=elementor_library)
+// inside its white « Editor One » frame. The DS list-table skin (dark paper,
+// absolute search box, chip filters) clashed with it; hand the table back
+// to its WP look.
+body.dy-admin.dy-builder-native #wpbody-content {
+  .wp-list-table,
+  .wp-list-table thead,
+  .wp-list-table tfoot,
+  .wp-list-table tbody,
+  .wp-list-table tr,
+  .wp-list-table th,
+  .wp-list-table td {
+    background: #fff !important;
+    color: #2c3338 !important;
+    border-color: #c3c4c7 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    font-family: inherit !important;
+    letter-spacing: normal !important;
+    text-transform: none !important;
+    font-size: 13px !important;
+  }
+  .wp-list-table { border: 1px solid #c3c4c7 !important; }
+  .wp-list-table thead th,
+  .wp-list-table tfoot th { font-weight: 400 !important; color: #2c3338 !important; }
+  .wp-list-table tbody tr:nth-child(odd) th,
+  .wp-list-table tbody tr:nth-child(odd) td { background: #f6f7f7 !important; }
+  .wp-list-table td .row-title,
+  .wp-list-table td a { color: #2271b1 !important; }
+  .wp-list-table .row-actions { color: #a7aaad !important; position: static !important; left: auto !important; }
+  .wp-list-table .row-actions a { color: #2271b1 !important; }
+  .subsubsub {
+    display: block !important;
+    background: transparent !important;
+    padding: 0 !important;
+    border: 0 !important;
+    color: #646970 !important;
+  }
+  .subsubsub li, .subsubsub a { background: transparent !important; color: #2271b1 !important; padding: 0 !important; border: 0 !important; font-size: 13px !important; }
+  .subsubsub .current { color: #000 !important; font-weight: 600 !important; }
+  .subsubsub .count { color: #50575e !important; }
+  .tablenav { display: block !important; padding: 0 !important; background: transparent !important; }
+  .tablenav .alignleft { float: left !important; display: block !important; margin-right: 6px !important; }
+  .tablenav .tablenav-pages { float: right !important; color: #646970 !important; }
+  .tablenav select { width: auto !important; }
+  form:has(> .search-box) { position: static !important; }
+  form:has(> .search-box) > .search-box { position: static !important; float: right !important; margin: 0 0 4px !important; }
+  form:has(> .search-box) > .tablenav.top { padding-right: 0 !important; }
+  .dy-coltip { display: none !important; }
+}
+
+// ── Classic editor of a builder post type (Elementor templates inside the
+// "Editor One" frame, audit-2 T-06) ─────────────────────────────────────
+// The screen keeps our reimagined editor (coherent dark boxes), but
+// Elementor's editor-one-common.css recolours the postbox links with its
+// own palette (`#wpcontent #submitdiv .eps-button`, `#wpcontent .postbox
+// .taxonomy-add-new` → --e-one-palette-text-primary, near-black) which was
+// unreadable on our paper. Same id-weight selectors, our ink.
+body.dy-admin.dy-builder-native.dy-editor-reimagined #wpcontent .postbox .inside a:not(.button),
+body.dy-admin.dy-builder-native.dy-editor-reimagined #wpcontent #submitdiv a:not(.button),
+body.dy-admin.dy-builder-native.dy-editor-reimagined #wpcontent .postbox .category-tabs a {
+  color: var(--dya-ink);
+}
+body.dy-admin.dy-builder-native.dy-editor-reimagined #wpcontent #misc-publishing-actions a:not(.button),
+body.dy-admin.dy-builder-native.dy-editor-reimagined #wpcontent .postbox .category-tabs li:not(.tabs) a {
+  color: var(--dya-ink-mute);
+}
+body.dy-admin.dy-builder-native.dy-editor-reimagined #wpcontent .postbox .inside a:not(.button):hover,
+body.dy-admin.dy-builder-native.dy-editor-reimagined #wpcontent #misc-publishing-actions a:not(.button):hover {
+  color: var(--dya-accent-text, var(--dya-accent));
+}
+// Same screen: Elementor's editor-one CSS paints `#wpcontent` #f0f0f1, which
+// left our dark editor boxes (and our light page title) on a light canvas.
+// Dark canvas for the content column; Elementor's own frame elements (top
+// bar, sidebar nav, mounted as direct children of #wpcontent) keep native
+// ink on their white surfaces.
+body.dy-admin.dy-builder-native.dy-editor-reimagined #wpcontent {
+  background: var(--dya-bg) !important;
+}
+body.dy-admin.dy-builder-native #wpcontent > :not(#wpbody) {
+  color: #3c434a;
+}
+// Editor One also paints `#wpwrap`, `#wpbody-content`, its children and
+// `.wrap` with `--e-one-palette-background-default` (white): clear them on
+// the reimagined-editor screen so the dark canvas above shows through.
+body.dy-admin.dy-builder-native.dy-editor-reimagined #wpwrap,
+body.dy-admin.dy-builder-native.dy-editor-reimagined #wpbody-content,
+body.dy-admin.dy-builder-native.dy-editor-reimagined #wpbody-content > *,
+body.dy-admin.dy-builder-native.dy-editor-reimagined #wpcontent .wrap {
+  background: transparent !important;
+}
+// Same screen, leftovers painted by Editor One with its near-black text:
+// the "Screen options" tab and the inline notices (update nag).
+body.dy-admin.dy-builder-native.dy-editor-reimagined #screen-options-link-wrap,
+body.dy-admin.dy-builder-native.dy-editor-reimagined #screen-options-link-wrap button,
+body.dy-admin.dy-builder-native.dy-editor-reimagined #contextual-help-link-wrap button,
+body.dy-admin.dy-builder-native.dy-editor-reimagined #wpbody-content .notice,
+body.dy-admin.dy-builder-native.dy-editor-reimagined #wpbody-content .notice p {
+  color: var(--dya-ink);
+}
+body.dy-admin.dy-builder-native.dy-editor-reimagined #wpbody-content .notice {
+  background: var(--dya-paper);
+  border-color: var(--dya-edge);
+}
+
+// Admin Columns (native content since 12/10/2026): its header bar sits
+// directly under #wpcontent, outside #wpbody-content, so our heading rule
+// painted its title with the dark-theme ink. Native ink on that bar only;
+// our own chipbar, also under #wpcontent, keeps its tokens.
+body.dy-admin.dy-native-content .ac-header-bar {
+  --dya-ink: #1d2327;
+  --dya-ink-soft: #50575e;
+  --dya-ink-mute: #646970;
+  color: #1d2327;
+}

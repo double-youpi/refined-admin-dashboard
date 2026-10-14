@@ -1,0 +1,242 @@
+// =============================================================
+// PLUGINS.PHP — Auto-update column as iOS-style toggle switch
+//
+// The native WP markup is:
+//   <a class="toggle-auto-update aria-button-if-js" ...>
+//     <span class="dashicons dashicons-update-alt"></span>
+//     <span class="label">Enable automatic updates</span>
+//     <span class="toggle-auto-update-text"></span>
+//   </a>
+// We hide the dashicons + text label and transform the anchor into a
+// track-thumb switch. ON state detected via `:has(.text-enabled)` on the
+// parent cell (WP renders either .text-enabled or .text-disabled).
+// =============================================================
+
+body.dy-admin.plugins-php .column-auto-updates {
+  width: 84px;
+  min-width: 84px;
+  text-align: center;
+}
+body.dy-admin.plugins-php .toggle-auto-update {
+  display: inline-block;
+  position: relative;
+  width: 38px;
+  height: 22px;
+  background: var(--dya-line-strong);
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 0; // hide label text inline
+  vertical-align: middle;
+  transition: background var(--dya-t-fast) ease;
+  cursor: pointer;
+}
+body.dy-admin.plugins-php .toggle-auto-update .dashicons,
+body.dy-admin.plugins-php .toggle-auto-update .label {
+  display: none;
+}
+body.dy-admin.plugins-php .toggle-auto-update::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--dya-bg);
+  transition: transform var(--dya-t-fast) cubic-bezier(.16, 1, .3, 1);
+  box-shadow: 0 1px 2px rgba(0,0,0,.18);
+}
+body.dy-admin.plugins-php .toggle-auto-update:focus,
+body.dy-admin.plugins-php .toggle-auto-update:focus-visible {
+  outline: 2px solid var(--dya-accent);
+  outline-offset: 2px;
+}
+// ON state — detected via `data-wp-action="disable"` on the anchor (= currently
+// enabled, the available action is to DISABLE). Fallback to `.text-enabled`
+// or `.is-enabled` classes in case WP changes the convention.
+body.dy-admin.plugins-php .toggle-auto-update[data-wp-action="disable"],
+body.dy-admin.plugins-php .column-auto-updates:has(.text-enabled) .toggle-auto-update,
+body.dy-admin.plugins-php .toggle-auto-update.is-enabled {
+  background: var(--dya-accent);
+}
+body.dy-admin.plugins-php .toggle-auto-update[data-wp-action="disable"]::before,
+body.dy-admin.plugins-php .column-auto-updates:has(.text-enabled) .toggle-auto-update::before,
+body.dy-admin.plugins-php .toggle-auto-update.is-enabled::before {
+  transform: translateX(16px);
+}
+// Loading / error visual state.
+body.dy-admin.plugins-php .toggle-auto-update .spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// =============================================================
+// OPTIONS-PERMALINK — checkbox/radio alignement
+// =============================================================
+// (Generic checkbox/label centering now lives in _forms.scss —
+// `td > label:has(input)` — so the dedicated options-media patch is gone.
+// Permalink keeps a special case: baseline alignment for its code/span labels.)
+
+body.dy-admin.options-permalink-php .form-table fieldset label {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+body.dy-admin.options-permalink-php .form-table fieldset label code,
+body.dy-admin.options-permalink-php .form-table fieldset label span {
+  color: var(--dya-ink-mute);
+}
+
+// =============================================================
+// OPTIONS-PRIVACY — Guide de politique accordion dark mode
+// =============================================================
+
+body.dy-admin.options-privacy-php .privacy-text-section,
+body.dy-admin.options-privacy-php .wp-policy-help,
+body.dy-admin.options-privacy-php details.privacy-text-section,
+body.dy-admin.options-privacy-php .privacy-text-section-toggle {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin.options-privacy-php .privacy-text-section summary,
+body.dy-admin.options-privacy-php .privacy-text-section-toggle summary {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin.options-privacy-php .privacy-text-section p,
+body.dy-admin.options-privacy-php .privacy-text-section h2,
+body.dy-admin.options-privacy-php .privacy-text-section h3 {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin.options-privacy-php .privacy-text-section a {
+  color: var(--dya-accent) !important;
+}
+
+// =============================================================
+// PLUGINS.PHP — "Automatic updates" column
+//
+// WP renders the header with `white-space: nowrap` in a narrow column (~84px)
+// → the "Automatic updates" label (208px) overflowed / was clipped at the
+// right edge of the table. Widen the column and allow the header to wrap.
+// =============================================================
+body.dy-admin.plugins-php .wp-list-table .column-auto-updates {
+  width: 132px;
+  white-space: normal;
+}
+body.dy-admin.plugins-php .wp-list-table thead .column-auto-updates,
+body.dy-admin.plugins-php .wp-list-table tfoot .column-auto-updates {
+  white-space: normal;
+  line-height: 1.3;
+}
+
+// =============================================================
+// THEMES.PHP — "Add a theme" hover
+// =============================================================
+
+// Real WP DOM: `<a><div.theme-screenshot><span></span></div><h2.theme-name>`.
+// The "+" is NOT an ::before of <a>: it is `span::after` (circle), and the
+// blue hover comes from an `a::after` overlay (#3858e9 solid) + white `.theme-name`.
+// Our old rules targeted a non-existent `a::before` → no effect.
+// Target the real elements and replace the blue with the accent.
+
+// Positioning: group the "+" and the label into ONE block centred
+// vertically in the card (instead of the + centred in the 4/3 screenshot +
+// the name isolated at the very bottom). The <a> becomes a centred flex column.
+body.dy-admin.themes-php .theme.add-new-theme a {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  min-height: 252px;
+  height: 100%;
+}
+// The screenshot no longer carries the 4/3 ratio: it shrinks to the + circle.
+body.dy-admin.themes-php .theme.add-new-theme .theme-screenshot {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  aspect-ratio: auto !important;
+  flex: 0 0 auto;
+  background: transparent !important;
+  overflow: visible !important;
+}
+body.dy-admin.themes-php .theme.add-new-theme .theme-screenshot span {
+  position: absolute;
+  inset: 0;
+}
+// The + circle: centred in the square. WP applies `margin-left:-50px` (its
+// own centering trick) which stacked with our translate → offset/clipped circle.
+// Neutralise margin + inset and centre properly.
+body.dy-admin.themes-php .theme.add-new-theme span::after {
+  top: 50% !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  margin: 0 !important;
+  transform: translate(-50%, -50%) !important;
+  background: var(--dya-paper-3) !important;
+  color: var(--dya-ink-soft) !important;
+}
+// Label: static, centred, just below the circle (no more WP rule).
+body.dy-admin.themes-php .theme.add-new-theme .theme-name {
+  position: static !important;
+  text-align: center;
+  width: auto;
+}
+// `a::after` overlay: themed dotted border at rest (not WP grey),
+// match the border-radius to the card.
+body.dy-admin.themes-php .theme.add-new-theme a::after {
+  border-color: var(--dya-edge-strong) !important;
+  border-radius: var(--dya-r-xl) !important;
+  background-color: transparent !important;
+}
+// Hover/focus: accent replaces WP blue — accent-tinted overlay,
+// white circle + accent, title in auto-contrast colour.
+body.dy-admin.themes-php .theme.add-new-theme a:hover::after,
+body.dy-admin.themes-php .theme.add-new-theme a:focus::after {
+  background-color: color-mix(in srgb, var(--dya-accent) 16%, transparent) !important;
+  border-color: var(--dya-accent) !important;
+  border-style: solid !important;
+}
+body.dy-admin.themes-php .theme.add-new-theme a:hover span::after,
+body.dy-admin.themes-php .theme.add-new-theme a:focus span::after {
+  background: var(--dya-paper) !important;
+  color: var(--dya-accent) !important;
+  box-shadow: 0 0 0 1px var(--dya-accent);
+}
+body.dy-admin.themes-php .theme.add-new-theme a:hover .theme-name,
+body.dy-admin.themes-php .theme.add-new-theme a:focus .theme-name {
+  color: var(--dya-accent) !important;
+}
+
+
+// ── plugins.php (WP 7.1) ──────────────────────────────────────────
+// 7.1 renders the search field's <label> visibly; its text is the same as
+// the submit button right next to it ("Rechercher des extensions
+// installées" twice). Keep it for assistive tech only.
+body.dy-admin.plugins-php .search-plugins .search-box > label,
+body.dy-admin.plugins-php .search-plugins > label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+// "Update available" rows: the dashicon was painted in the error colour;
+// an available update is a warning, not a failure.
+body.dy-admin.plugins-php .plugin-update-tr .update-message p::before,
+body.dy-admin.plugins-php .plugin-update-tr .update-message::before {
+  color: var(--dya-warn);
+}
+// Core separates an inactive row that follows an active one with an inset
+// light-grey shadow (#dcdcde): a bright hairline in dark. Our borders do it.
+body.dy-admin.plugins-php .wp-list-table.plugins tbody td,
+body.dy-admin.plugins-php .wp-list-table.plugins tbody th {
+  box-shadow: none !important;
+}

@@ -1,0 +1,174 @@
+// =============================================================
+// BRICKS — `.message.*` notification components + popups
+//
+// Bricks emits contextual messages via `.message.info`,
+// `.message.warning`, `.message.error`. Typical markup:
+//   <div class="message info"><p>Info text.</p></div>
+// WP default renders them as vivid light-blue (info), yellow (warning), red.
+// In dark mode, the garish light-blue clashes with the background. We pull
+// them into the DS using accent/warn/danger tints at ~5-8% opacity.
+// =============================================================
+
+body.dy-admin .message,
+body.dy-admin .bricks-message {
+  padding: 12px 16px !important;
+  margin: 12px 0 !important;
+  border-radius: var(--dya-r-md) !important;
+  font-size: 13px !important;
+  line-height: var(--dya-lh-base) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .message.info,
+body.dy-admin .bricks-message.info {
+  background: color-mix(in srgb, var(--dya-accent) 5%, transparent) !important;
+  border: 1px solid color-mix(in srgb, var(--dya-accent) 28%, transparent) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .message.warning,
+body.dy-admin .bricks-message.warning {
+  background: color-mix(in srgb, var(--dya-warn) 5%, transparent) !important;
+  border: 1px solid color-mix(in srgb, var(--dya-warn) 30%, transparent) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .message.error,
+body.dy-admin .bricks-message.error {
+  background: color-mix(in srgb, var(--dya-danger) 6%, transparent) !important;
+  border: 1px solid color-mix(in srgb, var(--dya-danger) 32%, transparent) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .message.success,
+body.dy-admin .bricks-message.success {
+  background: color-mix(in srgb, var(--dya-success) 5%, transparent) !important;
+  border: 1px solid color-mix(in srgb, var(--dya-success) 28%, transparent) !important;
+  color: var(--dya-ink) !important;
+}
+// Links inside messages (Bricks sometimes injects <a> elements)
+body.dy-admin .message a,
+body.dy-admin .bricks-message a {
+  color: var(--dya-accent) !important;
+  text-decoration: underline;
+}
+
+// =============================================================
+// BRICKS-SPECIFIC PAGES
+// =============================================================
+
+// bricks_template — import popup (screenshot shows white background on dark).
+// The WP-native modal for Bricks likely uses a position absolute centered div.
+// Force the DS on everything that contains "modal" or "popup" in Bricks.
+body.dy-admin.post-type-bricks_template .bricks-modal,
+body.dy-admin.post-type-bricks_template .bricks-popup,
+body.dy-admin.post-type-bricks_template .bricks-import-wrapper,
+body.dy-admin.post-type-bricks_template div[class*="bricks-template-import"] {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-md);
+}
+
+// bricks-settings + bricks-sidebars — Bricks admin pages.
+// Covers the entire content area.
+body.dy-admin.toplevel_page_bricks-settings .bricks-admin-wrapper,
+body.dy-admin.bricks_page_bricks-sidebars .bricks-admin-wrapper,
+body.dy-admin.bricks_page_bricks-settings .bricks-admin-wrapper {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin.toplevel_page_bricks-settings .bricks-admin-wrapper input::placeholder,
+body.dy-admin.bricks_page_bricks-sidebars .bricks-admin-wrapper input::placeholder,
+body.dy-admin.bricks_page_bricks-settings .bricks-admin-wrapper input::placeholder,
+body.dy-admin.bricks_page_bricks-sidebars input::placeholder {
+  color: var(--dya-ink-mute) !important;
+  opacity: 1 !important;
+}
+// Action button too close to the fields on bricks-sidebars.
+body.dy-admin.bricks_page_bricks-sidebars .bricks-admin-form button[type="submit"],
+body.dy-admin.bricks_page_bricks-sidebars button.add-sidebar {
+  margin-top: 24px !important;
+}
+
+// bricks_fonts editor — custom font editing page (post-new.php?
+// post_type=bricks_fonts). Focus border + sidebar bg → bring into DS.
+body.dy-admin.post-type-bricks_fonts #title:focus {
+  border-color: var(--dya-accent) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--dya-accent) 25%, transparent) !important;
+}
+body.dy-admin.post-type-bricks_fonts #side-sortables,
+body.dy-admin.post-type-bricks_fonts .font-manager,
+body.dy-admin.post-type-bricks_fonts .font-variant-row {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin.post-type-bricks_fonts .font-variant-row input,
+body.dy-admin.post-type-bricks_fonts .font-variant-row select {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+
+// =============================================================
+// BRICKS — Generic coverage (all Bricks admin pages)
+//
+// Bricks renders its admin pages (Settings, Sidebars, Templates list)
+// with a `.bricks-admin-body-wrapper` wrapper or inline directly inside
+// `.wrap`. Many cards use `.card`, `.bricks-card`, or divs with a hardcoded
+// `background: #fff`. We cover broadly, scoped to `body.dy-admin` to avoid
+// leaking into the Bricks builder frontend.
+// =============================================================
+body.dy-admin [class*="bricks_page_"] .wrap,
+body.dy-admin [class*="bricks_page_"] .wrap > div,
+body.dy-admin .bricks-admin-body-wrapper,
+body.dy-admin .bricks-admin-content,
+body.dy-admin .bricks-admin > .card,
+body.dy-admin .bricks-template-card,
+body.dy-admin .bricks-card {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin .bricks-admin h2,
+body.dy-admin .bricks-admin h3,
+body.dy-admin .bricks-admin h4 {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .bricks-admin label,
+body.dy-admin .bricks-admin .description {
+  color: var(--dya-ink-soft) !important;
+}
+body.dy-admin .bricks-admin input[type="text"],
+body.dy-admin .bricks-admin input[type="number"],
+body.dy-admin .bricks-admin input[type="url"],
+body.dy-admin .bricks-admin input[type="search"],
+body.dy-admin .bricks-admin select,
+body.dy-admin .bricks-admin textarea {
+  background: var(--dya-bg) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-sm) !important;
+}
+
+// Bricks popups (template import, fonts import, settings dialogs) —
+// observable at runtime only via JS. Maximum coverage on anything that
+// looks like a Bricks modal.
+body.dy-admin .bricks-modal,
+body.dy-admin .bricks-popup,
+body.dy-admin [class*="bricks-import"],
+body.dy-admin [class*="bricks-export"],
+body.dy-admin [class*="bricks-dialog"],
+body.dy-admin .bricks-template-import-dialog,
+body.dy-admin .bricks-admin-popup {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-md) !important;
+  box-shadow: var(--dya-shadow-lg) !important;
+}
+body.dy-admin .bricks-modal h2,
+body.dy-admin .bricks-modal h3,
+body.dy-admin .bricks-popup h2,
+body.dy-admin .bricks-popup h3 {
+  color: var(--dya-ink) !important;
+  border-bottom: 1px solid var(--dya-line) !important;
+}
+

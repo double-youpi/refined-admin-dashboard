@@ -1,0 +1,21 @@
+// =============================================================
+// _grain.scss
+// Film grain as a MATERIAL of the ground, not a veil over the screen.
+//
+// The grain used to be a fixed `body::after` above everything (z-index 9999,
+// overlay blend): it also sat on photos, videos and icons, which read as
+// dirt (Raphaël, media library, 15/09/2026). It is now blended into the
+// background of the grounds only (page, content column, rail): whatever is
+// painted on top, media, icons, text, cards, stays clean. Tokens
+// `--dya-grain` (noise tile with the alpha baked in, one per theme) and
+// `--dya-grain-blend` live in _tokens.scss.
+//
+// In a partial: `@use 'grain' as *;` then `@include dy-grain(var(--dya-bg));`
+// =============================================================
+
+@mixin dy-grain($color) {
+  background-color: $color;
+  background-image: var(--dya-grain);
+  background-blend-mode: var(--dya-grain-blend);
+  background-size: 220px 220px;
+}

@@ -1,0 +1,499 @@
+// Film grain tile (see _grain.scss): 220 px fractal noise with the alpha
+// baked in, so it can be a background layer blended into a ground colour.
+@function grain($alpha) {
+  @return url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 #{$alpha} 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+// =============================================================
+// _tokens.scss
+// Design tokens — colors, type, motion, shadows.
+// All theming flows through CSS variables so PHP/JS can flip
+// dark <-> light by toggling a single body class.
+//
+// NAMESPACE (audit-2, 2026-09): every token of the Admin module is prefixed
+// `--dya-` (Double Youpi Admin). Unprefixed names (`--accent`, `--ink`,
+// `--font-body`…) collided with third-party sheets that declare the same
+// custom properties on `:root` (Jetpack's `--font-body: 16px` turned the whole
+// admin into Times). `--dy-*` is already taken by the shared light palette of
+// the Media Library (assets/scss/shared/_root.scss), hence a distinct prefix.
+// WordPress's own about-page variables we override on purpose (`--accent-1`,
+// `--background`, `--text`…) keep their core names.
+// =============================================================
+
+:root {
+  // ── Paper stack (dark default) ─────────────────────────────
+  --dya-bg:        #0c0e13;
+  --dya-bg-elev:   #161a23;
+  --dya-paper:     #161a23;
+  --dya-paper-2:   #1c2230;
+  --dya-paper-3:   #242b3a;
+
+  // ── Ink ────────────────────────────────────────────────────
+  --dya-ink:       #ededee;
+  --dya-ink-soft:  #a8a9ad;
+  --dya-ink-mute:  #8a8b92; // QA: remonté (fonctionnel AA ~4.7 sur --dya-paper ; était #6f7077 ~3.9)
+  --dya-ink-fade:  #80818a; // audit-2: AA fonctionnel (5.0 sur --dya-bg, 4.5 sur --dya-paper ; était #787980 ~4.4)
+
+  // ── Rules / dividers ───────────────────────────────────────
+  --dya-line:        rgba(255, 255, 255, .07);
+  --dya-line-strong: rgba(255, 255, 255, .14);
+  --dya-line-soft:   rgba(255, 255, 255, .04);
+
+  // ── Edges ──────────────────────────────────────────────────
+  // The hairline around rounded surfaces (cards, tables, panels, popovers,
+  // controls): every `border: 1px solid` and `border-color` of the system
+  // reads these two, while dividers (border-top / border-bottom) keep
+  // `--dya-line`. Since 15/09/2026 the blocks have NO outline (decision of
+  // Raphaël after the side-by-side trial, doc 16): the tokens are
+  // transparent, the surfaces rest on their fill and shadow. To bring the
+  // hairline back: `var(--dya-line)` / `var(--dya-line-strong)`. Fields keep
+  // theirs (rule at the end of this file).
+  --dya-edge:        transparent;
+  --dya-edge-strong: transparent;
+
+  // ── Film grain (see _grain.scss) ──────────────────────────
+  // Blended into the GROUNDS only (page, content column, rail), never over
+  // the content. .42 = the former .3 veil × its 1.4 matrix gain.
+  --dya-grain: #{grain(.42)};
+  --dya-grain-blend: overlay;
+
+  // ── Section accent palette (one color per WP admin "line") ─
+  // Content / Commerce / Users / Community / Site / System / Developer.
+  // Both the full color and the 10% tint are tokenized.
+  --dya-line-content:         #d4b27a;
+  --dya-line-content-soft:    rgba(212, 178, 122, .10);
+  --dya-line-commerce:        #6db77a;
+  --dya-line-commerce-soft:   rgba(109, 183, 122, .10);
+  --dya-line-users:           #4f9cd9;
+  --dya-line-users-soft:      rgba(79, 156, 217, .10);
+  --dya-line-community:       #e8895a;
+  --dya-line-community-soft:  rgba(232, 137, 90, .10);
+  --dya-line-site:            #b97aca;
+  --dya-line-site-soft:       rgba(185, 122, 202, .10);
+  --dya-line-system:          #8a8d96;
+  --dya-line-system-soft:     rgba(138, 141, 150, .10);
+  --dya-line-developer:       #7d8a9e; // audit-2: 4.82:1 on the active tile (was #6e7785 = 3.81:1)
+  --dya-line-developer-soft:  rgba(125, 138, 158, .12);
+
+  // ── Semantic ───────────────────────────────────────────────
+  --dya-success: #4cc38a;
+  --dya-warn:    #f5a623;
+  --dya-danger:  #f06557;
+  --dya-info:    var(--dya-line-users);
+  --dya-accent:  var(--dya-line-content);
+  --dya-accent-darker-10: color-mix(in srgb, var(--dya-line-content) 80%, black 20%);
+  --dya-accent-darker-20: color-mix(in srgb, var(--dya-line-content) 60%, black 40%);
+
+  // ── WordPress-native variables, re-mapped ──────────────────
+  // WP core, Gutenberg, and most plugins read these. Re-mapping
+  // makes the theme propagate to plugin chrome for free.
+  --wp-admin-theme-color:            var(--dya-accent);
+  --wp-admin-theme-color-darker-10:  var(--dya-accent-darker-10);
+  --wp-admin-theme-color-darker-20:  var(--dya-accent-darker-20);
+  --wp-admin-border-width-focus:     2px;
+
+  // ── Aliases used by satellite modules (Media Library) ──────────
+  //
+  // The Media Library module was written before the admin DS and uses
+  // its own token names (`--dya-bg-card`, `--dya-bg-hi`, `--dya-bg-soft`,
+  // `--dya-line-hi`, `--dya-ink-faint`, `--dya-accent-hi`, `--dya-accent-soft`,
+  // `--dya-warning`). Without a definition these tokens fall back to their
+  // hardcoded hex fallback in the SCSS — always dark, and therefore
+  // broken in light mode.
+  //
+  // We define them as aliases pointing to DS tokens. **Important**:
+  // `var()` inside a custom property is substituted at the element that
+  // DEFINES the property (computed-value time), not at the element that
+  // USES it. So `--dya-bg-card: var(--dya-paper)` at :root is pre-evaluated
+  // with :root's --dya-paper (= dark) and then inherited as a fixed value.
+  // For the aliases to follow the light/dark swap they must be
+  // RE-DECLARED inside `body.dy-theme-light` — which sees body's light
+  // --dya-paper and re-substitutes at that scope.
+  --dya-bg-card:     var(--dya-paper);
+  --dya-bg-hi:       var(--dya-paper-3);
+  --dya-bg-soft:     var(--dya-bg-elev);
+  --dya-line-hi:     var(--dya-line-strong);
+  --dya-ink-faint:   var(--dya-ink-fade);
+  --dya-accent-hi:   var(--dya-accent);
+  --dya-accent-soft: var(--dya-line-content-soft);
+  --dya-warning:     var(--dya-warn);
+
+  // ── Smart contrast token: --dya-accent-on ──────────────────────────
+  //
+  // Foreground color (text/icon) intended for use on an `--dya-accent`
+  // background, computed automatically from the accent's OKLCH
+  // luminance:
+  //   - LIGHT accent (L > 0.5) → fg = black
+  //   - DARK  accent (L < 0.5) → fg = white
+  //
+  // How it works: `oklch(from var(--dya-accent) L 0 0)` produces a pure
+  // grey (chroma 0) whose luminance depends on the threshold. The
+  // expression `clamp(0, (0.5 - l) * 100, 1)` acts as a step
+  // function: multiplying the delta by 100 pushes the value outside
+  // the clamped range, so clamp snaps it to exactly 0 or 1 — a
+  // strictly binary result.
+  //
+  // Why: a custom accent theme (the user can change it in Settings)
+  // cannot reasonably have a hardcoded --dya-accent-on. This formula
+  // evaluates at runtime against the current --dya-accent value →
+  // always guaranteed to contrast.
+  //
+  // Reusable globally: wherever you apply a `var(--dya-accent)` or
+  // `var(--dya-line-color)` background, use `var(--dya-accent-on)` /
+  // `var(--dya-line-color-on)` for the text instead of hardcoding
+  // black/white.
+  //
+  // Browser support: Chrome 119+ (Nov 2023), Safari 16.4+, FF 128+.
+  // Fallback (older browsers) resolves to --dya-ink (theme grey).
+  --dya-accent-on: var(--dya-ink);
+
+  // ── Shadows ────────────────────────────────────────────────
+  --dya-shadow-sm: 0 1px 2px rgba(0, 0, 0, .25);
+  --dya-shadow-md: 0 4px 16px rgba(0, 0, 0, .40);
+  --dya-shadow-lg: 0 24px 60px rgba(0, 0, 0, .55);
+
+  // ── Motion ─────────────────────────────────────────────────
+  --dya-ease:   cubic-bezier(.22, .7, .2, 1);
+  --dya-t-fast: 140ms;
+  --dya-t-med:  260ms;
+  --dya-t-slow: 420ms;
+
+  // ── Type ───────────────────────────────────────────────────
+  // Bricolage Grotesque: self-hosted variable font (assets/fonts/),
+  // declared via @font-face later in this file. Used only
+  // for headings (--dya-font-display).
+  //
+  // Body + mono: no webfont, we rely on system-ui (= San Francisco
+  // on Mac, Segoe UI on Windows, Roboto on Android). Readable,
+  // performant, no network request.
+  //
+  // (Geist was listed as a second choice but was never loaded → dead
+  // fallback. Removed for clarity.)
+  --dya-font-body:    system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --dya-font-display: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --dya-font-mono:    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  --dya-fs-xs:   10.5px;
+  --dya-fs-sm:   11.5px;
+  --dya-fs-base: 13.5px;
+  --dya-fs-md:   14.5px;
+  --dya-fs-lg:   18px;
+  --dya-fs-xl:   22px;
+  --dya-fs-2xl:  26px;
+  --dya-fs-3xl:  32px;
+
+  --dya-lh-tight: 1.25;
+  --dya-lh-base:  1.5;
+  --dya-lh-loose: 1.65;
+
+  --dya-tracking-tight:  -.025em;
+  --dya-tracking-body:   -.005em;
+  --dya-tracking-mono:   .08em;
+  --dya-tracking-label:  .12em;
+
+  // ── Radius scale ───────────────────────────────────────────
+  --dya-r-xs: 4px;
+  --dya-r-sm: 6px;
+  --dya-r-md: 8px;
+  --dya-r-lg: 10px;
+  --dya-r-xl: 12px;
+  --dya-r-2xl: 16px;
+  --dya-r-pill: 999px;
+
+  // ── Layout — FLUID sizing via clamp() ──────────────────────
+  // Each token interpolates linearly with viewport width.
+  // Format: clamp(LAPTOP_MIN, GROWTH_RATE_AS_VW, ULTRAWIDE_MAX).
+  // Below the min-trigger viewport the value sticks to MIN;
+  // above the max-trigger it sticks to MAX. The rail grows
+  // most aggressively (+50% from baseline) — wider chord on
+  // big displays where the cursor travel matters most.
+  // Small-screen overrides live in _responsive.scss.
+  --dya-rail-w:           clamp(64px, 4.8vw, 96px);
+  --dya-rail-w-tight:     clamp(56px, 4.2vw, 86px);
+  --dya-rail-icon-tile:   clamp(40px, 2.9vw, 58px);
+  --dya-rail-icon-glyph:  clamp(18px, 1.25vw, 24px);
+
+  --dya-topbar-h:         clamp(44px, 2.7vw, 54px);
+  --dya-chipbar-h:        clamp(50px, 3.1vw, 60px);
+  --dya-wrap-max:         clamp(1280px, 78vw, 1640px);
+  --dya-wrap-pad-x:       clamp(32px, 2.4vw, 48px);
+  --dya-wrap-pad-y:       clamp(28px, 2.0vw, 40px);
+
+  // Typography fluid scaling — modest, less aggressive than layout.
+  --dya-fs-base:          clamp(13.5px, 0.85vw, 15px);
+  --dya-fs-md:            clamp(14.5px, 0.9vw, 16px);
+  --dya-fs-lg:            clamp(18px, 1.15vw, 20px);
+  --dya-fs-xl:            clamp(22px, 1.45vw, 25px);
+  --dya-fs-2xl:           clamp(26px, 1.75vw, 31px);
+  --dya-fs-3xl:           clamp(32px, 2.1vw, 38px);
+
+  // ── Resizable rail ─────────────────────────────────────────
+  // --dya-rail-w-current drives the actual rail width. Defaults to the
+  // fluid clamp so collapsed mode tracks the viewport. JS overrides
+  // it with a concrete px value when the user drags or toggles to
+  // the expanded state, then transitions back via the .is-animating
+  // class on #wpwrap.
+  --dya-rail-w-current:   var(--dya-rail-w);
+  --dya-rail-w-expanded:  240px;
+  --dya-rail-w-snap-max:  280px; // upper bound during drag
+
+  // Brand logo size — kept in sync with rail-icon-tile growth in
+  // responsive overrides so the logo always reads at the same
+  // relative weight as the icon tiles below.
+  --dya-rail-logo-size:   32px;
+
+  // Symmetric gutter between rail edge and tile/logo edge. Capped at
+  // 19px in expanded state, naturally shrinks to (rail - tile) / 2
+  // in collapsed state. Single source of truth for tile margins,
+  // brand row, active-line ribbon and drag-handle calculations.
+  --dya-rail-gutter:      min(19px, calc((var(--dya-rail-w-current) - var(--dya-rail-icon-tile)) / 2));
+
+  // Label fade range — opacity 0 below fade-start, 1 above fade-end,
+  // linear interpolation between. Window above the natural collapsed
+  // max (96) so labels stay hidden in any collapsed state.
+  --dya-rail-label-fade-start: 110px;
+  --dya-rail-label-fade-end:   150px;
+
+  // Snap / interaction
+  --dya-rail-snap-easing:  cubic-bezier(.16, 1, .3, 1);
+  --dya-rail-snap-dur:     380ms;
+}
+
+// ── Smart contrast token (relative color OKLCH) ──────────────
+//
+// Overrides the `--dya-accent-on: var(--dya-ink)` fallback declared at :root.
+// The `@supports` guard ensures we do not attempt relative color syntax
+// on older browsers (where it would invalidate the entire rule in some
+// parsers).
+// ── Collision guard for the font stacks ──────────────────────
+// Plugins ship unprefixed custom properties on `:root` too. Jetpack
+// (`_inc/build/style.min.css`) declares `--dya-font-body: 16px` as a SIZE
+// token: at equal specificity the sheet loaded last wins, and every
+// `font-family: var(--dya-font-body)` of ours resolved to "16px" → Times
+// fallback on the whole admin (rail included) on Jetpack screens.
+// Re-declaring the three stacks on `body.dy-admin` (0,1,1) beats any
+// later `:root` declaration. Values duplicated from the block above.
+
+body.dy-admin,
+body.dy-admin-login {
+  --dya-font-body:    system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --dya-font-display: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --dya-font-mono:    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+@supports (color: oklch(from red l c h)) {
+  :root {
+    // Step function via clamp: (0.5 - l) * 100 → always < 0 or > 1
+    // as soon as we deviate from the L=0.5 threshold; clamp snaps to
+    // 0 or 1. C=0 and H=0 → pure grey (black or white).
+    // Threshold 0.6 (not 0.5): WCAG flips from black to white text around
+    // OKLCH L≈0.58 for saturated hues (checked on the 12 swatches + default).
+    --dya-accent-on: oklch(from var(--dya-accent) clamp(0, calc((0.6 - l) * 100), 1) 0 0);
+
+    // ── --dya-accent-text: accent usable as TEXT color ───────────────
+    // The accent used as fill (--dya-accent) can be very light (e.g. neon
+    // accent, or the default gold) → unreadable as TEXT on a light
+    // background (see G6 audit). In dark mode the background (--dya-paper)
+    // is dark → the vivid accent works: --dya-accent-text = --dya-accent. In
+    // light mode (override below) we cap the luminance to guarantee
+    // contrast against the light --dya-paper.
+    // Dark mode: lift the luminance floor so a mid-tone accent (default
+    // #7c54ff, L≈.59 → 4.2:1 on --dya-bg) reads AA as text. Fill usages keep --dya-accent.
+    --dya-accent-text: oklch(from var(--dya-accent) max(l, 0.64) c h);
+  }
+
+  // In LIGHT mode: cap the accent luminance (≤ .5) for text use,
+  // preserving hue and chroma. We also remap `--wp-admin-theme-color`
+  // (read by WP, Gutenberg, and plugins to color links/buttons) to
+  // this readable variant → globally fixes low-contrast accent-as-text
+  // (Elementor widget links, WooCommerce triggers, Rank Math mode
+  // selector…).
+  body.dy-theme-light {
+    --dya-accent-text: oklch(from var(--dya-accent) min(l, 0.5) c h);
+    --wp-admin-theme-color:           var(--dya-accent-text);
+    --wp-admin-theme-color-darker-10: oklch(from var(--dya-accent) min(l, 0.42) c h);
+    --wp-admin-theme-color-darker-20: oklch(from var(--dya-accent) min(l, 0.36) c h);
+  }
+}
+
+// ── Light theme override ─────────────────────────────────────
+// Applied via body.dy-theme-light.
+//
+// The light palette is derived from `--dya-accent` in progressive tints.
+// If the user has not customized the accent, the default value is
+// `var(--dya-line-content)` (= the current section color).
+//
+// Inversion vs. classic UI pattern: here the PAGE is pure white, and
+// the SURFACES (cards, notices, tables, postboxes, inputs) are tinted
+// with the accent. Visual effect: interactive elements "float" with
+// their chromatic identity on a neutral background.
+//
+// Intensity scale (mixed against white):
+//   --dya-bg          0%   (pure white — page background)
+//   --dya-paper       4%   (cards, postboxes, notices, panels)
+//   --dya-paper-2     6%   (hover variants / secondary states)
+//   --dya-bg-elev     8%   (elevated zones / highlighted rows / table headers)
+//   --dya-paper-3    12%   (emphasized state / active ghost background)
+//
+// Propagation via `:root:has(body.dy-theme-light)` so that `::view-
+// transition` (a pseudo-element attached to documentElement) inherits
+// the correct tokens during navigations. The `var(--dya-accent)` inside
+// these `color-mix` calls resolves at the scope that DEFINES the
+// property, so we re-declare the palette on both :root and body so
+// it follows the --dya-accent cascade (can be overridden inline by the
+// user via Settings).
+:root:has(body.dy-theme-light) {
+  --dya-bg:        #ffffff;
+  --dya-bg-elev:   color-mix(in srgb, var(--dya-accent) 8%,  white);
+  --dya-paper:     color-mix(in srgb, var(--dya-accent) 4%,  white);
+  --dya-paper-2:   color-mix(in srgb, var(--dya-accent) 6%,  white);
+  --dya-paper-3:   color-mix(in srgb, var(--dya-accent) 12%, white);
+
+  // Ink + lines — without these overrides at :root scope, pseudo-elements
+  // attached to documentElement (notably `::view-transition-*` during
+  // dark→light navigations) read the hardcoded dark default values and
+  // "flash" dark before the transition applies. We therefore re-declare
+  // the full inversion at :root scope so the cascade is consistent
+  // BEFORE body is rendered (view-transition snapshots).
+  --dya-ink:       #18181a;
+  --dya-ink-soft:  #44444a;
+  --dya-ink-mute:  #707177; // QA: fonctionnel AA (~4.9 sur blanc ; était #76777b ~4.47)
+  --dya-ink-fade:  #727378; // audit-2: AA fonctionnel (4.7 sur blanc ; était #8a8b91 ~3.4)
+
+  --dya-line:        rgba(0, 0, 0, .07);
+  --dya-line-strong: rgba(0, 0, 0, .12);
+  --dya-line-soft:   rgba(0, 0, 0, .04);
+  --dya-grain: #{grain(.03)}; // multiply darkens fast on paper: keep it a whisper
+  --dya-grain-blend: multiply;
+
+  // Semantic colours as TEXT on white: the dark-first values (#4cc38a…) sit
+  // at 2 to 3:1 on a light ground. Deeper variants keep the hue, pass AA.
+  --dya-success: #167a4b;
+  --dya-warn:    #a35f00;
+  --dya-danger:  #d13425;
+  --dya-info:    #1d6cad; // audit-2: 4.5:1 on the light badge/paper (line-users blue was 3:1)
+}
+
+body.dy-theme-light {
+  --dya-bg:        #ffffff;
+  --dya-bg-elev:   color-mix(in srgb, var(--dya-accent) 8%,  white);
+  --dya-paper:     color-mix(in srgb, var(--dya-accent) 4%,  white);
+  --dya-paper-2:   color-mix(in srgb, var(--dya-accent) 6%,  white);
+  --dya-paper-3:   color-mix(in srgb, var(--dya-accent) 12%, white);
+
+  --dya-ink:       #18181a;
+  --dya-ink-soft:  #44444a;
+  --dya-ink-mute:  #707177; // QA: fonctionnel AA (~4.9 sur blanc ; était #76777b ~4.47)
+  --dya-ink-fade:  #727378; // audit-2: AA fonctionnel (4.7 sur blanc ; était #8a8b91 ~3.4)
+
+  --dya-line:        rgba(0, 0, 0, .07);
+  --dya-line-strong: rgba(0, 0, 0, .12);
+  --dya-line-soft:   rgba(0, 0, 0, .04);
+  --dya-grain: #{grain(.03)}; // multiply darkens fast on paper: keep it a whisper
+  --dya-grain-blend: multiply;
+
+  // Semantic colours, AA as text on white (see :root:has block above).
+  --dya-success: #167a4b;
+  --dya-warn:    #a35f00;
+  --dya-danger:  #d13425;
+  --dya-info:    #1d6cad; // audit-2: 4.5:1 on the light badge/paper (line-users blue was 3:1)
+
+  --dya-line-content:         #b48848;
+  --dya-line-content-soft:    rgba(180, 136, 72, .08);
+  --dya-line-commerce:        #2f8a4d;
+  --dya-line-commerce-soft:   rgba(47, 138, 77, .08);
+  --dya-line-users:           #2774b6;
+  --dya-line-users-soft:      rgba(39, 116, 182, .08);
+  --dya-line-community:       #c66a44;
+  --dya-line-community-soft:  rgba(198, 106, 68, .08);
+  --dya-line-site:            #8e4ea6;
+  --dya-line-site-soft:       rgba(142, 78, 166, .08);
+  --dya-line-system:          #5b5e66;
+  --dya-line-system-soft:     rgba(91, 94, 102, .08);
+  --dya-line-developer:       #4a525e;
+  --dya-line-developer-soft:  rgba(74, 82, 94, .08);
+
+  --dya-shadow-sm: 0 1px 2px rgba(0, 0, 0, .04);
+  --dya-shadow-md: 0 4px 16px rgba(0, 0, 0, .06);
+  --dya-shadow-lg: 0 24px 60px rgba(0, 0, 0, .10);
+
+  // Aliases re-declared (see comment at :root): required so that the
+  // var() references are re-substituted at body scope, picking up the
+  // light token overrides.
+  --dya-bg-card:     var(--dya-paper);
+  --dya-bg-hi:       var(--dya-paper-3);
+  --dya-bg-soft:     var(--dya-bg-elev);
+  --dya-line-hi:     var(--dya-line-strong);
+  --dya-ink-faint:   var(--dya-ink-fade);
+  --dya-accent-hi:   var(--dya-accent);
+  --dya-accent-soft: var(--dya-line-content-soft);
+  --dya-warning:     var(--dya-warn);
+}
+
+// ── Native control colour scheme ─────────────────────────────
+// Scrollbars, date/time/colour/file inputs, <option> popups and form
+// control defaults follow `color-scheme`, not our tokens. Without it, the
+// dark theme kept light scrollbars and light native pickers (WP leaves the
+// root at `normal`). Selects already carry it (see _forms); this covers the
+// document itself and every remaining native control.
+:root:has(body.dy-admin) { color-scheme: dark; }
+:root:has(body.dy-admin.dy-theme-light) { color-scheme: light; }
+body.dy-admin { color-scheme: dark; }
+body.dy-admin.dy-theme-light { color-scheme: light; }
+
+// ── Accent on every menu line ────────────────────────────────
+// `dy-lines-accent` (Brand::body_class, toggled live by admin-settings.js):
+// the seven section colours become the accent, wherever they are read
+// (rail, chip bar, page headers, widgets). Two classes on body, so this
+// beats both the dark tokens on :root and the light ones on
+// `body.dy-theme-light`. The soft variants are built from
+// `--dya-accent-rgb`, never from `--dya-accent-soft`: the light theme
+// defines that one from `--dya-line-content-soft`, which would loop.
+body.dy-admin.dy-lines-accent {
+  @each $line in content, commerce, users, community, site, system, developer {
+    --dya-line-#{$line}: var(--dya-accent);
+    --dya-line-#{$line}-soft: rgba(var(--dya-accent-rgb), .10);
+  }
+}
+
+// ── Density toggle ───────────────────────────────────────────
+// Applied via body.dy-density-compact. Tightens wrap/postbox
+// padding without touching font sizes.
+body.dy-density-compact {
+  --dya-wrap-pad-y: 18px;
+  --dya-topbar-h:   40px;
+  --dya-chipbar-h:  44px;
+}
+
+// ── Modern WooCommerce color scheme ──────────────────────────────────────
+// This color scheme is used for the modern color scheme in the WordPress admin.
+body.admin-color-modern.dy-admin{
+  --wp-admin-theme-color:            var(--dya-accent);
+  --wp-admin-theme-color--rgb:        rgb(var(--dya-accent));
+  --wp-admin-theme-color-darker-10:  var(--dya-accent-darker-10);
+  --wp-admin-theme-color-darker-10--rgb:  rgb(var(--dya-accent-darker-10));
+  --wp-admin-theme-color-darker-20:  var(--dya-accent-darker-20);
+  --wp-admin-theme-color-darker-20--rgb:  rgb(var(--dya-accent-darker-20));
+}
+
+// ── G6 — readable `--wp-admin-theme-color` in LIGHT mode ────────────────
+// The modern block above (0,2,1) forces this token to `--dya-accent` (a neon that
+// is unreadable as text on a light background). We restore it to `--dya-accent-text`
+// (luminance capped at L≤.5) in light mode, at equal specificity but LATER in
+// source → we win. Placed in _tokens (not _15) so it also lands in
+// `dashboard.css` (compiled from `_dashboard` → `@use "tokens"`); otherwise
+// the dashboard bundle would reload the raw modern block on top. Fixes widget
+// links (Elementor overview, WP activity) that inherit the admin link-color.
+body.dy-admin.dy-theme-light {
+  --wp-admin-theme-color:           var(--dya-accent-text, var(--dya-accent));
+  --wp-admin-theme-color-darker-10: var(--dya-accent-text, var(--dya-accent));
+  --wp-admin-theme-color-darker-20: var(--dya-accent-text, var(--dya-accent));
+}
+
+// The blocks have no outline (Raphaël, 15/09/2026, after the side-by-side
+// trial). Fields are the exception: a text input without a border on the
+// same ground cannot be found, so inputs, selects and textareas (checkboxes
+// included) keep the hairline. Buttons follow the blocks.
+body.dy-admin :is(input:not([type="button"]):not([type="submit"]):not([type="reset"]):not(.button), select, textarea) {
+  --dya-edge:        var(--dya-line);
+  --dya-edge-strong: var(--dya-line-strong);
+}

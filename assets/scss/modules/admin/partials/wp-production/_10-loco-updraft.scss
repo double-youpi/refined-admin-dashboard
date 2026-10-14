@@ -1,0 +1,311 @@
+// =============================================================
+// LOCO TRANSLATE — admin pages (full dark mode + accent)
+//
+// Loco mixes WP-native classes (.wp-list-table) and a Bootstrap-like in-house
+// design system (.panel, .panel-info, .loco-* …) with hard-coded WHITE
+// backgrounds and hardcoded blues. Everything is scoped under Loco body classes
+// (`toplevel_page_loco`, `loco-translate_page_*`) to avoid bleeding into other
+// plugins (`.panel` in particular is generic).
+// =============================================================
+body.dy-admin.toplevel_page_loco,
+body.dy-admin[class*="loco-translate_page_"] {
+  background: var(--dya-bg) !important;
+
+  // ── Main surfaces ─────────────────────────────────────────────────
+  .loco-actions, .loco-edit, .loco-listing, .loco-msglist,
+  .loco-translation, .loco-tools, .loco-elem, .loco-debug {
+    background: var(--dya-paper) !important;
+    border: 1px solid var(--dya-edge) !important;
+    color: var(--dya-ink) !important;
+  }
+
+  // ── Bootstrap-like panels (.panel) — "site language" banner,
+  //    info/warning panels. Hard-coded white → DS. ───────────────────
+  .panel, .panel-default, .panel-info, .panel-success,
+  .panel-warning, .panel-danger {
+    background: var(--dya-paper) !important;
+    border: 1px solid var(--dya-edge) !important;
+    color: var(--dya-ink) !important;
+    box-shadow: none !important;
+    border-radius: var(--dya-r-md) !important;
+  }
+  // Left colour strip by semantic (accent for info, not blue).
+  .panel-info    { border-left: 3px solid var(--dya-accent) !important; }
+  .panel-success { border-left: 3px solid var(--dya-success) !important; }
+  .panel-warning { border-left: 3px solid var(--dya-warn) !important; }
+  .panel-danger  { border-left: 3px solid var(--dya-danger) !important; }
+  .panel-heading, .panel-title { background: transparent !important; color: var(--dya-ink) !important; border-color: var(--dya-edge) !important; }
+  .panel-body, .panel-footer { background: transparent !important; color: var(--dya-ink-soft) !important; }
+  // Banner text + its link (was light on white → invisible).
+  .panel span, .panel p, .panel label { color: var(--dya-ink-soft) !important; }
+  .panel a { color: var(--dya-accent) !important; }
+
+  // ── Tables (WP-list-table + .loco-listing) ───────────────────────
+  .wp-list-table, .loco-listing { background: var(--dya-paper) !important; border-color: var(--dya-edge) !important; }
+  .wp-list-table th, .wp-list-table td,
+  .loco-listing th, .loco-listing td,
+  th.loco-sort {
+    background: transparent !important;
+    border-color: var(--dya-edge) !important;
+    color: var(--dya-ink) !important;
+  }
+  thead th, tfoot th, th.loco-sort { color: var(--dya-ink-soft) !important; }
+  // (no row hover effect on Loco tables — removed on request)
+  // Table links: soft ink at rest, ACCENT on hover (was blue).
+  .wp-list-table td a, .loco-listing td a, td > a {
+    color: var(--dya-ink-soft) !important;
+    border: 0 !important;
+  }
+  .wp-list-table td a:hover, .loco-listing td a:hover, td > a:hover {
+    color: var(--dya-accent) !important;
+  }
+
+  // ── Buttons (Loco renders blue .button / .loco-button) ───────────
+  .button-primary, .loco-button-primary, input[type="submit"].button-primary {
+    background: var(--dya-accent) !important;
+    border-color: var(--dya-accent) !important;
+    color: var(--dya-accent-on, var(--dya-bg)) !important;
+    text-shadow: none !important;
+  }
+  .button:not(.button-primary), .loco-button {
+    background: var(--dya-paper-2) !important;
+    border: 1px solid var(--dya-edge) !important;
+    color: var(--dya-ink) !important;
+  }
+  .button:not(.button-primary):hover, .loco-button:hover {
+    background: var(--dya-paper-3) !important;
+    border-color: var(--dya-accent) !important;
+    color: var(--dya-ink) !important;
+  }
+
+  // ── Headings + body text ─────────────────────────────────────────
+  h1, h2, h3, h4 { color: var(--dya-ink) !important; }
+  p, li, dd, dt, label, td, .loco-elem { color: var(--dya-ink-soft); }
+  // `code` values (System/Version page: WordPress 7.0, PHP…, nginx…):
+  // Loco colours them in a dark tint → unreadable on a dark background. → DS.
+  code, kbd, tt, samp, pre {
+    color: var(--dya-ink) !important;
+    background: var(--dya-paper-2) !important;
+    border-color: var(--dya-edge) !important;
+  }
+
+  // ── PO editor (action=file-edit): editing area + string list
+  //    "completely unreadable in dark mode" → theme inputs + panels. ──
+  .loco-edit textarea, .loco-edit input[type="text"], .loco-edit [contenteditable],
+  .loco-translation textarea, .loco-translation [contenteditable],
+  #loco-editor textarea, #loco-editor [contenteditable] {
+    background: var(--dya-bg) !important;
+    border: 1px solid var(--dya-edge) !important;
+    color: var(--dya-ink) !important;
+  }
+  // Message list rows (source/translation) + active row.
+  .loco-msglist tr, .loco-msglist td, .loco-list tr, .loco-list td { color: var(--dya-ink) !important; }
+  .loco-msglist tr.current, .loco-msglist tr.active,
+  .loco-list tr.current, .loco-list tr.active { background: color-mix(in srgb, var(--dya-accent) 14%, transparent) !important; }
+  // Editor toolbar (Save / Sync / etc.).
+  .loco-toolbar, .loco-actions { background: var(--dya-paper-2) !important; border-color: var(--dya-edge) !important; }
+
+  // ── Real PO editor: "widget grid" `.wg-*` framework (Loco) ────────────
+  // Structure: #loco-editor > #po-list (list of 865 strings) + #po-edit
+  // (#po-source / #po-trans, source/translation panels). All backgrounds are
+  // hard-coded grey/white (#eee/#fff/#e2e2e2/#f7f7f7) → unreadable in dark.
+  // We theme the containers AND FLATTEN the `.wg-*` grid backgrounds
+  // (rows are classless <div>s with light zebra) so everything inherits the
+  // paper surface, then reinstate zebra/active at DS level.
+  #loco-editor, #loco-editor-inner, #po-list, #po-edit, #po-trans, #po-source,
+  #po-list-tbody, #po-list-thead, .wg-box, .wg-content, .loco-ui, .loco-po {
+    background: var(--dya-paper) !important;
+    border-color: var(--dya-edge) !important;
+    color: var(--dya-ink) !important;
+  }
+  // Flattens ALL light backgrounds in the widget grid: rows are classless
+  // <div>s nested 4+ levels deep with hard-coded light zebra. We blanket-
+  // neutralise them (the #po-list/#po-edit container provides the paper),
+  // <textarea>/[contenteditable] elements keeping their background via a more
+  // specific rule below. Readability takes priority (zebra dropped).
+  #po-list div, #po-edit div, #po-trans div, #po-source div {
+    background-color: transparent !important;
+    color: var(--dya-ink) !important;
+    border-color: var(--dya-edge) !important;
+  }
+  // Column headers ("Source text:" / "Translation:") = `header`
+  // inside a `.wg-cell`.
+  #po-list-thead, .wg-cell > header, #po-source > header, #po-trans > header,
+  .wg-content > header, .wg-header, header.wg-title {
+    background: var(--dya-paper-2) !important;
+    color: var(--dya-ink) !important;
+    border-color: var(--dya-edge) !important;
+  }
+  // Zebra + hover + active row reinstated at DS level (on list rows).
+  #po-list-tbody > div:nth-child(even) > div { background: color-mix(in srgb, var(--dya-paper-2) 60%, transparent) !important; }
+  #po-list-tbody > div:hover > div { background: var(--dya-paper-3) !important; }
+  #po-list-tbody > div.current > div, #po-list-tbody > div.active > div,
+  #po-list-tbody > div.selected > div, #po-list-tbody > .current, #po-list-tbody > .active {
+    background: color-mix(in srgb, var(--dya-accent) 18%, transparent) !important;
+  }
+  // String text readable; untranslated / fuzzy strings in soft ink.
+  #po-list div, #po-list span, #po-list .ellipsis { color: var(--dya-ink) !important; }
+  #po-list .untranslated, #po-list .fuzzy { color: var(--dya-ink-soft) !important; }
+  // Source/translation editing fields.
+  #po-edit textarea, #po-trans textarea, #po-edit [contenteditable], #po-trans [contenteditable],
+  #po-edit .editor, #po-trans .editor {
+    background: var(--dya-bg) !important;
+    border: 1px solid var(--dya-edge) !important;
+    color: var(--dya-ink) !important;
+  }
+  // Editor sidebar widgets (comments, context…).
+  .wg-content, .wg-content p, .wg-content li, .wg-content dd { color: var(--dya-ink-soft) !important; }
+  .wg-content a { color: var(--dya-accent) !important; }
+  // Glyphs / icons (often in Loco brand colour).
+  .icon-info, .icon-warning, .icon-file, .has-icon::before { color: var(--dya-ink-soft) !important; }
+
+  // ── Notices (loco-config version/debug) — aligned to the DS ──────
+  .notice, .loco-notice, .panel.notice {
+    background: var(--dya-paper) !important;
+    border: 1px solid var(--dya-edge) !important;
+    border-left: 3px solid var(--dya-accent) !important;
+    color: var(--dya-ink) !important;
+    border-radius: var(--dya-r-sm) !important;
+  }
+}
+
+// =============================================================
+// UPDRAFT PLUS — admin pages
+// =============================================================
+body.dy-admin[class*="updraftplus"] .updraftplus,
+body.dy-admin .updraft_box,
+body.dy-admin .updraft_premium_description_section,
+body.dy-admin .ud-updraft-jumbotron,
+body.dy-admin .updraft_jumbotron,
+body.dy-admin .updraft-content {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-md) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .updraft_box h1,
+body.dy-admin .updraft_box h2,
+body.dy-admin .updraft_box h3 {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .button.updraft-bigbutton,
+body.dy-admin .updraft-button-primary,
+body.dy-admin .updraft-button.button-primary {
+  background: var(--dya-accent) !important;
+  color: var(--dya-accent-on, var(--dya-ink)) !important;
+  border-color: var(--dya-accent) !important;
+}
+
+// Thickbox modal wrapper (#TB_window) — frame externe du popup.
+body.dy-admin #TB_overlay {
+  background: rgba(0, 0, 0, .72) !important;
+}
+body.dy-admin #TB_window {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-xl) !important;
+  box-shadow: var(--dya-shadow-lg) !important;
+  color: var(--dya-ink) !important;
+  overflow: hidden;
+}
+body.dy-admin #TB_window #TB_ajaxWindowTitle,
+body.dy-admin #TB_window #TB_title {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+  border-bottom: 1px solid var(--dya-line) !important;
+  font-family: var(--dya-font-display) !important;
+  font-weight: 500 !important;
+  padding: 12px 18px !important;
+}
+body.dy-admin #TB_window #TB_closeWindowButton {
+  color: var(--dya-ink-mute) !important;
+}
+body.dy-admin #TB_window #TB_closeWindowButton:hover {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin #TB_window #TB_closeAjaxWindow {
+  background: var(--dya-paper-2) !important;
+  border-bottom: 1px solid var(--dya-line) !important;
+}
+body.dy-admin #TB_window iframe#TB_iframeContent {
+  background: var(--dya-paper) !important;
+}
+
+
+// ── audit-2: UpdraftPlus white islands in dark mode ─────────────────────
+// Next-scheduled-backups panel, UpdraftCentral cloud wizard, premium
+// advert, advanced-tools accordion and the existing-backups table kept a
+// #fff ground under our light ink.
+body.dy-admin .updraft_next_scheduled_backups_wrapper,
+body.dy-admin .updraft_next_scheduled_backups_wrapper .schedule,
+body.dy-admin .updraft_next_scheduled_backups_wrapper .updraft_next_scheduled_entity,
+body.dy-admin .updraft_backup_btn_wrapper,
+body.dy-admin .updraftcentral_cloud_wizard_container,
+body.dy-admin .updraftcentral_cloud_wizard,
+body.dy-admin .updraft_advert_bottom,
+body.dy-admin .updraft_advert_content_left,
+body.dy-admin .updraft_advert_content_right,
+body.dy-admin .updraft_backup_cont,
+body.dy-admin .updraft_existing_backups_wrapper,
+body.dy-admin .advanced_settings_container,
+body.dy-admin .advanced_settings_container .advanced_tools_button,
+body.dy-admin .advanced_settings_container .advanced_tools,
+body.dy-admin .updraft-more-plugins-wrapper,
+body.dy-admin .updraft_migrate_widget_module_content,
+body.dy-admin .updraftplus-addons-wrapper,
+body.dy-admin .updraft-hidden-panel,
+body.dy-admin #updraft-navtab-status-content .updraft_backup_cont {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin .updraft_next_scheduled_backups_wrapper *,
+body.dy-admin .updraftcentral_cloud_wizard_container *,
+body.dy-admin .updraft_advert_bottom *,
+body.dy-admin .advanced_settings_container .advanced_tools_button,
+body.dy-admin .advanced_settings_container .advanced_tools_button *,
+body.dy-admin .advanced_settings_container .advanced_tools h3,
+body.dy-admin .advanced_settings_container .advanced_tools p,
+body.dy-admin .advanced_settings_container .advanced_tools td,
+body.dy-admin .advanced_settings_container .advanced_tools th,
+body.dy-admin .advanced_settings_container .advanced_tools label {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .updraft_next_scheduled_backups_wrapper .updraft_time_now_wrapper,
+body.dy-admin .updraft_next_scheduled_backups_wrapper .updraft_time_now_label {
+  background: var(--dya-paper-3) !important; color: var(--dya-ink) !important;
+}
+body.dy-admin .updraft_next_scheduled_backups_wrapper .updraft_time_now {
+  background: var(--dya-paper-2) !important; color: var(--dya-ink-soft) !important;
+}
+body.dy-admin .advanced_settings_container .advanced_tools_button.active,
+body.dy-admin .advanced_settings_container .advanced_tools_button:hover {
+  background: var(--dya-paper-2) !important;
+}
+body.dy-admin .updraft_next_scheduled_backups_wrapper .updraft_backup_btn_wrapper .button-primary,
+body.dy-admin #updraft-backupnow-button {
+  background: var(--dya-accent) !important; color: var(--dya-accent-on) !important; border-color: var(--dya-accent) !important;
+}
+body.dy-admin .updraft_advert_bottom a,
+body.dy-admin .updraftcentral_cloud_wizard_container a { color: var(--dya-accent-text, var(--dya-accent)) !important; }
+
+// audit-2 (vérification lot 7) : le conteneur EXTERNE de l'assistant
+// UpdraftCentral (`.updraftcentral_cloud_connect`, fond #FFF + bordure #000)
+// restait blanc autour de l'îlot déjà thémé ; les vignettes de stockage
+// distant (`#remote-storage-container label`, #efefef / #000) idem.
+body.dy-admin .updraftcentral_cloud_connect,
+body.dy-admin #updraftcentral_cloud_connect_container {
+  background-color: var(--dya-paper) !important;
+  border-color: var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin #remote-storage-container label {
+  background-color: var(--dya-paper-2) !important;
+  border-color: var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin #remote-storage-container label:hover,
+body.dy-admin #remote-storage-container label:has(input:checked) {
+  background-color: var(--dya-paper-3) !important;
+  border-color: var(--dya-accent) !important;
+}

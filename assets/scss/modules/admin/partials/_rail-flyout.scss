@@ -1,0 +1,91 @@
+// ═══════════════════════════════════════════════════════════════
+// Rail flyout: the pages of a section, opened next to its rail entry on
+// hover (Rail::markup_flyout + admin.js section 5bis). A card floating over
+// the content, anchored to the entry; in the collapsed rail it also carries
+// the label. Setting: Settings::OPTION_RAIL_FLYOUT (off | one | two).
+// Prototype and decision: docs/design/admin-ui/15-sous-pages-du-rail.md.
+// ═══════════════════════════════════════════════════════════════
+
+// Section colour usable as text, same guards as --dya-line-color-text.
+// The card lives in <body> (moved by the script), so the script copies the
+// entry's --dya-line-color onto it; the native tree inherits the accent
+// from body.dy-line-default.
+.dy-rail-fly {
+  --dyf-color: var(--dya-line-color, var(--dya-accent));
+  --dyf-ink: var(--dyf-color);
+}
+@supports (color: oklch(from red l c h)) {
+  .dy-rail-fly { --dyf-ink: oklch(from var(--dyf-color) max(l, .64) c h); }
+  body.dy-theme-light .dy-rail-fly { --dyf-ink: oklch(from var(--dyf-color) min(l, .5) c h); }
+}
+
+#dy-rail-flyouts { position: fixed; inset: 0 auto auto 0; width: 0; height: 0; z-index: 99990; }
+
+.dy-rail-fly {
+  position: fixed; z-index: 99990;
+  width: 236px; max-height: calc(100vh - 24px); overflow: auto; overscroll-behavior: contain;
+  box-sizing: border-box; padding: 6px;
+  background: var(--dya-paper); color: var(--dya-ink);
+  border: 1px solid var(--dya-edge); border-radius: var(--dya-r-lg, 14px);
+  box-shadow: 0 18px 44px -18px rgba(0, 0, 0, .55), 0 2px 8px -4px rgba(0, 0, 0, .3);
+  font-family: var(--dya-font-body, inherit);
+  opacity: 0; transform: translateX(-6px); visibility: hidden;
+  transition: opacity var(--dya-t-fast, .14s) ease, transform var(--dya-t-fast, .14s) ease, visibility 0s linear var(--dya-t-fast, .14s);
+}
+body.dy-theme-light .dy-rail-fly {
+  box-shadow: 0 18px 44px -18px rgba(20, 24, 33, .28), 0 2px 8px -4px rgba(20, 24, 33, .12);
+}
+.dy-rail-fly.is-open { opacity: 1; transform: none; visibility: visible; transition-delay: 0s; }
+// Invisible bridge over the gap to the entry: crossing it must not close the card.
+.dy-rail-fly::before { content: ""; position: absolute; left: -12px; top: 0; bottom: 0; width: 12px; }
+
+.dy-rail-fly__head {
+  display: flex; align-items: center; gap: 8px; padding: 6px 10px 8px;
+  font-size: 11px; font-weight: 600; line-height: 1; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--dyf-ink);
+}
+.dy-rail-fly__head::before { content: ""; width: 3px; height: 12px; border-radius: 2px; background: var(--dyf-color); }
+
+.dy-rail-fly__list, .dy-rail-fly__sub { list-style: none; margin: 0; padding: 0; }
+.dy-rail-fly__list > li { margin: 0; }
+.dy-rail-fly__item, .dy-rail-fly__subitem {
+  display: flex; align-items: center; gap: 10px;
+  min-height: 34px; padding: 0 10px; box-sizing: border-box;
+  border-radius: var(--dya-r-md, 10px);
+  color: var(--dya-ink); font-size: 13px; font-weight: 500; line-height: 1.2;
+  text-decoration: none; white-space: nowrap; overflow: hidden;
+  transition: background-color .12s ease, color .12s ease;
+}
+.dy-rail-fly__item:hover, .dy-rail-fly__item:focus-visible,
+.dy-rail-fly__subitem:hover, .dy-rail-fly__subitem:focus-visible {
+  background: var(--dya-paper-2); color: var(--dya-ink); outline: none; box-shadow: none;
+}
+.dy-rail-fly__item:focus-visible, .dy-rail-fly__subitem:focus-visible { box-shadow: inset 0 0 0 1.5px var(--dyf-ink); }
+.dy-rail-fly__label { flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; }
+// Icon: the chip icon (sprite symbol, plugin icon) or the neutral dot, as in the chipbar.
+.dy-rail-fly__item .dy-chip-icon,
+.dy-rail-fly__item .dot {
+  flex: 0 0 16px; width: 16px; height: 16px; display: inline-grid; place-items: center;
+  color: var(--dya-ink-mute); fill: currentColor; margin: 0; opacity: 1;
+}
+.dy-rail-fly__item .dy-chip-icon { width: 14px; height: 14px; flex-basis: 14px; }
+.dy-rail-fly__item .dot::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: .6; }
+.dy-rail-fly__item .dy-chip-icon--img { width: 14px; height: 14px; }
+.dy-rail-fly__item.is-current { color: var(--dyf-ink); }
+.dy-rail-fly__item.is-current .dy-chip-icon,
+.dy-rail-fly__item.is-current .dot { color: var(--dyf-ink); }
+.dy-rail-fly__item.is-current::after {
+  content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--dyf-color); flex: 0 0 auto; margin-left: auto;
+}
+// Two levels: the sub-pages, smaller and muted, with a hairline guide in the section colour.
+.dy-rail-fly__sub { padding-bottom: 4px; }
+.dy-rail-fly__subitem { min-height: 28px; padding-left: 36px; font-size: 12.5px; color: var(--dya-ink-mute); position: relative; }
+.dy-rail-fly__subitem::before {
+  content: ""; position: absolute; left: 17px; top: 0; bottom: 0; width: 1px;
+  background: color-mix(in srgb, var(--dyf-color) 32%, transparent);
+}
+.dy-rail-fly__sub > li:last-child > .dy-rail-fly__subitem::before { bottom: 50%; }
+
+@media (prefers-reduced-motion: reduce) {
+  .dy-rail-fly { transition: none; }
+}

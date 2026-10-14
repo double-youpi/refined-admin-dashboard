@@ -1,0 +1,315 @@
+// =============================================================
+// _postbox.scss
+// .postbox / .metabox-holder — used on the Dashboard, the
+// classic Edit Post screen, the Plugins detail screens, and
+// many plugin admin pages. Singular treatment.
+// =============================================================
+
+@use "card" as *;
+
+body.dy-admin #dashboard-widgets-wrap { padding: 0; }
+
+body.dy-admin .metabox-holder {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+// On Edit Post the holder gets `.columns-2`; on Settings or
+// other forms it can be `.columns-1`. Match both.
+body.dy-admin .metabox-holder.columns-1 { grid-template-columns: 1fr; }
+
+// Sidebar metaboxes on Edit Post — narrower right column.
+body.dy-admin #poststuff .metabox-holder { display: block; }
+body.dy-admin #poststuff #post-body.columns-2 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 304px;
+  gap: 24px;
+}
+// WordPress écrit d'abord `#postbox-container-1` (la colonne latérale, qu'il
+// fait flotter à droite) puis `#postbox-container-2` (le contenu principal).
+// En remplaçant les flottants par une grille, l'ordre du DOM reprenait la main :
+// la colonne latérale héritait de la piste large et le contenu principal se
+// retrouvait écrasé dans 304 px, les deux se chevauchant (écrans à boîtes méta
+// hors éditeur : pages d'options d'extensions, réglages). On rétablit l'ordre
+// visuel attendu. L'éditeur repensé pose sa propre grille et n'est pas concerné.
+body.dy-admin:not(.dy-editor-reimagined) #poststuff #post-body.columns-2 > #postbox-container-1 { order: 2; }
+body.dy-admin:not(.dy-editor-reimagined) #poststuff #post-body.columns-2 > #postbox-container-2 { order: 1; }
+// Le cœur tire la colonne latérale hors du flux avec `margin-right: -300px`,
+// une astuce de flottant. Dans une grille, cette marge négative élargit la
+// colonne de 300 px et la fait déborder : on la remet à zéro.
+body.dy-admin:not(.dy-editor-reimagined) #poststuff #post-body.columns-2 > .postbox-container { margin-inline: 0; }
+// Une colonne latérale sans boîte ne doit pas réserver 304 px : c'est le cas
+// des pages d'options d'extensions, où tout le formulaire tient à gauche.
+body.dy-admin:not(.dy-editor-reimagined) #poststuff #post-body.columns-2:has(> #postbox-container-1:not(:has(.postbox))) {
+  grid-template-columns: minmax(0, 1fr);
+}
+body.dy-admin:not(.dy-editor-reimagined) #poststuff #post-body.columns-2 > #postbox-container-1:not(:has(.postbox)) {
+  display: none;
+}
+body.dy-admin #poststuff #post-body.columns-1 {
+  display: block;
+}
+body.dy-admin #poststuff #postbox-container-1 { width: auto !important; }
+body.dy-admin #poststuff #postbox-container-2 { width: auto !important; }
+
+// WordPress injects `style="width: 49.5%"` (or similar percentage)
+// INLINE on each .postbox-container based on the dashboard's column
+// count. !important is required to win against the inline style.
+// Without this, the grid-template-columns above is ignored because
+// each container is force-sized to a percentage.
+body.dy-admin .postbox-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+  width: auto !important;
+  float: none !important;
+}
+
+// WP always outputs 4 .postbox-container elements regardless of
+// how many widgets are active. Hide empty containers so the grid
+// only counts the populated ones.
+body.dy-admin #dashboard-widgets .postbox-container:not(:has(.postbox)) {
+  display: none;
+}
+
+// .meta-box-sortables is WP's wrapper INSIDE each .postbox-container.
+// Without this, postboxes inside stack with default block margins
+// and don't get the 24px gap we set on .postbox-container.
+// `display: contents` lifts the .postbox children to be direct
+// flex children of .postbox-container — gap applies naturally.
+body.dy-admin .postbox-container > .meta-box-sortables {
+  display: contents;
+}
+
+body.dy-admin .postbox {
+  @include dy-card;
+  overflow: hidden;
+  margin: 0;
+  color: var(--dya-ink);
+}
+
+body.dy-admin .postbox-header,
+body.dy-admin .postbox > h2:not(.hndle),
+body.dy-admin .postbox > h3 {
+  display: flex;
+  align-items: center;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--dya-line);
+  gap: 10px;
+  margin: 0;
+  background: transparent;
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: -.01em;
+  // Clickable header (collapse/expand via postbox-collapse.js, the native
+  // handlediv being hidden) → affordance is signaled here.
+  cursor: pointer;
+}
+
+body.dy-admin .postbox-header .hndle,
+body.dy-admin .postbox > h2.hndle,
+body.dy-admin .postbox > h3.hndle {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: -.01em;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: var(--dya-ink);
+  cursor: pointer;
+}
+
+// The accent dot was on the left of the title (::before). Flipped via
+// `order` to place it to the right of the title, with `margin-left: auto`
+// pushing it to the right edge of the flex container. The hndle's text
+// content remains a normal flex item (order: 0 default), so it aligns
+// naturally to the left.
+body.dy-admin .postbox-header .hndle::before,
+body.dy-admin .postbox > h2.hndle::before,
+body.dy-admin .postbox > h3.hndle::before {
+  content: "";
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--dya-accent, var(--dya-line-content));
+  flex-shrink: 0;
+  order: 2;
+  margin-left: auto;
+}
+
+// Header handle/handlediv (the drag affordance) — hidden.
+body.dy-admin .postbox .handlediv,
+body.dy-admin .postbox .handle-actions { display: none; }
+
+// Per-line tint of the header dot.
+body.dy-admin .postbox.postbox--line-content   .hndle::before { background: var(--dya-line-content); }
+body.dy-admin .postbox.postbox--line-commerce  .hndle::before { background: var(--dya-line-commerce); }
+body.dy-admin .postbox.postbox--line-users     .hndle::before { background: var(--dya-line-users); }
+body.dy-admin .postbox.postbox--line-community .hndle::before { background: var(--dya-line-community); }
+body.dy-admin .postbox.postbox--line-site      .hndle::before { background: var(--dya-line-site); }
+body.dy-admin .postbox.postbox--line-system    .hndle::before { background: var(--dya-line-system); }
+body.dy-admin .postbox.postbox--line-developer .hndle::before { background: var(--dya-line-developer); }
+
+body.dy-admin .postbox .inside {
+  padding: 16px 18px;
+  margin: 0;
+}
+body.dy-admin .postbox .inside > :first-child { margin-top: 0; }
+body.dy-admin .postbox .inside > :last-child { margin-bottom: 0; }
+
+body.dy-admin .postbox .inside p {
+  font-size: 12.5px;
+  color: var(--dya-ink-soft);
+  line-height: var(--dya-lh-loose);
+  margin: 0 0 12px;
+}
+
+// `:not(.button)` excludes <a> elements styled as buttons (e.g.
+// .button-primary, .button-secondary, .page-title-action) — without
+// this exclusion, the specificity (0,3,3) of this rule beats that of
+// .button-primary (0,3,1) → invisible text when a primary button is
+// rendered inside a postbox (typical case: custom dashboard widget).
+body.dy-admin .postbox .inside a:not(.button) {
+  color: var(--dya-ink);
+  border-bottom: 1px solid var(--dya-line);
+  text-decoration: none;
+  transition: border-color var(--dya-t-fast);
+}
+body.dy-admin .postbox .inside a:not(.button):hover {
+  border-bottom-color: var(--dya-line-strong);
+}
+
+// Collapsed state (.closed) — WP toggles this on click on .handlediv (and our
+// DY chevron). By default (and without JS) the body is hidden instantly.
+body.dy-admin .postbox.closed .inside { display: none; }
+body.dy-admin .postbox.closed .postbox-header { border-bottom-color: transparent; }
+// `_11-editor-overrides` also sets a border-bottom !important directly on
+// `.hndle`/`h2.hndle` (the title). Without this, a CLOSED postbox would keep
+// a floating rule below its title (the body is hidden → the rule makes no
+// sense). We make it transparent in the closed state, mirroring the header.
+body.dy-admin .postbox.closed .postbox-header .hndle,
+body.dy-admin .postbox.closed > h2.hndle,
+body.dy-admin .postbox.closed > h3.hndle { border-bottom-color: transparent !important; }
+
+// When the animation module is active (body.dy-pb-anim, set by
+// postbox-collapse.js), the body stays displayed: JS animates its height
+// (0 ↔ content) on each `.closed` toggle → smooth collapse/expand everywhere
+// (editor, dashboard, settings, plugin metaboxes). Clipped during the animation.
+// !important: overrides WP-core ID-based rules (#poststuff .postbox.closed
+// .inside { display:none }) which, being more specific, would hide the body
+// and prevent the collapse animation.
+body.dy-admin.dy-pb-anim .postbox.closed .inside { display: block !important; }
+@media (prefers-reduced-motion: reduce) {
+  // No animation: fall back to instant hiding.
+  body.dy-admin.dy-pb-anim .postbox.closed .inside { display: none !important; }
+}
+
+// ── Native widget bodies — selectors that show up across
+// Dashboard + plugin pages. Kept here so themed widgets get
+// the right typography without per-widget overrides.
+
+// ── Site Health widget ─────────────────────────────────
+// WP output structure (real DOM):
+//   .health-check-widget
+//     .health-check-widget-title-section.site-health-progress-wrapper.{orange|green|red|blue}
+//       .site-health-progress > svg (viewBox 200×200, 2 circles, no class)
+//       .site-health-progress-label "Good" | "Should be improved" | "Needs improvement" | "Critical"
+//     .site-health-details
+//       <p>description paragraph</p>
+//
+// The label is a SIBLING of the ring (not nested inside it). The progress
+// SVG circles use r=90 / viewBox 200×200. We size the SVG container to
+// 64×64 visually and keep the WP-native SVG transform/dashoffset intact.
+body.dy-admin #dashboard_site_health .health-check-widget {
+  display: block;
+}
+body.dy-admin #dashboard_site_health .site-health-progress-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 4px 0 14px;
+  flex-wrap: wrap;
+  border: 0;
+  background: transparent;
+  margin: 0;
+}
+body.dy-admin #dashboard_site_health .site-health-progress {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+}
+body.dy-admin #dashboard_site_health .site-health-progress svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+// WP outputs 2 unnamed <circle> elements : first = background ring,
+// second (with id="bar") = progress ring driven by stroke-dashoffset.
+body.dy-admin #dashboard_site_health .site-health-progress svg circle:first-of-type {
+  fill: none;
+  stroke: var(--dya-line);
+  stroke-width: 10;
+}
+body.dy-admin #dashboard_site_health .site-health-progress svg circle:last-of-type {
+  fill: none;
+  stroke-width: 10;
+  stroke-linecap: round;
+  // Color overridden per status below.
+  stroke: var(--dya-ink-mute);
+}
+
+// Per-status colors (WP adds the class on the wrapper)
+body.dy-admin #dashboard_site_health .site-health-progress-wrapper.green  .site-health-progress svg circle:last-of-type { stroke: var(--dya-success); }
+body.dy-admin #dashboard_site_health .site-health-progress-wrapper.orange .site-health-progress svg circle:last-of-type { stroke: var(--dya-warn); }
+body.dy-admin #dashboard_site_health .site-health-progress-wrapper.red    .site-health-progress svg circle:last-of-type { stroke: var(--dya-danger); }
+body.dy-admin #dashboard_site_health .site-health-progress-wrapper.blue   .site-health-progress svg circle:last-of-type { stroke: var(--dya-info); }
+
+// The status label is a SIBLING of the ring — render it inline as a
+// caption, NOT absolutely overlaid (mockup had a number, WP has text).
+body.dy-admin #dashboard_site_health .site-health-progress-label {
+  position: static;
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  color: var(--dya-ink-mute);
+  opacity: 1;
+  animation: none;
+  padding: 4px 10px;
+  border-radius: var(--dya-r-sm);
+  background: var(--dya-paper-2);
+  border: 1px solid var(--dya-edge);
+  white-space: nowrap;
+}
+body.dy-admin #dashboard_site_health .site-health-progress-wrapper.green  .site-health-progress-label { color: var(--dya-success); border-color: rgba(76, 195, 138, .25); }
+body.dy-admin #dashboard_site_health .site-health-progress-wrapper.orange .site-health-progress-label { color: var(--dya-warn);    border-color: rgba(245, 166, 35, .25); }
+body.dy-admin #dashboard_site_health .site-health-progress-wrapper.red    .site-health-progress-label { color: var(--dya-danger);  border-color: rgba(240, 101, 87, .25); }
+body.dy-admin #dashboard_site_health .site-health-progress-wrapper.blue   .site-health-progress-label { color: var(--dya-info);    border-color: rgba(79, 156, 217, .25); }
+
+// Description below the ring + label.
+body.dy-admin #dashboard_site_health .site-health-details,
+body.dy-admin #dashboard_site_health .site-health-text {
+  width: 100%;
+}
+body.dy-admin #dashboard_site_health .site-health-details p,
+body.dy-admin #dashboard_site_health .site-health-text p {
+  margin: 0 0 10px;
+}
+body.dy-admin #dashboard_site_health .site-health-text strong {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 4px;
+  font-weight: 500;
+  color: var(--dya-ink);
+}

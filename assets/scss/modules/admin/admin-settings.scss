@@ -1,0 +1,539 @@
+// =============================================================
+// admin-settings.scss → assets/css/modules/admin/admin-settings.css
+// Refined Admin Dashboard, settings page, General tab only
+// (enqueued by Settings::enqueue_settings_assets).
+//
+// The card system (.dy-mlset__group, __cards, __card, __icon, __switch,
+// __saved…) is the media library settings one, shipped in
+// admin-overview.css on every Double Youpï page. This sheet adds what only
+// this page has: two-pane rows, the accent picker, the logo field, the
+// navigation choices, the segmented control and the profile block.
+// It used to be an inline <style> in Settings.php (moved 30/09/2026).
+// =============================================================
+
+$ease-out: var(--dya-ease-out, cubic-bezier(.16, 1, .3, 1));
+
+.dy-adset {
+	container-type: inline-size;
+
+	.dy-mlset__group { margin: 0 0 clamp(24px, 2.6vw, 36px); }
+	.dy-mlset__actions { margin: 0 0 clamp(24px, 2.6vw, 36px); }
+
+	// One line between every row of a box, whatever the row is.
+	.dy-mlset__cards > * + * { border-top: 1px solid var(--dya-line); }
+
+	// :where() keeps the reset at the specificity of one class, so the
+	// segmented control below can set its own padding and display.
+	:where(fieldset) {
+		min-width: 0;
+		margin: 0;
+		padding: 0;
+		border: 0;
+	}
+	:where(fieldset[disabled]) { opacity: .55; }
+}
+
+.dy-adset__intro { margin: 14px 0 22px; }
+
+// ── Group head: eyebrow + "pinned in code" chip ─────────────
+.dy-adset__head {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin: 0 0 12px;
+
+	.dy-mlset__eyebrow { margin: 0; }
+}
+
+.dy-adset__lock {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	padding: 2px 9px;
+	border-radius: var(--dya-r-pill);
+	background: var(--dya-paper-3);
+	color: var(--dya-ink-soft);
+	font-size: 11px;
+	font-weight: 600;
+
+	svg { width: 11px; height: 11px; }
+}
+
+// ── Rows that are not toggles ───────────────────────────────
+.dy-adset__cell {
+	position: relative;
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	align-items: start;
+	gap: 0 clamp(14px, 1.8vw, 22px);
+	padding: clamp(15px, 1.7vw, 19px) clamp(18px, 2vw, 24px);
+
+	> .dy-mlset__body { grid-column: 2 / -1; }
+
+	// A cell's saved badge sits in its top corner, not on a switch.
+	> .dy-mlset__saved { top: clamp(15px, 1.7vw, 19px); transform: translateX(6px); }
+	&.is-saved > .dy-mlset__saved { opacity: 1; transform: none; }
+}
+
+.dy-adset__extra {
+	grid-column: 2 / -1;
+	min-width: 0;
+	margin: 14px 0 0;
+}
+
+// Name and description on the left, the control on the right.
+.dy-adset__cell--inline {
+	align-items: center;
+
+	> .dy-mlset__body { grid-column: 2; }
+	> .dy-mlset__saved { top: 50%; transform: translate(6px, -50%); }
+	&.is-saved > .dy-mlset__saved { transform: translate(0, -50%); }
+	&.is-saved > .dy-adset__segmented { opacity: 0; }
+}
+
+// A row with no icon (lists, the pin-in-code disclosure).
+.dy-adset__cell--plain { grid-template-columns: 1fr; }
+
+// ── Two panes side by side, stacked when the page is narrow ─
+.dy-adset__panes {
+	display: grid;
+	grid-template-columns: 1fr;
+
+	> * + * { border-top: 1px solid var(--dya-line); }
+}
+@container (min-width: 820px) {
+	.dy-adset__panes { grid-template-columns: 1fr 1fr; }
+	.dy-adset__panes--brand { grid-template-columns: 1.55fr 1fr; }
+	.dy-adset__panes > * + * {
+		border-top: 0;
+		border-left: 1px solid var(--dya-line);
+	}
+}
+
+// ── Accent color ────────────────────────────────────────────
+.dy-accent-swatch-grid {
+	display: grid;
+	grid-template-columns: repeat(12, 26px);
+	gap: 7px;
+}
+@container (max-width: 560px) {
+	.dy-accent-swatch-grid { grid-template-columns: repeat(6, 26px); }
+}
+
+.dy-accent-swatch {
+	appearance: none;
+	position: relative;
+	width: 26px;
+	height: 26px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: var(--dya-r-sm);
+	background: var(--swatch, #888);
+	cursor: pointer;
+	outline: 0;
+	transition: transform 140ms $ease-out, box-shadow 140ms $ease-out;
+
+	// A thin inner ring gives depth on any ground.
+	&::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .08);
+		pointer-events: none;
+	}
+	&:hover {
+		transform: translateY(-1px);
+		box-shadow: 0 4px 14px color-mix(in srgb, var(--swatch, #888) 35%, transparent);
+	}
+	&:focus-visible { box-shadow: 0 0 0 2px var(--dya-bg), 0 0 0 4px var(--swatch, #888); }
+	&.is-selected {
+		transform: translateY(-1px);
+		box-shadow: 0 0 0 2px var(--dya-bg), 0 0 0 4px var(--swatch, #888), 0 6px 18px color-mix(in srgb, var(--swatch, #888) 30%, transparent);
+	}
+	&.is-selected::before {
+		content: "";
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		width: 9px;
+		height: 5px;
+		border-left: 1.5px solid #fff;
+		border-bottom: 1.5px solid #fff;
+		transform: translate(-50%, -65%) rotate(-45deg);
+		filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .35));
+	}
+	&:disabled { cursor: not-allowed; opacity: .45; }
+}
+
+.dy-accent-picker__custom {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 8px 12px;
+	margin-top: 16px;
+}
+.dy-accent-picker__heading {
+	font-size: 12px;
+	color: var(--dya-ink-mute);
+}
+// Iris keeps its native look.
+.dy-accent-picker .wp-picker-container { display: inline-flex; gap: 6px; align-items: center; }
+
+// The [hidden] attribute loses to `display: flex` at equal specificity.
+.dy-accent-feedback[hidden],
+.dy-accent-suggestion[hidden] { display: none !important; }
+
+.dy-accent-feedback {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	max-width: 520px;
+	margin-top: 14px;
+	padding: 14px 16px;
+	border-radius: var(--dya-r-md);
+	background: color-mix(in srgb, var(--dya-danger) 8%, transparent);
+	box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--dya-danger) 40%, transparent);
+	color: var(--dya-ink);
+	animation: dy-feedback-slide 320ms $ease-out;
+}
+@keyframes dy-feedback-slide {
+	from { opacity: 0; transform: translateY(-6px); }
+	to   { opacity: 1; transform: none; }
+}
+.dy-accent-feedback__icon { flex-shrink: 0; margin-top: 1px; color: var(--dya-danger); }
+.dy-accent-feedback__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.dy-accent-feedback__title { margin: 0; font-size: 13px; font-weight: 600; color: var(--dya-ink); }
+.dy-accent-feedback__text { margin: 0; font-size: 12.5px; line-height: 1.5; color: var(--dya-ink-soft); }
+
+.dy-accent-suggestion {
+	appearance: none;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	width: 100%;
+	margin-top: 2px;
+	padding: 10px 12px;
+	border: 0;
+	border-radius: var(--dya-r-md);
+	background: var(--dya-paper);
+	box-shadow: inset 0 0 0 1px var(--dya-line-strong);
+	text-align: left;
+	cursor: pointer;
+	transition: transform 140ms ease, box-shadow 140ms ease;
+
+	&:hover {
+		transform: translateY(-1px);
+		box-shadow: inset 0 0 0 1px var(--swatch, #888), 0 4px 12px color-mix(in srgb, var(--swatch, #888) 25%, transparent);
+	}
+	&:focus-visible { outline: 0; box-shadow: inset 0 0 0 1px var(--swatch, #888), 0 0 0 3px color-mix(in srgb, var(--swatch, #888) 30%, transparent); }
+	&:hover .dy-accent-suggestion__cta svg { transform: translateX(2px); }
+}
+.dy-accent-suggestion__swatch {
+	flex-shrink: 0;
+	width: 36px;
+	height: 36px;
+	border-radius: var(--dya-r-sm);
+	background: var(--swatch, #888);
+	box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .08);
+}
+.dy-accent-suggestion__meta { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.dy-accent-suggestion__label { font-size: 11.5px; color: var(--dya-ink-mute); }
+.dy-accent-suggestion__hex {
+	font-family: var(--dya-font-mono);
+	font-size: 12.5px;
+	font-weight: 600;
+	letter-spacing: .04em;
+	color: var(--dya-ink);
+}
+.dy-accent-suggestion__cta {
+	flex-shrink: 0;
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 6px 10px;
+	border-radius: var(--dya-r-sm);
+	background: var(--swatch, #888);
+	color: #fff;
+	font-size: 11px;
+	font-weight: 600;
+
+	svg { transition: transform 140ms ease; }
+}
+
+// ── Logo ────────────────────────────────────────────────────
+.dy-logo-field {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 14px;
+}
+.dy-logo-preview {
+	flex-shrink: 0;
+	display: grid;
+	place-items: center;
+	width: 64px;
+	height: 64px;
+	padding: 10px;
+	border-radius: var(--dya-r-md);
+	background: var(--dya-paper-3);
+	color: var(--dya-ink);
+	overflow: hidden;
+	// One track of a definite size: without it the row is `auto`, a
+	// percentage height has nothing to resolve against, and the default logo
+	// kept its own height attribute (59 px in a 44 px box, overflowing).
+	grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+
+	// Fill the padded box; the SVG viewBox and object-fit keep the ratio.
+	img,
+	svg {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+}
+.dy-logo-field__meta { display: flex; flex-direction: column; gap: 8px; }
+.dy-logo-field__buttons { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
+.dy-logo-field__hint { font-size: 11.5px; color: var(--dya-ink-mute); }
+
+// ── The seven line colors, under "Accent on every menu line" ─
+// Read from the tokens, so they turn to the accent with the rail itself.
+.dy-adset__dots {
+	display: inline-flex;
+	gap: 4px;
+	margin-top: 7px;
+
+	i {
+		width: 16px;
+		height: 4px;
+		border-radius: 2px;
+		background: var(--dy-dot);
+		transition: background var(--dya-t-med) var(--dya-ease);
+	}
+	@each $line in content, commerce, users, community, site, system, developer {
+		$i: index((content, commerce, users, community, site, system, developer), $line);
+		i:nth-child(#{$i}) { --dy-dot: var(--dya-line-#{$line}); }
+	}
+}
+
+// ── Navigation tree: two choice cards ───────────────────────
+.dy-adset__choices {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+	gap: 12px;
+	max-width: 780px;
+}
+.dy-adset__choice {
+	position: relative;
+	display: grid;
+	grid-template-columns: 76px 1fr;
+	gap: 14px;
+	padding: 14px;
+	border-radius: var(--dya-r-md);
+	background: var(--dya-bg);
+	box-shadow: inset 0 0 0 1px var(--dya-line-strong);
+	cursor: pointer;
+	transition: box-shadow var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease);
+
+	input { position: absolute; opacity: 0; pointer-events: none; }
+
+	&:hover { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--dya-accent) 50%, var(--dya-line-strong)); }
+	&:has(input:checked) {
+		background: color-mix(in srgb, var(--dya-accent) 10%, var(--dya-bg));
+		box-shadow: inset 0 0 0 1.5px var(--dya-accent);
+	}
+	&:has(input:focus-visible) { outline: 2px solid var(--dya-accent); outline-offset: 2px; }
+	&:has(input:disabled) { cursor: not-allowed; }
+}
+.dy-adset__schema {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 4px;
+	height: 76px;
+	padding: 8px 9px;
+	border-radius: var(--dya-r-sm);
+	background: var(--dya-paper-3);
+
+	i {
+		display: block;
+		height: 4px;
+		border-radius: 2px;
+		background: var(--dy-schema-line, var(--dya-ink-mute));
+	}
+}
+.dy-adset__schema--native {
+	gap: 3px;
+
+	i { height: 3px; opacity: .5; }
+}
+.dy-adset__choice-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.dy-adset__choice-name {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 8px;
+	font-family: var(--dya-font-display);
+	font-size: 13.5px;
+	font-weight: 600;
+	letter-spacing: var(--dya-tracking-tight);
+	color: var(--dya-ink);
+}
+.dy-adset__badge {
+	padding: 2px 7px;
+	border-radius: var(--dya-r-pill);
+	background: color-mix(in srgb, var(--dya-accent) 16%, transparent);
+	color: var(--dya-accent-text, var(--dya-accent));
+	font-family: var(--dya-font-body);
+	font-size: 10.5px;
+	font-weight: 600;
+	letter-spacing: 0;
+}
+.dy-adset__choice-desc { font-size: 12px; line-height: 1.45; color: var(--dya-ink-soft); }
+.dy-adset__after-choice {
+	margin: 12px 0 0;
+	font-size: 12.5px;
+	color: var(--dya-ink-soft);
+
+	a { font-weight: 600; text-decoration: none; }
+	a:hover,
+	a:focus-visible { text-decoration: underline; text-underline-offset: 2px; }
+}
+
+// ── Segmented control (radios) ──────────────────────────────
+.dy-adset__segmented {
+	grid-column: 3;
+	justify-self: end;
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: 2px;
+	padding: 3px;
+	border-radius: var(--dya-r-md);
+	background: var(--dya-paper-3);
+	transition: opacity .2s;
+
+	label { position: relative; margin: 0; cursor: pointer; }
+	input { position: absolute; opacity: 0; pointer-events: none; }
+	span {
+		display: block;
+		padding: 6px 12px;
+		border-radius: var(--dya-r-sm);
+		font-size: 12.5px;
+		color: var(--dya-ink-soft);
+		white-space: nowrap;
+		transition: background var(--dya-t-fast) var(--dya-ease), color var(--dya-t-fast) var(--dya-ease);
+	}
+	label:hover span { color: var(--dya-ink); }
+	input:checked + span {
+		background: var(--dya-bg);
+		color: var(--dya-ink);
+		font-weight: 600;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, .14);
+	}
+	input:focus-visible + span { outline: 2px solid var(--dya-accent); outline-offset: 1px; }
+}
+// Narrow page: the control drops under the description.
+@container (max-width: 700px) {
+	.dy-adset__cell--inline { align-items: start; }
+	.dy-adset__segmented {
+		grid-column: 2 / -1;
+		justify-self: start;
+		margin-top: 12px;
+	}
+}
+
+// ── Settings profile ────────────────────────────────────────
+.dy-adset__import {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 8px;
+
+	input[type="file"] { max-width: 100%; font-size: 12px; color: var(--dya-ink-soft); }
+}
+
+.dy-adset__lists {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+	gap: 16px 32px;
+
+	ul {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		font-size: 12.5px;
+		color: var(--dya-ink-soft);
+	}
+	li {
+		display: flex;
+		gap: 8px;
+		margin: 0;
+	}
+	li::before {
+		content: "";
+		flex-shrink: 0;
+		width: 5px;
+		height: 5px;
+		margin-top: 7px;
+		border-radius: 50%;
+		background: var(--dya-accent);
+	}
+	ul.is-muted li::before { background: var(--dya-ink-mute); }
+}
+.dy-adset__list-title {
+	margin: 0 0 6px;
+	font-family: var(--dya-font-mono);
+	font-size: 10.5px;
+	font-weight: 400; // like .dy-mlset__eyebrow
+	letter-spacing: var(--dya-tracking-label);
+	text-transform: uppercase;
+	color: var(--dya-ink-mute);
+}
+
+.dy-adset__pin {
+	summary {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		font-size: 12.5px;
+		font-weight: 600;
+		color: var(--dya-ink);
+		cursor: pointer;
+	}
+	.description { margin: 8px 0 0; }
+}
+.dy-adset__code {
+	display: block;
+	max-width: 100%;
+	margin-top: 10px;
+	padding: 10px 12px;
+	overflow-x: auto;
+	white-space: pre;
+	border-radius: var(--dya-r-md);
+	background: var(--dya-bg);
+	box-shadow: inset 0 0 0 1px var(--dya-line-strong);
+	font-size: 12px;
+}
+
+// ── Group reached from a first-run shortcut (Welcome.php) ───
+// A brief accent ring on its box, so the eye lands on it even when the page
+// cannot scroll it to the top. The group takes focus for screen readers,
+// without a focus ring of its own: the glow already says where we are.
+.dy-adset .dy-mlset__group:focus { outline: none; }
+.dy-adset .dy-mlset__group.is-targeted > .dy-mlset__cards {
+	animation: dy-adset-target 1.6s var(--dya-ease-out, cubic-bezier(.16, 1, .3, 1)) both;
+}
+@keyframes dy-adset-target {
+	0%   { box-shadow: 0 0 0 0 transparent; }
+	20%  { box-shadow: 0 0 0 2px var(--dya-accent), 0 0 0 7px rgba(var(--dya-accent-rgb), .18); }
+	100% { box-shadow: 0 0 0 0 transparent; }
+}
+@media (prefers-reduced-motion: reduce) {
+	.dy-adset .dy-mlset__group.is-targeted > .dy-mlset__cards { animation: none; }
+}

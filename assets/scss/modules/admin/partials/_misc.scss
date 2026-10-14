@@ -1,0 +1,576 @@
+// =============================================================
+// _misc.scss
+// Surfaces that don't deserve their own partial: footer (hidden),
+// "Help" tabs, Customizer hook, Site Health detail page, screen-
+// options panel, and a handful of plugin-injected widgets.
+// =============================================================
+
+@use "card" as *;
+
+// ── WP admin footer ──────────────────────────────────
+// Hidden by default per design — credit text doesn't earn space.
+body.dy-admin #wpfooter,
+body.dy-admin #footer-thankyou,
+body.dy-admin #footer-upgrade {
+  display: none;
+}
+
+// If a user opts back in (body.dy-show-footer), style it:
+body.dy-admin.dy-show-footer #wpfooter {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px var(--dya-wrap-pad-x);
+  max-width: var(--dya-wrap-max);
+  margin: 56px auto 0;
+  border-top: 1px solid var(--dya-line);
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  color: var(--dya-ink-fade);
+  background: transparent;
+  position: static;
+}
+
+// ── Screen-options / Help panels (top of every page) ─
+body.dy-admin #contextual-help-wrap,
+body.dy-admin #screen-options-wrap {
+  display: none;
+}
+
+// ── Site Health detail page (site-health.php) ────────
+// WP centers the body (`max-width:800px; margin:0 auto`). We switch it to full
+// content width, left-aligned, like our standard pages.
+body.dy-admin .health-check-body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  // Constrained to content-page width (like `.wrap`): centered,
+  // same max-width and same lateral gutter → left alignment matches
+  // the rest of the settings pages.
+  box-sizing: border-box;
+  max-width: var(--dya-wrap-max) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: var(--dya-wrap-pad-x);
+  padding-right: var(--dya-wrap-pad-x);
+}
+// "Standard page" header (like our settings pages): NO card.
+//   • "Site Health" title on the left (page-title size + VT +
+//     accent cursor, exactly like `.wrap > h1`).
+//   • Ring + status label on the right, aligned to the right edge of the content.
+//   • Status/Info tabs in a full-width row BELOW the title.
+//   • Content (.health-check-body) laid flat.
+body.dy-admin .health-check-header {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  // Centered + constrained to content width (like `.wrap`), with a
+  // TOP gutter (--dya-wrap-pad-y): the ring + title no longer sit flush against
+  // the chipbar, and the left edge aligns with other pages.
+  box-sizing: border-box;
+  max-width: var(--dya-wrap-max);
+  margin: 0 auto 8px;
+  padding: var(--dya-wrap-pad-y) var(--dya-wrap-pad-x) 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 24px;
+}
+body.dy-admin .health-check-title-section {
+  order: 0;
+  flex: 1 1 auto;
+  // WP centers the title (`justify-content:center`) → we pull it to the left,
+  // aligned to the content edge like a standard page title.
+  justify-content: flex-start !important;
+  text-align: left;
+}
+// Title = standard page title. We replicate the `.wrap > h1` treatment
+// (the Site Health h1 is nested inside .health-check-header, so the
+// `.wrap > h1` selector does not reach it): size, shared VT name for the
+// cross-page morph, and blinking accent cursor.
+body.dy-admin .health-check-title-section h1 {
+  margin: 0;
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+  padding-right: 0.5em;
+  // Same size as content-page titles (see overview shell
+  // `clamp(26px, 2vw, 34px)`), not the large --dya-fs-3xl.
+  font-size: clamp(26px, 2vw, 34px);
+  view-transition-name: dy-vt-page-title;
+}
+body.dy-admin .health-check-title-section h1::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 3px;
+  height: 1.1em;
+  background: var(--dya-accent);
+  opacity: 0.5;
+  animation: dy-cursor-blink 1.2s ease-in-out infinite;
+}
+body.dy-admin .site-health-progress {
+  position: relative;
+  flex-shrink: 0;
+}
+
+body.dy-admin .health-check-accordion .health-check-accordion-heading {
+  background: var(--dya-paper);
+  border: 1px solid var(--dya-edge);
+  border-radius: var(--dya-r-md);
+  margin: 0 0 6px;
+}
+body.dy-admin .health-check-accordion .health-check-accordion-trigger {
+  background: transparent;
+  border: 0;
+  width: 100%;
+  text-align: left;
+  // WP positions the `.icon` chevron with `position:absolute; right:~20px`. Without
+  // right padding, it overlapped the category badge (Security /
+  // Performance / SEO). We reserve 44px on the right and push the badge.
+  padding: 12px 44px 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--dya-ink);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+// The title takes the available space → the badge is pushed to the right, just
+// before the area reserved for the chevron (no more overlap).
+body.dy-admin .health-check-accordion .health-check-accordion-trigger .title {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+body.dy-admin .health-check-accordion .health-check-accordion-trigger .badge {
+  flex: 0 0 auto;
+  font-family: var(--dya-font-mono);
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  padding: 3px 9px;
+  border-radius: var(--dya-r-pill);
+  border: 1px solid var(--dya-edge);
+  color: var(--dya-ink-mute);
+  background: var(--dya-paper-2);
+}
+body.dy-admin .health-check-accordion .health-check-accordion-trigger .badge.blue   { color: var(--dya-info);    border-color: color-mix(in srgb, var(--dya-info) 40%, transparent); }
+body.dy-admin .health-check-accordion .health-check-accordion-trigger .badge.red    { color: var(--dya-danger);  border-color: color-mix(in srgb, var(--dya-danger) 40%, transparent); }
+body.dy-admin .health-check-accordion .health-check-accordion-trigger .badge.orange { color: var(--dya-warn);    border-color: color-mix(in srgb, var(--dya-warn) 40%, transparent); }
+body.dy-admin .health-check-accordion .health-check-accordion-trigger .badge.green  { color: var(--dya-success); border-color: color-mix(in srgb, var(--dya-success) 40%, transparent); }
+body.dy-admin .health-check-accordion .health-check-accordion-trigger:hover {
+  background: var(--dya-paper-2);
+}
+body.dy-admin .health-check-accordion .health-check-accordion-panel {
+  background: var(--dya-paper-2);
+  padding: 16px;
+  border-top: 1px solid var(--dya-line);
+  font-size: 12.5px;
+  color: var(--dya-ink-soft);
+  line-height: var(--dya-lh-loose);
+}
+
+// Status badges
+body.dy-admin .site-health-progress .progress-label {
+  font-family: var(--dya-font-mono);
+  font-size: 16px;
+  font-weight: 500;
+}
+body.dy-admin .site-health-issue-count {
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  color: var(--dya-ink-mute);
+}
+
+// Status containers (critical / recommended / good / debug): WP wraps them
+// with a grey #c3c4c7 border. We remove it — each issue row already has
+// its own card via `.health-check-accordion-heading`.
+body.dy-admin #health-check-site-status-critical,
+body.dy-admin #health-check-site-status-recommended,
+body.dy-admin #health-check-site-status-good,
+body.dy-admin #health-check-debug,
+body.dy-admin .health-check-accordion {
+  border: 0 !important;
+  background: transparent !important;
+}
+
+// Ring + status: to the right of the title (same row), pushed to the right edge.
+body.dy-admin .health-check-header .site-health-progress-wrapper {
+  order: 1;
+  flex: 0 0 auto;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+// Fixed-width ring + fixed-width label → the circle always stays at the
+// same position regardless of the status text.
+body.dy-admin .health-check-header .site-health-progress {
+  flex: 0 0 auto;
+  width: 60px;
+  height: 60px;
+}
+body.dy-admin .health-check-header .site-health-progress-wrapper .site-health-progress-label {
+  flex: 0 0 auto;
+  width: 140px;
+  font-family: var(--dya-font-display);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--dya-ink);
+  line-height: 1.3;
+}
+
+// Status / Info tabs: FULL-WIDTH row below the title, rendered as standard
+// tabs (divider + accent underline on the active tab).
+body.dy-admin .health-check-header .health-check-tabs-wrapper {
+  order: 2;
+  flex: 0 0 100%;
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+  border-bottom: 1px solid var(--dya-line);
+}
+body.dy-admin .health-check-header .health-check-tab {
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 2px solid transparent !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  padding: 9px 14px !important;
+  color: var(--dya-ink-soft) !important;
+  font-weight: 500;
+  box-shadow: none !important;
+}
+body.dy-admin .health-check-header .health-check-tab:hover {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .health-check-header .health-check-tab.active,
+body.dy-admin .health-check-header .health-check-tab[aria-selected="true"] {
+  color: var(--dya-ink) !important;
+  border-bottom-color: var(--dya-accent) !important;
+  background: transparent !important;
+}
+
+// ── DS ring animation ───────────────────────────────────────
+// Subtle track + themed arc (semantic color per status),
+// rounded ends, and a stroke that draws in on load + a soft glow.
+body.dy-admin .site-health-progress svg { transform: rotate(-90deg); transform-origin: center; }
+body.dy-admin .site-health-progress svg circle {
+  stroke-width: 12;
+}
+body.dy-admin .site-health-progress svg circle:not(#bar) {
+  stroke: var(--dya-line-strong);   // track
+}
+body.dy-admin .site-health-progress svg #bar {
+  stroke-linecap: round;
+  stroke: var(--dya-ink-mute);
+  transition: stroke-dashoffset 1.2s cubic-bezier(.16, 1, .3, 1);
+  animation: dy-ring-draw 1.2s cubic-bezier(.16, 1, .3, 1) both;
+}
+body.dy-admin .site-health-progress-wrapper.green  svg #bar { stroke: var(--dya-success); }
+body.dy-admin .site-health-progress-wrapper.orange svg #bar { stroke: var(--dya-warn); }
+body.dy-admin .site-health-progress-wrapper.red    svg #bar { stroke: var(--dya-danger); }
+body.dy-admin .site-health-progress-wrapper.grey   svg #bar { stroke: var(--dya-ink-mute); }
+// Soft glow in the arc color (status), subtle.
+body.dy-admin .site-health-progress { filter: drop-shadow(0 1px 6px color-mix(in srgb, currentColor 28%, transparent)); }
+body.dy-admin .site-health-progress-wrapper.green  { color: var(--dya-success); }
+body.dy-admin .site-health-progress-wrapper.orange { color: var(--dya-warn); }
+body.dy-admin .site-health-progress-wrapper.red    { color: var(--dya-danger); }
+@keyframes dy-ring-draw {
+  from { stroke-dashoffset: 565.48; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.dy-admin .site-health-progress svg #bar { animation: none; }
+}
+
+// Bottom padding: the "Tests passed successfully" button was touching the
+// bottom edge of the page. We add a gutter below the health flow.
+body.dy-admin .health-check-body {
+  padding-bottom: 40px;
+}
+
+// ── Update Core page (update-core.php) ───────────────
+body.dy-admin .update-php h2,
+body.dy-admin .wrap.update-php h2 {
+  font-size: var(--dya-fs-lg);
+  margin: 24px 0 12px;
+}
+body.dy-admin .wrap .core-updates,
+body.dy-admin .wrap .plugins-updates,
+body.dy-admin .wrap .themes-updates {
+  @include dy-card;            // KEEP : sections d'update distinctes
+  padding: 18px 22px;
+  margin: 0 0 16px;
+}
+body.dy-admin .wrap .core-updates p,
+body.dy-admin .wrap .plugins-updates p,
+body.dy-admin .wrap .themes-updates p {
+  font-size: 13px;
+  color: var(--dya-ink-soft);
+  margin: 0 0 8px;
+}
+
+// ── Profile page (#profile-page) ─────────────────────
+// FLAT (no card): the profile is a large form; wrapping it in a card created
+// padding/layout issues and conflicts with third-party UIs (Rank Math/Yoast).
+// We lay it flat on the page background, sections separated by simple
+// dividers under the <h2> headings.
+body.dy-admin #profile-page #your-profile {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+}
+// Same for any .postbox elements inside the profile (neutralizes the card
+// inherited from _postbox).
+body.dy-admin #profile-page .postbox {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+body.dy-admin #profile-page h2,
+body.dy-admin #profile-page h3 {
+  margin: 24px 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--dya-line);
+}
+body.dy-admin #profile-page h2:first-child { margin-top: 0; }
+
+// SEO sections (Rank Math / Yoast) pushed to the end of the profile by
+// profile-reorder.js. Without margin, the islands were touching each other
+// (feedback: "they are stuck together"). We add vertical breathing room between
+// each block and relative to the profile fields above.
+body.dy-admin #profile-page .rank-math-metabox-wrap,
+body.dy-admin #profile-page .rank-math-metabox-frame,
+body.dy-admin #profile-page .yoast-settings {
+  margin-top: 28px !important;
+}
+
+// Color picker swatches inside profile / customizer
+body.dy-admin .color-option {
+  background: var(--dya-paper-2);
+  border: 1px solid var(--dya-edge);
+  border-radius: var(--dya-r-md);
+  padding: 8px;
+  margin: 0 8px 8px 0;
+  cursor: pointer;
+  transition: border-color var(--dya-t-fast);
+}
+body.dy-admin .color-option.selected,
+body.dy-admin .color-option:focus,
+body.dy-admin .color-option:hover {
+  border-color: var(--dya-accent);
+}
+
+// ── Customize.php iframe wrap ────────────────────────
+body.dy-admin .wp-customizer #customize-controls {
+  background: var(--dya-bg);
+}
+
+// ── Tools / Import / Export ──────────────────────────
+body.dy-admin .wrap .importers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 16px 0 0;
+}
+body.dy-admin .wrap .importers .importer-item {
+  @include dy-card;            // KEEP: selectable import items (grid)
+  padding: 16px 20px;
+}
+body.dy-admin .wrap .importers .importer-title {
+  font-family: var(--dya-font-display);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: var(--dya-tracking-tight);
+  color: var(--dya-ink);
+  margin: 0 0 6px;
+}
+body.dy-admin .wrap .importers .importer-desc {
+  font-size: 12.5px;
+  color: var(--dya-ink-mute);
+  line-height: var(--dya-lh-base);
+}
+
+// ── Comments page extras (.comment-meta, .comment-author) ─
+body.dy-admin .wp-list-table.comments .comment-author strong,
+body.dy-admin .wp-list-table.comments .author {
+  font-weight: 500;
+  color: var(--dya-ink);
+}
+body.dy-admin .wp-list-table.comments .comment-meta,
+body.dy-admin .wp-list-table.comments .submitted-on {
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-mono);
+  color: var(--dya-ink-fade);
+}
+
+// ── Menus page (#menu-management) ────────────────────
+// FLAT: the menu structure is not a card — it lives on the page background
+// (see the nav-menus section in _wp-production which consolidates frame/header/
+// footer). Here we neutralize the old card.
+body.dy-admin #menu-management-liquid { padding: 0; }
+body.dy-admin #menu-management {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  margin: 0;
+}
+body.dy-admin #menu-management .menu-edit { padding: 0; }
+body.dy-admin #menu-management .nav-tabs-wrapper { background: transparent; border-bottom: 1px solid var(--dya-line); }
+body.dy-admin #menu-name-label label,
+body.dy-admin .menu-name-label label {
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  color: var(--dya-ink-mute);
+}
+
+// Menu items list
+body.dy-admin .menu-item-handle {
+  background: var(--dya-paper-2);
+  border: 1px solid var(--dya-edge);
+  border-radius: var(--dya-r-md);
+  padding: 10px 12px;
+  margin: 0 0 6px;
+  color: var(--dya-ink);
+  font-size: 13px;
+}
+
+// ── Widgets page ─────────────────────────────────────
+body.dy-admin .widgets-holder-wrap {
+  background: var(--dya-paper);
+  border: 1px solid var(--dya-edge);
+  border-radius: var(--dya-r-xl);
+  box-shadow: var(--dya-shadow-sm);
+  margin: 0 0 16px;
+}
+body.dy-admin .widgets-holder-wrap .sidebar-name,
+body.dy-admin .widgets-holder-wrap h2 {
+  background: transparent;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--dya-line);
+  color: var(--dya-ink);
+  font-family: var(--dya-font-display);
+  font-size: 14px;
+  font-weight: 500;
+}
+body.dy-admin .widget {
+  background: var(--dya-paper-2);
+  border: 1px solid var(--dya-edge);
+  border-radius: var(--dya-r-md);
+  margin: 8px 12px;
+  box-shadow: none;
+}
+body.dy-admin .widget-top {
+  background: transparent;
+  border-bottom: 1px solid var(--dya-line);
+  padding: 10px 12px;
+  cursor: move;
+}
+body.dy-admin .widget-title h3,
+body.dy-admin .widget-title h4 {
+  color: var(--dya-ink);
+  font-size: 13px;
+  font-weight: 500;
+  margin: 0;
+  letter-spacing: 0;
+}
+
+// ── edit-tags.php — categories / tags ─────────────────
+// WP layout: left column with the "Add new" form, right column
+// with the wp-list-table of existing terms.
+body.dy-admin .wrap.dy-edit-tags-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 380px) minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+  // Re-establish margins inside grid items
+  > h1, > .page-title-action, > .subtitle, > .dy-page-sub, > .notice { grid-column: 1 / -1; }
+}
+// FLAT: the "Add category/tag" form does not need a card (asymmetry with
+// the table on the right which does not have one). A light top divider
+// delimits the section without enclosing it.
+body.dy-admin .form-wrap {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+}
+body.dy-admin .form-wrap h2 {
+  margin: 0 0 14px;
+  font-family: var(--dya-font-display);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: var(--dya-tracking-tight);
+  color: var(--dya-ink);
+}
+body.dy-admin .form-wrap .form-field {
+  margin: 0 0 14px;
+}
+body.dy-admin .form-wrap .form-field label {
+  display: block;
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  color: var(--dya-ink-mute);
+  font-weight: 500;
+  margin: 0 0 6px;
+}
+body.dy-admin .form-wrap .form-field input,
+body.dy-admin .form-wrap .form-field textarea,
+body.dy-admin .form-wrap .form-field select {
+  width: 100%;
+}
+body.dy-admin .form-wrap p,
+body.dy-admin .form-wrap p.description {
+  font-size: 11.5px;
+  color: var(--dya-ink-mute);
+  margin: 4px 0 0;
+}
+
+// ── Network Admin specific bits ───────────────────────
+body.dy-admin.network-admin .wp-heading-inline::after {
+  content: " · NETWORK";
+  font-family: var(--dya-font-mono);
+  font-size: 10px;
+  letter-spacing: var(--dya-tracking-label);
+  color: var(--dya-accent);
+  margin-left: 8px;
+  vertical-align: 4px;
+}
+body.dy-admin.network-admin .dy-page-sub { color: var(--dya-accent); }
+
+// ── Single-comment edit page ─────────────────────────
+body.dy-admin #comment-status-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 12px;
+}
+body.dy-admin #comment-status-radio label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+body.dy-admin .comment-status-bullet {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+body.dy-admin .comment-status-bullet.is-approved { background: var(--dya-success); }
+body.dy-admin .comment-status-bullet.is-pending  { background: var(--dya-warn); }
+body.dy-admin .comment-status-bullet.is-spam     { background: var(--dya-danger); }
+body.dy-admin .comment-status-bullet.is-trash    { background: var(--dya-ink-fade); }

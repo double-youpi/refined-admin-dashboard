@@ -1,0 +1,145 @@
+// =============================================================
+// _16-wpds-bridge.scss
+// Bridge between our tokens and the WordPress Design System (WPDS) that
+// core ships since 7.1 (`--wpds-*`, declared on :root by the ThemeProvider,
+// first consumer: Réglages > Connecteurs, `boot-layout` / `admin-ui-*`).
+//
+// Strategy (audit-2, 2026-09): the screens core rebuilds on WPDS use hashed
+// class names (`_956b6df0898efed0__page`) that change between releases, so
+// we never target them. We remap the semantic tokens once, here, and every
+// present or future WPDS screen inherits the Double Youpi theme.
+//
+// Generated from the 7.1 token list (113 colour tokens). Two layers:
+//   1. brand / focus tokens follow the site accent in BOTH themes;
+//   2. neutral surfaces, inks and strokes are remapped in the DARK theme
+//      only (WPDS light defaults sit close to our light paper).
+// The ThemeProvider writes its resolved values as INLINE styles on nested
+// provider nodes (`[data-wpds-root-provider]`, then per-surface wrappers),
+// so a normal author rule cannot win: the bridge is applied to the provider
+// and all its descendants with `!important` (importance beats inline). To
+// be replaced by the official theming API the day core exposes one to
+// plugins.
+// =============================================================
+
+body.dy-admin,
+body.dy-admin [data-wpds-root-provider],
+body.dy-admin [data-wpds-root-provider] * {
+  --wpds-color-background-interactive-brand-strong: var(--dya-accent) !important;
+  --wpds-color-background-interactive-brand-strong-active: color-mix(in srgb, var(--dya-accent) 82%, black) !important;
+  --wpds-color-background-interactive-brand-strong-disabled: color-mix(in srgb, var(--dya-accent) 38%, var(--dya-paper)) !important;
+  --wpds-color-background-interactive-brand-weak: transparent !important;
+  --wpds-color-background-interactive-brand-weak-active: color-mix(in srgb, var(--dya-accent) 14%, var(--dya-paper)) !important;
+  --wpds-color-background-interactive-brand-weak-disabled: transparent !important;
+  --wpds-color-background-surface-brand: var(--dya-accent-soft) !important;
+  --wpds-color-background-thumb-brand: var(--dya-accent) !important;
+  --wpds-color-background-thumb-brand-active: var(--dya-accent) !important;
+  --wpds-color-background-thumb-brand-disabled: var(--dya-paper-3) !important;
+  --wpds-color-foreground-interactive-brand: var(--dya-accent-text) !important;
+  --wpds-color-foreground-interactive-brand-active: var(--dya-accent-text) !important;
+  --wpds-color-foreground-interactive-brand-disabled: var(--dya-ink-fade) !important;
+  --wpds-color-foreground-interactive-brand-strong: var(--dya-accent-on) !important;
+  --wpds-color-foreground-interactive-brand-strong-active: var(--dya-accent-on) !important;
+  --wpds-color-foreground-interactive-brand-strong-disabled: color-mix(in srgb, var(--dya-accent-on) 70%, transparent) !important;
+  --wpds-color-stroke-focus: var(--dya-accent) !important;
+  --wpds-color-stroke-interactive-brand: var(--dya-accent) !important;
+  --wpds-color-stroke-interactive-brand-active: var(--dya-accent) !important;
+  --wpds-color-stroke-interactive-brand-disabled: color-mix(in srgb, var(--dya-accent) 40%, transparent) !important;
+  --wpds-color-stroke-surface-brand: color-mix(in srgb, var(--dya-accent) 40%, transparent) !important;
+  --wpds-color-stroke-surface-brand-strong: var(--dya-accent) !important;
+}
+
+body.dy-admin:not(.dy-theme-light),
+body.dy-admin:not(.dy-theme-light) [data-wpds-root-provider],
+body.dy-admin:not(.dy-theme-light) [data-wpds-root-provider] * {
+  --wpds-color-background-interactive-error: var(--dya-danger) !important;
+  --wpds-color-background-interactive-error-active: color-mix(in srgb, var(--dya-danger) 82%, black) !important;
+  --wpds-color-background-interactive-error-disabled: color-mix(in srgb, var(--dya-danger) 38%, var(--dya-paper)) !important;
+  --wpds-color-background-interactive-error-strong: var(--dya-danger) !important;
+  --wpds-color-background-interactive-error-strong-active: color-mix(in srgb, var(--dya-danger) 82%, black) !important;
+  --wpds-color-background-interactive-error-strong-disabled: color-mix(in srgb, var(--dya-danger) 38%, var(--dya-paper)) !important;
+  --wpds-color-background-interactive-error-weak: transparent !important;
+  --wpds-color-background-interactive-error-weak-active: color-mix(in srgb, var(--dya-danger) 14%, var(--dya-paper)) !important;
+  --wpds-color-background-interactive-error-weak-disabled: transparent !important;
+  --wpds-color-background-interactive-neutral-strong: var(--dya-ink) !important;
+  --wpds-color-background-interactive-neutral-strong-active: color-mix(in srgb, var(--dya-ink) 82%, black) !important;
+  --wpds-color-background-interactive-neutral-strong-disabled: color-mix(in srgb, var(--dya-ink) 38%, var(--dya-paper)) !important;
+  --wpds-color-background-interactive-neutral-weak: transparent !important;
+  --wpds-color-background-interactive-neutral-weak-active: color-mix(in srgb, var(--dya-ink) 14%, var(--dya-paper)) !important;
+  --wpds-color-background-interactive-neutral-weak-disabled: transparent !important;
+  --wpds-color-background-surface-caution: color-mix(in srgb, var(--dya-warn) 22%, var(--dya-paper)) !important;
+  --wpds-color-background-surface-caution-weak: color-mix(in srgb, var(--dya-warn) 12%, var(--dya-paper)) !important;
+  --wpds-color-background-surface-error: color-mix(in srgb, var(--dya-danger) 22%, var(--dya-paper)) !important;
+  --wpds-color-background-surface-error-weak: color-mix(in srgb, var(--dya-danger) 12%, var(--dya-paper)) !important;
+  --wpds-color-background-surface-info: color-mix(in srgb, var(--dya-info) 22%, var(--dya-paper)) !important;
+  --wpds-color-background-surface-info-weak: color-mix(in srgb, var(--dya-info) 12%, var(--dya-paper)) !important;
+  --wpds-color-background-surface-neutral: var(--dya-bg) !important;
+  --wpds-color-background-surface-neutral-strong: var(--dya-paper) !important;
+  --wpds-color-background-surface-neutral-weak: var(--dya-paper-2) !important;
+  --wpds-color-background-surface-success: color-mix(in srgb, var(--dya-success) 22%, var(--dya-paper)) !important;
+  --wpds-color-background-surface-success-weak: color-mix(in srgb, var(--dya-success) 12%, var(--dya-paper)) !important;
+  --wpds-color-background-surface-warning: color-mix(in srgb, var(--dya-warn) 22%, var(--dya-paper)) !important;
+  --wpds-color-background-surface-warning-weak: color-mix(in srgb, var(--dya-warn) 12%, var(--dya-paper)) !important;
+  --wpds-color-background-thumb-neutral-weak: var(--dya-ink-mute) !important;
+  --wpds-color-background-thumb-neutral-weak-active: var(--dya-ink-soft) !important;
+  --wpds-color-background-thumb-neutral-weak-disabled: var(--dya-paper-3) !important;
+  --wpds-color-background-track-neutral: var(--dya-paper-3) !important;
+  --wpds-color-background-track-neutral-weak: var(--dya-paper-2) !important;
+  --wpds-color-foreground-content-caution: var(--dya-warn) !important;
+  --wpds-color-foreground-content-caution-weak: var(--dya-warn) !important;
+  --wpds-color-foreground-content-error: var(--dya-danger) !important;
+  --wpds-color-foreground-content-error-weak: var(--dya-danger) !important;
+  --wpds-color-foreground-content-info: var(--dya-info) !important;
+  --wpds-color-foreground-content-info-weak: var(--dya-info) !important;
+  --wpds-color-foreground-content-neutral: var(--dya-ink) !important;
+  --wpds-color-foreground-content-neutral-weak: var(--dya-ink-mute) !important;
+  --wpds-color-foreground-content-success: var(--dya-success) !important;
+  --wpds-color-foreground-content-success-weak: var(--dya-success) !important;
+  --wpds-color-foreground-content-warning: var(--dya-warn) !important;
+  --wpds-color-foreground-content-warning-weak: var(--dya-warn) !important;
+  --wpds-color-foreground-interactive-error: var(--dya-danger) !important;
+  --wpds-color-foreground-interactive-error-active: var(--dya-danger) !important;
+  --wpds-color-foreground-interactive-error-disabled: var(--dya-ink-fade) !important;
+  --wpds-color-foreground-interactive-error-strong: #ffffff !important;
+  --wpds-color-foreground-interactive-error-strong-active: #ffffff !important;
+  --wpds-color-foreground-interactive-error-strong-disabled: var(--dya-ink-fade) !important;
+  --wpds-color-foreground-interactive-neutral: var(--dya-ink) !important;
+  --wpds-color-foreground-interactive-neutral-active: var(--dya-ink) !important;
+  --wpds-color-foreground-interactive-neutral-disabled: var(--dya-ink-fade) !important;
+  --wpds-color-foreground-interactive-neutral-strong: var(--dya-bg) !important;
+  --wpds-color-foreground-interactive-neutral-strong-active: var(--dya-bg) !important;
+  --wpds-color-foreground-interactive-neutral-strong-disabled: var(--dya-ink-mute) !important;
+  --wpds-color-foreground-interactive-neutral-weak: var(--dya-ink-mute) !important;
+  --wpds-color-foreground-interactive-neutral-weak-active: var(--dya-ink-mute) !important;
+  --wpds-color-foreground-interactive-neutral-weak-disabled: var(--dya-ink-fade) !important;
+  --wpds-color-stroke-interactive-error: var(--dya-danger) !important;
+  --wpds-color-stroke-interactive-error-active: var(--dya-danger) !important;
+  --wpds-color-stroke-interactive-error-disabled: color-mix(in srgb, var(--dya-danger) 40%, transparent) !important;
+  --wpds-color-stroke-interactive-error-strong: var(--dya-danger) !important;
+  --wpds-color-stroke-interactive-neutral: var(--dya-line-strong) !important;
+  --wpds-color-stroke-interactive-neutral-active: var(--dya-ink-soft) !important;
+  --wpds-color-stroke-interactive-neutral-disabled: var(--dya-line) !important;
+  --wpds-color-stroke-interactive-neutral-strong: var(--dya-ink-mute) !important;
+  --wpds-color-stroke-surface-caution: color-mix(in srgb, var(--dya-warn) 40%, transparent) !important;
+  --wpds-color-stroke-surface-caution-strong: var(--dya-warn) !important;
+  --wpds-color-stroke-surface-error: color-mix(in srgb, var(--dya-danger) 40%, transparent) !important;
+  --wpds-color-stroke-surface-error-strong: var(--dya-danger) !important;
+  --wpds-color-stroke-surface-info: color-mix(in srgb, var(--dya-info) 40%, transparent) !important;
+  --wpds-color-stroke-surface-info-strong: var(--dya-info) !important;
+  --wpds-color-stroke-surface-neutral: var(--dya-line) !important;
+  --wpds-color-stroke-surface-neutral-strong: var(--dya-line-strong) !important;
+  --wpds-color-stroke-surface-neutral-weak: var(--dya-line-soft) !important;
+  --wpds-color-stroke-surface-success: color-mix(in srgb, var(--dya-success) 40%, transparent) !important;
+  --wpds-color-stroke-surface-success-strong: var(--dya-success) !important;
+  --wpds-color-stroke-surface-warning: color-mix(in srgb, var(--dya-warn) 40%, transparent) !important;
+  --wpds-color-stroke-surface-warning-strong: var(--dya-warn) !important;
+}
+
+// Geometry: WPDS corners default to 4px/8px; our design system is rounder.
+body.dy-admin,
+body.dy-admin [data-wpds-root-provider],
+body.dy-admin [data-wpds-root-provider] * {
+  --wpds-border-radius-sm: var(--dya-r-xs, 4px) !important;
+  --wpds-border-radius-md: var(--dya-r-sm, 6px) !important;
+  --wpds-border-radius-lg: var(--dya-r-md, 10px) !important;
+  --wpds-border-radius-xl: var(--dya-r-lg, 14px) !important;
+}

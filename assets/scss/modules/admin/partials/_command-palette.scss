@@ -1,0 +1,308 @@
+// =============================================================
+// _command-palette.scss
+// Command Palette (Cmd/Ctrl+K) — native WP 7.0 node (@wordpress/commands,
+// lib `cmdk`). Two zones:
+//
+//   1. TRIGGER admin bar (#wp-admin-bar-command-palette) — re-parented into
+//      top-secondary, positioned just before the theme-toggle via `order`.
+//      Design: compact button with visible ⌘K keycap (NOT a fake search
+//      field, to avoid suggesting an input that would expand).
+//
+//   2. MODAL (.commands-command-menu) rendered as a portal under <body> →
+//      DS dark/light theming. Vertically centered (flex), stays centered
+//      as the list grows. List with animated height via --cmdk-list-height
+//      (variable exposed by cmdk).
+//
+// Actual DOM structure (WP 7.0):
+//   .components-modal__screen-overlay.commands-command-menu__overlay
+//     .commands-command-menu (frame)
+//       .components-modal__content.hide-header
+//         .components-modal__children-container
+//           .commands-command-menu__container
+//             [cmdk-root]
+//               label[cmdk-label]
+//               .commands-command-menu__header  (svg magnifier + input)
+//               [cmdk-list] > [cmdk-list-sizer] > [cmdk-group]…
+// =============================================================
+
+@use "tokens" as *;
+
+// ─────────────────────────────────────────────────────────────
+// 1. TRIGGER — keycap ⌘K, not a fake input
+// ─────────────────────────────────────────────────────────────
+body.dy-admin #wpadminbar {
+
+	#wp-admin-bar-command-palette {
+		order: -2;        // before the theme-toggle (order: -1)
+		float: none;
+
+		// Container: tight button (not a wide pill like an input).
+		.ab-item {
+			display: inline-flex !important;
+			align-items: center;
+			gap: 7px;
+			height: 32px;
+			padding: 0 8px !important;
+			margin: auto 2px;
+			background: transparent;
+			border: 0;
+			border-radius: var(--dya-r-md);
+			color: var(--dya-ink-soft);
+			line-height: 1;
+			transition: color var(--dya-t-fast) var(--dya-ease),
+			            background var(--dya-t-fast) var(--dya-ease);
+		}
+
+		// Magnifier icon — subtle, just a landmark.
+		.ab-icon {
+			width: auto;
+			height: auto;
+			margin: 0 !important;
+			padding: 0 !important;
+
+			&::before {
+				content: "\f179";
+				font: normal 17px/1 dashicons;
+				color: inherit;
+				top: 0;
+				-webkit-font-smoothing: antialiased;
+			}
+		}
+
+		// ⌘K — bare text in brackets, NO block/container. Light weight.
+		// System font (not mono): in the system stack, the ⌘ glyph
+		// (U+2318) is drawn at cap-height, so ⌘ and K align properly.
+		// In mono fonts (Geist/JetBrains), ⌘ rendered too large.
+		// Brackets set as pseudo-elements (the native textContent is just "⌘K").
+		.ab-label {
+			height: auto;
+			display: inline-flex;
+			align-items: center;
+
+			kbd {
+				display: inline-block;
+				font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+				font-size: 12.5px;
+				font-weight: 300;
+				letter-spacing: .03em;
+				color: var(--dya-ink-soft);
+				background: transparent;
+				border: 0;
+				border-radius: 0;
+				padding: 0;
+				line-height: 1;
+				box-shadow: none;
+				// Optical nudge: "⌘K" + brackets have no descenders, so
+				// ink sits high in the line-box → the whole thing appears
+				// 1px too high relative to the icon. Shift it down to align
+				// optically with the center of the magnifier.
+				transform: translateY(1px);
+				transition: color var(--dya-t-fast) var(--dya-ease);
+
+				&::before { content: "["; }
+				&::after  { content: "]"; }
+			}
+		}
+
+		// Hover: soft background on the button, the ⌘K brightens toward the accent.
+		.ab-item:hover,
+		.ab-item:focus {
+			background: var(--dya-bg-elev);
+			color: var(--dya-ink);
+
+			kbd { color: var(--dya-accent); }
+		}
+	}
+
+	// Mobile (<782px): square magnifier only, no keycap.
+	@media (max-width: 782px) {
+		#wp-admin-bar-command-palette {
+			.ab-item { padding: 0 !important; width: 40px; gap: 0; }
+			.ab-label { display: none; }
+			.ab-icon::before { font-size: 22px; }
+		}
+	}
+}
+
+// ─────────────────────────────────────────────────────────────
+// 2. MODAL — centered, DS surface, animated list
+// ─────────────────────────────────────────────────────────────
+body.dy-admin {
+
+	// ── Overlay: centers the modal (V + H), darkened + blur ──
+	// WP native forces `display:block; align-items:start` (top). We switch
+	// to centered flex so the modal stays in the MIDDLE and remains there
+	// as the list grows/shrinks (flex re-centers on every reflow).
+	.commands-command-menu__overlay,
+	.components-modal__screen-overlay:has(.commands-command-menu) {
+		display: flex !important;
+		align-items: center !important;
+		justify-content: center !important;
+		background: color-mix(in srgb, var(--dya-bg) 64%, transparent);
+		backdrop-filter: blur(4px) saturate(1.1);
+		-webkit-backdrop-filter: blur(4px) saturate(1.1);
+	}
+
+	// ── Frame: DS surface, reset of native top (flex centers it) ──
+	.commands-command-menu {
+		max-width: 600px;
+		width: calc(100% - 32px);
+		// Full reset of native positioning (top: calc(...)) — otherwise
+		// the offset breaks the flex centering of the overlay.
+		position: relative;
+		top: auto !important;
+		margin: 0 !important;
+		border-radius: var(--dya-r-xl);
+		background: var(--dya-paper);
+		border: 1px solid var(--dya-edge-strong);
+		box-shadow: var(--dya-shadow-lg);
+		overflow: hidden;
+
+		.components-modal__content {
+			margin: 0;
+			padding: 0;
+			background: transparent;
+			overflow: hidden;
+		}
+
+		// ── Header (magnifier + input): ONE separator only ──────
+		&__header {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			padding: 4px 20px;
+			border: 0;
+			border-bottom: 1px solid var(--dya-line);  // the sole separator
+
+			// Magnifier SVG icon (no class, native black fill) → ink-mute.
+			> svg {
+				flex: 0 0 auto;
+				fill: var(--dya-ink-mute);
+				width: 20px;
+				height: 20px;
+			}
+		}
+
+		&__header-search-icon { color: var(--dya-ink-mute); fill: var(--dya-ink-mute); }
+
+		&__container {
+
+			// Input field — flex:1 to fill (WP leaves it at flex-grow:0 → clipped).
+			[cmdk-input] {
+				flex: 1 1 auto;
+				min-width: 0;
+				width: 100%;
+				font-family: var(--dya-font-body);
+				font-size: 16px;
+				line-height: 1.5;
+				color: var(--dya-ink);
+				background: transparent;
+				border: 0;
+				padding: 18px 0;
+				caret-color: var(--dya-accent);
+
+				&::placeholder { color: var(--dya-ink-mute); }
+
+				// No focus ring on the field (by design) — the modal
+				// itself IS the focus context; a ring on the input looked cluttered.
+				&:focus,
+				&:focus-visible {
+					box-shadow: none !important;
+					outline: none !important;
+				}
+			}
+
+			// ── List: ANIMATED HEIGHT via --cmdk-list-height ──────
+			// cmdk sets --cmdk-list-height on [cmdk-list] = real content
+			// height (sizer). We use it as the animated height: the list
+			// grows/shrinks smoothly on each filter change. max-height
+			// cap + overflow auto for long lists.
+			[cmdk-root] > [cmdk-list] {
+				height: min(var(--cmdk-list-height, 0px), 60vh);
+				max-height: 60vh;
+				overflow-x: hidden;
+				overflow-y: auto;
+				padding: 8px;
+				transition: height 260ms var(--dya-ease);
+				scroll-padding: 8px;
+				// Remove the native/duplicate border-top: the header already
+				// carries the sole separator.
+				border-top: 0 !important;
+			}
+			[cmdk-root] > [cmdk-list]:has([cmdk-group-items]:not(:empty)),
+			[cmdk-root] > [cmdk-list]:has([cmdk-empty]) {
+				border-top: 0 !important;
+			}
+
+			// ── Item (the dropdown is already "perfect" — keeping as-is) ──
+			[cmdk-item] {
+				border-radius: var(--dya-r-md);
+				color: var(--dya-ink);
+				font-family: var(--dya-font-body);
+				font-size: 14px;
+				margin: 1px 0;
+				transition: background var(--dya-t-fast) var(--dya-ease),
+				            color var(--dya-t-fast) var(--dya-ease);
+
+				> div {
+					min-height: 44px;
+					padding: 6px 16px 6px 44px;
+				}
+				> .has-icon { padding-left: 10px; }
+
+				svg { fill: var(--dya-ink-soft); }
+
+				&[aria-selected="true"],
+				&:active {
+					background: var(--dya-accent);
+					color: var(--dya-accent-on, #fff);
+					svg { fill: var(--dya-accent-on, #fff); }
+				}
+
+				&[aria-disabled="true"] {
+					color: var(--dya-ink-fade);
+					svg { fill: var(--dya-ink-fade); }
+				}
+			}
+
+			[cmdk-empty] {
+				color: var(--dya-ink-mute);
+				font-family: var(--dya-font-body);
+				font-size: 14px;
+				padding: 16px 0 32px;
+			}
+
+			[cmdk-loading] { color: var(--dya-ink-mute); }
+		}
+
+		&__item-label { font-weight: 450; }
+
+		&__item-category {
+			font-family: var(--dya-font-mono);
+			font-size: 10.5px;
+			letter-spacing: .06em;
+			text-transform: uppercase;
+			color: var(--dya-ink-mute);
+		}
+		[aria-selected="true"] &__item-category,
+		[cmdk-item]:active &__item-category {
+			color: var(--dya-accent-on, rgba(255, 255, 255, .85));
+		}
+
+		&__item mark {
+			color: inherit;
+			background: transparent;
+			font-weight: 700;
+			text-decoration: underline;
+			text-underline-offset: 2px;
+			text-decoration-thickness: 1px;
+			text-decoration-color: rgba(var(--dya-accent-rgb), .6);
+		}
+	}
+}
+
+// Reduced motion: no height animation or item transitions.
+@media (prefers-reduced-motion: reduce) {
+	body.dy-admin .commands-command-menu__container [cmdk-root] > [cmdk-list] { transition: none; }
+	body.dy-admin .commands-command-menu__container [cmdk-item] { transition: none; }
+}

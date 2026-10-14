@@ -1,0 +1,213 @@
+// =============================================================
+// _media-filters.scss
+// Media library filter bar — PAGE (upload.php) + MODAL (wp.media)
+// redesigned as "chips / pills" inspired by the reimagined table filters
+// (_tables-reimagined: .dy-tfchip / .dy-tfsearch). Goal: compact, single
+// row, no stacked labels, clean hover, consistent with the rest of the admin.
+//
+// Scoped to `body.dy-admin .media-toolbar` → applies to both the PAGE and the
+// MODAL, whether the Media Library module is active or not (the base
+// `.attachment-filters` selects are native WP; #dy-type-filter is injected by
+// the module but receives the same style).
+// =============================================================
+
+// The bar becomes TRANSPARENT again (chips + search carry their own
+// border, like .dy-tfilters) and becomes a flex ROW: chips on the left,
+// search pushed to the right. No more large paper-2 block, no more second row.
+body.dy-admin .media-toolbar {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  display: flex !important;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  padding: 0 !important;
+  min-height: 0 !important;
+}
+// Media library page (grid): the filter bar is in the flow → we give it
+// some breathing room before the grid (in the modal, the toolbar is absolute and has
+// its own padding managed in _media-modal.scss).
+body.upload-php .media-frame.mode-grid .media-toolbar {
+  padding-bottom: 14px !important;
+}
+
+// Filter block (chips): wrapping flex, takes available space.
+body.dy-admin .media-toolbar .media-toolbar-secondary {
+  background: transparent !important;   // overrides universal-dark (paper-2)
+  border: 0 !important;
+  border-radius: 0 !important;
+  display: flex !important;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
+  position: static !important;
+  float: none !important;
+  height: auto !important;
+  padding: 0 !important;
+}
+// Search: pushed to the right, same row as the chips.
+body.dy-admin .media-toolbar .media-toolbar-primary {
+  background: transparent !important;
+  border: 0 !important;
+  display: flex !important;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+  margin-left: auto;
+  position: static !important;
+  float: none !important;
+  height: auto !important;
+  padding: 0 !important;
+}
+
+// Labels visually hidden (the MODAL used to display them above the selects).
+// Accessibility is preserved (clip, not display:none).
+body.dy-admin .media-toolbar label,
+body.dy-admin .media-toolbar .media-attachments-filter-heading {
+  position: absolute !important;
+  width: 1px; height: 1px; overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px); clip-path: inset(50%);
+  white-space: nowrap; margin: -1px; padding: 0; border: 0;
+}
+
+// ── Filter selects = CHIPS (like .dy-tfchip) ──────────────────────
+body.dy-admin .media-toolbar .attachment-filters {
+  height: 32px !important;
+  min-height: 32px !important;
+  line-height: 1;
+  margin: 0 !important;
+  padding: 0 30px 0 12px !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-sm) !important;
+  background-color: transparent !important;
+  color: var(--dya-ink-soft) !important;
+  font-size: var(--dya-fs-sm) !important;
+  max-width: 220px;
+  box-shadow: none !important;
+  // Unified neutral grey chevron (same arrow as the folder-select in the detail
+  // panel) — no more native or blue arrow depending on context.
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23808791' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 11px center !important;
+  background-size: 10px 6px !important;
+  transition: color var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease), background-color var(--dya-t-fast) var(--dya-ease);
+}
+body.dy-admin .media-toolbar .attachment-filters:hover {
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge-strong) !important;
+  background-color: var(--dya-paper-2) !important;
+}
+body.dy-admin .media-toolbar .attachment-filters:focus {
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge-strong) !important;
+  background-color: var(--dya-paper-2) !important;
+}
+
+// ── Recherche = .dy-tfsearch ──────────────────────────────────────────
+body.dy-admin .media-toolbar input.search,
+body.dy-admin .media-toolbar input[type="search"],
+body.dy-admin .media-toolbar #media-search-input {
+  height: 32px !important;
+  min-height: 32px !important;
+  margin: 0 !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-sm) !important;
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  padding: 0 12px !important;
+  font-size: var(--dya-fs-sm) !important;
+  width: 220px;
+  box-shadow: none !important;
+}
+body.dy-admin .media-toolbar input.search:focus,
+body.dy-admin .media-toolbar #media-search-input:focus {
+  border-color: var(--dya-edge-strong) !important;
+  box-shadow: none !important;
+}
+// Native clear button (×) on the search field: blue and inconsistent by default.
+// We redraw it as a neutral × (colored mask) that switches to accent on hover.
+body.dy-admin .media-toolbar input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-left: 6px;
+  cursor: pointer;
+  background-color: var(--dya-ink-mute);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 2.5l7 7M9.5 2.5l-7 7' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center / 10px 10px;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 2.5l7 7M9.5 2.5l-7 7' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center / 10px 10px;
+  transition: background-color var(--dya-t-fast) var(--dya-ease);
+}
+body.dy-admin .media-toolbar input[type="search"]::-webkit-search-cancel-button:hover {
+  background-color: var(--dya-accent);
+}
+
+// ── Toolbar buttons (Bulk select, Search, etc.) ─────────
+// Brought to the same height as the chips (32px), subtle ghost style.
+body.dy-admin .media-toolbar .media-button,
+body.dy-admin .media-toolbar .select-mode-toggle-button,
+body.dy-admin .media-toolbar .search-form .button {
+  height: 32px !important;
+  min-height: 32px !important;
+  line-height: 30px !important;
+  border-radius: var(--dya-r-sm) !important;
+  font-size: var(--dya-fs-sm) !important;
+  display: inline-flex !important;
+  align-items: center;
+}
+
+// Logical row grouping (flex order): view switch first, then
+// FILTERS (chips), then ACTIONS (AI / bulk / select buttons).
+// Avoids the filter/button/filter interleaving of the native DOM order.
+body.dy-admin .media-toolbar .media-toolbar-secondary { align-items: center; }
+body.dy-admin .media-toolbar .view-switch { order: 0; }
+body.dy-admin .media-toolbar .attachment-filters { order: 1; }
+body.dy-admin .media-toolbar .media-button,
+body.dy-admin .media-toolbar .select-mode-toggle-button { order: 2; }
+body.dy-admin .media-toolbar .spinner { order: 3; }
+
+// View switch (list / grid): compact group aligned with the chips.
+body.dy-admin .media-toolbar .view-switch {
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  border: 1px solid var(--dya-edge);
+  border-radius: var(--dya-r-sm);
+  overflow: hidden;
+  background: transparent;
+}
+body.dy-admin .media-toolbar .view-switch a {
+  width: 34px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--dya-ink-soft); /* not --dya-ink-mute: too dark, inactive icon becomes unreadable */
+  box-shadow: none;
+}
+body.dy-admin .media-toolbar .view-switch a.current {
+  background: var(--dya-paper-2);
+  color: var(--dya-accent);
+}
+body.dy-admin .media-toolbar .view-switch a:before { color: inherit; }
+
+// ── "Delete permanently" = bulk action only ────────
+// Outside Bulk select mode, WP leaves this button (disabled) in the bar.
+// We only surface it once selection mode is active (.media-frame.mode-select),
+// to avoid a permanently visible destructive red button.
+body.dy-admin .media-frame:not(.mode-select) .delete-selected-button {
+  display: none !important;
+}
+
+// ── Bulk button "Generate Alt with AI" (Rank Math) ─────────────────
+// Rank Math injects this button into the media bar with the WP class
+// `.delete-selected-button` (→ destructive red in our theme) AND `.media-button`
+// (→ captured by our `display:inline-flex !important`, which was re-canceling
+// the old `display:none` from media-library.scss). We do NOT surface third-party
+// AI actions here (auto-alt = M03 SEO+A11y / M07): we hide it for good,
+// with specificity (4 classes) that beats our own `.media-button` rules.
+body.dy-admin .media-toolbar .media-button.rank-math-bulk-generate-button {
+  display: none !important;
+}

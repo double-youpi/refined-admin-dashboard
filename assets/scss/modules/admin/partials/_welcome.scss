@@ -1,0 +1,220 @@
+// =============================================================
+// _welcome.scss
+// #welcome-panel — the dismissable Dashboard hero.
+// WP ships dynamic content here; we restyle only the chrome.
+// =============================================================
+
+body.dy-admin #welcome-panel.welcome-panel,
+body.dy-admin .welcome-panel,
+body.dy-admin .wpcf7-welcome-panel {
+  position: relative;
+  background:
+    radial-gradient(1100px 320px at 90% -10%, rgba(91, 62, 254, .18), transparent 55%),
+    radial-gradient(700px 320px at -10% 110%, rgba(70, 96, 245, .15), transparent 60%),
+    var(--dya-paper);
+  border: 1px solid var(--dya-edge);
+  border-radius: var(--dya-r-xl);
+  padding: 28px 28px 24px;
+  margin: 0 0 28px;
+  overflow: hidden;
+  box-shadow: var(--dya-shadow-sm);
+  color: var(--dya-ink);
+}
+
+body.dy-admin.dy-theme-light #welcome-panel.welcome-panel,
+body.dy-admin.dy-theme-light .welcome-panel,
+body.dy-admin.dy-theme-light .wpcf7-welcome-panel {
+  background:
+    radial-gradient(1100px 320px at 90% -10%, rgba(91, 62, 254, .12), transparent 55%),
+    radial-gradient(700px 320px at -10% 110%, rgba(180, 136, 72, .10), transparent 60%),
+    #ffffff;
+}
+
+// Color-coded left edge stripe.
+body.dy-admin #welcome-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--dya-line-content), var(--dya-line-users), var(--dya-line-site));
+}
+
+body.dy-admin .welcome-panel-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  font-family: var(--dya-font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  color: var(--dya-ink-mute);
+  padding: 4px 8px;
+  border-radius: var(--dya-r-xs);
+  border: 1px solid var(--dya-edge);
+  text-decoration: none;
+  transition: color var(--dya-t-fast), border-color var(--dya-t-fast);
+}
+body.dy-admin .welcome-panel-close:hover {
+  color: var(--dya-ink);
+  border-color: var(--dya-edge-strong);
+}
+
+body.dy-admin .welcome-panel-content {
+  max-width: none;
+}
+
+body.dy-admin .welcome-panel-header {
+  margin: 0 0 20px;
+}
+
+body.dy-admin .welcome-panel-header h2 {
+  margin: 0 0 8px;
+  font-size: var(--dya-fs-xl);
+  font-weight: 500;
+  letter-spacing: var(--dya-tracking-tight);
+  color: var(--dya-ink);
+}
+
+body.dy-admin .welcome-panel-header .about-description {
+  margin: 0 0 24px;
+  font-size: 13.5px;
+  color: var(--dya-ink-mute);
+  max-width: 60ch;
+}
+
+body.dy-admin .welcome-panel-column-container {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 36px;
+}
+
+body.dy-admin .welcome-panel-column {
+  display: block;
+  min-width: 0;
+}
+
+body.dy-admin .welcome-panel-column h3 {
+  margin: 0 0 12px;
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  color: var(--dya-ink-mute);
+  font-weight: 500;
+}
+
+body.dy-admin .welcome-panel-column .button-hero,
+body.dy-admin .welcome-panel-column .button.button-hero {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border-radius: var(--dya-r-md);
+  font-size: 13px;
+  font-weight: 500;
+  background: var(--dya-ink);
+  color: var(--dya-bg);
+  border: 1px solid var(--dya-ink);
+  margin: 0 0 8px;
+  height: auto;
+  line-height: 1;
+  text-shadow: none;
+  text-decoration: none;
+  transition: transform var(--dya-t-fast);
+}
+body.dy-admin .welcome-panel-column .button-hero:hover { transform: translateY(-1px); }
+
+body.dy-admin .welcome-panel-column > p {
+  font-size: 12.5px;
+  color: var(--dya-ink-mute);
+  margin: 0;
+}
+body.dy-admin .welcome-panel-column > p a {
+  color: var(--dya-ink-soft);
+  border-bottom: 1px solid var(--dya-line);
+}
+body.dy-admin .welcome-panel-column > p a:hover {
+  color: var(--dya-ink);
+  border-bottom-color: var(--dya-line-strong);
+}
+
+body.dy-admin .welcome-panel-column ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+body.dy-admin .welcome-panel-column ul li a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: 13px;
+  color: var(--dya-ink-soft);
+  text-decoration: none;
+  transition: color var(--dya-t-fast);
+}
+body.dy-admin .welcome-panel-column ul li a::before {
+  content: "";
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--dya-ink-fade);
+  flex-shrink: 0;
+}
+body.dy-admin .welcome-panel-column ul li a:hover {
+  color: var(--dya-ink);
+}
+body.dy-admin .welcome-panel-column ul li a:hover::before {
+  background: var(--dya-line-content);
+}
+
+@media (max-width: 1100px) {
+  body.dy-admin .welcome-panel-column-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+// audit-2: plugins reuse WP's `.welcome-panel` markup outside the dashboard
+// (Contact Form 7 « Avant de pleurer vos e-mails perdus… », whose panel is
+// `.wpcf7-welcome-panel` with WP's `.welcome-panel-column*` children): same chrome,
+// headings in ink, columns on a fluid grid instead of CF7's 3 narrow floats.
+body.dy-admin :is(.welcome-panel, .wpcf7-welcome-panel) .welcome-panel-column-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px 32px;
+}
+body.dy-admin :is(.welcome-panel, .wpcf7-welcome-panel) .welcome-panel-column {
+  width: auto !important;
+  float: none !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+}
+body.dy-admin :is(.welcome-panel, .wpcf7-welcome-panel) .welcome-panel-column h3,
+body.dy-admin :is(.welcome-panel, .wpcf7-welcome-panel) .welcome-panel-column h2 {
+  color: var(--dya-ink);
+  text-transform: none;
+  letter-spacing: var(--dya-tracking-tight);
+}
+body.dy-admin :is(.welcome-panel, .wpcf7-welcome-panel) .welcome-panel-column p,
+body.dy-admin :is(.welcome-panel, .wpcf7-welcome-panel) .welcome-panel-column li { color: var(--dya-ink-soft); }
+body.dy-admin :is(.welcome-panel, .wpcf7-welcome-panel) .welcome-panel-column a { color: var(--dya-accent-text, var(--dya-accent)); }
+body.dy-admin :is(.welcome-panel, .wpcf7-welcome-panel) .welcome-panel-column h3 .dashicons,
+body.dy-admin :is(.welcome-panel, .wpcf7-welcome-panel) .welcome-panel-column h3::before { color: var(--dya-ink-mute); }
+body.dy-admin .wpcf7-welcome-panel p,
+body.dy-admin .wpcf7-welcome-panel .welcome-panel-column p { color: var(--dya-ink-soft); }
+body.dy-admin .wpcf7-welcome-panel h3 .dashicons { color: var(--dya-ink-mute); }
+body.dy-admin .wpcf7-welcome-panel .welcome-panel-content { margin-left: 0; max-width: none; }
+// CF7 draws a dashicon ✕ via `::before` (absolute, left 0) inside its close
+// link, which collided with our mono "IGNORER" label.
+body.dy-admin .wpcf7-welcome-panel .welcome-panel-close {
+  top: 14px;
+  right: 16px;
+  padding: 4px 8px;
+}
+body.dy-admin .wpcf7-welcome-panel .welcome-panel-close::before {
+  display: none;
+}

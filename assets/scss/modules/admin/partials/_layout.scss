@@ -1,0 +1,240 @@
+@use 'grain' as *;
+// =============================================================
+// _layout.scss
+// #wpwrap top-level grid: rail | (topbar / chipbar / content).
+// WP serves #wpadminbar, #adminmenuwrap, #wpcontent as direct
+// children of #wpwrap. We rebind them to grid areas without
+// touching the DOM order, so the markup stays identical.
+// =============================================================
+
+body.dy-admin #wpwrap {
+  height: 100vh;
+  display: grid;
+  // Rail width is driven by --dya-rail-w-current — defaults to the fluid
+  // collapsed clamp, set to a concrete px value by JS when expanded.
+  grid-template-columns: var(--dya-rail-w-current) 1fr;
+  grid-template-rows: var(--dya-topbar-h) 1fr;
+  grid-template-areas:
+    "rail bar"
+    "rail content";
+  overflow: hidden;
+}
+
+// During an animated state change (snap or toggle), JS adds .is-animating
+// to trigger a smooth transition on grid-template-columns. Drag itself
+// runs without this class so the rail follows the pointer 1:1.
+body.dy-admin #wpwrap.is-animating {
+  transition: grid-template-columns var(--dya-rail-snap-dur) var(--dya-rail-snap-easing);
+}
+
+body.dy-admin #wpadminbar     { grid-area: bar; }
+body.dy-admin #adminmenuwrap,
+body.dy-admin #adminmenuback  { grid-area: rail; }
+body.dy-admin #wpcontent      { grid-area: content; overflow-y: auto; position: relative; @include dy-grain(var(--dya-bg)); }
+
+// WP's stacked legacy markup — #wpbody-content sits inside
+// #wpbody inside #wpcontent. Don't fight it, just let height
+// and width flow naturally.
+body.dy-admin #wpbody,
+body.dy-admin #wpbody-content {
+  min-height: 0;
+  height: auto;
+  padding: 0;
+  margin: 0;
+}
+
+// #adminmenuback is WP's hidden duplicate of the menu used for
+// JS measurements. Hide it — we replace its function with our
+// own JS in admin.js.
+body.dy-admin #adminmenuback { display: none; }
+
+// .wrap — every WP admin page wraps content in .wrap.
+body.dy-admin .wrap {
+  max-width: var(--dya-wrap-max);
+  margin: 0 auto;
+  padding: var(--dya-wrap-pad-y) var(--dya-wrap-pad-x) 80px;
+}
+
+// Compact density override.
+body.dy-admin.dy-density-compact .wrap { padding-bottom: 40px; }
+
+// Page heading + the "today / version" eyebrow we add to every
+// page through PHP injection.
+//
+// WP applies `.wp-heading-inline` on edit.php pages (post lists)
+// but NOT on options pages (`options-general.php`, etc.) or most
+// plugin screens — which use a bare `<h1>` inside `.wrap`. Without
+// normalization the heading floats between 23px (WP native h1) and
+// our `--dya-fs-2xl` (typically ~28px) depending on the page.
+// We unify by cascading the same size to all H1s inside `.wrap`.
+body.dy-admin .wp-heading-inline,
+body.dy-admin .wrap > h1,
+body.dy-admin .wrap > h1.title {
+  font-size: var(--dya-fs-2xl);
+  font-weight: 500;
+  letter-spacing: var(--dya-tracking-tight);
+  // 14px: the H1 (block) now carries ALL the space toward the
+  // button+eyebrow line. Previously that gap came from `margin-top: 8px` on
+  // the button — but that asymmetric margin, combined with its
+  // `vertical-align: middle`, shifted the button's optical center downward
+  // and misaligned the eyebrow (which is baseline-aligned). By moving the
+  // space to the H1 and setting `margin-top: 0` on the button, both share
+  // the same line and align by their center (see .page-title-action).
+  margin: 0 0 14px;
+  color: var(--dya-ink);
+}
+
+body.dy-admin .dy-page-sub {
+  font-family: var(--dya-font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  color: var(--dya-ink-mute);
+  margin: 0 0 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding:0 1em;
+}
+body.dy-admin .dy-page-sub .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--dya-line-color, var(--dya-line-content));
+}
+
+// Auto-color the eyebrow's dot from the page's active line.
+body.dy-admin.dy-line-content    .dy-page-sub .dot { background: var(--dya-line-content); }
+body.dy-admin.dy-line-commerce   .dy-page-sub .dot { background: var(--dya-line-commerce); }
+body.dy-admin.dy-line-users      .dy-page-sub .dot { background: var(--dya-line-users); }
+body.dy-admin.dy-line-community  .dy-page-sub .dot { background: var(--dya-line-community); }
+body.dy-admin.dy-line-site       .dy-page-sub .dot { background: var(--dya-line-site); }
+body.dy-admin.dy-line-system     .dy-page-sub .dot { background: var(--dya-line-system); }
+body.dy-admin.dy-line-developer  .dy-page-sub .dot { background: var(--dya-line-developer); }
+
+// `--dya-line-color`     : solid color for the current section.
+// `--dya-line-color-soft`: its muted tint (~10% alpha), for backgrounds/halos of
+//                      active filter states. Maps to the corresponding
+//                      `--line-{section}-soft` (see _tokens.scss), mirroring
+//                      `--dya-accent-soft` but evaluated per section. Falls back to
+//                      `--dya-accent-soft` on the consumer side for pages without a section class.
+body.dy-admin.dy-line-content   { --dya-line-color: var(--dya-line-content);   --dya-line-color-soft: var(--dya-line-content-soft); }
+body.dy-admin.dy-line-commerce  { --dya-line-color: var(--dya-line-commerce);  --dya-line-color-soft: var(--dya-line-commerce-soft); }
+body.dy-admin.dy-line-users     { --dya-line-color: var(--dya-line-users);     --dya-line-color-soft: var(--dya-line-users-soft); }
+body.dy-admin.dy-line-community { --dya-line-color: var(--dya-line-community);  --dya-line-color-soft: var(--dya-line-community-soft); }
+body.dy-admin.dy-line-site      { --dya-line-color: var(--dya-line-site);      --dya-line-color-soft: var(--dya-line-site-soft); }
+body.dy-admin.dy-line-system    { --dya-line-color: var(--dya-line-system);    --dya-line-color-soft: var(--dya-line-system-soft); }
+body.dy-admin.dy-line-developer { --dya-line-color: var(--dya-line-developer); --dya-line-color-soft: var(--dya-line-developer-soft); }
+
+// Smart contrast for `--dya-line-color` — same formula as `--dya-accent-on`
+// in _tokens.scss, but evaluated per section. Declared on the same
+// body.dy-line-* that sets `--dya-line-color` so that the internal
+// `var(--dya-line-color)` is resolved at body scope (= with the correct
+// section color). Falls back to `--dya-ink` for older browsers
+// (see comment in _tokens.scss).
+body.dy-admin.dy-line-content,
+body.dy-admin.dy-line-commerce,
+body.dy-admin.dy-line-users,
+body.dy-admin.dy-line-community,
+body.dy-admin.dy-line-site,
+body.dy-admin.dy-line-system,
+body.dy-admin.dy-line-developer {
+  --dya-line-color-on: var(--dya-ink);
+}
+@supports (color: oklch(from red l c h)) {
+  body.dy-admin.dy-line-content,
+  body.dy-admin.dy-line-commerce,
+  body.dy-admin.dy-line-users,
+  body.dy-admin.dy-line-community,
+  body.dy-admin.dy-line-site,
+  body.dy-admin.dy-line-system,
+  body.dy-admin.dy-line-developer {
+    --dya-line-color-on: oklch(from var(--dya-line-color) clamp(0, calc((0.5 - l) * 100), 1) 0 0);
+  }
+}
+
+// Standalone builders (Bricks, Elementor…) and custom groups from the
+// reorganizer: no dedicated section color. The `dy-line-default` sentinel
+// (set by Rail::body_class) maps the section accent to the DEFAULT accent
+// rather than falling back to the `content` line color. Cascades to all
+// consumers of `--dya-line-color`: chipbar, sub-chipbar, eyebrow, title cursor,
+// table filters.
+body.dy-admin.dy-line-default {
+  --dya-line-color: var(--dya-accent);
+  --dya-line-color-soft: var(--dya-accent-soft);
+  --dya-line-color-on: var(--dya-accent-on);
+}
+
+// The native "Add New" button next to <h1> on list pages.
+// Restyled to match our button system.
+//
+// WP applies a hardcoded set on `.wrap .page-title-action` that forces
+// `min-height: 40px; line-height: 2.71428571; top: -3px` — result:
+// the pill becomes tall and shifted upward. We reset all these properties
+// so that the logical 6×14 padding sizes the button instead.
+// Intentional token inversion: `background: var(--dya-ink)` + `color:
+// var(--dya-bg)` → in dark mode, light bg (#ededee) on dark text; in
+// light mode, dark bg (#18181a) on light text. Both modes flip
+// naturally via the CSS variable swap; the button always reads as
+// an "inverse pill" against the `.wrap`.
+// ACF adds `.acf-admin-page .wrap .wp-heading-inline + .page-title-action
+// { display: none }` to hide the native WP button in favor of its own
+// btn in `.acf-headerbar`. Since we hide that one, we must force
+// page-title-action visible — hence `display: inline-flex !important` here.
+body.dy-admin .wrap .page-title-action,
+body.dy-admin .wrap .page-title-action:active {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  // Left-aligned below the H1 (h1 is block-level via _wp-production.scss),
+  // no margin-left that would indent it. margin-top: 0 → the button and
+  // the `.dy-page-sub` eyebrow share the same line and align by their
+  // optical center (the H1→line space is carried by the H1's margin-bottom).
+  // Consistent across ALL pages (themes.php, plugins.php, nav-menus.php,
+  // upload.php…).
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  min-height: 0;
+  height: auto;
+  top: 0;
+  color: var(--dya-bg);
+  background: var(--dya-ink);
+  border: 1px solid var(--dya-ink);
+  border-radius: var(--dya-r-md);
+  vertical-align: middle;
+  box-shadow: none;
+  text-shadow: none;
+  text-decoration: none;
+  transition:
+    background var(--dya-t-fast) ease,
+    border-color var(--dya-t-fast) ease,
+    transform var(--dya-t-fast) ease;
+}
+body.dy-admin .wrap .page-title-action:hover {
+  background: var(--dya-ink-soft);
+  border-color: var(--dya-ink-soft);
+  color: var(--dya-bg);
+}
+body.dy-admin .wrap .page-title-action:focus,
+body.dy-admin .wrap .page-title-action:focus-visible {
+  background: var(--dya-ink);
+  border-color: var(--dya-accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--dya-accent) 35%, transparent);
+  outline: none;
+}
+
+// "Search…" submitted text under the H1 ("Search results for…")
+body.dy-admin .wrap .subtitle {
+  font-family: var(--dya-font-mono);
+  font-size: var(--dya-fs-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  color: var(--dya-ink-mute);
+  display: inline-block;
+  margin-left: 12px;
+}
+
+// Hide WP's <hr class="wp-header-end">  — it serves only as a JS
+// anchor for notice insertion and is visually dead weight.
+body.dy-admin .wp-header-end { display: none; }

@@ -1,0 +1,106 @@
+// =============================================================
+// _17-core-primitives.scss
+// Native primitives WordPress added in 7.1 and grows in 7.2, themed by
+// tokens only (docs/design/admin-ui/09-veille-wordpress-7x.md, C.1 / C.2):
+//   1. Tooltips and toggletips (`wp_get_tooltip()`, Popover API): meta box
+//      handles in the classic editor, login. Popovers live in the top layer,
+//      so z-index / overflow tricks are useless; colours are what we provide.
+//   2. Boot pages (`.boot-layout-container`: Connectors, Font Library, and
+//      any third-party page built with @wordpress/build). Core paints
+//      `body.js { background: #fff }` and strips the content padding; we
+//      restore the page ground and never touch the hashed internals.
+//   3. Chip icons in their three forms (registered icon via the Icon API,
+//      Dashicons glyph, image), see CoreCapabilities::menu_icon_html().
+// =============================================================
+
+// ── 1. Tooltips / toggletips ────────────────────────────────────
+body.dy-admin .wp-tooltip .wp-tooltip__toggle,
+body.dy-admin .wp-tooltip .wp-tooltip__close {
+  color: var(--dya-ink-mute);
+  border-radius: var(--dya-r-sm);
+  transition: color var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease);
+}
+body.dy-admin .wp-tooltip .wp-tooltip__close:hover,
+body.dy-admin .wp-tooltip .wp-tooltip__close:focus,
+body.dy-admin .wp-tooltip:not(:has(button[aria-disabled="true"], button[disabled])) .wp-tooltip__toggle:hover,
+body.dy-admin .wp-tooltip:not(:has(button[aria-disabled="true"], button[disabled])) .wp-tooltip__toggle:focus {
+  color: var(--dya-ink);
+  background: var(--dya-paper-3);
+}
+body.dy-admin .wp-tooltip .wp-tooltip__close:focus,
+body.dy-admin :where(.wp-tooltip:not(:has(button[aria-disabled="true"], button[disabled]))) .wp-tooltip__toggle:focus {
+  box-shadow: 0 0 0 2px var(--dya-accent-soft);
+  outline: 2px solid transparent;
+}
+// Toggletip (rich, dismissible): a small card on the page paper.
+body.dy-admin .wp-tooltip .wp-tooltip__bubble {
+  background: var(--dya-paper-2);
+  color: var(--dya-ink);
+  border: 1px solid var(--dya-edge-strong);
+  border-radius: var(--dya-r-md);
+  box-shadow: var(--dya-shadow-lg);
+  font-family: var(--dya-font-body);
+}
+body.dy-admin .wp-tooltip:not(.wp-is-tooltip) .wp-tooltip__bubble::before { border-top-color: var(--dya-line-strong); }
+body.dy-admin .wp-tooltip:not(.wp-is-tooltip) .wp-tooltip__bubble::after  { border-top-color: var(--dya-paper-2); }
+// Plain tooltip (hover hint): same voice as the module's own tooltips
+// (inverted ink pill, mono caps).
+body.dy-admin .wp-tooltip.wp-is-tooltip .wp-tooltip__bubble {
+  background: var(--dya-bg);
+  color: var(--dya-ink-soft);
+  border: 1px solid var(--dya-edge-strong);
+  border-radius: var(--dya-r-sm);
+  box-shadow: var(--dya-shadow-md);
+  font-family: var(--dya-font-mono);
+  font-size: 10px;
+  letter-spacing: var(--dya-tracking-mono);
+  text-transform: uppercase;
+  padding: 4px 8px;
+}
+
+// ── 2. Boot pages ─────────────────────────────────────────────────
+// Detected by the DOM (no server-side signal): the page ground follows the
+// theme, the footer core hides stays hidden, and the React app keeps its own
+// inner layout untouched (only tokens, via _16-wpds-bridge).
+body.dy-admin:has(.boot-layout-container),
+body.dy-admin.dy-boot-page {
+  background: var(--dya-bg) !important;
+  color: var(--dya-ink);
+}
+body.dy-admin:has(.boot-layout-container) #wpcontent,
+body.dy-admin.dy-boot-page #wpcontent {
+  background: var(--dya-bg);
+}
+body.dy-admin:has(.boot-layout-container) .boot-layout-container,
+body.dy-admin.dy-boot-page .boot-layout-container {
+  color-scheme: dark;
+  min-height: calc(100vh - var(--wp-admin--admin-bar--height, 32px));
+}
+body.dy-admin.dy-theme-light:has(.boot-layout-container) .boot-layout-container,
+body.dy-admin.dy-theme-light.dy-boot-page .boot-layout-container {
+  color-scheme: light;
+}
+
+// ── 3. Chip icons: registered icon / Dashicons glyph / image ─────
+body.dy-admin .dy-chip .dy-chip-icon--core {
+  width: 14px; height: 14px; flex: 0 0 auto;
+  fill: currentColor; stroke: none;
+  opacity: .8;
+}
+body.dy-admin .dy-chip .dy-chip-icon--dash {
+  width: 14px; height: 14px; font-size: 14px; line-height: 1; flex: 0 0 auto;
+  opacity: .8;
+}
+body.dy-admin .dy-chip .dy-chip-icon--img {
+  width: 14px; height: 14px; object-fit: contain; flex: 0 0 auto;
+  // Menu images are black or grey silhouettes: tint them like the ink.
+  filter: brightness(0) invert(1);
+  opacity: .7;
+}
+body.dy-admin.dy-theme-light .dy-chip .dy-chip-icon--img { filter: brightness(0); opacity: .6; }
+body.dy-admin .dy-chip:hover .dy-chip-icon--core,
+body.dy-admin .dy-chip.current .dy-chip-icon--core,
+body.dy-admin .dy-chip:hover .dy-chip-icon--dash,
+body.dy-admin .dy-chip.current .dy-chip-icon--dash,
+body.dy-admin .dy-chip:hover .dy-chip-icon--img,
+body.dy-admin .dy-chip.current .dy-chip-icon--img { opacity: 1; }

@@ -1,0 +1,553 @@
+// =============================================================
+// _responsive.scss
+// Four breakpoints — tuned for WP admin on phone, tablet, laptop,
+// and large desktop. WP's own collapse-menu logic kicks in at
+// 783px; we coordinate. ≥1500px gets a "spacious" upgrade.
+// =============================================================
+
+// ── Large desktop (≥1500px) — non-token bumps ────────
+// The major layout tokens (rail width, wrap max, padding, font
+// sizes) already flow fluidly via clamp() in _tokens.scss — they
+// scale continuously between ~1280 and ~1900 viewport width.
+// This block only carries the leftover rules that aren't
+// token-driven and would otherwise feel cramped at large sizes:
+// inner paddings of cards / tables / buttons / inputs / etc.
+@media (min-width: 1500px) {
+  // Postbox + tables — extra breathing room
+  body.dy-admin .postbox .inside       { padding: 20px 22px; }
+  body.dy-admin .postbox-header,
+  body.dy-admin .postbox > h2:not(.hndle),
+  body.dy-admin .postbox > h3          { padding: 16px 22px; }
+  body.dy-admin .metabox-holder        { gap: 28px; }
+  body.dy-admin .postbox-container     { gap: 28px; }
+  body.dy-admin .wp-list-table thead th,
+  body.dy-admin .wp-list-table tfoot th,
+  body.dy-admin .wp-list-table tbody td,
+  body.dy-admin .wp-list-table tbody th { padding: 14px 18px; }
+  body.dy-admin .wp-list-table .row-title { font-size: 14.5px; }
+
+  // Top bar — taller hit area for chrome icons
+  body.dy-admin #wpadminbar .ab-top-menu > li > a,
+  body.dy-admin #wpadminbar .ab-top-menu > li > .ab-item {
+    height: 34px;
+    padding: 0 12px;
+    gap: 7px;
+  }
+  body.dy-admin #wp-admin-bar-my-account .avatar:not(img),
+  body.dy-admin #wp-admin-bar-my-account img.avatar { width: 28px; height: 28px; }
+
+  // Chip bar — slightly taller chips
+  body.dy-admin .dy-chip { padding: 8px 16px; font-size: 13.5px; }
+  body.dy-admin .dy-chip-count { font-size: 11px; padding: 2px 8px; }
+
+  // Inputs + buttons — proportional to fluid body type
+  body.dy-admin .button,
+  body.dy-admin .button-secondary { padding: 8px 16px; }
+  body.dy-admin .button.button-primary,
+  body.dy-admin .button-primary { padding: 9px 18px; }
+  body.dy-admin input[type="text"],
+  body.dy-admin input[type="search"],
+  body.dy-admin input[type="email"],
+  body.dy-admin input[type="url"],
+  body.dy-admin input[type="password"],
+  body.dy-admin input[type="number"],
+  body.dy-admin textarea,
+  body.dy-admin select { padding: 9px 13px; }
+
+  // Welcome panel — wider gutters
+  body.dy-admin #welcome-panel.welcome-panel { padding: 36px 36px 28px; }
+  body.dy-admin .welcome-panel-column-container { gap: 48px; }
+
+  // Brand logo grows so it stays in proportion with the larger
+  // rail icons. The token feeds both the logo dimensions AND the
+  // brand row's padding-left calc, so centering stays correct.
+  body.dy-admin { --dya-rail-logo-size: 40px; }
+}
+
+// ── Tablet landscape (≤1200px) ───────────────────────
+// Compact rail, tighter chip bar padding, single-column metaboxes.
+@media (max-width: 1200px) {
+  body.dy-admin {
+    --dya-wrap-pad-x: 24px;
+  }
+  body.dy-admin .metabox-holder,
+  body.dy-admin #poststuff #post-body.columns-2 {
+    grid-template-columns: 1fr;
+  }
+  body.dy-admin .welcome-panel-column-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+}
+
+// ── Tablet portrait (≤900px) ─────────────────────────
+@media (max-width: 900px) {
+  // All sizing flows through the token system. CRITICAL: we also
+  // FORCE --dya-rail-gutter to an explicit px value at this breakpoint.
+  //
+  // Why: the :root formula `min(19px, calc((--dya-rail-w-current -
+  // --dya-rail-icon-tile) / 2))` depends on --dya-rail-w-current, which is
+  // a JS-managed inline style on <body>. During a window resize
+  // crossing this breakpoint, --dya-rail-w-current can lag for a frame
+  // (the resize event hasn't yet triggered the JS sync), leaving
+  // the gutter computed from the OLD desktop rail-w-current. That
+  // formula then yields a gutter too big for the new narrow rail
+  // (e.g. 12px gutter inside a 48px rail with 32px tile = 56px
+  // total, overflowing). Explicit gutter eliminates the race.
+  //
+  // Also: values picked so every calc() resolves to WHOLE pixels.
+  body.dy-admin {
+    --dya-rail-w:          56px;
+    --dya-rail-icon-tile:  36px;
+    --dya-rail-icon-glyph: 18px;     // (36 − 18) ÷ 2 = 9   whole
+    --dya-rail-logo-size:  26px;     // (36 − 26) ÷ 2 = 5   whole
+    --dya-rail-gutter:     10px;     // (56 − 36) ÷ 2 = 10  explicit
+    --dya-wrap-pad-x: 18px;
+    --dya-wrap-pad-y: 20px;
+    --dya-chipbar-h: 44px;
+  }
+  body.dy-admin #adminmenuwrap {
+    padding: 16px 0 56px;       // tighter top padding
+  }
+  body.dy-admin .dy-rail-brand {
+    margin-bottom: 16px;        // less breathing room below logo
+  }
+  body.dy-admin .welcome-panel-column-container {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  body.dy-admin #welcome-panel.welcome-panel {
+    padding: 22px 22px 20px;
+  }
+  body.dy-admin .form-table tr {
+    grid-template-columns: 1fr;
+    gap: 8px 0;
+    padding: 14px 0;
+  }
+
+  // Pagination — bigger hit area for arrow buttons only;
+  // paging-input stays typographic (no box, just colored number).
+  body.dy-admin .tablenav-pages { gap: 12px; }
+  body.dy-admin .tablenav-pages .pagination-links a,
+  body.dy-admin .tablenav-pages .pagination-links span.tablenav-pages-navspan {
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    font-size: 13px;
+  }
+  body.dy-admin .tablenav-pages .pagination-links .paging-input {
+    padding: 0 6px;
+    font-size: 13px;
+  }
+  body.dy-admin .tablenav-pages .pagination-links .current-page,
+  body.dy-admin .tablenav-pages .pagination-links .paging-input .current-page,
+  body.dy-admin .tablenav-pages .pagination-links .total-pages {
+    font-size: 14px;
+  }
+}
+
+// ── Mobile / phone (≤600px) ──────────────────────────
+@media (max-width: 600px) {
+  // Same parity rule as 900px breakpoint — whole-pixel calcs —
+  // PLUS explicit --dya-rail-gutter to dodge the JS sync race
+  // (see the 900px breakpoint comment for the full rationale).
+  body.dy-admin {
+    --dya-rail-w:          48px;
+    --dya-rail-icon-tile:  32px;
+    --dya-rail-icon-glyph: 16px;     // (32 − 16) ÷ 2 = 8   whole
+    --dya-rail-logo-size:  24px;     // (32 − 24) ÷ 2 = 4   whole
+    --dya-rail-gutter:     8px;      // (48 − 32) ÷ 2 = 8   explicit
+    --dya-wrap-pad-x: 14px;
+    --dya-wrap-pad-y: 16px;
+  }
+  body.dy-admin #adminmenuwrap {
+    padding: 12px 0 48px;
+  }
+  body.dy-admin .dy-rail-brand {
+    margin-bottom: 12px;
+  }
+  body.dy-admin #wpwrap {
+    grid-template-rows: var(--dya-topbar-h) auto 1fr;
+  }
+  body.dy-admin .dy-chipbar { padding: 0 var(--dya-wrap-pad-x); }
+  body.dy-admin .dy-chip { padding: 6px 10px; font-size: 12px; }
+
+  body.dy-admin .wp-heading-inline { font-size: 20px; }
+
+  // ── Tablenav — three full-width rows ──────────────────
+  // filters / search / pagination, each row packs its contents
+  // horizontally with flex-wrap. Items align LEFT (start), not
+  // centered — feels less floaty on a narrow column.
+  body.dy-admin .tablenav {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 12px 0;
+  }
+  body.dy-admin .tablenav .alignleft,
+  body.dy-admin .tablenav .alignright,
+  body.dy-admin .tablenav .search-box {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: flex-start;
+  }
+  // Filter selects can grow to fill the row evenly
+  body.dy-admin .tablenav .alignleft select,
+  body.dy-admin .tablenav .alignleft input[type="text"] {
+    flex: 1 1 140px;
+    min-width: 0;
+  }
+  // Search input fills the row, button stays at intrinsic size
+  body.dy-admin .tablenav .search-box input[type="search"] {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  // Pagination row — items count LEFT, controls RIGHT.
+  body.dy-admin .tablenav-pages {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+  }
+  body.dy-admin .tablenav-pages .displaying-num {
+    font-size: 11px;
+    text-align: left;
+    margin: 0;
+    flex: 1 1 auto;
+    width: auto;
+    display: inline;
+  }
+  body.dy-admin .tablenav-pages .pagination-links {
+    flex: 0 0 auto;
+  }
+  body.dy-admin .tablenav-pages .pagination-links a,
+  body.dy-admin .tablenav-pages .pagination-links span.tablenav-pages-navspan {
+    min-width: 40px;
+    height: 40px;
+    padding: 0 12px;
+    font-size: 13px;
+  }
+  body.dy-admin .tablenav-pages .pagination-links .paging-input {
+    padding: 0 6px;
+    font-size: 13px;
+    height: 40px;
+  }
+  body.dy-admin .tablenav-pages .pagination-links .current-page,
+  body.dy-admin .tablenav-pages .pagination-links .total-pages { font-size: 15px; }
+
+  // ── List tables → stacked card mode ───────────────────
+  // Below 600px each <tr> becomes a card. Universal across every
+  // WP list table (Posts, Pages, Comments, Users, Plugins, WC
+  // Orders, WC Products, …) because admin.js detects the primary
+  // cell of each row at runtime (via .row-actions / .row-title)
+  // and marks it `.dy-card-title`, and wraps the value content of
+  // each metadata cell in `.dy-cell-value` so multi-anchor values
+  // stay as one flow inside a single grid item.
+
+  body.dy-admin .wp-list-table {
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    table-layout: auto;
+  }
+  body.dy-admin .wp-list-table thead,
+  body.dy-admin .wp-list-table tfoot,
+  body.dy-admin .wp-list-table .tablenav .actions { display: none; }
+  body.dy-admin .wp-list-table,
+  body.dy-admin .wp-list-table tbody,
+  body.dy-admin .wp-list-table tr { display: block; width: 100%; }
+
+  // Hide the per-table screen-options gear (selector mirrors the
+  // desktop rule in _tables.scss to keep specificity equal — same
+  // selector means the later @media block wins).
+  body.dy-admin .dy-table-wrapper > .dy-table-options { display: none; }
+
+  // ── Card container ───────────────────────────────────
+  // position: relative anchors the absolutely-placed checkbox
+  // (.check-column) to the card's top-left corner.
+  body.dy-admin .wp-list-table tbody tr {
+    background: var(--dya-paper);
+    border: 1px solid var(--dya-edge);
+    border-radius: var(--dya-r-lg);
+    padding: 14px 16px 12px;
+    margin: 0 0 10px;
+    box-shadow: none;
+    position: relative;
+  }
+  body.dy-admin .wp-list-table tbody tr:hover {
+    box-shadow: inset 3px 0 0 var(--dya-accent);
+    background: var(--dya-paper-2);
+  }
+
+  // Reset every tbody cell to block first; the targeted rules
+  // below upgrade primary / metadata cells.
+  //
+  // CRITICAL — the !important triplet on width / min-width /
+  // max-width cancels the per-column widths set in _tables.scss
+  // for the desktop `table-layout: fixed` mode (e.g.
+  //   `.column-date { width: 14%; min-width: 130px }`
+  //   `.column-comments { width: 70px }`
+  //   `.column-tags { width: 16% }` …).
+  // Those rules have specificity 0,3,2 while our cell-reset is
+  // 0,2,3; without !important, the column widths win and a grid
+  // cell with a 88px label keeps only ~30px for the value, so
+  // every word of "2026/05/12 at 1:12 pm" wraps onto its own line.
+  // !important is the standard pattern for stacked-card overrides
+  // of fixed-table layouts (WP core does the same on its own
+  // responsive table conversions).
+  body.dy-admin .wp-list-table tbody td,
+  body.dy-admin .wp-list-table tbody th {
+    display: block;
+    padding: 0;
+    border: 0;
+    text-align: left;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    font-size: 13px;
+    color: var(--dya-ink-soft);
+    line-height: 1.5;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+  }
+
+  // ── Card header (primary cell) ───────────────────────
+  // padding-left reserves a 32px column for the checkbox so the
+  // title content can never slide under it. border-bottom splits
+  // the header zone (title + row-actions) from the metadata grid.
+  body.dy-admin .wp-list-table tbody :is(td, th).dy-card-title {
+    display: block;
+    padding: 0 0 12px 32px;
+    margin: 0 0 12px;
+    border-bottom: 1px solid var(--dya-line-soft);
+    font-size: 15px;
+    color: var(--dya-ink);
+    font-weight: 500;
+    min-height: 22px;
+  }
+  body.dy-admin .wp-list-table tbody :is(td, th).dy-card-title strong { display: inline; }
+  body.dy-admin .wp-list-table tbody :is(td, th).dy-card-title strong a,
+  body.dy-admin .wp-list-table tbody :is(td, th).dy-card-title > a.row-title {
+    font-size: 15px;
+    color: var(--dya-ink);
+  }
+  // Badges (sticky, draft, front page, order status…) wrap nicely.
+  body.dy-admin .wp-list-table tbody :is(td, th).dy-card-title .post-state,
+  body.dy-admin .wp-list-table tbody :is(td, th).dy-card-title mark { white-space: nowrap; }
+
+  // ── Checkbox — top-left of the card ──────────────────
+  body.dy-admin .wp-list-table tbody td.check-column,
+  body.dy-admin .wp-list-table tbody th.check-column {
+    display: block;
+    padding: 0;
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    margin: 0;
+    width: 18px;
+  }
+  body.dy-admin .wp-list-table tbody td.check-column input,
+  body.dy-admin .wp-list-table tbody th.check-column input {
+    margin: 0;
+  }
+
+  // ── Row actions — sit directly under the title ──────
+  // Always visible on touch (no hover available). The header's
+  // border-bottom separates them from the metadata grid below.
+  body.dy-admin .wp-list-table .row-actions {
+    visibility: visible;
+    opacity: 1;
+    margin: 4px 0 0;
+    padding: 0;
+    border-top: 0;
+    font-size: 12px;
+    color: var(--dya-ink-mute);
+  }
+
+  // ── Metadata cells — 2-column grid (label / value) ──
+  // grid-template-columns: 88px 1fr places the ::before label
+  // in column 1 and the .dy-cell-value wrapper in column 2.
+  // Because the JS wraps inline content in a single <div>, the
+  // grid only has two children — multi-anchor values like
+  //   <a>graphite</a>, <a>studio</a>
+  // stay together inside the wrapper, comma included.
+  body.dy-admin .wp-list-table tbody td[data-colname] {
+    display: grid;
+    grid-template-columns: 88px minmax(0, 1fr);
+    align-items: baseline;
+    gap: 2px 12px;
+    padding: 4px 0;
+    // Specificity 0,3,3 — beats `.column-comments` (0,3,2) which
+    // applies `text-align: center; padding: 0 6px` for the
+    // numeric counter cell. Without these overrides the count
+    // "12" inherits text-align:center and floats away from the
+    // other left-aligned values.
+    text-align: left;
+  }
+  body.dy-admin .wp-list-table tbody td[data-colname]::before {
+    content: attr(data-colname);
+    font-family: var(--dya-font-mono);
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: var(--dya-tracking-label);
+    color: var(--dya-ink-fade);
+    font-weight: 500;
+    line-height: 1.6;
+    align-self: baseline;
+  }
+  body.dy-admin .wp-list-table tbody td[data-colname] > .dy-cell-value {
+    min-width: 0;
+    color: var(--dya-ink-soft);
+  }
+  body.dy-admin .wp-list-table tbody td[data-colname] > .dy-cell-value a {
+    color: var(--dya-ink);
+  }
+  // Empty values (e.g. WP renders "—" or nothing) collapse the row.
+  body.dy-admin .wp-list-table tbody td[data-colname]:empty,
+  body.dy-admin .wp-list-table tbody td[data-colname] > .dy-cell-value:empty { display: none; }
+
+  // Cells that are pure thumbnails (WC products, media list) —
+  // skip in card mode; the title already conveys identity.
+  body.dy-admin .wp-list-table tbody td.column-thumb,
+  body.dy-admin .wp-list-table tbody td.column-icon { display: none; }
+
+  // Re-enable previously-hidden columns at desktop tiers so they
+  // all appear inside the card (mobile users want every signal).
+  body.dy-admin .wp-list-table .column-parent,
+  body.dy-admin .wp-list-table .column-comments,
+  body.dy-admin .wp-list-table .column-rating,
+  body.dy-admin .wp-list-table .column-author,
+  body.dy-admin .wp-list-table .column-tags,
+  body.dy-admin .wp-list-table .column-format,
+  body.dy-admin .wp-list-table .column-date,
+  body.dy-admin .wp-list-table .column-categories,
+  body.dy-admin .wp-list-table .column-role,
+  body.dy-admin .wp-list-table .column-posts,
+  body.dy-admin .wp-list-table .column-email {
+    display: grid;
+    grid-template-columns: 88px minmax(0, 1fr);
+  }
+  // …but the primary cell wins over the column-* re-enable above.
+  // Same selector specificity (4 classes), so we restate display.
+  body.dy-admin .wp-list-table tbody :is(td, th).dy-card-title.column-author,
+  body.dy-admin .wp-list-table tbody :is(td, th).dy-card-title.column-title,
+  body.dy-admin .wp-list-table tbody :is(td, th).dy-card-title.column-name {
+    display: block;
+  }
+
+  // Empty state row
+  body.dy-admin .wp-list-table .no-items {
+    padding: 0;
+    border: 1px solid var(--dya-edge);
+    border-radius: var(--dya-r-lg);
+    background: var(--dya-paper);
+    margin: 0;
+  }
+  body.dy-admin .wp-list-table .no-items td {
+    display: block;
+    padding: 40px 16px;
+    text-align: center;
+    font-size: 13px;
+  }
+
+  // ── Empty state ──
+  body.dy-admin .wp-list-table .no-items {
+    padding: 0;
+    border: 1px solid var(--dya-edge);
+    border-radius: var(--dya-r-lg);
+    background: var(--dya-paper);
+    margin: 0;
+  }
+  body.dy-admin .wp-list-table .no-items td {
+    display: block;
+    padding: 40px 16px;
+    text-align: center;
+    font-size: 13px;
+  }
+
+  // Admin bar — hide labels, keep icons
+  body.dy-admin #wpadminbar .quicklinks { padding: 0 8px; }
+  body.dy-admin #wp-admin-bar-site-name > a {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  body.dy-admin #wp-admin-bar-my-account .display-name { display: none; }
+
+  // Welcome panel — single column
+  body.dy-admin .welcome-panel-column-container { grid-template-columns: 1fr; }
+  body.dy-admin #welcome-panel.welcome-panel { padding: 18px; }
+
+  // Tabs that overflow
+  body.dy-admin .nav-tab-wrapper {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+}
+
+// ── Tweak panel handles short heights ────────────────
+@media (max-height: 600px) {
+  body.dy-admin #adminmenuwrap {
+    overflow-y: auto;
+  }
+}
+
+// ── Print ────────────────────────────────────────────
+@media print {
+  body.dy-admin::after,
+  body.dy-admin #wpadminbar,
+  body.dy-admin #adminmenuwrap,
+  body.dy-admin .dy-chipbar,
+  body.dy-admin .tablenav,
+  body.dy-admin .row-actions {
+    display: none !important;
+  }
+  body.dy-admin #wpwrap {
+    display: block;
+    height: auto;
+  }
+  body.dy-admin .wrap {
+    max-width: none;
+    padding: 0;
+  }
+  body.dy-admin .postbox,
+  body.dy-admin .wp-list-table {
+    box-shadow: none;
+    border-color: var(--dya-edge);   // was hardcoded #ccc — aligned with the DS token
+  }
+}
+
+// ── 601 to 782px: core's own responsive list tables ──────────────
+// Between our card mode (≤ 600) and the desktop layout, core stacks the
+// cells and prints the column name as an absolute `::before` label, expecting
+// its `padding-left: 35%` on the cell. Our generic cell padding removed that
+// room, so the label was painted over the content ("Description" over the
+// plugin description on plugins.php, audit-2). Same layout, our typography.
+@media (min-width: 601px) and (max-width: 782px) {
+  // `#wpbody-content` matches core's own id-weighted plugins rule.
+  body.dy-admin #wpbody-content .wp-list-table tbody td[data-colname]:not(.check-column) {
+    position: relative;
+    padding-left: 35%;
+  }
+  body.dy-admin #wpbody-content .wp-list-table tbody td[data-colname]:not(.check-column)::before {
+    content: attr(data-colname);
+    position: absolute;
+    left: 14px;
+    top: 12px;
+    width: calc(35% - 24px);
+    white-space: normal;
+    font-family: var(--dya-font-mono);
+    font-size: 10.5px;
+    line-height: 1.4;
+    letter-spacing: var(--dya-tracking-mono);
+    text-transform: uppercase;
+    color: var(--dya-ink-mute);
+  }
+}

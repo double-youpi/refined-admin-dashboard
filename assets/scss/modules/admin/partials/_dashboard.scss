@@ -1,0 +1,4042 @@
+// =============================================================
+// _dashboard.scss
+// Modular dashboard v4 — narrative multi-screen, 6-slot row.
+//
+// Architecture:
+//   .dy-dashboard               root (full-width, managed via _dashboard.scss
+//                               + inline override in DashboardOverride)
+//   .dy-dashboard__viewport     horizontal scroll-snap multi-screen
+//   .dy-dashboard__screen       one screen (title + paragraph + 6 slots)
+//   .dy-dashboard__screen-bg    accent radial-gradient, variable intensity
+//   .dy-dashboard__screen-header eyebrow + title + paragraph
+//   .dy-dashboard__slots        flex container 6 slots
+//   .dy-dashboard__slot         widget container (1 or 2 slots)
+//   .dy-dashboard__nav          arrows + pagination dots
+//   .dy-dashboard__customize-btn floating button top-right
+//
+// Tokens: entirely via CSS vars from the admin DS (_tokens.scss).
+// Animations: reveal stagger, smooth scroll-snap, subtle hover-lift.
+// =============================================================
+
+@use "tokens" as *;
+
+// Variables animables du gradient ambiant. @property les rend interpolables
+// (transition + keyframe), sinon les custom props "sautent" sans animer.
+@property --dy-amb-x {
+	syntax: "<percentage>";
+	inherits: true;
+	initial-value: 42%;
+}
+@property --dy-amb-y {
+	syntax: "<percentage>";
+	inherits: true;
+	initial-value: 30%;
+}
+// Second point (accent glow) — its own position, animatable independently.
+@property --dy-amb-x2 {
+	syntax: "<percentage>";
+	inherits: true;
+	initial-value: 72%;
+}
+@property --dy-amb-y2 {
+	syntax: "<percentage>";
+	inherits: true;
+	initial-value: 64%;
+}
+// Accent color of the ambient layer, per screen (v4 showcase). Registered as
+// <color> to be INTERPOLABLE → smooth gradient morph during the slide.
+// JS sets `--dy-amb-accent` (color); the SCSS derives rgba() from it. The
+// default value uses the gold DS accent.
+@property --dy-amb-accent {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: rgb(212, 178, 122);
+}
+
+// Continuous idle drift of the ambient gradient. Slightly faster cadence
+// (20 s) and slightly increased amplitude. The layer moves via transform
+// (translate + scale) to stay within the content area without exposing
+// an edge (the layer overflows by -8%).
+// Loop A — large main halo: translation only + scale breath.
+// 8 non-symmetric steps, a freehand trajectory (not a circle or geometric
+// figure-eight) — the eye does not detect a repeating pattern.
+@keyframes dy-amb-drift-a {
+	0%   { transform: translate3d(-2.5%, -1.5%, 0) scale(1.04); }
+	13%  { transform: translate3d( 1.0%, -3.2%, 0) scale(1.08); }
+	27%  { transform: translate3d( 3.6%, -0.8%, 0) scale(1.06); }
+	42%  { transform: translate3d( 2.8%,  2.6%, 0) scale(1.10); }
+	56%  { transform: translate3d(-0.4%,  4.0%, 0) scale(1.07); }
+	68%  { transform: translate3d(-3.0%,  2.4%, 0) scale(1.09); }
+	83%  { transform: translate3d(-3.4%, -0.6%, 0) scale(1.05); }
+	100% { transform: translate3d(-2.5%, -1.5%, 0) scale(1.04); }
+}
+// Loop B — concentrated secondary halo: wider amplitude, slight rotation
+// to break the vertical axis and make the atmosphere "turn". 7 non-symmetric
+// steps, async with A (47 s vs 31 s — coprime periods).
+@keyframes dy-amb-drift-b {
+	0%   { transform: translate3d( 2.0%,  1.5%, 0) scale(1.10) rotate( 0deg); }
+	18%  { transform: translate3d( 4.4%, -1.2%, 0) scale(1.13) rotate( 2deg); }
+	35%  { transform: translate3d( 2.8%, -4.0%, 0) scale(1.08) rotate(-1deg); }
+	52%  { transform: translate3d(-2.4%, -3.0%, 0) scale(1.12) rotate( 3deg); }
+	69%  { transform: translate3d(-4.0%,  0.6%, 0) scale(1.09) rotate(-2deg); }
+	84%  { transform: translate3d(-0.8%,  3.7%, 0) scale(1.11) rotate( 1deg); }
+	100% { transform: translate3d( 2.0%,  1.5%, 0) scale(1.10) rotate( 0deg); }
+}
+
+body.dy-admin.index-php {
+
+	// Anti-scroll lock: we take over the entire window; the dashboard's
+	// scroll-snap viewport manages its own horizontal navigation. The dashboard
+	// root switches to `position: fixed` (see below) and is removed from the WP
+	// flow, so `#dashboard-widgets-wrap` and its parents collapse to height 0.
+	overflow: hidden;
+
+	// The eyebrow injected by Eyebrow.php (`.dy-page-sub` subtitle added below
+	// every admin h1) has no meaning on the dashboard: we have our own narrative
+	// eyebrow per screen.
+	.dy-page-sub { display: none !important; }
+
+	// WP admin footer and other residual elements.
+	#wpfooter { display: none !important; }
+
+	// Promotional notice from a third-party plugin (Rank Math, Yoast upsells,
+	// etc.): suppressed on the "curated" dashboard. It remains in #wpbody-content
+	// (already behind the fixed shell) but we neutralize it explicitly so it
+	// affects neither the height nor any potential reflow.
+	.dy-dashboard__notice-suppressed { display: none !important; }
+
+	// WP notices: stacked bottom-right, wider so long messages display without
+	// breaking the internal layout.
+	.dy-dashboard__notices-stack {
+		position: fixed;
+		bottom: clamp(90px, 8vw, 130px);
+		right: clamp(16px, 1.6vw, 32px);
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		max-width: clamp(380px, 36vw, 600px);
+		z-index: 75;
+		pointer-events: none;
+		transition: right 380ms var(--dya-rail-snap-easing, var(--dya-ease));
+		.notice,
+		.updated,
+		.error {
+			pointer-events: auto;
+			position: static !important;
+			margin: 0 !important;
+			max-width: 100% !important;
+			box-shadow: 0 12px 40px rgba(0, 0, 0, .25);
+			border-radius: var(--dya-r-md, 8px);
+			padding: 12px 16px 12px 36px !important; // left room for the notice dot
+		}
+	}
+
+	// While the Customize panel is open, slide the notices stack left of it
+	// so a notice never hides behind (or covers) the panel.
+	body.dy-admin:has(.dy-dashboard__sidebar.is-open) & .dy-dashboard__notices-stack,
+	&:has(.dy-dashboard__sidebar.is-open) .dy-dashboard__notices-stack {
+		right: calc(clamp(320px, 26vw, 380px) + clamp(16px, 1.6vw, 32px) + 16px);
+	}
+
+	// We leave the WP postbox `#doubleyoupi_dashboard_root` in normal flow
+	// (it collapses to 0 because .inside has no flow content). The real visible
+	// shell is the Renderer div `#dy-dashboard-root.dy-dashboard`, which we
+	// position with `position: fixed` directly so it fills the viewport minus
+	// topbar minus rail. No flex/100% chain to maintain, no containing-block
+	// ancestor issues.
+	#doubleyoupi_dashboard_root,
+	#doubleyoupi_dashboard_root .inside {
+		background: transparent !important;
+		border: 0 !important;
+		box-shadow: none !important;
+		padding: 0 !important;
+		margin: 0 !important;
+	}
+
+	#dy-dashboard-root.dy-dashboard {
+		position: fixed;
+		top: var(--dya-topbar-h, 50px);
+		left: var(--dya-rail-w-current, 96px);
+		right: 0;
+		bottom: 0;
+		background: var(--dya-bg, #0c0e13);
+		overflow: hidden;
+		z-index: 1;
+		transition: left 380ms var(--dya-rail-snap-easing, var(--dya-ease, cubic-bezier(.22,.7,.2,1)));
+
+		*, *::before, *::after { box-sizing: border-box; }
+	}
+
+	// ── Multi-screen viewport ─────────────────────────────────────
+	.dy-dashboard__viewport {
+		display: flex;
+		flex-direction: row;
+		width: 100%;
+		// EXACT height (not min-height): we consume all available space
+		// below the topbar and not a single pixel more.
+		height: 100%;
+		overflow-x: auto;
+		overflow-y: hidden;
+		scroll-snap-type: x mandatory;
+		scrollbar-width: none;
+
+		&::-webkit-scrollbar { display: none; }
+
+		overscroll-behavior-x: contain;
+
+		// MOUSE DRAG ONLY: grabbing cursor + direct tracking.
+		// (class set by Nav._wireDragScroll; snap is disabled in JS.)
+		&.is-drag-scrolling {
+			cursor: grabbing;
+			scroll-behavior: auto;
+			user-select: none;
+		}
+	}
+	// Default cursor at rest (NOT "pointer"). Selector deliberately as specific
+	// as any residual `cursor: grab` rule from another CSS bundle (admin.css) —
+	// otherwise that rule would win. `:not(.x)` adds a class's worth of
+	// specificity, aligning us with that rule so we take over.
+	.dy-dashboard:not(.dy-dashboard--xnull) .dy-dashboard__viewport:not(.is-drag-scrolling) {
+		cursor: auto;
+	}
+
+	// ── Screen ────────────────────────────────────────────────────
+	.dy-dashboard__screen {
+		flex: 0 0 100%;
+		width: 100%;
+		height: 100%;
+		position: relative;
+		scroll-snap-align: start;
+		scroll-snap-stop: always;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		// The dashboard root already starts below the topbar (top: var(--dya-topbar-h)),
+		// so no topbar compensation is needed in the padding.
+		padding: clamp(40px, 5vw, 88px) clamp(32px, 4vw, 72px);
+		overflow: hidden;
+		// Transparent: the FIXED ambient gradient (behind the viewport) must
+		// remain visible and stationary during the swipe between screens.
+		background-color: transparent;
+
+		// Entrance animation: on first paint, fade + upward rise.
+		opacity: 0;
+		transform: translateY(8px);
+		animation: dy-dashboard-screen-rise 720ms var(--dya-ease, cubic-bezier(.22,.7,.2,1)) forwards;
+		animation-delay: 80ms;
+
+		// Native WP screen: flex column layout with native-list scrolling in
+		// the remaining space. The screen itself stays at height 100%
+		// (of dashboard root = 100vh).
+		&--native {
+			justify-content: flex-start;
+			// Title ↔ list gap tightened to maximize list height.
+			padding-top: clamp(26px, 2.2vw, 48px);
+			// Spacing between the scrollable container and the bottom of the
+			// viewport (covers the floating nav pill area + breathing room).
+			padding-bottom: clamp(90px, 9vw, 130px);
+			--dy-screen-intensity: 0;
+			// Transparent: no opaque background that would brutally mask the
+			// ambient. The resting backdrop comes from dyRoot (--dya-bg); during
+			// a swipe, the ambient fades out smoothly (points exit off-page).
+			background-color: transparent;
+
+			// Header nearly flush with the list (title ↔ cards gap minimal).
+			.dy-dashboard__screen-header {
+				flex: 0 0 auto;
+				margin-bottom: clamp(4px, 0.45vw, 7px);
+			}
+
+			// screen-inner MUST be flex column AND fill the remaining space
+			// so that native-list (its child with flex:1) can scroll.
+			.dy-dashboard__screen-inner {
+				flex: 1 1 0%;
+				min-height: 0;
+				display: flex;
+				flex-direction: column;
+				overflow: hidden;
+			}
+			// Relative wrapper around the list + custom scrollbar (injected by JS).
+			// It carries the max-width/centering AND a right gutter (padding-right)
+			// where the custom scrollbar lives: it therefore sits VISUALLY TO THE
+			// RIGHT of the cards (outside the container), not on top of them.
+			.dy-dashboard__native-scroll-wrap {
+				position: relative;
+				flex: 1 1 0%;
+				min-height: 0;
+				display: flex;
+				width: 100%;
+				max-width: 1180px;
+				margin: 0 auto;
+				padding-right: 26px; // gutter for the external scrollbar
+			}
+			.dy-dashboard__native-list {
+				flex: 1 1 0%;
+				min-height: 0;
+				overflow-y: auto;
+				overflow-x: hidden;
+				// small internal padding: lets card shadows/hover breathe.
+				padding: 0;
+				border-radius:var(--dya-r-xl, 16px);
+				// Hide the native scrollbar (macOS overlay scrollbar cannot be
+				// styled reliably): the custom scrollbar takes over.
+				scrollbar-width: none;
+				-ms-overflow-style: none;
+				&::-webkit-scrollbar { width: 0; height: 0; display: none; }
+			}
+
+			// ── Custom design-system scrollbar (in the right gutter) ──────
+			// right:0 = right edge of the wrap, i.e. ~22px to the right of the cards.
+			.dy-dashboard__native-scrollbar {
+				position: absolute;
+				top: 4px;
+				bottom: 4px;
+				right: 0;
+				width: 7px;
+				border-radius: 999px;
+				background: color-mix(in srgb, var(--dya-paper-2, #1c2230) 65%, transparent);
+				border: 1px solid color-mix(in srgb, var(--dya-edge) 55%, transparent);
+				opacity: 0;
+				transition: opacity 240ms var(--dya-ease);
+				pointer-events: auto;
+				z-index: 3;
+
+				&.is-visible { opacity: 1; }
+			}
+			.dy-dashboard__native-thumb {
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0;
+				min-height: 36px;
+				border-radius: 999px;
+				background-color: var(--dya-accent);
+				background-image: linear-gradient(
+					180deg,
+					rgba(255, 255, 255, 0.24),
+					rgba(0, 0, 0, 0.16)
+				);
+				cursor: grab;
+				box-shadow: 0 0 10px rgba(var(--dya-accent-rgb, 212, 178, 122), 0.45);
+				transition: background-color var(--dya-t-fast) var(--dya-ease), filter var(--dya-t-fast) var(--dya-ease);
+				will-change: transform;
+
+				&:hover { filter: brightness(1.12); }
+				&.is-grabbing { cursor: grabbing; }
+			}
+		}
+	}
+
+	// ── Ambient atmosphere (single FIXED layer) ──────────────────
+	// The gradient no longer lives inside each screen (where it scrolled with
+	// them): it is a single fixed layer behind the viewport. Two movements:
+	//   • slow continuous idle drift: keyframe on --dy-amb-x/--dy-amb-y
+	//     (registered via @property to be animatable), bounded to the
+	//     content area.
+	//   • screen change: JS updates --dy-amb-x/y to a target position with
+	//     a short transition → the gradient "jumps" faster during the
+	//     transition, but the layer itself stays fixed.
+	.dy-dashboard__ambient {
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		pointer-events: none;
+		overflow: hidden;
+		// Gradient tint (v4 showcase): base = frozen GLOBAL accent
+		// (--dy-global-accent, snapshotted at boot by JS — independent of the
+		// per-screen accent override set on root). JS sets --dy-amb-accent here
+		// via the "Background color" picker. Registered as <color> (@property)
+		// → smooth transition during the slide.
+		--dy-amb-accent: var(--dy-global-accent, var(--dya-accent, rgb(212, 178, 122)));
+		// REAL background behind the gradients: FIXED, depends on light/dark mode
+		// (token --dya-bg). Never driven per screen — just the neutral canvas.
+		background: var(--dya-bg, #0c0e13);
+		// Fade-out for the native screen (the points exit off-canvas in parallel).
+		transition: opacity 1000ms var(--dya-ease);
+
+		// On the native WP screen: light supplementary fade (the heavy lifting
+		// is done by the points exiting off-canvas, see Ambient.update JS).
+		&.is-muted { opacity: 0; }
+	}
+	.dy-dashboard__ambient-grad {
+		position: absolute;
+		// Overflow more so the points can travel far off-canvas
+		// (smooth transition to the native screen without a gradient edge).
+		inset: -12%;
+		// Center positions (read by child halos via inherit).
+		// JS Ambient.update() updates them on screen change with
+		// the smooth transition below.
+		--dy-amb-x: 42%;
+		--dy-amb-y: 30%;
+		--dy-amb-x2: 72%;
+		--dy-amb-y2: 64%;
+		// Static directional layer (no animation) — gives a sense of diagonal
+		// light. The TWO animated halos live in separate child layers
+		// (see &__ambient-halo below) so they can drift independently.
+		background-image: linear-gradient(
+			135deg,
+			color-mix(in srgb, var(--dy-amb-accent) 7%, transparent) 0%,
+			transparent 52%,
+			color-mix(in srgb, var(--dy-amb-accent) 3%, transparent) 100%
+		);
+		// Centers transition quickly on screen change / off-page exit;
+		// the accent color morphs in parallel (per-screen colors in v4 showcase).
+		transition:
+			--dy-amb-x 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+			--dy-amb-y 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+			--dy-amb-x2 1.05s cubic-bezier(0.4, 0, 0.2, 1),
+			--dy-amb-y2 1.05s cubic-bezier(0.4, 0, 0.2, 1);
+		// NB: the TINT (--dy-amb-accent) has NO CSS transition — it is driven
+		// frame-by-frame by the scroll event (Ambient.syncTintToScroll) →
+		// in sync with the swipe, no lag.
+	}
+	// ── Accent halos (two independent layers) ───────────────────────────
+	// Each traces its own "Lissajous" loop: no symmetric back-and-forth,
+	// different step counts (8 vs 7), distinct amplitudes, and above all
+	// COPRIME PERIODS (31 s vs 47 s) — the two loops re-synchronize only
+	// at their LCM (31 × 47 = 1457 s ≈ 24 min), so the cycle is
+	// imperceptible during a normal session → organic random feel.
+	.dy-dashboard__ambient-halo {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		will-change: transform;
+	}
+	.dy-dashboard__ambient-halo--a {
+		// Main halo (large, soft).
+		background-image: radial-gradient(
+			ellipse 58% 56% at var(--dy-amb-x) var(--dy-amb-y),
+			color-mix(in srgb, var(--dy-amb-accent) 42%, transparent) 0%,
+			color-mix(in srgb, var(--dy-amb-accent) 12%, transparent) 38%,
+			transparent 72%
+		);
+		animation: dy-amb-drift-a 31s ease-in-out infinite;
+	}
+	.dy-dashboard__ambient-halo--b {
+		// Secondary halo (more concentrated, brighter).
+		// NB: `ellipse Npc Npc` is required (`circle Npc` invalidates the
+		// entire background-image).
+		background-image: radial-gradient(
+			ellipse 42% 42% at var(--dy-amb-x2) var(--dy-amb-y2),
+			color-mix(in srgb, var(--dy-amb-accent) 32%, transparent) 0%,
+			color-mix(in srgb, var(--dy-amb-accent) 9%, transparent) 45%,
+			transparent 70%
+		);
+		animation: dy-amb-drift-b 47s ease-in-out infinite;
+	}
+	// Film grain noise on top of the ambient layer (cinematic texture).
+	.dy-dashboard__ambient::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1, 0 0 0 0 1, 0 0 0 0 1, 0 0 0 .05 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+		opacity: 0.5;
+		mix-blend-mode: overlay;
+		pointer-events: none;
+	}
+
+	// ── Inner wrapper ────────────────────────────────────────────
+	// Wraps header + slots in a single centered container that shares
+	// the same max-width so both are perfectly left-aligned.
+	.dy-dashboard__screen-inner {
+		position: relative;
+		z-index: 1;
+		width: 100%;
+		max-width: 1600px;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		gap: clamp(20px, 2vw, 36px);
+	}
+
+	// ── Screen header ─────────────────────────────────────────────
+	.dy-dashboard__screen-header {
+		text-align: left;
+	}
+
+	.dy-dashboard__eyebrow {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+		margin-bottom: clamp(20px, 1.6vw, 28px);
+		font-family: var(--dya-font-mono);
+		font-size: var(--dya-fs-xs, 10.5px);
+		letter-spacing: var(--dya-tracking-label, .12em);
+
+		// Staggered entrance animation.
+		opacity: 0;
+		transform: translateY(8px);
+		animation: dy-dashboard-fade-up 540ms var(--dya-ease) forwards;
+		animation-delay: 200ms;
+	}
+	.dy-dashboard__eyebrow-count {
+		color: var(--dya-accent);
+		font-weight: 500;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.dy-dashboard__title {
+		font-family: var(--dya-font-display);
+		font-weight: 600;
+		font-size: clamp(40px, 6.5vw, 96px);
+		line-height: 1.02;
+		letter-spacing: -0.03em;
+		color: var(--dya-ink, #ededee);
+		margin: 0 0 clamp(16px, 1.2vw, 24px);
+		max-width: 16ch;
+		word-break: break-word;
+
+		// Entrance animation.
+		opacity: 0;
+		transform: translateY(12px);
+		animation: dy-dashboard-fade-up 640ms var(--dya-ease) forwards;
+		animation-delay: 280ms;
+	}
+	// Native WP screen: title 2× smaller than the normal title
+	// (secondary information — half of clamp(40px,6.5vw,96px)).
+	// NB: separate rule (no nested `&` that would produce an invalid
+	// selector such as ".screen--native body …").
+	.dy-dashboard__screen--native .dy-dashboard__title {
+		font-size: clamp(20px, 3.25vw, 48px);
+		max-width: none;
+	}
+	.dy-dashboard__title-em {
+		font-style: italic;
+		color: var(--dya-accent-text, var(--dya-accent));  // readable on light panel (G6)
+		font-weight: 600;
+	}
+	.dy-dashboard__title--placeholder { visibility: hidden; }
+
+	// #2 — Screen delete button, to the right of "n / N".
+	// Hidden by default; revealed only in edit mode.
+	.dy-dashboard__eyebrow-del {
+		display: none;
+		align-items: center;
+		justify-content: center;
+		width: 22px;
+		height: 22px;
+		margin-left: 6px;
+		padding: 0;
+		border: 0;
+		border-radius: var(--dya-r-sm, 6px);
+		background: transparent;
+		// Theme ink (light on dark / dark on light) at 50% opacity.
+		color: color-mix(in srgb, var(--dya-ink) 50%, transparent);
+		cursor: pointer;
+		transition: color var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease);
+		svg { display: block; }
+		&:hover {
+			color: var(--dya-danger, #e5484d);
+			background: color-mix(in srgb, var(--dya-danger, #e5484d) 14%, transparent);
+		}
+	}
+	// Revealed in edit mode (descendant selector — see SCSS root rule).
+	.dy-dashboard--editable .dy-dashboard__eyebrow-del { display: inline-flex; }
+
+	// #3 — Inline-editable title & paragraph (contenteditable, panel open).
+	.dy-dashboard__inline-edit {
+		outline: none;
+		border-radius: var(--dya-r-sm, 6px);
+		cursor: text;
+		transition: background var(--dya-t-fast) var(--dya-ease), box-shadow var(--dya-t-fast) var(--dya-ease);
+		// Placeholder when empty.
+		&:empty::before {
+			content: attr(data-placeholder);
+			color: var(--dya-ink-mute);
+			opacity: 0.5;
+			pointer-events: none;
+		}
+		&:hover {
+			background: color-mix(in srgb, var(--dya-ink) 5%, transparent);
+			box-shadow: 0 0 0 6px color-mix(in srgb, var(--dya-ink) 5%, transparent);
+		}
+		&:focus {
+			background: color-mix(in srgb, var(--dya-accent) 8%, transparent);
+			box-shadow: 0 0 0 6px color-mix(in srgb, var(--dya-accent) 8%, transparent),
+						0 0 0 2px color-mix(in srgb, var(--dya-accent) 45%, transparent);
+		}
+	}
+	// The editable title must remain visible even when it still carries --placeholder.
+	.dy-dashboard__title--placeholder.dy-dashboard__inline-edit { visibility: visible; }
+
+	.dy-dashboard__paragraph {
+		font-family: var(--dya-font-body);
+		font-size: clamp(15px, 1.05vw, 18px);
+		line-height: var(--dya-lh-loose, 1.65);
+		// Normal text = ink at 75%; strong uses full ink (#4).
+		color: color-mix(in srgb, var(--dya-ink) 75%, transparent);
+		margin: 0;
+		max-width: 60ch;
+
+		opacity: 0;
+		transform: translateY(8px);
+		animation: dy-dashboard-fade-up 640ms var(--dya-ease) forwards;
+		animation-delay: 380ms;
+
+		strong { color: var(--dya-ink); font-weight: 600; }
+		em     { font-style: italic; }
+		code {
+			font-family: var(--dya-font-mono);
+			font-size: 0.9em;
+			background: var(--dya-paper-2, #1c2230);
+			padding: 1px 6px;
+			border-radius: var(--dya-r-sm, 6px);
+			color: var(--dya-ink);
+		}
+	}
+	.dy-dashboard__paragraph-link {
+		color: var(--dya-accent);
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 3px;
+		transition: opacity var(--dya-t-fast) var(--dya-ease);
+		&:hover { opacity: 0.75; }
+	}
+
+	// ── Slot row ──────────────────────────────────────────────────
+	.dy-dashboard__slots {
+		position: relative;
+		display: grid;
+		grid-template-columns: repeat(6, 1fr);
+		gap: clamp(16px, 1.4vw, 28px);
+		width: 100%;
+		min-height: 180px;
+		// Left-aligned (screen-inner is flex column align stretch;
+		// we force flex-start so the 70% width stays flush with the title).
+		align-self: flex-start;
+
+		opacity: 0;
+		transform: translateY(8px);
+		animation: dy-dashboard-fade-up 720ms var(--dya-ease) forwards;
+		animation-delay: 460ms;
+	}
+	// Above 1000px: the widget area occupies 70% of the width
+	// of the container (left-aligned, below the title). Ghosts use inset:0
+	// so they automatically follow the width of .dy-dashboard__slots.
+	@media (min-width: 1001px) {
+		.dy-dashboard__slots { width: 70%; }
+	}
+
+	// ── Ghost cells (empty slots) ───────────────────────────────
+	// Now REAL items of the `.dy-dashboard__slots` grid (inserted in flow
+	// after real slots by DragDrop._syncGhostCells) → guaranteed alignment
+	// at all breakpoints and across multiple rows (#1). No more absolute
+	// overlay, no more `.is-occupied`.
+	.dy-dashboard__slot-ghost {
+		grid-column: span 1;
+		min-height: 180px;        // visual parity with .dy-dashboard__slot
+		border-radius: var(--dya-r-2xl, 16px);
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		opacity: 0;
+		transition: opacity 320ms var(--dya-ease);
+	}
+	.dy-dashboard__slot-ghost::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		background:
+			linear-gradient(90deg, var(--dya-line-strong, rgba(255,255,255,.14)) 50%, transparent 50%) repeat-x top    / 12px 1.5px,
+			linear-gradient(90deg, var(--dya-line-strong, rgba(255,255,255,.14)) 50%, transparent 50%) repeat-x bottom / 12px 1.5px,
+			linear-gradient(0deg,  var(--dya-line-strong, rgba(255,255,255,.14)) 50%, transparent 50%) repeat-y left   / 1.5px 12px,
+			linear-gradient(0deg,  var(--dya-line-strong, rgba(255,255,255,.14)) 50%, transparent 50%) repeat-y right  / 1.5px 12px;
+	}
+	// Large centered "+" (add affordance, #9).
+	.dy-dashboard__slot-ghost-plus {
+		position: relative;
+		z-index: 1;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 44px; height: 44px;
+		border-radius: 50%;
+		color: var(--dya-ink-mute);
+		background: color-mix(in srgb, var(--dya-paper-2) 60%, transparent);
+		opacity: 0;
+		transform: scale(0.8);
+		transition: opacity 240ms var(--dya-ease), transform 240ms var(--dya-ease), color var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease);
+	}
+	// NB: `.dy-dashboard--editable` / `--customizable` / `--dragging` are placed
+	// on #dy-dashboard-root (NOT on body). Because this entire file is nested
+	// under `body.dy-admin.index-php { }`, these classes must be written as
+	// DESCENDANTS (no `&`) — `&.dy-dashboard--editable` would compound them
+	// onto body and never match (historical bug, see explicit rules at end of
+	// file). Correct form: `body… .dy-dashboard--editable .target`.
+	.dy-dashboard--editable .dy-dashboard__slot-ghost {
+		opacity: 1;
+	}
+	.dy-dashboard--editable .dy-dashboard__slot-ghost::before {
+		animation: dy-dashboard-march-ants 1.8s linear infinite;
+	}
+	@keyframes dy-dashboard-march-ants {
+		0%   { background-position: 0 top, 0 bottom, left 0, right 0; }
+		100% { background-position: 12px top, -12px bottom, left -12px, right 12px; }
+	}
+
+	// ── "Empty slot" affordance (#9) — active whenever customizable ─────
+	// Available with panel open OR closed. Ghost cells covered by a real slot
+	// are behind (z-index) → only empty cells respond.
+	.dy-dashboard--customizable {
+		.dy-dashboard__slot-ghost { pointer-events: auto; cursor: pointer; }
+		// Hover on an empty cell → reveals dashed border + "+".
+		.dy-dashboard__slot-ghost:hover {
+			opacity: 1;
+			.dy-dashboard__slot-ghost-plus { opacity: 1; transform: scale(1); }
+		}
+		// Survol direct du « + » → accent.
+		.dy-dashboard__slot-ghost-plus:hover {
+			color: var(--dya-accent);
+			background: color-mix(in srgb, var(--dya-accent) 16%, transparent);
+		}
+		// Fully empty screen → cells + "+" always visible.
+		.dy-dashboard__slots[data-slots-used="0"] .dy-dashboard__slot-ghost {
+			opacity: 1;
+			.dy-dashboard__slot-ghost-plus { opacity: 1; transform: scale(1); }
+		}
+	}
+	// During a widget drag: the affordance must not interfere with hit-testing.
+	.dy-dashboard--dragging .dy-dashboard__slot-ghost { pointer-events: none; }
+
+	.dy-dashboard__slot {
+		grid-column: span 1;
+		min-height: 180px;
+		// Flex column: allows widgets to push an element to the bottom
+		// (e.g. "Settings" link bottom-right, save button).
+		display: flex;
+		flex-direction: column;
+		// Translucent frosted glass (dark mode): lets the ambient accent show
+		// through behind. `color-mix` preserves the theme tint while opening
+		// transparency; backdrop-filter blurs the background for readability.
+		// Light mode overrides below (white glass).
+		background:
+			linear-gradient(
+				158deg,
+				color-mix(in srgb, var(--dya-paper, #161a23) 50%, transparent),
+				color-mix(in srgb, var(--dya-paper, #161a23) 36%, transparent) 130%
+			);
+		border: 1px solid color-mix(in srgb, var(--dya-edge-strong, rgba(255,255,255,.14)) 60%, transparent);
+		border-radius: var(--dya-r-2xl, 16px);
+		padding: clamp(18px, 1.4vw, 24px);
+		color: var(--dya-ink);
+		position: relative;
+		z-index: 1; // au-dessus des ghosts cells
+		overflow: hidden;
+		backdrop-filter: blur(20px) saturate(135%);
+		-webkit-backdrop-filter: blur(20px) saturate(135%);
+		box-shadow:
+			inset 0 1px 0 rgba(255, 255, 255, 0.05),
+			0 10px 34px rgba(0, 0, 0, 0.28);
+		transition:
+			transform var(--dya-t-med) var(--dya-ease),
+			border-color var(--dya-t-med) var(--dya-ease),
+			box-shadow var(--dya-t-med) var(--dya-ease),
+			background var(--dya-t-med) var(--dya-ease);
+
+		// Accent halo that "breathes" on hover (soft radial from the top).
+		&::after {
+			content: "";
+			position: absolute;
+			inset: 0;
+			border-radius: inherit;
+			background: radial-gradient(
+				ellipse 80% 60% at 50% -10%,
+				rgba(var(--dya-accent-rgb, 212, 178, 122), 0.14),
+				transparent 65%
+			);
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity var(--dya-t-med) var(--dya-ease);
+		}
+		// Luminous sheen that sweeps across the card on hover (diagonal).
+		&::before {
+			content: "";
+			position: absolute;
+			top: 0; left: -60%;
+			width: 50%; height: 100%;
+			background: linear-gradient(
+				100deg,
+				transparent,
+				rgba(255, 255, 255, 0.06),
+				transparent
+			);
+			transform: skewX(-18deg);
+			opacity: 0;
+			pointer-events: none;
+			z-index: 2;
+		}
+
+		&:hover {
+			transform: translateY(-3px);
+			// Neutral border by default: no accent outline outside edit mode.
+			border-color: var(--dya-edge-strong, rgba(255,255,255,.18));
+			background:
+				linear-gradient(
+					158deg,
+					color-mix(in srgb, var(--dya-paper, #161a23) 60%, transparent),
+					color-mix(in srgb, var(--dya-paper, #161a23) 46%, transparent) 130%
+				);
+			box-shadow:
+				inset 0 1px 0 rgba(255, 255, 255, 0.07),
+				0 18px 48px rgba(0, 0, 0, 0.36);
+			&::before { animation: dy-slot-sheen 0.9s var(--dya-ease) forwards; }
+		}
+		// (The accent outline + halo on hover in edit mode are defined as an
+		// explicit rule outside nesting — see bottom of file — so that the
+		// `.dy-dashboard--editable` class appears AFTER `body` in the selector.)
+
+		&--2 { grid-column: span 2; }
+		&--4 { grid-column: span 4; } // wide widget (Create hub)
+
+		// Edit mode: visible when layout is not locked AND capability is granted.
+		// JS sets the `.dy-dashboard--editable` class on the root.
+		.dy-dashboard--editable & {
+			cursor: grab;
+			&:active { cursor: grabbing; }
+			.dy-dashboard__slot-handle,
+			.dy-dashboard__slot-delete { opacity: 0; }
+			&:hover .dy-dashboard__slot-handle,
+			&:hover .dy-dashboard__slot-delete,
+			&:focus-within .dy-dashboard__slot-handle,
+			&:focus-within .dy-dashboard__slot-delete { opacity: 1; }
+		}
+		&.is-dragging { opacity: 0.4; }
+		&.is-drop-here {
+			outline: 2px dashed var(--dya-accent);
+			outline-offset: 4px;
+		}
+		&.is-loading {
+			animation: dy-dashboard-slot-pulse 1.4s var(--dya-ease) infinite;
+		}
+	}
+	.dy-dashboard__slot-skeleton {
+		position: absolute;
+		inset: 12px;
+		border-radius: var(--dya-r-md);
+		background: linear-gradient(
+			110deg,
+			var(--dya-paper-2) 30%,
+			var(--dya-paper-3) 50%,
+			var(--dya-paper-2) 70%
+		);
+		background-size: 200% 100%;
+		animation: dy-dashboard-skeleton-shimmer 1.6s linear infinite;
+	}
+	@keyframes dy-dashboard-slot-pulse {
+		0%, 100% { box-shadow: 0 0 0 0 rgba(var(--dya-accent-rgb), 0.4); }
+		50%      { box-shadow: 0 0 0 6px rgba(var(--dya-accent-rgb), 0); }
+	}
+	@keyframes dy-dashboard-skeleton-shimmer {
+		0%   { background-position: 200% 0; }
+		100% { background-position: -200% 0; }
+	}
+
+	// Drag handle (visible at the top-left of the slot in edit mode).
+	.dy-dashboard__slot-handle {
+		position: absolute;
+		top: 8px;
+		left: 8px;
+		width: 22px;
+		height: 22px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: var(--dya-r-sm, 6px);
+		background: var(--dya-paper-2);
+		border: 1px solid var(--dya-edge);
+		color: var(--dya-ink-mute);
+		// Drag operates on the entire slot, but we keep events on the
+		// handle to show the "grab" cursor when hovering the icon.
+		cursor: grab;
+		transition: opacity var(--dya-t-fast) var(--dya-ease), color var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease);
+		z-index: 2;
+		&:hover { color: var(--dya-ink); border-color: var(--dya-edge-strong); }
+		&:active { cursor: grabbing; }
+	}
+	// Bouton supprimer (haut-droite).
+	.dy-dashboard__slot-delete {
+		position: absolute;
+		top: 8px;
+		right: 8px;
+		width: 22px;
+		height: 22px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: var(--dya-r-sm, 6px);
+		background: var(--dya-paper-2);
+		border: 1px solid var(--dya-edge);
+		color: var(--dya-ink-mute);
+		cursor: pointer;
+		transition:
+			opacity var(--dya-t-fast) var(--dya-ease),
+			color var(--dya-t-fast) var(--dya-ease),
+			border-color var(--dya-t-fast) var(--dya-ease);
+		z-index: 2;
+		&:hover { color: var(--dya-danger); border-color: var(--dya-danger); }
+		&:focus-visible {
+			outline: 2px solid var(--dya-danger);
+			outline-offset: 2px;
+			opacity: 1;
+		}
+	}
+
+	// ── Native WP screen: masonry of "glass" cards ────────────────
+	// Each native/plugin widget becomes a standalone, spaced card.
+	// The list switches to multi-column (CSS masonry via column-count +
+	// break-inside) above 1200px, otherwise a single column. Centering/
+	// max-width is handled by the WRAP (see &--native); the custom scrollbar
+	// lives in its right gutter, i.e. TO THE RIGHT of the cards.
+	.dy-dashboard__native-list {
+		position: relative;
+		z-index: 1;
+		// Masonry: N flex columns side by side (populated in JS to balance
+		// heights). CSS multi-column (column-count) does NOT work here because
+		// in a fixed-height container it overflows horizontally instead of
+		// scrolling vertically.
+		display: flex;
+		align-items: flex-start;
+		gap: 16px;
+
+		// Reveal: we animate the ENTIRE LIST (not each card individually).
+		opacity: 0;
+		transform: translateY(8px);
+		animation: dy-dashboard-fade-up 640ms var(--dya-ease) forwards;
+		animation-delay: 320ms;
+	}
+	// Masonry column (created by JS). Each column stacks its cards.
+	.dy-dashboard__native-col {
+		flex: 1 1 0%;
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+	.dy-dashboard__native-item {
+		border-radius: var(--dya-r-xl, 16px);
+		border: 1px solid var(--dya-edge);
+		background:
+			linear-gradient(
+				158deg,
+				color-mix(in srgb, var(--dya-paper) 94%, transparent),
+				color-mix(in srgb, var(--dya-paper-2) 90%, transparent) 130%
+			);
+		box-shadow:
+			0 1px 0 rgba(255, 255, 255, 0.03) inset,
+			0 10px 28px rgba(0, 0, 0, 0.22);
+		overflow: hidden; // contains promo illustrations + overflowing backgrounds
+		transition:
+			border-color var(--dya-t-fast) var(--dya-ease),
+			transform var(--dya-t-fast) var(--dya-ease),
+			box-shadow var(--dya-t-fast) var(--dya-ease);
+
+		&:hover {
+			border-color: var(--dya-edge-strong);
+			box-shadow:
+				0 1px 0 rgba(255, 255, 255, 0.05) inset,
+				0 16px 40px rgba(0, 0, 0, 0.30);
+		}
+	}
+	.dy-dashboard__native-item-header {
+		display: flex;
+		align-items: center;
+		gap: 9px;
+		padding: 13px clamp(16px, 1.3vw, 22px);
+		margin-bottom: 0;
+		border-bottom: 1px solid var(--dya-line);
+		background: color-mix(in srgb, var(--dya-paper-2) 45%, transparent);
+	}
+	.dy-dashboard__native-origin-dot {
+		width: 7px; height: 7px; border-radius: 999px;
+		background: var(--dya-ink-mute, #6f7077);
+		flex-shrink: 0;
+		box-shadow: 0 0 0 3px color-mix(in srgb, var(--dya-ink-mute) 18%, transparent);
+
+		.dy-dashboard__native-item[data-native-origin="wordpress"] & {
+			background: var(--dya-info, #4f9cd9);
+			box-shadow: 0 0 0 3px color-mix(in srgb, var(--dya-info, #4f9cd9) 18%, transparent);
+		}
+		.dy-dashboard__native-item[data-native-origin="plugin"] & {
+			background: var(--dya-accent);
+			box-shadow: 0 0 0 3px color-mix(in srgb, var(--dya-accent) 18%, transparent);
+		}
+	}
+	.dy-dashboard__native-item-title {
+		font-family: var(--dya-font-display);
+		font-weight: 600;
+		font-size: var(--dya-fs-md, 14.5px);
+		margin: 0;
+		color: var(--dya-ink);
+		letter-spacing: -0.01em;
+		line-height: 1.25;
+	}
+	.dy-dashboard__native-item-body {
+		padding: clamp(15px, 1.3vw, 21px) clamp(16px, 1.3vw, 22px) clamp(16px, 1.3vw, 22px);
+		font-size: var(--dya-fs-base, 13.5px);
+		color: var(--dya-ink-soft);
+		line-height: var(--dya-lh-base);
+
+		// Media (WC/Yoast/Elementor promo illustrations, screenshots): constrained.
+		img, svg, canvas, video, iframe {
+			max-width: 100% !important;
+			height: auto;
+		}
+		img {
+			border-radius: var(--dya-r-md);
+			max-height: 150px;
+			width: auto;
+			object-fit: contain;
+		}
+
+		// Input fields (Quick Draft, plugin searches…): themed dark —
+		// no more white rectangles glaring against the dark background.
+		input[type="text"], input[type="search"], input[type="url"],
+		input[type="email"], input[type="number"], input[type="password"],
+		textarea, select {
+			background: var(--dya-paper-2) !important;
+			color: var(--dya-ink) !important;
+			border: 1px solid var(--dya-edge-strong) !important;
+			border-radius: var(--dya-r-md) !important;
+			box-shadow: none !important;
+			-webkit-text-fill-color: var(--dya-ink) !important;
+		}
+		input::placeholder, textarea::placeholder { color: var(--dya-ink-mute) !important; }
+		textarea { min-height: 64px; }
+
+		// First/last child: no margin that detaches from the frame.
+		> :first-child { margin-top: 0; }
+		> :last-child { margin-bottom: 0; }
+
+		// Inner content comes from WP callbacks (Yoast, Rank Math, WC,
+		// Elementor, etc.) that bring their own CSS. We force the full
+		// typographic chrome + colors here to align with the admin DS
+		// without breaking each widget's structure.
+
+		// Typography: neutralize all custom plugin fonts.
+		&, * {
+			font-family: var(--dya-font-body) !important;
+		}
+		h1, h2, h3, h4, h5, h6,
+		.dashicons,
+		.button,
+		.button-primary,
+		.button-secondary {
+			font-family: var(--dya-font-body) !important;
+		}
+		h2, h3, h4, h5, h6 {
+			font-family: var(--dya-font-display) !important;
+			color: var(--dya-ink) !important;
+			font-weight: 600 !important;
+			letter-spacing: -0.01em !important;
+		}
+
+		// Colors: all WP/plugin blues/teals/oranges are remapped to our
+		// accent or a controlled grey.
+		a, a:visited {
+			color: var(--dya-accent-text, var(--dya-accent)) !important;  // readable in light mode (G6)
+			text-decoration: none;
+			&:hover { opacity: 0.75; }
+		}
+		strong, b { color: var(--dya-ink); }
+		p, span, li, td, th, div { color: inherit; }
+
+		// Native buttons (WC, Rank Math, Yoast, Elementor, Quick Draft…):
+		// uniform, understated "ghost" treatment. NO solid accent fill
+		// (neon accent as a flat block looks garish and the accent-on-accent
+		// combo became unreadable): dark background, ink text, accent reserved
+		// for the border/hover. The primary button is distinguished by an
+		// accent text + accent border (always on dark background → guaranteed contrast).
+		.button,
+		button:not([class*="dy-"]),
+		input[type="submit"],
+		input[type="button"],
+		a.button {
+			background: var(--dya-paper-2) !important;
+			color: var(--dya-ink) !important;
+			border: 1px solid var(--dya-edge-strong) !important;
+			border-radius: var(--dya-r-md) !important;
+			padding: 6px 12px !important;
+			font-family: var(--dya-font-mono) !important;
+			font-size: var(--dya-fs-xs) !important;
+			letter-spacing: var(--dya-tracking-label) !important;
+			text-transform: uppercase !important;
+			font-weight: 600 !important;
+			box-shadow: none !important;
+			text-shadow: none !important;
+			text-decoration: none !important;
+			&:hover {
+				background: var(--dya-paper-3) !important;
+				border-color: var(--dya-accent) !important;
+				color: var(--dya-ink) !important; // never dark text on dark background on hover
+			}
+		}
+		// Primary = slightly accent-tinted background + INK text (which inverts
+		// with the theme: light in dark mode, dark in light mode) + accent border.
+		// Readable in both modes, no neon fill, no accent text on a light background.
+		.button-primary,
+		input[type="submit"].button-primary,
+		input[type="button"].button-primary,
+		a.button-primary {
+			background: color-mix(in srgb, var(--dya-accent) 16%, var(--dya-paper-2)) !important;
+			color: var(--dya-ink) !important;
+			border-color: color-mix(in srgb, var(--dya-accent) 60%, var(--dya-edge-strong)) !important;
+			&:hover {
+				background: color-mix(in srgb, var(--dya-accent) 26%, var(--dya-paper-2)) !important;
+				color: var(--dya-ink) !important;
+				border-color: var(--dya-accent) !important;
+			}
+		}
+
+		// Typographic rhythm: internal headings + spaced paragraphs.
+		h2, h3, h4, h5, h6 {
+			margin: 16px 0 8px;
+			font-size: var(--dya-fs-md, 14.5px) !important;
+			line-height: 1.3 !important;
+		}
+		p { margin: 0 0 10px; }
+		hr { border: 0; border-top: 1px solid var(--dya-line); margin: 14px 0; }
+
+		// Custom backgrounds — neutralized. Many plugin widgets apply light
+		// backgrounds / promo gradients that break the dark theme: we make
+		// them transparent and recover the text color.
+		table, tbody, thead, tfoot { background: transparent !important; }
+		.welcome-panel-content,
+		.welcome-panel-column-container,
+		.welcome-panel-column,
+		.rank-math-dashboard-widget,
+		.rank-math-box,
+		.e-dashboard-overview,
+		.e-overview__feed,
+		.activity-block,
+		[class*="wincher"],
+		[class*="notice"], .notice,
+		[class*="-report"], [class*="report-"],
+		[class*="banner"], [class*="callout"], [class*="alert"],
+		[class*="-promo"], [class*="promo-"],
+		[class*="-cta"], [class*="upsell"] {
+			background: transparent !important;
+			background-image: none !important;
+			box-shadow: none !important;
+			color: var(--dya-ink-soft) !important;
+		}
+		.welcome-panel-content,
+		.welcome-panel-column-container,
+		.welcome-panel-column { padding: 0 !important; }
+
+		// Row striping / light row highlights (WP "At a Glance",
+		// Yoast/Wincher lists): background neutralized.
+		li, tr, td, th { background-color: transparent !important; }
+
+		// Lists: subtle framing + accent bullets.
+		ul, ol { padding-left: 18px; margin: 8px 0; }
+		li { margin-bottom: 5px; }
+		ul li::marker { color: color-mix(in srgb, var(--dya-accent) 70%, transparent); }
+
+		// Tables (At a Glance, Activity, Wincher…): airy rows,
+		// subtle headers, last row without a divider.
+		table { width: 100%; border-collapse: collapse; margin: 4px 0; }
+		table th, table td {
+			border-bottom: 1px solid color-mix(in srgb, var(--dya-line) 70%, transparent);
+			padding: 8px 10px;
+			text-align: left;
+			vertical-align: middle;
+		}
+		table th {
+			font-family: var(--dya-font-mono) !important;
+			font-size: var(--dya-fs-xs) !important;
+			letter-spacing: var(--dya-tracking-label) !important;
+			text-transform: uppercase !important;
+			color: var(--dya-ink-mute) !important;
+			font-weight: 600 !important;
+		}
+		table tr:last-child th,
+		table tr:last-child td { border-bottom: 0; }
+		table tbody tr {
+			transition: background var(--dya-t-fast) var(--dya-ease);
+			&:hover { background: color-mix(in srgb, var(--dya-paper-2) 55%, transparent) !important; }
+		}
+
+		// Dashicons: vertically aligned + accent-tinted.
+		.dashicons, .dashicons-before::before {
+			color: var(--dya-accent);
+			vertical-align: middle;
+		}
+	}
+	.dy-dashboard__native-empty {
+		padding: 32px;
+		text-align: center;
+		color: var(--dya-ink-mute);
+		font-style: italic;
+	}
+
+	// ── Arrow + dot navigation ───────────────────────────────────
+	.dy-dashboard__nav {
+		position: fixed;
+		bottom: clamp(20px, 2vw, 40px);
+		left: 50%;
+		transform: translateX(-50%);
+		display: flex;
+		align-items: center;
+		gap: clamp(12px, 1vw, 24px);
+		padding: 8px 10px;
+		background: rgba(20, 24, 32, 0.72);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border: 1px solid var(--dya-edge);
+		border-radius: var(--dya-r-pill, 999px);
+		z-index: 50;
+		box-shadow: var(--dya-shadow-md);
+
+		opacity: 0;
+		animation: dy-dashboard-fade-up 540ms var(--dya-ease) forwards;
+		animation-delay: 700ms;
+	}
+	.dy-dashboard__nav-arrow {
+		width: 34px; height: 34px;
+		border: 1px solid transparent;
+		background: transparent;
+		color: var(--dya-ink-soft);
+		border-radius: 50%;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		transition: color var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease);
+
+		&:hover { color: var(--dya-ink); background: var(--dya-paper-3); }
+		&:focus-visible {
+			outline: 2px solid var(--dya-accent);
+			outline-offset: 2px;
+		}
+		&[disabled],
+		&[aria-disabled="true"] {
+			opacity: 0.3;
+			cursor: not-allowed;
+		}
+	}
+	.dy-dashboard__pagination {
+		position: relative; // ancrage du worm overlay
+		display: flex;
+		align-items: center;
+		// NO `gap`: the "+" insert items are interleaved flex items that,
+		// when collapsed (width 0), must reserve NO space at all. A global
+		// `gap` would leave a gap around each collapsed insert (residual
+		// space to the left of the first dot). Spacing lives on the dots.
+		gap: 0;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		// Height = same as the arrows → the row centers exactly with
+		// the arrows in the nav.
+		height: 34px;
+
+		// `display: contents`: the <li> disappears from layout; the dot
+		// becomes a DIRECT flex child of the pagination → correctly centered.
+		li { display: contents; }
+	}
+	// The active dot RESERVES its width (26px) IN-FLOW but stays transparent:
+	// the accent worm overlay carries the visual and slides on top.
+	// Because the reservation is in-flow, `gap` applies on both sides →
+	// pill↔dot spacing == dot↔dot spacing. Width transitions at the same
+	// time as the worm so the reservation follows the slide.
+	.dy-dashboard__nav-dot {
+		display: block;
+		width: 8px;
+		height: 8px;
+		margin: 0 6.5px; // half-spacing on each side → 13px between 2 dots
+		padding: 0;
+		border: none;
+		background: var(--dya-ink-fade, #4a4b52);
+		border-radius: 999px;
+		cursor: pointer;
+		flex-shrink: 0;
+		transition:
+			width 0.46s cubic-bezier(0.34, 1.32, 0.46, 1),
+			background 0.32s var(--dya-ease);
+
+		&:hover { background: var(--dya-ink-soft); }
+		&.is-active {
+			width: 26px;
+			background: transparent; // accent comes from the worm overlay
+		}
+		&:focus-visible {
+			outline: 2px solid var(--dya-accent);
+			outline-offset: 4px;
+		}
+	}
+
+	// ── Worm overlay — accent active indicator that slides organically ──
+	// Single floating element. During travel it stretches (phase 1) to cover
+	// the gap, then contracts (phase 2) onto the target slot → liquid/organic
+	// effect. Managed by the `Worm` JS module.
+	.dy-dashboard__nav-worm {
+		position: absolute;
+		top: 4px; // repositioned by JS to the Y center of the active dot
+		left: 0;
+		width: 26px;
+		height: 8px;
+		border-radius: 999px;
+		background: var(--dya-accent);
+		transform: translateY(-50%);
+		pointer-events: none;
+		box-shadow: 0 0 14px rgba(var(--dya-accent-rgb, 212, 178, 122), 0.55);
+		transition:
+			left  0.46s cubic-bezier(0.34, 1.32, 0.46, 1),
+			width 0.46s cubic-bezier(0.34, 1.32, 0.46, 1);
+
+		&.no-anim { transition: none; }
+	}
+
+	// ── Screen title tooltip on dot hover (#6) ───────────────────
+	.dy-dashboard__nav-tip {
+		position: absolute;
+		bottom: calc(100% + 10px);
+		left: 50%;
+		transform: translateX(-50%) translateY(4px);
+		max-width: 240px;
+		padding: 6px 11px;
+		background: var(--dya-paper);
+		border: 1px solid var(--dya-edge-strong);
+		border-radius: var(--dya-r-md);
+		color: var(--dya-ink);
+		font-family: var(--dya-font-body);
+		font-size: var(--dya-fs-xs);
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		box-shadow: 0 10px 28px rgba(0, 0, 0, 0.30);
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity var(--dya-t-fast) var(--dya-ease), transform var(--dya-t-fast) var(--dya-ease);
+		z-index: 30;
+		&.is-visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+		// Small arrow.
+		&::after {
+			content: "";
+			position: absolute;
+			top: 100%; left: 50%;
+			transform: translateX(-50%);
+			border: 5px solid transparent;
+			border-top-color: var(--dya-paper);
+		}
+	}
+
+	// ── Screen "+" insert on the pagination (#5) ──────────────────
+	// Absolute layer above the dot row; revealed only in edit mode
+	// (panel open) on nav hover.
+	// Screen "+" insert — FLEX items interleaved between dots.
+	// Collapsed by default (width 0, taking no space); at `.is-shown` they
+	// expand and PUSH neighboring dots apart (regular spacing). Revealed
+	// only on either side of the hovered dot (JS _showFlankingInserts).
+	.dy-dashboard__nav-insert {
+		flex: 0 0 auto;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 0;
+		// min-width:auto (flex default) would let the inner svg impose its
+		// intrinsic width → residual space to the left of the first dot even
+		// when collapsed. We force min-width:0 so width:0 truly collapses.
+		min-width: 0;
+		height: 18px;
+		margin: 0;
+		overflow: hidden;
+		border-radius: 50%;
+		background: var(--dya-paper);
+		border: 0 solid var(--dya-accent);
+		color: var(--dya-accent);
+		cursor: pointer;
+		opacity: 0;
+		pointer-events: none;
+		transition:
+			width 0.22s var(--dya-ease),
+			margin 0.22s var(--dya-ease),
+			opacity 0.18s var(--dya-ease),
+			background var(--dya-t-fast) var(--dya-ease),
+			color var(--dya-t-fast) var(--dya-ease);
+		svg { flex: 0 0 auto; }
+		&.is-shown {
+			width: 18px;
+			margin: 0 4px;
+			opacity: 1;
+			pointer-events: auto;
+			border-width: 1px;
+		}
+		&:hover { background: var(--dya-accent); color: var(--dya-accent-on, #fff); }
+		&:focus-visible { outline: 2px solid var(--dya-accent); outline-offset: 2px; width: 18px; margin: 0 4px; opacity: 1; pointer-events: auto; border-width: 1px; }
+	}
+
+	// ── Bouton Personnaliser (flottant) ──────────────────────────
+	.dy-dashboard__customize-btn {
+		position: fixed;
+		top: calc(var(--dya-topbar-h, 54px) + 16px);
+		right: clamp(16px, 1.6vw, 32px);
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		padding: 10px 16px 10px 14px;
+		border: 1px solid var(--dya-edge-strong);
+		background: rgba(20, 24, 32, 0.82);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		color: var(--dya-ink);
+		font-family: var(--dya-font-mono);
+		font-size: var(--dya-fs-xs);
+		letter-spacing: var(--dya-tracking-label);
+		text-transform: uppercase;
+		border-radius: var(--dya-r-pill);
+		cursor: pointer;
+		z-index: 60;
+		box-shadow: var(--dya-shadow-md);
+		transition:
+			background var(--dya-t-fast) var(--dya-ease),
+			border-color var(--dya-t-fast) var(--dya-ease),
+			transform var(--dya-t-fast) var(--dya-ease);
+
+		opacity: 0;
+		animation: dy-dashboard-fade-up 540ms var(--dya-ease) forwards;
+		animation-delay: 760ms;
+
+		&:hover {
+			background: var(--dya-paper-3);
+			border-color: var(--dya-accent);
+			transform: translateY(-1px);
+		}
+		&:focus-visible {
+			outline: 2px solid var(--dya-accent);
+			outline-offset: 2px;
+		}
+
+		svg { color: var(--dya-accent); }
+	}
+
+	// Open state: hide the button; the sidebar takes over.
+	// `.dy-dashboard--sidebar-open` is on the root → descendant form (no `&`).
+	.dy-dashboard--sidebar-open .dy-dashboard__customize-btn { opacity: 0; pointer-events: none; }
+
+	// ── Customize sidebar ────────────────────────────────────────
+	// Anchored to the right, top/bottom/right margin, rounded border-radius
+	// (per user spec: "not a flush column"). Animated slide-in.
+	.dy-dashboard__sidebar {
+		position: fixed;
+		top: calc(var(--dya-topbar-h, 54px) + 16px);
+		right: clamp(16px, 1.6vw, 32px);
+		bottom: clamp(16px, 1.6vw, 32px);
+		width: clamp(320px, 26vw, 380px);
+		background: var(--dya-paper);
+		border: 1px solid var(--dya-edge-strong);
+		border-radius: var(--dya-r-2xl, 16px);
+		box-shadow: var(--dya-shadow-lg, 0 24px 60px rgba(0,0,0,.55));
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+		z-index: 80; // above the notices stack (75): a notice must not cover the panel
+		// Hidden by default (translateX off-screen).
+		transform: translateX(calc(100% + 40px));
+		opacity: 0;
+		pointer-events: none;
+		transition:
+			transform 380ms var(--dya-ease),
+			opacity 320ms var(--dya-ease);
+
+		&.is-open {
+			transform: translateX(0);
+			opacity: 1;
+			pointer-events: auto;
+		}
+	}
+
+	.dy-dashboard__sidebar-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 18px 22px;
+		border-bottom: 1px solid var(--dya-line);
+	}
+	.dy-dashboard__sidebar-eyebrow {
+		font-family: var(--dya-font-mono);
+		font-size: var(--dya-fs-xs);
+		letter-spacing: var(--dya-tracking-label);
+		text-transform: uppercase;
+		color: var(--dya-accent);
+		font-weight: 600;
+	}
+	.dy-dashboard__sidebar-close {
+		width: 32px; height: 32px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		background: transparent;
+		border: 1px solid var(--dya-edge);
+		border-radius: var(--dya-r-md);
+		color: var(--dya-ink-soft);
+		cursor: pointer;
+		transition: color var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease);
+		&:hover { color: var(--dya-ink); border-color: var(--dya-edge-strong); }
+	}
+	// Back button (widget config mode): "‹ Widget name".
+	.dy-dashboard__sidebar-back {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		padding: 6px 10px 6px 6px;
+		margin-left: -6px;
+		background: transparent;
+		border: none;
+		border-radius: var(--dya-r-md);
+		color: var(--dya-ink);
+		font-family: var(--dya-font-display);
+		font-size: var(--dya-fs-md);
+		font-weight: 600;
+		letter-spacing: -0.01em;
+		cursor: pointer;
+		transition: color var(--dya-t-fast) var(--dya-ease), gap var(--dya-t-fast) var(--dya-ease);
+		svg { color: var(--dya-accent); }
+		&:hover { color: var(--dya-accent); gap: 9px; }
+		&[hidden] { display: none; }
+	}
+
+	// #6 — Undo / Redo: group pushed to the right, just before the close button.
+	.dy-dashboard__history {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+		margin-left: auto;
+		margin-right: 8px;
+	}
+	.dy-dashboard__history-btn {
+		width: 30px; height: 30px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		background: transparent;
+		border: 1px solid var(--dya-edge);
+		border-radius: var(--dya-r-md);
+		color: var(--dya-ink-soft);
+		cursor: pointer;
+		transition: color var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease), opacity var(--dya-t-fast) var(--dya-ease);
+		svg { display: block; }
+		&:hover:not(:disabled) { color: var(--dya-accent); border-color: var(--dya-edge-strong); }
+		&:disabled { opacity: 0.32; cursor: default; }
+	}
+
+	// ── Widget config mode: the panel shows ONLY the settings ──────────
+	.dy-dashboard__sidebar.is-config-mode {
+		.dy-dashboard__sidebar-eyebrow { display: none; }
+		// History remains relevant but the header is dedicated to the back button.
+		.dy-dashboard__history { display: none; }
+		.dy-dashboard__sidebar-back { display: inline-flex; }
+		.dy-dashboard__sidebar-footer { display: none; }
+		// Hide all sections except the widget one.
+		.dy-dashboard__sidebar-section:not([data-section="widget-config"]) { display: none; }
+		// The widget section occupies the panel, without its own collapsible header.
+		[data-section="widget-config"] {
+			border-bottom: none;
+			> .dy-dashboard__section-toggle { display: none; }
+			> .dy-dashboard__section-body { display: flex; padding-top: 18px; }
+		}
+	}
+
+	.dy-dashboard__sidebar-scroll {
+		flex: 1;
+		overflow-y: auto;
+		scrollbar-width: thin;
+		scrollbar-color: var(--dya-line-strong) transparent;
+		// Transition fluide config ↔ normal : le contenu fond + glisse.
+		&.is-swapping-fwd  { animation: dy-panel-in-fwd 260ms var(--dya-ease); }
+		&.is-swapping-back { animation: dy-panel-in-back 260ms var(--dya-ease); }
+	}
+	@keyframes dy-panel-in-fwd {
+		from { opacity: 0; transform: translateX(12px); }
+		to   { opacity: 1; transform: translateX(0); }
+	}
+	@keyframes dy-panel-in-back {
+		from { opacity: 0; transform: translateX(-12px); }
+		to   { opacity: 1; transform: translateX(0); }
+	}
+
+	.dy-dashboard__sidebar-section {
+		border-bottom: 1px solid var(--dya-line);
+		&:last-child { border-bottom: none; }
+		&.is-disabled { opacity: 0.45; pointer-events: none; }
+	}
+	.dy-dashboard__section-toggle {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 14px 22px;
+		background: transparent;
+		border: none;
+		color: var(--dya-ink);
+		font-family: var(--dya-font-display);
+		font-size: var(--dya-fs-md);
+		font-weight: 600;
+		letter-spacing: -0.01em;
+		cursor: pointer;
+		text-align: left;
+		transition: background var(--dya-t-fast) var(--dya-ease);
+		// Chevron = DIRECT CHILD svg (the action icon has its own svg, which
+		// must not be rotated).
+		> svg { transition: transform var(--dya-t-fast) var(--dya-ease); color: var(--dya-ink-mute); }
+		&[aria-expanded="true"] > svg { transform: rotate(180deg); }
+		&:hover { background: var(--dya-paper-2); }
+	}
+	// Action icon in the section header (e.g. "Import"), pushed to the right
+	// just before the chevron.
+	.dy-dashboard__section-action {
+		margin-left: auto;
+		margin-right: 12px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 26px; height: 26px;
+		border-radius: var(--dya-r-sm, 6px);
+		color: var(--dya-ink-mute);
+		transition: color var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease);
+		&:hover { color: var(--dya-accent); background: var(--dya-paper-3); }
+		&:focus-visible { outline: 2px solid var(--dya-accent); outline-offset: 2px; }
+		svg { color: inherit; transform: none !important; } // never rotate
+	}
+	.dy-dashboard__section-body {
+		padding: 4px 22px 18px;
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+		// The [hidden] attribute must win over `display:flex` (otherwise the
+		// panel never collapses — the author rule beats the UA `[hidden]{display:none}`).
+		&[hidden] { display: none; }
+	}
+
+	.dy-dashboard__field {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		&--dya-inline {
+			flex-direction: row;
+			align-items: center;
+			gap: 10px;
+		}
+	}
+	.dy-dashboard__field-label {
+		font-family: var(--dya-font-mono);
+		font-size: var(--dya-fs-xs);
+		letter-spacing: var(--dya-tracking-label);
+		text-transform: uppercase;
+		color: var(--dya-ink-mute);
+		&--with-toggle {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+	}
+	// Deliberately specific selector (tag + class + attribute) to beat the global
+	// checkbox style `body.dy-admin input[type="checkbox"]` from _forms.scss
+	// (16×16 golden square) — otherwise our pill-toggle is overridden and rendered
+	// as a plain checkbox.
+	input.dy-dashboard__field-toggle[type="checkbox"] {
+		appearance: none;
+		-webkit-appearance: none;
+		display: inline-block;
+		width: 32px; height: 18px;
+		min-width: 32px; // the global sets 16px; we lock the pill width
+		background: var(--dya-paper-3);
+		border: 0;
+		border-radius: 999px;
+		position: relative;
+		cursor: pointer;
+		vertical-align: middle;
+		margin: 0;
+		transition: background var(--dya-t-fast) var(--dya-ease);
+		// WordPress core (and the global checkbox style) draw a checkmark in
+		// ::before on checked checkboxes: we neutralize it to keep only the
+		// sliding pill.
+		&::before { content: none !important; display: none !important; }
+		&::after {
+			content: "";
+			position: absolute;
+			top: 2px; left: 2px;
+			width: 14px; height: 14px;
+			background: var(--dya-ink-mute);
+			border-radius: 50%;
+			transition: transform var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease);
+		}
+		&:checked {
+			background: var(--dya-accent);
+			&::after { transform: translateX(14px); background: var(--dya-accent-on, #fff); }
+		}
+	}
+
+	// ── Per-screen colors: 2 cells (accent + background) on one row ──
+	// Each cell = label above + control (swatch + hex + reset).
+	// `&--dya-inline`-like: we force row (the base .field is column).
+	.dy-dashboard__color-row.dy-dashboard__color-row {
+		flex-direction: row;
+		align-items: flex-start;
+		gap: 14px;
+	}
+	.dy-dashboard__color-cell {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		flex: 1 1 0;
+		min-width: 0;
+		.dy-dashboard__field-label { margin: 0; }
+	}
+	.dy-dashboard__color-control {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		min-width: 0;
+	}
+	// Swatch = <label> containing the <input type=color> (rendered invisible
+	// but clickable) + a styled color chip.
+	.dy-dashboard__color-swatch {
+		position: relative;
+		width: 26px; height: 26px;
+		border-radius: var(--dya-r-sm, 6px);
+		cursor: pointer;
+		flex: 0 0 auto;
+		overflow: hidden;
+		box-shadow: inset 0 0 0 1px var(--dya-edge-strong, rgba(255,255,255,.18));
+		input[type="color"] {
+			position: absolute;
+			inset: -4px;
+			width: calc(100% + 8px);
+			height: calc(100% + 8px);
+			padding: 0;
+			border: 0;
+			cursor: pointer;
+			opacity: 0; // only the styled chip below is shown
+		}
+		.dy-dashboard__color-swatch-chip {
+			position: absolute;
+			inset: 0;
+			border-radius: inherit;
+			pointer-events: none;
+		}
+		// "Transparent" checkerboard under the chip when inheriting the global value.
+		.dy-dashboard__color-control.is-inherited & {
+			background:
+				linear-gradient(45deg, var(--dya-paper-3) 25%, transparent 25%) 0 0 / 8px 8px,
+				linear-gradient(-45deg, var(--dya-paper-3) 25%, transparent 25%) 0 4px / 8px 8px,
+				var(--dya-paper-2);
+		}
+	}
+	.dy-dashboard__color-hex {
+		font-family: var(--dya-font-mono, monospace);
+		font-size: var(--dya-fs-xs, 11px);
+		text-transform: lowercase;
+		color: var(--dya-ink);
+		background: var(--dya-paper-2);
+		border: 1px solid var(--dya-edge);
+		border-radius: var(--dya-r-sm, 6px);
+		padding: 5px 7px;
+		flex: 1 1 0;
+		min-width: 0;       // allows both cells to fit on one line
+		width: auto;
+		transition: border-color var(--dya-t-fast) var(--dya-ease);
+		&::placeholder { color: var(--dya-ink-mute); opacity: .8; }
+		&:focus { outline: none; border-color: var(--dya-accent); }
+	}
+	.dy-dashboard__color-reset {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 24px; height: 24px;
+		padding: 0;
+		background: transparent;
+		border: 1px solid var(--dya-edge);
+		border-radius: var(--dya-r-sm, 6px);
+		color: var(--dya-ink-mute);
+		cursor: pointer;
+		flex: 0 0 auto;
+		transition: color var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease);
+		&:hover { color: var(--dya-accent); border-color: var(--dya-accent); }
+		&[hidden] { display: none; }
+	}
+
+	.dy-dashboard__input,
+	.dy-dashboard__textarea {
+		font-family: var(--dya-font-body);
+		font-size: var(--dya-fs-base);
+		color: var(--dya-ink);
+		background: var(--dya-paper-2);
+		border: 1px solid var(--dya-edge);
+		border-radius: var(--dya-r-md);
+		padding: 10px 36px 10px 12px; // right space for the picker button
+		width: 100%;
+		transition: border-color var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease);
+		&:focus {
+			outline: none;
+			border-color: var(--dya-accent);
+			background: var(--dya-paper);
+		}
+	}
+	.dy-dashboard__textarea {
+		resize: vertical;
+		min-height: 64px;
+		line-height: var(--dya-lh-base);
+	}
+
+	// ── Config widget: multiselect (checkboxes) ──────────────────
+	.dy-dashboard__checks {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+	.dy-dashboard__check {
+		display: flex;
+		align-items: center;
+		gap: 9px;
+		padding: 7px 9px;
+		border-radius: var(--dya-r-md);
+		cursor: pointer;
+		font-size: var(--dya-fs-sm);
+		color: var(--dya-ink);
+		transition: background var(--dya-t-fast) var(--dya-ease);
+		&:hover { background: var(--dya-paper-2); }
+		input {
+			appearance: none;
+			width: 16px; height: 16px;
+			flex: 0 0 auto;
+			border: 1px solid var(--dya-edge-strong);
+			border-radius: 5px;
+			background: var(--dya-paper-2);
+			position: relative;
+			cursor: pointer;
+			transition: background var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease);
+			&:checked {
+				background: var(--dya-accent);
+				border-color: var(--dya-accent);
+				&::after {
+					content: "";
+					position: absolute;
+					left: 5px; top: 2px;
+					width: 4px; height: 8px;
+					border: solid var(--accent-ink, #fff);
+					border-width: 0 2px 2px 0;
+					transform: rotate(45deg);
+				}
+			}
+		}
+	}
+
+	// ── Config widget : repeater (liste de lignes) ───────────────
+	.dy-dashboard__repeater {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		margin-bottom: 8px;
+	}
+	.dy-dashboard__repeater-row {
+		display: flex;
+		align-items: flex-start;
+		gap: 6px;
+		padding: 8px;
+		background: var(--dya-paper-2);
+		border: 1px solid var(--dya-edge);
+		border-radius: var(--dya-r-md);
+	}
+	.dy-dashboard__repeater-fields {
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+		flex: 1;
+		min-width: 0;
+		.dy-dashboard__input { padding-right: 12px; } // no picker here
+	}
+	.dy-dashboard__repeater-del {
+		flex: 0 0 auto;
+		width: 26px; height: 26px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0;
+		background: transparent;
+		border: 1px solid var(--dya-edge);
+		border-radius: var(--dya-r-sm, 6px);
+		color: var(--dya-ink-mute);
+		cursor: pointer;
+		transition: color var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease);
+		&:hover { color: var(--dya-danger, #e5484d); border-color: var(--dya-danger, #e5484d); }
+	}
+
+	// ── Selected slot (being configured) ─────────────────────────
+	.dy-dashboard__slot.is-selected {
+		border-color: var(--dya-accent) !important;
+		box-shadow:
+			0 0 0 1px var(--dya-accent),
+			0 0 0 5px color-mix(in srgb, var(--dya-accent) 18%, transparent),
+			0 14px 40px rgba(0, 0, 0, 0.32) !important;
+	}
+
+	// Spacing + separator before a checkbox in the widget config
+	// (e.g. "Open in a new tab"), to detach it from the text fields.
+	[data-widget-config-root] .dy-dashboard__field--inline {
+		margin-top: 4px;
+		padding-top: 14px;
+		border-top: 1px solid var(--dya-line);
+	}
+
+	// ── Champ « info » : explication d'un widget configurable ────
+	.dy-dashboard__field-info {
+		margin: 0 0 4px;
+		padding: 10px 12px;
+		font-size: var(--dya-fs-sm);
+		line-height: 1.45;
+		color: var(--dya-ink-soft);
+		background: color-mix(in srgb, var(--dya-accent) 7%, var(--dya-paper-2));
+		border-left: 2px solid color-mix(in srgb, var(--dya-accent) 60%, transparent);
+		border-radius: 0 var(--dya-r-md) var(--dya-r-md) 0;
+	}
+
+	// ── Picklist : liste choisie + dropdown d'ajout ──────────────
+	.dy-dashboard__picklist {
+		list-style: none;
+		margin: 0 0 8px;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+	}
+	.dy-dashboard__pick-item {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
+		padding: 8px 8px 8px 12px;
+		background: var(--dya-paper-2);
+		border: 1px solid var(--dya-edge);
+		border-radius: var(--dya-r-md);
+		font-size: var(--dya-fs-sm);
+		color: var(--dya-ink);
+		// Pastille accent devant le label.
+		> span { display: inline-flex; align-items: center; gap: 8px; min-width: 0;
+			&::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--dya-accent); flex: 0 0 auto; }
+		}
+	}
+	.dy-dashboard__pick-del {
+		flex: 0 0 auto;
+		width: 22px; height: 22px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0;
+		background: transparent;
+		border: none;
+		border-radius: 50%;
+		color: var(--dya-ink-mute);
+		cursor: pointer;
+		transition: color var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease);
+		&:hover { color: var(--dya-danger, #e5484d); background: color-mix(in srgb, var(--dya-danger, #e5484d) 14%, transparent); }
+	}
+	.dy-dashboard__pick-select:disabled { opacity: 0.5; cursor: not-allowed; }
+
+	// ── In-place editable note (contenteditable) ─────────────────
+	.dy-dashboard__note-edit {
+		border-radius: var(--dya-r-sm, 6px);
+		outline: none;
+		transition: background var(--dya-t-fast) var(--dya-ease), box-shadow var(--dya-t-fast) var(--dya-ease);
+		cursor: text;
+		// Placeholder when empty.
+		&:empty::before {
+			content: attr(data-placeholder);
+			color: var(--dya-ink-mute);
+			opacity: 0.7;
+			font-style: italic;
+			pointer-events: none;
+		}
+		&:hover { background: color-mix(in srgb, var(--dya-ink) 5%, transparent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--dya-ink) 5%, transparent); }
+		&:focus {
+			background: color-mix(in srgb, var(--dya-accent) 8%, transparent);
+			box-shadow: 0 0 0 2px color-mix(in srgb, var(--dya-accent) 45%, transparent);
+		}
+	}
+	// "Editable" hint on hover over the Note card.
+	.dy-dashboard__slot[data-widget-id="note"] .dy-dashboard__card-title.dy-dashboard__note-edit { cursor: text; }
+
+	// ── Token picker (contenu dynamique style Bricks) ────────────
+	.dy-dashboard__token-wrap {
+		position: relative;
+	}
+	.dy-dashboard__token-btn {
+		position: absolute;
+		top: 8px;
+		right: 8px;
+		width: 24px;
+		height: 24px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		background: var(--dya-paper-3);
+		border: 1px solid var(--dya-edge);
+		border-radius: var(--dya-r-sm, 6px);
+		color: var(--dya-accent);
+		cursor: pointer;
+		transition: background var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease);
+		z-index: 2;
+		&:hover,
+		&.is-active { background: var(--dya-paper); border-color: var(--dya-accent); }
+		&:focus-visible { outline: 2px solid var(--dya-accent); outline-offset: 2px; }
+		// Tooltip on hover / focus — reads the label via aria-label.
+		&::after {
+			content: attr(aria-label);
+			position: absolute;
+			bottom: calc(100% + 7px);
+			right: 0;
+			white-space: nowrap;
+			padding: 5px 9px;
+			font-family: var(--dya-font-body);
+			font-size: var(--dya-fs-xs, 11px);
+			font-weight: 500;
+			line-height: 1;
+			letter-spacing: 0;
+			color: var(--dya-ink);
+			background: var(--dya-paper-3, #1c2230);
+			border: 1px solid var(--dya-edge);
+			border-radius: var(--dya-r-sm, 6px);
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.32);
+			opacity: 0;
+			transform: translateY(3px);
+			pointer-events: none;
+			transition: opacity var(--dya-t-fast) var(--dya-ease), transform var(--dya-t-fast) var(--dya-ease);
+			z-index: 30;
+		}
+		&:hover::after,
+		&:focus-visible::after { opacity: 1; transform: translateY(0); }
+	}
+	// Global (singleton) dropdown attached to <body>, position fixed on screen.
+	// The exact position is calculated by TokenPicker._positionAt() in JS.
+}
+.dy-dashboard__token-drop {
+	position: fixed;
+	min-width: 260px;
+	max-width: 340px;
+	overflow-y: auto;
+	background: var(--dya-paper, #161a23);
+	border: 1px solid var(--dya-edge-strong, rgba(255,255,255,.14));
+	border-radius: var(--dya-r-md, 8px);
+	box-shadow: 0 24px 60px rgba(0, 0, 0, .55);
+	padding: 8px;
+	z-index: 1000;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	scrollbar-width: thin;
+	font-family: var(--dya-font-body, system-ui);
+
+	&[hidden] { display: none; }
+}
+body.dy-admin.index-php {
+	.dy-dashboard__token-group {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		h5 {
+			font-family: var(--dya-font-mono);
+			font-size: 9.5px;
+			letter-spacing: var(--dya-tracking-label);
+			text-transform: uppercase;
+			color: var(--dya-ink-mute);
+			margin: 6px 4px 4px;
+			font-weight: 600;
+		}
+	}
+	.dy-dashboard__token-item {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 2px;
+		padding: 6px 8px;
+		background: transparent;
+		border: 1px solid transparent;
+		border-radius: var(--dya-r-sm);
+		color: var(--dya-ink);
+		cursor: pointer;
+		text-align: left;
+		font-family: inherit;
+		transition: background var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease);
+
+		&:hover {
+			background: var(--dya-paper-2);
+			border-color: var(--dya-accent);
+		}
+		code {
+			font-family: var(--dya-font-mono);
+			font-size: 10.5px;
+			color: var(--dya-accent);
+			background: transparent;
+			padding: 0;
+		}
+		span {
+			font-size: 11.5px;
+			color: var(--dya-ink-soft);
+		}
+	}
+
+	// ── Catalogue de tiles (Bricks-like) ─────────────────────────
+	.dy-dashboard__catalog-group {
+		margin-bottom: 18px;
+		&:last-child { margin-bottom: 0; }
+	}
+	// Palette group title: we reuse the `field-label` style (grey, small,
+	// uppercase mono) applied via the shared class on the JS side.
+	// Selector deliberately ID-specific (#dy-dashboard-root) to beat a residual
+	// accent rule from another bundle (admin.css); we also neutralize the
+	// ::before rule (old accent prefix).
+	#dy-dashboard-root .dy-dashboard__catalog-group-title {
+		display: block;
+		margin: 0 0 8px;
+		color: var(--dya-ink-mute);
+		&::before { content: none !important; display: none !important; }
+	}
+	.dy-dashboard__tiles {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 8px;
+	}
+	.dy-dashboard__tile {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 6px;
+		padding: 14px 10px 10px;
+		background: var(--dya-paper-2);
+		border: 1px solid var(--dya-edge);
+		border-radius: var(--dya-r-lg);
+		cursor: grab;
+		text-align: center;
+		transition:
+			background var(--dya-t-fast) var(--dya-ease),
+			border-color var(--dya-t-fast) var(--dya-ease),
+			transform var(--dya-t-fast) var(--dya-ease);
+		&:hover {
+			background: var(--dya-paper-3);
+			border-color: var(--dya-accent);
+			transform: translateY(-1px);
+		}
+		&.is-dragging { opacity: 0.4; cursor: grabbing; }
+		// Brief feedback on click-to-add.
+		&.is-added {
+			animation: dy-tile-added 360ms var(--dya-ease, ease);
+			border-color: var(--dya-accent);
+		}
+		// Widget not yet styled/validated: greyed out but still addable (dev).
+		&--unvalidated {
+			border-style: dashed;
+			.dy-dashboard__tile-icon { color: var(--dya-ink-mute); filter: grayscale(1); opacity: 0.6; }
+			.dy-dashboard__tile-name { color: var(--dya-ink-mute); }
+			&:hover {
+				border-color: var(--dya-ink-mute);
+				.dy-dashboard__tile-icon { opacity: 0.85; }
+			}
+		}
+		&:focus-visible {
+			outline: 2px solid var(--dya-accent);
+			outline-offset: 2px;
+		}
+	}
+	// "To style" badge on unvalidated tiles.
+	.dy-dashboard__tile-badge {
+		position: absolute;
+		top: 5px; left: 5px;
+		max-width: calc(100% - 10px);
+		padding: 2px 5px;
+		font-family: var(--dya-font-mono);
+		font-size: 8px;
+		line-height: 1.2;
+		letter-spacing: var(--dya-tracking-label);
+		text-transform: uppercase;
+		color: var(--dya-ink-mute);
+		background: var(--dya-paper-3);
+		border: 1px solid var(--dya-edge);
+		border-radius: var(--dya-r-sm, 5px);
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	@keyframes dy-tile-added {
+		0%   { transform: scale(1); }
+		40%  { transform: scale(0.94); background: color-mix(in srgb, var(--dya-accent) 16%, var(--dya-paper-2)); }
+		100% { transform: scale(1); }
+	}
+	.dy-dashboard__tile-icon {
+		width: 32px; height: 32px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--dya-accent);
+		svg { width: 24px; height: 24px; }
+	}
+	.dy-dashboard__tile-meta {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		align-items: center;
+	}
+	.dy-dashboard__tile-name {
+		font-family: var(--dya-font-display);
+		font-size: var(--dya-fs-sm);
+		font-weight: 600;
+		color: var(--dya-ink);
+		letter-spacing: -0.005em;
+	}
+	.dy-dashboard__tile-desc {
+		display: none; // Too verbose at 2-col, hidden. Will remain in aria-label.
+	}
+	.dy-dashboard__tile-slots {
+		font-family: var(--dya-font-mono);
+		font-size: 9.5px;
+		letter-spacing: var(--dya-tracking-label);
+		text-transform: uppercase;
+		color: var(--dya-ink-mute);
+	}
+
+	// ── Layout presets ───────────────────────────────────────────
+	// 2-column grid of "layout cards". The active one is highlighted with
+	// an accent border + pip. A virtual "Custom" card becomes active as soon
+	// as the current layout diverges from any named preset.
+	.dy-dashboard__presets {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 8px;
+	}
+	.dy-dashboard__preset-btn {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: flex-start;
+		gap: 3px;
+		min-height: 64px;
+		padding: 11px 12px 12px;
+		background: var(--dya-paper-2);
+		border: 1px solid var(--dya-edge);
+		border-radius: var(--dya-r-lg);
+		color: var(--dya-ink);
+		cursor: pointer;
+		text-align: left;
+		font-family: inherit;
+		transition:
+			background var(--dya-t-fast) var(--dya-ease),
+			border-color var(--dya-t-fast) var(--dya-ease),
+			box-shadow var(--dya-t-fast) var(--dya-ease),
+			transform var(--dya-t-fast) var(--dya-ease);
+		&:hover { background: var(--dya-paper-3); border-color: var(--dya-accent); transform: translateY(-1px); }
+		&:focus-visible { outline: 2px solid var(--dya-accent); outline-offset: 2px; }
+
+		// Active state: the current layout.
+		&.is-active {
+			border-color: var(--dya-accent);
+			background: color-mix(in srgb, var(--dya-accent) 10%, var(--dya-paper-2));
+			box-shadow: inset 0 0 0 1px var(--dya-accent);
+			// Checkmark pip top-right.
+			&::after {
+				content: "";
+				position: absolute;
+				top: 8px; right: 8px;
+				width: 7px; height: 7px;
+				border-radius: 50%;
+				background: var(--dya-accent);
+				box-shadow: 0 0 0 3px color-mix(in srgb, var(--dya-accent) 28%, transparent);
+			}
+		}
+
+		// Virtual "Custom" card: full width, row layout, highlighted with a
+		// tinted dashed border + an icon pip — clearly distinct from named presets.
+		&--custom {
+			grid-column: 1 / -1;
+			flex-direction: row;
+			align-items: center;
+			gap: 11px;
+			min-height: 0;
+			border-style: dashed;
+			border-color: color-mix(in srgb, var(--dya-accent) 50%, var(--dya-line));
+			background:
+				linear-gradient(120deg,
+					color-mix(in srgb, var(--dya-accent) 7%, var(--dya-paper-2)),
+					var(--dya-paper-2) 70%);
+			&:hover { border-color: var(--dya-accent); }
+			&.is-active {
+				border-style: solid;
+				background: linear-gradient(120deg,
+					color-mix(in srgb, var(--dya-accent) 16%, var(--dya-paper-2)),
+					color-mix(in srgb, var(--dya-accent) 6%, var(--dya-paper-2)));
+			}
+		}
+	}
+	.dy-dashboard__preset-custom-icon {
+		flex: 0 0 auto;
+		width: 30px; height: 30px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 50%;
+		color: var(--dya-accent);
+		background: color-mix(in srgb, var(--dya-accent) 16%, transparent);
+	}
+	.dy-dashboard__preset-custom-text {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		min-width: 0;
+	}
+	.dy-dashboard__preset-name {
+		font-family: var(--dya-font-display);
+		font-size: var(--dya-fs-sm);
+		font-weight: 600;
+		letter-spacing: -0.005em;
+		line-height: 1.15;
+		padding-right: 14px; // room for the active pip
+	}
+	.dy-dashboard__preset-desc {
+		font-size: 11px;
+		line-height: 1.25;
+		color: var(--dya-ink-mute);
+	}
+	// 3-dot button (context menu) at the bottom-right of each tile.
+	// Appears on card hover (or when its menu is open).
+	.dy-dashboard__preset-menu-btn {
+		position: absolute;
+		bottom: 6px; right: 6px;
+		width: 22px; height: 22px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: var(--dya-r-sm, 6px);
+		color: var(--dya-ink-mute);
+		cursor: pointer;
+		// Always visible (discreetly) to signal the menu exists;
+		// full opacity on card/button hover or when open.
+		opacity: 0.45;
+		transition: opacity var(--dya-t-fast) var(--dya-ease), color var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease);
+		.dy-dashboard__preset-btn:hover & { opacity: 1; }
+		&:hover { opacity: 1; color: var(--dya-ink); background: var(--dya-paper-3); }
+		&[aria-expanded="true"] { opacity: 1; color: var(--dya-accent); background: var(--dya-paper-3); }
+		&:focus-visible { outline: 2px solid var(--dya-accent); outline-offset: 2px; opacity: 1; }
+	}
+	// Dropdown menu — `position: fixed` to escape the sidebar's overflow:auto
+	// scroll container (otherwise it gets clipped, see screenshot bug).
+	// Coordinates set by JS (_togglePresetMenu) relative to the button.
+	.dy-dashboard__preset-menu {
+		position: fixed;
+		z-index: 100030;
+		min-width: 168px;
+		display: flex;
+		flex-direction: column;
+		padding: 5px;
+		background: var(--dya-paper);
+		border: 1px solid var(--dya-edge-strong);
+		border-radius: var(--dya-r-md);
+		box-shadow:
+			0 1px 0 rgba(255, 255, 255, 0.04) inset,
+			0 14px 38px rgba(0, 0, 0, 0.34);
+		animation: dy-menu-pop 0.14s var(--dya-ease) both;
+		&[hidden] { display: none; }
+	}
+	.dy-dashboard__preset-menu-item {
+		display: block;
+		width: 100%;
+		text-align: left;
+		padding: 8px 10px;
+		background: transparent;
+		border: 0;
+		border-radius: var(--dya-r-sm, 6px);
+		color: var(--dya-ink-soft);
+		font-family: var(--dya-font-body);
+		font-size: var(--dya-fs-sm);
+		cursor: pointer;
+		transition: background var(--dya-t-fast) var(--dya-ease), color var(--dya-t-fast) var(--dya-ease);
+		&:hover { background: var(--dya-paper-2); color: var(--dya-ink); }
+		&[data-menu-action="delete"]:hover { color: var(--dya-danger, #e5484d); }
+	}
+	@keyframes dy-menu-pop {
+		from { opacity: 0; transform: translateY(4px) scale(0.98); }
+		to   { opacity: 1; transform: none; }
+	}
+	// Inline form "Save as new layout".
+	// ── "Assign to role(s)" modal ─────────────────────
+	.dy-dashboard__modal-overlay {
+		position: fixed;
+		inset: 0;
+		z-index: 100040;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 24px;
+		background: rgba(0, 0, 0, 0.5);
+		backdrop-filter: blur(3px);
+		opacity: 0;
+		transition: opacity 0.2s var(--dya-ease);
+		&.is-open { opacity: 1; }
+	}
+	.dy-dashboard__modal {
+		width: 100%;
+		max-width: 420px;
+		max-height: 80vh;
+		display: flex;
+		flex-direction: column;
+		background: var(--dya-paper);
+		border: 1px solid var(--dya-edge-strong);
+		border-radius: var(--dya-r-lg);
+		box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+		transform: translateY(8px) scale(0.985);
+		transition: transform 0.2s var(--dya-ease);
+		.dy-dashboard__modal-overlay.is-open & { transform: none; }
+	}
+	.dy-dashboard__modal-head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		padding: 18px 20px 12px;
+	}
+	.dy-dashboard__modal-title {
+		margin: 0;
+		font-family: var(--dya-font-display);
+		font-size: var(--dya-fs-lg);
+		font-weight: 600;
+		color: var(--dya-ink);
+		letter-spacing: -0.01em;
+	}
+	.dy-dashboard__modal-close {
+		flex: 0 0 auto;
+		display: inline-flex;
+		padding: 4px;
+		background: transparent;
+		border: 0;
+		border-radius: var(--dya-r-sm, 6px);
+		color: var(--dya-ink-mute);
+		cursor: pointer;
+		transition: background var(--dya-t-fast) var(--dya-ease), color var(--dya-t-fast) var(--dya-ease);
+		&:hover { background: var(--dya-paper-2); color: var(--dya-ink); }
+	}
+	.dy-dashboard__modal-sub {
+		margin: 0 20px 8px;
+		font-size: var(--dya-fs-sm);
+		color: var(--dya-ink-mute);
+		line-height: var(--dya-lh-base);
+	}
+	.dy-dashboard__role-list {
+		overflow-y: auto;
+		padding: 4px 12px;
+		margin: 0 8px;
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+	.dy-dashboard__role-item {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding: 9px 10px;
+		border-radius: var(--dya-r-md);
+		cursor: pointer;
+		transition: background var(--dya-t-fast) var(--dya-ease);
+		&:hover { background: var(--dya-paper-2); }
+	}
+	.dy-dashboard__role-name {
+		color: var(--dya-ink);
+		font-size: var(--dya-fs-sm);
+	}
+	.dy-dashboard__role-conflict {
+		margin-left: auto;
+		font-family: var(--dya-font-mono);
+		font-size: 10.5px;
+		letter-spacing: 0.01em;
+		color: var(--dya-warn);
+		white-space: nowrap;
+	}
+	// "Default: X" hint — neutral (the role has no explicit assignment).
+	.dy-dashboard__role-default {
+		margin-left: auto;
+		font-family: var(--dya-font-mono);
+		font-size: 10.5px;
+		letter-spacing: 0.01em;
+		color: var(--dya-ink-mute);
+		opacity: 0.85;
+		white-space: nowrap;
+	}
+	.dy-dashboard__modal-foot {
+		display: flex;
+		justify-content: flex-end;
+		gap: 8px;
+		padding: 14px 20px 18px;
+		margin-top: 4px;
+	}
+
+	.dy-dashboard__save-form {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		margin-top: 8px;
+		padding: 12px;
+		background: var(--dya-paper-2);
+		border: 1px solid var(--dya-edge);
+		border-radius: var(--dya-r-lg);
+		&[hidden] { display: none; }
+	}
+
+	// ── Screens list ─────────────────────────────────────────────
+	.dy-dashboard__screens-list {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 10px;
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+	.dy-dashboard__screen-item {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding: 8px 10px;
+		background: var(--dya-paper-2);
+		border: 1px solid transparent;
+		border-radius: var(--dya-r-md);
+		cursor: pointer;
+		transition: background var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease), opacity var(--dya-t-fast) var(--dya-ease);
+		&:hover { background: var(--dya-paper-3); }
+		&.is-active { border-color: var(--dya-accent); }
+		// During drag-reordering.
+		&.is-dragging {
+			opacity: 0.6;
+			border-color: var(--dya-accent);
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.32);
+		}
+	}
+	// Reorder drag handle to the left of each screen.
+	.dy-dashboard__screen-item-grip {
+		flex: 0 0 auto;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--dya-ink-fade, #4a4b52);
+		cursor: grab;
+		touch-action: none; // reliable pointer-drag on touch
+		transition: color var(--dya-t-fast) var(--dya-ease);
+		.dy-dashboard__screen-item:hover & { color: var(--dya-ink-mute); }
+		&:active { cursor: grabbing; }
+	}
+	.dy-dashboard__screen-item-num {
+		font-family: var(--dya-font-mono);
+		font-size: var(--dya-fs-xs);
+		letter-spacing: var(--dya-tracking-label);
+		color: var(--dya-accent);
+		min-width: 28px;
+	}
+	.dy-dashboard__screen-item-title {
+		flex: 1;
+		font-family: var(--dya-font-body);
+		font-size: var(--dya-fs-sm);
+		color: var(--dya-ink);
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	.dy-dashboard__screen-item-del {
+		background: transparent;
+		border: none;
+		color: var(--dya-ink-mute);
+		cursor: pointer;
+		padding: 4px;
+		border-radius: var(--dya-r-sm);
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		transition: color var(--dya-t-fast), background var(--dya-t-fast);
+		&:hover { color: var(--dya-danger); background: var(--dya-paper-3); }
+	}
+
+	.dy-dashboard__hint {
+		font-size: var(--dya-fs-xs);
+		color: var(--dya-ink-mute);
+		margin: 4px 0 0;
+		font-style: italic;
+	}
+
+	// ── Footer sidebar ───────────────────────────────────────────
+	.dy-dashboard__sidebar-footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 10px;
+		padding: 12px 22px;
+		border-top: 1px solid var(--dya-line);
+		background: var(--dya-paper);
+	}
+	.dy-dashboard__sidebar-saved {
+		font-family: var(--dya-font-mono);
+		font-size: var(--dya-fs-xs);
+		letter-spacing: var(--dya-tracking-label);
+		text-transform: uppercase;
+		color: var(--dya-ink-mute);
+		transition: color var(--dya-t-fast) var(--dya-ease);
+		&.is-saving { color: var(--dya-accent); }
+	}
+	.dy-dashboard__btn {
+		font-family: var(--dya-font-mono);
+		font-size: var(--dya-fs-xs);
+		letter-spacing: var(--dya-tracking-label);
+		text-transform: uppercase;
+		padding: 8px 14px;
+		border-radius: var(--dya-r-md);
+		cursor: pointer;
+		transition: background var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease);
+		&--dya-ghost {
+			background: transparent;
+			border: 1px solid var(--dya-edge-strong);
+			color: var(--dya-ink);
+			&:hover { background: var(--dya-paper-2); border-color: var(--dya-accent); }
+		}
+		&--dya-primary {
+			background: var(--dya-accent);
+			border: 1px solid var(--dya-accent);
+			// --dya-accent-on is computed in OKLCH from the lightness of --dya-accent:
+			// for a light accent (mint, gold, pastel…) the text automatically
+			// falls to black; for a dark accent, to white. Guarantees contrast
+			// in both themes without per-color patching.
+			color: var(--dya-accent-on, #fff);
+			&:hover { filter: brightness(1.08); }
+		}
+	}
+	.dy-dashboard__btn-row {
+		display: flex;
+		gap: 8px;
+		flex-wrap: wrap;
+		& > .dy-dashboard__btn { flex: 1; }
+	}
+
+	// ── Drop targets feedback ────────────────────────────────────
+	.dy-dashboard__slots.is-drop-target {
+		outline: 2px dashed var(--dya-accent);
+		outline-offset: 6px;
+		border-radius: var(--dya-r-2xl);
+		transition: outline-color var(--dya-t-fast) var(--dya-ease);
+	}
+	.dy-dashboard__slots.is-drop-refused {
+		outline-color: var(--dya-danger);
+	}
+	// During a pointer-based drag (palette tile or slot → slot): "closed hand"
+	// cursor locked across THE ENTIRE document. Drag is handled ourselves
+	// (Pointer Events) instead of native HTML5 DnD, which does not allow
+	// cursor control. JS sets `.dy-dashboard-dragging-cursor` on
+	// <body>; `&` = `body.dy-admin.index-php` here, so the rule also covers
+	// the sidebar and the ghost (outside `.dy-dashboard`).
+	&.dy-dashboard-dragging-cursor,
+	&.dy-dashboard-dragging-cursor * {
+		cursor: grabbing !important;
+		user-select: none !important;
+	}
+
+	// Floating ghost that follows the cursor during drag (compact chip:
+	// handle + optional icon + widget label). pointer-events:none
+	// to remain transparent to hit-testing (document.elementFromPoint).
+	.dy-dashboard__drag-ghost {
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 100020;
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		max-width: 280px;
+		padding: 9px 13px 9px 9px;
+		border-radius: var(--dya-r-lg, 12px);
+		background: var(--dya-paper);
+		border: 1px solid var(--dya-edge-strong);
+		box-shadow:
+			0 1px 0 rgba(255, 255, 255, 0.04) inset,
+			0 18px 44px rgba(0, 0, 0, 0.42);
+		color: var(--dya-ink);
+		font-size: 13px;
+		font-weight: 600;
+		line-height: 1.2;
+		pointer-events: none;
+		will-change: transform;
+		animation: dy-ghost-pop 0.16s var(--dya-ease) both;
+		transition: box-shadow var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease);
+
+		.dy-dashboard__drag-ghost-grip {
+			display: inline-flex;
+			color: var(--dya-ink-mute);
+		}
+		.dy-dashboard__drag-ghost-icon {
+			display: inline-flex;
+			width: 18px;
+			height: 18px;
+			color: var(--dya-accent);
+			svg { width: 18px; height: 18px; }
+		}
+		.dy-dashboard__drag-ghost-label {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		// Forbidden drop target (no space available / outside row): turns red.
+		&.is-refused {
+			border-color: var(--dya-danger);
+			.dy-dashboard__drag-ghost-icon { color: var(--dya-danger); }
+		}
+	}
+	@keyframes dy-ghost-pop {
+		from { opacity: 0; }
+		to   { opacity: 1; }
+	}
+
+	// ════════════════════════════════════════════════════════════════
+	//  WIDGET INTERNALS — shared design system for all Double Youpi
+	//  widgets. Common class vocabulary (card-h, row, dot, pill,
+	//  big-num, progress, list, modules, actions, shortcuts…) + micro-
+	//  interactions and "living" animations.
+	// ════════════════════════════════════════════════════════════════
+	.dy-dashboard__card-h {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
+		margin-bottom: 14px;
+		padding-bottom: 11px;
+		// Gradient separator line below the title (fades toward the right).
+		border-bottom: 1px solid transparent;
+		border-image: linear-gradient(
+			90deg,
+			color-mix(in srgb, var(--dya-ink) 14%, transparent),
+			transparent 80%
+		) 1;
+	}
+	.dy-dashboard__card-title {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		font-family: var(--dya-font-display);
+		font-size: var(--dya-fs-md);
+		font-weight: 600;
+		letter-spacing: -0.01em;
+		color: var(--dya-ink);
+		// Pastille accent verticale devant le titre.
+		&::before {
+			content: "";
+			width: 3px;
+			height: 1em;
+			border-radius: 2px;
+			background: var(--dya-accent);
+			opacity: 0.9;
+			transition: transform var(--dya-t-med) var(--dya-ease);
+			transform-origin: center;
+		}
+	}
+	.dy-dashboard__slot:hover .dy-dashboard__card-title::before { transform: scaleY(1.25); }
+
+	// Inline Double Youpi logo — GLOBAL rule (not nested inside card-title)
+	// so it applies wherever the logo appears: card titles,
+	// tile names in the Customize panel, etc. Without this global scope,
+	// the SVG fell back to its intrinsic dimensions (72×59px).
+	// - height: 1em → follows the adjacent text size (~14-15px in tile-name).
+	// - width: auto → preserves the viewBox aspect ratio.
+	// - color: var(--dya-accent) → fill:currentColor on the SVG ⇒ logo in accent.
+	.dy-dashboard__brand-logo {
+		flex: 0 0 auto;
+		display: inline-block;
+		width: auto;
+		height: 1em;
+		color: var(--dya-accent);
+		vertical-align: -0.12em; // optical adjustment (the glyph has an apparent descender)
+	}
+	// Inside the palette tile name: the parent is a block-level `<span>` —
+	// logo is aligned as flex to stay beside the text.
+	.dy-dashboard__tile-name {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+	}
+	.dy-dashboard__card-meta {
+		font-family: var(--dya-font-mono);
+		font-size: 10px;
+		letter-spacing: var(--dya-tracking-label);
+		text-transform: uppercase;
+		color: var(--dya-ink-mute);
+	}
+	.dy-dashboard__card-body {
+		display: flex;
+		flex-direction: column;
+		gap: 9px;
+		font-size: var(--dya-fs-sm);
+		color: var(--dya-ink-soft);
+	}
+	.dy-dashboard__pill {
+		display: inline-flex;
+		align-items: center;
+		gap: 5px;
+		padding: 3px 9px;
+		font-family: var(--dya-font-mono);
+		font-size: 10px;
+		letter-spacing: var(--dya-tracking-label);
+		text-transform: uppercase;
+		border-radius: var(--dya-r-pill);
+		font-weight: 600;
+		background: var(--dya-paper-3);
+		color: var(--dya-ink-mute);
+		// Small glowing dot in front of the label, colored by state.
+		&::before {
+			content: "";
+			width: 5px; height: 5px;
+			border-radius: 50%;
+			background: currentColor;
+			opacity: 0.9;
+		}
+		&--ok     { background: rgba(76, 195, 138, 0.14);  color: var(--dya-success); }
+		&--dya-warn   { background: rgba(245, 166, 35, 0.16);  color: var(--dya-warn); }
+		&--dya-danger { background: rgba(240, 101, 87, 0.16);  color: var(--dya-danger); }
+		&--dya-accent { background: rgba(var(--dya-accent-rgb, 212, 178, 122), 0.18); color: var(--dya-accent); }
+		// Active/alert state makes the dot pulse.
+		&--dya-warn::before,
+		&--dya-danger::before { animation: dy-fx-pulse 1.8s var(--dya-ease) infinite; }
+		// Modifier `--dya-static`: suppresses the dot pulse while keeping the
+		// state color. For "stable" states signaled in color
+		// (e.g. static disabled = red) without unwanted blinking.
+		&--dya-static::before { animation: none !important; }
+	}
+	.dy-dashboard__row {
+		display: flex;
+		align-items: center;
+		gap: 9px;
+		line-height: var(--dya-lh-base);
+		&--baseline { align-items: baseline; gap: 12px; }
+	}
+	.dy-dashboard__dot {
+		width: 8px; height: 8px; border-radius: 999px;
+		flex-shrink: 0;
+		background: var(--dya-ink-mute);
+		position: relative;
+		&--ok {
+			background: var(--dya-success);
+			box-shadow: 0 0 0 0 color-mix(in srgb, var(--dya-success) 50%, transparent);
+			animation: dy-fx-breathe 3.2s var(--dya-ease) infinite;
+		}
+		&--dya-warn   { background: var(--dya-warn);   animation: dy-fx-ring-warn 2s var(--dya-ease) infinite; }
+		&--dya-danger { background: var(--dya-danger); animation: dy-fx-ring-danger 1.6s var(--dya-ease) infinite; }
+		&--mute   { background: var(--dya-ink-mute); opacity: 0.5; }
+	}
+	.dy-dashboard__row-v {
+		color: var(--dya-ink);
+		flex: 1;
+		min-width: 0;
+		&--num {
+			flex: 0 0 auto;
+			font-family: var(--dya-font-mono);
+			font-variant-numeric: tabular-nums;
+			font-weight: 600;
+			color: var(--dya-ink);
+		}
+	}
+	// A "key → value" row where the key is a link (Todo): clickable row
+	// with an accent shift on hover.
+	.dy-dashboard__row-k {
+		color: var(--dya-ink-mute);
+		font-size: var(--dya-fs-xs);
+		text-decoration: none;
+		transition: color var(--dya-t-fast) var(--dya-ease), transform var(--dya-t-fast) var(--dya-ease);
+	}
+	a.dy-dashboard__row-k {
+		&:hover { color: var(--dya-accent); transform: translateX(2px); }
+	}
+	.dy-dashboard__cta {
+		display: inline-flex;
+		align-items: center;
+		gap: 5px;
+		color: var(--dya-accent);
+		font-family: var(--dya-font-mono);
+		font-size: var(--dya-fs-xs);
+		letter-spacing: var(--dya-tracking-label);
+		text-transform: uppercase;
+		text-decoration: none;
+		font-weight: 600;
+		transition: gap var(--dya-t-fast) var(--dya-ease), opacity var(--dya-t-fast) var(--dya-ease);
+		&:hover { gap: 9px; opacity: 0.85; }
+	}
+	.dy-dashboard__empty {
+		color: var(--dya-ink-mute);
+		font-style: italic;
+		font-size: var(--dya-fs-sm);
+		margin: 0;
+	}
+
+	// ── Grand nombre (Disk %, etc.) ──────────────────────────────
+	.dy-dashboard__big-num {
+		font-family: var(--dya-font-display);
+		font-size: clamp(34px, 3.2vw, 50px);
+		font-weight: 700;
+		line-height: 0.95;
+		letter-spacing: -0.03em;
+		font-variant-numeric: tabular-nums;
+		color: var(--dya-ink);
+		&--ok   { color: var(--dya-ink); }
+		&--dya-warn { color: var(--dya-warn); }
+		&--bad  { color: var(--dya-danger); }
+	}
+	.dy-dashboard__big-num-unit {
+		font-size: 0.42em;
+		font-weight: 600;
+		color: var(--dya-ink-mute);
+		margin-left: 3px;
+		letter-spacing: 0;
+	}
+
+	// ── Barre de progression (Disk) ──────────────────────────────
+	.dy-dashboard__progress {
+		height: 8px;
+		border-radius: 999px;
+		background: color-mix(in srgb, var(--dya-ink) 10%, transparent);
+		overflow: hidden;
+		position: relative;
+	}
+	.dy-dashboard__progress-bar {
+		height: 100%;
+		border-radius: inherit;
+		transform-origin: left center;
+		background: linear-gradient(90deg,
+			color-mix(in srgb, var(--dya-accent) 70%, transparent),
+			var(--dya-accent));
+		position: relative;
+		// Animated shimmer that loops across the bar.
+		&::after {
+			content: "";
+			position: absolute;
+			inset: 0;
+			background: linear-gradient(90deg, transparent, rgba(255,255,255,0.28), transparent);
+			transform: translateX(-100%);
+			animation: dy-fx-bar-shine 2.6s var(--dya-ease) infinite;
+		}
+		&--dya-warn { background: linear-gradient(90deg, color-mix(in srgb, var(--dya-warn) 70%, transparent), var(--dya-warn)); }
+		&--bad  { background: linear-gradient(90deg, color-mix(in srgb, var(--dya-danger) 70%, transparent), var(--dya-danger)); }
+	}
+	// Sous-stats (media / db).
+	.dy-dashboard__sub {
+		display: flex;
+		gap: 14px;
+		flex-wrap: wrap;
+		font-family: var(--dya-font-mono);
+		font-size: 10.5px;
+		letter-spacing: 0.02em;
+		color: var(--dya-ink-mute);
+		span { display: inline-flex; gap: 4px; }
+	}
+
+	// ── List (Recent activity) ───────────────────────────────────
+	.dy-dashboard__list {
+		list-style: none;
+		margin: 0; padding: 0;
+		display: flex;
+		flex-direction: column;
+	}
+	.dy-dashboard__list-item {
+		display: flex;
+		align-items: baseline;
+		gap: 10px;
+		padding: 7px 8px 7px 10px;
+		margin: 0 -8px 0 -10px;
+		border-radius: var(--dya-r-md);
+		position: relative;
+		transition: background var(--dya-t-fast) var(--dya-ease);
+		// Accent rule on the left that reveals on hover.
+		&::before {
+			content: "";
+			position: absolute;
+			left: 0; top: 18%; bottom: 18%;
+			width: 2px;
+			border-radius: 2px;
+			background: var(--dya-accent);
+			transform: scaleY(0);
+			transform-origin: center;
+			transition: transform var(--dya-t-fast) var(--dya-ease);
+		}
+		& + & { border-top: 1px solid color-mix(in srgb, var(--dya-ink) 7%, transparent); }
+		&:hover {
+			background: color-mix(in srgb, var(--dya-ink) 5%, transparent);
+			&::before { transform: scaleY(1); }
+		}
+	}
+	.dy-dashboard__list-time {
+		flex: 0 0 auto;
+		font-family: var(--dya-font-mono);
+		font-size: 10px;
+		letter-spacing: 0.02em;
+		color: var(--dya-ink-mute);
+		white-space: nowrap;
+	}
+	.dy-dashboard__list-label {
+		flex: 1;
+		min-width: 0;
+		color: var(--dya-ink);
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	// ── Modules & Toolkit: 2-column badge grid ───────────────────
+	// Active = accent-tinted badge; inactive = greyed badge. No status
+	// text (color is enough). A "Settings" link leads to the Overview.
+	.dy-dashboard__badges {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 6px;
+	}
+	.dy-dashboard__badge {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		min-width: 0;
+		padding: 7px 11px;
+		border-radius: var(--dya-r-md);
+		font-size: var(--dya-fs-sm);
+		font-weight: 500;
+		line-height: 1.3;
+		text-align: left;
+		// Inactive (default): greyed out.
+		color: var(--dya-ink-mute);
+		background: color-mix(in srgb, var(--dya-ink) 5%, transparent);
+		border: 1px solid color-mix(in srgb, var(--dya-ink) 9%, transparent);
+		transition: background var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease), color var(--dya-t-fast) var(--dya-ease);
+		// Actif : teinte accent.
+		&.is-on {
+			color: var(--dya-accent);
+			background: color-mix(in srgb, var(--dya-accent) 15%, transparent);
+			border-color: color-mix(in srgb, var(--dya-accent) 38%, transparent);
+		}
+	}
+	// Pip to the left of the badge: filled "switch" (on) or hollow (off).
+	.dy-dashboard__badge-pip {
+		flex: 0 0 auto;
+		width: 10px; height: 10px;
+		border-radius: 50%;
+		border: 1.5px solid currentColor;
+		background: transparent;
+		opacity: 0.55;
+		transition: background var(--dya-t-fast) var(--dya-ease), box-shadow var(--dya-t-fast) var(--dya-ease), opacity var(--dya-t-fast) var(--dya-ease);
+		.is-on & {
+			background: var(--dya-accent);
+			border-color: var(--dya-accent);
+			opacity: 1;
+			box-shadow: 0 0 0 3px color-mix(in srgb, var(--dya-accent) 22%, transparent);
+		}
+	}
+	.dy-dashboard__badge-label {
+		flex: 1;
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	// "Settings" link: always bottom-right of the card.
+	// ── "Foot" link: Settings / Configure (bottom of cards) ──────────────
+	// Refined animation:
+	//   • Accent underline drawn left to right (scaleX 0→1
+	//     with cubic-bezier easeOutQuint, transform-origin: left).
+	//   • Arrow inside an `overflow:hidden` viewport — the in-place arrow
+	//     escapes to the right while its offset twin enters from the
+	//     left and lands in the center. Feels like a smooth mechanical
+	//     roll on every hover.
+	//   • Slight text lift (translateY -1px) to signal
+	//     hover without shifting the block.
+	.dy-dashboard__card-foot-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		margin-top: auto;       // pousse en bas (slot = flex column)
+		align-self: flex-end;   // pinned to the right
+		padding-top: 12px;
+		font-family: var(--dya-font-mono);
+		font-size: var(--dya-fs-xs);
+		letter-spacing: var(--dya-tracking-label);
+		text-transform: uppercase;
+		font-weight: 600;
+		color: var(--dya-accent);
+		text-decoration: none;
+		line-height: 1;
+		// The hover effect lives on the children (underline + arrow) — the
+		// link itself does not need a transition.
+	}
+	.dy-dashboard__card-foot-link-text {
+		position: relative;
+		display: inline-block;
+		transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+		// Underline accent qui se dessine au survol.
+		&::after {
+			content: "";
+			position: absolute;
+			left: 0;
+			right: 0;
+			bottom: -3px;
+			height: 1px;
+			background: currentColor;
+			transform: scaleX(0);
+			transform-origin: left center;
+			transition: transform 0.42s cubic-bezier(0.65, 0, 0.35, 1);
+		}
+	}
+	.dy-dashboard__card-foot-link-arrow {
+		position: relative;
+		display: inline-block;
+		width: 13px;
+		height: 13px;
+		overflow: hidden;
+		flex: 0 0 auto;
+		line-height: 0; // prevents any baseline shift from the svg
+		svg {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 13px;
+			height: 13px;
+			transition: transform 0.42s cubic-bezier(0.65, 0, 0.35, 1);
+			// The 2nd arrow starts off-frame to the left.
+			&:nth-child(2) { left: -100%; }
+		}
+	}
+	.dy-dashboard__card-foot-link:hover {
+		.dy-dashboard__card-foot-link-text {
+			transform: translateY(-1px);
+			&::after { transform: scaleX(1); }
+		}
+		// BOTH arrows slide 100% to the right simultaneously:
+		// the in-place arrow exits right, the offset-left twin takes
+		// its central position. Continuous "rolling" effect.
+		.dy-dashboard__card-foot-link-arrow svg { transform: translateX(100%); }
+	}
+	// Visible focus: same underline (for keyboard users).
+	.dy-dashboard__card-foot-link:focus-visible {
+		outline: none;
+		.dy-dashboard__card-foot-link-text::after { transform: scaleX(1); }
+	}
+
+	// ════════════════════════════════════════════════════════════
+	// WIDGETS WOOCOMMERCE
+	// ════════════════════════════════════════════════════════════
+
+	// Accented large number (orders to process) + "amount" variant (revenue).
+	.dy-dashboard__big-num--accent { color: var(--dya-accent); }
+	.dy-dashboard__big-num--money {
+		font-size: clamp(28px, 2.7vw, 40px);   // amounts are longer strings
+		letter-spacing: -0.02em;
+	}
+
+	// Accent dot (reuses the --ok breathing animation but in accent color).
+	.dy-dashboard__dot--accent {
+		background: var(--dya-accent);
+		animation: dy-fx-breathe 3.2s var(--dya-ease) infinite;
+	}
+
+	// "To-do" pill: pulses even in accent color (the ::before accent
+	// did not pulse by default). Draws attention to the pending action.
+	.dy-dashboard__pill--pulse::before { animation: dy-fx-pulse 1.8s var(--dya-ease) infinite; }
+
+	// "Soft" empty state: present but unobtrusive (all is well).
+	.dy-dashboard__empty--soft { color: var(--dya-ink-mute); opacity: 0.8; }
+
+	// ── Delta % (CA du mois) ─────────────────────────────────────
+	.dy-dashboard__delta {
+		display: inline-flex;
+		align-items: baseline;
+		gap: 6px;
+		margin-top: 8px;
+		font-family: var(--dya-font-mono);
+		font-size: 11.5px;
+		letter-spacing: 0.01em;
+		color: var(--dya-ink-mute);
+	}
+	.dy-dashboard__delta-arrow {
+		font-size: 13px;
+		line-height: 1;
+		transform: translateY(1px);
+	}
+	.dy-dashboard__delta-pct { font-weight: 700; font-variant-numeric: tabular-nums; }
+	.dy-dashboard__delta-ctx { color: var(--dya-ink-mute); opacity: 0.85; }
+	.dy-dashboard__delta--up   { .dy-dashboard__delta-arrow, .dy-dashboard__delta-pct { color: var(--dya-success); } }
+	.dy-dashboard__delta--down { .dy-dashboard__delta-arrow, .dy-dashboard__delta-pct { color: var(--dya-danger); } }
+	.dy-dashboard__delta--flat { .dy-dashboard__delta-arrow, .dy-dashboard__delta-pct { color: var(--dya-ink-mute); } }
+
+	// ── Breakdown by status (orders / stock) ─────────────────────
+	.dy-dashboard__wc-breakdown {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px 8px;
+		margin-top: 12px;
+		&--top { margin-top: 4px; margin-bottom: 10px; }
+	}
+	.dy-dashboard__wc-seg {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		padding: 5px 9px;
+		border-radius: var(--dya-r-pill);
+		background: color-mix(in srgb, var(--dya-ink) 5%, transparent);
+		font-size: 11.5px;
+		color: var(--dya-ink);
+		text-decoration: none;
+		transition: background var(--dya-t-fast) var(--dya-ease), transform var(--dya-t-fast) var(--dya-ease);
+		.dy-dashboard__wc-seg-n { font-weight: 700; font-variant-numeric: tabular-nums; }
+		.dy-dashboard__wc-seg-l { color: var(--dya-ink-mute); }
+		// Interactive only when it is a link (orders).
+		&[href]:hover {
+			background: color-mix(in srgb, var(--dya-accent) 12%, transparent);
+			transform: translateY(-1px);
+		}
+	}
+
+	// ── Order list (Shop activity) ───────────────────────────────
+	.dy-dashboard__list--orders .dy-dashboard__order-row {
+		display: grid;
+		grid-template-columns: auto 1fr auto auto;
+		align-items: center;
+		gap: 10px;
+	}
+	.dy-dashboard__order-num {
+		font-family: var(--dya-font-mono);
+		font-weight: 600;
+		color: var(--dya-ink);
+		text-decoration: none;
+		transition: color var(--dya-t-fast) var(--dya-ease);
+		&:hover { color: var(--dya-accent); }
+	}
+	.dy-dashboard__order-total {
+		font-variant-numeric: tabular-nums;
+		color: var(--dya-ink);
+		font-weight: 600;
+		white-space: nowrap;
+	}
+	.dy-dashboard__order-time {
+		font-family: var(--dya-font-mono);
+		font-size: 10.5px;
+		color: var(--dya-ink-mute);
+		white-space: nowrap;
+	}
+
+	// ── Liste compacte (produits stock faible) ───────────────────
+	.dy-dashboard__list--compact {
+		margin-top: 4px;
+		.dy-dashboard__list-item {
+			display: flex;
+			justify-content: space-between;
+			align-items: baseline;
+			gap: 10px;
+		}
+		.dy-dashboard__list-label {
+			color: var(--dya-ink);
+			text-decoration: none;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			&:hover { color: var(--dya-accent); }
+		}
+	}
+	.dy-dashboard__stock-qty {
+		flex: 0 0 auto;
+		font-family: var(--dya-font-mono);
+		font-size: 10.5px;
+		color: var(--dya-warn);
+		font-variant-numeric: tabular-nums;
+	}
+
+	// ── Sparkline (Ventes 7 jours) ───────────────────────────────
+	.dy-dashboard__spark-wrap {
+		margin-top: 12px;
+		// Fixed height = anti-CLS; the SVG stretches inside it.
+		line-height: 0;
+		color: var(--dya-accent);   // currentColor pilote ligne + aire + dot
+		&.is-empty { opacity: 0.4; }
+	}
+	.dy-dashboard__spark { display: block; width: 100%; overflow: visible; }
+	// Animated draw on slot reveal: the line is drawn first, then the area
+	// and dot appear. Managed by the .is-revealed cascade (see FX below).
+	.dy-dashboard__spark-line {
+		stroke-dasharray: 240;
+		stroke-dashoffset: 240;
+		transition: stroke-dashoffset 1100ms var(--dya-ease);
+	}
+	.dy-dashboard__spark-area {
+		opacity: 0;
+		transition: opacity 700ms var(--dya-ease) 350ms;
+	}
+	.dy-dashboard__spark-dot {
+		opacity: 0;
+		transform: scale(0);
+		transform-origin: center;
+		transform-box: fill-box;
+		transition: opacity 300ms var(--dya-ease) 900ms, transform 420ms var(--dya-ease) 900ms;
+	}
+	.dy-dashboard__slot.is-revealed {
+		.dy-dashboard__spark-line { stroke-dashoffset: 0; }
+		.dy-dashboard__spark-area { opacity: 1; }
+		.dy-dashboard__spark-dot  { opacity: 1; transform: scale(1); }
+	}
+	// Non-animated slots (FX off / reduced motion): path already visible.
+	.dy-dashboard__slot:not(.js-fx) {
+		.dy-dashboard__spark-line { stroke-dashoffset: 0; }
+		.dy-dashboard__spark-area { opacity: 1; }
+		.dy-dashboard__spark-dot  { opacity: 1; transform: scale(1); }
+	}
+
+	// ── Classement (Top produits) ────────────────────────────────
+	.dy-dashboard__rank {
+		list-style: none;
+		margin: 0; padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 3px;
+		counter-reset: dy-rank;
+	}
+	.dy-dashboard__rank-item {
+		position: relative;
+		display: grid;
+		grid-template-columns: auto 1fr auto;
+		align-items: center;
+		gap: 10px;
+		padding: 7px 10px;
+		border-radius: var(--dya-r-md);
+		overflow: hidden;
+		// Proportion bar in the background (width = --dy-rank-pct), revealed with the slot.
+		.dy-dashboard__rank-bar {
+			position: absolute;
+			inset: 0 auto 0 0;
+			width: var(--dy-rank-pct, 0%);
+			background: linear-gradient(90deg,
+				color-mix(in srgb, var(--dya-accent) 16%, transparent),
+				color-mix(in srgb, var(--dya-accent) 5%, transparent));
+			border-radius: inherit;
+			transform: scaleX(0);
+			transform-origin: left center;
+			transition: transform 760ms var(--dya-ease);
+			z-index: 0;
+		}
+		> * { position: relative; z-index: 1; }
+	}
+	.dy-dashboard__rank-pos {
+		font-family: var(--dya-font-mono);
+		font-size: 11px;
+		font-weight: 700;
+		color: var(--dya-accent);
+		width: 1.2em;
+		text-align: center;
+		font-variant-numeric: tabular-nums;
+	}
+	.dy-dashboard__rank-name {
+		color: var(--dya-ink);
+		text-decoration: none;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		&:hover { color: var(--dya-accent); }
+	}
+	.dy-dashboard__rank-qty {
+		font-family: var(--dya-font-mono);
+		font-size: 11px;
+		color: var(--dya-ink-mute);
+		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
+	}
+	.dy-dashboard__slot.is-revealed .dy-dashboard__rank-bar { transform: scaleX(1); }
+	.dy-dashboard__slot:not(.js-fx) .dy-dashboard__rank-bar { transform: scaleX(1); }
+
+	// ── Bouton « Lancer une sauvegarde » ─────────────────────────
+	.dy-dashboard__backup-run {
+		display: inline-flex;
+		align-items: center;
+		justify-content: flex-start;
+		gap: 7px;
+		margin-top: 4px;
+		align-self: flex-start;
+		text-align: left;
+		svg { transition: transform var(--dya-t-med) var(--dya-ease); }
+		&.is-busy { opacity: 0.7; cursor: progress; svg { animation: dy-spin 0.8s linear infinite; } }
+	}
+	@keyframes dy-spin { to { transform: rotate(360deg); } }
+
+	// ── Quick actions (stacked ghost buttons) ────────────────────
+	.dy-dashboard__actions { gap: 7px; }
+	.dy-dashboard__btn-ghost {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		padding: 9px 12px;
+		border-radius: var(--dya-r-md);
+		background: color-mix(in srgb, var(--dya-ink) 5%, transparent);
+		border: 1px solid color-mix(in srgb, var(--dya-ink) 10%, transparent);
+		color: var(--dya-ink);
+		font-size: var(--dya-fs-sm);
+		text-decoration: none;
+		transition: transform var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease), padding-left var(--dya-t-fast) var(--dya-ease);
+		// Accent chevron that appears on hover.
+		&::before {
+			content: "›";
+			color: var(--dya-accent);
+			font-weight: 700;
+			opacity: 0;
+			margin-right: -10px;
+			transition: opacity var(--dya-t-fast) var(--dya-ease), margin-right var(--dya-t-fast) var(--dya-ease);
+		}
+		&:hover {
+			border-color: color-mix(in srgb, var(--dya-accent) 50%, transparent);
+			background: color-mix(in srgb, var(--dya-accent) 9%, transparent);
+			&::before { opacity: 1; margin-right: 0; }
+		}
+	}
+
+	// ── Shortcuts (dashicon + label) ─────────────────────────────
+	.dy-dashboard__shortcuts {
+		flex-direction: row;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+	.dy-dashboard__shortcut {
+		display: inline-flex;
+		align-items: center;
+		gap: 7px;
+		padding: 8px 11px;
+		border-radius: var(--dya-r-md);
+		background: color-mix(in srgb, var(--dya-ink) 5%, transparent);
+		border: 1px solid color-mix(in srgb, var(--dya-ink) 10%, transparent);
+		color: var(--dya-ink);
+		text-decoration: none;
+		transition: transform var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease);
+		.dashicons { color: var(--dya-accent); font-size: 16px; width: 16px; height: 16px; transition: transform var(--dya-t-fast) var(--dya-ease); }
+		&:hover {
+			transform: translateY(-2px);
+			border-color: color-mix(in srgb, var(--dya-accent) 50%, transparent);
+			background: color-mix(in srgb, var(--dya-accent) 9%, transparent);
+			.dashicons { transform: scale(1.12) rotate(-6deg); }
+		}
+	}
+	.dy-dashboard__shortcut-label {
+		font-size: var(--dya-fs-sm);
+		font-weight: 500;
+	}
+
+	// ── NoteWidget ───────────────────────────────────────────────
+	.dy-dashboard__note-body { font-size: var(--dya-fs-base); }
+	.dy-dashboard__note-empty { color: var(--dya-ink-mute); font-style: italic; }
+	.dy-dashboard__note-content {
+		color: var(--dya-ink);
+		line-height: var(--dya-lh-base);
+		p { margin: 0 0 0.6em; &:last-child { margin-bottom: 0; } }
+	}
+
+	// ── CreateButton / AdminLink (1 slot, centered button) ───────
+	.dy-dashboard__create-btn,
+	.dy-dashboard__admin-link {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 12px;
+		height: 100%;
+		min-height: 140px;
+		color: var(--dya-ink);
+		text-decoration: none;
+		font-family: var(--dya-font-display);
+		font-size: var(--dya-fs-md);
+		font-weight: 600;
+		letter-spacing: -0.01em;
+		border-radius: var(--dya-r-xl);
+		transition: color var(--dya-t-fast) var(--dya-ease), transform var(--dya-t-fast) var(--dya-ease);
+		&:hover { color: var(--dya-accent); transform: translateY(-2px); }
+	}
+	// Create button badge: dashicon for the content type + "+" badge.
+	.dy-dashboard__create-btn-icon {
+		position: relative;
+		width: 48px; height: 48px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 50%;
+		color: var(--dya-accent);
+		background: color-mix(in srgb, var(--dya-accent) 13%, transparent);
+		transition: transform var(--dya-t-med) var(--dya-ease), background var(--dya-t-med) var(--dya-ease), box-shadow var(--dya-t-med) var(--dya-ease);
+		.dashicons { font-size: 24px; width: 24px; height: 24px; }
+	}
+	.dy-dashboard__create-btn-plus {
+		position: absolute;
+		right: -2px; bottom: -2px;
+		width: 18px; height: 18px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 50%;
+		color: var(--accent-ink, #fff);
+		background: var(--dya-accent);
+		box-shadow: 0 0 0 2px var(--dya-paper, #161a23);
+	}
+	.dy-dashboard__create-btn:hover .dy-dashboard__create-btn-icon {
+		transform: translateY(-1px) scale(1.06);
+		background: color-mix(in srgb, var(--dya-accent) 20%, transparent);
+		box-shadow: 0 0 0 6px color-mix(in srgb, var(--dya-accent) 10%, transparent);
+	}
+	// Centered label (multi-word labels like "Add Post" were left-aligned on wrap
+	// — forced center to stay consistent with the icon above).
+	.dy-dashboard__create-btn-label,
+	.dy-dashboard__admin-link-label { text-align: center; }
+	// AdminLink does not rotate its icon (↗ arrow) — it offsets it instead.
+	.dy-dashboard__admin-link:hover .dy-dashboard__admin-link-icon {
+		transform: translate(2px, -2px) scale(1.06);
+	}
+	.dy-dashboard__admin-link-icon {
+		width: 52px; height: 52px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		background: color-mix(in srgb, var(--dya-accent) 13%, transparent);
+		border-radius: 50%;
+		color: var(--dya-accent);
+		transition: transform var(--dya-t-med) var(--dya-ease), box-shadow var(--dya-t-med) var(--dya-ease);
+		svg { display: block; }
+	}
+	.dy-dashboard__admin-link:hover .dy-dashboard__admin-link-icon {
+		box-shadow: 0 0 0 6px color-mix(in srgb, var(--dya-accent) 10%, transparent);
+	}
+
+	// ── "Create" hub: large-button grid (one per post type) ──────────
+	// Auto-fit grid: on a wide card (4 slots) the tiles fit on a SINGLE
+	// row (4 equal columns); when the card narrows (panel open,
+	// responsive), they reflow neatly into 2 columns (2×2) instead of
+	// stacking 4 large blocks vertically. No media query needed — adapts
+	// to any number of content types.
+	.dy-dashboard__slot--4 .dy-dashboard__card-body { justify-content: center; }
+	.dy-dashboard__create-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(108px, 1fr));
+		gap: 12px;
+		margin-top: 4px;
+	}
+	.dy-dashboard__create-tile {
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 13px;
+		padding: clamp(16px, 2.2vw, 24px) 10px clamp(14px, 1.8vw, 20px);
+		border-radius: var(--dya-r-xl);
+		text-decoration: none;
+		color: var(--dya-ink);
+		background: color-mix(in srgb, var(--dya-ink) 4%, transparent);
+		border: 1px solid var(--dya-edge);
+		transition: transform var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease);
+		&:hover {
+			transform: translateY(-3px);
+			background: color-mix(in srgb, var(--dya-accent) 9%, transparent);
+			border-color: color-mix(in srgb, var(--dya-accent) 30%, transparent);
+			color: var(--dya-accent);
+			.dy-dashboard__create-tile-icon {
+				background: color-mix(in srgb, var(--dya-accent) 22%, transparent);
+				box-shadow: 0 0 0 6px color-mix(in srgb, var(--dya-accent) 10%, transparent);
+			}
+		}
+	}
+	.dy-dashboard__create-tile-icon {
+		position: relative;
+		width: 58px; height: 58px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 50%;
+		color: var(--dya-accent);
+		background: color-mix(in srgb, var(--dya-accent) 13%, transparent);
+		transition: background var(--dya-t-med) var(--dya-ease), box-shadow var(--dya-t-med) var(--dya-ease);
+		.dashicons { font-size: 28px; width: 28px; height: 28px; }
+	}
+	.dy-dashboard__create-tile-plus {
+		position: absolute;
+		right: -3px; bottom: -3px;
+		width: 20px; height: 20px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 50%;
+		color: var(--accent-ink, #fff);
+		background: var(--dya-accent);
+		box-shadow: 0 0 0 2px var(--dya-paper, #161a23);
+	}
+	.dy-dashboard__create-tile-label {
+		font-family: var(--dya-font-display);
+		font-size: 15px;
+		font-weight: 600;
+		text-align: center;
+		line-height: 1.2;
+		letter-spacing: -0.01em;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: 100%;
+		white-space: nowrap;
+	}
+	// Below 1500px, the Create widget ALWAYS occupies a narrow slot (span 1):
+	// auto-fit could collapse to 1 column when the slot approached the threshold
+	// (~228px in a 3-col grid at 1300-1499px, or 2-col at 1000-1111px). Forcing
+	// TWO columns across this entire range → no vertical stacking ever.
+	@media (max-width: 1499px) {
+		.dy-dashboard__create-grid { grid-template-columns: repeat(2, 1fr); }
+	}
+	// ── Animated content reveal (orchestrated by WidgetFX) ───────
+	// Without JS (.js-fx absent) → content is visible by default. With JS,
+	// content starts faded/translated and reveals in a cascade when the
+	// card enters the viewport (.is-revealed).
+	.dy-dashboard__slot.js-fx:not(.is-revealed) {
+		.dy-dashboard__card-h,
+		.dy-dashboard__card-body > * {
+			opacity: 0;
+			transform: translateY(10px);
+		}
+	}
+	.dy-dashboard__slot.js-fx.is-revealed {
+		.dy-dashboard__card-h { animation: dy-dashboard-fade-up 0.5s var(--dya-ease) both; }
+		.dy-dashboard__card-body > * {
+			animation: dy-dashboard-fade-up 0.5s var(--dya-ease) both;
+			@for $i from 1 through 8 {
+				&:nth-child(#{$i}) { animation-delay: #{0.06 + ($i - 1) * 0.05}s; }
+			}
+		}
+		// Progress bar fills (scaleX 0 → 1) on reveal.
+		.dy-dashboard__progress-bar {
+			animation: dy-fx-fill 0.9s var(--dya-ease) 0.18s both;
+		}
+	}
+	// Outside JS reveal, the bar is full (no scaleX 0).
+	.dy-dashboard__slot:not(.js-fx) .dy-dashboard__progress-bar,
+	.dy-dashboard__slot.is-revealed .dy-dashboard__progress-bar { transform: scaleX(1); }
+
+	// ── Toasts ───────────────────────────────────────────────────
+	.dy-dashboard__toast-root {
+		position: fixed;
+		bottom: calc(clamp(20px, 2vw, 40px) + 70px);
+		left: 50%;
+		transform: translateX(-50%);
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		z-index: 100;
+		pointer-events: none;
+	}
+	.dy-dashboard__toast {
+		font-family: var(--dya-font-body);
+		font-size: var(--dya-fs-sm);
+		color: var(--dya-ink);
+		background: rgba(20, 24, 32, 0.92);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border: 1px solid var(--dya-edge-strong);
+		border-radius: var(--dya-r-pill);
+		padding: 10px 18px;
+		box-shadow: var(--dya-shadow-md);
+		opacity: 0;
+		transform: translateY(8px);
+		transition: opacity var(--dya-t-med) var(--dya-ease), transform var(--dya-t-med) var(--dya-ease);
+		&.is-visible { opacity: 1; transform: translateY(0); }
+		&--dya-success { border-color: var(--dya-success); }
+		&--dya-warn    { border-color: var(--dya-warn); }
+		&--error   { border-color: var(--dya-danger); }
+	}
+
+	// ── Placeholder ───────────────────────────────────────────────
+	.dy-dashboard__placeholder,
+	.dy-dashboard__empty-state {
+		min-height: 40vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: var(--space-xl, 32px);
+		color: var(--dya-ink-soft);
+		font-family: var(--dya-font-mono);
+		font-size: 0.875rem;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+	}
+
+	// ── LIGHT MODE — bold accent atmosphere ──────────────────────
+	// Aesthetic choice: the dashboard becomes a bold colored "scene"
+	// that contrasts with the rest of the light admin. A diagonal gradient
+	// runs from a lighter accent at top-left to a deeper accent at
+	// bottom-right (narrative direction). Widgets are pure glass-morphism
+	// (intense backdrop-filter blur + soft border-radius + elegant drop
+	// shadows) floating on the color — no opaque background.
+	// ═══════════════════════════════════════════════════════════════════
+	// LIGHT MODE — "PAPER STUDIO"
+	// ───────────────────────────────────────────────────────────────────
+	// Total inversion of the atmospheric dark mode. The canvas is white;
+	// the accent no longer saturates the entire screen with a heavy wash —
+	// it becomes a nearly imperceptible breath drifting across the paper.
+	// Cards are solid "paper" tiles, distinguished from the canvas by
+	// border + shadow (not by translucency contrast as in dark glass).
+	//
+	// Most internals (titles, text, pills, lists…) inherit from the
+	// auto-flipped DS tokens — only elements that hardcode dark values
+	// or assume an accent background are overridden here.
+	// ═══════════════════════════════════════════════════════════════════
+	&.dy-theme-light {
+		// Ambient: white canvas, no saturated accent wash.
+		.dy-dashboard__ambient {
+			background: var(--dya-bg, #ffffff);
+			&::after { display: none; } // no grain in light mode
+		}
+		// "Breath" accent gradient: opacities divided by ~2.5 vs dark
+		// to stay airy. Both halos still drift independently
+		// (base anims untouched); only the color stops are overridden here.
+		.dy-dashboard__ambient-grad {
+			background-image: linear-gradient(
+				135deg,
+				rgba(var(--dya-accent-rgb, 212, 178, 122), 0.04) 0%,
+				transparent 50%,
+				rgba(0, 0, 0, 0.025) 100%
+			);
+		}
+		.dy-dashboard__ambient-halo--a {
+			background-image: radial-gradient(
+				ellipse 58% 56% at var(--dy-amb-x) var(--dy-amb-y),
+				rgba(var(--dya-accent-rgb, 212, 178, 122), 0.18) 0%,
+				rgba(var(--dya-accent-rgb, 212, 178, 122), 0.06) 40%,
+				transparent 72%
+			);
+		}
+		.dy-dashboard__ambient-halo--b {
+			background-image: radial-gradient(
+				ellipse 42% 42% at var(--dy-amb-x2) var(--dy-amb-y2),
+				rgba(var(--dya-accent-rgb, 212, 178, 122), 0.13) 0%,
+				rgba(var(--dya-accent-rgb, 212, 178, 122), 0.04) 48%,
+				transparent 72%
+			);
+		}
+
+		// Native WP screen: transparent (the dyRoot --dya-bg backdrop takes over).
+		.dy-dashboard__screen--native { background-color: transparent; }
+
+		// ── Typography ────────────────────────────────────────────────
+		// Strong contrast on white: no text-shadow needed (shadows on
+		// dark/light text turn muddy). The italic em carries the accent —
+		// it is THE color touch on both user screens AND native screen
+		// (both inherit the same treatment).
+		.dy-dashboard__title {
+			color: var(--dya-ink);
+			font-weight: 600;
+			text-shadow: none;
+		}
+		.dy-dashboard__title-em { color: var(--dya-accent-text, var(--dya-accent)); }
+		.dy-dashboard__paragraph {
+			color: color-mix(in srgb, var(--dya-ink) 75%, transparent);
+			text-shadow: none;
+			strong { color: var(--dya-ink); }
+			code {
+				background: color-mix(in srgb, var(--dya-accent) 10%, transparent);
+				color: var(--dya-ink);
+			}
+		}
+		.dy-dashboard__eyebrow-count { color: var(--dya-accent); }
+
+		// ── Slots (widget cards) ──────────────────────────────────────
+		// The base mode is a translucent dark-glass that becomes invisible
+		// on white. A solid "paper" background is applied, with a soft border
+		// and layered shadow (1px inset highlight + 2 layers of soft shadow).
+		// All internals (titles, lists, pills, badges, modules,
+		// shortcuts, progress…) inherit from auto-flipped tokens — no need
+		// to re-override everything by hand.
+		.dy-dashboard__screen[data-screen-kind="user"] .dy-dashboard__slot {
+			background: var(--dya-paper) !important;
+			border: 1px solid var(--dya-edge) !important;
+			color: var(--dya-ink-soft);
+			backdrop-filter: none;
+			-webkit-backdrop-filter: none;
+			box-shadow:
+				0 1px 0 rgba(255, 255, 255, 0.6) inset,
+				0 4px 14px rgba(0, 0, 0, 0.04),
+				0 18px 40px -14px rgba(0, 0, 0, 0.08);
+
+			&:hover {
+				border-color: color-mix(in srgb, var(--dya-accent) 45%, var(--dya-line-strong)) !important;
+				box-shadow:
+					0 1px 0 rgba(255, 255, 255, 0.6) inset,
+					0 6px 18px rgba(0, 0, 0, 0.05),
+					0 22px 48px -14px rgba(var(--dya-accent-rgb, 212, 178, 122), 0.22);
+			}
+
+			// Hover radial halo: a very subtle accent wash (consistent
+			// with the ambient breath).
+			&::after {
+				background: radial-gradient(
+					circle at 50% 0%,
+					rgba(var(--dya-accent-rgb, 212, 178, 122), 0.10),
+					transparent 65%
+				) !important;
+			}
+		}
+
+		// ── Nav pill (arrows + floating dots at the bottom) ──────────
+		// The base hardcodes rgba(20,24,32,0.72) — a dark blob on white.
+		// Flipped to frosted white glass with a soft floating shadow.
+		.dy-dashboard__nav {
+			background: color-mix(in srgb, var(--dya-paper) 86%, transparent);
+			border-color: var(--dya-edge-strong);
+			box-shadow:
+				0 1px 0 rgba(255, 255, 255, 0.7) inset,
+				0 2px 6px rgba(0, 0, 0, 0.04),
+				0 12px 32px rgba(0, 0, 0, 0.08);
+		}
+		.dy-dashboard__nav-arrow:hover {
+			background: color-mix(in srgb, var(--dya-accent) 10%, transparent);
+			color: var(--dya-ink);
+		}
+		// Worm (active dot): the white canvas already makes the accent
+		// segment very visible — glow is attenuated to prevent overflow.
+		.dy-dashboard__nav-worm {
+			box-shadow: 0 0 10px rgba(var(--dya-accent-rgb, 212, 178, 122), 0.28);
+		}
+
+		// ── Floating Customize button ─────────────────────────────────
+		// Same frosted-white-glass treatment, with a soft accent tint on hover.
+		.dy-dashboard__customize-btn {
+			background: color-mix(in srgb, var(--dya-paper) 88%, transparent);
+			border-color: var(--dya-edge-strong);
+			color: var(--dya-ink);
+			box-shadow:
+				0 1px 0 rgba(255, 255, 255, 0.7) inset,
+				0 8px 24px rgba(0, 0, 0, 0.06);
+			&:hover {
+				background: color-mix(in srgb, var(--dya-accent) 8%, var(--dya-paper));
+				border-color: var(--dya-accent);
+			}
+			svg { color: var(--dya-accent); }
+		}
+
+		// ── Native screen (light mode only) ──────────────────────────
+		// Flat cards: pure white background + no shadow. The border alone
+		// is enough to distinguish widgets, and pure white (instead of
+		// accent-tinted --dya-paper) works better with diverse third-party
+		// widgets (Yoast, Rank Math, Elementor, WC…) that bring their own CSS.
+		.dy-dashboard__screen--native .dy-dashboard__native-item {
+			background: #ffffff;
+			box-shadow: none;
+			&:hover { box-shadow: none; }
+		}
+
+		// ── Active badges + --dya-accent pill (light mode only) ──────────
+		// Same translucent accent tint as in dark mode (base already covers
+		// `rgba(accent, 0.15/0.18)`) — only the text color is changed:
+		// switched to --dya-ink, more legible than vivid accent green on white.
+		// Pip and border inherit from the base (accent on accent tint).
+		.dy-dashboard__badge.is-on { color: var(--dya-ink); }
+		.dy-dashboard__pill--accent { color: var(--dya-ink); }
+	}
+
+	// ── Animations ────────────────────────────────────────────────
+	@keyframes dy-dashboard-fade-up {
+		from { opacity: 0; transform: translateY(8px); }
+		to   { opacity: 1; transform: translateY(0); }
+	}
+	@keyframes dy-dashboard-screen-rise {
+		from { opacity: 0; transform: translateY(12px); }
+		to   { opacity: 1; transform: translateY(0); }
+	}
+	// Diagonal sheen that sweeps across a card on hover.
+	@keyframes dy-slot-sheen {
+		from { left: -60%; opacity: 0; }
+		20%  { opacity: 1; }
+		to   { left: 130%; opacity: 0; }
+	}
+	// Status dot that pulses (warn/danger pills).
+	@keyframes dy-fx-pulse {
+		0%, 100% { opacity: 1; transform: scale(1); }
+		50%      { opacity: 0.45; transform: scale(0.82); }
+	}
+	// OK dot: halo that breathes gently.
+	@keyframes dy-fx-breathe {
+		0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--dya-success) 45%, transparent); }
+		50%      { box-shadow: 0 0 0 4px color-mix(in srgb, var(--dya-success) 0%, transparent); }
+	}
+	// Warn/danger dot: pulsed ring.
+	@keyframes dy-fx-ring-warn {
+		0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--dya-warn) 55%, transparent); }
+		70%  { box-shadow: 0 0 0 5px color-mix(in srgb, var(--dya-warn) 0%, transparent); }
+		100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--dya-warn) 0%, transparent); }
+	}
+	@keyframes dy-fx-ring-danger {
+		0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--dya-danger) 60%, transparent); }
+		70%  { box-shadow: 0 0 0 5px color-mix(in srgb, var(--dya-danger) 0%, transparent); }
+		100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--dya-danger) 0%, transparent); }
+	}
+	// Shimmer that slides along the progress bar.
+	@keyframes dy-fx-bar-shine {
+		0%   { transform: translateX(-100%); }
+		60%, 100% { transform: translateX(220%); }
+	}
+	// Bar fill animation on reveal.
+	@keyframes dy-fx-fill {
+		from { transform: scaleX(0); }
+		to   { transform: scaleX(1); }
+	}
+
+	// Reduced motion: cut everything except the fade.
+	@media (prefers-reduced-motion: reduce) {
+		.dy-dashboard__ambient-halo,
+		.dy-dashboard__screen,
+		.dy-dashboard__eyebrow,
+		.dy-dashboard__title,
+		.dy-dashboard__paragraph,
+		.dy-dashboard__slots,
+		.dy-dashboard__native-list,
+		.dy-dashboard__nav,
+		.dy-dashboard__customize-btn,
+		.dy-dashboard__slot .dy-dashboard__card-h,
+		.dy-dashboard__slot .dy-dashboard__card-body > *,
+		.dy-dashboard__dot,
+		.dy-dashboard__pill::before,
+		.dy-dashboard__progress-bar,
+		.dy-dashboard__progress-bar::after,
+		.dy-dashboard__spark-line,
+		.dy-dashboard__spark-area,
+		.dy-dashboard__spark-dot,
+		.dy-dashboard__rank-bar {
+			animation: none !important;
+			opacity: 1 !important;
+			transform: none !important;
+		}
+		.dy-dashboard__progress-bar { transform: scaleX(1) !important; }
+		.dy-dashboard__spark-line { stroke-dashoffset: 0 !important; }
+		.dy-dashboard__rank-bar { transform: scaleX(1) !important; }
+		.dy-dashboard__viewport { scroll-behavior: auto; }
+	}
+
+	// ── Responsive ────────────────────────────────────────────────
+	// ≥1500px : 6 slots (reference) + 70% widget area (see min-width:1001px)
+	//           2-slot widgets span 2 columns (reference layout).
+	// 1300-1499px : 3 columns, 1 widget per column (no more span 2)
+	// 1000-1299px : 2 columns at 70% width, 1 widget per column
+	// 700-999px   : 2 full-width columns, 1 widget per column
+	// <700px      : 1 column, pagination at top, screens at natural height
+
+	@media (max-width: 1499px) {
+		.dy-dashboard__slots { grid-template-columns: repeat(3, 1fr); }
+		// Below the 6-slot reference layout, widgets no longer span:
+		// each widget occupies EXACTLY one column, regardless of its
+		// slot count. Ghost items (same grid members) follow suit.
+		.dy-dashboard__slot,
+		.dy-dashboard__slot--2,
+		.dy-dashboard__slot--4 { grid-column: span 1 !important; }
+	}
+
+
+	@media (max-width: 1299px) {
+		.dy-dashboard__slots { grid-template-columns: repeat(2, 1fr); }
+		.dy-dashboard__customize-btn { display: none; }
+		// Customization is only available at >= 1300px → ghost cells
+		// (now grid items, no longer an overlay) are hidden.
+		.dy-dashboard__slot-ghost { display: none; }
+		.dy-dashboard__title { font-size: clamp(36px, 5vw, 64px); }
+	}
+
+	// Below 1000px, the widget area reverts to full width
+	// (the 70% constraint is only intended above 1000px).
+	@media (max-width: 1000px) {
+		.dy-dashboard__slots { width: 100%; }
+	}
+
+	// ── Mobile < 700px: vertical flow, natural height ───────────────
+	// dyRoot stays `position: fixed` (WP ancestors — #dashboard-widgets-wrap
+	// in particular — have `overflow: hidden` and would clip a flowing dyRoot).
+	// It becomes its OWN scrollable container (`overflow-y: auto`).
+	// Screens stack vertically, each at natural height
+	// (≥ 100vh - topbar), and the whole thing scrolls inside dyRoot.
+	// Pagination fixed at top.
+	@media (max-width: 699px) {
+		#dy-dashboard-root.dy-dashboard {
+			overflow-y: auto;
+			overflow-x: hidden;
+			-webkit-overflow-scrolling: touch;
+		}
+		.dy-dashboard__viewport {
+			flex-direction: column;
+			height: auto;
+			min-height: 100%;
+			overflow: visible;
+			scroll-snap-type: none;
+		}
+		.dy-dashboard__screen {
+			flex: none;
+			width: 100%;
+			height: auto;
+			min-height: calc(100vh - var(--dya-topbar-h, 50px));
+			scroll-snap-align: none;
+			justify-content: flex-start;
+			// padding-top leaves room for the fixed pagination at the top.
+			padding: clamp(72px, 18vw, 100px) 20px clamp(48px, 12vw, 80px);
+		}
+		.dy-dashboard__slots {
+			grid-template-columns: 1fr;
+			width: 100%;
+		}
+		.dy-dashboard__slot,
+		.dy-dashboard__slot--2,
+		.dy-dashboard__slot--4 { grid-column: span 1; }
+
+		// Pagination at TOP (fixed below the topbar), arrows hidden.
+		.dy-dashboard__nav {
+			top: calc(var(--dya-topbar-h, 50px) + 10px);
+			bottom: auto;
+		}
+		.dy-dashboard__nav-arrow { display: none; }
+
+		// Native screen: no more internal scroll — it reflows with the rest
+		// (dyRoot carries the global scroll).
+		.dy-dashboard__screen--native {
+			padding-bottom: clamp(48px, 12vw, 80px);
+			.dy-dashboard__screen-inner { overflow: visible; }
+			// No internal scroll → no custom scrollbar → no gutter.
+			.dy-dashboard__native-scroll-wrap { padding-right: 0; }
+			.dy-dashboard__native-list {
+				overflow: visible;
+				padding-bottom: 0;
+			}
+		}
+	}
+}
+
+// ── Override: neutralize the link "underline" effect ─────────────────
+// The admin redesign applies `border-bottom` to links inside `.postbox .inside`
+// (underline effect). In the dashboard, this line under links/buttons
+// adds nothing — it is removed. Card-buttons that carry a real full border
+// (btn-ghost, shortcut) keep theirs.
+body.dy-admin .postbox .inside .dy-dashboard a:not(.button) {
+	border-bottom: 0;
+}
+body.dy-admin .postbox .inside .dy-dashboard a.dy-dashboard__btn-ghost,
+body.dy-admin .postbox .inside .dy-dashboard a.dy-dashboard__shortcut {
+	border-bottom: 1px solid color-mix(in srgb, var(--dya-ink) 10%, transparent);
+}
+
+// WordPress core styles `#dashboard-widgets h3, #dashboard-widgets h4` (ID
+// selector) with dark grey — this was overriding the catalog group title
+// (grey on grey). Overridden via a selector scoped to the dashboard root ID.
+// Same issue: WP core styles `#dashboard-widgets h3` (#1d2327, dark) — making
+// native card titles unreadable in dark mode (dark on dark). Overridden with
+// an ID specificity greater than the core rule. The same rule also resets
+// the `margin` WP core forces on h3 (titles were offset vertically against
+// the native-origin-dot in the flex header).
+#dy-dashboard-root .dy-dashboard__native-item-title {
+	color: var(--dya-ink);
+	margin: 0;
+}
+
+// ── "Configurable" hover (edit mode only) ────────────────────────────
+// When Customize is open, only CONFIGURABLE widgets signal on hover
+// that they are clickable (outline + accent halo + cursor). JS
+// sets `.is-configurable` on these slots via DragDrop.refreshSlotInteractions().
+// Explicit selector (outside nesting): the `--editable` class must come
+// AFTER `body` — which SCSS nesting did not allow.
+body.dy-admin.index-php .dy-dashboard--editable .dy-dashboard__slot.is-configurable {
+	cursor: pointer;
+}
+body.dy-admin.index-php .dy-dashboard--editable .dy-dashboard__slot.is-configurable:hover {
+	border-color: color-mix(in srgb, var(--dya-accent, #d4b27a) 55%, var(--dya-line-strong));
+}
+body.dy-admin.index-php .dy-dashboard--editable .dy-dashboard__slot.is-configurable:hover::after {
+	opacity: 1;
+}

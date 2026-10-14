@@ -1,0 +1,280 @@
+// =============================================================
+// _widgets.scss
+// Per-widget styling for the 6 default Dashboard widgets.
+// Each widget is targeted by its native #id — selectors that
+// have been stable since WP 3.x.
+//
+// NB — do not confuse with the classic WIDGET MANAGER
+// (widgets.php: "Available Widgets" / "Sidebar", drag-and-drop).
+// Its styles live in `_wp-production.scss`
+// (section "WIDGETS.PHP", selectors `body.dy-admin.widgets-php`),
+// as it falls under real WP DOM adaptation. Here we only handle
+// the dashboard metaboxes (index.php).
+// =============================================================
+
+// ── #dashboard_right_now (At a Glance) ─────────────────
+body.dy-admin #dashboard_right_now .main > ul {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--dya-line);
+  border: 1px solid var(--dya-edge);
+  border-radius: var(--dya-r-md);
+  overflow: hidden;
+}
+body.dy-admin #dashboard_right_now .main > ul li {
+  background: var(--dya-paper);
+  padding: 0;
+  margin: 0;
+}
+body.dy-admin #dashboard_right_now .main > ul li a,
+body.dy-admin #dashboard_right_now .main > ul li span {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 12px 14px;
+  border-bottom: 0;
+  color: var(--dya-ink-soft);
+  font-size: 12.5px;
+  text-decoration: none;
+}
+body.dy-admin #dashboard_right_now .main > ul li a:hover {
+  background: var(--dya-paper-2);
+  border-bottom: 0;
+}
+body.dy-admin #dashboard_right_now .main > ul li strong {
+  font-size: 20px;
+  font-weight: 500;
+  font-feature-settings: "tnum";
+  letter-spacing: -.02em;
+  color: var(--dya-ink);
+}
+body.dy-admin #dashboard_right_now .main > ul li.post-count strong,
+body.dy-admin #dashboard_right_now .main > ul li.page-count strong,
+body.dy-admin #dashboard_right_now .main > ul li.comment-count strong { color: var(--dya-line-content); }
+body.dy-admin #dashboard_right_now .main > ul li.comment-mod-count strong { color: var(--dya-warn); }
+body.dy-admin #dashboard_right_now .main > p {
+  font-family: var(--dya-font-mono);
+  font-size: 11px;
+  color: var(--dya-ink-mute);
+  letter-spacing: 0;
+  margin: 0;
+}
+
+// ── #dashboard_activity ────────────────────────────────
+body.dy-admin #dashboard_activity .activity-block {
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--dya-line-soft);
+}
+body.dy-admin #dashboard_activity .activity-block:last-child {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  border-bottom: 0;
+}
+body.dy-admin #dashboard_activity .activity-block h3 {
+  margin: 0 0 10px;
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  color: var(--dya-ink-mute);
+  font-weight: 500;
+}
+body.dy-admin #dashboard_activity ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+body.dy-admin #dashboard_activity ul li {
+  font-size: 12.5px;
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 12px;
+  align-items: baseline;
+}
+body.dy-admin #dashboard_activity ul li > span:first-child,
+body.dy-admin #dashboard_activity ul li .row-date {
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  color: var(--dya-ink-fade);
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-mono);
+}
+body.dy-admin #dashboard_activity ul li a {
+  color: var(--dya-ink);
+  border-bottom: 0;
+}
+body.dy-admin #dashboard_activity ul li a:hover { color: var(--dya-line-content); }
+
+body.dy-admin #dashboard_activity #latest-comments ul li {
+  grid-template-columns: 1fr;
+}
+body.dy-admin #dashboard_activity #latest-comments .comment-author {
+  font-weight: 500;
+  color: var(--dya-ink);
+}
+body.dy-admin #dashboard_activity #latest-comments .comment-meta {
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  color: var(--dya-ink-fade);
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-mono);
+  margin-bottom: 4px;
+}
+body.dy-admin #dashboard_activity #latest-comments blockquote {
+  margin: 4px 0 0;
+  padding: 0 0 0 10px;
+  border-left: 2px solid var(--dya-line);
+  color: var(--dya-ink-soft);
+  font-size: 12.5px;
+  font-style: normal;
+}
+
+// ── #dashboard_quick_press (Quick Draft) ───────────────
+body.dy-admin #dashboard_quick_press form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+body.dy-admin #dashboard_quick_press .input-text-wrap,
+body.dy-admin #dashboard_quick_press .textarea-wrap { padding: 0; margin: 0; }
+
+body.dy-admin #dashboard_quick_press input[type="text"],
+body.dy-admin #dashboard_quick_press textarea {
+  width: 100%;
+  background: var(--dya-bg);
+  border: 1px solid var(--dya-edge);
+  border-radius: var(--dya-r-md);
+  padding: 9px 12px;
+  font-size: 13px;
+  color: var(--dya-ink);
+  outline: none;
+  transition: border-color var(--dya-t-fast);
+  font-family: inherit;
+  box-shadow: none;
+  margin: 0;
+}
+body.dy-admin #dashboard_quick_press input[type="text"]:focus,
+body.dy-admin #dashboard_quick_press textarea:focus {
+  border-color: var(--dya-edge-strong);
+  box-shadow: none;
+}
+body.dy-admin #dashboard_quick_press textarea {
+  min-height: 110px;
+  resize: vertical;
+  line-height: 1.5;
+}
+body.dy-admin #dashboard_quick_press p.submit { margin: 0; padding: 0; }
+body.dy-admin #dashboard_quick_press .submit .button-primary {
+  display: inline-flex;
+  padding: 8px 18px;
+  border-radius: var(--dya-r-md);
+  background: var(--dya-ink);
+  color: var(--dya-bg);
+  font-size: 12.5px;
+  font-weight: 500;
+  border: 1px solid var(--dya-ink);
+  height: auto;
+  line-height: 1;
+  transition: transform var(--dya-t-fast);
+  text-shadow: none;
+}
+body.dy-admin #dashboard_quick_press .submit .button-primary:hover { transform: translateY(-1px); }
+
+body.dy-admin #dashboard_quick_press .drafts {
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  color: var(--dya-ink-mute);
+  margin: 16px 0 10px;
+  padding-top: 14px;
+  border-top: 1px solid var(--dya-line-soft);
+  font-weight: 500;
+}
+body.dy-admin #dashboard_quick_press .drafts + .draft-list ul,
+body.dy-admin #dashboard_quick_press .draft-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+body.dy-admin #dashboard_quick_press .draft-list ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 4px 0;
+  font-size: 12.5px;
+}
+body.dy-admin #dashboard_quick_press .draft-list ul li a {
+  color: var(--dya-ink);
+  border-bottom: 0;
+}
+body.dy-admin #dashboard_quick_press .draft-list ul li a:hover { color: var(--dya-line-content); }
+body.dy-admin #dashboard_quick_press .draft-list ul li > span {
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-mono);
+  color: var(--dya-ink-fade);
+}
+
+// ── #dashboard_primary (WordPress Events and News) ─────
+body.dy-admin #dashboard_primary .community-events {
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--dya-line-soft);
+}
+body.dy-admin #dashboard_primary .community-events h3,
+body.dy-admin #dashboard_primary .wordpress-news-list h3,
+body.dy-admin #dashboard_primary .rss-widget h2.widget-title {
+  margin: 0 0 10px;
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  color: var(--dya-ink-mute);
+  font-weight: 500;
+}
+body.dy-admin #dashboard_primary ul,
+body.dy-admin #dashboard_primary .rss-widget ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+body.dy-admin #dashboard_primary ul li,
+body.dy-admin #dashboard_primary .rss-widget li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 12.5px;
+  padding: 0;
+  margin: 0;
+}
+body.dy-admin #dashboard_primary ul li a {
+  color: var(--dya-ink);
+  border-bottom: 0;
+}
+body.dy-admin #dashboard_primary ul li a:hover { color: var(--dya-line-users); }
+body.dy-admin #dashboard_primary ul li span:last-child,
+body.dy-admin #dashboard_primary .rss-widget .rss-date {
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-mono);
+  color: var(--dya-ink-fade);
+  flex-shrink: 0;
+}

@@ -1,0 +1,772 @@
+// ── (l) Bricks admin pages (getting-started / settings / elements /
+//        sidebars / system-information / templates / license) ────────
+// Bricks renders its screens with heterogeneous classes:
+//   - getting-started / sidebars / system-information / license
+//     → `<div class="wrap bricks-admin-wrapper {variant}">`
+//   - settings → `<div class="wrap">` + `<form class="bricks-admin-wrapper">`
+//     with `<table id="tab-{name}">` targeted by `#bricks-settings th/td`
+//   - elements → `<div class="wrap">` + `<form id="bricks-element-manager">`
+//     with `<table class="elements">` and badges `.element-status .buttons span`
+//
+// Bricks classes hard-code `background-color: #fff` / `#fafafa` on cells
+// + `--bricks-bg-light: #f5f6f7`. We remap Bricks vars +
+// override the page-specific selectors.
+body.dy-admin[class*="page_bricks"] {
+  --bricks-bg-light:      var(--dya-paper-2);
+  --bricks-bg-dark:       var(--dya-bg-elev);
+  --bricks-text-dark:     var(--dya-ink);
+  --bricks-text-medium:   var(--dya-ink-soft);
+  --bricks-text-light:    var(--dya-ink-mute);
+  --bricks-border-color:  var(--dya-edge);
+  --dya-admin-color-border:   var(--dya-line);
+}
+
+// ── Headings + body copy on every Bricks page ────────────────────────
+body.dy-admin .bricks-admin-wrapper h1,
+body.dy-admin .bricks-admin-wrapper h2,
+body.dy-admin .bricks-admin-wrapper h3,
+body.dy-admin .bricks-admin-wrapper h4,
+body.dy-admin .bricks-admin-wrapper p,
+body.dy-admin .bricks-admin-wrapper li,
+body.dy-admin .bricks-admin-wrapper label,
+body.dy-admin .bricks-admin-wrapper .bricks-admin-lead,
+body.dy-admin .bricks-admin-title-wrapper h1,
+body.dy-admin .bricks-admin-title-wrapper .description {
+  color: var(--dya-ink) !important;
+}
+
+// ── Wrapper bg ────────────────────────────────────────────────────────
+// Explicitly NOT applying a background to the `.bricks-admin-wrapper` on
+// the getting-started / sidebars / system-information / license pages.
+// The wrapper stays transparent and inherits the global `--dya-bg` from
+// `body.dy-admin`. No rule sets background-color on `.bricks-admin-wrapper`;
+// we only touch internal surfaces (`.bricks-admin-inner`, forms, etc.) when
+// they exist and carry a hard-coded Bricks background.
+body.dy-admin .bricks-admin-wrapper {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+// ── `.page-title-action` hierarchy (all WP pages, including Bricks) ────
+//
+// WP context: `.page-title-action` is used as the "Add New" button in the
+// edit.php header. By default WP emits only one. Bricks (and some other
+// plugins) add more at runtime:
+//
+// — `edit.php?post_type=bricks_template`: `import_templates_form()` is
+//   hooked to `admin_footer` → emits `#bricks-admin-import-wrapper` at the
+//   end of the body, then the JS `bricksAdminImport()` (admin.js:73-91)
+//   moves the individual buttons via `addNewButton.after(...)`.
+//   Post-JS DOM result:
+//
+//     <div class="wrap">
+//       <h1 class="wp-heading-inline">My templates</h1>
+//       <a class="page-title-action">Add new template</a>  ← primary
+//       <a id="bricks-admin-import-action" class="page-title-action">Import</a>
+//       <a id="bricks-admin-template-bundles" class="page-title-action">Bundles</a>
+//       <a id="bricks-admin-template-tags" class="page-title-action">Tags</a>
+//       …
+//     </div>
+//
+//   The 3 relocated buttons are direct siblings of `.wrap`,
+//   NOT inside `#bricks-admin-import-wrapper` (which stays empty in
+//   admin-footer). A selector based on the old wrapper never matches.
+//   We target by sibling position instead.
+//
+// — `admin.php?page=bricks-settings`: server-side rendered DOM, no JS:
+//
+//     <div class="bricks-admin-title-wrapper">
+//       <h1 class="title">Settings</h1>
+//       <a class="page-title-action bricks-admin-export-toggle">Export</a>
+//       <a class="page-title-action bricks-admin-import-toggle">Import</a>
+//     </div>
+//
+//   Both actions are equivalent — neither is primary — so both are ghost.
+//
+// Cascade strategy:
+//   1. The 1st `.page-title-action` (adjacent sibling of `.wp-heading-inline`)
+//      stays primary (style defined in `_layout.scss`).
+//   2. Any `.page-title-action` following another `.page-title-action`
+//      becomes a ghost variant — `~` general sibling selector.
+//   3. On the settings wrap (no primary), ALL `.page-title-action` elements
+//      become ghost via `.bricks-admin-title-wrapper .page-title-action`.
+
+// Title + actions container (settings) → flex with gap, h1 stays on the
+// left, actions aligned to its right.
+body.dy-admin .bricks-admin-title-wrapper {
+  display: flex !important;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+body.dy-admin .bricks-admin-title-wrapper > h1.title {
+  margin: 0 6px 0 0 !important;
+}
+
+// Ghost variant — applied to:
+//   (a) any `.page-title-action` following another `.page-title-action`
+//       inside `.wrap` (= buttons relocated by Bricks JS, or any
+//       second/third button added by other plugins).
+//   (b) all `.page-title-action` elements inside `.bricks-admin-title-wrapper`
+//       (settings page — no primary action on this screen).
+body.dy-admin .wrap .page-title-action ~ .page-title-action,
+body.dy-admin .wrap .page-title-action ~ .page-title-action:active,
+body.dy-admin .bricks-admin-title-wrapper .page-title-action,
+body.dy-admin .bricks-admin-title-wrapper .page-title-action:active {
+  background: transparent !important;
+  color: var(--dya-ink-soft) !important;
+  border: 1px solid var(--dya-edge) !important;
+  font-weight: 500 !important;
+  margin-left: 6px !important;
+}
+body.dy-admin .wrap .page-title-action ~ .page-title-action:hover,
+body.dy-admin .bricks-admin-title-wrapper .page-title-action:hover {
+  background: var(--dya-paper-2) !important;
+  border-color: var(--dya-edge-strong) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .wrap .page-title-action ~ .page-title-action:focus,
+body.dy-admin .wrap .page-title-action ~ .page-title-action:focus-visible,
+body.dy-admin .bricks-admin-title-wrapper .page-title-action:focus,
+body.dy-admin .bricks-admin-title-wrapper .page-title-action:focus-visible {
+  background: var(--dya-paper-2) !important;
+  border-color: var(--dya-accent) !important;
+  color: var(--dya-ink) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--dya-accent) 35%, transparent) !important;
+  outline: none !important;
+}
+
+// ── Getting Started (page=bricks) ─────────────────────────────────────
+// `.bricks-admin-inner` = large card containing the 4 numbered rows.
+// Bricks forces `background-color: #fff`. We remap it to `--dya-paper` to
+// preserve card-vs-wrapper contrast (wrapper stays transparent, only the
+// inner card carries the surface).
+body.dy-admin .bricks-admin-wrapper.getting-started .bricks-admin-inner {
+  background: var(--dya-paper) !important;
+  border-color: var(--dya-edge) !important;
+  border-radius: var(--dya-r-md, 10px) !important;
+}
+body.dy-admin .bricks-admin-wrapper.getting-started .box-wrapper {
+  box-shadow: 0 -1px 0 var(--dya-line) !important;
+}
+// Step number in `.box-wrapper:after` + various badges.
+body.dy-admin .bricks-admin-wrapper.getting-started .box-wrapper:after,
+body.dy-admin .bricks-admin-wrapper .badge {
+  background-color: var(--dya-paper-2) !important;
+  color: var(--dya-ink-soft) !important;
+}
+// Hero buttons (Get started / Templates / How it works…).
+body.dy-admin .bricks-admin-wrapper .button-hero {
+  background: var(--dya-paper-2) !important;
+  border-color: var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+  box-shadow: none !important;
+}
+body.dy-admin .bricks-admin-wrapper .button-hero:hover,
+body.dy-admin .bricks-admin-wrapper .button-hero:focus {
+  background: var(--dya-paper-3) !important;
+  border-color: var(--dya-accent) !important;
+}
+
+// ── Settings (page=bricks-settings) ───────────────────────────────────
+// Form carries the `.bricks-admin-wrapper` class WITHOUT a `.settings` modifier.
+// Bricks targets `#bricks-settings th/td` with `background-color: #fff` +
+// border-right `--dya-admin-color-border` → already remapped to --dya-line.
+body.dy-admin form#bricks-settings,
+body.dy-admin form.bricks-admin-wrapper {
+  background: transparent !important;
+}
+body.dy-admin #bricks-settings th,
+body.dy-admin #bricks-settings td {
+  background-color: transparent !important;
+  border-color: var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin #bricks-settings table[id^="tab-"] {
+  background: transparent !important;
+}
+body.dy-admin #bricks-settings .description,
+body.dy-admin #bricks-settings p {
+  color: var(--dya-ink-soft) !important;
+}
+// Inputs / selects / textareas in Settings.
+body.dy-admin #bricks-settings input[type="text"],
+body.dy-admin #bricks-settings input[type="number"],
+body.dy-admin #bricks-settings input[type="url"],
+body.dy-admin #bricks-settings input[type="email"],
+body.dy-admin #bricks-settings input[type="password"],
+body.dy-admin #bricks-settings select,
+body.dy-admin #bricks-settings textarea {
+  background: var(--dya-paper-2) !important;
+  border-color: var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+}
+// Bricks toggle switches (input[type=checkbox] custom-styled).
+//
+// Why: Bricks uses a 26×16 geometry with a 12×12 thumb and a
+// `translateX(100%)` on `:checked:before` that renders a 13.5px offset
+// (sub-pixel + the `left: 0` that overrides the base `left: 2px`). Result:
+// the thumb overlaps the right edge and appears to "bleed" outside the track.
+// We take full control of the geometry: 32×18, thumb 14×14,
+// 2px gap on each side, translateX(14px) cleanly placing the
+// thumb at the right edge with a symmetric gap.
+body.dy-admin #bricks-settings input[type="checkbox"] {
+  appearance: none !important;
+  width: 32px !important;
+  height: 18px !important;
+  border-radius: 999px !important;
+  background-color: var(--dya-paper-3) !important;
+  border: 1px solid var(--dya-edge) !important;
+  margin: 0 8px 0 0 !important;
+  cursor: pointer;
+  position: relative;
+  transition: background-color .2s ease, border-color .2s ease;
+  // Reset Bricks overrides
+  outline: none !important;
+  box-shadow: none !important;
+}
+body.dy-admin #bricks-settings input[type="checkbox"]:before {
+  content: "" !important;
+  position: absolute !important;
+  top: 2px !important;
+  left: 2px !important;
+  width: 12px !important;
+  height: 12px !important;
+  border-radius: 50% !important;
+  background-color: var(--dya-ink-mute) !important;
+  transform: translateX(0) !important;
+  transition: transform .2s cubic-bezier(.16, 1, .3, 1), background-color .2s ease !important;
+  opacity: 1 !important;
+  // Reset Bricks default values
+  margin: 0 !important;
+  display: block !important;
+}
+body.dy-admin #bricks-settings input[type="checkbox"]:checked {
+  background-color: color-mix(in srgb, var(--dya-accent) 40%, var(--dya-paper-3)) !important;
+  border-color: color-mix(in srgb, var(--dya-accent) 50%, var(--dya-line)) !important;
+}
+body.dy-admin #bricks-settings input[type="checkbox"]:checked:before {
+  // Inner track 30px (32 - 2 borders), thumb 12px wide → useful translation
+  // = 30 - 12 - 4 (gaps) = 14px. The thumb ends up flush with the right
+  // edge with a 2px gap symmetric to the left.
+  transform: translateX(14px) !important;
+  background-color: var(--dya-accent) !important;
+}
+// Accessible focus ring
+body.dy-admin #bricks-settings input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--dya-accent) !important;
+  outline-offset: 2px;
+}
+
+// ── Builder Access tab — capabilities list + modal ───────────────────
+// Bricks renders each capability row (Full access / Edit content /
+// No access + custom) as `.capability-item` with `background: #fff` +
+// border `--dya-admin-color-border`. Same for the edit modal. We remap
+// surfaces to the DS and replace `--bricks-text-danger` with `--dya-danger`
+// on the delete button.
+body.dy-admin #bricks-settings .bricks-custom-capabilities-wrapper .capability-item {
+  background: var(--dya-paper-2) !important;
+  border-color: var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin #bricks-settings .capability-item .capability-name {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin #bricks-settings .capability-item .capability-name em {
+  color: var(--dya-ink-mute) !important;
+}
+body.dy-admin #bricks-settings .capability-item .capability-actions .delete-capability {
+  border-color: var(--dya-danger) !important;
+  color: var(--dya-danger) !important;
+  background: transparent !important;
+}
+body.dy-admin #bricks-settings .capability-item .capability-actions .delete-capability:hover {
+  background: var(--dya-danger) !important;
+  color: #fff !important;
+}
+body.dy-admin #bricks-settings .capabilities-separator {
+  border-color: var(--dya-edge) !important;
+}
+// Capability edit modal (Bricks renders it `position: fixed`
+// centred, with `background: #fff`).
+body.dy-admin .bricks-capability-modal {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  box-shadow: var(--dya-shadow-lg) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .bricks-capability-modal .bricks-capability-modal-header {
+  border-bottom-color: var(--dya-line) !important;
+}
+body.dy-admin .bricks-capability-modal .bricks-capability-modal-header h2,
+body.dy-admin .bricks-capability-modal label,
+body.dy-admin .bricks-capability-modal input,
+body.dy-admin .bricks-capability-modal textarea {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .bricks-capability-modal input,
+body.dy-admin .bricks-capability-modal textarea {
+  background: var(--dya-paper-2) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin .bricks-capability-modal .capability-id {
+  background-color: var(--dya-paper-3) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .bricks-capability-modal .close-modal {
+  color: var(--dya-ink-mute) !important;
+}
+body.dy-admin .bricks-capability-modal .close-modal:hover {
+  color: var(--dya-ink) !important;
+}
+
+// ── Elements manager (page=bricks-elements) ───────────────────────────
+// Table carries the `.elements` class (and `.table-view-list` when widefat).
+// The inner card gets a `--dya-paper` surface to stand out against the global `--dya-bg`.
+// Bricks also sets `box-shadow: 0 1px 0 0 #e6e6e6` on each `tr:not(:last-child)`
+// which we neutralise — it doubles the CSS border-bottom and pulls the table
+// toward a light appearance.
+body.dy-admin #bricks-element-manager .filter-bar-wrapper {
+  border-bottom-color: var(--dya-line) !important;
+}
+body.dy-admin table.table-view-list.elements,
+body.dy-admin table.elements {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-md, 10px) !important;
+  overflow: hidden;
+}
+// Disables the WP-native sticky thead on tables treated as rounded cards.
+// Why: `overflow: hidden` creates a scroll container, breaks sticky
+// positioning, and makes the thead float over the first row (≠ scroll viewport).
+// On a single table-card (Bricks Elements, Bricks System Info), the thead
+// does not need to follow the user's scroll — it is always visible
+// within the card frame.
+body.dy-admin table.elements thead,
+body.dy-admin .bricks-admin-wrapper.system-information table.widefat thead {
+  position: static !important;
+  top: auto !important;
+}
+// Neutralise the `#e6e6e6` box-shadow that Bricks sets on rows.
+body.bricks_page_bricks-elements form#bricks-element-manager tr:not(:last-child),
+body.dy-admin form#bricks-element-manager tr,
+body.dy-admin table.elements tr {
+  box-shadow: none !important;
+}
+// Row borders: slightly more visible than `--dya-line-soft` to distinguish
+// items in a long list — but without being harsh.
+body.dy-admin table.elements tbody td,
+body.dy-admin table.elements tbody th {
+  background: transparent !important;
+  border-bottom: 1px solid var(--dya-line) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin table.elements tbody tr:last-child td,
+body.dy-admin table.elements tbody tr:last-child th {
+  border-bottom: 0 !important;
+}
+body.dy-admin table.elements thead th {
+  background: transparent !important;
+  border-bottom: 1px solid var(--dya-line-strong) !important;
+  color: var(--dya-ink-soft) !important;
+}
+// Row hover — a hint of tint to signal focus.
+//
+// Why: Bricks sets a high-specificity rule on the `<tr>` itself:
+//   body.bricks_page_bricks-elements form#bricks-element-manager tbody tr:hover {
+//     background-color: #f6f6f6;
+//     box-shadow: 0 0 0 1px #e6e6e6;
+//   }
+// → white outline overflowing the card frame (visible in user screenshot).
+// We match the same specificity (body + class + form#id) and neutralise
+// the box-shadow + override the colour on the `tr`. Cells ALSO get the bg
+// via `td/th:hover` in case box-shadow wins specificity elsewhere.
+body.bricks_page_bricks-elements form#bricks-element-manager tbody tr:hover,
+body.dy-admin form#bricks-element-manager tbody tr:hover {
+  background: var(--dya-paper-2) !important;
+  box-shadow: none !important;
+}
+body.dy-admin table.elements tbody tr:hover td,
+body.dy-admin table.elements tbody tr:hover th {
+  background: var(--dya-paper-2) !important;
+}
+// Status badges. `.active.current` = currently applied state (green). The two
+// other `<span>` elements are inactive actions → displayed as subtle tags,
+// clickable on hover.
+body.dy-admin .element-status .buttons {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+body.dy-admin .element-status .buttons > span {
+  display: inline-flex;
+  align-items: center;
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge) !important;
+  color: var(--dya-ink-soft) !important;
+  border-radius: 6px !important;
+  padding: 3px 9px !important;
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+// Hover on inactive span: nudge a tint toward the target state colour
+// (green for `active`, neutral for the others). `.active.current`
+// is non-actionable so hover is removed.
+body.dy-admin .element-status .buttons > span:not(.active.current):hover {
+  background: var(--dya-paper-3) !important;
+  border-color: var(--dya-edge-strong) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .element-status .buttons > span.active.current {
+  background: color-mix(in srgb, var(--dya-success) 18%, var(--dya-paper-2)) !important;
+  border-color: color-mix(in srgb, var(--dya-success) 60%, var(--dya-line)) !important;
+  color: var(--dya-success) !important;
+  cursor: default;
+}
+body.dy-admin .element-status .buttons > span.hidden_builder,
+body.dy-admin .element-status .buttons > span.disabled {
+  background: var(--dya-paper-2) !important;
+  border-color: var(--dya-edge) !important;
+  color: var(--dya-ink-mute) !important;
+}
+body.dy-admin .element-status .buttons > span.hidden_builder:hover,
+body.dy-admin .element-status .buttons > span.disabled:hover {
+  border-color: color-mix(in srgb, var(--dya-ink-soft) 35%, var(--dya-line)) !important;
+  color: var(--dya-ink) !important;
+}
+// Top filters (Unused / native / custom elements).
+body.dy-admin .bricks-button-filter {
+  background: var(--dya-paper-2) !important;
+  border-color: var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+  box-shadow: none !important;
+}
+body.dy-admin .bricks-button-filter:hover {
+  background: var(--dya-paper-3) !important;
+  border-color: var(--dya-edge-strong) !important;
+}
+
+// ── Sidebars (page=bricks-sidebars) ───────────────────────────────────
+// Inner card `.bricks-admin-inner` (split form + table) — `--dya-paper`
+// surface to stand out against the transparent wrapper.
+body.dy-admin .bricks-admin-wrapper.sidebars .bricks-admin-inner {
+  background: var(--dya-paper) !important;
+  border-color: var(--dya-edge) !important;
+  border-radius: var(--dya-r-md, 10px) !important;
+}
+body.dy-admin .bricks-admin-wrapper.sidebars .new-sidebar-wrapper form {
+  background: var(--dya-paper-2) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin .bricks-admin-wrapper.sidebars .new-sidebar-wrapper {
+  border-right-color: var(--dya-line) !important;
+}
+
+// ── System information (page=bricks-system-information) ───────────────
+// `table.widefat` gets a real `--dya-paper` surface (the table acts as the
+// sole card on the page); cells stay transparent to inherit the background.
+// `--dya-line-soft` borders to remain very subtle.
+body.dy-admin .bricks-admin-wrapper.system-information table,
+body.dy-admin .bricks-admin-wrapper.system-information table.widefat {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-md, 10px) !important;
+  overflow: hidden;
+  box-shadow: none !important;
+}
+body.dy-admin .bricks-admin-wrapper.system-information table th,
+body.dy-admin .bricks-admin-wrapper.system-information table td {
+  background: transparent !important;
+  border-color: var(--dya-line-soft) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .bricks-admin-wrapper.system-information table tr:nth-child(2n) td {
+  background: color-mix(in srgb, var(--dya-paper-2) 50%, transparent) !important;
+}
+
+// ── License (page=bricks-license) ─────────────────────────────────────
+body.dy-admin .bricks-admin-wrapper.license form {
+  background: var(--dya-paper-2) !important;
+  border-color: var(--dya-edge) !important;
+}
+
+// ── Sticky save bar (Bricks Elements form) ────────────────────────────
+// Bricks adds `.sticky` to `.submit-wrapper` as soon as a change is
+// detected → floating bar at the bottom of the form with `bg: #fff`. We
+// redraw it as a DS surface (paper, border-line, shadow-lg) and give it
+// padding/gap equivalent to its native counterparts.
+body.bricks_page_bricks-elements form#bricks-element-manager .submit-wrapper.sticky,
+body.dy-admin form#bricks-element-manager .submit-wrapper.sticky {
+  background-color: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-md, 10px) !important;
+  box-shadow: var(--dya-shadow-lg) !important;
+  padding: 12px 16px !important;
+  bottom: 16px !important;
+  display: flex !important;
+  gap: 12px !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  z-index: 50;
+}
+// Specific hover on the "Reset" button: Bricks forces a red
+// `--bricks-text-danger` that is no longer in our DS. We fall back to
+// `--dya-danger`.
+body.dy-admin form#bricks-element-manager .submit-wrapper input[name="reset"]:hover {
+  background-color: var(--dya-danger) !important;
+  border-color: var(--dya-danger) !important;
+  color: #fff !important;
+}
+
+// ── (z) Modern focus ring — accent / line-color ─────────────────────
+//
+// WP-core injects an outdated focus pattern:
+//   .wp-person a:focus .gravatar,
+//   a:focus, a:focus .media-icon img, a:focus .plugin-icon {
+//     color: #043959;
+//     box-shadow: 0 0 0 2px #2271b1;   ← hard-coded native admin blue
+//     outline: 2px solid transparent;  ← forced-colors mode workaround
+//   }
+// We modernise:
+//   1. `outline: 2px solid var(--dya-line-color, var(--dya-accent))` instead of
+//      the double-shadow + outline-transparent.
+//   2. `outline-offset: 2px` so the ring breathes around the focus
+//      target (instead of sitting flush against the edge).
+//   3. `:focus-visible` instead of `:focus` → ring displayed ONLY on
+//      keyboard navigation, not on mouse click (modern UX, WAI-ARIA APG compliant).
+//   4. Colour automatically tracks the SECTION: `--dya-line-color` is set
+//      by `body.dy-line-{content|users|site|…}` in `_layout.scss`
+//      → focus takes the current section colour (e.g. teal on Users,
+//      ochre on Content). Falls back to `--dya-accent` outside sections.
+//
+// The rule applies to the same selectors as WP: `a:focus`, `.wp-person
+// a:focus`, `a:focus .media-icon img`, `a:focus .plugin-icon`, plus
+// buttons and generic interactive elements for consistency.
+
+// 1) Hard reset of the WP pattern: remove the blue box-shadow +
+//    color: #043959 on all known selectors.
+body.dy-admin a:focus,
+body.dy-admin a:focus .media-icon img,
+body.dy-admin a:focus .plugin-icon,
+body.dy-admin .wp-person a:focus,
+body.dy-admin .wp-person a:focus .gravatar,
+body.dy-admin .wp-person:focus-within .web a {
+  box-shadow: none !important;
+  color: inherit !important;
+}
+
+// 2) Modern ring for ALL keyboard-focusable elements. The selection is
+//    intentionally broad (all `a`, button, input, etc.) to homogenise
+//    focus appearance across the admin.
+body.dy-admin a:focus-visible,
+body.dy-admin button:focus-visible,
+body.dy-admin .button:focus-visible,
+body.dy-admin input[type="text"]:focus-visible,
+body.dy-admin input[type="search"]:focus-visible,
+body.dy-admin input[type="url"]:focus-visible,
+body.dy-admin input[type="email"]:focus-visible,
+body.dy-admin input[type="number"]:focus-visible,
+body.dy-admin input[type="password"]:focus-visible,
+body.dy-admin select:focus-visible,
+body.dy-admin textarea:focus-visible,
+body.dy-admin [tabindex]:focus-visible {
+  outline: 2px solid var(--dya-line-color, var(--dya-accent)) !important;
+  outline-offset: 2px !important;
+  box-shadow: none !important;
+  border-radius: var(--dya-r-sm);
+  transition: outline-color var(--dya-t-fast, .12s) ease;
+}
+
+// 3) Gravatar / icons — visible focus goes through a thin ring on the
+//    image itself (not only the parent link). Kept subtle: 2px DS ring
+//    + a light tint behind.
+body.dy-admin .wp-person a:focus-visible .gravatar,
+body.dy-admin a:focus-visible .media-icon img,
+body.dy-admin a:focus-visible .plugin-icon {
+  outline: 2px solid var(--dya-line-color, var(--dya-accent)) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--dya-line-color, var(--dya-accent)) 15%, transparent) !important;
+  border-radius: 50%;
+}
+
+// 4) Inputs already well styled (border-color): we keep a zero offset
+//    so the ring is consistent with their rectangular shape.
+body.dy-admin input:focus-visible,
+body.dy-admin select:focus-visible,
+body.dy-admin textarea:focus-visible {
+  outline-offset: 0 !important;
+}
+
+// ── (m) WP rules and inputs that remain white ────────────────────────
+// Defensive catch-all for surfaces that escape the rules above.
+// .form-table th/td cells must stay TRANSPARENT: they inherit the bg from
+// the parent `.wrap` (var(--dya-bg)). Otherwise the settings block forms a
+// distinct pale rectangle on a dark background, breaking the native
+// key/value table look. Inputs keep var(--dya-paper) to stand out as fields.
+body.dy-admin .stuffbox .inside,
+body.dy-admin .form-table th,
+body.dy-admin .form-table td {
+  color: var(--dya-ink);
+  background-color: transparent;
+  border-color: var(--dya-edge);
+}
+body.dy-admin .form-table input[type="text"],
+body.dy-admin .form-table input[type="url"],
+body.dy-admin .form-table input[type="email"],
+body.dy-admin .form-table input[type="password"],
+body.dy-admin .form-table input[type="number"],
+body.dy-admin .form-table textarea,
+body.dy-admin .form-table select {
+  color: var(--dya-ink);
+  background-color: var(--dya-paper);
+  border-color: var(--dya-edge);
+}
+body.dy-admin .form-table th { color: var(--dya-ink); }
+body.dy-admin .form-table input[type="text"],
+body.dy-admin .form-table input[type="url"],
+body.dy-admin .form-table input[type="email"],
+body.dy-admin .form-table input[type="password"],
+body.dy-admin .form-table input[type="number"],
+body.dy-admin .form-table textarea {
+  background: var(--dya-paper-2);
+}
+
+// ── (n0) Plugins table (plugins.php) — override native WP backgrounds ─
+// WP applies `background-color: #f0f6fc` on `.plugins .active td` (light
+// blue "active" tint), `#fcf9e8` on `.plugins .update td`, and `#fff` on
+// `.plugins .inactive td`. All explode as light surfaces on dark.
+// We override with token surfaces, keeping the SIDE BORDER that indicates
+// state (active/update/inactive).
+body.dy-admin .plugins tr,
+body.dy-admin .plugins tr td,
+body.dy-admin .plugins tr th,
+body.dy-admin .wp-list-table.plugins tbody tr td,
+body.dy-admin .wp-list-table.plugins tbody tr th {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+// Row surfaces by state. The state marker (left bar) lives on the FIRST cell
+// only: a `tr.active td` selector painted it on every cell of the row (three
+// bars per active plugin, audit-2). Semantics follow the Overview badges:
+// active = success, update available = warn.
+body.dy-admin .plugins tr.active td,
+body.dy-admin .plugins tr.active th,
+body.dy-admin .wp-list-table.plugins tbody tr.active td,
+body.dy-admin .wp-list-table.plugins tbody tr.active th {
+  background: var(--dya-paper-2) !important;
+}
+body.dy-admin .plugins tr.active > :first-child,
+body.dy-admin .wp-list-table.plugins tbody tr.active > :first-child {
+  border-left: 3px solid var(--dya-success) !important;
+}
+body.dy-admin .plugins tr.update td,
+body.dy-admin .plugins tr.update th {
+  background: color-mix(in srgb, var(--dya-warn) 8%, var(--dya-paper)) !important;
+}
+body.dy-admin .plugins tr.update > :first-child {
+  border-left: 3px solid var(--dya-warn) !important;
+}
+body.dy-admin .plugins tr.inactive td,
+body.dy-admin .plugins tr.inactive th {
+  background: var(--dya-paper) !important;
+}
+body.dy-admin .plugins tr.inactive > :first-child {
+  border-left: 3px solid transparent !important;
+}
+body.dy-admin .plugins tr:hover td,
+body.dy-admin .plugins tr:hover th.check-column {
+  background: var(--dya-paper-2) !important;
+}
+// Plugin name + description text
+body.dy-admin .plugins .plugin-title strong,
+body.dy-admin .plugins .plugin-title b,
+body.dy-admin .plugins .plugin-title a {
+  color: var(--dya-ink) !important;
+  text-decoration: none;
+}
+body.dy-admin .plugins .plugin-description,
+body.dy-admin .plugins .plugin-description p,
+body.dy-admin .plugins .second.plugin-version-author-uri {
+  color: var(--dya-ink-soft) !important;
+  background: transparent !important;
+}
+body.dy-admin .plugins .row-actions a {
+  color: var(--dya-ink-soft) !important;
+}
+body.dy-admin .plugins .row-actions a:hover { color: var(--dya-accent) !important; }
+// Auto-update toggle column — transparent bg on the cell only.
+// The `.toggle-auto-update` itself is restyled as an iOS pill below
+// (see plugins.php pt 13); we avoid forcing its background to transparent
+// here (that would overwrite `--dya-line-strong` / `--dya-accent`).
+body.dy-admin .plugins .column-auto-updates {
+  background: transparent !important;
+  color: var(--dya-ink-soft) !important;
+}
+
+// ── (n) Plugin install — card footers and final details ──────────────
+body.dy-admin .plugin-install-tab-favorites,
+body.dy-admin .plugin-install-tab-search,
+body.dy-admin .plugin-install-tab-popular,
+body.dy-admin .plugins-popular-tags-wrapper,
+body.dy-admin .install-help {
+  background: transparent !important;
+  color: var(--dya-ink-soft) !important;
+}
+body.dy-admin .plugin-card .column-rating,
+body.dy-admin .plugin-card .column-updated,
+body.dy-admin .plugin-card .column-downloaded,
+body.dy-admin .plugin-card .column-compatibility {
+  color: var(--dya-ink-soft) !important;
+  background: transparent !important;
+}
+
+// ── Plugin / theme upload (.wp-upload-form) ──────────────────────────
+// On plugin-install.php?tab=upload and theme-install.php?tab=upload, WP wraps
+// the form in a NATIVE light grey box (#f6f7f7 + border #c3c4c7) that ignores
+// our DS: it clashed on a dark background and the file field label
+// ("No file chosen") was unreadable (light ink on a light box).
+// We place it on our surface with gutter, radius, and shadow.
+body.dy-admin .wp-upload-form {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-lg) !important;
+  box-shadow: var(--dya-shadow-sm);
+  padding: 20px 24px !important;
+  gap: 14px;                    // le formulaire est `display: inline-flex`
+  align-items: center;
+}
+// File field: readable label + native "Choose file" button aligned
+// with our secondary buttons (same pattern as the ACF importer above).
+body.dy-admin .wp-upload-form input[type="file"] {
+  background: transparent !important;
+  color: var(--dya-ink-soft) !important;
+}
+body.dy-admin .wp-upload-form input[type="file"]::file-selector-button {
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+  border-radius: var(--dya-r-sm) !important;
+  padding: 6px 14px !important;
+  margin-right: 14px !important;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--dya-t-fast) ease;
+}
+body.dy-admin .wp-upload-form input[type="file"]::file-selector-button:hover {
+  background: var(--dya-paper-3) !important;
+}
+
+// ── (o) Generic safety net: force the BG on `.wrap > div`/`.wrap > section`
+// hard-coded white by some plugins ──────────────────────────────────────
+body.dy-admin .wrap > .updated,
+body.dy-admin .wrap > .updated-message,
+body.dy-admin #wpbody-content > .updated {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+  border-left-color: var(--dya-success) !important;
+}
+

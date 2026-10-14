@@ -1,0 +1,29 @@
+// =============================================================
+// _card.scss
+// SINGLE source of the "card" pattern in the admin design system.
+//
+// Before: this combo (paper + border + radius + shadow) was inlined ~15 times
+// in different partials, sometimes duplicated and fighting with
+// `!important` (widgets, nav-menus). Result: impossible to revise the pattern
+// from one place, and the card wrapped form pages (profile,
+// nav-menus, widgets) where it harms (padding, layout, third-party UI).
+//
+// The mixin ONLY applies the "card look" (surface + border + radius + shadow).
+// Padding is managed by each rule because it varies by context
+// (postbox = 0 + internal header, welcome = 28px, notice = 12px 16px…).
+//
+// Usage rule: `@include dy-card` ONLY on blocks that deserve a
+// genuine visual separation (dashboard widgets, plugin/theme cards, media,
+// notices, welcome, Site Health accordion items, update sections,
+// importers). Everywhere else: flat and airy (no card).
+//
+// In a partial: `@use 'card' as *;` at the top, then `@include dy-card;`
+// (or `@include dy-card(var(--dya-r-md));` for a different radius).
+// =============================================================
+
+@mixin dy-card($radius: var(--dya-r-xl)) {
+  background: var(--dya-paper);
+  border: 1px solid var(--dya-edge);
+  border-radius: $radius;
+  box-shadow: var(--dya-shadow-sm);
+}

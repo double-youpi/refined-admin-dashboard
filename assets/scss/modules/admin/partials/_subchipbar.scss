@@ -1,0 +1,131 @@
+// =============================================================
+// _subchipbar.scss
+// Secondary navigation row that surfaces the TAXONOMIES of the
+// currently-viewed post type (Posts → Categories, Tags · Products
+// → Product categories, Brands…). Sits directly below the main
+// chip bar, deliberately quieter — smaller text, no pill bg, no
+// animated underline, just text-with-dot-on-current.
+//
+// Rendered by _shell.js after it determines that the current
+// primary chip has a `subnav` array. When the array is empty
+// (Pages, Media, Plugins…) the element is hidden via [hidden].
+// =============================================================
+
+body.dy-admin .dy-subchipbar {
+  position: sticky;
+  top: var(--dya-chipbar-h);          // stacks under main chip bar
+  z-index: 19;                    // below main (z=20)
+  // Opaque BG — same rationale as `.dy-chipbar` (see _chipbar.scss):
+  // during cross-document view transitions, a translucent background
+  // allowed the root snapshot to animate behind the subchipbar snapshot,
+  // creating a shimmer. Opaque = opaque snapshots = cross-fade without
+  // peek-through.
+  //
+  // Dark: --dya-bg matching the chipbar, blending with the background.
+  // Light: --dya-paper-2 (slightly stronger than the chipbar's --dya-paper)
+  // to visually distinguish the two navigation levels.
+  background: var(--dya-bg);
+  border-bottom: 1px solid var(--dya-line-soft);
+  padding: 0;
+}
+body.dy-admin.dy-theme-light .dy-subchipbar {
+  background: var(--dya-paper-2);
+}
+
+body.dy-admin .dy-subchipbar[hidden] { display: none; }
+
+body.dy-admin .dy-subchipbar-inner {
+  max-width: var(--dya-wrap-max);
+  margin: 0 auto;
+  padding: 0 var(--dya-wrap-pad-x);
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 36px;
+  overflow-x: auto;
+
+  // Same scrollbar treatment as the main chipbar — slim, low-key,
+  // intensifies on hover. Track transparent so it vanishes when
+  // the subnav fits without overflow.
+  scrollbar-width: thin;
+  scrollbar-color: var(--dya-line-strong) transparent;
+}
+body.dy-admin .dy-subchipbar-inner::-webkit-scrollbar         { height: 5px; }
+body.dy-admin .dy-subchipbar-inner::-webkit-scrollbar-track   { background: transparent; }
+body.dy-admin .dy-subchipbar-inner::-webkit-scrollbar-thumb   {
+  background: var(--dya-line);
+  border-radius: var(--dya-r-pill);
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  transition: background var(--dya-t-fast) var(--dya-ease);
+}
+body.dy-admin .dy-subchipbar-inner:hover::-webkit-scrollbar-thumb { background: var(--dya-line-strong); }
+
+// Small left label — like the chipbar's "Content" eyebrow, but
+// shorter and quieter. Optional: omit if cluttered.
+body.dy-admin .dy-subchipbar-label {
+  font-family: var(--dya-font-mono);
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  color: var(--dya-ink-fade);
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+
+// Each sub-chip is a text link with a tiny dot on the current item.
+// No background pill, no border-radius surface — just typography.
+body.dy-admin .dy-subchip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 12px;
+  font-size: 11.5px;
+  color: var(--dya-ink-mute);
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  border-radius: var(--dya-r-sm);
+  transition: color var(--dya-t-fast) var(--dya-ease),
+              background var(--dya-t-fast) var(--dya-ease);
+}
+body.dy-admin .dy-subchip:hover {
+  color: var(--dya-ink);
+  background: var(--dya-paper-2);
+}
+body.dy-admin .dy-subchip.current {
+  color: var(--dya-ink);
+  font-weight: 500;
+}
+body.dy-admin .dy-subchip .dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--dya-line-color, var(--dya-ink-fade));
+  opacity: 0;
+  transition: opacity var(--dya-t-fast) var(--dya-ease);
+  flex-shrink: 0;
+}
+body.dy-admin .dy-subchip.current .dot,
+body.dy-admin .dy-subchip:hover .dot { opacity: 1; }
+
+body.dy-admin .dy-subchip-count {
+  font-family: var(--dya-font-mono);
+  font-size: 10px;
+  letter-spacing: 0;
+  color: var(--dya-ink-fade);
+}
+body.dy-admin .dy-subchip.current .dy-subchip-count,
+body.dy-admin .dy-subchip:hover .dy-subchip-count { color: var(--dya-ink-soft); }
+
+// Per-line color inheritance — same data-line mechanism as the
+// main chip bar. Lets a single CSS variable color the dots
+// without selector-bloat per line.
+body.dy-admin .dy-subchipbar[data-line="line-content"]   { --dya-line-color: var(--dya-line-content); }
+body.dy-admin .dy-subchipbar[data-line="line-commerce"]  { --dya-line-color: var(--dya-line-commerce); }
+body.dy-admin .dy-subchipbar[data-line="line-users"]     { --dya-line-color: var(--dya-line-users); }
+body.dy-admin .dy-subchipbar[data-line="line-community"] { --dya-line-color: var(--dya-line-community); }
+body.dy-admin .dy-subchipbar[data-line="line-site"]      { --dya-line-color: var(--dya-line-site); }
+body.dy-admin .dy-subchipbar[data-line="line-system"]    { --dya-line-color: var(--dya-line-system); }
+body.dy-admin .dy-subchipbar[data-line="line-developer"] { --dya-line-color: var(--dya-line-developer); }

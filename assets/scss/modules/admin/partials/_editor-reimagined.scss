@@ -1,0 +1,756 @@
+// =============================================================
+// _editor-reimagined.scss
+// "Workshop" direction for the CLASSIC editor (post.php / post-new.php).
+// Scoped under body.dy-admin.dy-editor-reimagined. JS (editor-reimagined.js)
+// relocates #title / #edit-slug-box / #publish into .dy-ed-cmdbar and adds
+// the .dy-ed-inspector classes. Everything else is CSS. Never touches
+// Gutenberg (server-side detection excludes the block editor).
+//
+// Native mode (dy-editor-native) keeps the skin from _editor.scss/_postbox.
+// =============================================================
+
+@keyframes dy-ed-bar-in { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+@keyframes dy-ed-fade-up { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+
+// Small bar for native mode (the "Redesigned view" button).
+body.dy-admin .dy-ed-nativebar { display:flex; justify-content:flex-end; margin:0 0 14px; }
+body.dy-admin .dy-ed-toggle {
+  display:inline-flex; align-items:center; gap:7px; height:32px; padding:0 13px;
+  border:1px solid var(--dya-edge); border-radius:var(--dya-r-sm); background:transparent; color:var(--dya-ink-soft);
+  font-family:var(--dya-font-mono); font-size:10.5px; letter-spacing:var(--dya-tracking-mono); text-transform:uppercase;
+  cursor:pointer; transition:color var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease);
+}
+body.dy-admin .dy-ed-toggle:hover { color:var(--dya-ink); border-color:var(--dya-edge-strong); background:var(--dya-paper-2); }
+body.dy-admin .dy-ed-toggle svg { width:14px; height:14px; }
+
+// HOMOGENIZATION: the editor toggle reuses the animated component from
+// the tables (`.dy-treimg__toggle`, defined in _tables-reimagined). We only add
+// the accent state when the editor is in REDESIGNED mode (equivalent to
+// `body.dy-tables-reimagined .dy-treimg__toggle` on the tables side).
+body.dy-admin.dy-editor-reimagined .dy-treimg__toggle { border-color: var(--dya-accent); color: var(--dya-accent); }
+body.dy-admin.dy-editor-reimagined .dy-treimg__toggle:hover { border-color: var(--dya-accent); color: var(--dya-accent); background: var(--dya-paper-2); }
+
+// Publication info footer (status / visibility / date) — sits flush with the header.
+body.dy-admin #misc-publishing-actions { padding: 0; }
+
+// ── Anti-FOUC: no flash of the native editor ──────────────────────────────
+// `dy-editor-reimagined` is set SERVER-SIDE (present from the first paint);
+// JS adds `dy-ed-ready` once the build is complete (title/cmdbar relocated,
+// normal column flattened, inspector mounted). Until ready, we hide the
+// editor area (form#post = command bar + #poststuff) — the page H1 stays
+// visible. We use opacity (NOT display:none) to avoid breaking TinyMCE init,
+// and a failsafe reveals after 4s if JS fails.
+body.dy-admin.dy-editor-reimagined #post {
+  opacity: 0;
+  animation: dy-ed-failsafe-reveal 1ms linear 4s forwards;
+}
+@keyframes dy-ed-failsafe-reveal { to { opacity: 1; } }
+body.dy-admin.dy-editor-reimagined.dy-ed-ready #post {
+  opacity: 1; animation: none;
+  transition: opacity 260ms cubic-bezier(.16, 1, .3, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  body.dy-admin.dy-editor-reimagined.dy-ed-ready #post { transition: none; }
+}
+
+// ── Edit area: animated opening (anti-jank TinyMCE) ───────────────────
+// #content_ifr (TinyMCE iframe) jumps in height during init (the wpautoresize
+// plugin fires several ticks, and the textarea/quicktags are briefly visible
+// before being hidden). We COLLAPSE the edit area to `height:0` from the
+// first paint (robust regardless of the number of children — unlike the
+// grid-rows trick which only collapses a single row). When JS detects the
+// editor is ready (TinyMCE init), it animates height 0 → natural then sets
+// `dy-ed-tmce-ready` (the CSS constraint disappears, height reverts to auto
+// and follows autoresize). The card toolbar remains visible.
+body.dy-admin.dy-editor-reimagined:not(.dy-ed-tmce-ready) #wp-content-editor-container {
+  height: 0;
+  overflow: hidden;
+}
+
+// Light theme: columns reset native controls to the light color-scheme
+// (the default rule in the main block sets `color-scheme: dark`).
+body.dy-admin.dy-editor-reimagined.dy-theme-light #postbox-container-1,
+body.dy-admin.dy-editor-reimagined.dy-theme-light #postbox-container-2 { color-scheme: light; }
+
+body.dy-admin.dy-editor-reimagined {
+
+  // Native #titlediv (emptied: #title has moved to the bar) is hidden.
+  #titlediv { display:none; }
+  // Native publish box actions have moved to the bar → hide the action
+  // footer, keep the info area (status / visibility / date).
+  #major-publishing-actions { display:none; }
+  #minor-publishing-actions { display:none; }
+  // Any residual native preview action left in the box.
+  #submitdiv #preview-action { display:none; }
+  // Top meta tabs (already hidden elsewhere, ensuring they are gone here too).
+  #screen-meta, #screen-meta-links { display:none; }
+
+  // Header: we KEEP the WP H1 "Add new post" + the eyebrow. The "Native view"
+  // toggle is moved (JS) to the H1 line, all the way to the right.
+  .dy-ed-headrow { display:flex; align-items:center; gap:14px; margin:0; }
+  .dy-ed-headrow > h1 { margin:0; flex:1 1 auto; min-width:0; }
+  .dy-ed-headtoggle { margin-left:auto; flex:0 0 auto; }
+  .wrap > .wp-header-end { margin:0; }
+
+  // Native notices (autosave, plugins): compact, spaced away from the bar.
+  #wpbody-content .notice,
+  .wrap > .notice { margin:0 0 14px; }
+
+  // ── "Edit with Elementor" button: integrated into the system (ghost) ──
+  // No margin-bottom (by design); spacing toward the editor comes from the flex gap.
+  #elementor-switch-mode { margin:0; padding:0; }
+  #elementor-switch-mode-input { margin:0; }
+  #elementor-switch-mode-button,
+  #elementor-switch-mode .elementor-switch-mode-button {
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--dya-paper); color:var(--dya-ink-soft);
+    border:1px solid var(--dya-edge-strong); border-radius:var(--dya-r-md);
+    padding:9px 16px; font-size:13px; font-weight:500; line-height:1.2; height:auto;
+    box-shadow:none; text-shadow:none; transition:background var(--dya-t-fast) var(--dya-ease), color var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease);
+  }
+  #elementor-switch-mode-button:hover,
+  #elementor-switch-mode .elementor-switch-mode-button:hover {
+    background:var(--dya-paper-2); color:var(--dya-ink); border-color:var(--dya-ink-fade);
+  }
+  #elementor-switch-mode-button .eicon-elementor-square { color:var(--dya-accent); }
+
+  // ── Sticky command bar ──────────────────────────────────────
+  .dy-ed-cmdbar {
+    position:sticky; top:10px; z-index:30;
+    display:flex; align-items:center; gap:12px;
+    background:color-mix(in srgb, var(--dya-paper) 88%, transparent);
+    backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+    border:1px solid var(--dya-edge); border-radius:var(--dya-r-xl);
+    padding:10px 28px 10px 16px; margin:0 0 22px; box-shadow:var(--dya-shadow-md);
+    animation:dy-ed-bar-in 420ms var(--dya-ease) both;
+  }
+  .dy-ed-cmdbar__titlewrap { flex:1; min-width:0; }
+  // #title relocated
+  .dy-ed-cmdbar__title, #title.dy-ed-cmdbar__title {
+    width:100%; background:transparent; border:1px solid transparent; border-radius:var(--dya-r-sm);
+    font-family:var(--dya-font-display); font-size:var(--dya-fs-lg); font-weight:500; letter-spacing:var(--dya-tracking-tight);
+    color:var(--dya-ink); padding:5px 8px; margin:-2px 0; height:auto; box-shadow:none; line-height:1.3;
+    transition:border-color var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease);
+  }
+  .dy-ed-cmdbar__title:focus { outline:none; border-color:var(--dya-edge-strong); background:var(--dya-paper); box-shadow:none; }
+  .dy-ed-cmdbar__title::placeholder { color:var(--dya-ink-fade); }
+  .dy-ed-cmdbar__slug {
+    display:flex; align-items:center; gap:6px; padding:3px 12px 4px; min-width:0;
+    // Top margin: the title field above has `margin-bottom:-2px`, which
+    // pressed the slug against its focus border (clipped). We add space
+    // so the title's focus border is fully visible.
+    margin-top:4px;
+    font-family:var(--dya-font-mono); font-size:10.5px; color:var(--dya-ink-fade);
+  }
+  .dy-ed-cmdbar__slug .dy-ed-slugi { width:11px; height:11px; flex:0 0 auto; }
+  // #edit-slug-box relocated: neutralize its native inline style.
+  .dy-ed-cmdbar__slug #edit-slug-box { margin:0; padding:0 10px; border:0; font:inherit; color:var(--dya-ink-mute); display:inline-flex; align-items:center; gap:6px; min-width:0; }
+  // T1 — when the "Edit" button (.edit-slug) is present, it already provides
+  // the right margin → remove the box's right padding (otherwise double gap).
+  // When there is no button (draft without slug), keep it.
+  .dy-ed-cmdbar__slug #edit-slug-box:has(.button.edit-slug) { padding-right:0; }
+  // T2 — very long permalink (hashed slug): clean word-break instead of overflow.
+  .dy-ed-cmdbar__slug #edit-slug-box #sample-permalink,
+  .dy-ed-cmdbar__slug #edit-slug-box #sample-permalink a { color:var(--dya-ink-mute); overflow-wrap:anywhere; word-break:break-word; min-width:0; }
+  .dy-ed-cmdbar__slug .button.edit-slug {
+    margin-left:4px; padding:2px 8px; min-height:0; height:auto; font-size:9px; line-height:1.6;
+    border:1px solid var(--dya-edge); border-radius:var(--dya-r-xs); color:var(--dya-ink-mute); background:transparent;
+    text-transform:uppercase; letter-spacing:.08em;
+  }
+  // Slug edit field (clicking "Edit"): correct horizontal padding.
+  .dy-ed-cmdbar__slug #edit-slug-buttons,
+  .dy-ed-cmdbar__slug #edit-slug-box .button { vertical-align:middle; }
+  .dy-ed-cmdbar__slug input[type="text"], .dy-ed-cmdbar__slug #new-post-slug {
+    padding:4px 9px; border:1px solid var(--dya-edge-strong); border-radius:var(--dya-r-xs);
+    background:var(--dya-paper-2); color:var(--dya-ink); font:inherit; height:auto; min-height:0;
+  }
+  .dy-ed-slug-empty { color:var(--dya-ink-fade); padding-left:1px; }
+
+  // Status pill
+  .dy-ed-pill {
+    display:inline-flex; align-items:center; gap:6px; flex:0 0 auto;
+    font-family:var(--dya-font-mono); font-size:10px; text-transform:uppercase; letter-spacing:var(--dya-tracking-label);
+    padding:5px 11px; border-radius:var(--dya-r-pill); border:1px solid var(--dya-edge); color:var(--dya-ink-mute);
+  }
+  .dy-ed-pill .d { width:6px; height:6px; border-radius:50%; background:currentColor; }
+  .dy-ed-pill--draft   { color:var(--dya-warn);    border-color:color-mix(in srgb, var(--dya-warn) 30%, transparent); }
+  .dy-ed-pill--pending { color:var(--dya-info);    border-color:color-mix(in srgb, var(--dya-info) 30%, transparent); }
+  .dy-ed-pill--future  { color:var(--dya-info);    border-color:color-mix(in srgb, var(--dya-info) 30%, transparent); }
+  .dy-ed-pill--private { color:var(--dya-ink-soft); }
+  .dy-ed-pill--publish { color:var(--dya-success); border-color:color-mix(in srgb, var(--dya-success) 30%, transparent); }
+
+  .dy-ed-cmdbar__actions { display:flex; align-items:center; gap:8px; flex:0 0 auto; }
+
+  // Native buttons relocated (#save, #publish) + preview, re-skinned.
+  .dy-ed-cmdbar__actions .dy-ed-btn,
+  .dy-ed-cmdbar__actions #publish,
+  .dy-ed-cmdbar__actions #save,
+  .dy-ed-cmdbar__actions #post-preview {
+    display:inline-flex; align-items:center; justify-content:center; gap:6px;
+    border-radius:var(--dya-r-md); font-size:13px; font-weight:500; padding:9px 16px; cursor:pointer;
+    border:1px solid transparent; font-family:var(--dya-font-body); height:auto; min-height:0;
+    line-height:1; box-shadow:none; text-shadow:none; transition:background var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease), transform var(--dya-t-fast) var(--dya-ease);
+  }
+  .dy-ed-cmdbar__actions #publish { background:var(--dya-accent); color:var(--dya-accent-on); border-color:var(--dya-accent); }
+  .dy-ed-cmdbar__actions #publish:hover { background:color-mix(in srgb, var(--dya-accent) 88%, #000); }
+  .dy-ed-cmdbar__actions #publish:active { transform:translateY(1px); }
+  .dy-ed-cmdbar__actions #save,
+  .dy-ed-cmdbar__actions #post-preview,
+  .dy-ed-cmdbar__actions .dy-ed-btn--ghost {
+    background:transparent; color:var(--dya-ink-soft); border-color:var(--dya-edge-strong); text-decoration:none;
+  }
+  .dy-ed-cmdbar__actions #save:hover,
+  .dy-ed-cmdbar__actions #post-preview:hover,
+  .dy-ed-cmdbar__actions .dy-ed-btn--ghost:hover { color:var(--dya-ink); background:var(--dya-paper-2); }
+  .dy-ed-cmdbar__actions .dy-ed-toggle--native { height:auto; padding:8px 12px; }
+  // WP save spinner rendered discreetly.
+  .dy-ed-cmdbar .spinner { float:none; margin:0; }
+
+  // ── Layout: main (content + normal boxes) | inspector ────────
+  // `#poststuff` in the selector → we BEAT the _postbox.scss rule
+  // (`#poststuff #post-body.columns-2`, 2 ids) that locked the column at 304px
+  // and neutralized `--dya-ed-side` (thus the collapse). Side track = animated var.
+  #poststuff { padding-top:0; margin:0; min-width:0; }
+  // A SINGLE grid row: `content` (editor + flattened normal boxes)
+  // and `side` (inspector). Previously a 2nd `normal` row shared its tracks
+  // with a very tall `side` (inspector) → the grid inflated row 1 and pushed
+  // normal boxes ~900px down. By flowing them into the `content` column,
+  // `side` no longer shares any track with them.
+  #poststuff #post-body.columns-2 {
+    display:grid; gap:24px; align-items:start;
+    grid-template-columns:minmax(0,1fr) var(--dya-ed-side, 320px) !important;
+    grid-template-areas:"content side";
+    transition:grid-template-columns 380ms cubic-bezier(.16,1,.3,1);
+  }
+  #poststuff #post-body-content { grid-area:content; min-width:0; }
+  // #postbox-container-2 is MOVED into #post-body-content by JS, then
+  // FLATTENED: its metaboxes become direct flex items of
+  // #post-body-content (gap 20px) → uniform spacing with builders/editor.
+  // We also flatten ALL `.meta-box-sortables` in the content column
+  // (normal-sortables + ACF after-title/after-editor zones…): EMPTY containers
+  // (height 0, ACF margins) disappear from the flex flow instead of injecting
+  // a false 40px gap before the first box.
+  #poststuff #post-body-content #postbox-container-2,
+  #poststuff #post-body-content .meta-box-sortables { display:contents; }
+  // Spacing comes from the flex gap (20px) → neutralize native margins.
+  #post-body-content #postbox-container-2 .postbox { margin:0 !important; }
+  // EXPLICIT width = var (the grid alone did not constrain the flex item,
+  // which overflowed its track). box-sizing border-box + transition → smooth
+  // collapse that correctly widens the left column (1fr).
+  #poststuff #postbox-container-1 {
+    grid-area:side; box-sizing:border-box; min-width:0;
+    width:var(--dya-ed-side, 320px) !important; max-width:var(--dya-ed-side, 320px) !important;
+    transition:width 380ms cubic-bezier(.16,1,.3,1), max-width 380ms cubic-bezier(.16,1,.3,1);
+  }
+  // The inner WP wrapper (#side-sortables / .meta-box-sortables) is locked at
+  // ~280px by core → make it fill the full column.
+  #postbox-container-1 #side-sortables,
+  #postbox-container-1 .meta-box-sortables {
+    width:auto !important; max-width:none !important; min-width:0 !important;
+  }
+  // On non-hierarchical post types / 1-column, maintain readability.
+  #poststuff #post-body.columns-1 { display:block; }
+
+  // Content editor: spaced card, animated entry.
+  #post-body-content { display:flex; flex-direction:column; gap:20px; }
+  #postdivrich { animation:dy-ed-fade-up 460ms var(--dya-ease) both; }
+
+  // ── Page builder box (Elementor / Bricks) above the content ──
+  .dy-ed-builders {
+    --dy-bricks-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='2' y='4' width='9' height='6' rx='1'/%3E%3Crect x='13' y='4' width='9' height='6' rx='1'/%3E%3Crect x='2' y='12' width='5' height='6' rx='1'/%3E%3Crect x='9' y='12' width='13' height='6' rx='1'/%3E%3C/svg%3E");
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+    background:var(--dya-paper); border:1px solid var(--dya-edge); border-radius:var(--dya-r-xl);
+    box-shadow:var(--dya-shadow-sm); padding:12px 14px; margin:0;
+  }
+  .dy-ed-builders #elementor-switch-mode { margin:0; }
+  .dy-ed-builders .bricks-classic-editor-wrapper { margin:0; display:inline-flex; }
+  // Bricks button (native wrapper) + any builder button → consistent ghost style.
+  // Bricks & other builders → we ALIGN with the Elementor button: ghost,
+  // same padding/size, text NOT capitalized, accent icon on the left.
+  .dy-ed-builders .bricks-classic-editor-wrapper a.button,
+  .dy-ed-builders > a.button,
+  .dy-ed-builders #bricks-builder-edit-link {
+    display:inline-flex; align-items:center; gap:8px; height:auto;
+    background:var(--dya-paper); color:var(--dya-ink-soft); border:1px solid var(--dya-edge-strong);
+    border-radius:var(--dya-r-md); margin:0; padding:15px 16px; box-shadow:none; text-shadow:none;
+    // Font PINNED to match Elementor (#elementor-switch-mode-button:
+    // 13px / 500 / 1.2) with !important — overrides any size inherited from
+    // WP `.button-primary` skin or Bricks admin CSS depending on the screen.
+    font-family:var(--dya-font-body) !important; font-size:13px !important; font-weight:500 !important; line-height:1.2 !important;
+    text-transform:none !important; letter-spacing:normal !important;
+    transition:background var(--dya-t-fast) var(--dya-ease), color var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease);
+  }
+  // "Bricks" icon (accent-tinted SVG mask, on par with the Elementor eicon).
+  .dy-ed-builders .bricks-classic-editor-wrapper a.button::before,
+  .dy-ed-builders #bricks-builder-edit-link::before {
+    content:""; flex:0 0 auto; width:15px; height:15px; background:var(--dya-accent);
+    -webkit-mask:var(--dy-bricks-icon) center/contain no-repeat;
+            mask:var(--dy-bricks-icon) center/contain no-repeat;
+  }
+  .dy-ed-builders .bricks-classic-editor-wrapper a.button:hover,
+  .dy-ed-builders > a.button:hover,
+  .dy-ed-builders #bricks-builder-edit-link:hover { background:var(--dya-paper-2); color:var(--dya-ink); border-color:var(--dya-ink-fade); }
+
+  // ── Unified editor card ──
+  // #postdivrich = the card. WP (editor-expand / has-dfw) reserves ~68px of
+  // padding-top for absolutely positioned tools → we cancel that, putting the
+  // tools (media + Visual/Code/Bricks tabs) back in the flow as a header bar
+  // attached to the container, with word-count in the footer.
+  #postdivrich {
+    background:var(--dya-paper); border:1px solid var(--dya-edge); border-radius:var(--dya-r-xl);
+    overflow:hidden; margin:0;
+  }
+  #wp-content-wrap, #wp-content-wrap.has-dfw { padding-top:0 !important; border:0; }
+  // The tools block = header bar (media on the left). The Visual/Code/
+  // Bricks tabs are ABSOLUTELY positioned at the bottom-right → they "stick"
+  // to the editing container just below.
+  #wp-content-editor-tools, #wp-content-editor-tools.wp-editor-tools {
+    position:relative !important; width:auto !important; height:auto !important; min-height:44px;
+    background:var(--dya-bg-elev); border-bottom:1px solid var(--dya-line); padding:7px 12px; margin:0;
+  }
+  #wp-content-editor-tools .wp-media-buttons { float:none; display:inline-flex; align-items:center; gap:6px; margin:0; }
+  #wp-content-editor-tools .wp-editor-tabs {
+    position:absolute; right:12px; bottom:0; margin:0; float:none; display:inline-flex; gap:2px;
+  }
+  #wp-content-editor-container { border:0 !important; border-radius:0 !important; background:var(--dya-paper); }
+  // TinyMCE: box-sizing border-box (otherwise computed width overflows).
+  .mce-container, .mce-container *, .mce-panel { box-sizing:border-box; }
+  // WP reserves margin-right:300px on #post-body(-content) for the native
+  // floating sidebar → useless with our grid, it was offsetting the content.
+  #post-body, #post-body-content { margin-right:0 !important; }
+  #postdivrich .post-status-info {
+    border:0; border-top:1px solid var(--dya-line); background:var(--dya-bg-elev);
+    color:var(--dya-ink-mute); font-family:var(--dya-font-mono); font-size:10.5px;
+  }
+
+  // ── Inspector: side column = STACK OF CARDS (Settings + AI) ──
+  // The container itself is transparent: each card (settings,
+  // Content AI) has its own border → Content AI is visually in
+  // a distinct box, not in a box wrapping the entire column.
+  #postbox-container-1.dy-ed-inspector {
+    position:sticky; top:120px; align-self:start;
+    display:flex; flex-direction:column; gap:14px;
+    background:transparent; border:0; box-shadow:none; padding:0; overflow:visible;
+  }
+  #postbox-container-1.dy-ed-inspector .dy-ed-inspector__card,
+  #postbox-container-1.dy-ed-inspector .dy-ed-ai-card {
+    background:var(--dya-paper); border:1px solid var(--dya-edge); border-radius:var(--dya-r-xl);
+    overflow:hidden; box-shadow:var(--dya-shadow-sm); display:flex; flex-direction:column; margin:0;
+    min-width:0;   // allows shrinking to rail width in collapsed mode
+  }
+  .dy-ed-inspector__head {
+    display:flex; align-items:center; gap:10px; padding:12px 14px; border-bottom:1px solid var(--dya-line);
+  }
+  .dy-ed-inspector__title { font-family:var(--dya-font-display); font-weight:500; font-size:13.5px; }
+  .dy-ed-inspector__collapse {
+    margin-left:auto; width:27px; height:27px; display:grid; place-items:center;
+    border:1px solid var(--dya-edge); border-radius:var(--dya-r-sm); background:transparent; color:var(--dya-ink-mute); cursor:pointer;
+    transition:color var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease), transform var(--dya-t-med) var(--dya-ease);
+  }
+  .dy-ed-inspector__collapse:hover { color:var(--dya-ink); background:var(--dya-paper-2); }
+  .dy-ed-inspector__collapse svg { width:14px; height:14px; transition:transform var(--dya-t-med) var(--dya-ease); }
+
+  // Sections (metaboxes) INSIDE the settings card: a single divider between each.
+  #postbox-container-1.dy-ed-inspector .postbox:not(.dy-ed-ai-card) {
+    background:transparent; border:0; border-top:1px solid var(--dya-line-soft); border-radius:0;
+    box-shadow:none; margin:0;
+  }
+  // First section below the head: no double divider.
+  #postbox-container-1.dy-ed-inspector .dy-ed-inspector__head + .postbox { border-top:0; }
+  // Section headers — "Publish options" MODEL. Mono uppercase +
+  // icon on the left + collapse chevron on the right. NO own divider (the only
+  // divider is the one between sections, on .postbox).
+  #postbox-container-1.dy-ed-inspector .postbox-header,
+  #postbox-container-1.dy-ed-inspector .postbox > h2,
+  #postbox-container-1.dy-ed-inspector .postbox > h3 {
+    padding:11px 14px; border:0; margin:0; font-size:11px; color:var(--dya-ink-mute);
+    text-transform:uppercase; letter-spacing:var(--dya-tracking-label); font-family:var(--dya-font-mono);
+    display:flex; align-items:center; gap:9px; cursor:pointer; line-height:1.3;
+  }
+  // The "misplaced divider under the title" = native handle border-bottom → removed.
+  // .hndle = plain label (inherits from header), no own style.
+  #postbox-container-1.dy-ed-inspector .hndle,
+  #postbox-container-1.dy-ed-inspector .hndle.ui-sortable-handle {
+    border:0 !important; padding:0 !important; margin:0; background:transparent;
+    font:inherit !important; color:inherit; text-transform:inherit; letter-spacing:inherit;
+    flex:1 1 auto; min-width:0;
+  }
+  // Hide WP affordances (drag/order/handle) + screen reader text.
+  #postbox-container-1.dy-ed-inspector .handlediv,
+  #postbox-container-1.dy-ed-inspector .handle-order-higher,
+  #postbox-container-1.dy-ed-inspector .handle-order-lower,
+  #postbox-container-1.dy-ed-inspector .handle-actions,
+  #postbox-container-1.dy-ed-inspector .postbox-header .screen-reader-text,
+  #postbox-container-1.dy-ed-inspector .hndle .screen-reader-text { display:none !important; }
+  #postbox-container-1.dy-ed-inspector .hndle::before { display:none; }
+  #postbox-container-1.dy-ed-inspector .postbox .inside { padding:2px 14px 16px; margin:0; }
+  // (collapse is animated globally via grid-template-rows — see _postbox.scss;
+  //  we no longer hide .inside with display:none, otherwise no animation)
+  .dy-ed-secic { width:16px; height:16px; flex:0 0 auto; color:var(--dya-ink-mute); }
+
+  // Collapse chevron (on the right) — rotates when the section is .closed.
+  .dy-ed-chev { margin-left:auto; display:inline-flex; flex:0 0 auto; color:var(--dya-ink-fade); transition:transform var(--dya-t-fast) var(--dya-ease); }
+  .dy-ed-chev svg { width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:2; }
+  .postbox.closed .dy-ed-chev { transform:rotate(-90deg); }
+
+  // ── Tooltips (RankMath "?", etc.): do not clip them ──────────────
+  // Cards (.postbox + inspector card) have overflow:hidden for their
+  // rounded corners → they were clipping tooltips that overflow the header
+  // (e.g., "Link suggestions"). We allow overflow in the editor: corners
+  // remain rounded via border-radius and section content does not visually
+  // overflow the corners in practice. Collapse stays clipped by .inside
+  // (overflow managed by postbox-collapse.js), so nothing leaks on collapse.
+  &:not(.dy-ed-inspector-collapsed) #postbox-container-1.dy-ed-inspector,
+  &:not(.dy-ed-inspector-collapsed) #postbox-container-1.dy-ed-inspector .dy-ed-inspector__card,
+  &:not(.dy-ed-inspector-collapsed) #postbox-container-1.dy-ed-inspector .postbox,
+  #postbox-container-2 .postbox { overflow: visible; }
+
+  // "Content AI" card: ONLY item in its list → no divider below the
+  // header (the contrast between themed header / light .inside is enough).
+  #postbox-container-1 .dy-ed-ai-card > .postbox-header { border-bottom:0 !important; }
+
+  // ── Readability of native controls (selects/inputs) in dark ──────────
+  // Native <select>/inputs (status, visibility, date, parent, template,
+  // author…) were rendering text/arrow/dropdown in LIGHT scheme on our
+  // dark backgrounds → unreadable. We align color-scheme with the theme via
+  // CONTAINERS (inherited): light islands (Content AI, .inside { color-scheme:
+  // light }) switch back to light locally without needing to exclude them.
+  #postbox-container-1, #postbox-container-2 { color-scheme: dark; }
+
+  // ── Inline editors for "Publish options" (Status / Visibility /
+  //    Date), revealed on clicking "Edit". Clean panel: the control
+  //    occupies its own row, the OK / Cancel row comes BELOW, well-spaced.
+  // The "misc" sections (Status / Visibility / Date) use display:flex
+  // (label + value + "Edit" on one line) → the revealed inline editor
+  // becomes a SHRUNK flex-item (~128px) that wraps OK/Cancel. We force
+  // it to occupy a FULL line below.
+  #misc-publishing-actions .misc-pub-section { flex-wrap: wrap; }
+  #post-status-select,
+  #post-visibility-select,
+  #timestampdiv {
+    flex: 1 1 100%; width: 100%; box-sizing: border-box;
+    margin: 10px 0 2px; padding: 12px;
+    background: var(--dya-paper-2); border: 1px solid var(--dya-edge); border-radius: var(--dya-r-md);
+  }
+  #post-visibility-select p { margin: 8px 0 0; }
+  #post-status-select select,
+  #post-visibility-select input[type="text"],
+  #post-visibility-select input[type="password"],
+  #timestampdiv select,
+  #timestampdiv input[type="text"] {
+    background: var(--dya-paper); color: var(--dya-ink);
+    border: 1px solid var(--dya-edge-strong); border-radius: var(--dya-r-sm);
+    padding: 6px 9px; font-size: 13px; line-height: 1.3; height: auto; min-height: 0;
+    box-shadow: none; vertical-align: middle; max-width: 100%;
+  }
+  #post-status-select select { display: block; width: 100%; }
+  #post-visibility-select input[type="text"],
+  #post-visibility-select input[type="password"] { width: 100%; margin: 6px 0 0; }
+  #timestampdiv .timestamp-wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  #timestampdiv select, #timestampdiv input[type="text"] { width: auto; }
+  #post-status-select select:focus,
+  #post-visibility-select input:focus,
+  #timestampdiv select:focus, #timestampdiv input:focus {
+    outline: none; border-color: var(--dya-accent); box-shadow: 0 0 0 3px var(--dya-accent-soft);
+  }
+  // Visibility: readable and aligned radios
+  #post-visibility-select { line-height: 1.9; color: var(--dya-ink-soft); font-size: 13px; }
+  #post-visibility-select input[type="radio"] { accent-color: var(--dya-accent); margin: 0 7px 0 0; vertical-align: middle; }
+
+  // OK / Cancel row (shared by all 3 editors): below the control, with spacing.
+  #post-status-select .save-post-status,
+  #post-status-select .cancel-post-status,
+  #post-visibility-select .save-post-visibility,
+  #post-visibility-select .cancel-post-visibility,
+  #timestampdiv .save-timestamp,
+  #timestampdiv .cancel-timestamp {
+    display: inline-flex; align-items: center; justify-content: center; vertical-align: middle;
+    box-sizing: border-box; margin: 12px 0 0; padding: 6px 14px; font-size: 12px; font-weight: 500; line-height: 1.2;
+    border: 1px solid transparent; border-radius: var(--dya-r-sm); cursor: pointer; text-decoration: none;
+    box-shadow: none; text-shadow: none; height: auto; min-height: 0;
+  }
+  // OK = accent button
+  #post-status-select .save-post-status,
+  #post-visibility-select .save-post-visibility,
+  #timestampdiv .save-timestamp {
+    background: var(--dya-accent); color: var(--dya-accent-on); border: 1px solid var(--dya-accent);
+  }
+  #post-status-select .save-post-status:hover,
+  #post-visibility-select .save-post-visibility:hover,
+  #timestampdiv .save-timestamp:hover { background: color-mix(in srgb, var(--dya-accent) 86%, #000); }
+  // Cancel = ghost link, spaced from the OK button
+  #post-status-select .cancel-post-status,
+  #post-visibility-select .cancel-post-visibility,
+  #timestampdiv .cancel-timestamp {
+    background: transparent; color: var(--dya-ink-mute); border: 1px solid transparent; margin-left: 8px;
+  }
+  #post-status-select .cancel-post-status:hover,
+  #post-visibility-select .cancel-post-visibility:hover,
+  #timestampdiv .cancel-timestamp:hover { color: var(--dya-ink); background: var(--dya-paper-3); }
+
+  // ── Featured image (dropzone) ────────────────────────────────
+  #postimagediv #set-post-thumbnail {
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
+    width:100%; padding:24px; border:1px dashed var(--dya-line-strong); background:var(--dya-paper-2);
+    color:var(--dya-ink-mute); border-radius:var(--dya-r-md); font-size:12px; text-align:center;
+    transition:color var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease);
+  }
+  #postimagediv #set-post-thumbnail:hover { color:var(--dya-ink); border-style:solid; border-color:var(--dya-edge-strong); }
+
+  // ── Normal column (#postbox-container-2): ALL metaboxes ──
+  // Yoast, Rank Math, Revisions, Excerpt, Slug, Author, Discussion… all receive
+  // the SAME treatment (generalized, no longer just the 2 SEO boxes): header
+  // without divider, native affordances (drag/order/toggle) hidden, .hndle without
+  // border, pointer cursor (click = collapse). The chevron is added by JS
+  // (decorateNormalBoxes) and the accent dot (.hndle::before, see _postbox)
+  // aligns identically on all blocks in this column.
+  #postbox-container-2 .postbox > .postbox-header {
+    display:flex; align-items:center; gap:9px; cursor:pointer; border-bottom:0 !important;
+  }
+  #postbox-container-2 .postbox .hndle,
+  #postbox-container-2 .postbox .hndle.ui-sortable-handle {
+    border:0 !important; flex:1 1 auto; min-width:0;
+  }
+  #postbox-container-2 .postbox .handlediv,
+  #postbox-container-2 .postbox .handle-actions { display:none !important; }
+
+  // Collapsed block (LEFT COLUMN ONLY): no residual space below the
+  // header (otherwise blocks "float" far from the previous one instead of a simple
+  // gap between cards). The right-side inspector keeps its own collapse.
+  #postbox-container-2 .postbox.closed { padding-bottom:0 !important; }
+
+  // Yoast / Rank Math: ADDITIONALLY, header without lateral padding (.inside carries
+  // its own) — the "light background" forcing is applied ELSEWHERE (Content AI).
+  #postbox-container-2 #wpseo_meta .postbox-header,
+  #postbox-container-2 #rank_math_metabox .postbox-header {
+    padding-left:0 !important; padding-right:0 !important;
+  }
+  // Yoast / Rank Math: we STEP BACK (product decision — these self-sufficient React
+  // UIs do not handle dark mode and were rendering "half-styled"). Their CONTENT
+  // is rendered on a native WHITE ISLAND (same principle as Content AI below,
+  // and _builder-native for profile.php) → readable in dark, slug input and plugin
+  // panels in native white, no more hybrid dark paper background.
+  #rank_math_metabox,
+  #wpseo_meta {
+    padding:0 16px 16px 16px;
+    background:transparent !important; border-color:var(--dya-edge) !important;
+  }
+  #rank_math_metabox > .inside,
+  #wpseo_meta > .inside {
+    color-scheme: light;
+    --dya-paper:#ffffff; --dya-paper-2:#f6f7f7; --dya-paper-3:#eef0f1; --dya-bg-elev:#f6f7f7;
+    --dya-ink:#1d2327; --dya-ink-soft:#3c434a; --dya-ink-mute:#646970; --dya-ink-fade:#8c8f94;
+    --dya-line:rgba(0,0,0,.10); --dya-line-soft:rgba(0,0,0,.06); --dya-line-strong:rgba(0,0,0,.16);
+    --wp-admin-theme-color:#3858e9; --wp-components-color-accent:#3858e9;
+    background:#ffffff !important; color:#1d2327 !important;
+    border:1px solid #c3c4c7; border-radius:var(--dya-r-xl); overflow:hidden; padding:0;
+  }
+  .wpseo-metabox-content,
+  .wpseo-metabox-menu,
+  .wpseo-meta-section, .wpseo-meta-section-react { max-width:100%; }
+  .wpseo-meta-section, .wpseo-meta-section-react { border:0; }
+  .rank-math-metabox-wrap { padding:0; }
+  .rank-math-metabox-wrap .components-tab-panel__tab-content { padding:16px; }
+
+  // ── Light island kept ONLY for Content AI ──
+  // Its UI (AI generation) is designed for a light background → in dark we
+  // render its .inside with a coherent light scheme (the DY header stays themed).
+  #postbox-container-1 .dy-ed-ai-card .inside {
+    color-scheme: light;
+    --dya-paper:#ffffff; --dya-paper-2:#f6f7f7; --dya-paper-3:#eef0f1; --dya-bg-elev:#f6f7f7;
+    --dya-ink:#1d2327; --dya-ink-soft:#3c434a; --dya-ink-mute:#646970; --dya-ink-fade:#8c8f94;
+    --dya-line:rgba(0,0,0,.10); --dya-line-soft:rgba(0,0,0,.06); --dya-line-strong:rgba(0,0,0,.16);
+    background:#ffffff; color:#1d2327; border-radius:0 0 var(--dya-r-xl) var(--dya-r-xl);
+    padding:14px !important;
+  }
+  // Link suggestions: NO light island — follow the theme (dark = dark background,
+  // light text). No border-radius, padding-top restored.
+  #postbox-container-1 #rank_math_metabox_link_suggestions .inside {
+    padding:12px 14px 14px !important; border-radius:0 !important;
+    background:transparent; color:var(--dya-ink-soft);
+  }
+
+  // =====================================================================
+  //  ACF — modernization (native ACF 6 DOM, we skin it, we do not rebuild it)
+  // =====================================================================
+  .acf-fields > .acf-field { border-top:1px solid var(--dya-line-soft); padding:16px 18px; }
+  .acf-fields > .acf-field:first-child { border-top:0; }
+  .acf-field .acf-label { margin:0 0 6px; }
+  .acf-field .acf-label label { font-size:12.5px; font-weight:500; color:var(--dya-ink); }
+  .acf-field .acf-label .description,
+  .acf-field .acf-label p.description { font-size:11px; color:var(--dya-ink-mute); margin:3px 0 0; line-height:1.45; }
+  .acf-field .acf-label .acf-required { color:var(--dya-accent); }
+
+  // Input fields
+  .acf-input input[type="text"], .acf-input input[type="number"], .acf-input input[type="email"],
+  .acf-input input[type="url"], .acf-input input[type="password"], .acf-input input[type="search"],
+  .acf-input textarea, .acf-input select, .acf-input .acf-input-wrap input {
+    background:var(--dya-paper-2); border:1px solid var(--dya-edge-strong); border-radius:var(--dya-r-sm);
+    color:var(--dya-ink); font-family:var(--dya-font-body); font-size:13px; line-height:1.5; padding:8px 11px; box-shadow:none;
+  }
+  .acf-input textarea { min-height:84px; }
+  .acf-input input:focus, .acf-input textarea:focus, .acf-input select:focus {
+    outline:none; border-color:var(--dya-accent); box-shadow:0 0 0 3px var(--dya-accent-soft);
+  }
+
+  // True / False (ACF switch)
+  .acf-switch { border:1px solid var(--dya-edge-strong); background:var(--dya-paper-3); border-radius:var(--dya-r-pill); height:24px; }
+  .acf-switch.-on { background:var(--dya-accent); border-color:var(--dya-accent); }
+  .acf-switch .acf-switch-slider { background:var(--dya-ink-mute); border-radius:50%; }
+  .acf-switch.-on .acf-switch-slider { background:var(--dya-accent-on); }
+  .acf-switch .acf-switch-on, .acf-switch .acf-switch-off { color:var(--dya-ink-soft); font-size:11px; }
+
+  // Button group + radio/checkbox
+  .acf-button-group { border:1px solid var(--dya-edge-strong); border-radius:var(--dya-r-sm); overflow:hidden; display:inline-flex; }
+  .acf-button-group label { background:transparent; color:var(--dya-ink-soft); border:0; border-right:1px solid var(--dya-line); padding:7px 14px; font-size:12.5px; box-shadow:none; }
+  .acf-button-group label.selected { background:var(--dya-accent); color:var(--dya-accent-on); }
+  .acf-radio-list li, .acf-checkbox-list li { margin:0 0 7px; }
+  .acf-radio-list label, .acf-checkbox-list label { color:var(--dya-ink-soft); font-size:13px; display:inline-flex; align-items:center; gap:8px; }
+  .acf-radio-list input, .acf-checkbox-list input { accent-color:var(--dya-accent); }
+
+  // Range
+  .acf-range-wrap input[type="range"] { accent-color:var(--dya-accent); }
+  .acf-range-wrap .acf-append, .acf-range-wrap input[type="number"] { color:var(--dya-ink); }
+
+  // Image / File / Gallery uploaders
+  .acf-image-uploader .image-wrap, .acf-gallery, .acf-file-uploader { }
+  .acf-image-uploader .acf-actions, .acf-file-uploader .acf-actions { background:transparent; }
+  .acf-image-uploader.has-value .image-wrap img { border-radius:var(--dya-r-md); border:1px solid var(--dya-edge); }
+  .acf-gallery { border:1px solid var(--dya-edge); border-radius:var(--dya-r-md); background:var(--dya-paper-2); }
+  .acf-gallery .acf-gallery-side { background:var(--dya-paper); border-left:1px solid var(--dya-line); }
+
+  // Link
+  .acf-link .acf-link-text { color:var(--dya-ink); }
+  .acf-link a.acf-icon, .acf-link .button { }
+
+  // Relationship (dual-panel)
+  .acf-relationship .list { background:var(--dya-paper-2); border:1px solid var(--dya-edge); border-radius:var(--dya-r-sm); }
+  .acf-relationship .selection .values { border-color:var(--dya-edge); }
+  .acf-relationship .acf-rel-item { color:var(--dya-ink-soft); }
+  .acf-relationship .acf-rel-item:hover { background:var(--dya-paper-3); }
+
+  // Tabs
+  .acf-tab-wrap { border-bottom:1px solid var(--dya-line); }
+  .acf-tab-group { border:0; }
+  .acf-tab-group li a { background:transparent; border:0; border-bottom:2px solid transparent; color:var(--dya-ink-mute); padding:11px 12px; font-size:12.5px; margin:0; }
+  .acf-tab-group li.active a { color:var(--dya-ink); border-bottom-color:var(--dya-accent); background:transparent; }
+
+  // Accordion
+  .acf-field-accordion .acf-accordion-title { background:var(--dya-bg-elev); border:1px solid var(--dya-edge); border-radius:var(--dya-r-md); color:var(--dya-ink); font-weight:500; padding:11px 13px; }
+
+  // Group (nested fields)
+  .acf-field-group > .acf-input > .acf-fields { border:1px solid var(--dya-edge); border-radius:var(--dya-r-md); background:var(--dya-paper-2); overflow:hidden; }
+
+  // Message (display only)
+  .acf-field-message .acf-input .acf-notice,
+  .acf-field-message .acf-input > * { background:var(--dya-accent-soft); border:1px solid var(--dya-accent-soft); border-left:2px solid var(--dya-accent); border-radius:var(--dya-r-md); color:var(--dya-ink-soft); padding:12px 14px; font-size:12.5px; }
+
+  // ── Flexible Content: layouts as collapsible cards (ACF pain point #1) ──
+  .acf-flexible-content .layout {
+    border:1px solid var(--dya-edge); border-radius:var(--dya-r-lg); background:var(--dya-paper-2); overflow:hidden; margin:0 0 12px;
+  }
+  .acf-flexible-content .layout .acf-fc-layout-handle {
+    background:var(--dya-bg-elev); border-bottom:1px solid var(--dya-line); padding:10px 12px; cursor:grab;
+    font-weight:500; font-size:13px; color:var(--dya-ink); display:flex; align-items:center; gap:10px;
+  }
+  .acf-flexible-content .layout .acf-fc-layout-order {
+    background:var(--dya-paper-3); color:var(--dya-ink-mute); border-radius:var(--dya-r-xs); border:1px solid var(--dya-edge);
+    width:auto; min-width:22px; height:20px; line-height:18px; font-family:var(--dya-font-mono); font-size:9px; padding:0 5px;
+  }
+  .acf-flexible-content .layout .acf-fc-layout-controls {
+    margin-left:auto; display:inline-flex; gap:3px; right:auto; position:static; top:auto;
+  }
+  .acf-flexible-content .layout .acf-fc-layout-controls .acf-icon {
+    width:25px; height:25px; border:1px solid transparent; border-radius:var(--dya-r-xs); background:transparent; color:var(--dya-ink-mute);
+    box-shadow:none;
+  }
+  .acf-flexible-content .layout .acf-fc-layout-controls .acf-icon:hover { background:var(--dya-paper); border-color:var(--dya-edge); color:var(--dya-ink); }
+  .acf-flexible-content > .acf-actions .acf-button { /* "+ Add section" button */ }
+
+  // ── Repeater: clean table ──────────────────────────────────────
+  .acf-repeater > .acf-table { border:1px solid var(--dya-edge); border-radius:var(--dya-r-md); background:var(--dya-paper-2); border-collapse:separate; overflow:hidden; }
+  .acf-repeater > .acf-table > thead > tr > th {
+    background:var(--dya-bg-elev); border-bottom:1px solid var(--dya-line); color:var(--dya-ink-fade);
+    font-family:var(--dya-font-mono); font-size:9px; letter-spacing:var(--dya-tracking-label); text-transform:uppercase; padding:8px 10px;
+  }
+  .acf-repeater > .acf-table > tbody > tr { transition:background var(--dya-t-fast) var(--dya-ease); }
+  .acf-repeater > .acf-table > tbody > tr:hover { background:color-mix(in srgb, var(--dya-ink) 3%, transparent); }
+  .acf-repeater .acf-row-handle { color:var(--dya-ink-fade); }
+  .acf-repeater .acf-row-handle.order { font-family:var(--dya-font-mono); font-size:10px; color:var(--dya-ink-mute); cursor:grab; }
+  .acf-repeater .acf-row-handle .acf-icon { background:transparent; border:0; color:var(--dya-ink-fade); box-shadow:none; }
+  .acf-repeater .acf-row-handle .acf-icon.-minus:hover { color:var(--dya-danger); background:color-mix(in srgb, var(--dya-danger) 12%, transparent); }
+  .acf-repeater > .acf-actions { margin-top:10px; }
+
+  // Generic ACF buttons (Add row / Add section…)
+  .acf-button.button, .acf-actions .button {
+    display:inline-flex; align-items:center; gap:6px; background:transparent; color:var(--dya-ink-soft);
+    border:1px solid var(--dya-edge-strong); border-radius:var(--dya-r-md); padding:7px 14px; font-size:12px; box-shadow:none;
+  }
+  .acf-button.button:hover, .acf-actions .button:hover { color:var(--dya-ink); background:var(--dya-paper-2); border-color:var(--dya-ink-fade); }
+}
+
+// ── Collapsed state: icon rail (animated width) ─────────────────────
+body.dy-admin.dy-editor-reimagined.dy-ed-inspector-collapsed {
+  #poststuff #post-body.columns-2 { --dya-ed-side:62px; }
+  .dy-ed-inspector__title { display:none; }
+  .dy-ed-inspector__head { justify-content:center; padding:12px 0; }
+  .dy-ed-inspector__collapse { margin:0; }
+  .dy-ed-inspector__collapse svg { transform:rotate(180deg); }
+  // Cards + sections shrunk to the rail width (otherwise content keeps its
+  // natural width ~255px and overflows below the card = "blob").
+  #postbox-container-1.dy-ed-inspector .postbox,
+  #postbox-container-1.dy-ed-inspector .postbox-header,
+  #postbox-container-1.dy-ed-inspector .postbox > h2,
+  #postbox-container-1.dy-ed-inspector .postbox > h3 {
+    width:auto !important; min-width:0 !important; max-width:100% !important; overflow:hidden;
+    justify-content:center; padding:9px 0; cursor:pointer;   // height ≈ expanded header (not too much spacing)
+  }
+  // Keep ONLY the icon (title + chevron + WP affordances hidden).
+  #postbox-container-1.dy-ed-inspector .hndle,
+  #postbox-container-1.dy-ed-inspector .dy-ed-chev,
+  #postbox-container-1.dy-ed-inspector .handle-actions,
+  #postbox-container-1.dy-ed-inspector .postbox .inside,
+  #postbox-container-1.dy-ed-inspector .handlediv,
+  #postbox-container-1.dy-ed-inspector .handle-order-higher,
+  #postbox-container-1.dy-ed-inspector .handle-order-lower { display:none !important; }
+  .dy-ed-secic { width:20px; height:20px; margin:0; color:var(--dya-ink-soft); }
+  #postbox-container-1.dy-ed-inspector .postbox-header:hover .dy-ed-secic,
+  #postbox-container-1.dy-ed-inspector .postbox:hover .dy-ed-secic { color:var(--dya-accent); }
+}
+
+// =====================================================================
+//  Responsive
+// =====================================================================
+@media (max-width: 1100px) {
+  body.dy-admin.dy-editor-reimagined {
+    // Inspector moves below the content (no more lateral sticky, full width).
+    #poststuff #post-body.columns-2 { grid-template-columns:1fr !important; grid-template-areas:"content" "side"; }
+    #postbox-container-1.dy-ed-inspector { position:static; }
+    #poststuff #postbox-container-1 { width:100% !important; max-width:100% !important; }
+    // In stacked layout, never show the collapsed rail.
+    .dy-ed-inspector__collapse { display:none; }
+    // Command bar: stacked, actions aligned to the right.
+    .dy-ed-cmdbar { flex-direction:column; align-items:flex-start; }
+    .dy-ed-cmdbar .dy-ed-cmdbar__actions { align-self:flex-end; }
+  }
+  body.dy-admin.dy-editor-reimagined.dy-ed-inspector-collapsed #poststuff #post-body.columns-2 { --dya-ed-side:auto; }
+  body.dy-admin.dy-editor-reimagined.dy-ed-inspector-collapsed #postbox-container-1.dy-ed-inspector .postbox .inside { display:block !important; }
+  body.dy-admin.dy-editor-reimagined.dy-ed-inspector-collapsed #postbox-container-1.dy-ed-inspector .hndle { font-size:12px; }
+}
+@media (max-width: 782px) {
+  body.dy-admin.dy-editor-reimagined .dy-ed-cmdbar {
+    flex-wrap:wrap; top:6px; padding:10px 12px;
+  }
+  body.dy-admin.dy-editor-reimagined .dy-ed-cmdbar__titlewrap { flex:1 1 100%; order:1; }
+  body.dy-admin.dy-editor-reimagined .dy-ed-pill { order:2; }
+  body.dy-admin.dy-editor-reimagined .dy-ed-cmdbar__actions { order:3; margin-left:auto; flex-wrap:wrap; }
+  body.dy-admin.dy-editor-reimagined .dy-ed-cmdbar__actions #publish,
+  body.dy-admin.dy-editor-reimagined .dy-ed-cmdbar__actions #save { flex:1 1 auto; }
+}
+
+// Accessibility: no animation if the user has reduced motion.
+@media (prefers-reduced-motion: reduce) {
+  body.dy-admin.dy-editor-reimagined .dy-ed-cmdbar,
+  body.dy-admin.dy-editor-reimagined #postdivrich { animation:none; }
+  body.dy-admin.dy-editor-reimagined #post-body.columns-2 { transition:none; }
+}

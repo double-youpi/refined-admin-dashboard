@@ -1,0 +1,86 @@
+// =============================================================
+// admin.scss
+// Entry point for Admin · Double Youpi admin theme.
+// All rules are scoped under body.dy-admin so the theme
+// stays inert unless the PHP layer adds that class.
+//
+// Compile : Live Sass Compiler (config dans `.vscode/settings.json`)
+//   source : assets/scss/modules/admin/admin.scss
+//   target : assets/css/modules/admin/admin.css
+//
+// The static HTML gallery in `docs/design/complete/pages/` consumes
+// the compiled plugin CSS directly via relative paths.
+// =============================================================
+
+// 1. Design tokens — must come first so other partials can use them.
+@use "partials/tokens";
+
+// 1-bis. Card: `dy-card` mixin (single source of the card pattern). No CSS
+//        is emitted here; partials that need it do `@use 'card' as *;`.
+@use "partials/card";
+
+// 2. Reset + typography + scrollbars + film grain.
+@use "partials/base";
+
+// 3. Top-level grid (#wpwrap → rail | topbar / chipbar / content).
+@use "partials/layout";
+
+// 4. Chrome around the page content.
+@use "partials/adminbar";
+@use "partials/rail";
+@use "partials/rail-flyout";
+@use "partials/chipbar";
+@use "partials/subchipbar";
+
+// 4-bis. Related chrome components (Static module admin bar badge
+//        restyled to align with the admin DS when Admin is active).
+@use "partials/static-badge";
+
+// 4-ter. Command Palette (Cmd/Ctrl+K): admin bar trigger + modal.
+@use "partials/command-palette";
+
+// 5. Content surfaces.
+@use "partials/welcome";
+@use "partials/postbox";
+@use "partials/widgets";
+@use "partials/tables";
+@use "partials/tables-reimagined";
+@use "partials/post-ordering";
+@use "partials/forms";
+@use "partials/buttons";
+@use "partials/notices";
+@use "partials/notices-center";
+@use "partials/cards";
+@use "partials/editor";
+@use "partials/editor-reimagined";
+@use "partials/dashboard";
+
+// 6. Specialized contexts.
+@use "partials/builder-native";
+@use "partials/login";
+@use "partials/woocommerce";
+@use "partials/gutenberg";
+@use "partials/customizer";
+@use "partials/misc";
+
+// 7. Adaptive layers — keep last so they can override.
+@use "partials/responsive";
+
+// 8. Cross-document View Transitions (chrome morph + content
+//    swap with directionality). Inert in non-supporting browsers.
+@use "partials/view-transitions";
+
+// 9. Real-WordPress DOM adapter — overrides that bridge the gap
+//    between the mockup's flat structure and WP's nested DOM
+//    (#wpadminbar outside #wpwrap, #adminmenumain wrapping the rail,
+//    #wpfooter / .clear / scripts as grid siblings, etc.).
+//    Backward-compatible : has no visible effect on the mockup DOM.
+@use "partials/wp-production";
+
+// 10. Adoption layer — dy-adopt data (third-party plugins injected after wp-production).
+@use "partials/adoption";
+
+// 11. Media Library (wp.media modal + filters) — AFTER wp-production/_07-universal-dark
+//     to override its generic media styling (toolbar paper-2, etc.).
+@use "partials/media-modal";
+@use "partials/media-filters";

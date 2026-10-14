@@ -1,0 +1,782 @@
+// =============================================================
+// _login.scss
+// wp-login.php — full redesign "Editorial Console".
+//
+// Composition:
+//   - Accent rail at left (CSS-only, position fixed)
+//   - Mono CAPS eyebrow top-left (site name · session)
+//   - Theme toggle top-right (sun/moon icon)
+//   - Hero brand: custom logo (img) OR fallback letter, then site name
+//     in display
+//   - Login form in a centered paper card
+//   - Mono footer signature at bottom
+//   - Background: subtle radial gradient + grain overlay + in dark
+//     mode a few static particles
+//
+// Dark/light persistence: Admin::login_head_inline injects a pre-paint
+// script that sets `.dy-theme-light` on <body> before first paint,
+// driven by `localStorage.dy-admin-theme`. Toggle button switches and writes.
+//
+// Custom logo: Settings::login_logo_html renders `<img>` if a URL is set,
+// otherwise a letter. Always hides the WP-default h1 a to free up space.
+// =============================================================
+
+// ── Local variables --------------------------------------------------
+// `--dya-accent-soft`: for notice backgrounds / focus rings (~10% accent).
+body.dy-admin-login {
+	--dy-login-bg:        var(--dya-bg, #0c0e13);
+	--dy-login-paper:     var(--dya-paper, #161a23);
+	--dy-login-ink:       var(--dya-ink, #ededee);
+	--dy-login-ink-mute:  var(--dya-ink-mute, #76777b);
+	--dy-login-line:      var(--dya-line, rgba(255, 255, 255, .07));
+	--dy-login-line-hi:   var(--dya-line-strong, rgba(255, 255, 255, .12));
+}
+
+// ── Page shell --------------------------------------------------------
+// Aggressive override: WP loads `login.min.css` which enforces a rigid
+// layout; we neutralize everything we can without breaking accessibility
+// (the native WP H1 a is hidden — its text remains for screen readers via .screen-reader-text).
+body.dy-admin-login {
+	background: var(--dy-login-bg);
+	color: var(--dy-login-ink);
+	font-family: var(--dya-font-body, system-ui);
+	font-size: var(--dya-fs-base, 13.5px);
+	min-width: 0;
+	min-height: 100vh;
+	// Only clip horizontally: with `overflow: hidden` the page could not scroll,
+	// so an error notice + the language switcher were cut off on short viewports.
+	overflow-x: hidden;
+	overflow-y: auto;
+	position: relative;
+	color-scheme: dark;
+	// Flex column so the signature footer can sit in the flow, pushed to the
+	// bottom (margin-top:auto) instead of floating fixed over the language switcher.
+	display: flex;
+	flex-direction: column;
+}
+
+// Background: subtle radial gradient positioned at top-right
+// (hollows the asymmetric composition slightly), invisible in pure light mode.
+body.dy-admin-login::before {
+	content: "";
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	z-index: 0;
+	background:
+		radial-gradient(
+			ellipse 800px 600px at 90% 10%,
+			color-mix(in srgb, var(--dya-accent) 10%, transparent) 0%,
+			transparent 60%
+		),
+		radial-gradient(
+			ellipse 600px 500px at 10% 90%,
+			color-mix(in srgb, var(--dya-accent) 6%, transparent) 0%,
+			transparent 50%
+		);
+}
+
+// Grain overlay (same as _base.scss of the admin chrome)
+body.dy-admin-login::after {
+	content: "";
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	z-index: 1;
+	opacity: .11;
+	mix-blend-mode: overlay;
+	background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1.4 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+	background-size: 220px 220px;
+}
+body.dy-admin-login.dy-theme-light { color-scheme: light; }
+body.dy-admin-login.dy-theme-light::after {
+	opacity: .03;
+	mix-blend-mode: multiply;
+}
+
+// ── Fixed accent rail at bottom ------------------------------------------
+// Previous version: vertical on the left (3px wide, full height).
+// New version: horizontal at the bottom (3px tall, full width). Less
+// intrusive compositionally (the vertical rail overlapped the eyebrow),
+// acts as the DS "baseline" — like a graphic subtitle across the full screen.
+//
+// Z-index 9: below the footer signature (z-index 10) so the
+// gradient extends under the text without cutting it. The rail stays
+// at `bottom: 0` (exact edge); the signature floats 20px above.
+.dy-login-rail {
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 3px;
+	background: linear-gradient(
+		to right,
+		transparent 0%,
+		var(--dya-accent) 20%,
+		var(--dya-accent) 80%,
+		transparent 100%
+	);
+	z-index: 9;
+	pointer-events: none;
+	opacity: 0;
+	transform-origin: center;
+	animation: dy-login-rail-in 800ms cubic-bezier(.22, 1, .36, 1) 80ms forwards;
+}
+@keyframes dy-login-rail-in {
+	from { opacity: 0; transform: scaleX(.3); }
+	to   { opacity: 1; transform: scaleX(1); }
+}
+
+// ── Eyebrow top-left -------------------------------------------------
+.dy-login-eyebrow {
+	position: fixed;
+	top: 24px;
+	left: 32px;
+	z-index: 11;
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	font-family: var(--dya-font-mono, ui-monospace);
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: var(--dya-tracking-label, .12em);
+	color: var(--dy-login-ink-mute);
+	font-weight: 500;
+	opacity: 0;
+	animation: dy-login-fade-in 600ms ease-out 240ms forwards;
+}
+.dy-login-eyebrow__dot {
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: var(--dya-accent);
+	box-shadow: 0 0 12px color-mix(in srgb, var(--dya-accent) 70%, transparent);
+	animation: dy-login-pulse 2.4s ease-in-out infinite;
+}
+@keyframes dy-login-pulse {
+	0%, 100% { opacity: 1; transform: scale(1); }
+	50%      { opacity: .5; transform: scale(.85); }
+}
+.dy-login-eyebrow__label {
+	color: var(--dy-login-ink);
+}
+.dy-login-eyebrow__sep {
+	opacity: .4;
+}
+
+// ── Theme toggle top-right -------------------------------------------
+.dy-login-theme-toggle {
+	position: fixed;
+	top: 20px;
+	right: 28px;
+	z-index: 11;
+	display: inline-grid;
+	place-items: center;
+	width: 36px;
+	height: 36px;
+	border: 1px solid var(--dy-login-line);
+	border-radius: 999px;
+	background: color-mix(in srgb, var(--dy-login-paper) 90%, transparent);
+	color: var(--dy-login-ink-mute);
+	cursor: pointer;
+	padding: 0;
+	transition:
+		color var(--dya-t-fast, 140ms) ease,
+		border-color var(--dya-t-fast, 140ms) ease,
+		transform var(--dya-t-fast, 140ms) ease;
+	opacity: 0;
+	animation: dy-login-fade-in 600ms ease-out 320ms forwards;
+}
+.dy-login-theme-toggle:hover {
+	color: var(--dy-login-ink);
+	border-color: var(--dy-login-line-hi);
+	transform: scale(1.05);
+}
+.dy-login-theme-toggle:focus-visible {
+	outline: 2px solid var(--dya-accent);
+	outline-offset: 3px;
+}
+.dy-login-theme-toggle__icon {
+	width: 16px;
+	height: 16px;
+	position: absolute;
+	transition: opacity 200ms ease, transform 300ms cubic-bezier(.22, 1, .36, 1);
+}
+// Default (dark): moon icon visible, sun hidden
+.dy-login-theme-toggle__icon--moon { opacity: 1; transform: rotate(0); }
+.dy-login-theme-toggle__icon--sun  { opacity: 0; transform: rotate(-90deg); }
+// Light: reversed
+body.dy-admin-login.dy-theme-light .dy-login-theme-toggle__icon--moon { opacity: 0; transform: rotate(90deg); }
+body.dy-admin-login.dy-theme-light .dy-login-theme-toggle__icon--sun  { opacity: 1; transform: rotate(0); }
+
+// ── Hero brand: logo + site name -------------------------------------
+.dy-login-brand {
+	position: relative;
+	z-index: 2;
+	max-width: 380px;
+	margin: 0 auto;
+	padding: 80px 20px 0;
+	text-align: center;
+	opacity: 0;
+	animation: dy-login-fade-in 700ms ease-out 380ms forwards;
+}
+.dy-login-logo {
+	display: grid;
+	place-items: center;
+	margin: 0 auto 24px;
+}
+.dy-login-logo__img {
+	max-width: 96px;
+	max-height: 96px;
+	width: auto;
+	height: auto;
+	display: block;
+	// If the image is dark on a dark background (or the reverse in light mode),
+	// a subtle blend mode is applied for integration. Can be disabled
+	// via the `.dy-login-logo__img--raw` class if the user wants
+	// pixel-perfect rendering.
+}
+.dy-login-logo__letter {
+	display: grid;
+	place-items: center;
+	width: 72px;
+	height: 72px;
+	background: color-mix(in srgb, var(--dya-accent) 12%, var(--dy-login-paper));
+	color: var(--dya-accent);
+	border: 1px solid color-mix(in srgb, var(--dya-accent) 25%, transparent);
+	border-radius: 18px;
+	font-family: var(--dya-font-display, "Bricolage Grotesque");
+	font-size: 36px;
+	font-weight: 600;
+	line-height: 1;
+	letter-spacing: -0.02em;
+	box-shadow:
+		0 8px 32px color-mix(in srgb, var(--dya-accent) 18%, transparent),
+		inset 0 1px 0 color-mix(in srgb, white 10%, transparent);
+}
+.dy-login-title {
+	font-family: var(--dya-font-display, "Bricolage Grotesque");
+	font-size: clamp(22px, 3vw, 28px);
+	font-weight: 500;
+	letter-spacing: -0.02em;
+	color: var(--dy-login-ink);
+	line-height: 1.2;
+	margin: 0;
+}
+
+// ── Form container ---------------------------------------------------
+// WP wrap: <div id="login"> contains h1 + form + nav + backtoblog.
+// We hide the h1 (already replaced by .dy-login-brand) and style the form.
+body.dy-admin-login #login {
+	width: 100%;
+	max-width: 420px;
+	padding: 24px 20px 60px;
+	margin: 0 auto;
+	position: relative;
+	z-index: 2;
+}
+
+// Native WP H1 a: hidden (our brand block takes over).
+body.dy-admin-login #login h1 {
+	display: none;
+}
+
+body.dy-admin-login #loginform,
+body.dy-admin-login #registerform,
+body.dy-admin-login #lostpasswordform {
+	background: var(--dy-login-paper);
+	border: 1px solid var(--dy-login-line);
+	border-radius: 18px;
+	padding: 32px 32px 28px;
+	box-shadow:
+		0 24px 80px rgba(0, 0, 0, .35),
+		0 2px 0 color-mix(in srgb, var(--dya-accent) 8%, transparent) inset;
+	margin: 0;
+	opacity: 0;
+	animation: dy-login-form-in 700ms cubic-bezier(.22, 1, .36, 1) 440ms forwards;
+}
+body.dy-admin-login.dy-theme-light #loginform,
+body.dy-admin-login.dy-theme-light #registerform,
+body.dy-admin-login.dy-theme-light #lostpasswordform {
+	box-shadow:
+		0 24px 60px rgba(0, 0, 0, .08),
+		0 2px 0 color-mix(in srgb, var(--dya-accent) 8%, transparent) inset;
+}
+@keyframes dy-login-form-in {
+	from { opacity: 0; transform: translateY(12px); }
+	to   { opacity: 1; transform: translateY(0); }
+}
+
+// ── Labels and inputs -------------------------------------------------
+// `<label for="user_login">` lives in a `<p>` direct child of the form,
+// but `<label for="user_pass">` lives in `<div class="user-pass-wrap">`
+// with a `.wp-pwd` wrapper around the input + eye button. We broaden the
+// selector to match both structures.
+body.dy-admin-login p label,
+body.dy-admin-login .user-pass-wrap > label,
+body.dy-admin-login label[for="user_login"],
+body.dy-admin-login label[for="user_pass"],
+body.dy-admin-login label[for="user_email"] {
+	font-family: var(--dya-font-mono, ui-monospace);
+	font-size: 10.5px;
+	text-transform: uppercase;
+	letter-spacing: var(--dya-tracking-label, .12em);
+	color: var(--dy-login-ink-mute);
+	font-weight: 500;
+	margin: 0 0 8px;
+	display: block;
+}
+
+body.dy-admin-login input[type="text"],
+body.dy-admin-login input[type="password"],
+body.dy-admin-login input[type="email"] {
+	background: var(--dy-login-bg);
+	border: 1px solid var(--dy-login-line);
+	border-radius: 10px;
+	padding: 11px 14px;
+	font-size: 14px;
+	color: var(--dy-login-ink);
+	width: 100%;
+	margin: 0 0 16px;
+	box-shadow: none;
+	font-family: inherit;
+	height: auto;
+	transition:
+		border-color var(--dya-t-fast, 140ms) ease,
+		box-shadow var(--dya-t-fast, 140ms) ease;
+}
+body.dy-admin-login input[type="text"]:focus,
+body.dy-admin-login input[type="password"]:focus,
+body.dy-admin-login input[type="email"]:focus {
+	border-color: var(--dya-accent);
+	box-shadow:
+		0 0 0 3px color-mix(in srgb, var(--dya-accent) 22%, transparent),
+		0 0 0 1px var(--dya-accent);
+	outline: none;
+}
+
+// Eye toggle button (show/hide password) — WP renders a .button.wp-hide-pw
+// to the right of the password input.
+// Actual WP markup: `<div class="wp-pwd"><input type="password"><button class="wp-hide-pw">`.
+// .wp-pwd does NOT contain the label (which lives in .user-pass-wrap above).
+// The input has `margin-bottom: 16px` → using `height: 100%` on the button would
+// cause it to overflow below the input. We align precisely to the INPUT HEIGHT
+// (computed: padding 11+11 + font 14*1.5 ≈ 43.5px) via fixed top + height.
+body.dy-admin-login .wp-pwd {
+	position: relative;
+}
+body.dy-admin-login .wp-pwd input[type="password"],
+body.dy-admin-login .wp-pwd input[type="text"] {
+	padding-right: 44px;
+}
+body.dy-admin-login .wp-pwd .button.wp-hide-pw {
+	position: absolute;
+	top: 1px;
+	right: 1px;
+	width: 44px;
+	height: calc(100% - 18px); // excludes the input's margin-bottom
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+	color: var(--dy-login-ink-mute);
+	// `display: grid; place-items: center` is more robust than flex for
+	// centering a single child: whitespace text nodes that WP renders
+	// around the `<span>` (HTML indentation) create a line-box in flex
+	// that shifts the icon ~4px downward. Grid ignores anonymous
+	// text nodes. Additionally: `font-size: 0` + `line-height: 0` on the button
+	// neutralizes any residual baseline-shift from those text nodes.
+	display: grid;
+	place-items: center;
+	font-size: 0;
+	line-height: 0;
+	cursor: pointer;
+	padding: 0;
+	margin: 0;
+	min-height: 0;
+	transition: color var(--dya-t-fast, 140ms) ease;
+}
+body.dy-admin-login .wp-pwd .button.wp-hide-pw:hover {
+	color: var(--dy-login-ink);
+}
+body.dy-admin-login .wp-pwd .button.wp-hide-pw:focus-visible {
+	outline: 2px solid var(--dya-accent);
+	outline-offset: -2px;
+	border-radius: 6px;
+}
+// WP renders `<span class="dashicons dashicons-visibility">` (open eye) and
+// swaps it to `dashicons-hidden` (crossed eye) on click. The dashicons font is
+// pixel-imperfect for vertical centering (glyph is ~14px tall in a 20px box →
+// baseline shift). We replace it with our DS line-art SVG via `mask-image` +
+// `background: currentColor`. The open/closed eye toggle naturally follows
+// WP classes via different mask-images.
+body.dy-admin-login .wp-pwd .button.wp-hide-pw .dashicons {
+	font-size: 0;          // hide the WP-font glyph
+	width: 18px;
+	height: 18px;
+	display: inline-block;
+	vertical-align: middle;
+	// WP-native `css/forms.min.css` enforces `position: relative; top: 0.25rem`
+	// (= +4px) on `.wp-hide-pw > .dashicons` to align the dashicons FONT
+	// with the button baseline. With our centered SVG mask, this shift
+	// becomes harmful (icon is 4px below the button center).
+	// We neutralize it → the icon returns to the center of the grid place-items.
+	position: static;
+	top: auto;
+	// `background-color: currentColor` reads `color` from the parent button
+	// (--dy-login-ink-mute by default, --dy-login-ink on hover) — the
+	// icon tint follows the button state automatically.
+	background-color: currentColor;
+	-webkit-mask-position: center;
+	mask-position: center;
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
+	-webkit-mask-size: 18px 18px;
+	mask-size: 18px 18px;
+}
+// Open eye (default state, password hidden)
+body.dy-admin-login .wp-pwd .button.wp-hide-pw .dashicons-visibility {
+	-webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'/><circle cx='12' cy='12' r='3'/></svg>");
+	mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'/><circle cx='12' cy='12' r='3'/></svg>");
+}
+// Crossed eye (state after click, password visible)
+body.dy-admin-login .wp-pwd .button.wp-hide-pw .dashicons-hidden {
+	-webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24'/><line x1='1' y1='1' x2='23' y2='23'/></svg>");
+	mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24'/><line x1='1' y1='1' x2='23' y2='23'/></svg>");
+}
+
+// ── Forget me not (Remember me) -------------------------------
+body.dy-admin-login .forgetmenot {
+	font-size: 13px;
+	color: var(--dy-login-ink-mute);
+	margin: 0 0 20px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	float: none;
+}
+body.dy-admin-login .forgetmenot label {
+	text-transform: none;
+	letter-spacing: 0;
+	font-family: inherit;
+	font-size: 13px;
+	color: var(--dy-login-ink);
+	margin: 0;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	cursor: pointer;
+}
+body.dy-admin-login .forgetmenot input[type="checkbox"] {
+	width: 16px;
+	height: 16px;
+	border: 1px solid var(--dy-login-line-hi);
+	border-radius: 4px;
+	background: var(--dy-login-bg);
+	cursor: pointer;
+	appearance: none;
+	-webkit-appearance: none;
+	margin: 0;
+	transition: all var(--dya-t-fast, 140ms) ease;
+}
+body.dy-admin-login .forgetmenot input[type="checkbox"]:checked {
+	background: var(--dya-accent);
+	border-color: var(--dya-accent);
+	background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='3 8 7 12 13 4'/></svg>");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 12px;
+}
+
+// ── Submit CTA (Log In) ----------------------------------------
+// Breathing room above the button after the "Remember me" checkbox.
+// WP-core `#login form p.submit` (0,1,2) forces `margin: 0` →
+// we bump specificity with `#login form p.submit` (0,2,2) by chaining
+// the body.
+body.dy-admin-login .submit,
+body.dy-admin-login #login form p.submit { margin: 12px 0 0; padding: 0; float: none; }
+body.dy-admin-login #wp-submit,
+body.dy-admin-login .button-primary {
+	width: 100%;
+	background: var(--dya-accent);
+	color: var(--dya-accent-on, #18181a);
+	border: 1px solid var(--dya-accent);
+	border-radius: 10px;
+	padding: 12px 18px;
+	font-family: var(--dya-font-body, system-ui);
+	font-size: 14px;
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	text-shadow: none;
+	height: auto;
+	box-shadow:
+		0 8px 24px color-mix(in srgb, var(--dya-accent) 30%, transparent),
+		0 1px 0 color-mix(in srgb, white 20%, transparent) inset;
+	line-height: 1;
+	cursor: pointer;
+	float: none;
+	transition:
+		transform var(--dya-t-fast, 140ms) ease,
+		box-shadow var(--dya-t-fast, 140ms) ease;
+}
+body.dy-admin-login #wp-submit:hover {
+	transform: translateY(-1px);
+	box-shadow:
+		0 12px 32px color-mix(in srgb, var(--dya-accent) 40%, transparent),
+		0 1px 0 color-mix(in srgb, white 25%, transparent) inset;
+}
+body.dy-admin-login #wp-submit:active {
+	transform: translateY(0);
+}
+body.dy-admin-login #wp-submit:focus-visible {
+	outline: 2px solid var(--dy-login-ink);
+	outline-offset: 3px;
+}
+
+// ── Bottom links (Lost your password, Go to site) -----------
+body.dy-admin-login #nav,
+body.dy-admin-login #backtoblog {
+	text-align: center;
+	margin: 16px 0 0;
+	padding: 0;
+	font-size: 13px;
+	opacity: 0;
+	animation: dy-login-fade-in 600ms ease-out 700ms forwards;
+}
+body.dy-admin-login #nav a,
+body.dy-admin-login #backtoblog a {
+	color: var(--dy-login-ink-mute);
+	font-size: 13px;
+	text-shadow: none;
+	text-decoration: none;
+	border-bottom: 1px solid transparent;
+	padding: 2px 0;
+	transition:
+		color var(--dya-t-fast, 140ms) ease,
+		border-bottom-color var(--dya-t-fast, 140ms) ease;
+}
+body.dy-admin-login #nav a:hover,
+body.dy-admin-login #backtoblog a:hover {
+	color: var(--dy-login-ink);
+	border-bottom-color: var(--dya-accent);
+}
+// WP already renders "← Back to..." in the HTML (arrow in the native text).
+// Instead of adding a second arrow via ::before, we colorize the first
+// letter (which happens to be the "←" character) in accent via ::first-letter.
+// The rest of the text keeps its ink-mute / accent color on hover.
+body.dy-admin-login #backtoblog a::first-letter {
+	color: var(--dya-accent);
+	font-size: 1.15em;
+}
+
+// ── Notices (logout, error, info) ------------------------------------
+// WP renders two variants: `.message` (info) and `#login_error` (error).
+// Semantic DS colors, border-left accent by type.
+body.dy-admin-login .login .message,
+body.dy-admin-login .login #login_error,
+body.dy-admin-login #login_error,
+body.dy-admin-login .login .notice,
+body.dy-admin-login .notice,
+body.dy-admin-login .message {
+	background: var(--dy-login-paper);
+	border: 1px solid var(--dy-login-line);
+	border-left: 3px solid var(--dya-accent);
+	border-radius: 10px;
+	padding: 12px 16px;
+	margin: 0 0 24px;
+	color: var(--dy-login-ink);
+	font-size: 13px;
+	line-height: 1.5;
+	box-shadow: var(--dya-shadow-sm);
+}
+body.dy-admin-login #login_error {
+	border-left-color: var(--dya-danger, #f06557);
+	background: color-mix(in srgb, var(--dya-danger, #f06557) 4%, var(--dy-login-paper));
+}
+body.dy-admin-login .login .notice-success,
+body.dy-admin-login .notice-success {
+	border-left-color: var(--dya-success, #4cc38a);
+}
+
+// Logout success message — the `<p class="message">` WP displays after
+// logout ("You have been logged out."). We give it a subtle accent tint.
+body.dy-admin-login .login p.message,
+body.dy-admin-login p.message {
+	border-left-color: var(--dya-accent);
+}
+
+// ── Language switcher (footer locale selector) -------------------
+body.dy-admin-login .language-switcher {
+	margin: 24px auto 0;
+	text-align: center;
+	opacity: 0;
+	animation: dy-login-fade-in 600ms ease-out 780ms forwards;
+}
+body.dy-admin-login .language-switcher form {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+body.dy-admin-login .language-switcher label {
+	font-family: var(--dya-font-mono, ui-monospace);
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: var(--dya-tracking-label, .12em);
+	color: var(--dy-login-ink-mute);
+}
+body.dy-admin-login .language-switcher select,
+body.dy-admin-login #language-switcher-locales {
+	background: var(--dy-login-paper);
+	border: 1px solid var(--dy-login-line);
+	border-radius: 8px;
+	padding: 6px 32px 6px 12px;
+	color: var(--dy-login-ink);
+	font-size: 13px;
+	cursor: pointer;
+	appearance: none;
+	-webkit-appearance: none;
+	background-image:
+		linear-gradient(45deg, transparent 50%, var(--dy-login-ink-mute) 50%),
+		linear-gradient(135deg, var(--dy-login-ink-mute) 50%, transparent 50%);
+	background-position:
+		calc(100% - 14px) 50%,
+		calc(100% - 9px) 50%;
+	background-size: 5px 5px;
+	background-repeat: no-repeat;
+}
+body.dy-admin-login .language-switcher input[type="submit"],
+body.dy-admin-login #language-switcher button {
+	background: transparent;
+	border: 1px solid var(--dy-login-line);
+	border-radius: 8px;
+	padding: 6px 14px;
+	color: var(--dy-login-ink);
+	font-size: 13px;
+	cursor: pointer;
+	transition:
+		border-color var(--dya-t-fast, 140ms) ease,
+		color var(--dya-t-fast, 140ms) ease;
+}
+body.dy-admin-login .language-switcher input[type="submit"]:hover,
+body.dy-admin-login #language-switcher button:hover {
+	border-color: var(--dya-accent);
+	color: var(--dya-accent);
+}
+
+// ── Signature footer mono --------------------------------------------
+.dy-login-signature {
+	// In the flow (flex order 99), last element of the column, glued to the
+	// bottom on tall viewports and simply after the language switcher on short ones.
+	position: static;
+	order: 99;
+	margin-top: auto;
+	padding: 28px 0 20px;
+	z-index: 10;
+	text-align: center;
+	font-family: var(--dya-font-mono, ui-monospace);
+	font-size: 10.5px;
+	text-transform: uppercase;
+	letter-spacing: var(--dya-tracking-label, .12em);
+	color: var(--dy-login-ink-mute);
+	opacity: 0;
+	display: inline-flex;
+	gap: 10px;
+	justify-content: center;
+	width: 100%;
+	animation: dy-login-fade-in 600ms ease-out 880ms forwards;
+}
+.dy-login-signature__sep {
+	opacity: .4;
+}
+
+// ── Reveal animations ------------------------------------------------
+@keyframes dy-login-fade-in {
+	from { opacity: 0; transform: translateY(6px); }
+	to   { opacity: 1; transform: translateY(0); }
+}
+
+// ── Responsive (< 640px) ---------------------------------------------
+@media (max-width: 640px) {
+	.dy-login-eyebrow {
+		top: 16px;
+		left: 20px;
+		font-size: 10px;
+	}
+	.dy-login-theme-toggle {
+		top: 14px;
+		right: 16px;
+		width: 32px;
+		height: 32px;
+	}
+	.dy-login-brand {
+		padding-top: 56px;
+	}
+	body.dy-admin-login #login {
+		padding: 16px 16px 48px;
+	}
+	body.dy-admin-login #loginform,
+	body.dy-admin-login #registerform,
+	body.dy-admin-login #lostpasswordform {
+		padding: 24px 20px;
+	}
+	.dy-login-signature {
+		font-size: 9.5px;
+	}
+}
+
+// ── Custom logo via CSS custom property ------------------------------
+// Settings::login_logo_html() renders an <img class="dy-login-logo__img">
+// when the user has uploaded a logo, otherwise a letter.
+//
+// Alternative: if driving via background-image is preferred (for a
+// favicon-style logo that must preserve its proportions), activate
+// via the `.dy-login-logo--bg` class.
+.dy-login-logo--bg {
+	width: 72px;
+	height: 72px;
+	background-image: var(--dy-login-logo);
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+// ── Subtle constellation in dark mode (decorative) -------------------
+// Pure CSS: ~12 dots positioned absolutely via static radial-gradients.
+// No animation (understated).
+body.dy-admin-login:not(.dy-theme-light)::before {
+	background:
+		// Main ellipse gradient (see above)
+		radial-gradient(
+			ellipse 800px 600px at 90% 10%,
+			color-mix(in srgb, var(--dya-accent) 10%, transparent) 0%,
+			transparent 60%
+		),
+		radial-gradient(
+			ellipse 600px 500px at 10% 90%,
+			color-mix(in srgb, var(--dya-accent) 6%, transparent) 0%,
+			transparent 50%
+		),
+		// Constellation: 8 small translucent white dots
+		radial-gradient(1px 1px at 12% 18%, rgba(255, 255, 255, .25) 50%, transparent 100%),
+		radial-gradient(1.5px 1.5px at 24% 72%, rgba(255, 255, 255, .18) 50%, transparent 100%),
+		radial-gradient(1px 1px at 38% 14%, rgba(255, 255, 255, .22) 50%, transparent 100%),
+		radial-gradient(1.5px 1.5px at 52% 88%, rgba(255, 255, 255, .15) 50%, transparent 100%),
+		radial-gradient(1px 1px at 68% 32%, rgba(255, 255, 255, .28) 50%, transparent 100%),
+		radial-gradient(1.5px 1.5px at 78% 64%, rgba(255, 255, 255, .12) 50%, transparent 100%),
+		radial-gradient(1px 1px at 88% 22%, rgba(255, 255, 255, .2) 50%, transparent 100%),
+		radial-gradient(1.5px 1.5px at 92% 76%, rgba(255, 255, 255, .14) 50%, transparent 100%);
+}
+
+// Light mode: no constellation, increased contrast.
+body.dy-admin-login.dy-theme-light::before {
+	background:
+		radial-gradient(
+			ellipse 800px 600px at 90% 10%,
+			color-mix(in srgb, var(--dya-accent) 14%, transparent) 0%,
+			transparent 60%
+		),
+		radial-gradient(
+			ellipse 600px 500px at 10% 90%,
+			color-mix(in srgb, var(--dya-accent) 8%, transparent) 0%,
+			transparent 50%
+		);
+}

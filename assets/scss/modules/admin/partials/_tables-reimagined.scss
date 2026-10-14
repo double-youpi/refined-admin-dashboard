@@ -1,0 +1,1235 @@
+// =============================================================
+// _tables-reimagined.scss
+// Reimagined wp-list-table view (Direction B — Hover Toolbar).
+// Ported from docs/design/mockups/admin-tables/_table-b.css, scoped under
+// `body.dy-admin.dy-tables-reimagined` and prefixed with `dy-` (no collision
+// with WordPress .row/.column). Built client-side by
+// assets/js/modules/admin/tables-reimagined.js from the native DOM.
+//
+// Modes:
+//   body.dy-admin.dy-tables-reimagined → native table hidden,
+//      .dy-treimg view (injected by JS) is shown.
+//   body.dy-admin.dy-tables-native     → do nothing: native WP render
+//      styled by _tables.scss (unchanged).
+//
+// Tokens: all real (cf. _tokens.scss). Only local token: --dya-tree-line.
+// The options gear reuses .dy-table-options* classes from _tables.scss.
+// =============================================================
+
+@keyframes dytr-row-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes dytr-chip-in {
+  from { opacity: 0; transform: translateX(8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes dytr-tip-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(2px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+@keyframes dytr-status-pulse {
+  0%, 100% { transform: scale(1);   opacity: .35; }
+  50%      { transform: scale(2.2); opacity: 0; }
+}
+
+// ── Reimagined mode: hide the native table, show the custom view ──────
+body.dy-admin.dy-tables-reimagined {
+  .wp-list-table { display: none; }
+  .dy-treimg { display: block; }
+  // Native controls replaced by our bar (Direction A): statuses
+  // (.subsubsub) → segmented; search (.search-box) → our field; top bar
+  // (.tablenav.top: filters + bulk actions + pagination) → hidden to
+  // avoid duplication. Everything stays in the DOM (source of truth, driven
+  // by URL / submit). Bottom pagination (.tablenav.bottom) remains visible.
+  .subsubsub,
+  .search-box,
+  .tablenav.top { display: none; }
+  // The native gear (injected by admin.js into .dy-table-wrapper)
+  // must not appear alongside ours → hidden here. Ours lives in
+  // .dy-treimg__bar, outside the wrapper, so it is unaffected.
+  .dy-table-wrapper > .dy-table-options { display: none; }
+}
+// The view is injected in both modes but hidden in native mode.
+body.dy-admin.dy-tables-native .dy-treimg { display: none; }
+
+// =====================================================================
+//  "Reimagined / native view" button (switchbar) — this DISPLAY TOGGLE
+//  only (class `.dy-treimg__toggle`). A SINGLE button, always visible,
+//  right-aligned, fixed position above the table (identical in reimagined
+//  and native modes). Animations: fluid width, accent (border+text) in
+//  reimagined mode, 360° border trace, text swap "wipe" (cover 0→100%
+//  from the left, swap, retract 100→0% to the right).
+// =====================================================================
+body.dy-admin .dy-treimg-switchbar {
+  display: flex; align-items: center; justify-content: flex-end; gap: 8px;
+  clear: both; margin: 12px 0 12px;
+}
+// ── Controls housed in the switchbar, next to the toggle button ───────
+// Options gear (table settings) for REIMAGINED + column indicator for NATIVE.
+// Visibility driven by mode: only the relevant control is shown.
+body.dy-admin .dy-treimg-switchbar .dy-table-options--insb {
+  position: relative; display: inline-flex;
+}
+// Aligns the gear trigger to the toggle button height (30px),
+// with a visible frame (in the switchbar it is isolated, not on the table).
+body.dy-admin .dy-treimg-switchbar .dy-table-options-trigger {
+  width: 32px; height: 30px; border-color: var(--dya-edge); color: var(--dya-ink-soft);
+}
+body.dy-admin .dy-treimg-switchbar .dy-table-options-trigger:hover { color: var(--dya-ink); border-color: var(--dya-edge-strong); background: var(--dya-paper-2); }
+// Panel: anchored below the gear, right-aligned (does not overflow the viewport).
+body.dy-admin .dy-treimg-switchbar .dy-table-options-panel { right: 0; left: auto; }
+// REIMAGINED mode → reimagined options gear visible, native gear hidden.
+body.dy-admin.dy-tables-reimagined .dy-treimg-switchbar .dy-table-options--native { display: none; }
+// NATIVE mode → native gear (relocated by admin.js) visible, reimagined gear hidden.
+body.dy-admin.dy-tables-native .dy-treimg-switchbar .dy-table-options--insb:not(.dy-table-options--native) { display: none; }
+// "Too many columns" state: native gear in RED.
+body.dy-admin .dy-treimg-switchbar .dy-table-options--native.is-over .dy-table-options-trigger {
+  color: #ff6b6b;
+  border-color: color-mix(in srgb, #ff6b6b 55%, var(--dya-line));
+  background: color-mix(in srgb, #ff6b6b 14%, var(--dya-paper-2));
+}
+body.dy-admin .dy-treimg-switchbar .dy-table-options--native.is-over .dy-table-options-trigger:hover { border-color: #ff6b6b; }
+// Warning note at the top of the native options panel (too many columns).
+body.dy-admin .dy-table-options-panel .dy-cols-note {
+  margin: 0 0 12px; padding: 8px 10px; border-radius: var(--dya-r-sm);
+  background: color-mix(in srgb, #ff6b6b 14%, var(--dya-paper-2));
+  border: 1px solid color-mix(in srgb, #ff6b6b 45%, var(--dya-line));
+  color: #ff8a8a; font-size: 11.5px; line-height: 1.35;
+}
+// ≥1000px: pull the switchbar up to reclaim some vertical space
+// (the button tucks level with the eyebrow/filters without disrupting the layout).
+@media (min-width: 1000px) {
+  body.dy-admin .dy-treimg-switchbar { margin-top: -24px; }
+}
+
+// @property: animatable angle for the 360° border trace.
+@property --dy-ring { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+
+body.dy-admin .dy-treimg__toggle {
+  position: relative; overflow: hidden;
+  display: inline-flex; align-items: center; gap: 7px;
+  height: 30px; padding: 0 13px;
+  border: 1px solid var(--dya-edge); border-radius: var(--dya-r-sm);
+  background: transparent; color: var(--dya-ink-soft);
+  font-family: var(--dya-font-mono); font-size: 10.5px;
+  letter-spacing: var(--dya-tracking-mono); text-transform: uppercase;
+  white-space: nowrap; cursor: pointer;
+  // FLUID width (JS sets a px width → transition) + colors (accent).
+  transition: width 320ms cubic-bezier(.16, 1, .3, 1),
+              border-color 260ms var(--dya-ease),
+              color 260ms var(--dya-ease),
+              background var(--dya-t-fast) var(--dya-ease);
+}
+body.dy-admin .dy-treimg__toggle:hover { color: var(--dya-ink); border-color: var(--dya-edge-strong); background: var(--dya-paper-2); }
+
+body.dy-admin .dy-treimg__toggle-ico { position: relative; z-index: 1; display: inline-flex; }
+body.dy-admin .dy-treimg__toggle-ico svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.6; display: block; }
+body.dy-admin .dy-treimg__toggle-txt { position: relative; z-index: 1; }
+
+// REIMAGINED mode active → ACCENT border + text (the button then offers
+// "Native view"). In native mode → neutral. Smooth transition via the button's `transition`.
+body.dy-admin.dy-tables-reimagined .dy-treimg__toggle { border-color: var(--dya-accent); color: var(--dya-accent-text, var(--dya-accent)); }
+
+// Swap wipe: covers the button (accent) by growing 0→100% from the
+// left, then retracts 100→0% to the right (toggled transform-origin).
+body.dy-admin .dy-treimg__toggle-wipe {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: var(--dya-accent);
+  transform: scaleX(0); transform-origin: left center;
+}
+body.dy-admin .dy-treimg__toggle.is-covering .dy-treimg__toggle-wipe {
+  transform: scaleX(1); transform-origin: left center;
+  transition: transform 200ms cubic-bezier(.66, 0, .34, 1);
+}
+body.dy-admin .dy-treimg__toggle.is-revealing .dy-treimg__toggle-wipe {
+  transform: scaleX(0); transform-origin: right center;
+  transition: transform 250ms cubic-bezier(.66, 0, .34, 1);
+}
+
+// 360° border trace: masked conic ring (only the outline is visible),
+// the `--dy-ring` angle sweeps from 0 to 360° during the toggle.
+body.dy-admin .dy-treimg__toggle-ring {
+  position: absolute; inset: 0; z-index: 3; border-radius: inherit;
+  padding: 1.5px; pointer-events: none; opacity: 0;
+  --dy-ring: 0deg;
+  background: conic-gradient(from -90deg, var(--dya-accent) var(--dy-ring), transparent 0deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+}
+body.dy-admin .dy-treimg__toggle.is-flipping .dy-treimg__toggle-ring {
+  animation: dy-ring-sweep 470ms cubic-bezier(.4, 0, .2, 1) forwards;
+}
+@keyframes dy-ring-sweep {
+  0%   { --dy-ring: 0deg;   opacity: 1; }
+  82%  { --dy-ring: 360deg; opacity: 1; }
+  100% { --dy-ring: 360deg; opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.dy-admin .dy-treimg__toggle { transition: none; }
+  body.dy-admin .dy-treimg__toggle.is-covering .dy-treimg__toggle-wipe,
+  body.dy-admin .dy-treimg__toggle.is-revealing .dy-treimg__toggle-wipe { transition: none; }
+  body.dy-admin .dy-treimg__toggle.is-flipping .dy-treimg__toggle-ring { animation: none; }
+}
+
+// (#2) In light theme, Quick Edit date/time fields revert to
+// color-scheme: light (native icons follow the light background).
+body.dy-admin.dy-theme-light .dy-qe input[type="date"],
+body.dy-admin.dy-theme-light .dy-qe input[type="time"] { color-scheme: light; }
+
+body.dy-admin .dy-treimg {
+  display: none;
+  --dya-tree-line: color-mix(in srgb, var(--dya-ink) 15%, transparent);
+
+  // (The options gear + column indicator live in `.dy-treimg-switchbar`,
+  //  next to the toggle button — OUTSIDE `.dy-treimg`, see above.)
+
+  // ── Conteneur liste ─────────────────────────────────────────────────
+  .dy-treimg__list {
+    border: 1px solid var(--dya-edge);
+    border-radius: var(--dya-r-lg);
+    background: var(--dya-paper);
+    overflow: visible;
+  }
+
+  // Grids by screen type (single source of truth)
+  &.dy-treimg--flat .dy-treimg__list { --dya-grid: 26px 26px minmax(0, 1fr) 150px 128px 160px; }
+  // Liste plate sans colonne de classement (type de contenu sans taxonomie
+  // affichée en colonne) : la piste disparaît au lieu de rester vide.
+  &.dy-treimg--flat.dy-treimg--nocat .dy-treimg__list { --dya-grid: 26px 26px minmax(0, 1fr) 150px 160px; }
+  &.dy-treimg--tree .dy-treimg__list { --dya-grid: 26px 26px minmax(0, 1fr) 150px 160px; }
+  &.dy-treimg--user .dy-treimg__list { --dya-grid: 26px minmax(0, 1fr) 160px; }
+  &.dy-treimg--term .dy-treimg__list { --dya-grid: 26px minmax(0, 1fr) 90px; }
+
+  .dy-treimg__head,
+  .dy-trow {
+    display: grid;
+    grid-template-columns: var(--dya-grid);
+    gap: 12px;
+    align-items: center;
+  }
+
+  .dy-treimg__head {
+    padding: 10px 18px;
+    background: var(--dya-bg-elev);
+    border-bottom: 1px solid var(--dya-line);
+    font-family: var(--dya-font-mono);
+    font-size: 10px;
+    letter-spacing: var(--dya-tracking-label);
+    text-transform: uppercase;
+    color: var(--dya-ink-mute);
+    position: sticky; top: var(--dya-chipbar-h); z-index: 4;
+    border-radius: var(--dya-r-lg) var(--dya-r-lg) 0 0;
+    input[type="checkbox"] { accent-color: var(--dya-accent); cursor: pointer; }
+  }
+  // Un intitulé de colonne ne passe jamais à la ligne (« GTIN, UPC, EAN ou
+  // ISBN » de WooCommerce tenait sur quatre lignes) : ellipse, texte complet
+  // dans l'infobulle.
+  .dy-treimg__col { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .dy-treimg__sort { cursor: pointer; display: inline-flex; align-items: center; gap: 4px; max-width: 100%; }
+  .dy-treimg__sort svg { flex: 0 0 auto; }
+  .dy-treimg__sort-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .dy-treimg__sort:hover { color: var(--dya-ink); }
+  .dy-treimg__sort.is-active { color: var(--dya-accent-text, var(--dya-accent)); }
+  .dy-treimg__sort svg { width: 9px; height: 9px; stroke: currentColor; fill: none; stroke-width: 2; }
+  .dy-treimg__checkall { display: flex; align-items: center; }
+  .dy-treimg__checkall input[type="checkbox"] { accent-color: var(--dya-accent); cursor: pointer; }
+  // in tree mode, row titles are offset by the chevron (24px):
+  // align the "Title" header label to that same offset.
+  &.dy-treimg--tree .dy-treimg__col--title { padding-left: 24px; }
+
+  // ── Ligne ───────────────────────────────────────────────────────────
+  .dy-trow {
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--dya-line-soft);
+    position: relative;
+    cursor: pointer;
+    transition: background var(--dya-t-fast) var(--dya-ease);
+    animation: dytr-row-in 360ms var(--dya-ease) backwards;
+  }
+  .dy-trow:last-child { border-bottom: 0; }
+
+  // left accent ribbon on hover / selection
+  .dy-trow::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 2px; background: var(--dya-accent); opacity: 0;
+    transition: opacity var(--dya-t-fast) var(--dya-ease);
+  }
+  // very subtle zebra striping (before hover so hover wins)
+  .dy-trow:nth-child(2n) { background: color-mix(in srgb, var(--dya-ink) 2.5%, transparent); }
+  .dy-trow:hover { background: var(--dya-paper-2); }
+  .dy-trow:hover::before { opacity: 1; }
+  .dy-trow.is-selected { background: color-mix(in srgb, var(--dya-accent) 8%, transparent); }
+  .dy-trow.is-selected::before { opacity: 1; }
+  .dy-trow.is-dragging { background: var(--dya-paper-3); box-shadow: var(--dya-shadow-md); z-index: 5; }
+  .dy-trow.is-drop-target { background: color-mix(in srgb, var(--dya-accent) 10%, transparent); }
+
+  // staggered entry animation
+  @for $i from 1 through 12 {
+    .dy-trow:nth-child(#{$i}) { animation-delay: #{($i - 1) * 22}ms; }
+  }
+  // "Silent" rebuild (Quick Edit close): no re-entry animation.
+  &.dy-treimg--no-anim .dy-trow { animation: none !important; }
+
+  // orderable types: room for the absolute drag handle
+  &.dy-treimg--orderable .dy-trow { padding-left: 24px; min-height: 60px; }
+  &.dy-treimg--orderable .dy-treimg__head { padding-left: 24px; }
+
+  // ── Drag handle + chevrons (absolute, zero column) ──────────────
+  .dy-trow__grip {
+    position: absolute; left: 3px; top: 0; bottom: 0; width: 17px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 1px; opacity: 0; z-index: 2;
+    transition: opacity var(--dya-t-fast) var(--dya-ease);
+  }
+  .dy-trow:hover .dy-trow__grip,
+  .dy-trow.is-dragging .dy-trow__grip { opacity: 1; }
+  .dy-trow__grip-bar {
+    width: 17px; height: 18px; border: 0; background: transparent; padding: 0;
+    color: var(--dya-ink-mute); cursor: grab; display: grid; place-items: center;
+  }
+  .dy-trow__grip-bar:hover { color: var(--dya-ink); }
+  .dy-trow__grip-bar:active { cursor: grabbing; }
+  .dy-trow__grip-bar svg { width: 6px; height: 13px; fill: currentColor; stroke: none; }
+  .dy-trow__grip-chev {
+    width: 15px; height: 10px; border: 0; background: transparent; padding: 0;
+    color: var(--dya-ink-fade); cursor: pointer; display: grid; place-items: center; border-radius: 3px;
+  }
+  .dy-trow__grip-chev:hover { color: var(--dya-ink); background: var(--dya-paper-3); }
+  .dy-trow__grip-chev:disabled { opacity: .25; cursor: default; }
+  .dy-trow__grip-chev svg { width: 9px; height: 9px; stroke: currentColor; fill: none; stroke-width: 2.4; }
+
+  // ── Checkbox / status ───────────────────────────────────────────────
+  // flex + center: the checkbox aligns to the optical center of the row
+  // (otherwise the inline <input> snaps to the line-box baseline and floats
+  // too high). Consistent with `.dy-treimg__checkall` in the header.
+  .dy-trow__check { display: flex; align-items: center; }
+  .dy-trow__check input[type="checkbox"] { accent-color: var(--dya-accent); cursor: pointer; }
+  .dy-trow__status { display: flex; align-items: center; justify-content: center; }
+
+  // ── Author / category / date / role / count ───────────────────────
+  .dy-trow__author { font-size: var(--dya-fs-sm); color: var(--dya-ink-soft); min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .dy-trow__cat {
+    font-family: var(--dya-font-mono); font-size: 10.5px;
+    letter-spacing: var(--dya-tracking-mono); text-transform: uppercase;
+    color: var(--dya-ink-mute); padding-left: 12px; position: relative;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .dy-trow__cat::before { content: ""; position: absolute; left: 0; top: 50%; width: 5px; height: 1px; background: var(--dya-ink-fade); }
+  .dy-trow__date,
+  .dy-trow__count {
+    font-family: var(--dya-font-mono); font-size: 11px;
+    color: var(--dya-ink-mute); letter-spacing: var(--dya-tracking-mono);
+  }
+
+  // ── Generic mode (kind='generic': Loco & other third-party wp-list-tables)
+  // Meta cells = copied native HTML (progress bars, badges…). Content is kept
+  // readable and bounded without imposing a column structure.
+  .dy-trow__gcell {
+    font-size: var(--dya-fs-sm); color: var(--dya-ink-soft); min-width: 0;
+    display: flex; align-items: center; gap: 6px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .dy-trow__gcell a { color: var(--dya-ink-soft); border: 0; }
+  .dy-trow__gcell a:hover { color: var(--dya-accent); }
+
+  // ── Colonnes de la liste d'articles, lues dans le <thead> natif (lot 19)
+  // Chaque colonne native reçoit une cellule `.dy-trow__cell--<genre>` ; les
+  // genres connus gardent leur traitement historique (classes héritées
+  // ci-dessus), les autres passent par la cellule générique. Une cellule
+  // masquée (engrenage, Options de l'écran, largeur moyenne) porte l'attribut
+  // `hidden` et sa piste disparaît de la grille, recalculée par le script.
+  .dy-trow__cell { min-width: 0; }
+  .dy-trow__cell[hidden],
+  .dy-treimg__col[hidden] { display: none !important; }
+  .dy-trow__cell--sku,
+  .dy-trow__cell--comments {
+    font-family: var(--dya-font-mono); font-size: 11px; letter-spacing: var(--dya-tracking-mono);
+    color: var(--dya-ink-mute); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .dy-trow__cell--comments { text-align: center; }
+  .dy-trow__cell--price .dy-cell-value { color: var(--dya-ink); font-variant-numeric: tabular-nums; }
+  .dy-trow__cell--price del { color: var(--dya-ink-mute); margin-right: 6px; }
+  .dy-trow__cell--price ins { text-decoration: none; }
+  // Badge de stock WooCommerce (`<mark class="instock">`) → pastille.
+  .dy-trow__cell--stock mark {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 2px 9px; border-radius: var(--dya-r-pill);
+    font-size: 11px; font-weight: 500; line-height: 1.5;
+    background: color-mix(in srgb, var(--dya-ink) 6%, transparent); color: var(--dya-ink-soft);
+    white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis;
+  }
+  .dy-trow__cell--stock mark::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex: 0 0 auto; }
+  .dy-trow__cell--stock mark.instock { background: color-mix(in srgb, var(--dya-success) 12%, transparent); color: var(--dya-success); }
+  .dy-trow__cell--stock mark.outofstock { background: color-mix(in srgb, var(--dya-danger) 12%, transparent); color: var(--dya-danger); }
+  .dy-trow__cell--stock mark.onbackorder { background: color-mix(in srgb, var(--dya-warn) 14%, transparent); color: var(--dya-warn); }
+  // Cellule générique venue d'une extension : les images éventuelles restent
+  // à la hauteur de la ligne.
+  .dy-trow__cell--generic img { max-height: 24px; width: auto; }
+  // ── Loco progress bar (`.progress > .t > .bar` + `.l` = %) ────
+  // Native: narrow bar (~30px) + % beside it. Transformed into a PILL
+  // that takes the FULL column width, with the % (`.l`) right-aligned
+  // vertically. The redundant % cell is absorbed on the JS side.
+  // Le mode « cartes » de l'affichage natif enveloppe déjà certaines valeurs
+  // dans un `.dy-cell-value` : on cible tous les niveaux, sinon les points de
+  // suspension se posent sur l'enveloppe extérieure pendant que le texte
+  // déborde de l'enveloppe intérieure.
+  .dy-trow__gcell .dy-cell-value {
+    flex: 1 1 auto; min-width: 0;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .dy-trow__gcell .progress {
+    display: flex; align-items: center; gap: 8px; width: 100%; min-width: 0;
+  }
+  .dy-trow__gcell .progress .t {           // track
+    flex: 1 1 0; min-width: 0; width: auto; height: 7px;
+    background: var(--dya-paper-3); border-radius: var(--dya-r-pill); overflow: hidden;
+  }
+  .dy-trow__gcell .progress .t .bar {      // fill
+    display: block; height: 100%; background: var(--dya-accent);
+    border-radius: var(--dya-r-pill); transition: width var(--dya-t-med) var(--dya-ease);
+  }
+  .dy-trow__gcell .progress.done .t .bar { background: var(--dya-success); }   // 100% = success green
+  .dy-trow__gcell .progress.warning .t .bar { background: var(--dya-warn); }
+  .dy-trow__gcell .progress .l {           // right-aligned % label
+    flex: 0 0 auto; font-family: var(--dya-font-mono); font-size: 10.5px;
+    color: var(--dya-ink-soft); font-variant-numeric: tabular-nums;
+    letter-spacing: var(--dya-tracking-mono); min-width: 34px; text-align: right;
+  }
+  // Generic title: native HTML is preserved (`.lang` flag + name +
+  // `.row-title` link). The link inherits the title ink color (→ accent on hover),
+  // without underline; the flag stays aligned before the name.
+  &.dy-treimg--generic .dy-trow__title-text { display: inline-flex; align-items: center; gap: 8px; }
+  &.dy-treimg--generic .dy-trow__title-text a { color: inherit; border: 0; text-decoration: none; }
+  &.dy-treimg--generic .dy-trow:hover .dy-trow__title-text,
+  &.dy-treimg--generic .dy-trow:hover .dy-trow__title-text a { color: var(--dya-accent); }
+  &.dy-treimg--generic .dy-trow__title-text .lang { flex: 0 0 auto; }
+  // The generic header aligns its labels like all other columns.
+  &.dy-treimg--generic .dy-treimg__col--title { /* inherits from .dy-treimg__col */ }
+  // (The toggle for generic screens lives in `.dy-treimg-switchbar`, OUTSIDE
+  //  `.dy-treimg`, to stay at a fixed position regardless of mode.)
+
+  // ── Titre (flat) ────────────────────────────────────────────────────
+  .dy-trow__title { display: flex; align-items: center; min-width: 0; }
+  .dy-trow__title-text {
+    font-size: var(--dya-fs-md); color: var(--dya-ink); font-weight: 450;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;
+    transition: color var(--dya-t-fast) var(--dya-ease);
+  }
+  .dy-trow:hover .dy-trow__title-text { color: var(--dya-accent); }
+
+  // ── Page (tree) ─────────────────────────────────────────────────────
+  .dy-trow__page { display: flex; align-items: center; min-width: 0; gap: 0; }
+  .dy-trow__page-text {
+    font-size: var(--dya-fs-md); color: var(--dya-ink); font-weight: 450;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;
+    transition: color var(--dya-t-fast) var(--dya-ease);
+  }
+  .dy-trow:hover .dy-trow__page-text { color: var(--dya-accent); }
+  .dy-trow[data-depth="0"] .dy-trow__page-text { font-weight: 550; }
+  .dy-trow[data-depth="1"] .dy-trow__page-text { color: var(--dya-ink); }
+  .dy-trow[data-depth="2"] .dy-trow__page-text { color: var(--dya-ink-soft); }
+  // hover → accent AT ALL depth levels (the depth overrides above had a
+  // specificity that masked the generic hover rule: an explicit, more specific
+  // hover accent is reinstated for each depth).
+  .dy-trow[data-depth="0"]:hover .dy-trow__page-text,
+  .dy-trow[data-depth="1"]:hover .dy-trow__page-text,
+  .dy-trow[data-depth="2"]:hover .dy-trow__page-text { color: var(--dya-accent); }
+
+  // ── Quick Edit inline ───────────────────────────────────────────────
+  // The open row "holds" its panel: the bottom border is removed, a left
+  // accent ribbon is applied (row + panel = one visual block), and
+  // hover/zebra effects are neutralized to stabilize editing.
+  .dy-trow.is-qe-open {
+    background: var(--dya-paper-2);
+    border-bottom-color: transparent;
+    cursor: default;
+  }
+  .dy-trow.is-qe-open::before { opacity: 1; }            // left accent ribbon visible
+  .dy-trow.is-qe-open:hover .dy-trow__page-text,
+  .dy-trow.is-qe-open:hover .dy-trow__title-text { color: var(--dya-ink); }
+  // Hover actions make no sense while editing.
+  .dy-trow.is-qe-open .dy-trow__drawer { display: none !important; }
+
+  // Inline editable title — looks like the title, becomes an input on focus.
+  .dy-qe__title {
+    flex: 1 1 auto; min-width: 0;
+    font-family: var(--dya-font-display); font-size: var(--dya-fs-md); font-weight: 550;
+    color: var(--dya-ink); background: var(--dya-paper);
+    border: 1px solid var(--dya-edge-strong); border-radius: var(--dya-r-sm);
+    padding: 5px 9px; margin: -4px 0;
+    transition: border-color var(--dya-t-fast) var(--dya-ease), box-shadow var(--dya-t-fast) var(--dya-ease);
+  }
+  .dy-qe__title:focus {
+    outline: none; border-color: var(--dya-accent);
+    box-shadow: 0 0 0 3px var(--dya-accent-soft);
+  }
+
+  // Panel: sibling of the row, full width of the list. Opening animation
+  // (grid-template-rows 0fr→1fr on a single child) → effect of
+  // "the row pushes a panel downward".
+  .dy-qe {
+    position: relative;
+    display: grid; grid-template-rows: 0fr;
+    background: var(--dya-paper-2);
+    border-bottom: 1px solid var(--dya-line);
+    transition: grid-template-rows 260ms var(--dya-ease);
+  }
+  .dy-qe.is-open { grid-template-rows: 1fr; }
+  // Closing: content fades out while the panel collapses.
+  .dy-qe.is-closing .dy-qe__inner { opacity: 0; transition: opacity 160ms var(--dya-ease); }
+  .dy-qe::before {                                       // extends the row's left accent ribbon
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--dya-accent); z-index: 1;
+  }
+  .dy-qe__inner { overflow: hidden; min-height: 0; }
+  // Fluid grid: as many columns as the width allows (matching native
+  // Quick Edit which has many fields), automatic wrap, responsive.
+  .dy-qe__grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 14px 20px; align-items: start;
+    padding: 18px 22px 6px 24px;
+  }
+  .dy-qe__field { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+  .dy-qe__field--wide { grid-column: 1 / -1; }            // tags, categories
+  .dy-qe__field--sm   { max-width: 200px; }               // order, password
+  .dy-qe__lab {
+    font-family: var(--dya-font-mono); font-size: 9.5px; letter-spacing: var(--dya-tracking-label);
+    text-transform: uppercase; color: var(--dya-ink-mute);
+  }
+  .dy-qe__input {
+    width: 100%; box-sizing: border-box;
+    font-family: var(--dya-font-body); font-size: var(--dya-fs-sm); color: var(--dya-ink);
+    background: var(--dya-paper); border: 1px solid var(--dya-edge-strong); border-radius: var(--dya-r-sm);
+    padding: 6px 9px; transition: border-color var(--dya-t-fast) var(--dya-ease), box-shadow var(--dya-t-fast) var(--dya-ease);
+  }
+  .dy-qe__input:focus { outline: none; border-color: var(--dya-accent); box-shadow: 0 0 0 3px var(--dya-accent-soft); }
+  .dy-qe__select { cursor: pointer; }
+  .dy-qe__datetime { display: flex; gap: 8px; }
+  .dy-qe__datetime .dy-qe__time { max-width: 110px; }
+  // (#2) Native icons for date/time fields (calendar/clock + spinners):
+  // color-scheme follows the theme → visible in dark, correct in light.
+  .dy-qe input[type="date"], .dy-qe input[type="time"] { color-scheme: dark; }
+  // T4 — the Quick Edit category list (`.cat-checklist`) had a redundant
+  // border → removed.
+  .dy-qe__cats > .cat-checklist,
+  .dy-qe .cat-checklist { border: 0; padding: 0; background: transparent; }
+
+  // Checkboxes (Allow comments/pings, Sticky, Private) — bottom row.
+  .dy-qe__checks {
+    grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 12px 22px;
+    padding-top: 4px; margin-top: 2px; border-top: 1px solid var(--dya-line-soft);
+  }
+  .dy-qe__check {
+    display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+    font-family: var(--dya-font-body); font-size: var(--dya-fs-sm); color: var(--dya-ink-soft);
+  }
+  .dy-qe__check:hover { color: var(--dya-ink); }
+  .dy-qe__cbox { accent-color: var(--dya-accent); cursor: pointer; margin: 0; }
+
+  // Relocated native category tree: styled scrollable box.
+  .dy-qe__cats {
+    max-height: 150px; overflow: auto;
+    background: var(--dya-paper); border: 1px solid var(--dya-edge-strong); border-radius: var(--dya-r-sm);
+    padding: 8px 10px;
+  }
+  .dy-qe__cats ul, .dy-qe__cats .cat-checklist { list-style: none; margin: 0; padding: 0; }
+  .dy-qe__cats ul ul { margin-left: 16px; }
+  .dy-qe__cats li { margin: 0 0 2px; }
+  .dy-qe__cats label {
+    display: flex; align-items: center; gap: 7px; margin: 0;
+    font-family: var(--dya-font-body); font-size: var(--dya-fs-sm); color: var(--dya-ink-soft); cursor: pointer;
+  }
+  .dy-qe__cats input[type="checkbox"] { accent-color: var(--dya-accent); margin: 0; }
+
+  // (#3) Readable selection highlight (otherwise illegible in dark mode).
+  .dy-qe__title::selection,
+  .dy-qe__input::selection { background: var(--dya-accent); color: var(--dya-accent-on); }
+  .dy-qe__title::-moz-selection,
+  .dy-qe__input::-moz-selection { background: var(--dya-accent); color: var(--dya-accent-on); }
+
+  .dy-qe__actions {
+    display: flex; align-items: center; justify-content: flex-end; gap: 8px;
+    padding: 12px 22px 16px;
+  }
+  .dy-qe__btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--dya-font-body); font-size: var(--dya-fs-sm); font-weight: 500;
+    padding: 7px 16px; border-radius: var(--dya-r-md); cursor: pointer;
+    border: 1px solid transparent; transition: background var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease), opacity var(--dya-t-fast) var(--dya-ease);
+  }
+  .dy-qe__btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.2; }
+  .dy-qe__btn--ghost { color: var(--dya-ink-soft); border-color: var(--dya-edge-strong); background: transparent; }
+  .dy-qe__btn--ghost:hover { color: var(--dya-ink); border-color: var(--dya-ink-fade); background: var(--dya-paper-3); }
+  .dy-qe__btn--save { color: var(--dya-accent-on); background: var(--dya-accent); border-color: var(--dya-accent); }
+  .dy-qe__btn--save:hover { background: color-mix(in srgb, var(--dya-accent) 88%, #000); }
+  .dy-qe__btn--save.is-busy { opacity: .6; pointer-events: none; }
+
+  .dy-trow__badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-family: var(--dya-font-mono); font-size: 9.5px;
+    letter-spacing: var(--dya-tracking-mono); text-transform: uppercase;
+    color: var(--dya-ink-mute); border: 1px solid var(--dya-edge);
+    padding: 2px 7px; border-radius: var(--dya-r-xs); margin-left: 8px; flex: 0 0 auto;
+  }
+  .dy-trow__badge svg { width: 9px; height: 9px; stroke: currentColor; fill: none; stroke-width: 1.6; }
+
+  // ── Chevron expand/collapse ─────────────────────────────────────────
+  .dy-trow__expand {
+    position: relative; width: 20px; height: 20px;
+    border: 0; background: transparent; padding: 0; color: var(--dya-ink-mute); cursor: pointer;
+    display: grid; place-items: center; border-radius: var(--dya-r-xs); flex: 0 0 auto; margin-right: 4px;
+    transition: background var(--dya-t-fast) var(--dya-ease), color var(--dya-t-fast) var(--dya-ease);
+  }
+  .dy-trow__expand:hover { background: var(--dya-paper-3); color: var(--dya-ink); }
+  .dy-trow__expand svg { width: 10px; height: 10px; stroke: currentColor; fill: none; stroke-width: 2.4; transition: transform var(--dya-t-fast) var(--dya-ease); }
+  .dy-trow__expand[data-state="collapsed"] svg { transform: rotate(-90deg); }
+  .dy-trow__expand[data-state="leaf"] { visibility: hidden; }
+
+  // ── Tree connector lines ───────────────────────────────────────────
+  .dy-ttree { display: flex; align-self: stretch; flex: 0 0 auto; }
+  .dy-ttree__rail { width: 22px; align-self: stretch; position: relative; flex: 0 0 auto; }
+  // The rail (≈24px) is centered in a 58px row (12px padding) → 17px gutter on
+  // each side. Vertical connectors therefore overflow by 17px to reach EXACTLY
+  // the boundary between two adjacent rows: the descending segment from a sibling
+  // and the ascending segment from the next one meet right at the boundary (no gap).
+  .dy-ttree__rail--v::before {
+    content: ""; position: absolute; left: 10px; top: -17px; bottom: -17px; width: 1px; background: var(--dya-tree-line);
+  }
+  // ├ : node with sibling(s) below → ascent (::before) + branch+descent (::after)
+  .dy-ttree__rail--tee::before {
+    content: ""; position: absolute; left: 10px; top: -18.5px; height: calc(50% + 18.5px); width: 1px; background: var(--dya-tree-line);
+  }
+  .dy-ttree__rail--tee::after {
+    content: ""; position: absolute; left: 10px; top: 50%; width: 11px; height: calc(50% + 17px);
+    border-top: 1px solid var(--dya-tree-line); border-left: 1px solid var(--dya-tree-line);
+  }
+  // └ : last child → ascent + branch (no descent)
+  .dy-ttree__rail--ell::before {
+    content: ""; position: absolute; left: 10px; top: -18.5px; height: calc(50% + 18.5px); width: 1px; background: var(--dya-tree-line);
+  }
+  .dy-ttree__rail--ell::after {
+    content: ""; position: absolute; left: 10px; top: 50%; width: 11px; height: 1px; background: var(--dya-tree-line);
+  }
+  // first child: ascends to the center (chevron) of the parent, i.e.
+  // one full row above (29px) + the half-gutter (17px) = 36px.
+  .dy-ttree__rail--first.dy-ttree__rail--tee::before { top: -36px; height: calc(50% + 36px); }
+  .dy-ttree__rail--first.dy-ttree__rail--ell::before { top: -36px; height: calc(50% + 36px); }
+  // hover: highlights THIS row's elbow (ascent + branch), not the descent
+  .dy-trow:hover .dy-ttree__rail--tee::before,
+  .dy-trow:hover .dy-ttree__rail--ell::before,
+  .dy-trow:hover .dy-ttree__rail--ell::after { background: color-mix(in srgb, var(--dya-accent) 55%, var(--dya-tree-line)); }
+  .dy-trow:hover .dy-ttree__rail--tee::after { border-top-color: color-mix(in srgb, var(--dya-accent) 55%, var(--dya-tree-line)); }
+  // lit ascending path (JS sets .is-lit-v on rails above)
+  .dy-ttree__rail.is-lit-v::before { background: color-mix(in srgb, var(--dya-accent) 55%, var(--dya-tree-line)); }
+  .dy-ttree__rail--tee.is-lit-v::after { border-left-color: color-mix(in srgb, var(--dya-accent) 55%, var(--dya-tree-line)); }
+
+  // ── Tooltip (scoped) ─────────────────────────────────────────────────
+  [data-tip] { position: relative; }
+  [data-tip]:hover::after {
+    content: attr(data-tip); position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%);
+    background: var(--dya-bg); border: 1px solid var(--dya-edge-strong); color: var(--dya-ink-soft);
+    font-family: var(--dya-font-mono); font-size: 10px; letter-spacing: var(--dya-tracking-mono); text-transform: uppercase;
+    padding: 4px 8px; border-radius: var(--dya-r-sm); white-space: nowrap; z-index: 70; pointer-events: none;
+    box-shadow: var(--dya-shadow-md); animation: dytr-tip-in 140ms var(--dya-ease) backwards;
+  }
+  // The grip is flush with the left edge AND close to the sticky header (z-index 4,
+  // opaque background) which was hiding a tooltip placed above. The tooltip is
+  // therefore anchored BELOW the grip and left-aligned (extends to the right).
+  .dy-trow__grip [data-tip]:hover::after {
+    bottom: auto; top: calc(100% + 6px);
+    left: 0; transform: translateX(0);
+    z-index: 80;
+  }
+  .dy-trow__grip [data-tip]:hover::after { animation: none; }
+
+  // ── Drawer flottant (ancrage dynamique L/R via --drawer-x) ──────────
+  .dy-trow__drawer {
+    position: absolute; top: 6px; bottom: 6px; left: 0;
+    display: flex; align-items: center; gap: 3px; padding: 0 7px;
+    background: var(--dya-paper-2); border: 1px solid var(--dya-edge-strong); border-radius: var(--dya-r-md);
+    box-shadow: var(--dya-shadow-md); opacity: 0; pointer-events: none;
+    transform: translateX(var(--drawer-x, 0px));
+    transition: opacity var(--dya-t-fast) var(--dya-ease), transform var(--dya-t-med) var(--dya-ease);
+    z-index: 6; overflow: visible; white-space: nowrap;
+  }
+  .dy-trow:hover .dy-trow__drawer,
+  .dy-trow:focus-within .dy-trow__drawer { opacity: 1; pointer-events: auto; }   // keyboard: Tab into the row reveals its actions
+
+  // ── Chips d'action ──────────────────────────────────────────────────
+  .dy-tchip {
+    display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 9px;
+    border-radius: var(--dya-r-sm); background: transparent; border: 1px solid transparent;
+    color: var(--dya-ink-soft); font-size: var(--dya-fs-sm); font-family: inherit; cursor: pointer;
+    transition: all var(--dya-t-fast) var(--dya-ease); white-space: nowrap; flex: 0 0 auto;
+  }
+  .dy-tchip:hover { background: var(--dya-paper); border-color: var(--dya-edge); color: var(--dya-ink); }
+  .dy-tchip svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 1.7; flex: 0 0 auto; }
+  .dy-tchip--primary { background: var(--dya-accent); border-color: var(--dya-accent); color: var(--dya-accent-on); }
+  .dy-tchip--primary:hover { background: var(--dya-accent); color: var(--dya-accent-on); filter: brightness(1.08); }
+  .dy-tchip--danger:hover { color: var(--dya-danger); border-color: var(--dya-danger); background: rgba(240, 101, 87, .08); }
+  .dy-tchip__src { display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: var(--dya-accent); flex: 0 0 auto; opacity: .9; margin-right: -2px; }
+  .dy-tchip__sep { width: 1px; height: 14px; background: var(--dya-line); margin: 0 2px; flex: 0 0 auto; }
+  // label truncated with ellipsis when too long (tooltip shows the full text)
+  .dy-tchip__label { max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .dy-trow:hover .dy-tchip { animation: dytr-chip-in 240ms var(--dya-ease) backwards; }
+  @for $i from 1 through 10 {
+    .dy-trow:hover .dy-tchip:nth-of-type(#{$i}) { animation-delay: #{20 + $i * 20}ms; }
+  }
+
+  // ── Puce de statut (posts) ──────────────────────────────────────────
+  .dy-tstatus {
+    display: inline-flex; align-items: center; justify-content: center; position: relative;
+  }
+  .dy-tstatus__dot { width: 7px; height: 7px; border-radius: var(--dya-r-pill); background: var(--dya-ink-fade); position: relative; }
+  .dy-tstatus--publish .dy-tstatus__dot { background: var(--dya-accent); box-shadow: 0 0 0 3px var(--dya-accent-soft); }
+  .dy-tstatus--publish .dy-tstatus__dot::after {
+    content: ""; position: absolute; inset: -3px; border-radius: 50%; background: var(--dya-accent);
+    opacity: .35; animation: dytr-status-pulse 2.4s var(--dya-ease) infinite;
+  }
+  .dy-tstatus--draft   .dy-tstatus__dot { background: var(--dya-ink-fade); }
+  .dy-tstatus--pending .dy-tstatus__dot { background: var(--dya-warn); }
+  .dy-tstatus--future  .dy-tstatus__dot { background: var(--dya-info); }
+  .dy-tstatus--private .dy-tstatus__dot { background: var(--dya-info); }
+  .dy-tstatus--trash   .dy-tstatus__dot { background: var(--dya-danger); }
+}
+
+// =============================================================
+//  RESPONSIVE — 3 breakpoints (≥1200 table+toolbar / 768–1199 table icons /
+//  <768 cards). Scoped under body.dy-admin.dy-tables-reimagined.
+// =============================================================
+
+@media (max-width: 1199px) and (min-width: 768px) {
+  body.dy-admin .dy-treimg {
+    &.dy-treimg--flat .dy-treimg__list { --dya-grid: 26px 26px minmax(0, 1fr) 150px 116px; }
+    &.dy-treimg--flat.dy-treimg--nocat .dy-treimg__list { --dya-grid: 26px 26px minmax(0, 1fr) 150px 116px; }
+    .dy-treimg__col--categories,
+    .dy-trow__cat { display: none; }
+    .dy-tchip { padding: 0; width: 30px; gap: 0; justify-content: center; }
+    .dy-tchip__label { display: none; }
+    .dy-tchip:not(.dy-tchip--primary) .dy-tchip__src { display: none; }
+  }
+}
+
+@media (max-width: 767px) {
+  body.dy-admin .dy-treimg {
+    .dy-treimg__list { border: 0; background: transparent; border-radius: 0; }
+    .dy-treimg__head { display: none; }
+
+    // Quick Edit in card layout: the panel attaches to the open card (same
+    // block), stacked fields, full-width buttons, touch targets ≥44px.
+    .dy-trow.is-qe-open { margin-bottom: 0; border-radius: var(--dya-r-lg) var(--dya-r-lg) 0 0; border-bottom: 0; }
+    .dy-qe {
+      margin: 0 0 10px; border: 1px solid var(--dya-edge); border-top: 0;
+      border-radius: 0 0 var(--dya-r-lg) var(--dya-r-lg); background: var(--dya-paper);
+    }
+    .dy-qe__grid { grid-template-columns: 1fr; gap: 12px; padding: 14px 16px 2px; }
+    .dy-qe__datetime { flex-wrap: wrap; }
+    .dy-qe__datetime .dy-qe__time { max-width: none; flex: 1 1 120px; }
+    .dy-qe__actions { padding: 12px 16px 16px; }
+    .dy-qe__btn { flex: 1 1 0; justify-content: center; padding: 11px 16px; }
+    .dy-qe__title { font-size: var(--dya-fs-base); }
+
+    .dy-trow {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto auto;
+      grid-template-areas:
+        "status title  check grip"
+        "meta   meta   meta  meta"
+        "acts   acts   acts  acts";
+      align-items: center; gap: 10px 12px; padding: 16px 16px 14px; margin: 0 0 10px;
+      background: var(--dya-paper); border: 1px solid var(--dya-edge); border-radius: var(--dya-r-lg);
+      animation: none;
+    }
+    &.dy-treimg--orderable .dy-trow { padding-left: 16px; }
+    .dy-trow:last-child { border-bottom: 1px solid var(--dya-line); }
+    .dy-trow:nth-child(2n) { background: var(--dya-paper); }
+    .dy-trow:hover { background: var(--dya-paper); }
+    .dy-trow::before { border-radius: var(--dya-r-lg) 0 0 var(--dya-r-lg); }
+    .dy-trow.is-selected { background: color-mix(in srgb, var(--dya-accent) 7%, var(--dya-paper)); }
+
+    .dy-trow__status { grid-area: status; justify-content: flex-start; align-self: center; }
+    .dy-trow__page, .dy-trow__title { grid-area: title; min-width: 0; align-self: center; }
+    .dy-trow__title-text, .dy-trow__page-text { white-space: normal; font-size: var(--dya-fs-md); font-weight: 500; }
+    .dy-trow:hover .dy-trow__title-text,
+    .dy-trow:hover .dy-trow__page-text { color: var(--dya-ink); }
+
+    .dy-trow__check { grid-area: check; justify-self: end; align-self: center; }
+    .dy-trow__grip {
+      grid-area: grip; justify-self: end; align-self: center;
+      position: static; opacity: 1; width: auto; flex-direction: row; gap: 1px;
+    }
+    .dy-trow__grip-bar { display: grid; cursor: grab; }
+    .dy-trow__grip-bar svg { width: 7px; height: 15px; }
+    .dy-trow__grip-chev { width: 20px; height: 20px; }
+    .dy-trow__grip-chev svg { width: 11px; height: 11px; }
+
+    .dy-trow__author, .dy-trow__cat,
+    .dy-trow__cell--generic, .dy-trow__cell--comments, .dy-trow__cell--sku,
+    .dy-trow__cell--price, .dy-trow__cell--stock { display: none; }
+    .dy-trow__date, .dy-trow__count { grid-area: meta; align-self: center; font-size: var(--dya-fs-sm); color: var(--dya-ink-mute); }
+
+    // hierarchy: indentation + vertical connector in the gutter
+    .dy-ttree { display: none; }
+    &.dy-treimg--tree .dy-trow[data-depth="1"] { margin-left: 18px; }
+    &.dy-treimg--tree .dy-trow[data-depth="2"] { margin-left: 36px; }
+    &.dy-treimg--tree .dy-trow[data-depth="1"]::after,
+    &.dy-treimg--tree .dy-trow[data-depth="2"]::after {
+      content: ""; position: absolute; left: -10px; top: -11px; bottom: -11px; width: 1px; background: var(--dya-tree-line);
+    }
+
+    // actions: icons wrap to the next line, no scroll
+    .dy-trow__drawer {
+      grid-area: acts; position: static; display: flex; flex-wrap: wrap;
+      opacity: 1; pointer-events: auto; transform: none;
+      background: transparent; border: 0; box-shadow: none;
+      padding: 10px 0 0; margin: 2px 0 0; gap: 8px; overflow: visible;
+      border-top: 1px solid var(--dya-line-soft);
+    }
+    .dy-trow__drawer .dy-tchip__sep { display: none; }
+    .dy-tchip {
+      width: 38px; height: 34px; padding: 0; gap: 0; justify-content: center; flex: 0 0 auto;
+      background: var(--dya-paper-2); border-color: var(--dya-edge);
+    }
+    .dy-tchip--primary { background: var(--dya-accent); border-color: var(--dya-accent); }
+    .dy-tchip svg { width: 14px; height: 14px; }
+    .dy-tchip__label { display: none; }
+    .dy-tchip:not(.dy-tchip--primary) .dy-tchip__src { display: none; }
+    .dy-tchip[data-tip]:hover::after { z-index: 90; }
+  }
+}
+
+@media (max-width: 560px) {
+  body.dy-admin .dy-treimg {
+    .dy-trow { padding: 14px 14px 12px; gap: 9px 10px; }
+    .dy-trow__title-text, .dy-trow__page-text { font-size: var(--dya-fs-base); }
+    &.dy-treimg--tree .dy-trow[data-depth="1"] { margin-left: 14px; }
+    &.dy-treimg--tree .dy-trow[data-depth="2"] { margin-left: 28px; }
+    .dy-tchip { width: 36px; height: 32px; }
+  }
+}
+
+// =============================================================
+//  Filter bar (Direction A — Segmented + Chips)
+//  Read by JS from native WP controls, re-styled.
+// =============================================================
+body.dy-admin .dy-treimg {
+  .dy-tfilters { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 0 0 12px; }
+  .dy-tfilters__chips { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; min-width: 0; }
+  .dy-tfilters__right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+
+  // Status segmented control
+  .dy-tfseg {
+    display: inline-flex; background: var(--dya-paper); border: 1px solid var(--dya-edge);
+    border-radius: var(--dya-r-pill); padding: 3px; gap: 2px; max-width: 100%;
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .dy-tfseg::-webkit-scrollbar { display: none; }
+  .dy-tfseg button {
+    display: inline-flex; align-items: center; gap: 7px; border: 0; background: transparent;
+    color: var(--dya-ink-soft); font: inherit; font-size: var(--dya-fs-sm); padding: 6px 13px;
+    border-radius: var(--dya-r-pill); cursor: pointer; white-space: nowrap; flex: 0 0 auto;
+    transition: all var(--dya-t-fast) var(--dya-ease);
+  }
+  .dy-tfseg button:hover { color: var(--dya-ink); }
+  // Active filter = accent of the CURRENT section (`--dya-line-color`/`--dya-line-color-on`,
+  // set by `body.dy-line-*`), not the global accent — consistent with the title
+  // cursor and the eyebrow badge. Global fallback on pages without a section.
+  .dy-tfseg button.is-active { background: var(--dya-line-color, var(--dya-accent)); color: var(--dya-line-color-on, var(--dya-accent-on)); }
+  .dy-tfseg button .n { font-family: var(--dya-font-mono); font-size: 10px; letter-spacing: var(--dya-tracking-mono); color: var(--dya-ink-mute); }
+  .dy-tfseg button.is-active .n { color: var(--dya-line-color-on, var(--dya-accent-on)); opacity: .8; }
+
+  // Dropdown filter chip
+  .dy-tfchip {
+    position: relative; display: inline-flex; align-items: center; gap: 7px; height: 32px;
+    padding: 0 10px 0 12px; border: 1px solid var(--dya-edge); border-radius: var(--dya-r-sm);
+    background: transparent; color: var(--dya-ink-soft); font: inherit; font-size: var(--dya-fs-sm);
+    cursor: pointer; white-space: nowrap; transition: all var(--dya-t-fast) var(--dya-ease); max-width: 240px;
+  }
+  .dy-tfchip:hover { color: var(--dya-ink); border-color: var(--dya-edge-strong); background: var(--dya-paper-2); }
+  .dy-tfchip.is-set { color: var(--dya-ink); border-color: var(--dya-line-color, var(--dya-accent)); background: var(--dya-line-color-soft, var(--dya-accent-soft)); }
+  .dy-tfchip__txt { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .dy-tfchip .v { color: var(--dya-line-color, var(--dya-accent)); font-weight: 500; }
+  .dy-tfchip .caret { width: 11px; height: 11px; stroke: currentColor; fill: none; stroke-width: 1.8; opacity: .7; flex: 0 0 auto; }
+  .dy-tfchip__pop {
+    position: absolute; top: calc(100% + 8px); left: 0; min-width: 220px; max-width: 300px;
+    max-height: 320px; overflow: auto; background: var(--dya-paper); border: 1px solid var(--dya-edge-strong);
+    border-radius: var(--dya-r-md); box-shadow: var(--dya-shadow-lg); padding: 8px; z-index: 60;
+    animation: dytr-row-in 160ms var(--dya-ease) backwards;
+  }
+  .dy-tfchip__pop[hidden] { display: none; }
+  .dy-tfchip__search {
+    width: 100%; height: 30px; background: var(--dya-bg); border: 1px solid var(--dya-edge);
+    border-radius: var(--dya-r-sm); color: var(--dya-ink); font: inherit; font-size: var(--dya-fs-sm);
+    padding: 0 10px; outline: 0; margin-bottom: 8px; position: sticky; top: 0;
+  }
+  .dy-tfchip__opt {
+    display: flex; align-items: center; gap: 9px; padding: 7px 9px; border-radius: var(--dya-r-sm);
+    font-size: var(--dya-fs-sm); color: var(--dya-ink-soft); cursor: pointer; white-space: nowrap;
+  }
+  .dy-tfchip__opt:hover { background: var(--dya-paper-2); color: var(--dya-ink); }
+  .dy-tfchip__opt.is-current { color: var(--dya-ink); }
+  .dy-tfchip__opt.is-current::after { content: "✓"; margin-left: auto; color: var(--dya-line-color, var(--dya-accent)); }
+  .dy-tfchip__opt[hidden] { display: none; }
+
+  // Recherche
+  .dy-tfsearch {
+    display: flex; align-items: center; gap: 8px; background: var(--dya-paper);
+    border: 1px solid var(--dya-edge); border-radius: var(--dya-r-sm); padding: 0 10px; height: 32px; width: 230px;
+    transition: border-color var(--dya-t-fast) var(--dya-ease);
+  }
+  .dy-tfsearch:focus-within { border-color: var(--dya-edge-strong); }
+  .dy-tfsearch input { border: 0; background: transparent; color: var(--dya-ink); font-size: var(--dya-fs-sm); outline: 0; width: 100%; font-family: inherit; }
+  .dy-tfsearch svg { width: 13px; height: 13px; stroke: var(--dya-ink-mute); fill: none; stroke-width: 1.7; flex: 0 0 auto; }
+
+  // Active filters summary
+  .dy-tfactive { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 0 0 14px; font-size: var(--dya-fs-sm); color: var(--dya-ink-mute); }
+  .dy-tfactive__pill { display: inline-flex; align-items: center; gap: 6px; background: var(--dya-paper-2); border: 1px solid var(--dya-edge); border-radius: var(--dya-r-pill); padding: 4px 6px 4px 10px; color: var(--dya-ink-soft); max-width: 280px; }
+  .dy-tfactive__pill b { color: var(--dya-ink); font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .dy-tfactive__pill .x { display: inline-grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; cursor: pointer; flex: 0 0 auto; }
+  .dy-tfactive__pill .x:hover { background: var(--dya-paper-3); color: var(--dya-ink); }
+  .dy-tfactive__pill .x svg { width: 9px; height: 9px; stroke: currentColor; fill: none; stroke-width: 2; }
+  .dy-tfactive__reset { color: var(--dya-ink-mute); cursor: pointer; font-family: var(--dya-font-mono); font-size: 10px; letter-spacing: var(--dya-tracking-mono); text-transform: uppercase; }
+  .dy-tfactive__reset:hover { color: var(--dya-line-color, var(--dya-accent)); }
+  .dy-tfactive__count { margin-left: auto; font-family: var(--dya-font-mono); font-size: 10px; letter-spacing: var(--dya-tracking-mono); }
+}
+
+// ── Responsive filters: tablet + mobile ───────────────────
+@media (max-width: 880px) {
+  body.dy-admin .dy-treimg {
+    .dy-tfilters { flex-direction: column; align-items: stretch; gap: 8px; }
+    .dy-tfseg { width: 100%; }
+    .dy-tfilters__chips { width: 100%; }
+    .dy-tfilters__right { margin-left: 0; width: 100%; }
+    .dy-tfsearch { flex: 1; width: auto; }
+  }
+}
+
+// ── Bulk action bar (contextual, appears on selection) ──
+body.dy-admin .dy-treimg {
+  .dy-tfbulk {
+    display: flex; align-items: center; gap: 12px;
+    padding: 9px 14px; margin: 0 0 10px;
+    background: color-mix(in srgb, var(--dya-line-color, var(--dya-accent)) 12%, var(--dya-bg));
+    border: 1px solid var(--dya-line-color, var(--dya-accent)); border-radius: var(--dya-r-md);
+    font-size: var(--dya-fs-sm); color: var(--dya-ink);
+    animation: dytr-row-in 180ms var(--dya-ease) backwards;
+  }
+  .dy-tfbulk[hidden] { display: none; }
+  .dy-tfbulk__count { font-weight: 500; }
+  .dy-tfbulk__count b { color: var(--dya-line-color, var(--dya-accent)); }
+  .dy-tfbulk__select {
+    height: 30px; background: var(--dya-paper); border: 1px solid var(--dya-edge);
+    border-radius: var(--dya-r-sm); color: var(--dya-ink); font: inherit; font-size: var(--dya-fs-sm);
+    padding: 0 28px 0 10px; outline: 0; appearance: none; cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 9l6 6 6-6' stroke='%23a8a9ad' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 8px center; background-size: 14px;
+  }
+  .dy-tfbulk__apply {
+    margin-left: auto; height: 30px; padding: 0 16px; border-radius: var(--dya-r-sm);
+    background: var(--dya-accent); border: 1px solid var(--dya-accent); color: var(--dya-accent-on);
+    font: inherit; font-size: var(--dya-fs-sm); font-weight: 500; cursor: pointer;
+    transition: filter var(--dya-t-fast) var(--dya-ease);
+  }
+  .dy-tfbulk__apply:hover { filter: brightness(1.06); }
+}
+
+// ── Row drag & drop (hierarchical reorder) ────────────
+body.dy-admin .dy-treimg {
+  // dragged block: grayed out AT ITS ORIGINAL POSITION during drag
+  .dy-trow.dy-trow--ghosted { opacity: .32; }
+  .dy-trow.dy-trow--ghosted:hover { background: inherit; }
+  .dy-trow.dy-trow--ghosted::before { opacity: 0 !important; }
+
+  // drop target: dashed accent ghost that pushes items aside
+  .dy-trow__drop {
+    border: 1.5px dashed var(--dya-accent);
+    background: var(--dya-accent-soft);
+    border-radius: var(--dya-r-sm);
+    margin: 3px 10px;
+    transition: height var(--dya-t-fast) var(--dya-ease);
+  }
+}
+// floating badge that follows the cursor (outside .dy-treimg scope, position fixed)
+body.dy-admin .dy-tdrag {
+  position: fixed; z-index: 9999; pointer-events: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  max-width: 340px; padding: 9px 14px;
+  background: var(--dya-paper-2); color: var(--dya-ink);
+  border: 1px solid var(--dya-accent); border-radius: var(--dya-r-md);
+  box-shadow: var(--dya-shadow-lg);
+  font-family: var(--dya-font-body); font-size: var(--dya-fs-md);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transform: translateZ(0) scale(.98); opacity: .96;
+}
+body.dy-admin .dy-tdrag svg { width: 13px; height: 13px; fill: var(--dya-ink-mute); stroke: none; flex: 0 0 auto; }
+body.dy-admin.dy-dragging, body.dy-admin.dy-dragging * { cursor: grabbing !important; }
+body.dy-admin.dy-dragging { user-select: none; }
+
+// AJAX loading state (during the fetch before the View Transition swap)
+body.dy-admin .dy-treimg.is-loading .dy-treimg__list { opacity: .55; pointer-events: none; transition: opacity .12s var(--dya-ease); }
+
+// ── Active status badge that SLIDES between tabs (View Transition) ──
+// During a filter transition, the active button carries a shared
+// view-transition-name: the API morphs the accent badge from the
+// old position to the new one (translation + label crossfade).
+// Scoped to .dy-tf-animating to avoid interfering with list→edit navigation.
+body.dy-admin.dy-tf-animating .dy-treimg .dy-tfseg button.is-active {
+  view-transition-name: dy-tf-seg-active;
+}
+::view-transition-group(dy-tf-seg-active) {
+  animation-duration: 300ms;
+  animation-timing-function: cubic-bezier(.22, .7, .2, 1);
+}
+::view-transition-old(dy-tf-seg-active),
+::view-transition-new(dy-tf-seg-active) {
+  animation-duration: 200ms;
+  // the badge's accent background stays solid during the slide
+  mix-blend-mode: normal;
+}
+
+// =============================================================
+// WooCommerce orders — dedicated path (.dy-treimg--orders).
+// Commerce UX: order # + customer as primary, colored status pill, total emphasized.
+// =============================================================
+body.dy-admin .dy-trow--order { align-items: center; }
+body.dy-admin .dy-trow__order-main { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+// CUSTOMER NAME = primary (ink, semi-bold); order number = secondary.
+body.dy-admin .dy-trow__order-cust { font-weight: 600; color: var(--dya-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+body.dy-admin .dy-trow__order-cust.is-guest { font-weight: 500; color: var(--dya-ink-mute); font-style: italic; }
+body.dy-admin .dy-trow__order-num { font-size: 11px; color: var(--dya-ink-mute); font-variant-numeric: tabular-nums; }
+body.dy-admin .dy-trow__order-date { color: var(--dya-ink-soft); font-size: var(--dya-fs-sm); }
+body.dy-admin .dy-trow__order-origin { color: var(--dya-ink-soft); font-size: var(--dya-fs-sm); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+// Total: header right-aligned (all other columns remain left-aligned).
+body.dy-admin .dy-treimg--orders .dy-treimg__col--total { text-align: right; }
+// Billing: city (soft ink) + payment method (faint ink).
+body.dy-admin .dy-trow__order-fact { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+body.dy-admin .dy-trow__order-loc { color: var(--dya-ink-soft); font-size: var(--dya-fs-sm); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+body.dy-admin .dy-trow__order-loc--empty { color: var(--dya-ink-fade); }
+body.dy-admin .dy-trow__order-pay { color: var(--dya-ink-mute); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+body.dy-admin .dy-trow__order-date time { border: 0; }
+body.dy-admin .dy-trow__order-total { font-weight: 600; color: var(--dya-ink); text-align: right; font-variant-numeric: tabular-nums; }
+body.dy-admin .dy-trow__order-total .woocommerce-Price-amount { color: var(--dya-ink) !important; }
+// Order status pill (colored dot + ink label, readable in dark & light).
+body.dy-admin .dy-torder-status {
+  display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px;
+  border-radius: var(--dya-r-pill); background: var(--dya-paper-2); border: 1px solid var(--dya-edge);
+  font-size: 11px; color: var(--dya-ink); white-space: nowrap; line-height: 1.5;
+}
+body.dy-admin .dy-torder-status__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--dya-ink-mute); flex: 0 0 auto; }
+body.dy-admin .dy-torder-status--completed .dy-torder-status__dot { background: var(--dya-accent); }
+body.dy-admin .dy-torder-status--processing .dy-torder-status__dot { background: #4a9eff; }
+body.dy-admin .dy-torder-status--on-hold   .dy-torder-status__dot { background: #f5a623; }
+body.dy-admin .dy-torder-status--pending   .dy-torder-status__dot { background: var(--dya-ink-mute); }
+body.dy-admin .dy-torder-status--cancelled .dy-torder-status__dot,
+body.dy-admin .dy-torder-status--refunded  .dy-torder-status__dot { background: var(--dya-ink-fade); }
+body.dy-admin .dy-torder-status--failed    .dy-torder-status__dot { background: #ff5c5c; }
+
+// --- Responsive orders (on par with posts) ---
+// Large tablet: hide Origin (the least critical column).
+@media (max-width: 1280px) {
+  body.dy-admin .dy-treimg--orders .dy-treimg__list { --dya-grid: 26px minmax(0,1.2fr) minmax(120px,0.85fr) minmax(0,0.75fr) minmax(0,1fr) minmax(0,0.7fr); }
+  body.dy-admin .dy-treimg--orders .dy-treimg__head .dy-treimg__col:nth-child(6),
+  body.dy-admin .dy-trow--order .dy-trow__order-origin { display: none; }
+}
+// Tablet: also hide Billing.
+@media (max-width: 1024px) {
+  body.dy-admin .dy-treimg--orders .dy-treimg__list { --dya-grid: 26px minmax(0,1.3fr) minmax(120px,0.85fr) minmax(0,0.8fr) minmax(0,0.8fr); }
+  body.dy-admin .dy-treimg--orders .dy-treimg__head .dy-treimg__col:nth-child(5),
+  body.dy-admin .dy-trow--order .dy-trow__order-fact { display: none; }
+}
+// Mobile: stacked card — customer + total on top, status + date below.
+@media (max-width: 767px) {
+  body.dy-admin .dy-treimg--orders .dy-trow--order {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    grid-template-areas: "main total" "status date" "acts acts" !important;
+    gap: 8px 12px !important; padding: 16px !important;
+  }
+  body.dy-admin .dy-trow--order .dy-trow__check { display: none; }
+  body.dy-admin .dy-trow--order .dy-trow__order-main { grid-area: main; }
+  body.dy-admin .dy-trow--order .dy-trow__order-total { grid-area: total; justify-self: end; align-self: start; }
+  body.dy-admin .dy-trow--order .dy-trow__order-status { grid-area: status; justify-self: start; }
+  body.dy-admin .dy-trow--order .dy-trow__order-date { grid-area: date; justify-self: end; }
+  body.dy-admin .dy-trow--order .dy-trow__order-fact,
+  body.dy-admin .dy-trow--order .dy-trow__order-origin { display: none; }
+  body.dy-admin .dy-trow--order .dy-trow__order-cust { white-space: normal; font-size: var(--dya-fs-md); }
+}
+
+// =============================================================
+// Plugins (plugins.php) — dedicated path (.dy-treimg--plugins).
+// One plugin = one row: state dot before the name, version chip (the
+// available update replaces the core's extra row), description on one
+// line that expands with the meta line, auto-update switch, and the same
+// hover drawer / action chips as the content tables.
+// =============================================================
+body.dy-admin .dy-treimg--plugins {
+  .dy-treimg__list { --dya-grid: 26px 26px minmax(220px, 1fr) minmax(0, 1.7fr) 76px 26px; }
+  &.dy-treimg--plugins-noauto .dy-treimg__list { --dya-grid: 26px 26px minmax(220px, 1fr) minmax(0, 1.7fr) 0 26px; }
+  &.dy-treimg--plugins-noauto .dy-treimg__col--auto-updates,
+  &.dy-treimg--plugins-noauto .dy-trow__auto { display: none; }
+  .dy-treimg__col--auto-updates { text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  // Rows hidden by the instant search (the grid display would beat [hidden]).
+  .dy-trow[hidden], .dy-tgroup[hidden] { display: none; }
+
+  // Group header (Active · n / Inactive · n)
+  .dy-tgroup {
+    display: flex; align-items: center; gap: 10px; padding: 9px 18px 7px;
+    background: var(--dya-bg-elev); border-bottom: 1px solid var(--dya-line);
+    font-family: var(--dya-font-mono); font-size: 10px; letter-spacing: var(--dya-tracking-label);
+    text-transform: uppercase; color: var(--dya-ink-mute);
+  }
+  .dy-tgroup::after { content: ""; flex: 1; height: 1px; background: var(--dya-line); }
+  .dy-tgroup__n { color: var(--dya-ink-fade); font-variant-numeric: tabular-nums; }
+  .dy-tgroup + .dy-trow { animation-delay: 0ms; }
+
+  // State dot: full = active (success, same meaning as the "Active" badge of
+  // the overview), ring = inactive, dashed ring = blocked by a dependency.
+  .dy-tstatus--active .dy-tstatus__dot { background: var(--dya-success); box-shadow: 0 0 0 3px color-mix(in srgb, var(--dya-success) 22%, transparent); }
+  .dy-tstatus--inactive .dy-tstatus__dot { background: transparent; border: 1.5px solid var(--dya-ink-fade); box-sizing: border-box; }
+  .dy-tstatus--blocked .dy-tstatus__dot { background: transparent; border: 1.5px dashed var(--dya-ink-fade); box-sizing: border-box; }
+
+  // The hover drawer stops before the switch + chevron (see placeDrawer),
+  // and keeps the height of its chips (the row is two lines tall now):
+  // vertically centred instead of stretched to the row.
+  .dy-trow--plugin { --dya-drawer-reserve: 118px; }
+  .dy-trow--plugin .dy-trow__drawer {
+    top: 50%; bottom: auto; height: 38px;
+    transform: translate(var(--drawer-x, 0px), -50%);
+  }
+  &.dy-treimg--plugins-noauto .dy-trow--plugin { --dya-drawer-reserve: 40px; }
+
+  // Name cell: title, then a state line (muted "Update available" + version
+  // chip, or the version alone) so each row reads in two beats.
+  .dy-trow--plugin { padding-top: 10px; padding-bottom: 10px; }
+  .dy-trow__plugin { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-width: 0; }
+  .dy-trow__plugin .dy-trow__title-text { font-weight: 550; }
+  .dy-trow__plugin-sub { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; row-gap: 4px; min-width: 0; }
+  .dy-tupd { font-size: var(--dya-fs-sm); color: var(--dya-ink-mute); white-space: nowrap; }
+  .dy-trow--plugin.is-updating .dy-tupd { color: var(--dya-ink-soft); }
+  .dy-trow--plugin.is-updated .dy-tupd { color: var(--dya-success); }
+  .dy-trow--plugin.is-update-error .dy-tupd { color: var(--dya-danger); }
+  .dy-trow--plugin.is-inactive .dy-trow__title-text { color: var(--dya-ink-soft); }
+  .dy-trow--plugin.is-blocked .dy-trow__title-text { color: var(--dya-ink-mute); }
+  .dy-trow--plugin:hover .dy-trow__title-text { color: var(--dya-accent); }
+  .dy-tver {
+    display: inline-flex; align-items: center; gap: 5px; height: 20px; padding: 0 7px;
+    border: 1px solid var(--dya-edge); border-radius: var(--dya-r-sm); background: transparent;
+    font-family: var(--dya-font-mono); font-size: 11px; letter-spacing: 0; color: var(--dya-ink-mute);
+    font-variant-numeric: tabular-nums; white-space: nowrap; line-height: 1; cursor: default;
+    transition: all var(--dya-t-fast) var(--dya-ease);
+  }
+  button.dy-tver { font-family: var(--dya-font-mono); cursor: pointer; }
+  .dy-tver--up { color: var(--dya-warn); border-color: color-mix(in srgb, var(--dya-warn) 35%, transparent); background: color-mix(in srgb, var(--dya-warn) 12%, transparent); }
+  .dy-tver--up:hover { border-color: var(--dya-warn); background: color-mix(in srgb, var(--dya-warn) 18%, transparent); }
+  .dy-tver--warn { color: var(--dya-warn); border-color: color-mix(in srgb, var(--dya-warn) 35%, transparent); }
+  .dy-tver--busy { opacity: .75; }
+  .dy-tver--busy .dy-tver__txt::after { content: ""; display: inline-block; width: 8px; height: 8px; margin-left: 6px; border: 1.5px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: dytr-spin 700ms linear infinite; vertical-align: -1px; }
+  .dy-tver--done { color: var(--dya-success); border-color: color-mix(in srgb, var(--dya-success) 35%, transparent); background: color-mix(in srgb, var(--dya-success) 12%, transparent); }
+  .dy-tver--done .dy-tver__txt::after { content: "✓"; margin-left: 5px; font-family: inherit; }
+  .dy-trow--plugin.is-update-error .dy-tver { color: var(--dya-danger); border-color: color-mix(in srgb, var(--dya-danger) 40%, transparent); background: color-mix(in srgb, var(--dya-danger) 10%, transparent); }
+  .dy-treq {
+    display: inline-flex; align-items: center; height: 20px; padding: 0 7px; border-radius: var(--dya-r-sm);
+    background: color-mix(in srgb, var(--dya-info) 12%, transparent); color: var(--dya-info);
+    font-family: var(--dya-font-mono); font-size: 10.5px; letter-spacing: .02em; white-space: nowrap; max-width: 220px; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  // Description: one line at rest, the open row reveals the meta line.
+  .dy-trow__desc { min-width: 0; font-size: var(--dya-fs-sm); color: var(--dya-ink-mute); }
+  .dy-trow__desc-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .dy-trow--plugin.is-open .dy-trow__desc-text { white-space: normal; color: var(--dya-ink-soft); }
+  .dy-trow__desc-meta { display: none; margin-top: 6px; font-size: 11.5px; color: var(--dya-ink-mute); line-height: 1.5; }
+  .dy-trow--plugin.is-open .dy-trow__desc-meta { display: flex; flex-direction: column; gap: 3px; align-items: flex-start; }
+  .dy-trow__desc-line { display: inline; }
+  .dy-trow__desc-meta a { color: var(--dya-ink-soft); border: 0; text-decoration: none; }
+  .dy-trow__desc-meta a:hover { color: var(--dya-accent); }
+  .dy-trow__desc-sep { margin: 0 6px; color: var(--dya-ink-fade); }
+  .dy-trow__note { display: inline-block; }
+  .dy-trow__note--warn { color: var(--dya-warn); }
+  .dy-trow__note--error { color: var(--dya-danger); }
+  .dy-trow__note[hidden] { display: none; }
+
+  // Auto-updates switch: full at rest when ON (a state worth knowing),
+  // faint otherwise and full on hover / focus. Delegates to the core toggle.
+  .dy-trow__auto { display: flex; align-items: center; justify-content: center; }
+  .dy-tswitch {
+    position: relative; width: 28px; height: 16px; padding: 0; border-radius: var(--dya-r-pill);
+    background: var(--dya-paper-3); border: 1px solid var(--dya-edge-strong); cursor: pointer;
+    opacity: .38; transition: opacity var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease);
+  }
+  .dy-tswitch__knob { position: absolute; top: 2px; left: 2px; width: 10px; height: 10px; border-radius: 50%; background: var(--dya-ink-mute); transition: transform var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease); }
+  .dy-tswitch[aria-checked="true"] { background: var(--dya-accent); border-color: var(--dya-accent); opacity: 1; }
+  .dy-tswitch[aria-checked="true"] .dy-tswitch__knob { background: var(--dya-accent-on); transform: translateX(12px); }
+  .dy-trow--plugin:hover .dy-tswitch, .dy-tswitch:focus-visible, .dy-trow--plugin.is-selected .dy-tswitch { opacity: 1; }
+  .dy-tswitch:hover { border-color: var(--dya-ink-fade); }
+  .dy-tswitch.is-busy { opacity: .5; pointer-events: none; }
+  .dy-tswitch:focus-visible { outline: 2px solid var(--dya-accent); outline-offset: 2px; }
+
+  // Expand chevron (closed → rotated; the posts tree uses collapsed/expanded).
+  .dy-trow--plugin .dy-trow__expand { visibility: visible; }
+  .dy-trow--plugin .dy-trow__expand svg { transform: rotate(-90deg); }
+  .dy-trow--plugin.is-open .dy-trow__expand svg { transform: rotate(0); }
+  .dy-trow--plugin.is-open { background: var(--dya-paper-2); }
+  .dy-trow--plugin.is-open::before { opacity: 1; }
+  .dy-trow--plugin .dy-trow__drawer--empty { display: none; }
+
+  // Update banner: "N updates available · Update all"
+  .dy-tupdates {
+    display: flex; align-items: center; gap: 12px; padding: 9px 12px 9px 16px; margin: 0 0 12px;
+    border: 1px solid color-mix(in srgb, var(--dya-warn) 35%, transparent);
+    background: color-mix(in srgb, var(--dya-warn) 9%, var(--dya-bg)); border-radius: var(--dya-r-md);
+    font-size: var(--dya-fs-sm); color: var(--dya-ink);
+    animation: dytr-row-in 180ms var(--dya-ease) backwards;
+  }
+  .dy-tupdates[hidden] { display: none; }
+  .dy-tupdates__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--dya-warn); box-shadow: 0 0 0 4px color-mix(in srgb, var(--dya-warn) 20%, transparent); flex: 0 0 auto; }
+  .dy-tupdates__txt { font-weight: 500; }
+  .dy-tupdates__btn {
+    display: inline-flex; align-items: center; gap: 7px; margin-left: auto; height: 30px; padding: 0 14px;
+    border-radius: var(--dya-r-sm); background: var(--dya-accent); border: 1px solid var(--dya-accent); color: var(--dya-accent-on);
+    font: inherit; font-size: var(--dya-fs-sm); font-weight: 500; cursor: pointer; white-space: nowrap;
+    transition: filter var(--dya-t-fast) var(--dya-ease);
+  }
+  .dy-tupdates__btn:hover { filter: brightness(1.06); }
+  .dy-tupdates__btn svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+
+  // "More" filter chip sits next to the segmented control.
+  .dy-tfchip--more .dy-tfchip__pop .n { margin-left: auto; font-family: var(--dya-font-mono); font-size: 10px; color: var(--dya-ink-mute); padding-left: 12px; }
+
+  // Empty state of the instant search.
+  .dy-tempty { padding: 36px 18px; text-align: center; color: var(--dya-ink-mute); font-size: var(--dya-fs-sm); }
+  .dy-tempty[hidden] { display: none; }
+}
+@keyframes dytr-spin { to { transform: rotate(360deg); } }
+
+// --- Responsive plugins (same steps as the other tables) ---
+@media (max-width: 1199px) and (min-width: 768px) {
+  body.dy-admin .dy-treimg--plugins .dy-treimg__list { --dya-grid: 26px 26px minmax(0, 1fr) minmax(0, 1.2fr) 60px 26px; }
+  body.dy-admin .dy-treimg--plugins .dy-treimg__col--auto-updates { font-size: 9px; }
+}
+@media (max-width: 1024px) and (min-width: 768px) {
+  body.dy-admin .dy-treimg--plugins .dy-treimg__list { --dya-grid: 26px 26px minmax(0, 1fr) minmax(0, 1fr) 26px; }
+  body.dy-admin .dy-treimg--plugins .dy-treimg__col--auto-updates,
+  body.dy-admin .dy-treimg--plugins .dy-trow__auto { display: none; }
+}
+@media (max-width: 767px) {
+  body.dy-admin .dy-treimg--plugins .dy-trow--plugin {
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    grid-template-areas:
+      "status title  check expand"
+      "meta   meta   meta  meta"
+      "acts   acts   acts  acts";
+  }
+  body.dy-admin .dy-treimg--plugins .dy-trow__plugin { grid-area: title; }
+  body.dy-admin .dy-treimg--plugins .dy-trow__desc { grid-area: meta; }
+  body.dy-admin .dy-treimg--plugins .dy-trow__desc-text { white-space: normal; }
+  body.dy-admin .dy-treimg--plugins .dy-trow__expand { grid-area: expand; justify-self: end; }
+  body.dy-admin .dy-treimg--plugins .dy-trow__auto { display: none; }
+  body.dy-admin .dy-treimg--plugins .dy-trow--plugin .dy-trow__drawer { top: auto; height: auto; transform: none; }
+  body.dy-admin .dy-treimg--plugins .dy-tgroup { border: 0; background: transparent; padding: 6px 4px; }
+  body.dy-admin .dy-treimg--plugins .dy-tupdates { flex-wrap: wrap; }
+  body.dy-admin .dy-treimg--plugins .dy-tupdates__btn { margin-left: 0; width: 100%; justify-content: center; }
+  body.dy-admin .dy-treimg--plugins .dy-trow--plugin.is-open .dy-trow__desc-meta { font-size: var(--dya-fs-sm); }
+}

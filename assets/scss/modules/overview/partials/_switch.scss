@@ -1,0 +1,179 @@
+// =============================================================
+// _switch.scss
+// Custom toggle switch — track + thumb + "Enabled/Disabled" label.
+//
+// Pattern: <label class="dy-overview__switch">
+//             <input type="checkbox">
+//             <span class="dy-overview__switch-track"></span>
+//             <span class="dy-overview__switch-label">Enabled</span>
+//           </label>
+// =============================================================
+
+.dy-overview__switch {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	cursor: pointer;
+	user-select: none;
+	-webkit-tap-highlight-color: transparent;
+
+	// The real checkbox is invisible but accessible: focus, state,
+	// keyboard. We move it out of flow so it occupies no space,
+	// but we do not hide it with display:none (which would remove focus).
+	input[type="checkbox"] {
+		position: absolute;
+		opacity: 0;
+		width: 0;
+		height: 0;
+		pointer-events: none;
+		margin: 0;
+	}
+
+	// ── Track + thumb ─────────────────────────────────────────
+	&-track {
+		position: relative;
+		display: inline-block;
+		width: 38px;
+		height: 22px;
+		background: var(--dya-paper-3);
+		border: 1px solid var(--dya-edge-strong);
+		border-radius: var(--dya-r-pill);
+		transition: background var(--dya-t-med) var(--dya-ease),
+		            border-color var(--dya-t-fast) var(--dya-ease),
+		            box-shadow var(--dya-t-fast) var(--dya-ease);
+		flex-shrink: 0;
+
+		&::after {
+			content: "";
+			position: absolute;
+			top: 2px;
+			left: 2px;
+			width: 16px;
+			height: 16px;
+			background: var(--dya-paper);
+			border: 1px solid var(--dya-edge);
+			border-radius: 50%;
+			transition: transform var(--dya-t-med) var(--dya-ease-out),
+			            background var(--dya-t-fast) var(--dya-ease),
+			            border-color var(--dya-t-fast) var(--dya-ease),
+			            box-shadow var(--dya-t-fast) var(--dya-ease);
+		}
+	}
+
+	// CHECKED state: track becomes accent, thumb slides right + turns white.
+	input:checked + &-track {
+		background: var(--dya-accent);
+		border-color: var(--dya-accent);
+
+		&::after {
+			transform: translateX(16px);
+			background: #ffffff;
+			border-color: rgba(0, 0, 0, .08);
+			box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+		}
+	}
+
+	// Focus visible: accent halo around the track.
+	input:focus-visible + &-track {
+		box-shadow: 0 0 0 4px rgba(var(--dya-accent-rgb), .18);
+	}
+
+	// Hover: more prominent track, thumb very slightly elongated (squish).
+	&:hover &-track {
+		border-color: var(--dya-ink-mute);
+
+		&::after { transform: translateX(1px) scaleX(1.08); }
+	}
+
+	&:hover input:checked + &-track::after {
+		transform: translateX(15px) scaleX(1.08);
+	}
+
+	// ── Text label (Enabled/Disabled) ──────────────────────
+	&-label {
+		font-family: var(--dya-font-body);
+		font-size: 12px;
+		font-weight: 500;
+		color: var(--dya-ink-mute);
+		min-width: 56px;
+		transition: color var(--dya-t-fast) var(--dya-ease);
+	}
+
+	// When the checkbox is checked, the label in the DOM reads "Enabled"
+	// (rendered by PHP) — we give it the ink-soft color so it is
+	// more prominent than "Disabled".
+	&:has(input:checked) &-label {
+		color: var(--dya-ink-soft);
+	}
+}
+
+// ── Infobulle de coupure ──────────────────────────────────────
+// Une phrase apparaît au survol de l'interrupteur, et SEULEMENT quand il
+// est allumé : elle explique ce que couper le module change. Éteint, elle
+// n'aurait rien à dire, donc elle ne se montre pas. Posée par le filtre
+// doubleyoupi_filter_module_toggle_note, rendue hors du <label> pour ne
+// pas polluer le nom accessible de la case (cf. OverviewPage.php).
+//
+// Même vocabulaire que .dy-rail-tip : paper-3, ink, 11.5px, r-sm,
+// shadow-md, apparition en .12s.
+.dy-overview__switch-hold {
+	position: relative;
+	display: inline-flex;
+}
+
+.dy-overview__tip {
+	position: absolute;
+	left: 0;
+	bottom: calc(100% + 9px);
+	z-index: 3;
+
+	// Plus large que la carte, volontairement : à la largeur du contenu de la
+	// carte la bulle faisait sept lignes et montait jusqu'au titre du module.
+	// Elle dépasse donc sur la droite, ce que la carte autorise depuis qu'elle
+	// ne découpe plus ses enfants. Plafond en pixels et non en pourcentage :
+	// un pourcentage se calculerait sur l'enveloppe, large de l'interrupteur.
+	width: max-content;
+	max-width: 340px;
+
+	padding: 7px 10px;
+	background: var(--dya-paper-3);
+	border: 1px solid var(--dya-edge);
+	border-radius: var(--dya-r-sm);
+	box-shadow: var(--dya-shadow-md);
+
+	font-family: var(--dya-font-body);
+	font-size: 11.5px;
+	line-height: 1.45;
+	color: var(--dya-ink);
+	text-align: left;
+
+	// Masquée par la seule opacité : ni display ni visibility, pour qu'un
+	// lecteur d'écran continue de la lire via aria-describedby.
+	opacity: 0;
+	transform: translateY(3px);
+	pointer-events: none;
+	transition: opacity .12s var(--dya-ease), transform .12s var(--dya-ease);
+}
+
+// Le survol de l'enveloppe révèle l'infobulle, à la condition que la case
+// soit cochée : survoler pour ALLUMER ne dit rien.
+.dy-overview__switch-hold:has(input:checked):hover .dy-overview__tip,
+.dy-overview__switch-hold:has(input:checked:focus-visible) .dy-overview__tip {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+	.dy-overview__switch-track,
+	.dy-overview__switch-track::after { transition: none; }
+
+	.dy-overview__tip {
+		transition: none;
+		transform: none;
+	}
+	.dy-overview__switch-hold:has(input:checked):hover .dy-overview__tip,
+	.dy-overview__switch-hold:has(input:checked:focus-visible) .dy-overview__tip {
+		transform: none;
+	}
+}

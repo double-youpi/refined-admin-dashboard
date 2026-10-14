@@ -1,0 +1,818 @@
+@use 'grain' as *;
+// =============================================================
+// _rail.scss
+// #adminmenuwrap — resizable vertical rail.
+//
+// The rail width is driven by --dya-rail-w-current, defaulting to the
+// fluid --dya-rail-w clamp (collapsed). JS sets it to a concrete px
+// value when the user drags or toggles to the expanded state.
+//
+// Layout strategy:
+//   • Tiles are full-width flex rows with symmetric --dya-rail-gutter
+//     margins (left + right) — single source of truth for centering.
+//   • Width grows from --dya-rail-icon-tile (collapsed) to
+//     rail-w - 2 * --dya-rail-gutter (expanded). Use of max() guarantees
+//     the tile never gets narrower than the icon.
+//   • The glyph is centered inside the tile via padding-left =
+//     (icon-tile - glyph) / 2 → glyph X stays put as the rail grows.
+//   • Labels are flex:1 + opacity-faded based on rail width.
+//   • Brand row (logo + "Admin") mirrors the tile geometry so the
+//     logo center aligns exactly with the glyph center.
+// =============================================================
+
+body.dy-admin #adminmenuwrap {
+  position: relative;
+  // Rail ground, declared once: the sticky toggle masks the list with the
+  // very same colour (see its ::before).
+  --dya-rail-ground: var(--dya-bg);
+  @include dy-grain(var(--dya-rail-ground));
+  border-right: 1px solid var(--dya-line);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;          // tiles span the full rail width
+  padding: 28px 0 12px;          // top breathing room; the toggle sits in flow below the list
+  gap: 2px;
+  z-index: 25;
+  overflow-y: auto;
+  overflow-x: visible;           // drag handle hit area sticks out
+  width: var(--dya-rail-w-current);
+
+  &::-webkit-scrollbar { width: 0; }
+  scrollbar-width: none;
+}
+// LIGHT MODE only: tints the entire rail with a 10% accent wash.
+// Gives the rail a visual identity driven by the user's accent color
+// on a light background, and establishes the chromatic context on
+// which hover states (accent 20%) and current states (accent 100% via
+// smart contrast) stack progressively.
+// In dark mode we keep the full `var(--dya-bg)` — the perceived accent would
+// be too dominant over a large dark surface.
+body.dy-admin.dy-theme-light #adminmenuwrap {
+  --dya-rail-ground: color-mix(in srgb, var(--dya-accent) 10%, var(--dya-bg));
+  background-color: var(--dya-rail-ground); // keeps the grain layers of the base rule
+}
+
+// ── Brand row (logo + "Admin" wordmark) ──────────────────────
+// Mirrors the geometry of a menu tile so the logo center sits on
+// the same X axis as the icon glyphs below.
+//   • width    : max(icon-tile, rail-w - 2*gutter)
+//   • margins  : --dya-rail-gutter both sides
+//   • padding-left : (icon-tile - 32) / 2 centers the 32px logo
+//                    in the leading slot, matching the tile padding
+// In collapsed state only the logo is visible — the "Admin" label
+// is clipped by overflow:hidden. In expanded the label fades in on
+// the same threshold as the menu labels.
+// Brand row is a clickable link to the Dashboard. Both the logo
+// square and the "Admin" wordmark are inside the same <a>, so the
+// whole row hits a single nav target. Hover lifts the logo bg
+// subtly so the affordance is visible in both states.
+body.dy-admin .dy-rail-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: max(var(--dya-rail-icon-tile), calc(100% - var(--dya-rail-gutter) * 2));
+  padding: 0;
+  // Centers a `--dya-rail-logo-size` logo inside the leading icon-tile
+  // slot. Reads --dya-rail-logo-size from tokens so responsive overrides
+  // (≤900px → 28px, ≥1500px → 40px) keep the alignment correct.
+  padding-left: calc((var(--dya-rail-icon-tile) - var(--dya-rail-logo-size)) / 2);
+  margin: 0 var(--dya-rail-gutter) 28px;
+  flex-shrink: 0;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: width        var(--dya-rail-snap-dur) var(--dya-rail-snap-easing),
+              margin-left  var(--dya-rail-snap-dur) var(--dya-rail-snap-easing),
+              margin-right var(--dya-rail-snap-dur) var(--dya-rail-snap-easing);
+  overflow:visible;
+}
+body.dy-admin .dy-rail-brand:focus-visible {
+  outline: 2px solid var(--dya-accent);
+  outline-offset: 4px;
+  border-radius: var(--dya-r-md);
+}
+
+body.dy-admin .dy-rail-logo {
+  width:  var(--dya-rail-logo-size);
+  height: var(--dya-rail-logo-size);
+  border-radius: var(--dya-r-md);
+  // The logo (SVG using `currentColor`, see Rail::default_logo_svg) follows the
+  // FOREGROUND ink, not the background: dark in light theme, light in dark theme
+  // (--dya-ink tones, never pure black/white). Using `var(--dya-bg)` made it inverted and
+  // nearly invisible (white on light background / black on dark background).
+  color: var(--dya-ink);
+  display: grid;
+  place-items: center;
+  font-family: var(--dya-font-mono);
+  font-weight: 700;
+  font-size: calc(var(--dya-rail-logo-size) * 0.4);
+  flex-shrink: 0;
+  overflow: hidden;
+  transition: width var(--dya-rail-snap-dur) var(--dya-rail-snap-easing),
+              height var(--dya-rail-snap-dur) var(--dya-rail-snap-easing),
+              transform var(--dya-t-fast) var(--dya-ease),
+              box-shadow var(--dya-t-fast) var(--dya-ease);
+}
+// When PHP (production) injects an <img> or inline <svg> as the
+// logo content, fill the tile cleanly. The mockup keeps the
+// default text "Y" monogram inside <span class="dy-rail-logo">.
+body.dy-admin .dy-rail-logo img,
+body.dy-admin .dy-rail-logo svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+body.dy-admin .dy-rail-brand:hover .dy-rail-logo {
+  transform: scale(1.08);
+}
+body.dy-admin .dy-rail-brand:active .dy-rail-logo {
+  transform: scale(1.02);
+}
+
+body.dy-admin .dy-rail-brand-name {
+  font-family: var(--dya-font-display);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: var(--dya-tracking-tight);
+  color: var(--dya-ink);
+  white-space: nowrap;
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  opacity: clamp(0,
+            (var(--dya-rail-w-current) - var(--dya-rail-label-fade-start)) /
+            (var(--dya-rail-label-fade-end) - var(--dya-rail-label-fade-start)),
+            1);
+  transform: translateX(calc(
+    (1 - clamp(0,
+      (var(--dya-rail-w-current) - var(--dya-rail-label-fade-start)) /
+      (var(--dya-rail-label-fade-end) - var(--dya-rail-label-fade-start)),
+      1)) * -6px
+  ));
+}
+
+// ── Menu list ─────────────────────────────────────────────
+// `background: transparent` neutralizes the native WP rule that sets
+// `#adminmenu { background: #1d2327 }` on the ID — without this override
+// the UL stays dark even in light mode, creating a blue-black rectangle
+// in the middle of the beige rail.
+//
+// `position: static !important` neutralizes the WP `@media :782`
+// `#adminmenu { position: absolute }` rule that took the UL out of the
+// rail's flex flow and caused it to overlap the brand row (both at the
+// same y=padding-top).
+body.dy-admin #adminmenu {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 3px;
+  flex: 1;
+  width: 100%;
+  background: transparent !important;
+  color: inherit;
+  position: static !important;
+}
+body.dy-admin #adminmenu li,
+body.dy-admin #adminmenu li.menu-top {
+  background: transparent;
+}
+
+body.dy-admin #adminmenu li.menu-top { position: relative; }
+
+// WP "auto-fold": at ≤960px WP adds `body.auto-fold` and COLLAPSES its native
+// menu by pinning `#adminmenu` AND `#adminmenu li.menu-top` to `width: 36px`
+// (same for `.folded` when the user collapses manually). Our rail manages its
+// own collapse/expansion via --dya-rail-w-current; this pinning froze tiles at
+// icon width → in the EXPANDED state between 901 and 960px, labels were
+// clipped to a single letter (li 36px → label ~29px).
+// We restore full width so the tile formula grows with the rail. (The
+// `position:absolute;left:-999px` that WP also sets on .wp-menu-name is
+// already neutralized below by our label rule.)
+body.dy-admin.auto-fold #adminmenu,
+body.dy-admin.auto-fold #adminmenu li.menu-top,
+body.dy-admin.folded #adminmenu,
+body.dy-admin.folded #adminmenu li.menu-top {
+  width: 100% !important;
+}
+
+// Native WP separator — rendered as <li class="wp-menu-separator">.
+body.dy-admin #adminmenu li.wp-menu-separator {
+  width: 24px;
+  height: 1px;
+  background: var(--dya-line);
+  margin: 8px auto;
+  list-style: none;
+  padding: 0;
+}
+
+// ── Tile: flex row, dynamic width, symmetric gutter ──────
+// NO overflow:hidden here — the ribbon (::before) sits at
+// `left: -gutter` which is OUTSIDE the tile box. Clipping it would
+// hide the active-line accent. The label has its own overflow
+// rule which clips text without affecting the ribbon.
+body.dy-admin #adminmenu li.menu-top > a {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 14px;
+  width: max(var(--dya-rail-icon-tile), calc(100% - var(--dya-rail-gutter) * 2));
+  height: var(--dya-rail-icon-tile);
+  padding: 0;
+  padding-left: calc((var(--dya-rail-icon-tile) - var(--dya-rail-icon-glyph)) / 2);
+  margin-left:  var(--dya-rail-gutter);
+  margin-right: var(--dya-rail-gutter);
+  border-radius: var(--dya-r-lg);
+  position: relative;
+  background: transparent;
+  color: var(--dya-ink-mute);
+  // strip WP's default text-indent / line-height crud
+  text-indent: 0;
+  line-height: 0;
+  font-size: 0;
+  transition:
+    color        var(--dya-t-fast),
+    background   var(--dya-t-fast),
+    width        var(--dya-rail-snap-dur) var(--dya-rail-snap-easing),
+    margin-left  var(--dya-rail-snap-dur) var(--dya-rail-snap-easing),
+    margin-right var(--dya-rail-snap-dur) var(--dya-rail-snap-easing);
+}
+
+// Active-line ribbon — pinned to the rail's LEFT edge (x=0).
+// The tile is offset by --dya-rail-gutter from the rail-left, so the
+// ribbon's `left: -gutter` brings it back to the rail edge.
+body.dy-admin #adminmenu li.menu-top > a::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--dya-rail-gutter));
+  // Vertical centering via top:50% + translateY(-50%), so height growth
+  // is symmetric (top AND bottom), matching dy-rail-handle::after.
+  top: 50%;
+  height: 30%;
+  width: 3px;
+  border-radius: 0 2px 2px 0;
+  background: var(--dya-line-color, var(--dya-line-content));
+  opacity: 0;
+  transform: translateY(-50%);
+  // "rail-handle" animation: height grows progressively
+  // (30% → calc(100% - 16px)) while the ribbon fades in simultaneously.
+  transition: opacity 200ms var(--dya-ease),
+              height 240ms var(--dya-ease),
+              left var(--dya-rail-snap-dur) var(--dya-rail-snap-easing);
+}
+
+// Hover — lightens the tile (bg + ink) AND shows the ribbon at a
+// reduced height (preview of the active state without usurping its
+// visual vocabulary). The !important override neutralizes the native
+// `#adminmenu li.wp-not-current-submenu:hover` rules (background-color
+// + white border-left 4px) that WP applies on this ID selector.
+// `.is-hot`: the entry whose flyout is open keeps the hover look while the
+// pointer is inside the card (admin.js, section 5bis).
+body.dy-admin #adminmenu li.menu-top > a:hover,
+body.dy-admin #adminmenu li.menu-top.wp-not-current-submenu > a:hover,
+body.dy-admin #adminmenu li.menu-top.is-hot > a {
+  color: var(--dya-ink) !important;
+  background: var(--dya-paper-2) !important;
+  border-left: 0 !important;
+  box-shadow: none !important;
+}
+// LIGHT MODE override: on a light paper background, `--dya-paper-2` (cream-white)
+// is nearly indistinguishable from the rail background. We switch to a 20%
+// accent tint on hover to give obvious visual feedback — consistent with the
+// 10% accent background applied to the entire rail → visual coherence.
+body.dy-admin.dy-theme-light #adminmenu li.menu-top > a:hover,
+body.dy-admin.dy-theme-light #adminmenu li.menu-top.wp-not-current-submenu > a:hover,
+body.dy-admin.dy-theme-light #adminmenu li.menu-top.is-hot > a {
+  background: color-mix(in srgb, var(--dya-accent) 20%, transparent) !important;
+}
+// Ribbon on hover — appears with a height animation (height 0 → 50%),
+// then active state → 100%-16px. The `:before` is NOT a border-left, it is
+// our graphic element placed outside the tile (left: -gutter). No WP rule
+// overrides this because WP does not target ::before.
+body.dy-admin #adminmenu li.menu-top > a:hover::before,
+body.dy-admin #adminmenu li.menu-top.is-hot > a::before {
+  opacity: 1;
+  height: 50%;
+}
+
+// ── Text colour of the active entry ────────────────────
+// `--dya-line-color-text`: the section colour, usable AS TEXT on the rail
+// ground. Same two guards as `--dya-accent-text` (see _tokens.scss):
+//  · dark: lightness floor .64. A no-op for the seven section colours (they
+//    already read 5.5 to 9.6 on `--dya-bg`), but the native tree, the
+//    builders and the custom groups take the ACCENT as their line colour,
+//    and the default accent (#7c54ff, L≈.59) only reaches 4.2 on the dark
+//    ground. The floor brings it to 5.0.
+//  · light: lightness cap .5. The section colours are far too pale as text
+//    on a light ground (Content falls to 2.8); the cap puts every section
+//    between 4.9 and 6.9 on the tinted rail, the accent at 5.9.
+// Browsers without relative colour syntax get the raw colour.
+body.dy-admin #adminmenu li.menu-top {
+  --dya-line-color-text: var(--dya-line-color, var(--dya-line-content));
+}
+@supports (color: oklch(from red l c h)) {
+  body.dy-admin #adminmenu li.menu-top {
+    --dya-line-color-text: oklch(from var(--dya-line-color, var(--dya-line-content)) max(l, .64) c h);
+  }
+  body.dy-admin.dy-theme-light #adminmenu li.menu-top {
+    --dya-line-color-text: oklch(from var(--dya-line-color, var(--dya-line-content)) min(l, .5) c h);
+  }
+}
+
+// Active state — WP marks current items with .current AND
+// .wp-has-current-submenu. Both selectors are matched.
+//
+// No background: the entry keeps the shape of every other one, and only the
+// ribbon and the section-coloured label say that it is the current one
+// (Raphaël, 15/09/2026). The light theme used to paint a filled pill, which
+// read as a big grey block on the Developer section and looked nothing like
+// its dark counterpart. Both themes now share one rule, which also removes
+// the `!important` collision the previous split guarded against.
+body.dy-admin #adminmenu li.menu-top.current > a,
+body.dy-admin #adminmenu li.menu-top.wp-has-current-submenu > a,
+body.dy-admin #adminmenu li.menu-top.is-active > a {
+  color: var(--dya-line-color-text, var(--dya-line-content)) !important;
+  background: transparent !important;
+  border-left: 0 !important;
+  box-shadow: none !important;
+}
+
+// Ribbon — visible in the active state, full height (calc(100% - 16px)).
+// The appearance is animated via the transition already declared on `:before`
+// (opacity + height).
+body.dy-admin #adminmenu li.menu-top.current > a::before,
+body.dy-admin #adminmenu li.menu-top.wp-has-current-submenu > a::before,
+body.dy-admin #adminmenu li.menu-top.is-active > a::before {
+  opacity: 1;
+  height: calc(100% - 16px); // 8px margin top/bottom
+}
+
+// Icon container — accept both Dashicons (WP default) and our
+// inline <svg> form.
+body.dy-admin #adminmenu li.menu-top > a .wp-menu-image {
+  flex: 0 0 var(--dya-rail-icon-glyph);
+  width:  var(--dya-rail-icon-glyph);
+  height: var(--dya-rail-icon-glyph);
+  display: grid;
+  place-items: center;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  // WP "auto-fold" (≤960px) pulls the icon out of the flow via
+  // `.auto-fold #adminmenu div.wp-menu-image { position:absolute }` (icon
+  // pinned top-left for its native collapsed menu). Our rail needs it IN
+  // FLOW (flex item) so the icon→label gap stays correct; without this,
+  // in the expanded state between 901-960px, the label pressed against the
+  // edge and overlapped the icon. We stay `static` at all widths (our base
+  // specificity (1,3,3) beats the native `.auto-fold` (1,2,1)).
+  position: static;
+}
+body.dy-admin #adminmenu li.menu-top > a .wp-menu-image svg {
+  width:  var(--dya-rail-icon-glyph);
+  height: var(--dya-rail-icon-glyph);
+}
+body.dy-admin #adminmenu li.menu-top > a .wp-menu-image::before {
+  font-family: dashicons;
+  font-size: var(--dya-rail-icon-glyph);
+  line-height: 1;
+  color: inherit;
+  width:  var(--dya-rail-icon-glyph);
+  height: var(--dya-rail-icon-glyph);
+}
+
+// ── Native tree (Settings → Navigation tree: native) ───────────
+// The rail draws the WordPress menu with the icons WordPress declares:
+// Dashicon classes (glyph via ::before, already styled above), a base64
+// SVG as background, a plain <img>, or the 7.2 Icon API. Separators keep
+// their line (`.dy-rail-divider`).
+body.dy-admin.dy-nav-native #adminmenu li.menu-top > a .wp-menu-image.svg {
+  background-size: var(--dya-rail-icon-glyph) auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: .78;
+}
+body.dy-admin.dy-nav-native #adminmenu li.menu-top.current > a .wp-menu-image.svg,
+body.dy-admin.dy-nav-native #adminmenu li.menu-top > a:hover .wp-menu-image.svg { opacity: 1; }
+body.dy-admin.dy-nav-native #adminmenu li.menu-top > a .wp-menu-image img {
+  width: var(--dya-rail-icon-glyph);
+  height: var(--dya-rail-icon-glyph);
+  padding: 0;
+  object-fit: contain;
+  opacity: .78;
+}
+body.dy-admin.dy-nav-native #adminmenu li.menu-top > a .wp-menu-image br { display: none; }
+body.dy-admin.dy-nav-native #adminmenu li.menu-top > a .wp-menu-image.dy-icon-api svg { fill: currentColor; }
+// A bare "none"/"div" icon: a neutral dot, so every row keeps an anchor.
+body.dy-admin.dy-nav-native #adminmenu li.menu-top > a .wp-menu-image.dashicons-before:not([class*="dashicons-"]):not(.svg)::after,
+body.dy-admin.dy-nav-native #adminmenu li.menu-top > a .wp-menu-image.dashicons-before[class="wp-menu-image dashicons-before"]::after {
+  content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: .55;
+}
+// Plugin icons are drawn white for the dark WordPress menu (base64 SVGs,
+// PNGs): on the light theme they vanish. Inverting flips white to ink and
+// keeps a coloured icon's hue.
+body.dy-admin.dy-theme-light.dy-nav-native #adminmenu li.menu-top > a .wp-menu-image.svg,
+body.dy-admin.dy-theme-light.dy-nav-native #adminmenu li.menu-top > a .wp-menu-image img {
+  filter: invert(1) hue-rotate(180deg);
+}
+// The section-colour dot at the right of each row says nothing here
+// (every entry would carry the accent): off.
+body.dy-admin.dy-nav-native #adminmenu li.menu-top > a::after { display: none; }
+// Twenty-odd entries instead of seven: tighter rows so the tree fits.
+body.dy-admin.dy-nav-native #adminmenu li.menu-top > a { height: calc(var(--dya-rail-icon-tile) - 6px); }
+body.dy-admin.dy-nav-native #adminmenu li.dy-rail-divider { margin-block: 5px; }
+
+// ── Menu label — rebuilt from sr-only into the flow ─────
+// The base WP markup hides labels off-screen. We bring them back
+// as a flex sibling next to the glyph. Opacity is tied to the
+// rail width via clamp(): invisible while the rail is narrow,
+// fully visible once the rail crosses the fade-end threshold.
+// Own overflow:hidden so a narrow tile clips text without
+// affecting the ribbon (which lives outside the tile).
+body.dy-admin #adminmenu li.menu-top > a .wp-menu-name {
+  position: static;
+  left: auto;
+  width: auto;
+  height: auto;
+  overflow: hidden;
+  font-size: 13px;
+  line-height: 1.4;
+  font-family: var(--dya-font-body);
+  font-weight: 500;
+  letter-spacing: 0;
+  color: inherit;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-transform: none;
+  flex: 1;
+  min-width: 0;
+  padding: 8px 6px 8px 20px;
+  opacity: clamp(0,
+            (var(--dya-rail-w-current) - var(--dya-rail-label-fade-start)) /
+            (var(--dya-rail-label-fade-end) - var(--dya-rail-label-fade-start)),
+            1);
+  transform: translateX(calc(
+    (1 - clamp(0,
+      (var(--dya-rail-w-current) - var(--dya-rail-label-fade-start)) /
+      (var(--dya-rail-label-fade-end) - var(--dya-rail-label-fade-start)),
+      1)) * -4px
+  ));
+}
+
+// Native vertical flyout hidden — replaced by the chip bar.
+body.dy-admin #adminmenu .wp-submenu,
+body.dy-admin #adminmenu .wp-submenu-wrap { display: none; }
+
+// Tiny color dot per icon. Stays at right-edge of tile (10px from
+// right). Collapsed = top-right corner notification. Expanded =
+// vertical center (section accent on the row).
+body.dy-admin #adminmenu li.menu-top > a::after {
+  content: "";
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--dya-line-color, var(--dya-line-content));
+  opacity: .55;
+  transition: top var(--dya-rail-snap-dur) var(--dya-rail-snap-easing);
+}
+body.dy-admin[data-rail-state="expanded"] #adminmenu li.menu-top > a::after {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+// ── Shimmer: the entries whose colour just changed ────────
+// Set by admin-settings.js when the accent or "Accent on every menu line" is
+// saved: only the entries whose dot actually changed colour get `.dy-shimmer`
+// and an index `--dy-shimmer-i`, top to bottom. The dot swells once, and the
+// ribbon of a non-current entry shows for a beat, one entry after the other.
+// The current entry keeps its ribbon, which is already on.
+body.dy-admin #adminmenu li.menu-top.dy-shimmer > a::after {
+  animation: dy-rail-dot-shimmer 640ms var(--dya-ease-out, cubic-bezier(.16, 1, .3, 1)) both;
+  animation-delay: calc(var(--dy-shimmer-i, 0) * 55ms);
+}
+body.dy-admin #adminmenu li.menu-top.dy-shimmer:not(.current):not(.wp-has-current-submenu):not(.is-active) > a::before {
+  animation: dy-rail-ribbon-shimmer 560ms var(--dya-ease-out, cubic-bezier(.16, 1, .3, 1)) both;
+  animation-delay: calc(var(--dy-shimmer-i, 0) * 55ms);
+}
+@keyframes dy-rail-dot-shimmer {
+  0%   { opacity: .55; scale: 1;   box-shadow: 0 0 0 0 transparent; }
+  35%  { opacity: 1;   scale: 1.9; box-shadow: 0 0 0 3px color-mix(in srgb, var(--dya-line-color, var(--dya-accent)) 30%, transparent); }
+  100% { opacity: .55; scale: 1;   box-shadow: 0 0 0 0 transparent; }
+}
+@keyframes dy-rail-ribbon-shimmer {
+  0%   { opacity: 0; height: 30%; }
+  40%  { opacity: 1; height: 55%; }
+  100% { opacity: 0; height: 30%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.dy-admin #adminmenu li.menu-top.dy-shimmer > a::after,
+  body.dy-admin #adminmenu li.menu-top.dy-shimmer > a::before { animation: none; }
+}
+
+// ── Line palette wiring ──────────────────────────────────
+body.dy-admin #adminmenu li.line-content   { --dya-line-color: var(--dya-line-content);   --dya-line-soft-color: var(--dya-line-content-soft); }
+body.dy-admin #adminmenu li.line-commerce  { --dya-line-color: var(--dya-line-commerce);  --dya-line-soft-color: var(--dya-line-commerce-soft); }
+body.dy-admin #adminmenu li.line-users     { --dya-line-color: var(--dya-line-users);     --dya-line-soft-color: var(--dya-line-users-soft); }
+body.dy-admin #adminmenu li.line-community { --dya-line-color: var(--dya-line-community); --dya-line-soft-color: var(--dya-line-community-soft); }
+body.dy-admin #adminmenu li.line-site      { --dya-line-color: var(--dya-line-site);      --dya-line-soft-color: var(--dya-line-site-soft); }
+body.dy-admin #adminmenu li.line-system    { --dya-line-color: var(--dya-line-system);    --dya-line-soft-color: var(--dya-line-system-soft); }
+body.dy-admin #adminmenu li.line-developer { --dya-line-color: var(--dya-line-developer); --dya-line-soft-color: var(--dya-line-developer-soft); }
+
+// Pin Developer to the bottom of the rail.
+//
+// NOTE — when standalone builders + Double Youpi are rendered just
+// before Developer, Rail::markup_menu() emits an `.is-spacer` divider
+// BEFORE the builders: this divider absorbs ALL available vertical space
+// (margin-top: auto) and pushes builders + DY + divider + Developer as
+// a block toward the bottom. If we also keep `margin-top: auto` on
+// Developer, both auto-margins split the available space (flexbox split)
+// and Developer floats in the wrong position. Solution: scope the pin
+// to Developer only when there is NO spacer above (i.e. when no builder
+// is rendered).
+//
+// `:has()` Selector Level 4: if the #adminmenu parent contains an
+// is-spacer, we do not apply the auto-margin to Developer (the spacer
+// does the work). Otherwise (no builders), Developer takes the auto.
+body.dy-admin #adminmenu:not(:has(.dy-rail-divider.is-spacer)) li.menu-top.line-developer {
+  margin-top: auto;
+}
+
+// ── Standalone builders ──────────────────────────────────
+// Page builders (Elementor, Bricks, Divi…) get their own rail
+// slot above the 7 lines. They share .menu-top dimensions for
+// pixel-perfect alignment but use a neutral color since each
+// builder is its own brand (no shared line color).
+body.dy-admin #adminmenu li.menu-top.is-builder {
+  --dya-line-color: var(--ink-strong);
+  --dya-line-soft-color: var(--dya-paper-2);
+}
+body.dy-admin #adminmenu li.menu-top.is-builder.current,
+body.dy-admin #adminmenu li.menu-top.is-builder.is-active {
+  --dya-line-color: var(--dya-accent);
+  --dya-line-soft-color: var(--dya-paper-2);
+}
+
+// ── Custom groups (reorganizer) ──────────────────────────
+// Created by the user via the visual reorganizer, they have no dedicated line
+// color. We color them with the accent BY DEFAULT rather than letting their
+// indicator fall back to the `content` line color.
+body.dy-admin #adminmenu li.menu-top.is-custom {
+  --dya-line-color: var(--dya-accent);
+  --dya-line-soft-color: var(--dya-accent-soft);
+}
+
+// Divider between the builders group and the 7 fixed lines.
+// Renders only when STANDALONE_BUILDERS has at least one entry.
+// The `.is-spacer` modifier (on the first divider) takes all available
+// vertical space (margin-top: auto) to push builders + DY +
+// Developer toward the BOTTOM of the rail.
+body.dy-admin #adminmenu li.dy-rail-divider {
+  list-style: none;
+  height: 1px;
+  background: var(--dya-line);
+  margin: 8px var(--dya-rail-gutter);
+  padding: 0;
+  border: 0;
+  pointer-events: none;
+}
+body.dy-admin #adminmenu li.dy-rail-divider.is-spacer {
+  margin-top: auto;
+}
+
+// ── Drag handle on the right edge ──────────────────────
+// Invisible at rest, a 2px accent line shows on hover or while
+// actively resizing. Hit area extends ±10px so the handle is
+// easy to grab without false-positive clicks inside the rail.
+body.dy-admin .dy-rail-handle {
+  position: absolute;
+  top: 0;
+  right: -10px;
+  bottom: 0;
+  width: 24px;            // 4px line + 10px each side hit area
+  cursor: col-resize;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  background: transparent;
+  border: 0;
+}
+body.dy-admin .dy-rail-handle::after {
+  content: "";
+  width: 4px;
+  height: 60%;
+  border-radius: var(--dya-r-pill);
+  background: transparent;
+  transition: background var(--dya-t-fast) var(--dya-ease),
+              height 200ms var(--dya-ease);
+}
+body.dy-admin .dy-rail-handle:hover::after,
+body.dy-admin.is-resizing .dy-rail-handle::after {
+  background: var(--dya-accent);
+  height: 80%;
+}
+
+// During an active drag, disable text selection everywhere and
+// force the col-resize cursor over the whole document.
+body.dy-admin.is-resizing {
+  cursor: col-resize !important;
+  user-select: none;
+}
+body.dy-admin.is-resizing * {
+  cursor: col-resize !important;
+  user-select: none;
+}
+
+// ── Toggle button at the bottom of the rail ────────────
+// In flow, after the list, and sticky to the bottom of the rail: the rail
+// is the scroll container, and an absolutely positioned button lands at
+// the bottom of its FIRST screen, in the middle of a long menu (native
+// tree, twenty entries: it sat over « Comptes », Raphaël, 14/09/2026).
+// When the list is short, `margin-top: auto` keeps it at the bottom.
+body.dy-admin .dy-rail-toggle {
+  position: sticky;
+  // `bottom: 0` against the rail's CONTENT box, whose 12 px of bottom padding
+  // already sets the visual margin. A non-zero value pulled the button up out
+  // of its flow position and swallowed the gap with the last entry.
+  bottom: 0;
+  flex: 0 0 auto;
+  align-self: center;
+  margin-top: auto;
+  padding-top: 0;
+  width: var(--dya-rail-icon-tile);
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  // Fill and border live on `::after`: a child at `z-index: -1` (the masking
+  // band below) paints ABOVE its parent background, which erased the button
+  // itself (Raphaël, 15/09/2026). Both pseudos sit at -1 and follow tree
+  // order, so the band goes down first and the fill over it.
+  background: transparent;
+  color: var(--dya-ink-mute);
+  border: 0;
+  border-radius: var(--dya-r-md);
+  cursor: pointer;
+  font-family: var(--dya-font-mono);
+  font-size: 10px;
+  letter-spacing: var(--dya-tracking-label);
+  text-transform: uppercase;
+  z-index: 5;
+  padding: 0;
+  transition: color var(--dya-t-fast) var(--dya-ease),
+              background var(--dya-t-fast) var(--dya-ease),
+              width var(--dya-rail-snap-dur) var(--dya-rail-snap-easing),
+              left var(--dya-rail-snap-dur) var(--dya-rail-snap-easing),
+              transform var(--dya-rail-snap-dur) var(--dya-rail-snap-easing),
+              opacity 200ms ease;
+}
+body.dy-admin .dy-rail-toggle::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--dya-paper-2);
+  border: 1px solid var(--dya-edge);
+  transition: background var(--dya-t-fast) var(--dya-ease),
+              border-color var(--dya-t-fast) var(--dya-ease);
+}
+body.dy-admin .dy-rail-toggle:hover { color: var(--dya-ink); }
+body.dy-admin .dy-rail-toggle:hover::after { background: var(--dya-paper-3); }
+// LIGHT MODE: matches the hover state of menu items (accent 20%) so
+// the toggle has the same visual identity as the rail tiles, instead of
+// appearing as a paper-2 button (which after palette inversion becomes
+// accent-tinted and blends into notice / card surfaces). 30% on hover
+// to deepen the feedback slightly.
+body.dy-admin.dy-theme-light .dy-rail-toggle::after {
+  background: color-mix(in srgb, var(--dya-accent) 20%, transparent);
+  border-color: transparent;
+}
+body.dy-admin.dy-theme-light .dy-rail-toggle:hover::after {
+  background: color-mix(in srgb, var(--dya-accent) 30%, transparent);
+}
+body.dy-admin .dy-rail-toggle svg {
+  width: 14px;
+  height: 14px;
+  transition: transform var(--dya-rail-snap-dur) var(--dya-rail-snap-easing);
+}
+body.dy-admin[data-rail-state="expanded"] .dy-rail-toggle svg {
+  transform: rotate(180deg);
+}
+body.dy-admin[data-rail-state="expanded"] .dy-rail-toggle {
+  width: calc(100% - var(--dya-rail-gutter) * 2);
+}
+// Room between the last entry and the sticky toggle. Padding, not margin:
+// the list is a flex item that grows to fill the rail, and `margin-top: auto`
+// on the last entry pins it to the list's inner bottom edge, so only padding
+// creates a real gap.
+body.dy-admin #adminmenu { padding-bottom: 14px; }
+// Band behind the sticky toggle: spans the whole rail, paints the rail
+// ground so entries pass BEHIND the button as the list scrolls, and fades
+// over its top 16 px only. A blurred `box-shadow` did the masking before and
+// bled onto the last entry, which read as a heavy shadow in the dark theme
+// and washed the light-theme pill (Raphaël, 15/09/2026).
+body.dy-admin .dy-rail-toggle::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -16px;
+  bottom: calc(-1 * var(--dya-rail-pad-bottom, 12px));
+  width: var(--dya-rail-w-current, 100%);
+  transform: translateX(-50%);
+  background: linear-gradient(to bottom, transparent, var(--dya-rail-ground) 16px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+// Hide toggle during drag to avoid accidental clicks.
+body.dy-admin.is-resizing .dy-rail-toggle {
+  opacity: 0;
+  pointer-events: none;
+}
+
+// ── Snap markers + ghost cursor line (visual aids during drag) ──
+.dy-rail-ghost {
+  position: fixed;
+  top: var(--dya-topbar-h);
+  bottom: 0;
+  width: 1px;
+  background: var(--dya-accent);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: opacity 420ms var(--dya-rail-snap-easing);
+}
+body.dy-admin.is-resizing .dy-rail-ghost { opacity: .22; }
+
+.dy-rail-snap-marker {
+  position: fixed;
+  top: var(--dya-topbar-h);
+  bottom: 0;
+  width: 1px;
+  background: var(--dya-ink-mute);
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0;
+  transform: scaleY(.92);
+  transform-origin: top center;
+  transition:
+    opacity   480ms var(--dya-rail-snap-easing),
+    transform 480ms var(--dya-rail-snap-easing),
+    background 220ms var(--dya-rail-snap-easing),
+    box-shadow 220ms var(--dya-rail-snap-easing),
+    width     220ms var(--dya-rail-snap-easing);
+}
+body.dy-admin.is-resizing .dy-rail-snap-marker {
+  opacity: .14;
+  transform: scaleY(1);
+}
+body.dy-admin.is-resizing .dy-rail-snap-marker.is-target {
+  opacity: .52;
+  width: 2px;
+  background: var(--dya-accent);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--dya-accent) 8%, transparent);
+}
+
+// ── Floating tooltip (collapsed state only) ──────────────
+// The tooltip floats above EVERYTHING, including #wpadminbar (z-index 99998).
+// Without this, the "Dashboard" tooltip on the brand row appears BELOW the
+// fixed topbar because the tooltip is anchored near y=0.
+.dy-rail-tip {
+  position: fixed;
+  z-index: 99999;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-50%) translateX(-6px);
+  transition: opacity .12s var(--dya-ease), transform .12s var(--dya-ease);
+  background: var(--dya-paper-3);
+  color: var(--dya-ink);
+  font-size: 11.5px;
+  font-family: var(--dya-font-body);
+  padding: 5px 10px;
+  border-radius: var(--dya-r-sm);
+  border: 1px solid var(--dya-edge);
+  white-space: nowrap;
+  box-shadow: var(--dya-shadow-md);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.dy-rail-tip.is-visible {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+// Suppress tooltip when the rail already shows labels inline.
+body.dy-admin[data-rail-state="expanded"] .dy-rail-tip {
+  opacity: 0 !important;
+}
+
+// ── WP "collapse menu" handle — removed ──────────────────
+body.dy-admin #collapse-menu { display: none; }

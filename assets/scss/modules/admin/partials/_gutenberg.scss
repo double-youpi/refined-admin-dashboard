@@ -1,0 +1,833 @@
+// =============================================================
+// _gutenberg.scss
+// Block editor (post.php?action=edit) + Site Editor (site-editor.php).
+// We style the **chrome**: top bar, sidebar inspector, list view,
+// document settings panel. The canvas itself is a React app inside
+// an iframe in WP 6.6+ — we don't touch it (it would require shipping
+// CSS into the iframe with `add_editor_style`, which is out of scope).
+//
+// Selectors targeted (stable since WP 5.5+):
+//   .interface-interface-skeleton           outer flex frame
+//   .interface-interface-skeleton__header   top bar
+//   .interface-interface-skeleton__sidebar  right sidebar
+//   .interface-interface-skeleton__content  the canvas wrapper
+//   .edit-post-header / .edit-site-header   editor- vs site-editor-specific
+//   .components-panel__body                 collapsible setting groups
+//   .components-button                      WP component lib buttons
+//   .block-editor-block-toolbar             floating block toolbar
+// =============================================================
+
+// ── Outer shell — pin to viewport, hide WP admin chrome scrollbars ─
+body.dy-admin.block-editor-page,
+body.dy-admin.site-editor-php,
+body.dy-admin.appearance_page_gutenberg-edit-site {
+  // Drop the chipbar — the editor has its own top bar.
+  .dy-chipbar { display: none; }
+
+  #wpcontent {
+    background: var(--dya-paper);
+    overflow: hidden;
+  }
+  #wpbody, #wpbody-content { padding: 0; }
+  .wrap { padding: 0; max-width: none; }
+}
+
+// ── Interface skeleton ────────────────────────────────────
+// Two DOM generations coexist:
+//   • WP ≤ 6.8: skeleton > (__header, __body > (__content, __sidebar), __footer)
+//     → we lay it out on our own grid (legacy block below).
+//   • WP 7.0+: skeleton is `position: fixed` (core: top 32px, left 160px) and
+//     wraps `__editor` (flex column: header + body) + `__footer`. Forcing the
+//     grid on it collapsed the canvas to 0px. We only re-anchor it under our
+//     topbar and beside our rail, and let core's flex do the rest.
+body.dy-admin .interface-interface-skeleton {
+  background: var(--dya-paper);
+  color: var(--dya-ink);
+}
+body.dy-admin .interface-interface-skeleton:has(> .interface-interface-skeleton__editor) {
+  position: fixed;
+  top: var(--dya-topbar-h) !important;
+  left: var(--dya-rail-w-current, var(--dya-rail-w)) !important;
+  right: 0;
+  bottom: 0;
+  height: auto;
+  max-height: none;
+  display: flex;
+  flex-direction: row;
+  transition: left 380ms var(--dya-rail-snap-easing, var(--dya-ease));
+}
+body.dy-admin .interface-interface-skeleton:has(> .interface-interface-skeleton__editor) .interface-interface-skeleton__content {
+  background: var(--dya-paper-2);
+}
+
+// Legacy layout (skeleton without the `__editor` wrapper).
+body.dy-admin .interface-interface-skeleton:not(:has(> .interface-interface-skeleton__editor)) {
+  height: calc(100vh - var(--dya-topbar-h));
+  display: grid;
+  grid-template-rows: 52px 1fr;
+  grid-template-columns: 1fr 320px;
+  grid-template-areas:
+    "header header"
+    "content sidebar";
+}
+
+body.dy-admin .interface-interface-skeleton:not(:has(> .interface-interface-skeleton__editor)).dy-no-sidebar {
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "header"
+    "content";
+}
+body.dy-admin .interface-interface-skeleton.dy-no-sidebar > .interface-interface-skeleton__sidebar { display: none; }
+
+// ── Header (.editor-header / .edit-post-header / .edit-site-header) ─
+body.dy-admin .interface-interface-skeleton__header,
+body.dy-admin .edit-post-header,
+body.dy-admin .edit-site-header {
+  grid-area: header;
+  background: var(--dya-bg-elev);
+  border-bottom: 1px solid var(--dya-line);
+  height: 52px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 8px;
+  position: relative;
+  z-index: 5;
+}
+
+body.dy-admin .edit-post-header__toolbar,
+body.dy-admin .edit-site-header__toolbar,
+body.dy-admin .edit-post-header__settings,
+body.dy-admin .edit-site-header__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+body.dy-admin .edit-post-header__settings,
+body.dy-admin .edit-site-header__actions { margin-left: auto; }
+
+// ── Generic WP component buttons inside the editor ──────
+body.dy-admin .components-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 32px;
+  padding: 0 10px;
+  border-radius: var(--dya-r-sm);
+  background: transparent;
+  border: 0;
+  color: var(--dya-ink-soft);
+  font-size: 12.5px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background var(--dya-t-fast), color var(--dya-t-fast);
+  text-shadow: none;
+  box-shadow: none;
+  line-height: 1;
+  white-space: nowrap;
+}
+body.dy-admin .components-button:hover {
+  background: var(--dya-paper-2);
+  color: var(--dya-ink);
+}
+body.dy-admin .components-button.is-pressed,
+body.dy-admin .components-button.is-pressed:hover {
+  background: var(--dya-paper-3);
+  color: var(--dya-ink);
+}
+body.dy-admin .components-button.is-primary {
+  background: var(--dya-ink);
+  color: var(--dya-bg);
+  border: 1px solid var(--dya-ink);
+  padding: 0 14px;
+}
+body.dy-admin .components-button.is-primary:hover {
+  background: var(--dya-ink);
+  transform: translateY(-1px);
+}
+body.dy-admin .components-button.is-secondary {
+  background: var(--dya-paper-2);
+  border: 1px solid var(--dya-edge);
+  color: var(--dya-ink);
+  padding: 0 14px;
+}
+body.dy-admin .components-button.is-tertiary { color: var(--dya-ink-soft); }
+body.dy-admin .components-button.is-destructive { color: var(--dya-danger); }
+body.dy-admin .components-button.is-busy { opacity: .7; }
+
+// Icon buttons (square, used for + / undo / redo / list view).
+body.dy-admin .components-button.has-icon,
+body.dy-admin .components-toolbar-button.has-icon {
+  width: 32px;
+  padding: 0;
+}
+body.dy-admin .components-button .components-button__icon,
+body.dy-admin .components-toolbar-button__icon {
+  width: 16px;
+  height: 16px;
+  display: inline-grid;
+  place-items: center;
+}
+
+// ── Content / canvas area ──────────────────────────────
+body.dy-admin .interface-interface-skeleton__content,
+body.dy-admin .editor-styles-wrapper-frame,
+body.dy-admin .edit-post-layout__content,
+body.dy-admin .edit-site-layout__canvas-container {
+  grid-area: content;
+  background: var(--dya-paper-2);
+  overflow: auto;
+  position: relative;
+}
+
+// Canvas placeholder card (visible when canvas is empty / iframe loading).
+body.dy-admin .dy-canvas-placeholder {
+  background: var(--dya-paper);
+  border: 1px solid var(--dya-edge);
+  border-radius: var(--dya-r-2xl);
+  margin: 24px auto;
+  max-width: 720px;
+  padding: 60px 48px;
+  color: var(--dya-ink-soft);
+  text-align: left;
+  line-height: var(--dya-lh-loose);
+  font-size: 15px;
+  box-shadow: var(--dya-shadow-md);
+}
+body.dy-admin .dy-canvas-placeholder h1,
+body.dy-admin .dy-canvas-placeholder h2,
+body.dy-admin .dy-canvas-placeholder h3 {
+  font-family: var(--dya-font-display);
+  color: var(--dya-ink);
+  letter-spacing: var(--dya-tracking-tight);
+}
+body.dy-admin .dy-canvas-placeholder h1 { font-size: 36px; margin: 0 0 12px; }
+body.dy-admin .dy-canvas-placeholder h2 { font-size: 22px; margin: 28px 0 10px; }
+body.dy-admin .dy-canvas-placeholder p  { margin: 0 0 14px; }
+body.dy-admin .dy-canvas-placeholder p[contenteditable="true"]:hover {
+  outline: 1px solid var(--dya-accent);
+  outline-offset: 4px;
+}
+
+// ── Sidebar (.interface-interface-skeleton__sidebar) ────
+body.dy-admin .interface-interface-skeleton__sidebar,
+body.dy-admin .edit-post-sidebar,
+body.dy-admin .edit-site-sidebar {
+  grid-area: sidebar;
+  background: var(--dya-paper);
+  border-left: 1px solid var(--dya-line);
+  overflow-y: auto;
+  font-size: 13px;
+  color: var(--dya-ink-soft);
+}
+
+// Sidebar tab nav (Document / Block)
+body.dy-admin .edit-post-sidebar__panel-tabs,
+body.dy-admin .editor-sidebar__panel-tabs {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid var(--dya-line);
+  padding: 0 8px;
+  gap: 0;
+  background: var(--dya-paper);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+body.dy-admin .edit-post-sidebar__panel-tabs button,
+body.dy-admin .editor-sidebar__panel-tabs button {
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  padding: 12px 14px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--dya-ink-mute);
+  cursor: pointer;
+  transition: color var(--dya-t-fast), border-color var(--dya-t-fast);
+  font-family: inherit;
+}
+body.dy-admin .edit-post-sidebar__panel-tabs button:hover { color: var(--dya-ink); }
+body.dy-admin .edit-post-sidebar__panel-tabs button.is-active,
+body.dy-admin .edit-post-sidebar__panel-tabs button.is-pressed,
+body.dy-admin .editor-sidebar__panel-tabs button.is-active {
+  color: var(--dya-ink);
+  border-bottom-color: var(--dya-accent);
+}
+
+// Components panel (collapsible group of settings)
+body.dy-admin .components-panel,
+body.dy-admin .editor-sidebar__panel {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--dya-line);
+}
+body.dy-admin .components-panel__body {
+  border: 0;
+  border-bottom: 1px solid var(--dya-line);
+  padding: 0;
+}
+body.dy-admin .components-panel__body-toggle,
+body.dy-admin .components-panel__body > h2 > button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font-family: var(--dya-font-display);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--dya-ink);
+  letter-spacing: var(--dya-tracking-tight);
+  transition: background var(--dya-t-fast);
+}
+body.dy-admin .components-panel__body-toggle:hover { background: var(--dya-paper-2); }
+body.dy-admin .components-panel__body.is-opened > .components-panel__body-content,
+body.dy-admin .components-panel__body > .components-panel__body-content {
+  padding: 8px 14px 16px;
+  display: block;
+}
+body.dy-admin .components-panel__body.is-closed > .components-panel__body-content {
+  display: none;
+}
+body.dy-admin .components-panel__body > h2 {
+  margin: 0;
+  font-size: 13px;
+}
+
+// Form rows inside panels
+body.dy-admin .components-base-control {
+  margin: 0 0 12px;
+}
+body.dy-admin .components-base-control:last-child { margin-bottom: 0; }
+body.dy-admin .components-base-control__label,
+body.dy-admin .components-base-control .components-base-control__label {
+  display: block;
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  color: var(--dya-ink-mute);
+  font-weight: 500;
+  margin: 0 0 6px;
+}
+body.dy-admin .components-text-control__input,
+body.dy-admin .components-textarea-control__input,
+body.dy-admin .components-select-control select {
+  width: 100%;
+  background: var(--dya-bg);
+  border: 1px solid var(--dya-edge);
+  border-radius: var(--dya-r-sm);
+  padding: 6px 10px;
+  font-size: 12.5px;
+  color: var(--dya-ink);
+  font-family: inherit;
+}
+
+// Toggle / switch
+body.dy-admin .components-toggle-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+}
+// `:not(.dy-native-content)` : on Rank Math / Yoast we leave the toggle
+// fully native (track 50×24, #069de3). Our DS geometry (32×18 + custom thumb)
+// conflicted with their track → the OFF state rendered as a "blob" (thumb
+// shifted outside the track). We therefore do NOT style these toggles on the native canvas.
+body.dy-admin:not(.dy-native-content) .components-form-toggle {
+  display: inline-block;
+  position: relative;
+  width: 32px;
+  height: 18px;
+}
+body.dy-admin:not(.dy-native-content) .components-form-toggle__track {
+  position: absolute;
+  inset: 0;
+  // Hauteur explicite : le cœur impose 16px sur la piste, que `inset: 0` ne
+  // remplace pas. La pastille se retrouvait alors collée au bord bas de la
+  // piste avec 2px d'air en haut, ce qui se lit comme un débordement.
+  width: 32px;
+  height: 18px;
+  box-sizing: border-box;
+  background: var(--dya-paper-3);
+  border-radius: var(--dya-r-pill);
+  transition: background var(--dya-t-fast);
+}
+body.dy-admin:not(.dy-native-content) .components-form-toggle__thumb {
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 12px; height: 12px;
+  background: var(--dya-ink-soft);
+  border-radius: 50%;
+  box-sizing: border-box;
+  transition: transform var(--dya-t-fast), background var(--dya-t-fast);
+}
+body.dy-admin:not(.dy-native-content) .components-form-toggle.is-checked .components-form-toggle__track { background: var(--dya-accent); }
+body.dy-admin:not(.dy-native-content) .components-form-toggle.is-checked .components-form-toggle__thumb { transform: translateX(14px); background: var(--dya-bg); }
+
+// ── Block toolbar (floating above selected block) ──────
+// The popover chrome around it stays transparent: the core container paints
+// white with a black border, and the popover content is wider than the
+// toolbar, so both showed as a white strip and a dark band around our skin
+// (relecture de Raphaël, 14/09/2026).
+body.dy-admin .components-popover.block-editor-block-popover,
+body.dy-admin .components-popover.block-editor-block-list__block-popover,
+body.dy-admin .components-popover.block-editor-block-popover .components-popover__content,
+body.dy-admin .components-popover.block-editor-block-list__block-popover .components-popover__content,
+body.dy-admin .components-popover.block-editor-block-list__block-popover .block-editor-block-contextual-toolbar,
+body.dy-admin .block-editor-block-contextual-toolbar {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+// Core gives every toolbar group a 48 px floor; ours is 32.
+body.dy-admin .block-editor-block-toolbar .components-toolbar-group,
+body.dy-admin .block-editor-block-toolbar .components-toolbar {
+  min-height: 32px;
+  height: 32px;
+  border: 0;
+  background: none;
+}
+body.dy-admin .block-editor-block-toolbar {
+  display: flex;
+  align-items: stretch;
+  background: var(--dya-paper);
+  border: 1px solid var(--dya-edge);
+  border-radius: var(--dya-r-md);
+  box-shadow: var(--dya-shadow-md);
+  padding: 2px;
+  gap: 0;
+}
+// Icon buttons are square; buttons with a label (the pattern name, "Edit
+// original", the block switcher) take the width of their text: a fixed
+// 36 px crushed them into each other.
+body.dy-admin .block-editor-block-toolbar .components-button {
+  height: 32px;
+  min-width: 36px;
+  width: auto;
+  padding: 0 8px;
+  white-space: nowrap;
+  border-radius: var(--dya-r-sm);
+}
+body.dy-admin .block-editor-block-toolbar .components-button.has-icon:not(.has-text) {
+  width: 36px;
+  padding: 0;
+}
+// The up/down movers are a column of two half-height buttons in core; our
+// 32 px height doubled the toolbar's height.
+body.dy-admin .block-editor-block-toolbar .block-editor-block-mover__move-button-container {
+  height: 32px;
+  flex-direction: column;
+}
+body.dy-admin .block-editor-block-toolbar .block-editor-block-mover-button {
+  height: 16px;
+  min-height: 16px;
+  min-width: 36px;
+  width: 36px;
+  padding: 0;
+  overflow: hidden;
+  border-radius: var(--dya-r-sm);
+}
+body.dy-admin .block-editor-block-toolbar .block-editor-block-mover-button svg {
+  width: 18px;
+  height: 18px;
+}
+body.dy-admin .block-editor-block-toolbar .block-editor-block-mover-button.is-up-button svg { margin-top: 2px; }
+body.dy-admin .block-editor-block-toolbar .block-editor-block-mover-button.is-down-button svg { margin-top: -4px; }
+
+// ── Save/Update + post-status indicator in header ──────
+body.dy-admin .editor-post-saved-state,
+body.dy-admin .editor-post-save-draft,
+body.dy-admin .editor-post-publish-button {
+  font-size: 12.5px;
+  color: var(--dya-ink-mute);
+}
+body.dy-admin .editor-post-publish-button.is-primary {
+  background: var(--dya-ink);
+  color: var(--dya-bg);
+  padding: 0 16px;
+}
+
+// "Saved" indicator dot
+body.dy-admin .editor-post-saved-state::before {
+  content: "";
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--dya-success);
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+// ── List view (block tree, left side) ─────────────────
+body.dy-admin .edit-post-editor__list-view-panel,
+body.dy-admin .dy-listview {
+  background: var(--dya-paper);
+  border-right: 1px solid var(--dya-line);
+  width: 260px;
+  padding: 8px 0;
+  overflow-y: auto;
+  font-size: 12.5px;
+}
+body.dy-admin .dy-listview h3 {
+  font-family: var(--dya-font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  color: var(--dya-ink-mute);
+  font-weight: 500;
+  padding: 6px 14px;
+  margin: 0;
+}
+body.dy-admin .dy-listview ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+body.dy-admin .dy-listview li {
+  padding: 5px 14px;
+  color: var(--dya-ink-soft);
+  border-left: 2px solid transparent;
+  cursor: pointer;
+  font-family: var(--dya-font-mono);
+  font-size: 11.5px;
+  transition: background var(--dya-t-fast), color var(--dya-t-fast);
+}
+body.dy-admin .dy-listview li:hover { background: var(--dya-paper-2); color: var(--dya-ink); }
+body.dy-admin .dy-listview li.is-selected {
+  color: var(--dya-ink);
+  background: var(--dya-line-soft);
+  border-left-color: var(--dya-accent);
+}
+body.dy-admin .dy-listview li.depth-1 { padding-left: 28px; }
+body.dy-admin .dy-listview li.depth-2 { padding-left: 42px; }
+
+// ── Three-column variant (list view + canvas + sidebar) ─
+body.dy-admin .interface-interface-skeleton.dy-with-listview {
+  grid-template-columns: 260px 1fr 320px;
+  grid-template-areas:
+    "header header header"
+    "listview content sidebar";
+}
+body.dy-admin .interface-interface-skeleton.dy-with-listview > .dy-listview { grid-area: listview; }
+
+// ── Editor breadcrumb (small "/posts/notes-on-graphite" bar) ─
+body.dy-admin .dy-editor-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  color: var(--dya-ink-mute);
+  margin-left: 8px;
+}
+body.dy-admin .dy-editor-breadcrumb .sep::before {
+  content: "/";
+  margin: 0 2px;
+  color: var(--dya-ink-fade);
+}
+
+// ── Document title input inside the canvas placeholder ──
+body.dy-admin .dy-canvas-placeholder .dy-canvas-title {
+  font-family: var(--dya-font-display);
+  font-size: 36px;
+  font-weight: 500;
+  letter-spacing: var(--dya-tracking-tight);
+  color: var(--dya-ink);
+  border: 0;
+  outline: 0;
+  background: transparent;
+  width: 100%;
+  padding: 0;
+  margin: 0 0 18px;
+}
+body.dy-admin .dy-canvas-placeholder .dy-canvas-title::placeholder { color: var(--dya-ink-fade); }
+
+// ── Site Editor specific — left navigation tree ──────────
+body.dy-admin .edit-site-sidebar__content,
+body.dy-admin .dy-site-editor-nav {
+  width: 280px;
+  background: var(--dya-bg-elev);
+  border-right: 1px solid var(--dya-line);
+  padding: 16px 12px;
+  font-size: 13px;
+  color: var(--dya-ink-soft);
+  overflow-y: auto;
+}
+body.dy-admin .dy-site-editor-nav h2 {
+  margin: 0 0 12px;
+  font-family: var(--dya-font-display);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--dya-ink);
+  letter-spacing: var(--dya-tracking-tight);
+}
+body.dy-admin .dy-site-editor-nav ul {
+  list-style: none;
+  margin: 0 0 18px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+body.dy-admin .dy-site-editor-nav ul li a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: var(--dya-r-sm);
+  font-size: 12.5px;
+  color: var(--dya-ink-soft);
+  border-bottom: 0;
+  text-decoration: none;
+}
+body.dy-admin .dy-site-editor-nav ul li a:hover { background: var(--dya-paper-2); color: var(--dya-ink); }
+body.dy-admin .dy-site-editor-nav ul li.is-active a {
+  background: var(--dya-line-soft);
+  color: var(--dya-ink);
+}
+body.dy-admin .dy-site-editor-nav .group-label {
+  font-family: var(--dya-font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  color: var(--dya-ink-fade);
+  font-weight: 500;
+  margin: 16px 10px 6px;
+}
+
+body.dy-admin .interface-interface-skeleton.dy-site-editor {
+  grid-template-columns: 280px 1fr;
+  grid-template-areas:
+    "header header"
+    "sitenav content";
+}
+body.dy-admin .interface-interface-skeleton.dy-site-editor > .dy-site-editor-nav { grid-area: sitenav; }
+body.dy-admin .interface-interface-skeleton.dy-site-editor > .interface-interface-skeleton__sidebar { display: none; }
+
+// ── audit-2 (2026-09): WP 7.0 block editor, chrome that must step back ──
+// Our sub-chipbar and notices dock are sticky/z-indexed and were painted
+// over the editor header; the editor has its own chrome.
+body.dy-admin.block-editor-page .dy-subchipbar,
+body.dy-admin.block-editor-page #dy-notice-dock,
+body.dy-admin.site-editor-php .dy-subchipbar,
+body.dy-admin.site-editor-php #dy-notice-dock {
+  display: none !important;
+}
+// Fullscreen mode (Gutenberg default): the rail is hidden, the editor covers
+// the width. Since WordPress 7.1 the admin bar PERSISTS in the editors (7.0
+// hid it): the editor header then sat under our top bar and the Publish
+// button was unreachable. We keep our top bar visible on every core version
+// (full width, the rail being gone) and start the editor below it.
+body.dy-admin.is-fullscreen-mode .interface-interface-skeleton:has(> .interface-interface-skeleton__editor) {
+  left: 0 !important;
+  top: var(--dya-topbar-h) !important;
+}
+body.dy-admin.is-fullscreen-mode.block-editor-page #wpadminbar,
+body.dy-admin.is-fullscreen-mode.site-editor-php #wpadminbar {
+  display: block !important;
+  left: 0 !important;
+  width: 100% !important;
+}
+html.wp-toolbar body.dy-admin.is-fullscreen-mode.block-editor-page,
+html.wp-toolbar body.dy-admin.is-fullscreen-mode.site-editor-php {
+  padding-top: 0 !important;
+}
+// Sidebar panel toggles (Categories, Tags…) are full-width buttons with the
+// title on the left and the chevron on the right; the generic
+// `.components-button` sizing (32px, centred) squashed them.
+body.dy-admin .components-panel__body-toggle.components-button,
+body.dy-admin .components-panel__body > h2 > .components-button {
+  display: flex;
+  width: 100%;
+  height: auto;
+  min-height: 48px;
+  justify-content: space-between;
+  padding: 12px 16px;
+  text-align: left;
+  color: var(--dya-ink);
+  font-size: 13px;
+  font-weight: 500;
+}
+body.dy-admin .components-panel__body-toggle .components-panel__arrow {
+  position: static;
+  transform: none;
+  margin-left: auto;
+}
+// Document panel rows (Status, Publish, Slug…): label kept readable.
+body.dy-admin .editor-post-panel__row-label,
+body.dy-admin .editor-post-panel__row-label * {
+  color: var(--dya-ink-soft) !important;
+}
+// WP 7.0 puts the chevron before the title in the DOM: keep the title first
+// (left, flexible) and the chevron last (right).
+// (the chevron sits inside a leading `<span aria-hidden>`; the label is a bare
+// text node, so we only push that span to the end)
+body.dy-admin .components-panel__body-toggle.components-button > span[aria-hidden] {
+  order: 2;
+  flex: 0 0 auto;
+  margin-left: auto;
+  display: inline-flex;
+}
+body.dy-admin .components-panel__body-toggle.components-button {
+  opacity: 1 !important;
+  -webkit-text-fill-color: currentColor;
+}
+body.dy-admin .components-panel__body-title,
+body.dy-admin .components-panel__body-title .components-button {
+  color: var(--dya-ink) !important;
+}
+// Document bar (title · type · shortcut) in the editor header.
+body.dy-admin .editor-document-bar__post-type-label,
+body.dy-admin .editor-document-bar__shortcut,
+body.dy-admin .editor-document-bar__post-title {
+  color: var(--dya-ink-soft) !important;
+}
+// WP 7.0: the complementary area (document/block sidebar) paints its own
+// white ground inside the themed skeleton sidebar.
+body.dy-admin .interface-complementary-area,
+body.dy-admin .editor-sidebar,
+body.dy-admin .interface-complementary-area__fill {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink);
+}
+
+
+// =============================================================
+// Correctifs de la colonne latérale de l'éditeur (audit du 14/09/2026,
+// relevés de Raphaël en thème sombre).
+// =============================================================
+
+// ── Marges des panneaux de réglages ──────────────────────────────────
+// WordPress 7.1 ne rend plus le conteneur `.components-panel__body-content` :
+// `PanelBody` pose ses enfants directement. Notre marge intérieure, portée par
+// ce conteneur disparu, ne s'appliquait plus et tout le contenu venait coller
+// le bord de la colonne. Touche tous les blocs, du cœur comme des extensions,
+// qui utilisent encore `PanelBody` (les blocs récents passent par `ToolsPanel`,
+// qui garde sa propre marge, d'où un défaut visible seulement sur certains).
+// Le `:has()` laisse la règle historique gouverner quand le conteneur existe.
+body.dy-admin .components-panel__body.is-opened:not(:has(> .components-panel__body-content)) {
+  padding: 0 14px 16px;
+}
+body.dy-admin .components-panel__body.is-opened:not(:has(> .components-panel__body-content)) > h2,
+body.dy-admin .components-panel__body.is-opened:not(:has(> .components-panel__body-content)) > .components-panel__body-title {
+  // Le titre reste pleine largeur : il porte déjà sa propre marge intérieure.
+  // Le cœur lui donne une marge haute de -16 px, calée sur SA marge
+  // intérieure de 16 px ; la nôtre étant nulle, le titre remontait au-dessus
+  // du panneau et venait coller la barre d'onglets (« Indicateur »).
+  margin: 0 -14px 6px;
+}
+
+// ── Barre d'onglets « Page / Bloc » ──────────────────────────────────
+// Le soulignement de l'onglet actif dépasse de deux pixels la hauteur de la
+// barre, qui est en `overflow-y: auto` : une barre de défilement verticale
+// apparaissait pour ces deux pixels.
+body.dy-admin .interface-complementary-area [role="tablist"],
+body.dy-admin .editor-sidebar [role="tablist"] {
+  overflow: visible;
+}
+// L'onglet actif restait de la même encre atténuée que l'onglet inactif :
+// seul le soulignement le distinguait.
+body.dy-admin .interface-complementary-area [role="tab"][aria-selected="true"],
+body.dy-admin .editor-sidebar [role="tab"][aria-selected="true"] {
+  color: var(--dya-ink);
+}
+
+// ── Carte du bloc sélectionné ────────────────────────────────────────
+// La description gardait l'encre sombre du cœur : illisible sur fond sombre.
+body.dy-admin .block-editor-block-card__description {
+  color: var(--dya-ink-mute);
+}
+body.dy-admin .block-editor-block-card .block-editor-block-icon,
+body.dy-admin .block-editor-block-card__icon {
+  color: var(--dya-ink-soft);
+}
+
+// ── Tiroir des boîtes méta, sous le canevas ──────────────────────────
+// Le canevas est blanc parce qu'il rend le site ; le tiroir des boîtes méta,
+// lui, appartient au chrome de l'éditeur. Il héritait du blanc du cœur, avec
+// notre encre claire par-dessus, et laissait une bande blanche vide une fois
+// ouvert.
+body.dy-admin .edit-post-meta-boxes-main,
+body.dy-admin .editor-meta-boxes-main {
+  background: var(--dya-bg);
+  border-top: 1px solid var(--dya-line);
+}
+body.dy-admin .edit-post-meta-boxes-main #poststuff,
+body.dy-admin .editor-meta-boxes-main #poststuff,
+body.dy-admin .edit-post-meta-boxes-main .metabox-location-normal,
+body.dy-admin .editor-meta-boxes-main .metabox-location-normal {
+  background: transparent;
+}
+// Le tiroir n'avait pas de gouttière : les boîtes couraient d'un bord à
+// l'autre, filets de séparation compris, alors que tout le reste de RAD pose
+// son contenu dans des cartes. On rend au tiroir la même respiration, et aux
+// boîtes leur cadre (audit du banc FSE, 14/09/2026).
+body.dy-admin .edit-post-meta-boxes-main .metabox-location-normal,
+body.dy-admin .editor-meta-boxes-main .metabox-location-normal,
+body.dy-admin .edit-post-meta-boxes-main .metabox-location-advanced,
+body.dy-admin .editor-meta-boxes-main .metabox-location-advanced {
+  padding: 14px 18px 22px;
+}
+body.dy-admin .edit-post-meta-boxes-main .postbox,
+body.dy-admin .editor-meta-boxes-main .postbox {
+  background: var(--dya-paper);
+  border: 1px solid var(--dya-edge);
+  border-radius: var(--dya-r-lg);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+body.dy-admin .edit-post-meta-boxes-main .postbox:last-child,
+body.dy-admin .editor-meta-boxes-main .postbox:last-child {
+  margin-bottom: 0;
+}
+
+// ── Lignes « État / Publier / Modèle… » du panneau Page ──────────────
+// Le cœur laisse ces boutons grandir et passer à la ligne (`height: auto`,
+// `text-wrap: pretty`) parce que certaines valeurs sont longues. Notre hauteur
+// fixe de 32 px sur `.components-button` l'en empêchait : la date de
+// publication, avec son fuseau, débordait et se faisait couper au bord de la
+// colonne (audit du banc FSE, 14/09/2026).
+body.dy-admin .editor-post-panel__row-control .components-button {
+  height: auto;
+  min-height: 32px;
+  white-space: normal;
+}
+
+// ── Chevron des panneaux repliables ──────────────────────────────────
+// Le cœur écrit la couleur en dur (`color: #1e1e1e`) sur la flèche du
+// `PanelBody`, et la carte de jetons `--wp-components-*` ne couvre pas
+// l'éditeur. La flèche devenait invisible en thème sombre : rien ne disait
+// que « Production », « Secteurs » ou « Technologies » se déplient (audit du
+// banc FSE, 14/09/2026).
+body.dy-admin .components-panel__body-toggle.components-button .components-panel__arrow,
+body.dy-admin .components-panel__arrow {
+  color: var(--dya-ink-soft);
+}
+body.dy-admin .components-panel__body-toggle.components-button:hover .components-panel__arrow {
+  color: var(--dya-ink);
+}
+
+// ── « Aucun bloc sélectionné » ────────────────────────────────────────
+// Le cœur peint ce message sur un aplat blanc : rectangle blanc, texte
+// clair invisible dessus, en thème sombre.
+body.dy-admin .block-editor-block-inspector__no-blocks {
+  background: transparent;
+  color: var(--dya-ink-mute);
+}
+
+// ── Filets entre les groupes de l'onglet Styles ──────────────────────
+// Les `ToolsPanel` gardent le gris clair du cœur (#ddd) en séparateur : on
+// les aligne sur le filet discret des `PanelBody` de l'onglet Réglages.
+body.dy-admin .components-tools-panel {
+  border-top-color: var(--dya-line);
+}

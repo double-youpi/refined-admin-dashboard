@@ -1,0 +1,1111 @@
+// =============================================================
+// ACF FIELD STYLING — post editing with ACF fields
+//
+// ACF renders its fields in `.acf-field` with this structure:
+//   .acf-field
+//     .acf-label / label
+//     .acf-input
+//       (input / textarea / select / wp-editor / select2 / repeater…)
+//
+// The WP-native + ACF default styling is LIGHT-themed: white input
+// backgrounds, grey borders, grey-blue selectors. In dark mode, all these
+// inputs stand out as pure white in the middle of dark paper-cards. We bring
+// the whole set into the DS via the `body.dy-admin .acf-field` scope.
+// =============================================================
+
+// Layout containers — repeater, flexible content, group, clone fields.
+body.dy-admin .acf-field {
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin .acf-field .acf-label,
+body.dy-admin .acf-field .acf-label label {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .acf-field .acf-label p,
+body.dy-admin .acf-field .acf-label .description {
+  color: var(--dya-ink-soft) !important;
+}
+body.dy-admin .acf-field .acf-input-wrap {
+  background: transparent !important;
+}
+
+// Native inputs in ACF — WP-native .acf-field input/textarea/select
+// inherit form-table styling but ACF overrides some of them with a white background.
+body.dy-admin .acf-field input[type="text"],
+body.dy-admin .acf-field input[type="url"],
+body.dy-admin .acf-field input[type="email"],
+body.dy-admin .acf-field input[type="password"],
+body.dy-admin .acf-field input[type="number"],
+body.dy-admin .acf-field input[type="search"],
+body.dy-admin .acf-field input[type="tel"],
+body.dy-admin .acf-field input[type="date"],
+body.dy-admin .acf-field input[type="datetime-local"],
+body.dy-admin .acf-field input[type="time"],
+body.dy-admin .acf-field input[type="color"],
+body.dy-admin .acf-field textarea,
+body.dy-admin .acf-field select {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge) !important;
+}
+body.dy-admin .acf-field input:focus,
+body.dy-admin .acf-field textarea:focus,
+body.dy-admin .acf-field select:focus {
+  border-color: var(--dya-accent) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--dya-accent) 25%, transparent) !important;
+}
+
+// ── T11 — Widths: restore 100% on "full-width" fields.
+// The global input reset sets some to `width:auto`, and a `<textarea>`
+// without a CSS width falls back to ~180px (from the `cols` attribute). Force
+// 100% on full-width types (number/range/date/color/time are left at their
+// natural size). `> .acf-input >` targets the field at any nesting level
+// (repeater/flexible/group included).
+body.dy-admin .acf-field > .acf-input > input[type="text"],
+body.dy-admin .acf-field > .acf-input > input[type="url"],
+body.dy-admin .acf-field > .acf-input > input[type="email"],
+body.dy-admin .acf-field > .acf-input > input[type="password"],
+body.dy-admin .acf-field > .acf-input > input[type="search"],
+body.dy-admin .acf-field > .acf-input > input[type="tel"],
+body.dy-admin .acf-field > .acf-input > textarea,
+body.dy-admin .acf-field > .acf-input > select,
+body.dy-admin .acf-field > .acf-input > .select2-container,
+body.dy-admin .acf-field > .acf-input > .acf-url input[type="url"] {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+// ── T7 — No border on ACF checkbox / radio / taxonomy lists.
+body.dy-admin .acf-field-checkbox ul.acf-checkbox-list,
+body.dy-admin .acf-field-radio ul.acf-radio-list,
+body.dy-admin .acf-taxonomy-field .categorychecklist-holder,
+body.dy-admin .acf-field-taxonomy .categorychecklist-holder,
+body.dy-admin .acf-field-taxonomy .acf-checkbox-list {
+  border: 0 !important;
+  background: transparent !important;
+}
+
+// ── T8 — True/false field: clean sliding toggle. ACF displays two YES/NO
+// labels plus a knob, which overlapped. We hide the labels and drive the
+// knob position ourselves → clean "physical" switch with a slight bounce
+// on toggle (micro-interaction).
+body.dy-admin .acf-field-true-false .acf-switch {
+  position: relative !important; display: inline-block !important;
+  width: 46px !important; height: 26px !important; padding: 0 !important; vertical-align: middle;
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-pill) !important;
+  cursor: pointer;
+  transition: background 220ms var(--dya-ease), border-color 220ms var(--dya-ease);
+}
+body.dy-admin .acf-field-true-false .acf-switch .acf-switch-on,
+body.dy-admin .acf-field-true-false .acf-switch .acf-switch-off { display: none !important; }
+body.dy-admin .acf-field-true-false .acf-switch .acf-switch-slider {
+  position: absolute !important; top: 50% !important; left: 3px !important;
+  width: 20px !important; height: 20px !important; margin: 0 !important;
+  box-sizing: border-box !important; border: 0 !important; border-radius: 50% !important;
+  background: var(--dya-ink-mute) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .35) !important;
+  transform: translateY(-50%) !important;
+  transition: transform 240ms cubic-bezier(.34, 1.56, .64, 1), background 220ms var(--dya-ease) !important;
+}
+body.dy-admin .acf-field-true-false .acf-switch.-on {
+  background: var(--dya-accent) !important; border-color: var(--dya-accent) !important;
+}
+body.dy-admin .acf-field-true-false .acf-switch.-on .acf-switch-slider {
+  transform: translate(20px, -50%) !important; background: var(--dya-accent-on) !important;
+}
+body.dy-admin .acf-field-true-false .acf-switch:hover { border-color: var(--dya-edge-strong) !important; }
+body.dy-admin .acf-field-true-false .acf-switch.-on:hover { border-color: var(--dya-accent) !important; }
+
+// ── T14 — "range" field (slider): must adapt to the container width and
+// never overflow. The wrap becomes flex (stretchable slider + value display).
+body.dy-admin .acf-field-range .acf-range-wrap {
+  display: flex !important; align-items: center !important; gap: 10px !important;
+  max-width: 100% !important; box-sizing: border-box !important;
+}
+body.dy-admin .acf-field-range .acf-range-wrap input[type="range"] {
+  flex: 1 1 auto !important; min-width: 0 !important; max-width: 100% !important; margin: 0 !important;
+}
+body.dy-admin .acf-field-range .acf-range-wrap input[type="number"] {
+  flex: 0 0 auto !important; width: auto !important; min-width: 56px !important;
+}
+
+// ── T10 — "Expand All / Collapse All" buttons in flexible content: these are
+// `<button class="acf-btn acf-btn-clear acf-fc-expand-all">` elements (ACF blue
+// text) → soft ink, accent on hover.
+// Specificity aligned with the winning ACF rule
+// (`.acf-flexible-content > .acf-actions.acf-fc-top-actions .acf-btn-clear !important`).
+body.dy-admin .acf-flexible-content > .acf-actions.acf-fc-top-actions .acf-btn-clear,
+body.dy-admin .acf-flexible-content .acf-fc-meta a,
+body.dy-admin .acf-flexible-content .acf-actions > a,
+body.dy-admin .acf-flexible-content .acf-hl > li > a {
+  color: var(--dya-ink-soft) !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+body.dy-admin .acf-flexible-content > .acf-actions.acf-fc-top-actions .acf-btn-clear:hover,
+body.dy-admin .acf-flexible-content .acf-fc-meta a:hover,
+body.dy-admin .acf-flexible-content .acf-actions > a:hover,
+body.dy-admin .acf-flexible-content .acf-hl > li > a:hover { color: var(--dya-accent) !important; }
+
+// ── T9 — Complex ACF fields in dark mode ────────────────────────────────────
+// Gallery
+body.dy-admin .acf-gallery,
+body.dy-admin .acf-gallery .acf-gallery-main,
+body.dy-admin .acf-gallery .acf-gallery-side,
+body.dy-admin .acf-gallery .acf-gallery-side-inner {
+  background: var(--dya-paper) !important; border-color: var(--dya-edge) !important;
+}
+body.dy-admin .acf-gallery .acf-gallery-toolbar { background: var(--dya-paper-2) !important; border-color: var(--dya-edge) !important; }
+body.dy-admin .acf-gallery .acf-gallery-attachment { border-color: var(--dya-edge) !important; }
+body.dy-admin .acf-gallery .acf-gallery-attachment.active { box-shadow: 0 0 0 2px var(--dya-accent) !important; }
+body.dy-admin .acf-gallery .acf-gallery-side-data,
+body.dy-admin .acf-gallery .acf-gallery-side-data input,
+body.dy-admin .acf-gallery .acf-gallery-side-data textarea { background: var(--dya-bg) !important; color: var(--dya-ink) !important; border-color: var(--dya-edge) !important; }
+body.dy-admin .acf-gallery .acf-gallery-side label { color: var(--dya-ink-soft) !important; }
+
+// oEmbed
+body.dy-admin .acf-oembed,
+body.dy-admin .acf-oembed .title { background: var(--dya-paper) !important; border-color: var(--dya-edge) !important; color: var(--dya-ink) !important; }
+body.dy-admin .acf-oembed .canvas { background: var(--dya-paper-2) !important; }
+
+// Accordion. ACF styles `.acf-field-accordion` as a WHITE PANEL (background +
+// border) → it was this container that appeared as a white bar in dark mode, not
+// the title. We theme the container AND the title.
+body.dy-admin .acf-field.acf-field-accordion,
+body.dy-admin .acf-fields > .acf-field-accordion {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+}
+body.dy-admin .acf-field-accordion > .acf-accordion-title,
+body.dy-admin .acf-field.acf-accordion-title,
+body.dy-admin .acf-accordion-title,
+body.dy-admin .acf-fields > .acf-field-accordion > .acf-accordion-title {
+  background: var(--dya-paper-2) !important; color: var(--dya-ink) !important; border-color: var(--dya-edge) !important;
+}
+body.dy-admin .acf-accordion-title:hover,
+body.dy-admin .acf-fields > .acf-field-accordion > .acf-accordion-title:hover { background: var(--dya-paper-3) !important; }
+body.dy-admin .acf-accordion-icon { color: var(--dya-ink-mute) !important; }
+body.dy-admin .acf-field-accordion > .acf-accordion-content,
+body.dy-admin .acf-fields > .acf-field-accordion > .acf-accordion-content { background: transparent !important; }
+
+// Flexible content — layout handle + action bar.
+body.dy-admin .acf-flexible-content .acf-fc-layout-handle {
+  background: var(--dya-paper-2) !important; color: var(--dya-ink-soft) !important; border-color: var(--dya-edge) !important;
+}
+body.dy-admin .acf-flexible-content .acf-fc-layout-order { background: var(--dya-paper-3) !important; color: var(--dya-ink) !important; border-color: var(--dya-edge) !important; }
+body.dy-admin .acf-fc-layout-actions-wrap,
+body.dy-admin .acf-flexible-content .acf-fc-layout-controls { background: transparent !important; }
+// Unthemed light borders in flexible content (ACF light grey
+// rgb(204,*) → white in dark). Reset them to `--dya-line` (subtle).
+body.dy-admin .acf-flexible-content .acf-fc-layout-actions-wrap,
+body.dy-admin .acf-flexible-content .no-value-message,
+body.dy-admin .acf-flexible-content .acf-fc-layout-order,
+body.dy-admin .acf-flexible-content .acf-fc-layout-handle { border-color: var(--dya-edge) !important; }
+// Layout actions ALWAYS visible (ACF only revealed them on hover). We force
+// opacity/visibility at every level (container, anchors, glyphs).
+body.dy-admin .acf-flexible-content .acf-fc-layout-controls,
+body.dy-admin .acf-flexible-content .acf-fc-layout-controls > a,
+body.dy-admin .acf-flexible-content .acf-fc-layout-controls .acf-icon {
+  opacity: 1 !important; visibility: visible !important;
+}
+// Vertical separator ("|") between actions: ACF light grey → subtle.
+body.dy-admin .acf-separator { background-color: var(--dya-line) !important; }
+// No border-bottom under the layout title (separator deemed unnecessary).
+body.dy-admin .acf-flexible-content .layout .acf-fc-layout-handle { border-bottom: 0 !important; }
+// Collapse toggle: our `background-color` was making it a solid grey square
+// (and the global `background:none` had removed its native chevron). We make
+// it transparent and DRAW a subtle chevron using borders (muted ink, accent
+// on hover; rotates when the layout is collapsed).
+body.dy-admin .acf-flexible-content .acf-fc-layout-controls .acf-icon.-collapse,
+body.dy-admin .acf-flexible-content .acf-layout-collapse .acf-icon {
+  position: relative !important;
+  background-color: transparent !important;
+  color: var(--dya-ink-mute) !important;
+}
+body.dy-admin .acf-flexible-content .acf-layout-collapse .acf-icon.-collapse::before {
+  content: "" !important;
+  position: absolute !important; top: 50% !important; left: 50% !important;
+  width: 6px !important; height: 6px !important;
+  background: none !important; mask: none !important;
+  border-right: 1.5px solid currentColor !important; border-bottom: 1.5px solid currentColor !important;
+  border-top: 0 !important; border-left: 0 !important; border-radius: 1px !important;
+  transform: translate(-50%, -70%) rotate(45deg) !important;
+  transition: transform var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease) !important;
+}
+body.dy-admin .acf-flexible-content .layout.-collapsed .acf-layout-collapse .acf-icon.-collapse::before {
+  transform: translate(-50%, -50%) rotate(-45deg) !important; // chevron points right when collapsed
+}
+body.dy-admin .acf-flexible-content .acf-layout-collapse .acf-icon:hover { color: var(--dya-accent) !important; background-color: transparent !important; }
+// No vertical separator before the collapse toggle.
+body.dy-admin .acf-flexible-content .acf-layout-collapse { border-left: 0 !important; }
+// Links inside metabox content: no underline via border-bottom.
+body.dy-admin .postbox .inside a:not(.button) { border-bottom: 0 !important; }
+// ACF "seamless" metabox: no lateral margins on the content.
+body.dy-admin .acf-postbox.seamless > .inside { margin-left: 0 !important; margin-right: 0 !important; }
+
+// Link field + wpLink popup (#wp-link-wrap, shared across all of WP).
+body.dy-admin .acf-link .link-wrap { background: var(--dya-paper-2) !important; border-color: var(--dya-edge) !important; color: var(--dya-ink) !important; }
+body.dy-admin .acf-link .link-wrap .link-title { color: var(--dya-ink) !important; }
+body.dy-admin #wp-link-backdrop { background: rgba(0,0,0,.6) !important; }
+body.dy-admin #wp-link-wrap {
+  background: var(--dya-paper) !important; border: 1px solid var(--dya-edge) !important;
+  color: var(--dya-ink) !important; box-shadow: var(--dya-shadow-lg) !important; border-radius: var(--dya-r-lg) !important;
+}
+body.dy-admin #wp-link-wrap #link-modal-title { background: var(--dya-paper-2) !important; color: var(--dya-ink) !important; border-color: var(--dya-edge) !important; }
+body.dy-admin #wp-link-wrap label span,
+body.dy-admin #wp-link-wrap .link-search-wrapper label { color: var(--dya-ink-soft) !important; }
+body.dy-admin #wp-link-wrap input[type="text"],
+body.dy-admin #wp-link-wrap input[type="search"] { background: var(--dya-bg) !important; color: var(--dya-ink) !important; border-color: var(--dya-edge) !important; }
+body.dy-admin #wp-link-wrap #most-recent-results,
+body.dy-admin #wp-link-wrap .query-results,
+body.dy-admin #wp-link-wrap .query-results ul { background: var(--dya-paper) !important; border-color: var(--dya-edge) !important; }
+body.dy-admin #wp-link-wrap .query-results li {
+  background: var(--dya-paper) !important; color: var(--dya-ink-soft) !important; border-color: var(--dya-line-soft) !important;
+}
+body.dy-admin #wp-link-wrap .query-results li.alternate { background: var(--dya-paper-2) !important; }
+body.dy-admin #wp-link-wrap .query-results li .item-title { color: var(--dya-ink) !important; }
+body.dy-admin #wp-link-wrap .query-results li .item-info { color: var(--dya-ink-mute) !important; }
+body.dy-admin #wp-link-wrap .query-notice {
+  background: var(--dya-paper-2) !important; color: var(--dya-ink) !important; border-color: var(--dya-accent) !important;
+}
+body.dy-admin #wp-link-wrap .query-results li.selected,
+body.dy-admin #wp-link-wrap .query-results li:hover { background: color-mix(in srgb, var(--dya-accent) 16%, transparent) !important; }
+body.dy-admin #wp-link-wrap .query-results li.selected .item-title,
+body.dy-admin #wp-link-wrap .query-results li:hover .item-title { color: var(--dya-ink) !important; }
+body.dy-admin #wp-link-wrap .howto,
+body.dy-admin #wp-link-wrap .river-waiting { color: var(--dya-ink-mute) !important; }
+body.dy-admin #wp-link-wrap .submitbox { background: var(--dya-paper-2) !important; border-color: var(--dya-edge) !important; }
+body.dy-admin #wp-link-wrap #wp-link-submit {
+  background: var(--dya-accent) !important; color: var(--dya-accent-on) !important; border-color: var(--dya-accent) !important;
+}
+body.dy-admin #wp-link-wrap #wp-link-cancel { color: var(--dya-ink-soft) !important; }
+
+// Relationship — the list containers (available choices + values) stayed
+// white in dark mode (`.choices`/`.list` not covered). Force the paper surface.
+body.dy-admin .acf-relationship .selection,
+body.dy-admin .acf-relationship .selection .choices,
+body.dy-admin .acf-relationship .selection .values,
+body.dy-admin .acf-relationship .choices-list,
+body.dy-admin .acf-relationship .values-list,
+body.dy-admin .acf-relationship .list {
+  background: var(--dya-paper) !important; border-color: var(--dya-edge) !important;
+}
+body.dy-admin .acf-relationship .list .acf-rel-item,
+body.dy-admin .acf-relationship .values .acf-rel-item { color: var(--dya-ink) !important; border-color: var(--dya-line-soft) !important; }
+body.dy-admin .acf-relationship .values .acf-rel-item { background: var(--dya-paper-2) !important; }
+body.dy-admin .acf-relationship .list .acf-rel-item:hover { background: var(--dya-paper-2) !important; }
+body.dy-admin .acf-relationship .filters { background: var(--dya-paper-2) !important; border-color: var(--dya-edge) !important; }
+body.dy-admin .acf-relationship .filters input,
+body.dy-admin .acf-relationship .filters select { background: var(--dya-bg) !important; color: var(--dya-ink) !important; border-color: var(--dya-edge) !important; }
+
+// Taxonomy — selected terms (select2 multi) + checked checklist.
+body.dy-admin .acf-taxonomy-field .select2-selection__choice {
+  background: var(--dya-paper-3) !important; border-color: var(--dya-edge) !important; color: var(--dya-ink) !important;
+}
+
+// Repeater rows / flexible content layouts — elevated surface.
+body.dy-admin .acf-repeater .acf-row,
+body.dy-admin .acf-flexible-content .layout,
+body.dy-admin .acf-group .acf-fields,
+body.dy-admin .acf-clone .acf-fields {
+  background: var(--dya-paper-2) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin .acf-repeater .acf-row > td,
+body.dy-admin .acf-flexible-content .layout .acf-fc-layout-handle {
+  background: transparent !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin .acf-flexible-content .layout .acf-fc-layout-handle {
+  color: var(--dya-ink-soft) !important;
+}
+
+// Relationship / taxonomy / post-object — scrollable lists with checkboxes.
+body.dy-admin .acf-relationship,
+body.dy-admin .acf-taxonomy-field .categorychecklist,
+body.dy-admin .acf-field-checkbox ul.acf-checkbox-list,
+body.dy-admin .acf-field-radio ul.acf-radio-list {
+  background: var(--dya-paper) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin .acf-relationship .list,
+body.dy-admin .acf-relationship .values,
+body.dy-admin .acf-relationship .selection {
+  background: transparent !important;
+}
+body.dy-admin .acf-relationship .list .acf-rel-item:hover,
+body.dy-admin .acf-relationship .values .acf-rel-item:hover {
+  background: var(--dya-paper-2) !important;
+}
+
+// Select2 — ACF's central component for multi-selects. WP-default
+// sets `.select2-container--default .select2-selection { background: #fff }`.
+body.dy-admin .select2-container--default .select2-selection,
+body.dy-admin .select2-container--default .select2-selection--single,
+body.dy-admin .select2-container--default .select2-selection--multiple {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .select2-container--default .select2-selection__rendered,
+body.dy-admin .select2-container--default .select2-selection__placeholder {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .select2-dropdown {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge-strong) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .select2-container--default .select2-results__option--highlighted,
+body.dy-admin .select2-container--default .select2-results__option[aria-selected="true"] {
+  background: color-mix(in srgb, var(--dya-accent) 12%, transparent) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .select2-container--default .select2-search--dropdown .select2-search__field {
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+}
+
+// WYSIWYG `wp-editor` — TinyMCE toolbar.
+body.dy-admin .acf-field .wp-editor-tools,
+body.dy-admin .acf-field .wp-editor-tabs,
+body.dy-admin .acf-field .mce-toolbar-grp {
+  background: var(--dya-paper-2) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin .acf-field .wp-editor-container {
+  border: 1px solid var(--dya-edge) !important;
+}
+
+// Range slider track / handle (ACF range field).
+body.dy-admin .acf-field-range input[type="range"]::-webkit-slider-runnable-track {
+  background: var(--dya-paper-2) !important;
+}
+body.dy-admin .acf-field-range input[type="range"]::-webkit-slider-thumb {
+  background: var(--dya-accent) !important;
+}
+
+// ── A6: ACF tab navigation (`.acf-tab-wrap` / `.acf-tab-button`) ──
+// ACF renders its field tab bar with a light background (#f9f9f9) and the
+// active button in white → in dark mode, light text on a light background
+// becomes invisible (measured 1.11:1). We switch it entirely to the DS:
+// inactive tabs in `--dya-ink-mute`, active tab in `--dya-ink` with accent underline.
+body.dy-admin .acf-tab-wrap,
+body.dy-admin .acf-tab-wrap.-top,
+body.dy-admin .acf-tab-wrap.-left {
+  background: transparent !important;
+  border-color: var(--dya-edge) !important;
+  box-shadow: none !important;
+}
+body.dy-admin .acf-tab-wrap .acf-tab-group {
+  background: transparent !important;
+  border-bottom: 1px solid var(--dya-line) !important;
+}
+body.dy-admin .acf-tab-group li a,
+body.dy-admin a.acf-tab-button {
+  background: transparent !important;
+  color: var(--dya-ink-mute) !important;
+  border: 0 !important;
+  border-bottom: 2px solid transparent !important;
+  box-shadow: none !important;
+  margin-bottom: -1px !important;
+}
+body.dy-admin .acf-tab-group li a:hover,
+body.dy-admin a.acf-tab-button:hover {
+  color: var(--dya-ink) !important;
+  background: transparent !important;
+}
+body.dy-admin .acf-tab-group li.active a,
+body.dy-admin .acf-tab-group li a.active,
+body.dy-admin a.acf-tab-button.active {
+  color: var(--dya-ink) !important;
+  background: transparent !important;
+  border-bottom-color: var(--dya-accent) !important;
+}
+
+// ACF Banner relocate — TWO ACF banners to hide:
+//   - `.acf-headerbar` (title + "Add" button): handled by AcfBanner.php
+//   - `.acf-admin-toolbar` (tabs: Groups/Types/Taxos/Tools/Updates)
+//     which duplicate our subchipbar. Without this mask, both nav bars
+//     coexist and visually clutter the page.
+// AcfBanner.php JS extracts logos into `.dy-acf-logos` (placed to the right
+// of the H1) and clones the "+ Add" button as `.page-title-action` (skipped if
+// WP has already rendered its own action button).
+body.dy-admin .acf-headerbar,
+body.dy-admin .acf-headerbar.dy-acf-headerbar-relocated,
+body.dy-admin .acf-admin-toolbar {
+  display: none !important;
+}
+body.dy-admin .dy-acf-logos {
+  position: absolute;
+  top: 0;
+  // Le bloc absolu se cale sur la boîte de padding de `.wrap` : à `right: 0`
+  // le logo se collait au bord de la fenêtre, 35 px à droite des cartes
+  // (audit du banc FSE, 14/09/2026). On le ramène sur la gouttière.
+  right: var(--dya-wrap-pad-x);
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: 6px 10px;
+  line-height: 0;
+  border-radius: var(--dya-r-sm);
+  z-index: 5;
+}
+// Ces logos sont dessinés en blanc pour la barre sombre de l'extension. Posés
+// sur notre papier clair, ils disparaissaient purement et simplement (audit du
+// banc FSE, 14/09/2026). Une pastille sombre leur rend leur fond d'origine et
+// laisse intacts les logos multicolores, qu'un filtre d'inversion abîmerait.
+body.dy-admin.dy-theme-light .dy-acf-logos {
+  background: #141821;
+}
+body.dy-admin .dy-acf-logos .acf-logo img,
+body.dy-admin .dy-acf-logos .acf-nav-wpengine-logo img,
+body.dy-admin .dy-acf-logos .acf-logo svg,
+body.dy-admin .dy-acf-logos .acf-nav-wpengine-logo svg {
+  height: 22px;
+  width: auto;
+  opacity: 0.85;
+  transition: opacity var(--dya-t-fast) ease;
+}
+body.dy-admin .dy-acf-logos a:hover img,
+body.dy-admin .dy-acf-logos a:hover svg {
+  opacity: 1;
+}
+// `.wrap` must be position relative to anchor the absolutely positioned logos.
+body.dy-admin[class*="post-type-acf-"] .wrap,
+body.dy-admin.acf-admin-page .wrap {
+  position: relative;
+}
+
+// ── A4: page title on ACF admin screens (Tools, Settings,
+// Updates, lists) ──────────────────────────────────────────────
+// On these screens, ACF hides the native WP `<h1>` via an ID selector
+// (`.acf-admin-page #acf-admin-tools h1 {display:none!important}`) that we
+// cannot cleanly override without matching each page ID. ACF actually intends
+// the title to live in its headerbar (`.acf-page-title`) — hidden by the DS
+// above. We REVEAL it here, keeping ONLY the title (actions + name field
+// hidden), styled as a DS page title. Scope: ACF admin pages outside the
+// field group editor (post.php / post-new.php — handled by A1).
+body.dy-admin.acf-admin-page:not(.post-php):not(.post-new-php) .acf-headerbar {
+  display: block !important;
+  position: static !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  // Mirror `.wrap` (max-width + horizontal padding) so the revealed title sits
+  // in the content column instead of hugging the left edge of #wpcontent.
+  box-sizing: border-box;
+  max-width: var(--dya-wrap-max) !important;
+  padding: var(--dya-wrap-pad-y) var(--dya-wrap-pad-x) 0 !important;
+  margin: 0 auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+body.dy-admin.acf-admin-page:not(.post-php):not(.post-new-php) .acf-headerbar .acf-headerbar-inner {
+  display: block !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  max-width: none !important;
+}
+body.dy-admin.acf-admin-page:not(.post-php):not(.post-new-php) .acf-headerbar .acf-headerbar-actions,
+body.dy-admin.acf-admin-page:not(.post-php):not(.post-new-php) .acf-headerbar .acf-title-wrap,
+body.dy-admin.acf-admin-page:not(.post-php):not(.post-new-php) .acf-headerbar > .acf-btn {
+  display: none !important;
+}
+// List screens (edit.php?post_type=acf-*): WP already prints the H1 + action
+// button → the revealed ACF title would be a duplicate. Hide it there.
+// Specificity matches the reveal rule above (0,4,1) and comes later → wins.
+body.dy-admin.acf-admin-page.edit-php:not(.post-php):not(.post-new-php) .acf-headerbar {
+  display: none !important;
+}
+body.dy-admin.acf-admin-page:not(.post-php):not(.post-new-php) .acf-headerbar .acf-page-title {
+  display: block !important;
+  font-family: var(--dya-font-display) !important;
+  font-size: var(--dya-fs-2xl) !important;
+  font-weight: 600 !important;
+  letter-spacing: var(--dya-tracking-tight) !important;
+  color: var(--dya-ink) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+// ── A5: block spacing on ACF settings pages ──────────────────
+// `.acf-settings-wrap` (Tools, Updates, Settings) lays out its `.acf-box`
+// elements in flex WITHOUT a `gap` → blocks touch each other ("broken" layout).
+// The two blocks fill ~100% of the width: adding a raw `gap` would cause them
+// to wrap. We therefore allow the blocks to SHRINK (flex-shrink + min-width:0)
+// to absorb the gap without wrapping, while preserving their proportions.
+// align-items:flex-start (heterogeneous heights).
+body.dy-admin .acf-settings-wrap {
+  gap: 18px !important;
+  align-items: flex-start !important;
+}
+// `flex: 1 1 320px`: blocks grow equally from a base of 320px. At desktop
+// size (≈1180px) they fit side by side WITH the gap; at narrow widths
+// (<~660px) they stack cleanly (native responsive via flex-wrap).
+// min-width:0 + width:auto cancel ACF's fixed widths that were forcing the wrap.
+body.dy-admin .acf-settings-wrap > .acf-box {
+  flex: 1 1 320px !important;
+  min-width: 0 !important;
+  width: auto !important;
+}
+
+// =============================================================
+// ACF Tools / Settings-Updates pages — dark mode coverage
+//
+// These ACF pages (acf-tools, acf-settings-updates, acf-licensing) use
+// `.acf-box` (ACF's proprietary markup, distinct from `.postbox`) with
+// `background: #fff` hardcoded in ACF's CSS. Without a scoped override, the
+// cards appear white on a dark DY background — unreadable.
+// =============================================================
+body.dy-admin .acf-box,
+body.dy-admin .acf-settings-wrap .acf-box {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-xl) !important;
+  color: var(--dya-ink) !important;
+  box-shadow: var(--dya-shadow-sm) !important;
+  overflow: hidden;
+}
+body.dy-admin .acf-box .title,
+body.dy-admin .acf-box > h3 {
+  background: transparent !important;
+  border-bottom: 1px solid var(--dya-line) !important;
+  padding: 14px 18px !important;
+  margin: 0 !important;
+}
+body.dy-admin .acf-box .title h3,
+body.dy-admin .acf-box > h3 {
+  color: var(--dya-ink) !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+}
+body.dy-admin .acf-box .inner {
+  padding: 18px !important;
+  background: transparent !important;
+  color: var(--dya-ink-soft) !important;
+}
+body.dy-admin .acf-box .inner p,
+body.dy-admin .acf-box .inner label {
+  color: var(--dya-ink-soft) !important;
+}
+body.dy-admin .acf-box .inner h4,
+body.dy-admin .acf-box .inner strong {
+  color: var(--dya-ink) !important;
+}
+
+// ── License fields (acf-settings-updates) — input + table in grid
+body.dy-admin .acf-box .acf-input-wrap {
+  background: transparent !important;
+  border: 0 !important;
+}
+body.dy-admin .acf-box .acf-input-wrap input[type="text"],
+body.dy-admin .acf-box .acf-input-wrap input[type="password"],
+body.dy-admin .acf-box input[type="text"],
+body.dy-admin .acf-box input[type="password"] {
+  background: var(--dya-bg) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-sm) !important;
+  padding: 8px 12px !important;
+  font-family: var(--dya-font-mono) !important;
+  font-size: 12.5px !important;
+}
+body.dy-admin .acf-box input[type="text"]:focus,
+body.dy-admin .acf-box input[type="password"]:focus {
+  border-color: var(--dya-accent) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--dya-accent) 25%, transparent) !important;
+  outline: none !important;
+}
+
+// "Active" pill (license status)
+body.dy-admin .acf-box .acf-tag,
+body.dy-admin .acf-box .acf-license-status,
+body.dy-admin .acf-box [class*="status-active"] {
+  background: color-mix(in srgb, var(--dya-success) 12%, transparent) !important;
+  color: var(--dya-success) !important;
+  border: 1px solid color-mix(in srgb, var(--dya-success) 35%, transparent) !important;
+  padding: 3px 10px !important;
+  border-radius: 999px !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+}
+// Status wrapper — ACF renders `.acf-license-status-wrap` with a grey-50 bg
+// that clashes in dark mode. We neutralise it so the pill alone carries the colour.
+body.dy-admin .acf-license-status-wrap {
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+}
+
+// License input field — specific ID with higher specificity (1,0,0)
+// which beats our `.acf-box input[type="text"]` rule (0,3,1). Bump with !important.
+body.dy-admin input[type="text"]#acf_pro_license,
+body.dy-admin input[type="password"]#acf_pro_license,
+body.dy-admin .acf-box input[type="text"]#acf_pro_license {
+  background: var(--dya-bg) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-sm) !important;
+  font-family: var(--dya-font-mono) !important;
+  padding: 8px 12px !important;
+}
+
+// ── Tools page — Export/Import panels (.acf-meta-box-wrap > .postbox)
+// The `.acf-checkbox-list` sub-lists that were appearing white.
+body.dy-admin .acf-checkbox-list,
+body.dy-admin .acf-fields,
+body.dy-admin .acf-field-checkbox > .acf-input,
+body.dy-admin .acf-field-select > .acf-input {
+  background: transparent !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin .acf-checkbox-list label,
+body.dy-admin .acf-fields label {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .acf-checkbox-list li {
+  background: transparent !important;
+}
+
+// ── Field Group Edit (post.php?post=X) — ACF field builder
+// `.acf-thead` is the table header of the field builder (columns:
+// Order / Label / Name / Type / Required / Settings). WP-default bg
+// is light grey → unreadable in dark. `.acf-field-object-wysiwyg` (and
+// other `.acf-field-object-*`) are the builder ROWS with a white bg
+// hardcoded by ACF to differentiate types — we neutralise them.
+body.dy-admin .acf-thead,
+body.dy-admin ul.acf-thead {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink-soft) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-bottom: 0 !important;
+}
+body.dy-admin .acf-thead li {
+  color: var(--dya-ink-soft) !important;
+}
+body.dy-admin .acf-field-object,
+body.dy-admin .acf-field-object.open,
+body.dy-admin [class*="acf-field-object-"] {
+  background: transparent !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin .acf-field-object .field-info,
+body.dy-admin .acf-field-object .handle {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .acf-field-object.open .settings {
+  background: var(--dya-paper-2) !important;
+  border-top: 1px solid var(--dya-line) !important;
+}
+
+// Bottom border on metabox titles (`.postbox h2.hndle`): `_11-editor-
+// overrides` sets it with `!important` on ALL hndle elements. On the ACF
+// field group editor, the metaboxes (Location, Settings, Presentation)
+// are numerous and tightly packed → this border under each title creates
+// superfluous visual noise. We remove it in this context only.
+body.dy-admin.post-type-acf-field-group .postbox > .postbox-header h2.hndle,
+body.dy-admin.post-type-acf-field-group .postbox h2.hndle,
+body.dy-admin.post-type-acf-field-group .postbox h3.hndle {
+  border-bottom: 0 !important;
+}
+
+// ── A1: field group editing banner (name + actions) ──────────
+// The ACF headerbar (`.acf-headerbar`) holds the group NAME field
+// (`.acf-headerbar-title-field`, = post_title), the "Add Field" button,
+// and the "Save" button. It is hidden by default (above) because its
+// `H1.acf-page-title` duplicated the WP H1 → but that also hid the name
+// field and the save button. On the EDITOR (post.php / post-new.php) we
+// REVEAL it and restyle it as a DS action bar, hiding only the duplicate
+// `.acf-page-title`. The WP H1 keeps the relocated ACF logos + the "Add"
+// button. (The headerbar is outside `<form>`: ACF syncs the name value via
+// its own JS, so we move no fields — pure CSS reveal/restyle.)
+body.dy-admin.post-type-acf-field-group.post-php .acf-headerbar,
+body.dy-admin.post-type-acf-field-group.post-new-php .acf-headerbar {
+  display: block !important;
+  position: static !important;
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-lg) !important;
+  box-shadow: none !important;
+  padding: 12px 16px !important;
+  margin: 4px 0 18px !important;
+  // `.acf-headerbar-field-editor` déborde volontairement de 20 px à gauche
+  // (`margin-left: -20px` + `width: calc(100% + 20px)`) pour manger la marge
+  // du `.wrap` natif. Notre marge la remet à zéro mais pas la largeur : la
+  // barre dépassait de 20 px à droite et rognait « Enregistrer les
+  // modifications » (audit du banc FSE, 14/09/2026).
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+body.dy-admin.post-type-acf-field-group.post-php .acf-headerbar .acf-headerbar-inner,
+body.dy-admin.post-type-acf-field-group.post-new-php .acf-headerbar .acf-headerbar-inner {
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+  max-width: none !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+// The ACF internal H1 duplicates the WP H1 → remove it.
+body.dy-admin.post-type-acf-field-group .acf-headerbar .acf-page-title { display: none !important; }
+body.dy-admin.post-type-acf-field-group .acf-headerbar .acf-headerbar-content {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+body.dy-admin.post-type-acf-field-group .acf-headerbar .acf-title-wrap {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+body.dy-admin.post-type-acf-field-group .acf-headerbar .acf-title-wrap > label { display: none !important; }
+// Group NAME field → editable DS title input.
+body.dy-admin.post-type-acf-field-group .acf-headerbar-title-field {
+  width: 100% !important;
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-sm) !important;
+  color: var(--dya-ink) !important;
+  font-family: var(--dya-font-display) !important;
+  font-size: var(--dya-fs-md) !important;
+  font-weight: 500 !important;
+  letter-spacing: var(--dya-tracking-tight) !important;
+  padding: 8px 12px !important;
+  height: auto !important;
+  box-shadow: none !important;
+}
+body.dy-admin.post-type-acf-field-group .acf-headerbar-title-field:focus {
+  border-color: var(--dya-accent) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--dya-accent) 25%, transparent) !important;
+  outline: none !important;
+}
+body.dy-admin.post-type-acf-field-group .acf-headerbar-title-field::placeholder { color: var(--dya-ink-fade) !important; }
+// Actions (Add Field = secondary, Save = primary accent).
+body.dy-admin.post-type-acf-field-group .acf-headerbar .acf-headerbar-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex: 0 0 auto !important;
+}
+body.dy-admin.post-type-acf-field-group .acf-headerbar .acf-btn.acf-btn-secondary,
+body.dy-admin.post-type-acf-field-group .acf-headerbar .acf-btn.add-field {
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+  border-radius: var(--dya-r-md) !important;
+  box-shadow: none !important;
+}
+body.dy-admin.post-type-acf-field-group .acf-headerbar .acf-btn.acf-btn-secondary:hover,
+body.dy-admin.post-type-acf-field-group .acf-headerbar .acf-btn.add-field:hover {
+  background: var(--dya-paper-3) !important;
+  border-color: var(--dya-accent) !important;
+}
+body.dy-admin.post-type-acf-field-group .acf-headerbar .acf-btn.acf-publish,
+body.dy-admin.post-type-acf-field-group .acf-headerbar .acf-btn.acf-btn-primary {
+  background: var(--dya-accent) !important;
+  border: 1px solid var(--dya-accent) !important;
+  color: var(--dya-accent-on, var(--dya-bg)) !important;
+  border-radius: var(--dya-r-md) !important;
+  box-shadow: none !important;
+}
+
+// ACF action buttons (Export as JSON, Generate PHP, Import JSON,
+// Deactivate License, Check for Updates, …).
+// Scope widened to `.acf-admin-page` (not just `.acf-box`): ACF styles
+// ITS buttons in blue (`#0783be` border+text, hover `#f3f9fc`) across
+// all its admin pages (Tools, Settings); that blue was only neutralised
+// inside `.acf-box`. Generalise to the DS.
+body.dy-admin .acf-box .button,
+body.dy-admin .acf-box .acf-btn,
+body.dy-admin.acf-admin-page .button,
+body.dy-admin.acf-admin-page .acf-btn {
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+  border-radius: var(--dya-r-md) !important;
+  padding: 8px 16px !important;
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+body.dy-admin .acf-box .button-primary,
+body.dy-admin .acf-box .acf-btn-primary,
+body.dy-admin.acf-admin-page .button-primary,
+body.dy-admin.acf-admin-page .acf-btn-primary {
+  background: var(--dya-accent) !important;
+  border-color: var(--dya-accent) !important;
+  color: var(--dya-accent-on, var(--dya-ink)) !important;
+}
+body.dy-admin .acf-box .button:hover,
+body.dy-admin.acf-admin-page .button:hover,
+body.dy-admin.acf-admin-page .acf-btn:hover {
+  background: var(--dya-paper-3) !important;
+  border-color: var(--dya-accent) !important;
+  color: var(--dya-ink) !important;
+}
+
+// File input ("Choose a file") — Import. Accent border requested
+// (replaces ACF blue), on DS surface.
+body.dy-admin .acf-box input[type="file"],
+body.dy-admin.acf-admin-page input[type="file"] {
+  background: transparent !important;
+  color: var(--dya-ink-soft) !important;
+}
+body.dy-admin .acf-box input[type="file"]::file-selector-button,
+body.dy-admin.acf-admin-page input[type="file"]::file-selector-button {
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-accent) !important;
+  color: var(--dya-ink) !important;
+  border-radius: var(--dya-r-sm) !important;
+  padding: 6px 12px !important;
+  font-size: 12px !important;
+  margin-right: 12px !important;
+  cursor: pointer;
+  transition: background var(--dya-t-fast) ease;
+}
+body.dy-admin .acf-box input[type="file"]::file-selector-button:hover,
+body.dy-admin.acf-admin-page input[type="file"]::file-selector-button:hover {
+  background: var(--dya-paper-3) !important;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// BATCH 2 — ACF field refinements (dark)
+// ═══════════════════════════════════════════════════════════════════════════
+
+// ── ACF icon buttons (`a.acf-icon`: +, −, edit, cancel…): WHITE background
+// by default → in dark mode the light glyph becomes invisible. Covers the
+// taxonomy "+" AND the flexible content layout actions (on the right). We do
+// NOT touch decorative `<i class="acf-icon">` elements (e.g. globe in URL field).
+body.dy-admin a.acf-icon,
+body.dy-admin button.acf-icon,
+body.dy-admin .acf-relationship a.acf-icon {
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge) !important;
+  color: var(--dya-ink-soft) !important;
+  box-shadow: none !important;
+}
+body.dy-admin a.acf-icon:hover,
+body.dy-admin button.acf-icon:hover {
+  background: var(--dya-accent) !important;
+  border-color: var(--dya-accent) !important;
+  color: var(--dya-accent-on) !important;
+}
+// Flexible content layout actions (on the right): these are `.acf-icon`
+// elements (spans AND anchors) rendered via `mask-image` → their colour comes
+// from `background-color` (transparent by default → INVISIBLE in dark). No
+// box: colour the mask directly (`color` for font-icon variants).
+body.dy-admin .acf-fc-layout-controls .acf-icon,
+body.dy-admin .acf-fc-layout-handle .acf-icon {
+  background: none !important; border: 0 !important; box-shadow: none !important;
+  background-color: var(--dya-ink-soft) !important;
+  color: var(--dya-ink-soft) !important;
+}
+body.dy-admin .acf-fc-layout-controls a:hover .acf-icon,
+body.dy-admin .acf-fc-layout-controls .acf-icon:hover {
+  background-color: var(--dya-accent) !important; color: var(--dya-accent) !important;
+}
+body.dy-admin .acf-fc-layout-controls,
+body.dy-admin .acf-fc-layout-actions-wrap { color: var(--dya-ink-soft) !important; }
+body.dy-admin .acf-fc-layout-order {
+  background: var(--dya-paper-3) !important; color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+
+// ── "Button group" field: the active option has an accent background → the text
+// must use DARK ink (--dya-accent-on), not light, to remain readable.
+body.dy-admin .acf-field-button-group .acf-button-group label.selected,
+body.dy-admin .acf-field-button-group .acf-button-group label.active,
+body.dy-admin .acf-button-group label.selected {
+  color: var(--dya-accent-on) !important;
+  background: var(--dya-accent) !important;
+  border-color: var(--dya-accent) !important;
+}
+
+// ── URL field: the globe icon (`<i class="acf-icon -globe">`) must be vertically
+// centred inside the field.
+body.dy-admin .acf-field-url .acf-input-wrap.acf-url { display: flex !important; align-items: center !important; }
+body.dy-admin .acf-field-url .acf-url > i.acf-icon,
+body.dy-admin .acf-field-url .acf-url > .acf-icon {
+  position: static !important; flex: 0 0 auto !important; transform: none !important;
+  background: transparent !important; border: 0 !important;
+}
+body.dy-admin .acf-field-url .acf-url > input[type="url"] { flex: 1 1 auto !important; min-width: 0 !important; }
+
+// ── Taxonomy field (select2 multi): search input sized relative to badges,
+// badges themed.
+body.dy-admin .acf-taxonomy-field .select2-search--inline .select2-search__field {
+  min-width: 120px !important; margin-top: 5px !important; color: var(--dya-ink) !important;
+}
+// "+" affordance for "add a term" just before the inline input field.
+body.dy-admin .acf-taxonomy-field .select2-selection--multiple .select2-search--inline::before {
+  content: "+";
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 16px; height: 16px; margin: 5px 4px 0 2px;
+  border-radius: var(--dya-r-xs);
+  background: color-mix(in srgb, var(--dya-accent) 16%, transparent);
+  color: var(--dya-accent); font-weight: 700; font-size: 13px; line-height: 1;
+  vertical-align: middle;
+}
+
+
+// ── audit-2 (2026-09): field-group editor + settings pages, dark leaks ──
+// ACF 6.5 hard-codes its light palette (#d8ebf5 open row, #f9fafb thead/tfoot,
+// #344054 text, #fff select2) with high-specificity selectors. Same specificity
+// tier + !important, scoped to ACF admin pages.
+body.dy-admin.post-type-acf-field-group .acf-field-object.open > .handle,
+body.dy-admin.post-type-acf-field-group .acf-field-object.open .handle {
+  background: var(--dya-paper-3) !important;
+  border-color: var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+  text-shadow: none !important;
+}
+body.dy-admin.post-type-acf-field-group .acf-field-object.open .handle a,
+body.dy-admin.post-type-acf-field-group .acf-field-object .handle li.li-field-label a.edit-field,
+body.dy-admin.post-type-acf-field-group .acf-field-object .handle .row-options a {
+  color: var(--dya-accent-text, var(--dya-accent)) !important;
+}
+body.dy-admin.post-type-acf-field-group .acf-field-object .handle .row-options a.delete-field {
+  color: var(--dya-danger) !important;
+}
+body.dy-admin.post-type-acf-field-group .acf-field-object.open {
+  background: var(--dya-paper) !important;
+}
+body.dy-admin.post-type-acf-field-group .acf-thead,
+body.dy-admin.post-type-acf-field-group .acf-tfoot,
+body.dy-admin.post-type-acf-field-group #acf-field-group-fields .acf-field-list-wrap .acf-tfoot {
+  background: var(--dya-paper-2) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin.post-type-acf-field-group .acf-thead li,
+body.dy-admin.post-type-acf-field-group .acf-thead li * {
+  color: var(--dya-ink-soft) !important;
+}
+body.dy-admin.post-type-acf-field-group .acf-field-list-wrap {
+  box-shadow: none !important;
+  border: 1px solid var(--dya-edge) !important;
+}
+// Field-type / location selects (select2) painted white by ACF.
+body.dy-admin.acf-admin-page .acf-field-setting-type .select2-container--default .select2-selection--single,
+body.dy-admin.acf-admin-page .rule-groups .select2-container--default .select2-selection--single,
+body.dy-admin.acf-admin-page .acf-field .select2-container--default .select2-selection--single,
+body.dy-admin.acf-admin-page .acf-field .select2-container--default .select2-selection--multiple {
+  background: var(--dya-paper) !important;
+  border-color: var(--dya-edge-strong) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin.acf-admin-page .select2-container--default .select2-selection--single .select2-selection__rendered {
+  color: var(--dya-ink) !important;
+}
+// Headings / text hard-coded to #344054 (postbox titles, page title, boxes,
+// update page, notices).
+body.dy-admin.acf-admin-page #poststuff .postbox-header h2,
+body.dy-admin.acf-admin-page #poststuff .postbox-header h3,
+body.dy-admin.acf-admin-page .postbox .postbox-header h2,
+body.dy-admin.acf-admin-page .acf-postbox-header h2.acf-postbox-title,
+body.dy-admin.acf-admin-page .acf-box .title h2,
+body.dy-admin.acf-admin-page .acf-settings-wrap h1,
+body.dy-admin.acf-admin-page .acf-page-title {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin.acf-admin-page .acf-box,
+body.dy-admin.acf-admin-page .acf-box td,
+body.dy-admin.acf-admin-page .acf-box th,
+body.dy-admin.acf-admin-page .acf-box li,
+body.dy-admin.acf-admin-page .acf-box p,
+body.dy-admin.acf-admin-page .acf-box td > span,
+body.dy-admin.acf-admin-page .acf-update-changelog,
+body.dy-admin.acf-admin-page .acf-update-changelog li,
+body.dy-admin.acf-admin-page .acf-settings-wrap .form-table td,
+body.dy-admin.acf-admin-page .acf-settings-wrap .form-table th {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin.acf-admin-page .acf-update-changelog em,
+body.dy-admin.acf-admin-page .acf-box .description {
+  color: var(--dya-ink-mute) !important;
+}
+body.dy-admin.acf-admin-page .acf-update-changelog a,
+body.dy-admin.acf-admin-page .acf-box a:not(.button) {
+  color: var(--dya-accent-text, var(--dya-accent)) !important;
+}
+body.dy-admin.acf-admin-page .acf-notice,
+body.dy-admin.acf-admin-page .notice:not(.dy-notice-toast) {
+  background: var(--dya-paper) !important;
+  border-color: var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+  box-shadow: var(--dya-shadow-sm) !important;
+}
+// ACF pulls the WP update nag up under its own header with a -32px margin
+// (its headerbar is hidden here) → the nag overlapped `.wrap` and the logos.
+body.dy-admin.acf-admin-page .notice.update-nag,
+body.dy-admin.acf-admin-page .acf-notice.update-nag {
+  margin-bottom: 16px !important;
+}
+// Settings panel labels forced to #555d66 by ACF (dim on dark).
+body.dy-admin.acf-admin-page .acf-panel .acf-field .acf-label label,
+body.dy-admin.acf-admin-page .acf-field-settings .acf-field .acf-label label,
+body.dy-admin.acf-admin-page .acf-field-object .acf-label label {
+  color: var(--dya-ink) !important;
+}
+// The open field's settings panel stays white (ACF 6.5 rule wins over the
+// generic override above): same specificity tier as the handle rule.
+body.dy-admin.post-type-acf-field-group .acf-field-object.open > .settings,
+body.dy-admin.post-type-acf-field-group .acf-field-object.open .settings,
+body.dy-admin.post-type-acf-field-group .acf-field-object .acf-field-editor,
+body.dy-admin.post-type-acf-field-group .acf-field-object .acf-field-settings-main {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin.post-type-acf-field-group .acf-field-object.open .acf-field-settings-tab-bar,
+body.dy-admin.post-type-acf-field-group .acf-field-object.open .acf-field-settings-footer {
+  background: var(--dya-paper-2) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin.post-type-acf-field-group .acf-field-object.open .acf-field-settings-tab-bar li a {
+  color: var(--dya-ink-soft) !important;
+}
+body.dy-admin.post-type-acf-field-group .acf-field-object.open .acf-field-settings-tab-bar li.active a {
+  color: var(--dya-ink) !important;
+  border-bottom-color: var(--dya-accent) !important;
+}
+// Prepend / append adornments (e.g. the « € » of a number field) kept ACF's
+// #f9fafb ground → a white square glued to the dark input.
+body.dy-admin .acf-input-prepend,
+body.dy-admin .acf-input-append {
+  background: var(--dya-paper-3) !important;
+  border-color: var(--dya-edge) !important;
+  color: var(--dya-ink-soft) !important;
+}
+
+// ── audit-2, sweep post-renommage : groupe de champs NOUVEAU (premier champ
+// ouvert par défaut) ─────────────────────────────────────────────────────
+// ACF 6.5 peint `.select2-selection__rendered` en blanc avec une spécificité
+// (0,4,0) que notre thème du `.select2-selection` parent ne couvrait pas ; et
+// les libellés de la ligne de champ (type, ordre) restent #344054.
+body.dy-admin.acf-admin-page .acf-input .select2-container.-acf .select2-selection__rendered,
+body.dy-admin.acf-admin-page .acf-field-setting-type .select2-container.-acf .select2-selection__rendered {
+  background: transparent;
+  color: var(--dya-ink);
+}
+body.dy-admin.acf-admin-page .acf-field-object .handle .acf-tbody li,
+body.dy-admin.acf-admin-page .acf-field-object .handle .acf-tbody li .field-type-label,
+body.dy-admin.acf-admin-page .acf-field-object .handle .acf-tbody li .acf-selection {
+  color: var(--dya-ink-soft);
+}

@@ -1,0 +1,19 @@
+// =============================================================
+// BACKUPS PAGE — "Complete" badges in accent (pt 25)
+// The BackupsListPage.php markup uses an inline `style="background:#2271b1"`
+// on the "Complete" pill — we overwrite it via !important on the class.
+// An inline style without !important loses against `var(--dya-accent) !important`.
+// =============================================================
+body.dy-admin .dy-backup-status--complete,
+body.dy-admin .dy-backup-status--full,
+body.dy-admin .dy-status-pill--complete {
+  background: var(--dya-accent) !important;
+  color: var(--dya-accent-on, var(--dya-ink)) !important;
+  border-color: var(--dya-accent) !important;
+}
+// "DB only" pill — neutral variant aligned to the DS (paper-2 / ink-mute).
+body.dy-admin .dy-backup-status--db-only {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink-soft) !important;
+  border: 1px solid var(--dya-edge) !important;
+}

@@ -1,0 +1,346 @@
+// =============================================================
+// _15-third-party-fixes.scss
+// Fixes from the dark-mode audit (see docs/design/admin-ui/04-audit-dark-mode.md).
+// Plugin surfaces that RAD themes in dark mode but where hard-coded WP/plugin
+// colours leaked through. Everything is scoped OUTSIDE the step-aside screens
+// (dy-native-content = Yoast/Rank Math; dy-builder-native = Elementor/Bricks)
+// to avoid re-theming what we intentionally leave native.
+// =============================================================
+
+// ── G1 — residual light borders → retarget to `--dya-line` ─────────────────
+// The background was correctly darkened by the universal-dark layer, but
+// hard-coded border-color values (#c3c4c7, #cccccc, #d0d0d0…) stayed light.
+// We remap them to the DS rule. `border-color` only: acts only where a border
+// width already exists, so it is a no-op everywhere else.
+body.dy-admin:not(.dy-native-content):not(.dy-builder-native) {
+  // WooCommerce
+  .wc-settings-marketplace-link,
+  .wc-settings-email-select-image,
+  .woocommerce-analytics-import-status-bar,
+  // Contact Form 7
+  #wpcf7-welcome-panel,
+  #contact-form-editor-tabs button,
+  .contact-form-editor-tabs button,
+  .contact-form-editor .contact-form-editor-panel,
+  // WP Mail SMTP
+  .wp-mail-smtp-upgrade-license-banner,
+  #wp-mail-smtp-pro-banner,
+  // Wordfence — tab bars (in-house UI `wf-*` / `wfls-*`)
+  .wf-page-tabs,
+  .wf-page-tabs > li,
+  .wf-page-fixed-tabs,
+  .wf-page-fixed-tabs > li,
+  .wf-scan-tabs,
+  .wf-scan-tabs > li,
+  .wfls-page-tabs,
+  .wfls-page-tabs > li,
+  .wf-all-options-search .multiselect,
+  // our media upload dropzone (media-new.php)
+  #drag-drop-area {
+    border-color: var(--dya-edge) !important;
+  }
+}
+
+// ── G5 — select2 "multiple" variant (ACF taxonomy/relationship field) ───
+// The simple select2 + the open dropdown are already themed; the CLOSED BOX
+// of the multiple variant (choice list) was still white.
+body.dy-admin:not(.dy-native-content) {
+  .select2-container--default .select2-selection--multiple,
+  .select2-selection--multiple .select2-selection__rendered {
+    background: var(--dya-paper) !important;
+    border-color: var(--dya-edge) !important;
+  }
+  .select2-container--default.select2-container--focus .select2-selection--multiple {
+    border-color: var(--dya-edge-strong) !important;
+  }
+  .select2-selection--multiple .select2-selection__choice {
+    background: var(--dya-paper-3) !important;
+    border-color: var(--dya-edge-strong) !important;
+    color: var(--dya-ink) !important;
+  }
+  .select2-selection--multiple .select2-selection__choice__remove {
+    color: var(--dya-ink-mute) !important;
+    border-color: var(--dya-edge-strong) !important;
+  }
+}
+
+// ── G4 — targeted light surfaces ───────────────────────────────────────
+
+// Polylang: translation table injected in the "Add term" form
+// (categories/tags) — was still white with hard-coded dark texts.
+body.dy-admin #term-translations,
+body.dy-admin #add-term-translations,
+body.dy-admin #add-term-translations td,
+body.dy-admin #add-term-translations th {
+  background: transparent !important;
+  border-color: var(--dya-edge) !important;
+  color: var(--dya-ink-soft) !important;
+}
+// Readability: all labels/text in the translation table (language names,
+// "(English)" labels, links) in readable ink on dark.
+body.dy-admin #term-translations th,
+body.dy-admin #term-translations td,
+body.dy-admin #term-translations label,
+body.dy-admin #term-translations span,
+body.dy-admin #term-translations strong,
+body.dy-admin #term-translations p {
+  color: var(--dya-ink-soft) !important;
+}
+body.dy-admin #term-translations a { color: var(--dya-accent-text, var(--dya-accent)) !important; }
+
+// ── Polylang: "Languages" page (mlang) ─────────────────────────────────
+// 1) The "Writing direction" radios (RTL/LTR) inherited our radio reset
+//    (appearance:none) + a Polylang `input { width:100% }` → rendered as
+//    FULL-WIDTH BARS (418px). We restore them as 16px inline bullets with the
+//    label beside them.
+body.dy-admin.toplevel_page_mlang input[type="radio"],
+body.dy-admin[class*="languages_page_mlang"] input[type="radio"] {
+  width: 16px !important;
+  height: 16px !important;
+  flex: 0 0 auto !important;
+}
+body.dy-admin.toplevel_page_mlang label:has(> input[type="radio"]),
+body.dy-admin[class*="languages_page_mlang"] label:has(> input[type="radio"]) {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  width: auto !important;
+}
+// 2) Readability: Polylang renders field labels in `<legend>`/labels with a
+//    hard-coded dark colour → unreadable in dark mode. → theme ink.
+body.dy-admin.toplevel_page_mlang legend,
+body.dy-admin[class*="languages_page_mlang"] legend,
+body.dy-admin.toplevel_page_mlang .form-field label,
+body.dy-admin[class*="languages_page_mlang"] .form-field label,
+body.dy-admin.toplevel_page_mlang fieldset label,
+body.dy-admin[class*="languages_page_mlang"] fieldset label {
+  color: var(--dya-ink) !important;
+}
+// 3) Bottom breathing room (content was flush against the edge).
+body.dy-admin.toplevel_page_mlang #wpbody-content,
+body.dy-admin[class*="languages_page_mlang"] #wpbody-content {
+  padding-bottom: 40px;
+}
+
+// Password-strength meter (user-new / profile) — hard-coded pastel background
+// + green border. We neutralise the container; the status text keeps its readability.
+body.dy-admin #pass-strength-result {
+  background: var(--dya-paper-2) !important;
+  border-color: var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .wp-pwd #pass1 {
+  border-color: var(--dya-edge) !important;
+}
+
+// Admin Columns: no theming here — the plugin is automatically deactivated
+// when RAD is active (column-rewriting conflict), see
+// src/Modules/Admin/AdminColumnsConflict.php.
+
+// ── Contact Form 7 — form editor ───────────────────────────────────────
+// The `.contact-form-editor-panel` panels have a hard-coded LIGHT background
+// (#f5f5f5); combined with our light ink (--dya-ink) → light-on-light text
+// UNREADABLE (form-tag toolbar above the textarea). The markup textarea is
+// already dark → we theme the panels + the active tab in dark for
+// consistency and readability.
+body.dy-admin .contact-form-editor-panel {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink-soft) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin .contact-form-editor-panel h2,
+body.dy-admin .contact-form-editor-panel h3,
+body.dy-admin .contact-form-editor-panel label,
+body.dy-admin .contact-form-editor-panel legend,
+body.dy-admin .contact-form-editor-panel p,
+body.dy-admin .contact-form-editor-panel th,
+body.dy-admin .contact-form-editor-panel strong,
+body.dy-admin .contact-form-editor-panel span { color: var(--dya-ink) !important; }
+// Active tab (was white #f5f5f5) → consistent dark; inactive tabs already dark OK.
+body.dy-admin #contact-form-editor-tabs button[aria-selected="true"],
+body.dy-admin #contact-form-editor-tabs .active,
+body.dy-admin #contact-form-editor-tabs li.active {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+// Tag-generator buttons ("Insert a field") inside the panel.
+body.dy-admin .contact-form-editor-panel .button,
+body.dy-admin .tag-generator-list .button {
+  background: var(--dya-paper-2) !important;
+  border-color: var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+}
+
+// ── G3 — third-party banners with custom markup (outside notice centre) ─
+// The DY notice centre intercepts only standard `.notice` elements. These
+// banners (proprietary markup) escape it and imposed their own colours
+// (Wordfence orange + white buttons, etc.). We bring them back to a flat,
+// calm DS strip (no side-stripe, per DS restrictions).
+
+// Wordfence — "incomplete installation" onboarding banner (site-wide).
+body.dy-admin #wf-onboarding-banner {
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-md) !important;
+  color: var(--dya-ink) !important;
+  box-shadow: none !important;
+}
+body.dy-admin #wf-onboarding-banner a,
+body.dy-admin #wf-onboarding-banner #wf-onboarding-resume,
+body.dy-admin #wf-onboarding-banner #wf-onboarding-delay,
+body.dy-admin #wf-onboarding-banner .wf-btn {
+  background: var(--dya-paper-3) !important;
+  border: 1px solid var(--dya-edge-strong) !important;
+  color: var(--dya-ink) !important;
+  box-shadow: none !important;
+}
+body.dy-admin #wf-onboarding-banner a:hover,
+body.dy-admin #wf-onboarding-banner #wf-onboarding-resume:hover,
+body.dy-admin #wf-onboarding-banner #wf-onboarding-delay:hover {
+  background: var(--dya-paper) !important;
+  border-color: var(--dya-accent) !important;
+}
+
+// NB: the `--wp-admin-theme-color` remap in light mode now lives in
+// `_tokens.scss` (after the "modern" block), so it also lands in the
+// `dashboard.css` bundle (otherwise it reloaded the raw token on top).
+
+// ── LiteSpeed Cache — hand-over to its own dark mode (audit-2, 2026-09) ──
+// LiteSpeed ships a complete dark theme (litespeed-dark-mode.css) that
+// LiteSpeedTheme.php switches on/off in lock-step with our theme. Here we
+// only (1) hide its floating 🌙/☀️ toggle, which overlapped our admin bar
+// (our theme toggle now drives both), and (2) bring its hard-coded greys
+// (#181818 / #1e1e1e / #2d2d30) back onto our canvas + paper tokens so the
+// page does not look like a different app. Specificity (0,4,1) beats both of
+// LiteSpeed's selector forms (`body.litespeed-darkmode X` and the
+// `body[class*=…]:not(.litespeed-lightmode) X` media-query variant).
+body.dy-admin .litespeed-dark-mode-toggle {
+  display: none !important;
+}
+body.dy-admin[class*="litespeed-cache_page_litespeed"]:not(.dy-theme-light) {
+  &,
+  #wpwrap {
+    background-color: var(--dya-bg) !important;
+  }
+  #wpcontent,
+  #wpfooter {
+    background-color: transparent !important;
+  }
+  .litespeed-body,
+  .litespeed-postbox,
+  .litespeed-panel,
+  .litespeed-column-with-boxes .postbox,
+  .litespeed-dashboard-unlock,
+  .litespeed-image-optim-summary {
+    background-color: var(--dya-paper) !important;
+    border-color: var(--dya-edge) !important;
+  }
+  .litespeed-postbox .inside.litespeed-postbox-footer,
+  .litespeed-column-with-boxes-footer,
+  .litespeed-image-optim-summary-footer {
+    background-color: var(--dya-paper-2) !important;
+    border-color: var(--dya-edge) !important;
+  }
+  .litespeed-postbox .inside .litespeed-title,
+  .litespeed-postbox p.litespeed-dashboard-stats-total {
+    border-color: var(--dya-edge) !important;
+  }
+}
+// Layout (both themes):
+//  - LiteSpeed renders its H1 in its own `.wrap` and the tabs/content in a
+//    sibling `.litespeed-wrap`, so our page-container bottom padding (80px)
+//    opened a blank band between the title and the tabs.
+//  - Its settings forms are `table.wp-list-table.litespeed-table` (a list
+//    table used as a form): our single-line list cells clipped the long row
+//    labels ("Mettre en cache les utilisateurs connectés" → cut at 200px).
+body.dy-admin[class*="litespeed-cache_page_litespeed"] {
+  .wrap:has(> .litespeed-h1) {
+    padding-bottom: 0;
+  }
+  .litespeed-table tbody th,
+  .litespeed-table tbody td {
+    white-space: normal;
+    overflow: visible;
+  }
+}
+
+// ── Contact Form 7 — integration cards meta (`.infobox`, #666 hard-coded) ──
+body.dy-admin #wpcf7-integration .infobox,
+body.dy-admin #wpcf7-integration .infobox a {
+  color: var(--dya-ink-mute);
+}
+
+// ── GeneratePress — layout metabox (post/page edit) ─────────────────────
+// `#generate-meta-box-container` keeps a #fafafa tab column, #e0e0e0 current
+// tab, #555 links and a white content pane inside our dark postbox (T-05).
+body.dy-admin #generate-meta-box-container {
+  // GP paints the two-column split with a `background: linear-gradient(...)`
+  // shorthand on the container (not a colour): reset the whole shorthand.
+  background: transparent !important;
+  border-color: var(--dya-edge) !important;
+  .generate-meta-box-menu {
+    background: var(--dya-paper-2) !important;
+    border-color: var(--dya-edge) !important;
+    li {
+      background: transparent !important;
+      border-color: var(--dya-edge) !important;
+    }
+    li.current {
+      background: var(--dya-paper-3) !important;
+    }
+    a {
+      color: var(--dya-ink-soft) !important;
+    }
+    li.current a,
+    a:hover {
+      color: var(--dya-ink) !important;
+    }
+  }
+  .generate-meta-box-content {
+    background: transparent !important;
+    color: var(--dya-ink) !important;
+    border-color: var(--dya-edge) !important;
+  }
+}
+
+// ── Wordfence — "install a license" overlay (audit-2, B14) ───────────────
+// Fixed overlay hard-coded to the native menu geometry (left 160px, top 32px):
+// it left a lit band over our rail. Full-viewport, as a modal backdrop should.
+body.dy-admin #wf-install-incomplete-overlay {
+  left: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+}
+
+// ── Secure Custom Fields / ACF, hors écran d'édition ──────────────────
+// Les règles ACF de `_editor-reimagined.scss` ne s'appliquent qu'à l'éditeur
+// repensé. Les autres surfaces d'ACF (page d'options d'une extension,
+// formulaire de terme, profil utilisateur) restaient sur la palette claire du
+// plugin : intitulés sombres illisibles et colonne d'intitulés blanche en
+// thème sombre (audit du banc FSE, 13/09/2026).
+body.dy-admin:not(.dy-editor-reimagined) {
+  .acf-fields > .acf-field { border-top: 1px solid var(--dya-line-soft); }
+  .acf-fields > .acf-field:first-child { border-top: 0; }
+  .acf-field > .acf-label label { color: var(--dya-ink); font-weight: 500; }
+  .acf-field > .acf-label .description,
+  .acf-field > .acf-label p.description { color: var(--dya-ink-mute); }
+  // Astérisque « champ obligatoire ». ACF le peint en rouge pur (#f00) et le
+  // pose aussi dans l'éditeur de groupe de champs, hors `.acf-label` : on
+  // couvre toutes ses occurrences avec le rouge du thème.
+  .acf-required,
+  span.acf-required { color: var(--dya-danger); }
+
+  // Placement « intitulés à gauche » : ACF peint la colonne avec un aplat
+  // clair posé en ::before, qui traversait le thème sombre.
+  .acf-fields.-left > .acf-field::before {
+    background: var(--dya-paper-2);
+    border-right-color: var(--dya-line);
+  }
+
+  // Poignée de tri des lignes de répéteur et numéro d'ordre des champs :
+  // gris fixe d'ACF, 2,6:1 sur notre fond sombre.
+  .acf-icon.acf-sortable-handle,
+  .acf-row-handle .acf-icon,
+  .acf-row-handle.order > span { color: var(--dya-ink-mute); }
+}

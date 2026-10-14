@@ -1,0 +1,137 @@
+// =============================================================
+// RANK MATH — admin pages + setup wizard
+// =============================================================
+body.dy-admin[class*="rank-math_page_"],
+body.dy-admin.toplevel_page_rank-math,
+body.dy-admin.rank-math {
+  background: var(--dya-bg) !important;
+}
+// Header with "Rank Math SEO" logo + Easy/Advanced Mode buttons
+body.dy-admin .rank-math-header {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-xl) !important;
+  color: var(--dya-ink) !important;
+  padding: 18px 24px !important;
+  margin-bottom: 16px !important;
+}
+body.dy-admin .rank-math-logo-text,
+body.dy-admin .rank-math-header h1,
+body.dy-admin .rank-math-header h2 {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .rank-math-breadcrumbs,
+body.dy-admin .rank-math-breadcrumbs-wrap,
+body.dy-admin .rank-math-breadcrumbs a,
+body.dy-admin .rank-math-breadcrumbs span {
+  color: var(--dya-ink-mute) !important;
+  text-transform: uppercase;
+  font-family: var(--dya-font-mono);
+  font-size: 11px;
+  letter-spacing: var(--dya-tracking-label);
+}
+body.dy-admin .rank-math-wrap {
+  background: transparent !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .rank-math-box,
+body.dy-admin .rank-math-card,
+body.dy-admin .rank-math-tab-content,
+body.dy-admin .rank-math-section,
+body.dy-admin .rank-math-module-bg,
+body.dy-admin .rank-math-module {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-xl) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .rank-math-module h3,
+body.dy-admin .rank-math-module .rank-math-box-title,
+body.dy-admin .rank-math-tab-nav .rank-math-tab {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .rank-math-module p,
+body.dy-admin .rank-math-module .rank-math-box-content {
+  color: var(--dya-ink-soft) !important;
+}
+// NB `:not(.dy-native-content)`: on Rank Math screens (native canvas) we
+// step aside — these buttons (Easy/Advanced mode "is-active" selector, etc.)
+// must render in their native look. Our mint tint made them appear
+// "broken/DS". We keep DS styling only when a Rank Math button appears
+// ELSEWHERE (metabox on post editor), not on Rank Math settings pages.
+body.dy-admin:not(.dy-native-content) .rank-math-button,
+body.dy-admin:not(.dy-native-content) .rank-math-btn {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge) !important;
+}
+body.dy-admin:not(.dy-native-content) .rank-math-button.button-primary,
+body.dy-admin:not(.dy-native-content) .rank-math-btn-primary,
+body.dy-admin:not(.dy-native-content) .components-button.is-active.rank-math-button {
+  background: var(--dya-accent) !important;
+  color: var(--dya-accent-on, var(--dya-ink)) !important;
+  border-color: var(--dya-accent) !important;
+}
+body.dy-admin .rank-math-modal,
+body.dy-admin .rank-math-popup {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+}
+// Tabs: Modules / Help / Setup Wizard / Import & Export
+body.dy-admin .rank-math-tab-nav,
+body.dy-admin .rank-math-tab-content,
+body.dy-admin ul.rank-math-tab-nav,
+body.dy-admin .rank-math-tabs {
+  background: transparent !important;
+  border-bottom: 1px solid var(--dya-line) !important;
+}
+body.dy-admin .rank-math-tab-nav a,
+body.dy-admin .rank-math-tab-nav li a {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink-soft) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-bottom: 0 !important;
+}
+body.dy-admin .rank-math-tab-nav a.active,
+body.dy-admin .rank-math-tab-nav li.active a {
+  background: var(--dya-paper) !important;
+  color: var(--dya-accent) !important;
+  border-bottom-color: var(--dya-accent) !important;
+}
+
+// =============================================================
+// YOAST SEO — admin pages + setup wizard
+// =============================================================
+body.dy-admin[class*="wpseo_page_"],
+body.dy-admin.toplevel_page_wpseo_dashboard,
+body.dy-admin.toplevel_page_wpseo_workouts,
+body.dy-admin .yoast {
+  background: var(--dya-bg) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .yoast-modal,
+body.dy-admin .yoast-pop-up,
+body.dy-admin .wpseo-block,
+body.dy-admin .yoast-block,
+body.dy-admin .yoast-card,
+body.dy-admin #wpseo-dashboard,
+body.dy-admin .wpseo-card {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-xl) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .yoast-button-primary,
+body.dy-admin button.yoast-button--primary {
+  background: var(--dya-accent) !important;
+  color: var(--dya-accent-on, var(--dya-ink)) !important;
+  border-color: var(--dya-accent) !important;
+}
+body.dy-admin .yoast-button,
+body.dy-admin .yoast-button--secondary {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge) !important;
+}
+

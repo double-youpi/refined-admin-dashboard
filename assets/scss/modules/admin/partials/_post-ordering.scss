@@ -1,0 +1,114 @@
+// =============================================================
+// _post-ordering.scss
+// Drag & drop handle column in WP-list-tables.
+//
+// Active only when `body.dy-post-ordering-active` is set by JS at boot
+// (which checks `doubleyoupiPostOrdering.defaultSort`). If the user sorts
+// by title/date/author, JS switches to `body.dy-post-ordering-disabled`
+// → handles become grayed out and dragging is disabled.
+//
+// Coexists with _tables.scss: existing rules are untouched;
+// only drag-specific elements are added here.
+// =============================================================
+
+body.dy-admin {
+
+  // ── 1. Handle column ───────────────────────────────────────
+  // Fixed width, vertically aligned, padding matching the native
+  // `check-column` column to stay consistent.
+  .wp-list-table {
+    th.column-dy-order-handle,
+    td.column-dy-order-handle {
+      width: 32px;
+      padding: 8px 0 8px 8px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    // The column header stays empty (screen-reader-text only).
+    thead th.column-dy-order-handle,
+    tfoot th.column-dy-order-handle {
+      width: 32px;
+    }
+  }
+
+  // ── 2. Bouton handle ────────────────────────────────────────
+  .dy-order-handle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 4px;
+    color: var(--dy-color-muted, #8c8f94);
+    opacity: 0.8;
+    cursor: grab;
+    transition: opacity .12s ease, color .12s ease, background .12s ease;
+
+    svg {
+      display: block;
+      pointer-events: none;
+    }
+
+    &:active { cursor: grabbing; }
+  }
+
+  // On hover of the ENTIRE ROW (not just the handle): switches to accent
+  // color. Gives a strong "drag this row" affordance without requiring
+  // pixel-perfect aim at the grip.
+  .wp-list-table tr:hover .dy-order-handle {
+    opacity: 1;
+    color: var(--dya-accent, #5b3efe);
+  }
+
+  // Direct hover/focus on the handle: adds a tinted background as a bonus.
+  .dy-order-handle:hover,
+  .dy-order-handle:focus-visible {
+    opacity: 1;
+    color: var(--dya-accent, #5b3efe);
+    background: rgba(var(--dya-accent-rgb, 91,62,254), 0.12);
+    outline: none;
+  }
+
+  // ── 3. Disabled state (sort other than menu_order ASC) ─────────
+  &.dy-post-ordering-disabled .dy-order-handle {
+    opacity: 0.18;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+
+  // ── 4. Ligne en cours de drag ───────────────────────────────
+  .wp-list-table tr.dy-dragging {
+    opacity: 0.4;
+    background: rgba(var(--dya-accent-rgb, 91,62,254), 0.04);
+  }
+
+  // ── 5. Drop indicator (ligne horizontale 2 px sous/au-dessus) ─
+  // Implemented as a pseudo-element on the target row to avoid
+  // inserting additional DOM nodes during the drag.
+  .wp-list-table tr.dy-drop-above {
+    box-shadow: inset 0 2px 0 0 var(--dya-accent, #5b3efe);
+  }
+  .wp-list-table tr.dy-drop-below {
+    box-shadow: inset 0 -2px 0 0 var(--dya-accent, #5b3efe);
+  }
+
+  // ── 6. Indentation visuelle pendant le drag horizontal ──────
+  // For hierarchical post types: progressive left padding on the
+  // hovered row to indicate the future nesting level.
+  .wp-list-table tr[data-dy-indent="1"] td.column-dy-order-handle { padding-left: 28px; }
+  .wp-list-table tr[data-dy-indent="2"] td.column-dy-order-handle { padding-left: 56px; }
+  .wp-list-table tr[data-dy-indent="3"] td.column-dy-order-handle { padding-left: 84px; }
+  .wp-list-table tr[data-dy-indent="4"] td.column-dy-order-handle { padding-left: 112px; }
+
+  // ── 7. Curseur global pendant un drag actif ─────────────────
+  // Prevents the "text" cursor flash on the content of hovered cells.
+  &.dy-post-ordering-dragging,
+  &.dy-post-ordering-dragging * {
+    cursor: grabbing !important;
+    user-select: none;
+  }
+}

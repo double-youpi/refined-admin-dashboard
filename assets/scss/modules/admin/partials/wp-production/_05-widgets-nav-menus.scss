@@ -1,0 +1,531 @@
+// =============================================================
+// WIDGETS.PHP (classic widget manager)
+// =============================================================
+// Scope: the widget MANAGEMENT screen ("Available widgets" columns /
+// widget areas, drag-and-drop, expanded widget).
+// Distinct from the dashboard widget metaboxes, handled in `_widgets.scss`.
+//
+// The eyebrow injects a `.dy-page-sub` which, on this screen, contains
+// only a decorative dot → it floated between the title and actions like
+// an orphan bullet. Hide it here.
+body.dy-admin.widgets-php .dy-page-sub { display: none; }
+
+// Header: the title is `display:block` (correctly left-aligned) but the inline
+// actions ("Manage with live preview", Accessibility link) were centred in the
+// middle of the page. Force them left via a float below the title, cleared by
+// the <hr> wp-header-end.
+body.dy-admin.widgets-php .wrap > h1.wp-heading-inline {
+  display: block;
+  margin-bottom: 12px;
+}
+body.dy-admin.widgets-php .wrap > .page-title-action,
+body.dy-admin.widgets-php .wrap > .widget-access-link {
+  float: left;
+  clear: none;
+  margin: 0 12px 14px 0;
+  position: relative;
+  top: 0;
+}
+body.dy-admin.widgets-php .wrap > .widget-access-link {
+  display: inline-flex;
+  align-items: center;
+}
+// `.wp-header-end` is rendered `display:none` by default → its `clear` does
+// not apply and the float columns (widget-liquid-left/right) climbed up
+// beside the floating header actions. Make it an invisible clear element
+// (height 0) to properly close the floats.
+body.dy-admin.widgets-php .wrap > .wp-header-end {
+  display: block !important;
+  height: 0;
+  margin: 0;
+  border: 0;
+  clear: both;
+}
+
+// "Accessibility mode" link (#access-on/#access-off): subtle link,
+// accent on hover instead of WP blue.
+body.dy-admin.widgets-php .widget-access-link a,
+body.dy-admin.widgets-php #access-on,
+body.dy-admin.widgets-php #access-off {
+  color: var(--dya-ink-soft);
+  text-decoration: none;
+}
+body.dy-admin.widgets-php .widget-access-link a:hover,
+body.dy-admin.widgets-php #access-on:hover,
+body.dy-admin.widgets-php #access-off:hover {
+  color: var(--dya-accent);
+}
+
+// Available widget cards: vertical gap (WP stacks them edge-to-edge).
+// The real container is `#widget-list` inside `#available-widgets`.
+body.dy-admin.widgets-php #available-widgets #widget-list .widget {
+  margin-bottom: 10px;
+  border-radius: var(--dya-r-md);
+}
+
+// ── Two-column consistency ──────────────────────────────────
+// Balanced columns (left "available" / right "widget areas")
+// with a clean gutter.
+body.dy-admin.widgets-php .widget-liquid-left  { width: 41%; }
+body.dy-admin.widgets-php .widget-liquid-right { width: 56%; }
+
+// Both column panels: SAME surface (before: left transparent, right mint-tinted
+// → inconsistent). Unify as a paper card + border + radius + padding, and the
+// drop zones fill their column.
+body.dy-admin.widgets-php #available-widgets,
+body.dy-admin.widgets-php .widgets-holder-wrap {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-lg) !important;
+  box-shadow: var(--dya-shadow-sm);
+  padding: 18px !important;
+  width: auto !important;
+}
+// Homogeneous section headers ("Available Widgets" / "Sidebar").
+// No border-bottom (explicit requirement) and no spurious space above:
+// the header is the 1st child of the panel, flush with the card padding-top.
+body.dy-admin.widgets-php #available-widgets .sidebar-name,
+body.dy-admin.widgets-php .widgets-holder-wrap .sidebar-name {
+  padding: 0 !important;
+  margin: 0 0 14px !important;
+  border-bottom: 0 !important;
+  background: transparent !important;
+  min-height: 0 !important;
+  // The `.handlediv` button (collapse chevron) is `float:right` + 38px tall
+  // inside a 21px header → the glyph dropped 9px below the title baseline.
+  // Switch the header to flex: title on the left, chevron on the right, both
+  // vertically centred (the button is in the DOM before the title → reorder).
+  display: flex !important;
+  align-items: center !important;
+}
+body.dy-admin.widgets-php #available-widgets .sidebar-name > .handlediv,
+body.dy-admin.widgets-php .widgets-holder-wrap .sidebar-name > .handlediv {
+  order: 2;
+  flex: 0 0 auto;
+  float: none !important;
+  height: auto !important;
+  width: auto !important;
+  margin: 0 0 0 auto !important;
+  padding: 2px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+body.dy-admin.widgets-php #available-widgets .sidebar-name > .handlediv .toggle-indicator::before,
+body.dy-admin.widgets-php .widgets-holder-wrap .sidebar-name > .handlediv .toggle-indicator::before {
+  line-height: 1 !important;
+  margin: 0 !important;
+}
+body.dy-admin.widgets-php #available-widgets .sidebar-name h2,
+body.dy-admin.widgets-php #available-widgets .sidebar-name h3,
+body.dy-admin.widgets-php .widgets-holder-wrap .sidebar-name h2,
+body.dy-admin.widgets-php .widgets-holder-wrap .sidebar-name h3 {
+  font-family: var(--dya-font-display);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--dya-ink);
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;          // the <h2> had a border-bottom → spurious line
+  order: 1;                      // title before the chevron (which is in DOM first)
+  flex: 1 1 auto;
+}
+// The drop zone (sortable) fills the panel, with a slightly recessed background.
+body.dy-admin.widgets-php .widgets-sortables {
+  background: var(--dya-bg-elev) !important;
+  border: 1px dashed var(--dya-line-strong) !important;
+  border-radius: var(--dya-r-md);
+  padding: 12px !important;
+  min-height: 80px;
+}
+// "Available Widgets" intro: padding consistent with the panel.
+body.dy-admin.widgets-php #available-widgets .sidebar-description {
+  padding: 0 0 12px !important;
+}
+
+// OPEN widget: widgets.js applies `margin-left: -44px` INLINE on `.widget.open`
+// (a legacy of the classic layout where the list was indented 44px, the open state
+// "pulling out" the form). In our unindented panels this caused the open block to
+// OVERFLOW left AND misaligned its chevron (44px off vs. closed widgets).
+// Neutralise the inline hack.
+body.dy-admin.widgets-php .widget {
+  margin-left: 12px !important;
+}
+
+// W2: the widget title `h3` carries native WP padding (15px) ON TOP of its
+// `.widget-top` container padding → title bar far too tall (~43px) on both
+// columns (available widgets + sidebar). The wrapper already handles spacing:
+// cancel the h3 padding and let the title centre vertically in the bar.
+body.dy-admin.widgets-php .widget .widget-top .widget-title h3,
+body.dy-admin.widgets-php #available-widgets .widget .widget-title h3 {
+  padding: 0 !important;
+  line-height: 1.3 !important;
+}
+
+// ── OPEN widget (expanded settings form) ──────────────────
+// WP sets a WHITE background on `.widget-inside` → in dark mode, a large white
+// box (with a dark textarea inside) clashed with the page background (see
+// "dark mode integration" feedback). Apply our themed surface instead.
+body.dy-admin.widgets-php .widget .widget-inside {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-top: 0 !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin.widgets-php .widget .widget-inside .widget-content,
+body.dy-admin.widgets-php .widget .widget-inside label,
+body.dy-admin.widgets-php .widget .widget-inside p,
+body.dy-admin.widgets-php .widget .widget-inside .howto {
+  color: var(--dya-ink-soft) !important;
+}
+// Widget form fields → DS surfaces (block-code textarea included).
+body.dy-admin.widgets-php .widget .widget-inside input[type="text"],
+body.dy-admin.widgets-php .widget .widget-inside input[type="url"],
+body.dy-admin.widgets-php .widget .widget-inside input[type="number"],
+body.dy-admin.widgets-php .widget .widget-inside select,
+body.dy-admin.widgets-php .widget .widget-inside textarea {
+  background: var(--dya-bg) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge) !important;
+}
+// Widget "Save" button → accent (WP rendered it white/washed-out).
+body.dy-admin.widgets-php .widget .widget-control-save {
+  background: var(--dya-accent) !important;
+  border-color: var(--dya-accent) !important;
+  color: var(--dya-accent-on, #04150f) !important;
+}
+
+// ── Opening chevron (.widget-action) ───────────────────────────
+// The glyph (dashicon ▾) was not vertically centred in the ~45px bar:
+// it stuck to the top (see "chevron position" feedback).
+// Centre the glyph in the clickable area.
+body.dy-admin.widgets-php .widget .widget-action {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+body.dy-admin.widgets-php .widget .widget-action .toggle-indicator::before {
+  margin: 0 !important;
+  line-height: 1 !important;
+}
+
+// =============================================================
+// NAV-MENUS.PHP — specific fixes
+// =============================================================
+
+// NB: we do NOT touch nav-menus column widths. WP uses a fragile "liquid"
+// layout (`#menu-management-liquid` has a JS-computed fixed width;
+// `#menu-settings-column` floats beside it). Any imposed width pushes the
+// right column BELOW the left. We limit ourselves to safe improvements:
+// label line-height + readable cap on the structure card (without breaking the float).
+body.dy-admin.nav-menus-php #menu-settings-column .menu-item-title {
+  line-height: 1.4;
+}
+
+// "Manage with live preview" — link to customizer.
+body.dy-admin.nav-menus-php #nav-menus-frame .menu-edit + .show-link,
+body.dy-admin.nav-menus-php .nav-menus-php .manage-menus + .show-link,
+body.dy-admin.nav-menus-php a.show-link {
+  display: block;
+  float: none;
+  margin: 8px 0 16px 0;
+  text-align: left;
+  color: var(--dya-accent);
+}
+
+// Open menu item detail (.menu-item-settings).
+body.dy-admin.nav-menus-php .menu-item-settings {
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-md);
+  padding: 14px 16px;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin.nav-menus-php .menu-item-settings label,
+body.dy-admin.nav-menus-php .menu-item-settings .howto,
+body.dy-admin.nav-menus-php .menu-item-settings .description {
+  color: var(--dya-ink-soft) !important;
+}
+body.dy-admin.nav-menus-php .menu-item-settings input[type="text"],
+body.dy-admin.nav-menus-php .menu-item-settings input[type="url"],
+body.dy-admin.nav-menus-php .menu-item-settings select,
+body.dy-admin.nav-menus-php .menu-item-settings textarea {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge) !important;
+}
+
+// Block titles too close to the left edge (Pages, Posts, Custom Links, etc.).
+// The WP structure is:
+//   h3.accordion-section-title > button.accordion-trigger > span.accordion-title
+// so colouring must cascade through the button and span to beat the
+// WP-native rule `color: #3c434a` (dark grey, unreadable in dark mode).
+body.dy-admin.nav-menus-php .accordion-section-title,
+body.dy-admin.nav-menus-php .accordion-section-title .accordion-trigger,
+body.dy-admin.nav-menus-php .accordion-section-title .accordion-title,
+body.dy-admin.nav-menus-php .postbox-header .hndle {
+  padding-left: 18px;
+  color: var(--dya-ink) !important;
+  background: transparent !important;
+}
+body.dy-admin.nav-menus-php .accordion-section-title .accordion-trigger {
+  padding-left: 0;
+}
+// Accordion toggle hover — no native WP blue background.
+body.dy-admin.nav-menus-php .accordion-section-title:hover,
+body.dy-admin.nav-menus-php .accordion-trigger:hover {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+}
+
+// Tabs (Recent / All / Search) above the accordion lists.
+body.dy-admin.nav-menus-php .tabs-panel-active,
+body.dy-admin.nav-menus-php .tabs-panel-inactive { color: var(--dya-ink-soft) !important; }
+body.dy-admin.nav-menus-php .add-menu-item-tabs li a,
+body.dy-admin.nav-menus-php .wp-tab-bar a {
+  color: var(--dya-ink-soft) !important;
+  text-decoration: none;
+}
+body.dy-admin.nav-menus-php .add-menu-item-tabs li.tabs a,
+body.dy-admin.nav-menus-php .wp-tab-bar .tabs a {
+  color: var(--dya-ink) !important;
+  border-bottom: 2px solid var(--dya-accent);
+}
+
+// Force readable colour on all text in the left sidebar
+// (Pages, Posts, Custom Links, Categories) which WP renders in
+// dark grey on dark mode.
+body.dy-admin.nav-menus-php #menu-settings-column,
+body.dy-admin.nav-menus-php #menu-settings-column label,
+body.dy-admin.nav-menus-php #menu-settings-column .button-controls,
+body.dy-admin.nav-menus-php #menu-settings-column .accordion-section .accordion-section-content,
+body.dy-admin.nav-menus-php #menu-settings-column .quick-search-wrap label,
+body.dy-admin.nav-menus-php #menu-settings-column li.menu-item-checkbox label {
+  color: var(--dya-ink-soft) !important;
+}
+body.dy-admin.nav-menus-php #menu-settings-column .howto {
+  color: var(--dya-ink-mute) !important;
+}
+body.dy-admin.nav-menus-php #menu-settings-column .accordion-section .item-title,
+body.dy-admin.nav-menus-php #menu-settings-column .categorychecklist label,
+body.dy-admin.nav-menus-php #menu-settings-column .list-wrap label {
+  color: var(--dya-ink) !important;
+}
+// Search inputs / "Select all" / list panels
+body.dy-admin.nav-menus-php #menu-settings-column input[type="text"],
+body.dy-admin.nav-menus-php #menu-settings-column input[type="search"] {
+  background: var(--dya-bg) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge) !important;
+}
+// Left column: list panels no longer carry a card (background + border)
+// — they live directly on the page background, separated by simple rules.
+// Request: "backgrounds and borders oddly designed".
+body.dy-admin.nav-menus-php #menu-settings-column .list-wrap {
+  background: transparent !important;
+  border: 0 !important;
+}
+body.dy-admin.nav-menus-php #menu-settings-column .accordion-section {
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--dya-line) !important;
+}
+body.dy-admin.nav-menus-php #menu-settings-column .postbox,
+body.dy-admin.nav-menus-php #menu-settings-column .accordion-container {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+// "Menu structure" (right column): no card wrapper — stay on the page
+// background. WP/our postbox added a background + border; neutralise them.
+body.dy-admin.nav-menus-php #menu-management,
+body.dy-admin.nav-menus-php #menu-management .menu-edit {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+body.dy-admin.nav-menus-php .menu-name-label {
+  color: var(--dya-ink) !important;
+}
+
+// DARK MODE — native WP WHITE backgrounds that appeared as broken cards:
+//   • `.accordion-section-content` = checklist wrapper (left column)
+//   • `.manage-menus`              = "Edit your menu below…" block
+// Flatten them onto the page background (consistent with the rest of the
+// column, which already lives on the background, separated by rules).
+body.dy-admin.nav-menus-php #menu-settings-column .accordion-section-content,
+body.dy-admin.nav-menus-php .manage-menus {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+// The "Edit your menu…" block + its menu selector: readable text,
+// select on dark DS surface.
+body.dy-admin.nav-menus-php .manage-menus,
+body.dy-admin.nav-menus-php .manage-menus p,
+body.dy-admin.nav-menus-php .manage-menus label,
+body.dy-admin.nav-menus-php .manage-menus .menu-name-label {
+  color: var(--dya-ink-soft) !important;
+}
+body.dy-admin.nav-menus-php .manage-menus select {
+  background: var(--dya-bg) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge) !important;
+}
+// "Manage with live preview" action link (.page-title-action):
+// WP renders it white → align with our secondary buttons.
+body.dy-admin.nav-menus-php .page-title-action {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge) !important;
+}
+// Primary "Save Menu" button → DS accent (WP was forcing it white).
+body.dy-admin.nav-menus-php .menu-save.button-primary {
+  background: var(--dya-accent) !important;
+  border-color: var(--dya-accent) !important;
+  color: var(--dya-accent-on, #04150f) !important;
+}
+
+// Checkboxes in add lists (Pages/Posts…) misaligned vertically
+// (WP sets `vertical-align: -3px` → the box drops below the text baseline).
+// Switch the label to flex to align the box + label properly, even on
+// multi-line labels.
+// Wrapping label in flex + vertically centred box (explicit request:
+// align-items:center on the label, margin-right on the input). Also works on
+// multi-line labels.
+body.dy-admin.nav-menus-php #menu-settings-column .menu-item-title,
+body.dy-admin.nav-menus-php #menu-settings-column .bulk-select-button {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+body.dy-admin.nav-menus-php #menu-settings-column .menu-item-title input[type="checkbox"],
+body.dy-admin.nav-menus-php #menu-settings-column .bulk-select-button input[type="checkbox"] {
+  vertical-align: middle;
+  margin: 0 8px 0 0;
+  flex: 0 0 auto;
+  position: static;
+  top: auto;
+}
+
+// ── STRUCTURE column (#menu-management / #menu-to-edit) ────────────
+// (a) Items too spread out: stack the list as a flex COLUMN with gap:0
+//     (WP bar margins neutralised) → no more spurious vertical space
+//     between item cards.
+body.dy-admin.nav-menus-php #menu-to-edit {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+}
+body.dy-admin.nav-menus-php #menu-to-edit > li.menu-item > .menu-item-bar,
+body.dy-admin.nav-menus-php #menu-to-edit .menu-item-handle {
+  margin: 0 !important;
+}
+// (b) Bulk-select checkbox: the REAL wrapper is `label.item-title`
+//     (`.menu-item-title` here is only an inner <span>). Switch THE LABEL
+//     to flex → box + label vertically centred (explicit request).
+body.dy-admin.nav-menus-php #menu-management .menu-item-handle .item-title {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px;
+}
+body.dy-admin.nav-menus-php #menu-management .menu-item-handle .item-title .menu-item-checkbox {
+  margin: 0 !important;
+  vertical-align: middle !important;
+  flex: 0 0 auto;
+}
+// the title span keeps its place in the flex flow
+body.dy-admin.nav-menus-php #menu-management .menu-item-handle .item-title .menu-item-title {
+  flex: 0 1 auto;
+}
+// (b-bis) The "Bulk select" checkbox (label.bulk-select-button, at the top/bottom
+//     of the Structure column — outside #menu-settings-column): same flex
+//     treatment to centre the box + label.
+body.dy-admin.nav-menus-php .bulk-select-button {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px;
+}
+body.dy-admin.nav-menus-php .bulk-select-button .bulk-select-switcher,
+body.dy-admin.nav-menus-php .bulk-select-button input[type="checkbox"] {
+  margin: 0 !important;
+  vertical-align: middle !important;
+  flex: 0 0 auto;
+}
+// (c) Menu settings: `.checkbox-input` ("Automatically add pages…") had its
+//     input at `vertical-align: baseline` → off-centre. Flex the div.
+body.dy-admin.nav-menus-php .checkbox-input {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px;
+}
+body.dy-admin.nav-menus-php .checkbox-input > input[type="checkbox"] {
+  margin: 0 !important;
+  vertical-align: middle !important;
+  flex: 0 0 auto;
+}
+body.dy-admin.nav-menus-php .checkbox-input > label {
+  margin: 0 !important;
+}
+
+
+// ── audit-2 (bancs thèmes classiques) : widgets.php ───────────────────
+// Only reachable with a classic theme (Astra, Kadence…; TT5 has no widgets
+// screen). Two structural defects surfaced:
+//  W3: WP floats the available widgets in two columns of fixed width; with
+//      our typography the descriptions wrap to 2 lines, heights differ and the
+//      floats stagger into a zig-zag with holes → real grid.
+//  W4: `.widget-title-action` floats right with a 42px-high toggle inside a
+//      39px title bar → the chevron overflowed under the bar (sidebar column
+//      showed a chevron between every "Bloc"). Flex title bar, compact toggle.
+body.dy-admin.widgets-php #available-widgets #widget-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+body.dy-admin.widgets-php #available-widgets #widget-list .widget {
+  float: none;
+  width: auto;
+  margin: 0 !important;
+}
+body.dy-admin.widgets-php .widget .widget-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+body.dy-admin.widgets-php .widget .widget-top .widget-title {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+body.dy-admin.widgets-php .widget .widget-top .widget-title-action {
+  float: none;
+  position: static;
+  height: auto;
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  order: 2; // WP emits the action BEFORE the title in the DOM
+}
+body.dy-admin.widgets-php .widget .widget-top .widget-title-action .widget-action {
+  width: 24px;
+  height: 24px;
+  min-height: 0;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+// `#available-widgets .widget-description` (core, id selector) beats a
+// class-only rule: match it with the id.
+body.dy-admin.widgets-php #available-widgets .widget-description {
+  color: var(--dya-ink-soft);
+}
+
+// nav-menus.php: the item type badge ("Page", "Lien personnalisé") kept WP's
+// #646970 on our paper (2.9:1). Muted ink, still secondary.
+body.dy-admin .nav-menus-php .menu-item-handle .item-type {
+  color: var(--dya-ink-mute) !important;
+}

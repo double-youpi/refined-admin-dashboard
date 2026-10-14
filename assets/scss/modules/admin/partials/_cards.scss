@@ -1,0 +1,412 @@
+// =============================================================
+// _cards.scss
+// Generic card surfaces — Plugins page (.plugin-card), Themes
+// (.theme-browser), Media grid (.attachment), Tools cards.
+// Many plugin admin screens also use ad-hoc cards; this file
+// styles the most common WP-native ones.
+// =============================================================
+
+@use "card" as *;
+
+// ── Plugin card (Plugins → Add New) ─────────────────────
+// Approach: `.plugin-card` layout as a flex column (.plugin-card-top + .plugin-card-bottom).
+// The `<img.plugin-icon>` is nested INSIDE `<a><h3><.column-name>` — not accessible
+// as a direct grid item of `.plugin-card`. Solution: position absolute on the img,
+// padding-left: 110px on `.plugin-card-top` to reserve space on the left.
+// The `.plugin-card-bottom` (full width) stays in normal flow after the top.
+body.dy-admin .plugin-card {
+  @include dy-card;            // KEEP : carte plugin (grille browsable)
+  margin: 0 0 24px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: 100%;
+  float: none;
+  position: relative;
+}
+body.dy-admin .plugin-card .plugin-card-top {
+  position: relative;
+  flex: 1;
+  // Right padding reserves the column of the absolutely positioned action
+  // links (Install / More details) so the description never runs under them.
+  padding: 18px 170px 18px 110px;
+  min-height: 92px; // 64px icon + 14 + 14 margin for breathing room
+}
+// The icon (img.plugin-icon) is nested inside `<h3><a>...<img/>`.
+// We visually extract it via position absolute top-left of `.plugin-card`.
+body.dy-admin .plugin-card .plugin-icon,
+body.dy-admin .plugin-card .name h3 a img.plugin-icon {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  width: 76px;
+  height: 76px;
+  border-radius: var(--dya-r-md);
+  object-fit: cover;
+  background: var(--dya-paper-2);
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+
+body.dy-admin .plugin-card .name,
+body.dy-admin .plugin-card .name.column-name {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  // WP-native `.wp-list-table .column-name { width: 14% }` imposes a
+  // 14% width on all `.column-name`, including inside plugin-card →
+  // the plugin title ends up in 58px of width (14% of 420) and wraps
+  // vertically character by character. Force `width: auto`.
+  width: auto;
+  min-width: 0;
+}
+// Same for `.column-description` which inherits a fixed WP-native width.
+body.dy-admin .plugin-card .desc,
+body.dy-admin .plugin-card .column-description,
+body.dy-admin .plugin-card [class*="column-"] {
+  width: auto;
+  min-width: 0;
+}
+body.dy-admin .plugin-card .name h3 {
+  margin: 0;
+  padding: 0;
+  font-family: var(--dya-font-display);
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: var(--dya-tracking-tight);
+  color: var(--dya-ink);
+  line-height: 1.3;
+}
+body.dy-admin .plugin-card .name h3 a {
+  color: var(--dya-ink);
+  text-decoration: none;
+  border-bottom: 0;
+  display: block;
+}
+
+body.dy-admin .plugin-card .desc,
+body.dy-admin .plugin-card .column-description {
+  margin: 12px 0 0;
+  padding: 0;
+  background: transparent;
+  font-size: 12.5px;
+  color: var(--dya-ink-soft);
+  line-height: var(--dya-lh-base);
+}
+body.dy-admin .plugin-card .desc p {
+  margin: 0 0 8px;
+  color: var(--dya-ink-soft);
+}
+body.dy-admin .plugin-card .desc p strong { color: var(--dya-ink); font-weight: 500; }
+body.dy-admin .plugin-card .desc p.authors,
+body.dy-admin .plugin-card p.authors {
+  margin: 8px 0 0;
+  font-size: 11.5px;
+  color: var(--dya-ink-mute);
+  font-style: normal;
+}
+body.dy-admin .plugin-card .desc p.authors cite { font-style: normal; color: var(--dya-ink-mute); }
+
+body.dy-admin .plugin-card .vers.column-rating,
+body.dy-admin .plugin-card .column-downloaded {
+  font-family: var(--dya-font-mono);
+  font-size: 11px;
+  color: var(--dya-ink-mute);
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-mono);
+}
+
+// Action links — floated top-right of the card (above the plugin name).
+body.dy-admin .plugin-card .action-links {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  font-size: 12px;
+  z-index: 2;
+}
+body.dy-admin .plugin-card .action-links li {
+  margin: 0;
+  list-style: none;
+}
+body.dy-admin .plugin-card .action-links .plugin-action-buttons {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+body.dy-admin .plugin-card .action-links a {
+  color: var(--dya-ink-soft);
+  border-bottom: 0;
+  text-decoration: none;
+}
+body.dy-admin .plugin-card .action-links a:hover { color: var(--dya-ink); }
+
+// Plugin card bottom — footer bar with rating / dates / installs / compat.
+// 2-col grid layout (WP-native default renders 4 flex columns that overflow).
+body.dy-admin .plugin-card .plugin-card-bottom {
+  background: var(--dya-paper-2);
+  border-top: 1px solid var(--dya-line);
+  padding: 12px 18px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 14px;
+  font-size: 11px;
+  color: var(--dya-ink-mute);
+}
+body.dy-admin .plugin-card .plugin-card-bottom > [class*="column-"] {
+  padding: 0;
+  background: transparent;
+  color: var(--dya-ink-mute);
+  width: auto;
+  min-width: 0;
+}
+body.dy-admin .plugin-card .plugin-card-bottom strong {
+  color: var(--dya-ink-soft);
+}
+body.dy-admin .plugin-card .plugin-card-bottom .compatibility-compatible {
+  color: var(--dya-success);
+}
+body.dy-admin .plugin-card .plugin-card-bottom .compatibility-incompatible,
+body.dy-admin .plugin-card .plugin-card-bottom .compatibility-untested {
+  color: var(--dya-warn);
+}
+
+// Stars / ratings line
+body.dy-admin .plugin-card .star-rating {
+  color: var(--dya-warn);
+  font-family: var(--dya-font-mono);
+  font-size: 11px;
+  letter-spacing: var(--dya-tracking-mono);
+}
+
+// ── Plugin list table — adapt row to "card-like" look ──
+body.dy-admin .wp-list-table.plugins {
+  background: var(--dya-paper);
+}
+body.dy-admin .wp-list-table.plugins tbody tr {
+  border-radius: 0;
+}
+body.dy-admin .wp-list-table.plugins .plugin-title strong {
+  font-family: var(--dya-font-display);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: var(--dya-tracking-tight);
+  color: var(--dya-ink);
+}
+body.dy-admin .wp-list-table.plugins .plugin-description p {
+  color: var(--dya-ink-mute);
+  font-size: 12.5px;
+  margin: 0 0 4px;
+}
+body.dy-admin .wp-list-table.plugins .second.plugin-version-author-uri {
+  font-family: var(--dya-font-mono);
+  font-size: 11px;
+  color: var(--dya-ink-fade);
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-mono);
+}
+body.dy-admin .wp-list-table.plugins .row-actions {
+  visibility: visible;
+  margin-top: 6px;
+}
+body.dy-admin .wp-list-table.plugins .inactive .plugin-title strong {
+  color: var(--dya-ink-soft);
+}
+
+// ── Theme browser ──────────────────────────────────────
+// WP DOM : .theme-browser > .themes.wp-clearfix > .theme*. The grid
+// container needs to see .theme directly, so display:contents on the
+// inner .themes wrapper lifts the .theme tiles up as grid items.
+body.dy-admin .theme-browser {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
+}
+body.dy-admin .theme-browser .themes {
+  display: contents;
+}
+// WP applies inline `width: …px` and `margin: …` on each .theme tile
+// (via wp-admin/js/theme.js for responsive sizing). Override so our
+// grid auto-fill works as intended.
+body.dy-admin .theme-browser .theme {
+  @include dy-card;            // KEEP: theme tile (browsable grid)
+  overflow: hidden;
+  position: relative;
+  transition: transform var(--dya-t-fast), border-color var(--dya-t-fast);
+  margin: 0 !important;
+  width: auto !important;
+  float: none !important;
+}
+body.dy-admin .theme-browser .theme:hover {
+  transform: translateY(-2px);
+  border-color: var(--dya-edge-strong);
+}
+body.dy-admin .theme-browser .theme .theme-screenshot {
+  background: var(--dya-paper-2);
+  aspect-ratio: 4 / 3;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+body.dy-admin .theme-browser .theme .theme-screenshot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+body.dy-admin .theme-browser .theme .theme-id-container {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+// `.theme-name` — WP-core forces `padding: 15px 110px 15px 15px` (reserves
+// 110px on the right for the native tooltip's `arrow` chevron, which we do
+// not display in our DS). We fully reset so the title takes its natural
+// size inside the `.theme-id-container` flex.
+body.dy-admin .theme-browser .theme .theme-name {
+  font-family: var(--dya-font-display);
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: var(--dya-tracking-tight);
+  color: var(--dya-ink);
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  // WP-core sets `border-top: 1px solid rgba(0,0,0,.1)` on .theme-name
+  // (a rule between screenshot and title). We remove it: our card already
+  // has its own rhythm via the .theme-id-container padding.
+  border: 0 !important;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+body.dy-admin .theme-browser .theme .theme-author {
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-mono);
+  color: var(--dya-ink-fade);
+}
+body.dy-admin .theme-browser .theme .theme-actions {
+  position: absolute;
+  inset: auto 0 60px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, .6));
+  padding: 16px;
+  opacity: 0;
+  transition: opacity var(--dya-t-fast);
+  display: flex;
+  gap: 6px;
+}
+body.dy-admin .theme-browser .theme:hover .theme-actions { 
+  opacity: 1; 
+  bottom: 46px;
+  transform: translateY(0);
+  box-shadow: none !important;
+}
+body.dy-admin .theme-browser .theme.active .theme-screenshot::after {
+  content: "ACTIVE";
+  position: absolute;
+  top: 8px; left: 8px;
+  background: var(--dya-success);
+  color: var(--dya-bg);
+  font-family: var(--dya-font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: var(--dya-r-xs);
+  letter-spacing: var(--dya-tracking-mono);
+}
+
+// ── Media grid (.attachments-browser) ──────────────────
+body.dy-admin .attachments-browser,
+body.dy-admin .media-frame {
+  font-family: inherit;
+  color: var(--dya-ink);
+}
+body.dy-admin ul.attachments {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+body.dy-admin ul.attachments .attachment {
+  border-radius: var(--dya-r-md);
+  overflow: hidden;
+  background: var(--dya-paper-2);
+  border: 1px solid var(--dya-edge);
+  position: relative;
+  aspect-ratio: 1;
+  cursor: pointer;
+  margin: 0;
+  width: auto;
+  height: auto;
+  padding: 0;
+}
+body.dy-admin ul.attachments .attachment img,
+body.dy-admin ul.attachments .attachment .thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 0;
+}
+// File-type icons in the grid: the sheet at about half the tile, on paper.
+body.dy-admin ul.attachments .attachment img.icon {
+  object-fit: contain;
+  padding: 24%;
+  box-sizing: border-box;
+  background: var(--dya-paper-2);
+}
+body.dy-admin ul.attachments .attachment.selected {
+  border-color: var(--dya-accent);
+  box-shadow: 0 0 0 2px var(--dya-accent) inset;
+}
+body.dy-admin ul.attachments .filename {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 6px 8px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, .7));
+  color: #fff;
+  font-size: 11px;
+  font-family: var(--dya-font-mono);
+  letter-spacing: 0;
+  display: block;
+  text-align: left;
+  border-radius: 0;
+}
+
+// ── Generic card div (.card) ──────────────────────────
+body.dy-admin .card {
+  @include dy-card;            // KEEP: generic "card" block (notices/tools)
+  padding: 18px 20px;
+  max-width: none;
+  margin: 0 0 16px;
+  font-size: 13px;
+  color: var(--dya-ink-soft);
+}
+body.dy-admin .card h2 {
+  margin: 0 0 8px;
+  font-size: var(--dya-fs-lg);
+  font-weight: 500;
+  letter-spacing: var(--dya-tracking-tight);
+  color: var(--dya-ink);
+}
+body.dy-admin .card p { margin: 0 0 12px; }
+body.dy-admin .card p:last-child { margin-bottom: 0; }

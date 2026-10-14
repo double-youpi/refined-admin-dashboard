@@ -1,0 +1,177 @@
+// =============================================================
+// audit-2 (T-04) : les écrans « effacés » (dy-native-content : Kadence, Yoast…
+// et dy-builder-native) sont exclus de ce thémage des @wordpress/components :
+// le dashboard Kadence sortait avec des panneaux `--dya-paper` sombres au milieu
+// de son canvas natif.
+// _14-wp-components.scss
+//
+// GLOBAL @wordpress/components layer. The new React UI of WooCommerce
+// (and increasingly other plugins) is built on this lib, using Emotion
+// (CSS-in-JS): HASHED `.css-xxxxx` classes + hard-coded colours → not
+// directly targetable and unstable between versions. We therefore theme the
+// STABLE SEMANTIC CLASSES (`.components-*`) that coexist and do NOT change,
+// using `!important` (to beat inline Emotion) + map the
+// `--wp-components-color-*` tokens (used for text/accent/borders/focus).
+//
+// SCOPE: admin-wide EXCEPT block/site editors (already handled by
+// `_gutenberg.scss`) → exclusion `:not(.block-editor-page):not(.site-editor-php)`.
+// =============================================================
+
+$wpc: "body.dy-admin:not(.block-editor-page):not(.site-editor-php):not(.dy-native-content):not(.dy-builder-native)";
+
+// ── Token map. DS tokens already flip with the theme → a single definition
+// covers dark AND light. The @wordpress/components grey scale
+// (100 = light … 900 = dark) maps onto DS surfaces/inks: because DS tokens
+// invert per theme, gray-100→paper stays "subtle" in both.
+#{$wpc} {
+  // `--dya-accent-text` = `--dya-accent` in dark, but capped (L≤.5) in light → the
+  // @wordpress/components secondary/tertiary buttons (accent text) remain
+  // readable on a light background (see audit G6). Falls back to --dya-accent if
+  // oklch is unavailable.
+  --wp-components-color-accent: var(--dya-accent-text, var(--dya-accent));
+  --wp-components-color-accent-darker-10: var(--dya-accent-darker-10, var(--dya-accent));
+  --wp-components-color-accent-darker-20: var(--dya-accent-darker-20, var(--dya-accent));
+  --wp-components-color-accent-inverted: var(--dya-accent-on);
+  --wp-components-color-background: var(--dya-paper);
+  --wp-components-color-foreground: var(--dya-ink);
+  --wp-components-color-foreground-inverted: var(--dya-bg);
+  --wp-components-color-foreground-secondary: var(--dya-ink-soft);
+  --wp-components-color-foreground-tertiary: var(--dya-ink-mute);
+  --wp-components-color-gray-100: var(--dya-paper-2);
+  --wp-components-color-gray-200: var(--dya-paper-3);
+  --wp-components-color-gray-300: var(--dya-line);
+  --wp-components-color-gray-400: var(--dya-line-strong);
+  --wp-components-color-gray-600: var(--dya-ink-mute);
+  --wp-components-color-gray-700: var(--dya-ink-soft);
+  --wp-components-color-gray-800: var(--dya-ink-soft);
+  --wp-components-color-gray-900: var(--dya-ink);
+}
+
+// ── Surfaces (card / surface / panel).
+#{$wpc} .components-surface,
+#{$wpc} .components-card,
+#{$wpc} .components-card__header,
+#{$wpc} .components-card__body,
+#{$wpc} .components-card__footer,
+#{$wpc} .components-card__divider,
+#{$wpc} .components-panel,
+#{$wpc} .components-panel__header,
+#{$wpc} .components-panel__body,
+#{$wpc} .components-panel__row,
+#{$wpc} .components-item-group,
+#{$wpc} .components-item {
+  background-color: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+#{$wpc} .components-card { box-shadow: var(--dya-shadow-sm) !important; }
+#{$wpc} .components-card__header,
+#{$wpc} .components-card__footer { border-color: var(--dya-edge) !important; }
+
+// ── Overlays (popover / dropdown / modal / menus).
+#{$wpc} .components-popover__content,
+#{$wpc} .components-modal__frame,
+#{$wpc} .components-menu-group,
+#{$wpc} .components-dropdown-menu__menu {
+  background-color: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge) !important;
+  box-shadow: var(--dya-shadow-lg) !important;
+}
+#{$wpc} .components-modal__header {
+  background-color: var(--dya-paper-2) !important;
+  border-bottom-color: var(--dya-line) !important;
+}
+#{$wpc} .components-modal__header .components-modal__header-heading { color: var(--dya-ink) !important; }
+#{$wpc} .components-modal__screen-overlay { background-color: rgba(0, 0, 0, .6) !important; }
+#{$wpc} .components-menu-item__button,
+#{$wpc} .components-menu-item__button .components-menu-item__item { color: var(--dya-ink) !important; }
+#{$wpc} .components-menu-item__button:hover:not(:disabled),
+#{$wpc} .components-menu-item__button.is-selected { background-color: var(--dya-paper-2) !important; }
+
+// ── Buttons.
+#{$wpc} .components-button.is-primary {
+  background-color: var(--dya-accent) !important; color: var(--dya-accent-on) !important;
+  box-shadow: none !important;
+}
+// `--dya-accent-text` (= accent in dark, capped in light) for TEXT/ring →
+// readable on a light background (G6). Falls back to --dya-accent if relative oklch is unavailable.
+#{$wpc} .components-button.is-secondary {
+  color: var(--dya-accent-text, var(--dya-accent)) !important; box-shadow: inset 0 0 0 1px var(--dya-accent-text, var(--dya-accent)) !important; background: transparent !important;
+}
+#{$wpc} .components-button.is-tertiary,
+#{$wpc} .components-button.is-link { color: var(--dya-accent-text, var(--dya-accent)) !important; }
+#{$wpc} .components-button:not(.is-primary):not(.is-secondary):not(.is-tertiary):not(.is-link):not(.is-destructive) {
+  color: var(--dya-ink) !important;
+}
+#{$wpc} .components-button:hover:not(:disabled):not(.is-primary) { color: var(--dya-accent) !important; }
+
+// ── Inputs / controls.
+#{$wpc} .components-text-control__input,
+#{$wpc} .components-textarea-control__input,
+#{$wpc} .components-select-control__input,
+#{$wpc} .components-input-control__input,
+#{$wpc} .components-input-control__container,
+#{$wpc} .components-search-control__input,
+#{$wpc} .components-combobox-control__suggestions-container,
+#{$wpc} .components-form-token-field__input-container,
+#{$wpc} .components-number-control input {
+  background-color: var(--dya-bg) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+#{$wpc} .components-input-control__backdrop { border-color: var(--dya-edge) !important; }
+#{$wpc} .components-base-control__label,
+#{$wpc} .components-input-control__label { color: var(--dya-ink-soft) !important; }
+#{$wpc} .components-base-control__help { color: var(--dya-ink-mute) !important; }
+
+// Form-toggle (toggle switch).
+#{$wpc} .components-form-toggle .components-form-toggle__track {
+  background-color: var(--dya-paper-3) !important; border-color: var(--dya-edge) !important;
+}
+#{$wpc} .components-form-toggle .components-form-toggle__thumb { background-color: var(--dya-ink-soft) !important; }
+#{$wpc} .components-form-toggle.is-checked .components-form-toggle__track {
+  background-color: var(--dya-accent) !important; border-color: var(--dya-accent) !important;
+}
+#{$wpc} .components-form-toggle.is-checked .components-form-toggle__thumb { background-color: var(--dya-accent-on) !important; }
+
+// Checkbox / radio.
+#{$wpc} .components-checkbox-control__input,
+#{$wpc} .components-radio-control__input {
+  background-color: var(--dya-bg) !important; border-color: var(--dya-edge-strong) !important;
+}
+#{$wpc} .components-checkbox-control__input:checked,
+#{$wpc} .components-radio-control__input:checked {
+  background-color: var(--dya-accent) !important; border-color: var(--dya-accent) !important;
+}
+#{$wpc} .components-checkbox-control__checked { fill: var(--dya-accent-on) !important; }
+
+// ── Tabs (TabPanel).
+#{$wpc} .components-tab-panel__tabs { border-bottom-color: var(--dya-line) !important; }
+#{$wpc} .components-tab-panel__tabs-item { color: var(--dya-ink-soft) !important; }
+#{$wpc} .components-tab-panel__tabs-item.is-active,
+#{$wpc} .components-tab-panel__tabs-item[aria-selected="true"] {
+  color: var(--dya-ink) !important; box-shadow: inset 0 -1.5px 0 0 var(--dya-accent) !important;
+}
+
+// ── Feedback (notice / snackbar / tooltip / spinner).
+#{$wpc} .components-notice {
+  background-color: var(--dya-paper-2) !important; color: var(--dya-ink) !important; border-color: var(--dya-edge) !important;
+}
+#{$wpc} .components-notice.is-success { border-left-color: var(--dya-accent) !important; }
+#{$wpc} .components-snackbar {
+  background-color: var(--dya-paper) !important; color: var(--dya-ink) !important; border: 1px solid var(--dya-edge) !important;
+}
+#{$wpc} .components-tooltip .components-popover__content,
+#{$wpc} .components-tooltip__text {
+  background-color: var(--dya-ink) !important; color: var(--dya-bg) !important;
+}
+
+// ── Text. !important to beat hard-coded Emotion colours (readability
+// takes priority). Accent links are handled by .is-link/.is-tertiary above.
+#{$wpc} .components-text,
+#{$wpc} .components-heading,
+#{$wpc} .components-truncate {
+  color: var(--dya-ink) !important;
+}
+#{$wpc} .components-external-link { color: var(--dya-accent) !important; }

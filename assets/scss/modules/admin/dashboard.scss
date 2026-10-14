@@ -1,0 +1,17 @@
+// =============================================================
+// dashboard.scss — ENTRY-POINT du bundle Dashboard (index.php)
+//
+// `dashboard.css` is a separate bundle from `admin.css`, loaded only on
+// `index.php` (see DashboardAssets). Its rules are scoped to `body.dy-admin
+// .index-php` (more specific → they win on the dashboard).
+//
+// The content lives in the partial `partials/_dashboard.scss` (which `@use "tokens"`
+// for variables). Partials prefixed with `_` are NOT compiled individually by
+// Live Sass Compiler → this file serves as the actual compilable entry point:
+//   assets/scss/modules/admin/dashboard.scss → assets/css/modules/admin/dashboard.css
+//
+// `@use` (not `@forward`): we want to EMIT the partial's CSS into this bundle,
+// not just re-export its members.
+// =============================================================
+
+@use "partials/dashboard";

@@ -1,0 +1,40 @@
+// =============================================================
+// _wp-production.scss — BARREL
+//
+// "Real-WordPress DOM adapter": overrides that supersede WP core CSS
+// and third-party plugin styles on real admin screens (nested DOM, inline
+// styles, high-specificity `#id` selectors). Historically a single monolithic
+// file of ~4600 lines; split here into sub-partials by page/concern
+// for navigability.
+//
+// ⚠️ ORDER IS SIGNIFICANT — DO NOT REORDER. The compiled CSS is the concatenation
+// of sub-partials in the order of the `@use` statements below; this order IS the
+// original order of the monolithic file. Many overrides depend on the cascade
+// (last wins) → changing the order can introduce subtle regressions.
+// All additions go AT THE END of the relevant sub-partial, or in a new `@use`
+// sub-partial added last.
+//
+// NOTE — `!important`: used extensively here, INTENTIONALLY (to beat WP/plugins
+// loaded after us and/or with high specificity). Avoid in fully custom components
+// (rail, chipbar…) where we control specificity.
+//
+// Real DOM vs mockup detail (shell resets): see `_01-shell.scss`.
+// =============================================================
+
+@use "wp-production/01-shell" as *;
+@use "wp-production/02-acf" as *;
+@use "wp-production/03-bricks" as *;
+@use "wp-production/04-list-settings-pages" as *;
+@use "wp-production/05-widgets-nav-menus" as *;
+@use "wp-production/06-settings-pages" as *;
+@use "wp-production/07-universal-dark" as *;
+@use "wp-production/08-woocommerce-elementor" as *;
+@use "wp-production/09-seo" as *;
+@use "wp-production/10-loco-updraft" as *;
+@use "wp-production/11-editor-overrides" as *;
+@use "wp-production/12-bricks-pages" as *;
+@use "wp-production/13-backups" as *;
+@use "wp-production/14-wp-components" as *;
+@use "wp-production/15-third-party-fixes" as *;
+@use "wp-production/16-wpds-bridge" as *;
+@use "wp-production/17-core-primitives" as *;

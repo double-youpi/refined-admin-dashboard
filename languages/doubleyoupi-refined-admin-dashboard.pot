@@ -1,0 +1,4276 @@
+# Copyright (C) 2026 Double Youpï
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Double Youpï Refined Admin Dashboard 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-refined-admin-dashboard\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-13T02:01:16+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: doubleyoupi-refined-admin-dashboard\n"
+
+#. Plugin Name of the plugin
+#: doubleyoupi-refined-admin-dashboard.php
+msgid "Double Youpï Refined Admin Dashboard"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: doubleyoupi-refined-admin-dashboard.php
+msgid "https://doubleyoupi.com/plugins/refined-admin-dashboard"
+msgstr ""
+
+#. Description of the plugin
+#: doubleyoupi-refined-admin-dashboard.php
+msgid "A dark and light redesign of the whole WordPress admin: a navigation rail you can reorganise, reimagined list tables and post editor, one place for every notice, a dashboard you compose, a media library with folders and collections, and a built-in toolkit. Native components only."
+msgstr ""
+
+#. Author of the plugin
+#: doubleyoupi-refined-admin-dashboard.php
+#: src/Admin/DyShell.php:118
+#: src/Admin/OverviewPage.php:357
+msgid "Double Youpï"
+msgstr ""
+
+#. Author URI of the plugin
+#: doubleyoupi-refined-admin-dashboard.php
+msgid "https://doubleyoupi.com"
+msgstr ""
+
+#: doubleyoupi-refined-admin-dashboard.php:57
+msgid "You are already running the full Double Youpï suite, and it includes Double Youpï Refined Admin Dashboard. This standalone copy stepped aside to stay out of its way. Want to run it on its own? Deactivate the suite first."
+msgstr ""
+
+#: src/Admin/AdminMenu.php:157
+#: src/Admin/OverviewPage.php:157
+#: src/Admin/OverviewPage.php:560
+#: src/Modules/Admin/Dashboard/Widgets/Data/ModulesWidget.php:110
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:160
+#: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:65
+#: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:117
+#: src/Modules/Admin/Editor/EditorReimagined.php:191
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:64
+#: src/Modules/MediaLibrary/MediaLibrary.php:172
+msgid "Settings"
+msgstr ""
+
+#: src/Admin/Feedback.php:127
+msgctxt "admin bar button"
+msgid "Feedback"
+msgstr ""
+
+#. translators: %s = product name (e.g. "Refined Admin Dashboard")
+#: src/Admin/Feedback.php:135
+#, php-format
+msgid "Your feedback on %s"
+msgstr ""
+
+#: src/Admin/Feedback.php:214
+#: src/Admin/Feedback.php:301
+msgid "Send"
+msgstr ""
+
+#: src/Admin/Feedback.php:215
+msgid "Sending…"
+msgstr ""
+
+#: src/Admin/Feedback.php:216
+msgid "Try again"
+msgstr ""
+
+#. translators: %s = name of the theme
+#: src/Admin/Feedback.php:218
+#, php-format
+msgid "%s (theme)"
+msgstr ""
+
+#: src/Admin/Feedback.php:219
+msgid "This image is still too large after compression (1.5 MB maximum)."
+msgstr ""
+
+#: src/Admin/Feedback.php:220
+#: src/Admin/Feedback.php:373
+msgid "Please use a PNG, JPEG or WebP image."
+msgstr ""
+
+#: src/Admin/Feedback.php:221
+msgid "Your report could not be sent. Check your connection and try again."
+msgstr ""
+
+#. translators: %s = reference returned by the feedback service
+#: src/Admin/Feedback.php:223
+#, php-format
+msgid "Reference %s."
+msgstr ""
+
+#: src/Admin/Feedback.php:224
+msgid "(anonymous site identifier)"
+msgstr ""
+
+#: src/Admin/Feedback.php:246
+#: src/Admin/Feedback.php:307
+#: src/Admin/OverviewPage.php:663
+#: src/Modules/Admin/Notices.php:120
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:137
+msgid "Close"
+msgstr ""
+
+#: src/Admin/Feedback.php:252
+msgid "This screen"
+msgstr ""
+
+#: src/Admin/Feedback.php:256
+msgid "What kind of feedback"
+msgstr ""
+
+#: src/Admin/Feedback.php:257
+msgid "Something is wrong"
+msgstr ""
+
+#: src/Admin/Feedback.php:258
+msgid "An idea"
+msgstr ""
+
+#: src/Admin/Feedback.php:259
+msgid "Something else"
+msgstr ""
+
+#: src/Admin/Feedback.php:262
+msgid "Your message"
+msgstr ""
+
+#: src/Admin/Feedback.php:263
+msgid "What happened, and what you expected."
+msgstr ""
+
+#: src/Admin/Feedback.php:270
+msgid "Attach a screenshot"
+msgstr ""
+
+#: src/Admin/Feedback.php:272
+msgid "or paste an image here (Ctrl/Cmd + V)"
+msgstr ""
+
+#: src/Admin/Feedback.php:275
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:369
+#: src/Modules/Admin/Settings.php:736
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:165
+#: src/Modules/Toolkit/Features/LocalAvatars.php:374
+msgid "Remove"
+msgstr ""
+
+#: src/Admin/Feedback.php:280
+msgid "You may write back to me at"
+msgstr ""
+
+#: src/Admin/Feedback.php:285
+msgid "I agree to send this report to Double Youpï: my message, the screenshot if any, this screen's address inside wp-admin, the plugin or theme it belongs to, and version numbers (WordPress, PHP, theme, this plugin). No site content is sent, and no site address unless I ask for a reply."
+msgstr ""
+
+#: src/Admin/Feedback.php:288
+msgid "See exactly what will be sent"
+msgstr ""
+
+#. translators: %s = product name and version (e.g. "Refined Admin Dashboard 0.1.0")
+#: src/Admin/Feedback.php:297
+#, php-format
+msgid "Seen with %s"
+msgstr ""
+
+#: src/Admin/Feedback.php:300
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:398
+#: src/Modules/Admin/Settings.php:319
+#: src/Modules/Admin/Tables/TablesReimagined.php:490
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:74
+#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:32
+msgid "Cancel"
+msgstr ""
+
+#: src/Admin/Feedback.php:305
+msgid "Thank you, it is on its way."
+msgstr ""
+
+#: src/Admin/Feedback.php:349
+msgid "Please confirm you agree to send this report."
+msgstr ""
+
+#: src/Admin/Feedback.php:357
+msgid "Please write a few words first."
+msgstr ""
+
+#: src/Admin/Feedback.php:364
+msgid "This email address does not look right."
+msgstr ""
+
+#: src/Admin/Feedback.php:370
+msgid "The screenshot is too large."
+msgstr ""
+
+#: src/Admin/Feedback.php:382
+msgid "Too many reports in a short time. Please try again in an hour."
+msgstr ""
+
+#: src/Admin/Feedback.php:443
+#: src/Admin/Feedback.php:447
+msgid "The feedback service did not answer. Please try again later."
+msgstr ""
+
+#: src/Admin/HeroQuips.php:51
+msgid "Objectively the best plugin you've installed in the last five minutes."
+msgstr ""
+
+#: src/Admin/HeroQuips.php:52
+msgid "Built different. We have a certificate and everything."
+msgstr ""
+
+#: src/Admin/HeroQuips.php:53
+msgid "Zero shortcodes were harmed in the making of this plugin."
+msgstr ""
+
+#: src/Admin/HeroQuips.php:54
+msgid "Awarded Plugin of the Year by a panel of one."
+msgstr ""
+
+#: src/Admin/HeroQuips.php:55
+msgid "Refined enough to make your theme nervous."
+msgstr ""
+
+#: src/Admin/HeroQuips.php:56
+msgid "We benchmarked it against perfection. Perfection lost."
+msgstr ""
+
+#: src/Admin/HeroQuips.php:57
+msgid "Your other plugins are taking this personally."
+msgstr ""
+
+#: src/Admin/HeroQuips.php:58
+msgid "Currently winning an argument it wasn't invited to."
+msgstr ""
+
+#: src/Admin/HeroQuips.php:59
+msgid "Suspiciously good for something this free."
+msgstr ""
+
+#: src/Admin/HeroQuips.php:60
+msgid "The bar was high. We brought a ladder."
+msgstr ""
+
+#: src/Admin/HeroQuips.php:61
+msgid "Compared to nothing, it is literally the best."
+msgstr ""
+
+#: src/Admin/HeroQuips.php:62
+msgid "Powered by talent and a concerning amount of confidence."
+msgstr ""
+
+#: src/Admin/HeroQuips.php:63
+msgid "Reviews are in: we wrote them ourselves."
+msgstr ""
+
+#: src/Admin/HeroQuips.php:64
+msgid "Finally, a plugin that matches your impeccable taste."
+msgstr ""
+
+#: src/Admin/HeroQuips.php:65
+msgid "Great taste. You installed this, after all."
+msgstr ""
+
+#: src/Admin/HeroQuips.php:66
+msgid "Two icons in one admin: you and this plugin."
+msgstr ""
+
+#: src/Admin/HeroQuips.php:67
+msgid "People with taste end up here. Welcome."
+msgstr ""
+
+#: src/Admin/HeroQuips.php:68
+msgid "Smart move installing this. We expected nothing less from you."
+msgstr ""
+
+#: src/Admin/HeroQuips.php:80
+msgid "Probably the finest media library you'll configure all day."
+msgstr ""
+
+#: src/Admin/HeroQuips.php:81
+msgid "The plugin your media library brags about."
+msgstr ""
+
+#: src/Admin/HeroQuips.php:82
+msgid "Your media library finally has a personality. It's smug."
+msgstr ""
+
+#: src/Admin/OverviewPage.php:68
+msgid "Double Youpï · Overview"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:69
+msgid "Overview"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:153
+#: src/Admin/OverviewPage.php:467
+#: src/Modules/Admin/Dashboard/Widgets/Data/ModulesWidget.php:101
+msgid "Active"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:154
+#: src/Admin/OverviewPage.php:156
+#: src/Admin/OverviewPage.php:468
+#: src/Admin/OverviewPage.php:533
+#: src/Modules/Admin/Dashboard/Widgets/Data/StaticSiteWidget.php:86
+#: src/Modules/Toolkit/ToolsPage.php:123
+msgid "Disabled"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:155
+#: src/Admin/OverviewPage.php:532
+#: src/Modules/Toolkit/ToolsPage.php:120
+msgid "Enabled"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:158
+msgid "Could not save. Please retry."
+msgstr ""
+
+#: src/Admin/OverviewPage.php:159
+msgid "Install for free"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:160
+msgid "Installing…"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:161
+msgid "Installed ✓"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:162
+msgid "Install failed, open the installer"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:163
+msgid "Soon on WordPress.org"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:164
+msgid "Discover on doubleyoupi.com"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:165
+#: src/Admin/OverviewPage.php:610
+#: src/Admin/OverviewPage.php:640
+msgid "Free"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:166
+#: src/Admin/OverviewPage.php:610
+msgid "Suite"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:177
+#: src/Admin/OverviewPage.php:217
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:116
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:127
+#: src/Modules/Toolkit/ToolsPage.php:212
+msgid "Access denied."
+msgstr ""
+
+#: src/Admin/OverviewPage.php:199
+msgid "Modules updated. Reload the page to see the effects."
+msgstr ""
+
+#: src/Admin/OverviewPage.php:200
+#: src/Modules/Toolkit/ToolsPage.php:247
+msgid "No changes to save."
+msgstr ""
+
+#: src/Admin/OverviewPage.php:226
+msgid "Unknown module."
+msgstr ""
+
+#: src/Admin/OverviewPage.php:320
+msgid "Modular suite for pros who ship WordPress sites. Enable the modules you need, disable the rest."
+msgstr ""
+
+#: src/Admin/OverviewPage.php:343
+msgid "Your whole WordPress admin, redrawn. Each part can be turned on or off below."
+msgstr ""
+
+#: src/Admin/OverviewPage.php:372
+msgid "Suite information"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:379
+msgid "active modules"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:423
+msgid "Save modules"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:466
+msgid "Coming soon"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:556
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:386
+#: src/Modules/Admin/Settings.php:948
+#: src/Modules/MediaLibrary/Settings.php:387
+#: src/Modules/MediaLibrary/Settings.php:414
+msgid "Saved"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:578
+msgid "Reload to apply"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:583
+msgid "In preparation"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:637
+#: src/Modules/Admin/Tables/TablesReimagined.php:479
+#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:24
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:158
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:207
+msgid "Preview"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:642
+msgid "Soon on WP.org"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:644
+msgid "In the suite"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:672
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:135
+msgid "Previous"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:674
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:136
+msgid "Next"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:718
+msgid "Support the project"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:732
+msgid "Free, and built to stay that way"
+msgstr ""
+
+#. translators: 1: author first name (bold), 2: freelance studio name (linked).
+#: src/Admin/OverviewPage.php:749
+#, php-format
+msgid "I'm <b>%1$s</b>, a freelance designer and dev, aka %2$s. I build Double Youpï to make WordPress nicer to use. This plugin will stay free for life, updates included. If something's off or missing, please let me know. And if the plugin's useful and you genuinely like it, a coffee's always appreciated ;) Otherwise, just using it (and dropping a kind review) already helps a lot. Thanks!"
+msgstr ""
+
+#. translators: %s: author first name (bold).
+#: src/Admin/OverviewPage.php:759
+#, php-format
+msgid "I'm <b>%s</b>, a freelance designer and dev. I build Double Youpï to make WordPress nicer to use. This plugin will stay free for life, updates included. If something's off or missing, please let me know. And if the plugin's useful and you genuinely like it, a coffee's always appreciated ;) Otherwise, just using it (and dropping a kind review) already helps a lot. Thanks!"
+msgstr ""
+
+#. translators: %s: author first name.
+#: src/Admin/OverviewPage.php:771
+#, php-format
+msgid "%s · Double Youpï"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:784
+msgid "Buy me a coffee"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:800
+msgid "Leave a review"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:807
+msgid "All Double Youpï plugins on WordPress.org"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:823
+msgid "Report or suggest"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:858
+#: src/Admin/OverviewPage.php:867
+msgid "Want to get involved?"
+msgstr ""
+
+#: src/Admin/OverviewPage.php:869
+msgid "Found a bug or got an idea to make it better? Let me know."
+msgstr ""
+
+#: src/Core/ModuleCatalog.php:38
+#: src/Modules/Admin/Admin.php:128
+#: src/Modules/Admin/Settings.php:548
+msgid "Refined Admin Dashboard"
+msgstr ""
+
+#: src/Core/ModuleCatalog.php:39
+msgid "A full rethink of the WordPress admin: smart dashboard, reworked navigation, redesigned content tables, dark mode, and your branding."
+msgstr ""
+
+#: src/Core/ModuleCatalog.php:50
+#: src/Modules/MediaLibrary/MediaLibrary.php:132
+#: src/Modules/MediaLibrary/MediaLibrary.php:184
+msgid "Refined Media Library"
+msgstr ""
+
+#: src/Core/ModuleCatalog.php:51
+msgid "Folders and collections, drag & drop, quick preview, duplicate & orphan cleanup, plus WebP/AVIF conversion on upload."
+msgstr ""
+
+#: src/Core/ModuleCatalog.php:58
+msgid "Simple Performance"
+msgstr ""
+
+#: src/Core/ModuleCatalog.php:59
+msgid "Caching, CSS/JS, lazy-load, responsive WebP/AVIF delivery, self-hosted fonts, and a native Cloudflare CDN."
+msgstr ""
+
+#: src/Core/ModuleCatalog.php:68
+msgid "Simple Static"
+msgstr ""
+
+#: src/Core/ModuleCatalog.php:69
+msgid "Static HTML export to shrink your attack surface and host free on Cloudflare Pages, Netlify or GitHub Pages."
+msgstr ""
+
+#: src/Core/ModuleCatalog.php:79
+msgid "Simple SEO & Accessibility"
+msgstr ""
+
+#: src/Core/ModuleCatalog.php:80
+msgid "Completes Rank Math on accessibility: auto aria-labels, AI alt-text, and a WCAG audit."
+msgstr ""
+
+#: src/Core/ModuleCatalog.php:87
+msgid "Simple Metrics"
+msgstr ""
+
+#: src/Core/ModuleCatalog.php:88
+msgid "PageSpeed Insights tracking in the admin: per-page history over time, on mobile and desktop."
+msgstr ""
+
+#: src/Core/ModuleCatalog.php:95
+msgid "Simple Backups"
+msgstr ""
+
+#: src/Core/ModuleCatalog.php:96
+msgid "Scheduled full or DB-only backups, with rotation and one-click restore (auto-snapshot first)."
+msgstr ""
+
+#: src/Modules/Admin/Admin.php:129
+#: src/Modules/Admin/Rail.php:503
+msgid "Admin"
+msgstr ""
+
+#: src/Modules/Admin/Admin.php:302
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:477
+#: src/Modules/Admin/Settings.php:655
+msgid "Accent color"
+msgstr ""
+
+#: src/Modules/Admin/Admin.php:303
+msgid "The Double Youpï Admin module manages the administration palette."
+msgstr ""
+
+#: src/Modules/Admin/Admin.php:304
+msgid "Configure →"
+msgstr ""
+
+#: src/Modules/Admin/Admin.php:354
+#: src/Modules/Admin/Tables/TablesReimagined.php:453
+msgid "Screen options"
+msgstr ""
+
+#: src/Modules/Admin/Admin.php:355
+#: src/Modules/Admin/Tables/TablesReimagined.php:454
+msgid "Columns"
+msgstr ""
+
+#: src/Modules/Admin/Admin.php:356
+#: src/Modules/Admin/Tables/TablesReimagined.php:459
+msgid "Pagination"
+msgstr ""
+
+#: src/Modules/Admin/Admin.php:357
+#: src/Modules/Admin/Tables/TablesReimagined.php:460
+msgid "Items per page"
+msgstr ""
+
+#: src/Modules/Admin/Admin.php:516
+msgid "Session"
+msgstr ""
+
+#: src/Modules/Admin/Admin.php:518
+msgid "Invert theme"
+msgstr ""
+
+#: src/Modules/Admin/Adminbar.php:131
+msgid "Toggle theme"
+msgstr ""
+
+#: src/Modules/Admin/Adminbar.php:149
+msgid "View site"
+msgstr ""
+
+#: src/Modules/Admin/AdminColumnsConflict.php:129
+msgid "Admin Columns deactivated."
+msgstr ""
+
+#: src/Modules/Admin/AdminColumnsConflict.php:143
+msgid "Admin Columns is active."
+msgstr ""
+
+#: src/Modules/Admin/AdminColumnsConflict.php:144
+msgid "It manages the columns of your lists, so Refined Admin Dashboard leaves those lists to it and keeps their native layout. Deactivate Admin Columns if you prefer the redesigned view."
+msgstr ""
+
+#: src/Modules/Admin/AdminColumnsConflict.php:146
+msgid "Deactivate Admin Columns"
+msgstr ""
+
+#: src/Modules/Admin/AdminColumnsConflict.php:148
+msgid "Keep Admin Columns"
+msgstr ""
+
+#: src/Modules/Admin/Chipbar.php:85
+#: src/Modules/Admin/Chipbar.php:127
+#: src/Modules/Admin/Chipbar.php:212
+msgid "Section navigation"
+msgstr ""
+
+#: src/Modules/Admin/ColumnModel.php:643
+msgid "Theme Editor"
+msgstr ""
+
+#: src/Modules/Admin/ColumnModel.php:644
+msgid "Plugin Editor"
+msgstr ""
+
+#: src/Modules/Admin/ColumnModel.php:645
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:155
+#: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:68
+#: src/Modules/Admin/Dashboard/Widgets/Data/SiteHealthWidget.php:199
+msgid "Site Health"
+msgstr ""
+
+#: src/Modules/Admin/ColumnModel.php:646
+#: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:113
+#: src/Modules/Admin/Dashboard/Widgets/Data/TodoWidget.php:69
+msgid "Updates"
+msgstr ""
+
+#: src/Modules/Admin/ColumnModel.php:879
+msgid "Content"
+msgstr ""
+
+#: src/Modules/Admin/ColumnModel.php:880
+msgid "Commerce"
+msgstr ""
+
+#: src/Modules/Admin/ColumnModel.php:881
+#: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:63
+msgid "Users"
+msgstr ""
+
+#: src/Modules/Admin/ColumnModel.php:882
+msgid "Community"
+msgstr ""
+
+#: src/Modules/Admin/ColumnModel.php:883
+msgid "Appearance"
+msgstr ""
+
+#: src/Modules/Admin/ColumnModel.php:884
+msgid "System"
+msgstr ""
+
+#: src/Modules/Admin/ColumnModel.php:885
+msgid "Developer"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Compat/WpDashboardWidgetsAdapter.php:205
+msgid "Native WordPress widget"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Compat/WpDashboardWidgetsAdapter.php:207
+msgid "Widget provided by a third-party plugin"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:105
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:189
+msgid "Double Youpï Dashboard"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:357
+#: src/Modules/Admin/Dashboard/Renderer.php:441
+msgid "Customize"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:358
+msgid "Close customize panel"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:359
+msgid "Current screen"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:360
+#: src/Modules/Admin/Tables/TablesReimagined.php:482
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:148
+msgid "Title"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:361
+#: src/Modules/Admin/Dashboard/Widgets/Content/ParagraphWidget.php:31
+msgid "Paragraph"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:362
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:150
+#: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:61
+msgid "Widgets"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:363
+msgid "Layout"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:364
+msgid "Screens"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:365
+msgid "Advanced"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:366
+msgid "Widget"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:367
+msgid "This widget has no settings."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:368
+msgid "+ Add"
+msgstr ""
+
+#. translators: %d: maximum number of items
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:371
+#, php-format
+msgid "Maximum %d items."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:372
+msgid "Note title"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:373
+msgid "Click to write your note…"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:374
+msgid "Backup started."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:375
+msgid "Could not start the backup."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:376
+msgid "Drag a tile onto the current screen, or click it to add it."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:377
+msgid "Assign to role"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:378
+msgid "None"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:379
+msgid "Lock the layout"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:380
+msgid "Export JSON"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:381
+#: src/Modules/Admin/Settings.php:885
+#: src/Modules/MediaLibrary/MediaLibrary.php:180
+#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:25
+msgid "Import"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:382
+msgid "+ Add a screen"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:383
+msgid "Show the WordPress screen (last)"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:384
+msgid "Auto-sync"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:385
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:170
+msgid "Saving…"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:387
+msgid "Reset"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:388
+msgid "Insert dynamic content"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:391
+#: src/Modules/Admin/Settings.php:293
+msgid "Custom"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:392
+msgid "Your current settings"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:393
+msgid "Save as disposition"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:394
+msgid "Disposition name:"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:395
+msgid "Disposition name"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:396
+msgid "New disposition"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:397
+#: src/Modules/Admin/Settings.php:324
+#: src/Modules/Admin/Tables/TablesReimagined.php:491
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:167
+msgid "Save"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:399
+msgid "Delete this disposition"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:400
+msgid "Disposition saved."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:401
+msgid "Disposition updated."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:402
+msgid "Disposition deleted."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:403
+msgid "Not styled yet"
+msgstr ""
+
+#. translators: %s: disposition name
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:405
+#, php-format
+msgid "Delete the disposition « %s »?"
+msgstr ""
+
+#. translators: %s: disposition name
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:407
+#, php-format
+msgid "Replace the current layout with « %s »? Unsaved changes will be lost."
+msgstr ""
+
+#. translators: %s: disposition name
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:409
+#, php-format
+msgid "Update « %s » with the current settings?"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:410
+msgid "Clear everything and start from a single blank screen?"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:411
+msgid "This file is not a valid disposition export."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:412
+msgid "Imported disposition"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:414
+#: src/Modules/Admin/Tables/TablesReimagined.php:466
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:40
+msgid "More actions"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:415
+#: src/Modules/Admin/Settings.php:700
+#: src/Modules/Admin/Tables/TablesReimagined.php:472
+msgid "Apply"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:416
+msgid "Update with current settings"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:417
+#: src/Modules/Admin/Settings.php:873
+msgid "Export"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:418
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:78
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:169
+msgid "Delete"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:419
+msgid "Clear everything"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:420
+msgid "Save as new disposition"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:421
+msgid "Import a disposition"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:422
+msgid "Assign to role(s)…"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:423
+msgid "Lock"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:424
+msgid "Unlock"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:425
+msgid "Layout locked."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:426
+msgid "Layout unlocked."
+msgstr ""
+
+#. translators: %s: disposition name
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:429
+#, php-format
+msgid "Assign « %s » to roles"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:430
+msgid "Users with these roles will see this disposition (read-only)."
+msgstr ""
+
+#. translators: %s: another disposition name
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:432
+#, php-format
+msgid "already on %s"
+msgstr ""
+
+#. translators: %s: disposition name used by default for this role
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:434
+#, php-format
+msgid "default: %s"
+msgstr ""
+
+#. translators: %s: list of roles and their current disposition
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:436
+#, php-format
+msgid "These roles are already assigned to another disposition: %s. Switch them to this one?"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:437
+msgid "Roles assigned."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:440
+msgid "Remove this widget"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:441
+msgid "Delete this screen"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:442
+msgid "Widget added."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:443
+msgid "Widget removed."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:444
+msgid "Position updated."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:445
+msgid "Cannot drop on this screen."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:446
+msgid "No room left on the target screen."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:447
+msgid "No room left on this screen (6 slots max)."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:448
+msgid "Render error"
+msgstr ""
+
+#. translators: %d: screen number
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:452
+#, php-format
+msgid "Screen %d"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:453
+msgid "Insert a screen here"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:454
+msgid "Add a screen"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:455
+msgid "Back to square one"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:457
+msgid "A fresh canvas"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:458
+msgid "Room to breathe"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:459
+msgid "The next chapter"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:460
+msgid "Terra incognita"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:461
+msgid "Something new"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:462
+msgid "At least one user screen is required."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:463
+msgid "Delete this screen?"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:464
+msgid "Reset to the standard layout? All customizations will be lost."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:465
+msgid "Layout exported"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:466
+msgid "Invalid JSON"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:467
+msgid "Save failed"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:468
+msgid "Error"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:470
+msgid "History"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:471
+msgid "Undo"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:472
+msgid "Redo"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:474
+msgid "Screen title"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:475
+msgid "Add a paragraph…"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:478
+msgid "Background color"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:479
+msgid "Global"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:480
+msgid "Reset to global color"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/Dispositions.php:149
+msgid "A disposition name is required."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/Dispositions.php:154
+msgid "Maximum number of saved dispositions reached."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/Dispositions.php:189
+#: src/Modules/Admin/Dashboard/RestController.php:323
+msgid "Unknown disposition."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/Dispositions.php:243
+msgid "Built-in (customized)"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/Dispositions.php:259
+msgid "Saved disposition"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:92
+msgid "Today, we're on a roll"
+msgstr ""
+
+#. translators: **{{site.name}}** is replaced by the site name (bold).
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:121
+msgid "What are we making on **{{site.name}}** today?"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:123
+msgid "Picking up the thread"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:126
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:182
+msgid "The engine room"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:150
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:222
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:249
+msgid "Keyboards at the ready"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:152
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:222
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:249
+msgid "Blank page? Never heard of it."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:154
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:223
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:250
+msgid "What's next?"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:169
+msgid "All in order?"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:206
+msgid "Shall we?"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:221
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:235
+msgid "Sales and orders, without leaving the dashboard."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:238
+msgid "The cash drawer"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:240
+msgid "What comes in, what moves, what's running low."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:283
+msgid "Standard"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:283
+msgid "Recommended by Double Youpï"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:284
+msgid "Editor"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:284
+msgid "Focus on content creation"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:285
+msgid "Administrator"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:285
+msgid "Technical health and maintenance"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:286
+msgid "Minimal"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:286
+msgid "Just create and go"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:290
+msgid "Shop"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:290
+msgid "Your shop, then the editor flow"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:291
+msgid "Shop Pro"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:291
+msgid "Sales in depth, plus the editor flow"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/LayoutValidator.php:46
+msgid "The layout payload must be an array."
+msgstr ""
+
+#. translators: %1$d: expected version, %2$d: received version
+#: src/Modules/Admin/Dashboard/Layout/LayoutValidator.php:59
+#, php-format
+msgid "Invalid layout version (expected %1$d, got %2$d)."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/LayoutValidator.php:67
+msgid "At least one screen is required."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Layout/LayoutValidator.php:158
+msgid "No valid screen after sanitization."
+msgstr ""
+
+#. translators: %s: "WordPress", italicised for stylistic emphasis
+#: src/Modules/Admin/Dashboard/Renderer.php:190
+#, php-format
+msgid "%s and plugins"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Renderer.php:191
+msgid "WordPress"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Renderer.php:199
+msgid "No native or plugin widget is registered on this site."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Renderer.php:219
+msgid "This widget could not be rendered (callback missing)."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Renderer.php:382
+msgid "Dashboard screens navigation"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Renderer.php:387
+msgid "Previous screen"
+msgstr ""
+
+#. translators: %d: screen number
+#: src/Modules/Admin/Dashboard/Renderer.php:402
+#, php-format
+msgid "Go to screen %d"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Renderer.php:412
+msgid "Next screen"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Renderer.php:449
+msgid "No screen configured."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Renderer.php:589
+#: src/Modules/Admin/Dashboard/RestController.php:405
+msgid "This widget could not load."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/RestController.php:198
+#: src/Modules/Admin/Dashboard/RestController.php:242
+#: src/Modules/Admin/Dashboard/RestController.php:287
+msgid "The layout must be an object."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/RestController.php:372
+msgid "Widget ID required."
+msgstr ""
+
+#. translators: %s is the widget identifier that could not be found.
+#: src/Modules/Admin/Dashboard/RestController.php:382
+#, php-format
+msgid "Unknown widget « %s »."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/RestController.php:392
+msgid "You are not allowed to see this widget."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Tokens/TokenResolver.php:102
+msgid "Hello"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Tokens/TokenResolver.php:104
+msgid "Good evening"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Tokens/TokenResolver.php:133
+msgid "Everything is up to date."
+msgstr ""
+
+#. translators: %d: number of plugins with available updates
+#: src/Modules/Admin/Dashboard/Tokens/TokenResolver.php:140
+#, php-format
+msgid "%d plugin has an update."
+msgid_plural "%d plugins have updates."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: total number of updates available
+#: src/Modules/Admin/Dashboard/Tokens/TokenResolver.php:148
+#, php-format
+msgid "%d update is available."
+msgid_plural "%d updates are available."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Content/HeadingWidget.php:31
+msgid "Heading"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Content/HeadingWidget.php:35
+msgid "A configurable title, frameless, to structure the Dashboard."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Content/ParagraphWidget.php:35
+msgid "A configurable paragraph (light Markdown), frameless, to explain and contextualize."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/ActivityWidget.php:29
+#: src/Modules/Admin/Dashboard/Widgets/Data/ActivityWidget.php:98
+msgid "Recent activity"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/ActivityWidget.php:33
+msgid "Unified stream: published posts, updated plugins, uploaded media, admin logins."
+msgstr ""
+
+#. translators: %d is the post ID (shown when the post has no title).
+#: src/Modules/Admin/Dashboard/Widgets/Data/ActivityWidget.php:83
+#, php-format
+msgid "#%d (untitled)"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/ActivityWidget.php:103
+msgid "No recent activity."
+msgstr ""
+
+#. translators: %d is a number of minutes.
+#: src/Modules/Admin/Dashboard/Widgets/Data/ActivityWidget.php:127
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:136
+#, php-format
+msgid "%d min ago"
+msgstr ""
+
+#. translators: %d is a number of hours.
+#: src/Modules/Admin/Dashboard/Widgets/Data/ActivityWidget.php:132
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:140
+#, php-format
+msgid "%d h ago"
+msgstr ""
+
+#. translators: %d is a number of days.
+#: src/Modules/Admin/Dashboard/Widgets/Data/ActivityWidget.php:136
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:143
+#, php-format
+msgid "%d d ago"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/AdminLinkWidget.php:24
+msgid "Admin link"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/AdminLinkWidget.php:28
+msgid "Single shortcut button to an admin page."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/AdminLinkWidget.php:53
+msgid "A shortcut button to a specific admin (or external) page."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/AdminLinkWidget.php:54
+msgid "Label"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/AdminLinkWidget.php:54
+#: src/Modules/Admin/Dashboard/Widgets/Data/AdminLinkWidget.php:74
+msgid "Open"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/AdminLinkWidget.php:55
+msgid "URL"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/AdminLinkWidget.php:56
+msgid "Open in a new tab"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:29
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:90
+msgid "Backup"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:33
+msgid "Date, size and status of the last backup. Turns red if > 7 days."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:94
+msgid "No Double Youpï backup."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:102
+msgid "never"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:123
+msgid "Run a full backup"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:127
+#: src/Modules/Admin/Dashboard/Widgets/Data/StaticSiteWidget.php:137
+msgid "Configure"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/CreateButtonWidget.php:28
+msgid "Create button"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/CreateButtonWidget.php:32
+msgid "Create (one type)"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/CreateButtonWidget.php:36
+msgid "Single-action button to create a new post of the configured type."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/CreateButtonWidget.php:95
+msgid "A button that immediately creates a new entry of the chosen content type."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/CreateButtonWidget.php:96
+msgid "Post type"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/CreateButtonWidget.php:97
+msgid "Label (optional)"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/CreateButtonWidget.php:97
+msgid "New …"
+msgstr ""
+
+#. translators: %s is the singular post-type name (e.g. "Post", "Page").
+#: src/Modules/Admin/Dashboard/Widgets/Data/CreateButtonWidget.php:123
+#, php-format
+msgid "New %s"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/CreateButtonWidget.php:152
+#: src/Modules/Admin/Dashboard/Widgets/Data/CreateHubWidget.php:32
+#: src/Modules/Admin/Dashboard/Widgets/Data/CreateHubWidget.php:137
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:77
+msgid "Create"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/CreateHubWidget.php:36
+msgid "Create (all types)"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/CreateHubWidget.php:46
+msgid "One create button per content type, generated automatically, including your custom post types."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/CreateHubWidget.php:144
+msgid "No content type available to create."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/DiskWidget.php:30
+msgid "Disk space"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/DiskWidget.php:34
+msgid "Server disk space, media library size, DB size. Cached 1h to avoid walking on each pageload."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/DiskWidget.php:144
+msgid "Disk"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/DiskWidget.php:160
+msgid "media"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/DiskWidget.php:161
+msgid "db"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/ModulesWidget.php:31
+#: src/Modules/Admin/Dashboard/Widgets/Data/ModulesWidget.php:84
+msgid "Modules"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/ModulesWidget.php:35
+msgid "Status of the suite modules: active, disabled, in progress."
+msgstr ""
+
+#. translators: 1: active count, 2: total
+#. translators: 1: enabled count, 2: total
+#: src/Modules/Admin/Dashboard/Widgets/Data/ModulesWidget.php:91
+#: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:93
+#, php-format
+msgid "%1$d / %2$d"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/ModulesWidget.php:101
+#: src/Modules/Admin/Settings.php:827
+msgid "Off"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/NoteWidget.php:26
+#: src/Modules/Admin/Dashboard/Widgets/Data/NoteWidget.php:67
+msgid "Note"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/NoteWidget.php:30
+msgid "A free text note saved on the dashboard. Multiple instances supported."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/NoteWidget.php:43
+msgid "My note"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/NoteWidget.php:71
+msgid "Click Customize to edit this note."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:24
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:195
+msgid "Quick actions"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:28
+msgid "Configurable buttons for frequent admin actions. Multiple instances possible for distinct workflows."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:64
+msgid "Quick-access buttons for the admin actions you run most often. Add one from the dropdown."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:68
+#: src/Modules/Admin/Tables/TablesReimagined.php:468
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:210
+msgid "Actions"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:70
+msgid "Add an action"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:100
+msgid "+ Post"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:105
+msgid "+ Page"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:110
+msgid "+ Media"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:115
+msgid "Clear cache"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:120
+msgid "Update plugins"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:125
+#: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:59
+msgid "Menus"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:130
+msgid "+ User"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:135
+#: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:58
+#: src/Modules/Admin/Tables/TablesReimagined.php:487
+msgid "Comments"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:140
+#: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:60
+msgid "Themes"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:145
+#: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:67
+msgid "Customizer"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:165
+#: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:66
+msgid "Permalinks"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:199
+msgid "No action. Edit the widget config."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:24
+#: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:82
+#: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:129
+msgid "Shortcuts"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:28
+msgid "Configurable bookmarks to frequently used admin pages. Multiple instances possible to categorize."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:55
+msgid "Posts"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:56
+msgid "Pages"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:57
+msgid "Media"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:62
+msgid "Plugins"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:64
+#: src/Modules/Toolkit/ToolsPage.php:38
+#: src/Modules/Toolkit/ToolsPage.php:57
+msgid "Tools"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:78
+msgid "Bookmarks to the admin pages you visit most. Add one from the dropdown."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:84
+msgid "Add a shortcut"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:133
+msgid "No shortcut configured."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/SiteHealthWidget.php:29
+#: src/Modules/Admin/Dashboard/Widgets/Data/SiteHealthWidget.php:139
+msgid "WordPress health"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/SiteHealthWidget.php:33
+msgid "Summary of WP_Site_Health tests: critical, recommended, passed."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/SiteHealthWidget.php:144
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcLowStockWidget.php:141
+msgid "healthy"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/SiteHealthWidget.php:146
+msgid "critical"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/SiteHealthWidget.php:148
+msgid "attention"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/SiteHealthWidget.php:157
+msgid "Run Site Health to populate this widget."
+msgstr ""
+
+#. translators: %d: count
+#: src/Modules/Admin/Dashboard/Widgets/Data/SiteHealthWidget.php:166
+#, php-format
+msgid "%d critical issue"
+msgid_plural "%d critical issues"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: count
+#: src/Modules/Admin/Dashboard/Widgets/Data/SiteHealthWidget.php:178
+#, php-format
+msgid "%d recommended improvement"
+msgid_plural "%d recommended improvements"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: count
+#: src/Modules/Admin/Dashboard/Widgets/Data/SiteHealthWidget.php:190
+#, php-format
+msgid "%d test passed"
+msgid_plural "%d tests passed"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:26
+#: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:70
+msgid "Site status"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:30
+msgid "WP/PHP versions, SSL, plugins to update, PHP errors."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:73
+msgid "upd."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:76
+#: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:84
+msgid "up to date"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:93
+msgid "SSL active"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:93
+msgid "SSL absent"
+msgstr ""
+
+#. translators: %d: plugin update count
+#: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:102
+#, php-format
+msgid "%d plugin to update"
+msgid_plural "%d plugins to update"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/StaticSiteWidget.php:30
+#: src/Modules/Admin/Dashboard/Widgets/Data/StaticSiteWidget.php:95
+msgid "Static site"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/StaticSiteWidget.php:34
+msgid "Static site mode, page count, last export."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/StaticSiteWidget.php:84
+msgid "Static"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/StaticSiteWidget.php:85
+msgid "Hybrid"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/StaticSiteWidget.php:106
+msgid "Static Site module not active."
+msgstr ""
+
+#. translators: %d: page count
+#: src/Modules/Admin/Dashboard/Widgets/Data/StaticSiteWidget.php:115
+#, php-format
+msgid "%d page generated"
+msgid_plural "%d pages generated"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: human-readable time diff
+#: src/Modules/Admin/Dashboard/Widgets/Data/StaticSiteWidget.php:128
+#, php-format
+msgid "Last export: %s ago"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/TodoWidget.php:26
+#: src/Modules/Admin/Dashboard/Widgets/Data/TodoWidget.php:75
+msgid "To handle"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/TodoWidget.php:30
+msgid "Drafts, scheduled posts, comments in moderation, plugins awaiting update."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/TodoWidget.php:66
+msgid "Drafts"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/TodoWidget.php:67
+#: src/Modules/Admin/Editor/EditorReimagined.php:201
+#: src/Modules/Admin/Tables/TablesReimagined.php:441
+msgid "Scheduled"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/TodoWidget.php:68
+msgid "In moderation"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:33
+#: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:85
+msgid "Toolkit"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:37
+msgid "State of the quick toggles (Disable Comments, Classic Editor, etc.)."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:103
+msgid "No toggle available."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcActivityWidget.php:28
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcActivityWidget.php:93
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcActivityWidget.php:103
+msgid "Shop activity"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcActivityWidget.php:32
+msgid "Latest orders: number, amount, status and time."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcActivityWidget.php:95
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcLowStockWidget.php:122
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcOrdersWidget.php:76
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcRevenueWidget.php:105
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcSalesTrendWidget.php:110
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcTopProductsWidget.php:118
+msgid "WooCommerce not active."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcActivityWidget.php:107
+msgid "No orders yet."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcActivityWidget.php:122
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcOrdersWidget.php:128
+msgid "All orders"
+msgstr ""
+
+#. translators: %d: minutes
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcActivityWidget.php:137
+#, php-format
+msgid "%d min"
+msgstr ""
+
+#. translators: %d: hours
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcActivityWidget.php:142
+#, php-format
+msgid "%d h"
+msgstr ""
+
+#. translators: %d: days
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcActivityWidget.php:146
+#, php-format
+msgid "%d d"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcLowStockWidget.php:34
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcLowStockWidget.php:120
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcLowStockWidget.php:135
+msgid "Low stock"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcLowStockWidget.php:38
+msgid "Products running low or out of stock, with a quick preview. Cached 15 min."
+msgstr ""
+
+#. translators: %d: count
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcLowStockWidget.php:137
+#, php-format
+msgid "%d out"
+msgid_plural "%d out"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcLowStockWidget.php:139
+msgid "watch"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcLowStockWidget.php:148
+msgid "stock alerts"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcLowStockWidget.php:150
+msgid "All products well stocked."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcLowStockWidget.php:156
+msgid "low"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcLowStockWidget.php:161
+msgid "out"
+msgstr ""
+
+#. translators: %d: remaining units
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcLowStockWidget.php:169
+#, php-format
+msgid "%d left"
+msgid_plural "%d left"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcLowStockWidget.php:177
+msgid "Manage products"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcOrdersWidget.php:29
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcOrdersWidget.php:74
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcOrdersWidget.php:87
+msgid "Orders to process"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcOrdersWidget.php:33
+msgid "Orders awaiting action: processing (to ship) and on-hold."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcOrdersWidget.php:89
+msgid "to do"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcOrdersWidget.php:91
+msgid "clear"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcOrdersWidget.php:97
+msgid "order waiting"
+msgid_plural "orders waiting"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcOrdersWidget.php:105
+msgid "to ship"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcOrdersWidget.php:112
+msgid "on hold"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcOrdersWidget.php:119
+msgid "pending pay"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcOrdersWidget.php:124
+msgid "Nothing waiting. All caught up."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcRevenueWidget.php:35
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcRevenueWidget.php:103
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcRevenueWidget.php:118
+msgid "Sales (month)"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcRevenueWidget.php:39
+msgid "Revenue collected this month vs last month (same days elapsed). Cached 15 min."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcRevenueWidget.php:129
+msgid "vs last month"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcRevenueWidget.php:133
+msgid "first sales of the period"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcRevenueWidget.php:138
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcSalesTrendWidget.php:136
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcTopProductsWidget.php:147
+msgid "Analytics"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcSalesTrendWidget.php:34
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcSalesTrendWidget.php:108
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcSalesTrendWidget.php:121
+msgid "Sales (7 days)"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcSalesTrendWidget.php:38
+msgid "Daily revenue sparkline over the last 7 days, plus total and order count."
+msgstr ""
+
+#. translators: %d: order count
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcSalesTrendWidget.php:127
+#, php-format
+msgid "%d order"
+msgid_plural "%d orders"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcTopProductsWidget.php:34
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcTopProductsWidget.php:116
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcTopProductsWidget.php:127
+msgid "Top products"
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcTopProductsWidget.php:38
+msgid "Best sellers this month by units sold. Cached 30 min."
+msgstr ""
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcTopProductsWidget.php:132
+msgid "No sales this month yet."
+msgstr ""
+
+#. translators: %d: units sold
+#: src/Modules/Admin/Dashboard/Widgets/Data/WcTopProductsWidget.php:139
+#, php-format
+msgid "%d sold"
+msgid_plural "%d sold"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Modules/Admin/Developer/Renderer.php:29
+msgid "Visually reorganize your admin navigation: drag chips between lines, hide items, promote sub-pages to top-level, and toggle Double Youpï styling per sub-page."
+msgstr ""
+
+#: src/Modules/Admin/Developer/Renderer.php:35
+msgid "The navigation editor requires JavaScript. Please enable it in your browser to use this tab."
+msgstr ""
+
+#: src/Modules/Admin/Developer/Renderer.php:43
+msgid "Loading editor…"
+msgstr ""
+
+#: src/Modules/Admin/Developer/RestController.php:211
+msgid "The overrides must be an object."
+msgstr ""
+
+#: src/Modules/Admin/Developer/RestController.php:245
+msgid "Signatures must be an array."
+msgstr ""
+
+#: src/Modules/Admin/Editor/EditorReimagined.php:189
+#: src/Modules/Admin/Tables/TablesReimagined.php:448
+msgid "Native view"
+msgstr ""
+
+#: src/Modules/Admin/Editor/EditorReimagined.php:190
+#: src/Modules/Admin/Tables/TablesReimagined.php:449
+msgid "Redesigned view"
+msgstr ""
+
+#: src/Modules/Admin/Editor/EditorReimagined.php:192
+#: src/Modules/Admin/Editor/EditorReimagined.php:209
+msgid "Publishing options"
+msgstr ""
+
+#: src/Modules/Admin/Editor/EditorReimagined.php:193
+msgid "Collapse panel"
+msgstr ""
+
+#: src/Modules/Admin/Editor/EditorReimagined.php:194
+msgid "Expand panel"
+msgstr ""
+
+#: src/Modules/Admin/Editor/EditorReimagined.php:195
+msgid "Permalink"
+msgstr ""
+
+#: src/Modules/Admin/Editor/EditorReimagined.php:196
+msgid "Add a title"
+msgstr ""
+
+#: src/Modules/Admin/Editor/EditorReimagined.php:197
+#: src/Modules/Admin/Tables/TablesReimagined.php:451
+msgid "Switch to native view"
+msgstr ""
+
+#: src/Modules/Admin/Editor/EditorReimagined.php:198
+#: src/Modules/Admin/Tables/TablesReimagined.php:452
+msgid "Switch to redesigned view"
+msgstr ""
+
+#: src/Modules/Admin/Editor/EditorReimagined.php:200
+#: src/Modules/Admin/Tables/TablesReimagined.php:440
+msgid "Published"
+msgstr ""
+
+#: src/Modules/Admin/Editor/EditorReimagined.php:202
+#: src/Modules/Admin/Editor/EditorReimagined.php:205
+#: src/Modules/Admin/Tables/TablesReimagined.php:442
+msgid "Draft"
+msgstr ""
+
+#: src/Modules/Admin/Editor/EditorReimagined.php:203
+#: src/Modules/Admin/Tables/TablesReimagined.php:443
+msgid "Pending"
+msgstr ""
+
+#: src/Modules/Admin/Editor/EditorReimagined.php:204
+#: src/Modules/Admin/Tables/TablesReimagined.php:444
+msgid "Private"
+msgstr ""
+
+#. translators: %1$d is the number of available modules, %2$d the number enabled.
+#. translators: %1$d = available modules, %2$d = enabled modules
+#: src/Modules/Admin/Eyebrow.php:232
+#: src/Modules/Admin/Eyebrow.php:617
+#, php-format
+msgid "%1$d module available · %2$d enabled"
+msgid_plural "%1$d modules available · %2$d enabled"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %1$d is the number of available modules, %2$d the number enabled.
+#: src/Modules/Admin/Eyebrow.php:234
+#, php-format
+msgid "%1$d modules available · %2$d enabled"
+msgstr ""
+
+#: src/Modules/Admin/Eyebrow.php:330
+msgid "No item"
+msgstr ""
+
+#. translators: %d is the number of published items.
+#: src/Modules/Admin/Eyebrow.php:340
+#, php-format
+msgid "%d published"
+msgid_plural "%d published"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d is the number of drafts.
+#: src/Modules/Admin/Eyebrow.php:347
+#, php-format
+msgid "%d draft"
+msgid_plural "%d drafts"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %1$d is the item count, %2$s an optional breakdown suffix (e.g. " · 3 published, 1 draft").
+#: src/Modules/Admin/Eyebrow.php:355
+#, php-format
+msgid "%1$d item%2$s"
+msgid_plural "%1$d items%2$s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Modules/Admin/Eyebrow.php:387
+msgid "No order"
+msgstr ""
+
+#. translators: %d is the number of completed orders.
+#: src/Modules/Admin/Eyebrow.php:395
+#, php-format
+msgid "%d completed"
+msgid_plural "%d completed"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d is the number of processing orders.
+#: src/Modules/Admin/Eyebrow.php:402
+#, php-format
+msgid "%d processing"
+msgid_plural "%d processing"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %1$d is the order count, %2$s an optional breakdown suffix (e.g. " · 2 completed, 1 processing").
+#: src/Modules/Admin/Eyebrow.php:410
+#, php-format
+msgid "%1$d order%2$s"
+msgid_plural "%1$d orders%2$s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Modules/Admin/Eyebrow.php:450
+msgid "No media"
+msgstr ""
+
+#. translators: %d is the number of media items.
+#: src/Modules/Admin/Eyebrow.php:456
+#, php-format
+msgid "%d media"
+msgid_plural "%d media"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Modules/Admin/Eyebrow.php:480
+msgid "No term"
+msgstr ""
+
+#. translators: %d is the number of terms.
+#: src/Modules/Admin/Eyebrow.php:484
+#, php-format
+msgid "%d term"
+msgid_plural "%d terms"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %1$d is the number of pending comments, %2$d the number approved.
+#: src/Modules/Admin/Eyebrow.php:496
+#, php-format
+msgid "%1$d pending · %2$d approved"
+msgid_plural "%1$d pending · %2$d approved"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d is the number of approved comments.
+#: src/Modules/Admin/Eyebrow.php:503
+#, php-format
+msgid "%d approved comment"
+msgid_plural "%d approved comments"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Modules/Admin/Eyebrow.php:507
+msgid "No comments"
+msgstr ""
+
+#: src/Modules/Admin/Eyebrow.php:515
+msgid "No users"
+msgstr ""
+
+#. translators: %1$d is the number of users, %2$d the number of distinct roles.
+#: src/Modules/Admin/Eyebrow.php:520
+#, php-format
+msgid "%1$d user · %2$d role"
+msgid_plural "%1$d users · %2$d roles"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d is the number of users.
+#: src/Modules/Admin/Eyebrow.php:531
+#, php-format
+msgid "%d user"
+msgid_plural "%d users"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Modules/Admin/Eyebrow.php:546
+msgid "No extension"
+msgstr ""
+
+#. translators: %1$d is the number of active plugins, %2$d the number installed.
+#: src/Modules/Admin/Eyebrow.php:551
+#, php-format
+msgid "%1$d active out of %2$d installed"
+msgid_plural "%1$d active out of %2$d installed"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %1$s is the active theme name, %2$d the total number of installed themes.
+#: src/Modules/Admin/Eyebrow.php:567
+#, php-format
+msgid "%1$s active · %2$d theme installed"
+msgid_plural "%1$s active · %2$d themes installed"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %1$s is the post status label, %2$s a human-readable time difference (e.g. "3 hours").
+#: src/Modules/Admin/Eyebrow.php:598
+#, php-format
+msgid "%1$s · Modified %2$s ago"
+msgstr ""
+
+#. translators: %1$d is the number of publications, %2$d the number of approved comments.
+#: src/Modules/Admin/Eyebrow.php:662
+#, php-format
+msgid "%1$d publication · %2$d approved comment"
+msgstr ""
+
+#: src/Modules/Admin/Notices.php:94
+#: src/Modules/Admin/Notices.php:96
+#: src/Modules/Admin/Notices.php:115
+#: src/Modules/Admin/Notices.php:164
+msgid "Notifications"
+msgstr ""
+
+#: src/Modules/Admin/Notices.php:119
+msgid "Dismiss all"
+msgstr ""
+
+#: src/Modules/Admin/Notices.php:126
+msgid "Captured notifications"
+msgstr ""
+
+#: src/Modules/Admin/Notices.php:129
+msgid "You are all caught up"
+msgstr ""
+
+#: src/Modules/Admin/Notices.php:130
+msgid "Notifications from WordPress and plugins land here instead of cluttering the top of the page."
+msgstr ""
+
+#. translators: %d is the number of notifications.
+#: src/Modules/Admin/Notices.php:166
+#, php-format
+msgid "%d notifications"
+msgstr ""
+
+#: src/Modules/Admin/Notices.php:167
+msgid "1 notification"
+msgstr ""
+
+#: src/Modules/Admin/Notices.php:168
+msgid "No notifications"
+msgstr ""
+
+#: src/Modules/Admin/Notices.php:169
+msgid "Notification dismissed"
+msgstr ""
+
+#: src/Modules/Admin/PostOrdering.php:205
+msgid "Reorder"
+msgstr ""
+
+#: src/Modules/Admin/PostOrdering.php:217
+#: src/Modules/Admin/Settings.php:295
+#: src/Modules/Admin/Tables/TablesReimagined.php:465
+msgid "Drag to reorder"
+msgstr ""
+
+#: src/Modules/Admin/PostOrdering.php:264
+#: src/Modules/Admin/Tables/TablesReimagined.php:476
+msgid "Reorder failed. Please refresh."
+msgstr ""
+
+#: src/Modules/Admin/PostOrdering.php:305
+msgid "Unknown post type."
+msgstr ""
+
+#: src/Modules/Admin/PostOrdering.php:308
+msgid "This post type is not orderable."
+msgstr ""
+
+#: src/Modules/Admin/PostOrdering.php:311
+msgid "You cannot edit this post type."
+msgstr ""
+
+#: src/Modules/Admin/Profile.php:100
+msgid "You are not allowed to export these settings."
+msgstr ""
+
+#: src/Modules/Admin/Profile.php:120
+msgid "You are not allowed to import these settings."
+msgstr ""
+
+#: src/Modules/Admin/Profile.php:360
+msgid "Accent color and logo"
+msgstr ""
+
+#: src/Modules/Admin/Profile.php:361
+#: src/Modules/Admin/Settings.php:851
+msgid "Per-user customization"
+msgstr ""
+
+#: src/Modules/Admin/Profile.php:362
+msgid "Navigation tree (reimagined or native), section pages on hover, and the Reorganize layout"
+msgstr ""
+
+#: src/Modules/Admin/Profile.php:363
+msgid "Screens left in native styling"
+msgstr ""
+
+#: src/Modules/Admin/Profile.php:364
+msgid "Toolkit toggles"
+msgstr ""
+
+#: src/Modules/Admin/Rail.php:502
+msgid "Dashboard"
+msgstr ""
+
+#: src/Modules/Admin/Rail.php:686
+msgid "Resize navigation"
+msgstr ""
+
+#: src/Modules/Admin/Rail.php:687
+msgid "Toggle navigation width"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:89
+#: src/Modules/Admin/Settings.php:212
+#: src/Modules/Admin/Settings.php:394
+msgid "Invalid accent color (expected format: #rrggbb)."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:208
+msgid "Choose a logo"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:209
+msgid "Use this image"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:210
+#: src/Modules/Admin/Settings.php:731
+msgid "Change image"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:211
+#: src/Modules/Admin/Settings.php:732
+#: src/Modules/Toolkit/Features/LocalAvatars.php:371
+msgid "Choose image"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:213
+#: src/Modules/Admin/Settings.php:422
+msgid "Color too dark: even strong saturation cannot recover identity here."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:214
+#: src/Modules/Admin/Settings.php:425
+msgid "Color too light: even strong saturation cannot recover identity here."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:215
+#: src/Modules/Admin/Settings.php:431
+msgid "Gray too dark: without saturation, tinted surfaces will turn muddy."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:216
+#: src/Modules/Admin/Settings.php:434
+msgid "Gray too light: without saturation, the accent fades on white backgrounds."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:217
+#: src/Modules/Admin/Settings.php:327
+msgid "Something went wrong. Please retry."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:292
+msgid "Builder"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:294
+msgid "Hierarchy managed by the extension"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:296
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:41
+msgid "Rename"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:297
+msgid "Change icon"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:298
+msgid "Delete group"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:299
+msgid "Drag items here."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:300
+msgid "Hide"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:302
+msgid "Plugin pages"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:303
+msgid "These pages aren’t sorted yet. Assign them to a group or hide them."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:304
+msgid "No unsorted plugin pages."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:305
+msgid "Assign"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:306
+msgid "Hidden"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:307
+msgid "Nothing hidden."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:308
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:260
+msgid "Restore"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:310
+msgid "Double Youpï styling is ON for this page"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:311
+msgid "Double Youpï styling is OFF for this page"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:313
+#: src/Modules/Admin/Settings.php:315
+msgid "New item"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:314
+msgid "Name of the new item:"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:316
+msgid "New name:"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:317
+msgid "Delete this item? Its pages return to their original group."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:318
+msgid "Choose an icon"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:321
+msgid "Unsaved changes"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:322
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:79
+msgid "Discard"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:323
+msgid "Reset to defaults"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:325
+msgid "Navigation saved."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:326
+msgid "Reset to defaults."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:328
+msgid "This will restore the default navigation. Continue?"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:552
+msgid "General"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:557
+msgid "Reorganize"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:604
+msgid "Customize the look of your WordPress admin. Everything else is automatic."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:610
+msgid "Some settings are pinned in code."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:611
+msgid "A profile is set through DOUBLEYOUPI_ADMIN_PROFILE (or the doubleyoupi_filter_admin_profile filter): the fields it covers are locked below and cannot be changed from this page."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:649
+msgid "Brand"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:656
+msgid "Primary buttons, links and active states."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:659
+msgid "Recommended colors"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:675
+msgid "Custom color"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:691
+msgid "This color is not accepted"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:693
+msgid "Apply recommended color"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:696
+msgid "Closest recommended color"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:715
+msgid "Logo"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:716
+msgid "Above the rail and on the login screen."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:739
+msgid "Without an image, the Double Youpï logo."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:761
+msgid "Accent on every menu line"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:762
+msgid "The seven sections of the rail take the accent instead of their own color."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:771
+msgid "Navigation"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:776
+#: src/Modules/Admin/Settings.php:779
+#: src/Modules/Admin/Welcome.php:155
+msgid "Navigation tree"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:789
+msgid "Reimagined"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:789
+msgid "Recommended"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:790
+msgid "Seven sections, content first."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:797
+msgid "Native WordPress"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:798
+msgid "The menu in WordPress order, for a team used to it."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:805
+msgid "Reorganize the tree"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:808
+msgid "The Reorganize tab is hidden in native mode. Your layout is kept for when you switch back."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:818
+#: src/Modules/Admin/Settings.php:822
+msgid "Section pages on hover"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:819
+msgid "Hover a section of the rail to open its pages next to it. Keyboard: the right arrow opens, Escape closes."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:825
+msgid "One level"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:826
+msgid "Two levels"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:843
+msgid "Team"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:852
+msgid "Each person can turn the Double Youpï interface off for their own account, from their profile. Your settings stay the default."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:861
+#: src/Modules/MediaLibrary/Settings.php:313
+msgid "Save changes"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:867
+#: src/Modules/Admin/Welcome.php:162
+msgid "Settings profile"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:874
+msgid "This site’s configuration as one JSON file, to import on the next one."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:878
+msgid "Download the profile"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:886
+msgid "Same checks as this form. The logo keeps its address; the image is not copied."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:891
+#: src/Modules/Admin/Settings.php:892
+msgid "Import the profile"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:899
+msgid "The profile carries"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:907
+msgid "Stays with each site"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:909
+msgid "Personal choices: theme, rail width"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:910
+msgid "Dashboard layouts"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:917
+msgid "Pin the profile in code, on every site"
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:919
+msgid "Add to wp-config.php. The settings it covers lock on this page."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:936
+msgid "Pinned in code"
+msgstr ""
+
+#. translators: %d = number of settings applied
+#: src/Modules/Admin/Settings.php:1011
+#, php-format
+msgid "Profile imported: %d setting applied."
+msgid_plural "Profile imported: %d settings applied."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Modules/Admin/Settings.php:1012
+msgid "No file received."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:1013
+msgid "This file is too large to be a profile."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:1014
+msgid "This file is not a Double Youpï admin profile."
+msgstr ""
+
+#: src/Modules/Admin/Settings.php:1015
+msgid "This profile was written by a newer version. Update the plugin first."
+msgstr ""
+
+#: src/Modules/Admin/Subchipbar.php:66
+msgid "Sub-section navigation"
+msgstr ""
+
+#. translators: 1: extension name(s), 2: column names
+#: src/Modules/Admin/Tables/ColumnWatch.php:66
+#, php-format
+msgid "New columns from %1$s: %2$s."
+msgstr ""
+
+#. translators: %s: column names
+#: src/Modules/Admin/Tables/ColumnWatch.php:73
+#, php-format
+msgid "New columns added by an extension: %s."
+msgstr ""
+
+#: src/Modules/Admin/Tables/ColumnWatch.php:80
+msgid "Hide the ones you do not need from the table gear."
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:445
+msgid "Trash"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:450
+msgid "Select all"
+msgstr ""
+
+#. translators: %d = number of columns shown
+#: src/Modules/Admin/Tables/TablesReimagined.php:456
+#, php-format
+msgid "%d columns"
+msgstr ""
+
+#. translators: %d = recommended maximum number of columns
+#: src/Modules/Admin/Tables/TablesReimagined.php:458
+#, php-format
+msgid "%d recommended max for readability"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:461
+msgid "Expand"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:462
+msgid "Collapse"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:463
+msgid "Move up"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:464
+msgid "Move down"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:467
+msgid "Plugin action"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:469
+msgid "Filters"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:470
+msgid "Reset all"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:471
+msgid "selected"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:473
+msgid "Add New"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:474
+msgid "Search…"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:475
+msgid "All"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:477
+msgid "Home"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:480
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:168
+msgid "Edit"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:483
+msgid "Slug"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:484
+msgid "Status"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:485
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:142
+msgid "Date"
+msgstr ""
+
+#. translators: %s = column names added since the last visit
+#: src/Modules/Admin/Tables/TablesReimagined.php:489
+#, php-format
+msgid "New columns: %s"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:493
+msgid "Sort"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:494
+msgid "Sorted ascending"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:495
+msgid "Sorted descending"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:498
+msgid "Update"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:499
+msgid "Updating…"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:500
+msgid "Updated"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:501
+msgid "Update failed"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:502
+msgid "Update available"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:503
+msgid "1 update available"
+msgstr ""
+
+#. translators: %d = number of plugins with an update available
+#: src/Modules/Admin/Tables/TablesReimagined.php:505
+#, php-format
+msgid "%d updates available"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:506
+msgid "Update all"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:507
+msgid "Auto-updates"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:508
+msgid "More"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:509
+msgid "No plugin matches your search."
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:510
+msgctxt "plugins list group"
+msgid "Active"
+msgstr ""
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:511
+msgctxt "plugins list group"
+msgid "Inactive"
+msgstr ""
+
+#: src/Modules/Admin/UserCustomization.php:117
+msgid "Interface customization"
+msgstr ""
+
+#: src/Modules/Admin/UserCustomization.php:120
+msgid "Double Youpï admin interface"
+msgstr ""
+
+#: src/Modules/Admin/UserCustomization.php:128
+msgid "Enable the Double Youpï admin interface for this account"
+msgstr ""
+
+#: src/Modules/Admin/UserCustomization.php:131
+msgid "When disabled, this account uses the standard WordPress admin. The administrator settings (accent color, logo) still apply when enabled."
+msgstr ""
+
+#: src/Modules/Admin/Welcome.php:108
+msgid "You are not allowed to do this."
+msgstr ""
+
+#: src/Modules/Admin/Welcome.php:128
+msgid "Refined Admin Dashboard is on."
+msgstr ""
+
+#: src/Modules/Admin/Welcome.php:130
+msgid "See what changed"
+msgstr ""
+
+#: src/Modules/Admin/Welcome.php:132
+msgid "Dismiss"
+msgstr ""
+
+#: src/Modules/Admin/Welcome.php:148
+msgid "Colour and logo"
+msgstr ""
+
+#: src/Modules/Admin/Welcome.php:149
+msgid "One accent for buttons and active states, your logo above the rail and on the login screen."
+msgstr ""
+
+#: src/Modules/Admin/Welcome.php:151
+msgid "Set the brand"
+msgstr ""
+
+#: src/Modules/Admin/Welcome.php:156
+msgid "Seven sections instead of the WordPress menu. Prefer the native order for a team trained on it? One switch."
+msgstr ""
+
+#: src/Modules/Admin/Welcome.php:158
+msgid "Choose the tree"
+msgstr ""
+
+#: src/Modules/Admin/Welcome.php:163
+msgid "Setting up several sites? Export this configuration and import it on the next one."
+msgstr ""
+
+#: src/Modules/Admin/Welcome.php:165
+msgid "Export the profile"
+msgstr ""
+
+#: src/Modules/Admin/Welcome.php:173
+msgid "Refined Admin Dashboard is on"
+msgstr ""
+
+#: src/Modules/Admin/Welcome.php:174
+msgid "Here is what changed"
+msgstr ""
+
+#: src/Modules/Admin/Welcome.php:179
+msgid "Got it"
+msgstr ""
+
+#: src/Modules/Admin/Welcome.php:181
+msgid "The menu became a rail with seven sections, lists and the editor were redrawn, notices moved into one place, and the dashboard is modular. Each person picks a light or dark theme from the top bar, and everything else is automatic."
+msgstr ""
+
+#: src/Modules/MediaLibrary/CollectionManager.php:169
+msgid "Could not delete collection."
+msgstr ""
+
+#: src/Modules/MediaLibrary/CollectionTaxonomy.php:84
+#: src/Modules/MediaLibrary/CollectionTaxonomy.php:86
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:52
+#: src/Modules/MediaLibrary/Settings.php:256
+msgid "Collections"
+msgstr ""
+
+#: src/Modules/MediaLibrary/CollectionTaxonomy.php:87
+#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:45
+msgid "Collection"
+msgstr ""
+
+#: src/Modules/MediaLibrary/CollectionTaxonomy.php:88
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:53
+msgid "New collection"
+msgstr ""
+
+#: src/Modules/MediaLibrary/CollectionTaxonomy.php:89
+msgid "Edit collection"
+msgstr ""
+
+#: src/Modules/MediaLibrary/CollectionTaxonomy.php:90
+msgid "No collections found"
+msgstr ""
+
+#: src/Modules/MediaLibrary/DuplicateDetector.php:122
+#: src/Modules/MediaLibrary/DuplicateDetector.php:136
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:101
+msgid "Duplicate"
+msgstr ""
+
+#: src/Modules/MediaLibrary/DuplicateDetector.php:135
+msgid "View original"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManager.php:114
+msgid "Move to folder…"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManager.php:117
+msgid "Add to collection…"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManager.php:606
+#: src/Modules/MediaLibrary/FolderManager.php:642
+msgid "A folder cannot be moved into itself or one of its subfolders."
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManager.php:667
+msgid "Could not delete folder."
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:35
+#: src/Modules/MediaLibrary/FolderTaxonomy.php:61
+#: src/Modules/MediaLibrary/FolderTaxonomy.php:63
+#: src/Modules/MediaLibrary/Settings.php:248
+msgid "Folders"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:36
+msgid "New folder"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:37
+msgid "New subfolder"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:38
+msgid "Move to…"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:39
+msgid "Top level"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:42
+msgid "Delete folder"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:43
+msgid "Delete this folder? Media files will not be deleted."
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:44
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:162
+#: src/Modules/MediaLibrary/FolderTaxonomy.php:193
+msgid "No folder"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:45
+#: src/Modules/MediaLibrary/FolderTaxonomy.php:192
+msgid "All folders"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:46
+msgid "No folders yet."
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:47
+msgid "Could not load folders."
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:48
+msgid "Show all media"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:49
+msgid "Media without folder"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:54
+msgid "Rename collection"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:55
+msgid "Delete collection"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:56
+msgid "Delete this collection? Media files will not be deleted."
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:57
+msgid "No collections yet."
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:58
+msgid "Could not load collections."
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:61
+msgid "Folders are disabled."
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:62
+msgid "Collections are disabled."
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:63
+msgid "Enable"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:67
+msgid "Where used"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:68
+msgid "Not used anywhere"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:71
+msgid "Destination folder"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:72
+msgid "Root (no folder)"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:73
+msgid "Choose a collection"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:75
+msgid "Move"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:76
+msgid "Add"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:80
+msgid "Folder name"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:81
+msgid "Collection name"
+msgstr ""
+
+#. translators: %d: number of selected media files.
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:83
+#, php-format
+msgid "Move %d files to a folder"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:84
+msgid "Move 1 file to a folder"
+msgstr ""
+
+#. translators: %d: number of selected media files.
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:86
+#, php-format
+msgid "Add %d files to a collection"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:87
+msgid "Add 1 file to a collection"
+msgstr ""
+
+#. translators: %s: folder name.
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:91
+#, php-format
+msgid ""
+"Delete folder « %s »?\n"
+"\n"
+"Media inside won’t be deleted, they will be moved to « Media without folder »."
+msgstr ""
+
+#. translators: %s: collection name.
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:95
+#, php-format
+msgid ""
+"Delete collection « %s »?\n"
+"\n"
+"Media files won’t be deleted, they will simply be removed from this collection."
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:98
+msgid "this folder"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:99
+msgid "this collection"
+msgstr ""
+
+#. translators: %s: folder name.
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:103
+#, php-format
+msgid "Folder « %s » deleted"
+msgstr ""
+
+#. translators: %s: collection name.
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:105
+#, php-format
+msgid "Collection « %s » deleted"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:106
+msgid "Could not delete folder"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:107
+msgid "Could not delete collection"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:108
+msgid "Move failed"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:109
+msgid "Add failed"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:110
+msgid "folder"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:111
+msgid "collection"
+msgstr ""
+
+#. translators: %s: folder name.
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:114
+#, php-format
+msgid "1 file moved to « %s »"
+msgstr ""
+
+#. translators: %1$d: number of files; %2$s: folder name.
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:116
+#, php-format
+msgid "%1$d files moved to « %2$s »"
+msgstr ""
+
+#. translators: %s: collection name.
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:118
+#, php-format
+msgid "1 file added to « %s »"
+msgstr ""
+
+#. translators: %1$d: number of files; %2$s: collection name.
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:120
+#, php-format
+msgid "%1$d files added to « %2$s »"
+msgstr ""
+
+#. translators: %s: collection name.
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:122
+#, php-format
+msgid "Already in « %s »"
+msgstr ""
+
+#. translators: %s: collection name.
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:124
+#, php-format
+msgid "All already in « %s »"
+msgstr ""
+
+#. translators: %1$d: number of files moved; %2$d: number already present.
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:126
+#, php-format
+msgid "%1$d moved, %2$d already present"
+msgstr ""
+
+#. translators: %1$d: number of files added; %2$d: number already present.
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:128
+#, php-format
+msgid "%1$d added, %2$d already present"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:131
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:133
+msgid "Loading…"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:132
+msgid "Loading details…"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:134
+msgid "Loading error."
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:138
+msgid "Drag to resize"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:139
+msgid "View full size"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:141
+msgid "Information"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:143
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:160
+msgid "Type"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:144
+msgid "Dimensions"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:145
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:161
+msgid "Size"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:146
+msgid "Alternative text"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:147
+msgid "Describe the image for accessibility…"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:152
+msgid "Caption"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:153
+msgid "Description"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:156
+msgid "You can view this file but not edit it."
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:157
+msgid "File URL"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:158
+msgid "Copy"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:159
+msgid "Copied!"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:161
+#: src/Modules/MediaLibrary/FolderTaxonomy.php:64
+#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:44
+msgid "Folder"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:163
+msgid "+ Add to a collection"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:164
+msgid "No collection"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:171
+msgid "Saved ✓"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:172
+msgid "Error, try again"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:174
+msgid "Not used in content."
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:175
+msgid "(untitled)"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:177
+msgid "Permanently delete this file? This action cannot be undone."
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:178
+msgid "Could not delete this file."
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:179
+msgid "Unsaved changes will be lost. Continue?"
+msgstr ""
+
+#. translators: shown after the panel saved pending edits on its own when the user moved to another media file.
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:182
+msgid "Changes saved"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:183
+msgid "Could not save your changes"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:184
+msgid "You have unsaved changes"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:190
+msgid "B"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:191
+msgid "KB"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:192
+msgid "MB"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:195
+msgid "All types"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:196
+msgid "Images"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:197
+msgid "Videos"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:198
+msgid "Audio"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:199
+msgid "Documents"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:200
+msgid "SVG"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:201
+msgid "Mine"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:204
+msgid "Search"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:207
+msgid "No media selected."
+msgstr ""
+
+#. translators: %d: number of selected media files.
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:211
+#, php-format
+msgid "Edit metadata (%d)"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:212
+msgid "Bulk edit"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:213
+msgid "1 file selected"
+msgstr ""
+
+#. translators: %d: number of selected media files.
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:215
+#, php-format
+msgid "%d files selected"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:216
+msgid "Leave a field empty to keep each file’s existing value unchanged."
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:217
+msgid "Alt text"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:218
+msgid "Describe the image…"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:219
+msgid "File title…"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:220
+msgid "Apply to 1 file"
+msgstr ""
+
+#. translators: %d: number of selected media files.
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:222
+#, php-format
+msgid "Apply to %d files"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:223
+msgid "Applying…"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:224
+msgid "Retry"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderManagerI18n.php:227
+msgid "More fields"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderTaxonomy.php:65
+msgid "Add folder"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderTaxonomy.php:66
+msgid "Edit folder"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderTaxonomy.php:67
+msgid "Update folder"
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderTaxonomy.php:68
+msgid "No folders found"
+msgstr ""
+
+#: src/Modules/MediaLibrary/MediaLibrary.php:74
+msgid "Turning the media library off hands the Media screen back to WordPress. Your folders and your collections are kept, and come back if you turn it on again."
+msgstr ""
+
+#: src/Modules/MediaLibrary/MediaLibrary.php:77
+msgid "Double Youpï Refined Media Library is installed and standing aside: reactivate it if you want the media library without the rest."
+msgstr ""
+
+#: src/Modules/MediaLibrary/MediaLibrary.php:133
+msgid "Media Library"
+msgstr ""
+
+#: src/Modules/MediaLibrary/MediaLibrary.php:175
+msgid "Unused media"
+msgstr ""
+
+#. translators: %s: name of the competing media-library plugin (e.g. FileBird).
+#: src/Modules/MediaLibrary/MediaManagerConflict.php:258
+#, php-format
+msgid "Refined Media Library is managing the media library. %s is also active."
+msgstr ""
+
+#. translators: %s: name of the competing media-library plugin.
+#: src/Modules/MediaLibrary/MediaManagerConflict.php:260
+#, php-format
+msgid "Let %s manage it"
+msgstr ""
+
+#. translators: %s: name of the competing media-library plugin currently managing the page.
+#: src/Modules/MediaLibrary/MediaManagerConflict.php:265
+#, php-format
+msgid "%s is managing the media library. Refined Media Library has stepped aside."
+msgstr ""
+
+#: src/Modules/MediaLibrary/MediaManagerConflict.php:266
+msgid "Use Refined Media Library"
+msgstr ""
+
+#. translators: %s: name of the competing media-library plugin (e.g. FileBird).
+#: src/Modules/MediaLibrary/MediaManagerConflict.php:287
+#, php-format
+msgid "Import folders from %s"
+msgstr ""
+
+#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:19
+msgid "No other folder plugin detected. Nothing to import."
+msgstr ""
+
+#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:20
+msgid "Detected plugins"
+msgstr ""
+
+#. translators: %1$d: folder count, %2$d: media count
+#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:22
+#, php-format
+msgid "%1$d folders · %2$d media"
+msgstr ""
+
+#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:23
+msgid "Already imported"
+msgstr ""
+
+#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:26
+msgid "Undo this import"
+msgstr ""
+
+#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:27
+msgid "Reading source…"
+msgstr ""
+
+#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:28
+msgid "Import preview"
+msgstr ""
+
+#. translators: %1$d: folders, %2$d: collections, %3$d: media
+#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:30
+#, php-format
+msgid "%1$d folders, %2$d collections and %3$d media will be imported."
+msgstr ""
+
+#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:31
+msgid "Start import"
+msgstr ""
+
+#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:33
+msgid "Importing…"
+msgstr ""
+
+#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:34
+msgid "Creating folders…"
+msgstr ""
+
+#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:35
+msgid "Assigning media…"
+msgstr ""
+
+#. translators: %1$d: folders+collections, %2$d: media
+#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:37
+#, php-format
+msgid "Done. %1$d folders and %2$d media imported."
+msgstr ""
+
+#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:38
+msgid "Open the media library"
+msgstr ""
+
+#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:39
+msgid "Remove all folders created by this import? Your media and the source plugin are left untouched."
+msgstr ""
+
+#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:40
+msgid "Undoing…"
+msgstr ""
+
+#. translators: %d: number of folders removed
+#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:42
+#, php-format
+msgid "%d imported folders removed."
+msgstr ""
+
+#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:43
+msgid "Something went wrong. Please try again."
+msgstr ""
+
+#: src/Modules/MediaLibrary/Migration/MigrationManager.php:468
+msgid "Import folders and collections from another media library plugin. Your media stay in place. This only re-creates the folder structure inside Refined Media Library, and the source plugin is never modified, so you can verify the result before removing it."
+msgstr ""
+
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:78
+msgid "Scanning…"
+msgstr ""
+
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:79
+msgid "No unused media found. Your library is clean!"
+msgstr ""
+
+#. translators: %d: number of unused media files found.
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:81
+#, php-format
+msgid "%d unused media file found."
+msgstr ""
+
+#. translators: %d: number of unused media files found.
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:83
+#, php-format
+msgid "%d unused media files found."
+msgstr ""
+
+#. translators: %d: number of unused media files remaining.
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:85
+#, php-format
+msgid "%d unused media file remaining."
+msgstr ""
+
+#. translators: %d: number of unused media files remaining.
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:87
+#, php-format
+msgid "%d unused media files remaining."
+msgstr ""
+
+#. translators: %d: number of media files to be moved to the trash.
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:95
+#, php-format
+msgid "I confirm moving %d media file to the trash."
+msgstr ""
+
+#. translators: %d: number of media files to be moved to the trash.
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:97
+#, php-format
+msgid "I confirm moving %d media files to the trash."
+msgstr ""
+
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:98
+msgid "Move selected media to the trash"
+msgstr ""
+
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:99
+msgid "Moving to the trash…"
+msgstr ""
+
+#. translators: %d: number of media files moved to the trash.
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:101
+#, php-format
+msgid "%d file moved to the trash."
+msgstr ""
+
+#. translators: %d: number of media files moved to the trash.
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:103
+#, php-format
+msgid "%d files moved to the trash."
+msgstr ""
+
+#. translators: %d: number of errors encountered.
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:105
+#, php-format
+msgid "%d error."
+msgstr ""
+
+#. translators: %d: number of errors encountered.
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:107
+#, php-format
+msgid "%d errors."
+msgstr ""
+
+#. translators: %d: number of media files left alone because they are in use.
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:109
+#, php-format
+msgid "%d file kept: it is in use."
+msgstr ""
+
+#. translators: %d: number of media files left alone because they are in use.
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:111
+#, php-format
+msgid "%d files kept: they are in use."
+msgstr ""
+
+#. translators: %d: number of restored media files.
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:113
+#, php-format
+msgid "%d file restored."
+msgstr ""
+
+#. translators: %d: number of restored media files.
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:115
+#, php-format
+msgid "%d files restored."
+msgstr ""
+
+#. translators: %d: number of permanently deleted media files.
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:117
+#, php-format
+msgid "%d file permanently deleted."
+msgstr ""
+
+#. translators: %d: number of permanently deleted media files.
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:119
+#, php-format
+msgid "%d files permanently deleted."
+msgstr ""
+
+#. translators: %d: number of media files about to be erased.
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:121
+#, php-format
+msgid "Permanently delete %d file? It is erased from the server, and this cannot be undone."
+msgstr ""
+
+#. translators: %d: number of media files about to be erased.
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:123
+#, php-format
+msgid "Permanently delete %d files? They are erased from the server, and this cannot be undone."
+msgstr ""
+
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:124
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:201
+msgid "Nothing has been moved to the trash from this screen."
+msgstr ""
+
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:136
+msgid "Media files not referenced in any post, page, featured image, or custom field."
+msgstr ""
+
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:141
+msgid "Scan for unused media"
+msgstr ""
+
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:159
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:208
+msgid "File"
+msgstr ""
+
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:162
+msgid "Uploaded"
+msgstr ""
+
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:189
+msgid "Recently removed"
+msgstr ""
+
+#. translators: %d: number of days WordPress keeps files in the trash.
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:194
+#, php-format
+msgid "Nothing here has been erased: each file is still on the server, so a page that displays it keeps working. Put a file back and it returns to the media library with its folders. WordPress empties its trash after %d days."
+msgstr ""
+
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:209
+msgid "Removed"
+msgstr ""
+
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:224
+msgid "Empty the trash"
+msgstr ""
+
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:261
+msgid "Delete permanently"
+msgstr ""
+
+#: src/Modules/MediaLibrary/OrphanAdminPage.php:287
+msgid "Delete selected media"
+msgstr ""
+
+#: src/Modules/MediaLibrary/Settings.php:224
+msgid "Optimization"
+msgstr ""
+
+#. translators: %s: name of the module piloting image conversion
+#: src/Modules/MediaLibrary/Settings.php:231
+#, php-format
+msgid "Piloted by %s. Settings managed there."
+msgstr ""
+
+#: src/Modules/MediaLibrary/Settings.php:233
+msgid "This server cannot generate WebP images."
+msgstr ""
+
+#: src/Modules/MediaLibrary/Settings.php:234
+msgid "This server cannot generate AVIF images."
+msgstr ""
+
+#: src/Modules/MediaLibrary/Settings.php:241
+msgid "Organisation"
+msgstr ""
+
+#: src/Modules/MediaLibrary/Settings.php:249
+msgid "Organise the media library into folders"
+msgstr ""
+
+#: src/Modules/MediaLibrary/Settings.php:257
+msgid "Group media into cross-folder collections"
+msgstr ""
+
+#: src/Modules/MediaLibrary/Settings.php:264
+msgid "Auto alt & title"
+msgstr ""
+
+#: src/Modules/MediaLibrary/Settings.php:265
+msgid "Fill alt text and title from filename on upload (if empty)"
+msgstr ""
+
+#: src/Modules/MediaLibrary/Settings.php:274
+msgid "Duplicate badge"
+msgstr ""
+
+#: src/Modules/MediaLibrary/Settings.php:275
+msgid "Mark files already in the library, by content"
+msgstr ""
+
+#: src/Modules/MediaLibrary/Settings.php:283
+msgid "Conversion"
+msgstr ""
+
+#: src/Modules/MediaLibrary/Settings.php:290
+msgid "WebP on upload"
+msgstr ""
+
+#: src/Modules/MediaLibrary/Settings.php:291
+msgid "Generate a WebP version of each image on upload"
+msgstr ""
+
+#: src/Modules/MediaLibrary/Settings.php:300
+msgid "AVIF on upload"
+msgstr ""
+
+#: src/Modules/MediaLibrary/Settings.php:301
+msgid "Generate an AVIF version too (requires Imagick)"
+msgstr ""
+
+#: src/Modules/MediaLibrary/Settings.php:349
+msgid "Double Youpï Refined Admin Dashboard includes this media library, and redraws the rest of the admin the same way. It is free too."
+msgstr ""
+
+#: src/Modules/MediaLibrary/Settings.php:350
+msgid "Read about it"
+msgstr ""
+
+#: src/Modules/MediaLibrary/Settings.php:400
+msgid "Conversion quality"
+msgstr ""
+
+#: src/Modules/MediaLibrary/Settings.php:401
+msgid "Higher means better quality and larger files. Default 82."
+msgstr ""
+
+#: src/Modules/Toolkit/Features/ClassicEditor.php:26
+msgid "Classic Editor"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/ClassicEditor.php:30
+msgid "Disable the block editor (Gutenberg)"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/ClassicEditor.php:34
+msgid "Forces TinyMCE on all posts/pages/CPTs and disables the block widget editor. Replaces Classic Editor / Disable Gutenberg."
+msgstr ""
+
+#: src/Modules/Toolkit/Features/DisableComments.php:31
+msgid "Disable comments"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/DisableComments.php:35
+msgid "Cut comments and trackbacks everywhere"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/DisableComments.php:39
+msgid "Removes comment support from all post types, hides the Comments menu and admin bar icon, blocks POST to wp-comments-post.php. Replaces Disable Comments."
+msgstr ""
+
+#: src/Modules/Toolkit/Features/DisableComments.php:119
+msgid "Comments are disabled on this site."
+msgstr ""
+
+#: src/Modules/Toolkit/Features/DisableEmailVerification.php:29
+msgid "Disable email verification"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/DisableEmailVerification.php:33
+msgid "Stop the periodic « Is this admin email correct? » screen"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/DisableEmailVerification.php:37
+msgid "Removes the full-screen admin email verification prompt WordPress shows at login every few months. Replaces Make Disable Admin Email Verification Prompt."
+msgstr ""
+
+#: src/Modules/Toolkit/Features/DisableUpdateEmails.php:32
+msgid "Disable update emails"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/DisableUpdateEmails.php:36
+msgid "Mute auto-update success emails for plugins and themes"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/DisableUpdateEmails.php:40
+msgid "Stops the inbox spam from successful plugin/theme auto-updates. Failure and critical emails are kept, and core update emails are untouched. Replaces Companion Auto Update / Easy Updates Manager."
+msgstr ""
+
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:28
+msgid "Duplicate a post/page"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:32
+msgid "Enable a « Duplicate » link in the admin lists"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:36
+msgid "Adds a « Duplicate » link in the Posts/Pages/CPT lists. Clones the content, meta and taxonomies as a draft. Replaces Yoast Duplicate Post."
+msgstr ""
+
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:102
+msgid "Duplicate this content as a draft"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:111
+msgid "Post ID missing."
+msgstr ""
+
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:121
+msgid "Source post not found."
+msgstr ""
+
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:151
+msgid "(Copy)"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/ForceHttps.php:29
+msgid "Force HTTPS"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/ForceHttps.php:33
+msgid "Redirect HTTP → HTTPS and rewrite internal links"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/ForceHttps.php:37
+msgid "301 redirect on front and admin, rewriting of http→https URLs in the content. Replaces Really Simple SSL. (The WordPress « Site Address » setting is not modified: do it manually.)"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/ForceHttps.php:70
+msgid "Local environment detected: Force HTTPS is blocked here to avoid breaking access to the site (local certificates are usually not configured). To override: add_filter( 'doubleyoupi_toolkit_force_https_in_local', '__return_true' );"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/HideLogin.php:64
+msgid "Hide login"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/HideLogin.php:68
+msgid "Move the login page to a custom URL"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/HideLogin.php:72
+msgid "Moves wp-login.php to a custom slug and returns a 404 on the default login for logged-out visitors. Emails you the new URL, and a wp-config recovery constant prevents lockout. Replaces WPS Hide Login."
+msgstr ""
+
+#: src/Modules/Toolkit/Features/HideLogin.php:99
+msgid "Recovery mode is active (DOUBLEYOUPI_HIDE_LOGIN_DISABLE in wp-config.php): the default login is restored."
+msgstr ""
+
+#: src/Modules/Toolkit/Features/HideLogin.php:102
+msgid "Hide login is not supported on multisite networks."
+msgstr ""
+
+#: src/Modules/Toolkit/Features/HideLogin.php:118
+msgid "Login URL slug"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/HideLogin.php:124
+msgid "e.g. my-secret-login"
+msgstr ""
+
+#. translators: %s: the resulting login URL
+#: src/Modules/Toolkit/Features/HideLogin.php:130
+#, php-format
+msgid "Your login page: %s"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/HideLogin.php:136
+msgid "Set a slug to activate: the feature stays off until a valid slug is saved."
+msgstr ""
+
+#. translators: %s: the wp-config recovery line
+#: src/Modules/Toolkit/Features/HideLogin.php:142
+#, php-format
+msgid "Locked out? Add %s to wp-config.php to restore the default login."
+msgstr ""
+
+#: src/Modules/Toolkit/Features/HideLogin.php:423
+msgid "This page does not exist."
+msgstr ""
+
+#: src/Modules/Toolkit/Features/HideLogin.php:424
+msgid "Not found"
+msgstr ""
+
+#. translators: %s: site name
+#: src/Modules/Toolkit/Features/HideLogin.php:438
+#, php-format
+msgid "[%s] Your WordPress login URL changed"
+msgstr ""
+
+#. translators: 1: new login URL, 2: default wp-login URL
+#: src/Modules/Toolkit/Features/HideLogin.php:442
+#, php-format
+msgid ""
+"The login URL for your site has changed.\n"
+"\n"
+"New login URL: %1$s\n"
+"\n"
+"The default %2$s now returns a 404 to logged-out visitors. Bookmark the new URL.\n"
+"\n"
+"If you ever get locked out, add this line to wp-config.php to restore the default login:\n"
+"define( 'DOUBLEYOUPI_HIDE_LOGIN_DISABLE', true );"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/IntuitiveSave.php:35
+msgid "Intuitive Save/Publish"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/IntuitiveSave.php:39
+msgid "Cmd+S (Mac) / Ctrl+S (PC) triggers the page save button"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/IntuitiveSave.php:43
+msgid "On admin pages with a form to save (Settings, profile, term edit, Classic Editor), Cmd+S triggers the primary button. Gutenberg is untouched (it already has its native shortcut). Behavior similar to Bricks."
+msgstr ""
+
+#: src/Modules/Toolkit/Features/LocalAvatars.php:67
+msgid "Local avatars"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/LocalAvatars.php:71
+msgid "Per-user avatar upload, with zero Gravatar requests"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/LocalAvatars.php:75
+msgid "Adds an avatar upload field to user profiles and serves every avatar locally: no request ever reaches gravatar.com (GDPR-friendly). Users without an uploaded avatar get a generated initials avatar. Replaces Simple Local Avatars."
+msgstr ""
+
+#: src/Modules/Toolkit/Features/LocalAvatars.php:353
+msgid "Local avatar"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/LocalAvatars.php:356
+msgid "Avatar"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/LocalAvatars.php:378
+msgid "Stored locally in the media library. No avatar uses an automatically generated one. Gravatar is never contacted."
+msgstr ""
+
+#: src/Modules/Toolkit/Features/LocalAvatars.php:434
+msgid "Select an avatar"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/LocalAvatars.php:435
+msgid "Use as avatar"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/SafeSvg.php:35
+msgid "SVG upload (sanitized)"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/SafeSvg.php:39
+msgid "Allow uploading SVG files, with sanitization"
+msgstr ""
+
+#: src/Modules/Toolkit/Features/SafeSvg.php:43
+msgid "Enables SVG upload in the media library and passes every file through a DOMDocument sanitizer (strips <script>, on* attributes, href javascript:). Replaces Safe SVG."
+msgstr ""
+
+#: src/Modules/Toolkit/Features/SafeSvg.php:111
+msgid "SVG: temporary file unreadable."
+msgstr ""
+
+#: src/Modules/Toolkit/Features/SafeSvg.php:120
+msgid "SVG: file rejected (non-SVG content or malformed)."
+msgstr ""
+
+#: src/Modules/Toolkit/Features/SafeSvg.php:128
+msgid "SVG: unable to write the sanitized file."
+msgstr ""
+
+#: src/Modules/Toolkit/ToolsPage.php:37
+msgid "Double Youpï · Tools"
+msgstr ""
+
+#: src/Modules/Toolkit/ToolsPage.php:64
+msgid "Toggles that replace the common micro-plugins: Classic Editor, Disable Comments, Duplicate Post, Really Simple SSL, Safe SVG. If one of these plugins is already active, we hand control over to it."
+msgstr ""
+
+#: src/Modules/Toolkit/ToolsPage.php:87
+msgid "Save the tools"
+msgstr ""
+
+#: src/Modules/Toolkit/ToolsPage.php:121
+msgid "Delegated"
+msgstr ""
+
+#: src/Modules/Toolkit/ToolsPage.php:122
+msgid "Blocked"
+msgstr ""
+
+#. translators: %s: name of the detected third-party plugin
+#: src/Modules/Toolkit/ToolsPage.php:181
+#, php-format
+msgid "%s detected, we hand control over to it."
+msgstr ""
+
+#: src/Modules/Toolkit/ToolsPage.php:246
+msgid "Tools updated. Reload the page to see the effects."
+msgstr ""

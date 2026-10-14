@@ -1,0 +1,293 @@
+// =============================================================
+// _media-modal.scss
+// Polish for the WP media MODAL (wp.media: "Featured Image",
+// "Add Media"…) to match the redesigned media library.
+//
+// The dark base already comes from wp-production/_07-universal-dark.scss
+// (modal-content, toolbars, attachment-details, nav…). Here we raise the
+// FINISH level: right detail panel, attachments grid, action bar,
+// header/tabs, and responsive layout SPECIFIC to the modal (≠ full page).
+//
+// Scoped to `body.dy-admin .media-modal` → applies everywhere (Media
+// Library module active or not). The folders/collections panel (#dy-folder-panel)
+// is styled on the Media Library module side (media-library.scss).
+// =============================================================
+
+body.dy-admin .media-modal {
+
+  // ── Modal shell ──────────────────────────────────────────
+  .media-modal-content {
+    border-radius: var(--dya-r-lg);
+    overflow: hidden;
+    border: 1px solid var(--dya-edge) !important;
+  }
+
+  // ── Header (title + close button) ────────────────────────────────
+  .media-frame-title {
+    border-bottom: 1px solid var(--dya-line) !important;
+  }
+  .media-frame-title h1 {
+    font-family: var(--dya-font-display);
+    font-weight: 600;
+    letter-spacing: var(--dya-tracking-tight);
+    color: var(--dya-ink);
+  }
+
+  // ── Router tabs (Upload / Media Library) ─────────────────────
+  .media-frame-router { border-bottom: 0 !important; }
+  .media-router .media-menu-item {
+    color: var(--dya-ink-mute);
+    border: 0;
+    background: transparent;
+    transition: color var(--dya-t-fast) var(--dya-ease), box-shadow var(--dya-t-fast) var(--dya-ease);
+  }
+  .media-router .media-menu-item:hover { color: var(--dya-ink); }
+  .media-router .media-menu-item.active {
+    color: var(--dya-ink);
+    background: transparent;
+    box-shadow: inset 0 -2px 0 var(--dya-accent);
+    font-weight: 500;
+  }
+  .media-router .media-menu-item.active:after { display: none; }
+
+  // ── Toolbar (filters + search) ───────────────────────────
+  // .media-toolbar is already paper-2/r-md; we polish the controls inside.
+  .media-toolbar { box-shadow: none !important; }
+  .media-toolbar .spinner { display: none; }
+
+  // ── Horizontal padding of CONTENT (toolbar + grid) ───────────────
+  // Prevents the filter bar and grid from sticking to the folder panel
+  // (left) and the detail panel / edge (right).
+  // `right` is transitioned: on open/close of the detail panel, the
+  // filter bar AND the grid slide smoothly (the grid is a CSS grid
+  // auto-fill → it reflows cleanly during the animation).
+  .attachments-browser > .media-toolbar {
+    padding: 6px 16px 0 !important;
+    transition: right .28s cubic-bezier(.2, .8, .2, 1) !important;
+  }
+  // overflow:visible → the accent ring / hover shadow of edge tiles are no
+  // longer clipped by the container (actual scroll lives on .attachments).
+  .attachments-wrapper {
+    padding: 0 16px !important;
+    box-sizing: border-box;
+    overflow: visible !important;
+    transition: right .28s cubic-bezier(.2, .8, .2, 1) !important;
+  }
+
+  // ── Attachments grid: SAME rendering as the media library page ─────
+  // (card background, rounded corners, hover scale, accent selection ring,
+  //  caption = title on bottom gradient, single ellipsized line).
+  ul.attachments { padding: 0 !important; }
+  .attachment {
+    position: relative !important;
+    padding: 7.5% !important;
+    margin: 0 !important;
+    width: auto !important;
+    float: none !important;
+    box-sizing: border-box !important;
+    background: var(--dya-paper-2) !important;
+    border-radius: var(--dya-r-md) !important;
+    overflow: hidden !important;
+    box-shadow: 0 0 0 1px var(--dya-edge) !important;
+    cursor: pointer !important;
+    transition: transform 180ms cubic-bezier(.2, .8, .2, 1), box-shadow 180ms cubic-bezier(.2, .8, .2, 1) !important;
+  }
+  .attachment img { pointer-events: none !important; }
+  .attachment:hover {
+    transform: scale(1.02) !important;
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--dya-accent) 35%, transparent),
+      0 12px 32px -8px rgba(0, 0, 0, .7),
+      0 4px 8px -2px rgba(0, 0, 0, .4) !important;
+  }
+  .attachment.selected {
+    box-shadow:
+      inset 0 0 0 2px var(--dya-accent),
+      0 0 0 1px var(--dya-accent),
+      0 8px 20px -6px color-mix(in srgb, var(--dya-accent) 35%, transparent) !important;
+    transform: translateY(-1px) !important;
+  }
+  .attachment.details {
+    box-shadow: 0 0 0 2px var(--dya-accent), 0 0 20px color-mix(in srgb, var(--dya-accent) 25%, transparent) !important;
+  }
+  .attachment .thumbnail,
+  .attachment .attachment-preview {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: var(--dya-paper-2) !important;
+  }
+  // Caption: image (without native .filename) → ::after = title (aria-label);
+  // non-image files → .filename. Shared skin: 1 ellipsized line on gradient.
+  .wp-core-ui .attachment:not(:has(.filename))::after {
+    content: attr(aria-label); position: absolute; left: 7.5%; right: 7.5%; bottom: 7.5%; z-index: 2;
+  }
+  .wp-core-ui .attachment:not(:has(.filename))::after,
+  .attachment .filename {
+    display: block; box-sizing: border-box; margin: 0 !important;
+    height: auto !important; max-height: none !important;
+    padding: 18px 9px 7px !important;
+    background: linear-gradient(to top, rgba(6, 8, 12, .92) 14%, rgba(6, 8, 12, .55) 58%, transparent 100%) !important;
+    border: 0 !important; box-shadow: none !important;
+    color: var(--dya-ink) !important; font-size: 10.5px !important; font-weight: 500 !important;
+    line-height: 1.3 !important; text-align: left !important;
+    white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important;
+    pointer-events: none !important;
+  }
+  .attachment .filename > div { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  // Selection checkmark: accent disc + crisp real "✓" (colored mask in
+  // --dya-accent-on), identical to the media library page (no more empty badge).
+  .attachment .check {
+    background: var(--dya-accent) !important;
+    border: 0 !important;
+    border-radius: 50% !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .35) !important;
+  }
+  .attachment .check .media-modal-icon {
+    background-color: var(--dya-accent-on) !important;
+    background-image: none !important;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / 12px 12px;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / 12px 12px;
+  }
+
+  // ── ACF "Expand / Collapse details" link ─────────────────────
+  // ACF injects this toggle into the modal; it duplicates the native detail
+  // panel. We remove it (the panel now has its own × button).
+  .acf-expand-details { display: none !important; }
+
+  // ── Right detail panel (.media-sidebar) ──────────────────────────
+  // Transparent (no more white rectangle), and COLLAPSED as long as NOTHING is
+  // selected: the grid takes up the full width. Reappears as soon as a
+  // media item is selected (:has — modern browsers).
+  // NB: we do NOT touch `position` (WP sets it to absolute/right:0; forcing
+  // it to relative made it fall to the left in the flow). The native absolute
+  // already serves as positioning context for the × button below.
+  .media-sidebar {
+    background: transparent !important;
+    border-left: 1px solid var(--dya-line) !important;
+    box-shadow: none !important;
+    padding: 16px !important;
+    // Smooth opening: slides in from the right + fade (not display:none,
+    // which cannot be animated).
+    transition: transform .28s cubic-bezier(.2, .8, .2, 1), opacity .24s ease !important;
+  }
+  // × button: closes the detail panel AND deselects the current media
+  // (injected by media-filters.js). Subtle, switches to accent on hover.
+  .media-sidebar .dy-detail-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 5;
+    width: 26px;
+    height: 26px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    border-radius: var(--dya-r-sm);
+    background: transparent;
+    color: var(--dya-ink-mute);
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    transition: color var(--dya-t-fast) var(--dya-ease), background-color var(--dya-t-fast) var(--dya-ease);
+  }
+  .media-sidebar .dy-detail-close:hover,
+  .media-sidebar .dy-detail-close:focus {
+    background: var(--dya-paper-2);
+    color: var(--dya-ink);
+    outline: none;
+  }
+  // ── COLLAPSED state (no media selected) ──────────────────────────
+  // No display:none (not animatable): the panel slides off-screen + fades out.
+  // The filter bar AND the grid reclaim the full width (right:0) →
+  // search aligns with the right edge of the grid when the panel is
+  // closed, and everything animates on opening.
+  .attachments-browser:not(:has(.attachment.selected, .attachment.details)) .media-sidebar {
+    transform: translateX(24px) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+  .attachments-browser:not(:has(.attachment.selected, .attachment.details)) .attachments-wrapper,
+  .attachments-browser:not(:has(.attachment.selected, .attachment.details)) > .media-toolbar {
+    right: 0 !important;
+  }
+  // attachment-info: no more paper-2 background or bottom border → integrates into the panel.
+  .attachment-info {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+  .media-sidebar .attachment-details,
+  .media-sidebar .attachment-info { border-bottom: 0 !important; }
+  // Action links ("Edit image", "Delete permanently"): the dark skin
+  // was adding a border-bottom → a parasitic rule below the info block.
+  // We reset them to clean links with no border.
+  .media-sidebar .attachment-info .edit-attachment,
+  .media-sidebar .attachment-info .delete-attachment,
+  .media-sidebar .attachment-info .button-link {
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  // ── Action bar (button "Set featured image") ──────
+  .media-frame-toolbar { border-top: 1px solid var(--dya-line) !important; }
+  .media-toolbar .media-button.button-primary {
+    background: var(--dya-accent) !important;
+    border-color: var(--dya-accent) !important;
+    color: var(--dya-accent-on) !important;
+    border-radius: var(--dya-r-md) !important;
+    box-shadow: none !important;
+    font-weight: 500;
+  }
+  .media-toolbar .media-button.button-primary:disabled,
+  .media-toolbar .media-button.button-primary[disabled] {
+    background: var(--dya-paper-3) !important;
+    border-color: var(--dya-edge) !important;
+    color: var(--dya-ink-fade) !important;
+  }
+  .media-toolbar .media-button.button-primary:not(:disabled):hover {
+    background: color-mix(in srgb, var(--dya-accent) 88%, #000) !important;
+  }
+
+  // ── "Load more" + counter ────────────────────────────────
+  .load-more-wrapper .load-more-count { color: var(--dya-ink-mute); }
+  .attachments-browser .media-toolbar-secondary .load-more {
+    color: var(--dya-ink-soft);
+  }
+
+  // ── Third-party injected fields (Polylang, Yoast…) ───────────────────────
+  // These plugins add their fields to the detail panel via
+  // `attachment_fields_to_edit` (table .compat-attachment-fields). We align
+  // them with the rest of the panel.
+  //
+  // (a) <select> (e.g. Polylang language selector). Our custom chevron is
+  //     drawn as a background on the right with a 32px gutter; when
+  //     WP/the plugin sets insufficient padding-right, the option text
+  //     renders UNDER the chevron. We enforce the gutter + full width (other
+  //     panel fields are already full-width).
+  .compat-attachment-fields select,
+  .media-sidebar .setting select {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-right: 32px !important;
+  }
+
+  // (b) checkbox (e.g. "Exclude this attachment from the sitemap", Yoast).
+  //     The input aligns to the text baseline → it floats too high in its cell.
+  //     We recenter the entire row and the input on the vertical axis.
+  .compat-attachment-fields tr:has(input[type="checkbox"]) th,
+  .compat-attachment-fields tr:has(input[type="checkbox"]) td {
+    vertical-align: middle !important;
+  }
+  .compat-attachment-fields input[type="checkbox"] {
+    vertical-align: middle !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+}
+
+// ── Overlay: darken the backdrop for sharp focus on the modal ──
+body.dy-admin .media-modal-backdrop { background: rgba(0, 0, 0, .6); }

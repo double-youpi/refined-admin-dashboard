@@ -1,0 +1,520 @@
+// =============================================================
+// _woocommerce.scss
+// Targets WC admin chrome: Orders, Products, Settings, Status,
+// and the React-based "WC Admin" analytics pages.
+// Most WC views just use .wp-list-table / .form-table / .button
+// → they inherit our base styling automatically. This file
+// adds WC-specific surfaces only.
+// =============================================================
+
+// ── React-based "WC Admin" wrapper ─────────────────────
+body.dy-admin.woocommerce-page #wpbody-content {
+  padding: 0;
+}
+
+body.dy-admin .woocommerce-layout {
+  background: transparent;
+}
+
+body.dy-admin .woocommerce-layout__header {
+  background: var(--dya-paper);
+  border: 1px solid var(--dya-edge);
+  border-radius: var(--dya-r-xl);
+  padding: 18px 22px;
+  margin: 0 var(--dya-wrap-pad-x) 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--dya-shadow-sm);
+}
+body.dy-admin .woocommerce-layout__header-heading {
+  font-family: var(--dya-font-display);
+  font-size: var(--dya-fs-xl);
+  font-weight: 500;
+  letter-spacing: var(--dya-tracking-tight);
+  color: var(--dya-ink);
+  margin: 0;
+}
+
+body.dy-admin .woocommerce-layout__primary,
+body.dy-admin .woocommerce-page #wpcontent .wrap {
+  background: transparent;
+}
+
+// ── Order status pills (.order-status) ────────────────
+body.dy-admin mark.order-status,
+body.dy-admin .order-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: var(--dya-r-pill);
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-mono);
+  background: var(--dya-paper-2);
+  color: var(--dya-ink-mute);
+  border: 1px solid var(--dya-edge);
+}
+body.dy-admin mark.order-status::before,
+body.dy-admin .order-status::before {
+  content: "";
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: .7;
+}
+
+// Status color mapping: we REUSE the DS semantic tints rather than
+// inventing a new palette. "Neutral" statuses (processing, pending)
+// borrow section colors (--dya-line-users = blue, --dya-line-content = amber);
+// statuses with valence (completed/on-hold/cancelled) use
+// success/warn/danger. Border rgba values are those same tints at very
+// low opacity (subtle outline).
+body.dy-admin mark.order-status.status-processing,
+body.dy-admin .status-processing {
+  color: var(--dya-line-users);
+  background: var(--dya-line-users-soft);
+  border-color: rgba(79, 156, 217, .22);
+}
+body.dy-admin mark.order-status.status-completed,
+body.dy-admin .status-completed {
+  color: var(--dya-success);
+  background: rgba(76, 195, 138, .12);
+  border-color: rgba(76, 195, 138, .25);
+}
+body.dy-admin mark.order-status.status-on-hold,
+body.dy-admin .status-on-hold {
+  color: var(--dya-warn);
+  background: rgba(245, 166, 35, .12);
+  border-color: rgba(245, 166, 35, .28);
+}
+body.dy-admin mark.order-status.status-pending,
+body.dy-admin .status-pending {
+  color: var(--dya-line-content);
+  background: var(--dya-line-content-soft);
+  border-color: rgba(212, 178, 122, .25);
+}
+body.dy-admin mark.order-status.status-cancelled,
+body.dy-admin .status-cancelled,
+body.dy-admin mark.order-status.status-failed,
+body.dy-admin .status-failed,
+body.dy-admin mark.order-status.status-refunded,
+body.dy-admin .status-refunded {
+  color: var(--dya-danger);
+  background: rgba(240, 101, 87, .10);
+  border-color: rgba(240, 101, 87, .25);
+}
+
+// ── Currency / amount cells ──────────────────────────
+body.dy-admin .woocommerce-Price-amount,
+body.dy-admin .wc-amount,
+body.dy-admin .amount {
+  font-family: var(--dya-font-mono);
+  font-feature-settings: "tnum";
+  color: var(--dya-ink);
+  font-weight: 500;
+}
+body.dy-admin .woocommerce-Price-currencySymbol {
+  color: var(--dya-ink-mute);
+  margin-right: 1px;
+  font-size: .85em;
+}
+
+// ── WC Admin "summary" tiles ─────────────────────────
+body.dy-admin .woocommerce-summary,
+body.dy-admin .woocommerce-stats-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin: 0 0 24px;
+}
+body.dy-admin .woocommerce-summary__item-container {
+  list-style: none;
+  margin: 0;
+}
+body.dy-admin .woocommerce-summary__item {
+  background: var(--dya-paper);
+  border: 1px solid var(--dya-edge);
+  border-radius: var(--dya-r-xl);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: var(--dya-shadow-sm);
+  text-decoration: none;
+  color: var(--dya-ink);
+  transition: transform var(--dya-t-fast), border-color var(--dya-t-fast);
+}
+body.dy-admin .woocommerce-summary__item:hover {
+  border-color: var(--dya-edge-strong);
+  transform: translateY(-1px);
+}
+body.dy-admin .woocommerce-summary__item-label {
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  color: var(--dya-ink-mute);
+  font-weight: 500;
+}
+body.dy-admin .woocommerce-summary__item-value,
+body.dy-admin .woocommerce-summary__item-data {
+  font-family: var(--dya-font-display);
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: var(--dya-tracking-tight);
+  color: var(--dya-ink);
+  font-feature-settings: "tnum";
+}
+body.dy-admin .woocommerce-summary__item-delta,
+body.dy-admin .woocommerce-summary__item-delta--good {
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0;
+  color: var(--dya-success);
+  text-transform: uppercase;
+}
+body.dy-admin .woocommerce-summary__item-delta--bad {
+  color: var(--dya-danger);
+}
+
+// ── WC Tabs (Settings nav) ───────────────────────────
+body.dy-admin .nav-tab-wrapper.woo-nav-tab-wrapper {
+  margin-top: 0;
+}
+
+// ── WC stock indicators ──────────────────────────────
+body.dy-admin .stock.in-stock { color: var(--dya-success); }
+body.dy-admin .stock.out-of-stock { color: var(--dya-danger); }
+body.dy-admin .stock.onbackorder { color: var(--dya-warn); }
+
+// Product attributes table (.woocommerce_attributes)
+body.dy-admin .woocommerce_attribute {
+  background: var(--dya-paper);
+  border: 1px solid var(--dya-edge);
+  border-radius: var(--dya-r-md);
+  margin: 0 0 8px;
+  padding: 12px;
+}
+
+// Forms inside WC Settings — already covered by .form-table.
+// WC Product data tabs:
+body.dy-admin #product_data_tabs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--dya-bg-elev);
+  border-right: 1px solid var(--dya-line);
+  width: 200px;
+  float: none;
+}
+body.dy-admin #product_data_tabs li {
+  margin: 0;
+}
+body.dy-admin #product_data_tabs li a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  color: var(--dya-ink-mute);
+  font-size: 12.5px;
+  border-bottom: 0;
+  background: transparent;
+  text-decoration: none;
+  transition: color var(--dya-t-fast), background var(--dya-t-fast);
+}
+body.dy-admin #product_data_tabs li a:hover {
+  color: var(--dya-ink);
+  background: var(--dya-paper-2);
+}
+body.dy-admin #product_data_tabs li.active a {
+  color: var(--dya-ink);
+  background: var(--dya-paper);
+  border-left: 2px solid var(--dya-accent);
+  padding-left: 12px;
+}
+
+// ── Single-order detail page (HPOS `page=wc-orders&action=edit` or legacy
+// post.php). WC renders the #poststuff layout in 2 columns: the MAIN column
+// (container-2) holds order data/items, the SIDE column (container-1) holds actions.
+//
+// ⚠️ `.post-type-shop_order` / `.woocommerce_page_wc-orders` are BODY classes
+// → COMPOUND selector (no space after body.dy-admin), otherwise the rule
+// never matches (historical bug: the layout was not applied).
+//
+// We also cancel WP's `margin-right:300px` reserve on #post-body (otherwise
+// the column is clipped to ~911px and the grid is distorted), then explicitly
+// place MAIN on the left (wide) and SIDE on the right (narrow) — WC outputs
+// containers in reverse order (side first).
+body.dy-admin.post-type-shop_order #poststuff #post-body,
+body.dy-admin.woocommerce_page_wc-orders #poststuff #post-body {
+  margin-right: 0 !important;
+}
+body.dy-admin.post-type-shop_order #poststuff #post-body.columns-2,
+body.dy-admin.woocommerce_page_wc-orders #poststuff #post-body.columns-2 {
+  grid-template-columns: minmax(0, 1fr) 320px;
+}
+// Placement via `order` (not grid-column): holds in 2 columns AND in 1
+// column (stacked) without extra rules — MAIN first, SIDE second.
+body.dy-admin.post-type-shop_order #poststuff #post-body.columns-2 #postbox-container-2,
+body.dy-admin.woocommerce_page_wc-orders #poststuff #post-body.columns-2 #postbox-container-2 { order: 1; }
+body.dy-admin.post-type-shop_order #poststuff #post-body.columns-2 #postbox-container-1,
+body.dy-admin.woocommerce_page_wc-orders #poststuff #post-body.columns-2 #postbox-container-1 { order: 2; margin-left: 0 !important; }
+// ≤1200px: we stack (MAIN full width, SIDE below). Our rule has higher
+// specificity than the generic media query, so we must redeclare it here.
+@media (max-width: 1200px) {
+  body.dy-admin.post-type-shop_order #poststuff #post-body.columns-2,
+  body.dy-admin.woocommerce_page_wc-orders #poststuff #post-body.columns-2 {
+    grid-template-columns: 1fr;
+  }
+}
+// Metabox columns are grid items AND flex containers with `width:auto`:
+// with intrinsically wide content (textarea, WC enhanced select), they
+// overflowed their track — the SIDE column was 620px instead of 320px and
+// broke out of the page. `max-width:100%` constrains them to their grid
+// cell (320px in 2-column layout, full width in 1-column layout).
+body.dy-admin.post-type-shop_order #poststuff .postbox-container,
+body.dy-admin.woocommerce_page_wc-orders #poststuff .postbox-container {
+  max-width: 100%;
+  min-width: 0;
+}
+
+// "Order data" block: 3 columns (General | Billing | Shipping).
+// `auto-fit` + `minmax(240px,1fr)` → 3 columns when space allows, then
+// 2, then 1 (stacked) automatically based on the actual MAIN column width
+// — no viewport breakpoints to maintain. WC renders columns with `float`
+// → we neutralize it to drive layout via grid.
+body.dy-admin .order_data_column_container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+body.dy-admin .order_data_column {
+  float: none !important;
+  width: auto !important;
+  padding: 0;
+}
+// Discrete action links next to Customer / Status labels ("Profile",
+// "View other orders"): small, italic, right-aligned.
+body.dy-admin #order_data .order_data_column .wc-customer-user label a,
+body.dy-admin #order_data .order_data_column .wc-order-status label a {
+  margin-left: 8px;
+  font-size: 0.6rem;
+  text-transform: none;
+  text-align: right;
+  letter-spacing: 0;
+  font-style: italic;
+}
+// Data block paragraphs (payment line/IP…) in soft ink.
+body.dy-admin #order_data p { color: var(--dya-ink-soft); }
+body.dy-admin .order_data_column h3,
+body.dy-admin .order_data_column h4 {
+  margin: 0 0 12px;
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  // WC forces `#order_data … h3 { color:#333 }` (ID selector, higher specificity)
+  // → invisible in dark mode. !important to restore soft ink.
+  color: var(--dya-ink-mute) !important;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+body.dy-admin .order_data_column h3 a,
+body.dy-admin .order_data_column h4 a {
+  font-family: var(--dya-font-body);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--dya-ink-soft) !important;
+  border-bottom: 1px solid var(--dya-line);
+  padding-bottom: 1px;
+  text-decoration: none;
+}
+body.dy-admin .order_data_column h3 a:hover,
+body.dy-admin .order_data_column h4 a:hover { color: var(--dya-ink) !important; border-bottom-color: var(--dya-line-strong); }
+
+// Exact date ("Paid on…", WC notes) — WC renders it in very dark gray (#4a4b52)
+// → insufficient contrast in dark mode.
+body.dy-admin .exact-date { color: var(--dya-ink-mute) !important; }
+
+// Product thumbnail (order line items) — WC sets a white background (#f8f8f8)
+// + a light border. We pass it through the DS with a subtle outline in dark mode.
+body.dy-admin .wc-order-item-thumbnail {
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-line-soft) !important;
+  border-radius: var(--dya-r-sm);
+}
+
+// Select2 clear button "×" (customer search) — gray #999 has insufficient
+// contrast (≈2.8). We map it to soft ink.
+body.dy-admin .select2-selection__clear { color: var(--dya-ink-mute) !important; }
+body.dy-admin .select2-selection__clear:hover { color: var(--dya-danger) !important; }
+body.dy-admin .order_data_column .address {
+  font-size: 12.5px;
+  color: var(--dya-ink-soft);
+  line-height: var(--dya-lh-loose);
+}
+body.dy-admin .order_data_column .address p { margin: 0 0 4px; }
+body.dy-admin .order_data_column .form-field label {
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  color: var(--dya-ink-mute);
+  font-weight: 500;
+  display: block;
+  margin: 8px 0 4px;
+}
+
+// Order items table
+body.dy-admin .woocommerce_order_items_wrapper,
+body.dy-admin .woocommerce_order_items {
+  background: var(--dya-paper);
+  border: 1px solid var(--dya-edge);
+  border-radius: var(--dya-r-xl);
+  overflow: hidden;
+  margin: 16px 0;
+}
+body.dy-admin table.woocommerce_order_items {
+  width: 100%;
+  border-collapse: collapse;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  font-size: 12.5px;
+  color: var(--dya-ink-soft);
+  box-shadow: none;
+  margin: 0;
+}
+body.dy-admin table.woocommerce_order_items thead th {
+  background: var(--dya-bg-elev);
+  border-bottom: 1px solid var(--dya-line);
+  padding: 10px 14px;
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-label);
+  color: var(--dya-ink-mute);
+  font-weight: 500;
+  text-align: left;
+}
+body.dy-admin table.woocommerce_order_items tbody td {
+  padding: 12px 14px;
+  border-top: 1px solid var(--dya-line-soft);
+  vertical-align: top;
+  color: var(--dya-ink-soft);
+}
+body.dy-admin table.woocommerce_order_items tbody tr:first-child td { border-top: 0; }
+body.dy-admin table.woocommerce_order_items .item .item-name strong {
+  color: var(--dya-ink);
+  font-weight: 500;
+}
+body.dy-admin table.woocommerce_order_items .item .wc-order-item-sku {
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  color: var(--dya-ink-fade);
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-mono);
+}
+body.dy-admin table.woocommerce_order_items td.total,
+body.dy-admin table.woocommerce_order_items td.quantity {
+  font-family: var(--dya-font-mono);
+  font-feature-settings: "tnum";
+}
+body.dy-admin table.woocommerce_order_items tfoot td {
+  background: var(--dya-bg-elev);
+  border-top: 1px solid var(--dya-line);
+  padding: 10px 14px;
+  color: var(--dya-ink-soft);
+  font-size: 12.5px;
+}
+body.dy-admin table.woocommerce_order_items tfoot tr:last-child td {
+  color: var(--dya-ink);
+  font-weight: 500;
+}
+
+// Action buttons under items
+body.dy-admin .wc-order-data-row,
+body.dy-admin .wc-order-totals-items {
+  padding: 12px 16px;
+  border-top: 1px solid var(--dya-line);
+  background: var(--dya-paper);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  // Action buttons in the bar aligned to the RIGHT (Recalculate, Add
+  // product(s)…) — otherwise everything collapses to the left of the container.
+  justify-content: flex-end;
+  font-size: 12.5px;
+}
+// The totals bar contains a full-width table → we let it flow naturally.
+body.dy-admin .wc-order-totals-items { justify-content: stretch; }
+// The "Refund" button stays on the left (distinct action from the add buttons).
+body.dy-admin .wc-order-data-row .refund-items { margin-right: auto; }
+body.dy-admin .wc-order-data-row .button {
+  font-size: 12px;
+  padding: 5px 10px;
+}
+// Items metabox toolbar: no redundant top border.
+body.dy-admin .wc-metaboxes-wrapper .toolbar { border-top: 0 !important; }
+// Items metabox container: subtle bottom border in dark mode.
+body.dy-admin .wc-metaboxes-wrapper .wc-metaboxes { border-bottom-color: var(--dya-line-soft) !important; }
+
+// Order notes sidebar (#woocommerce-order-notes)
+body.dy-admin #woocommerce-order-notes ul.order_notes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+body.dy-admin #woocommerce-order-notes ul.order_notes li.note {
+  background: var(--dya-paper-2);
+  border: 1px solid var(--dya-edge);
+  border-radius: var(--dya-r-md);
+  padding: 10px 12px;
+  font-size: 12.5px;
+  color: var(--dya-ink-soft);
+  position: relative;
+}
+body.dy-admin #woocommerce-order-notes ul.order_notes li.note.customer-note {
+  border-left: 3px solid var(--dya-accent);
+}
+body.dy-admin #woocommerce-order-notes ul.order_notes li.note p { margin: 0; }
+body.dy-admin #woocommerce-order-notes ul.order_notes li.note .note_content { margin-bottom: 6px; }
+body.dy-admin #woocommerce-order-notes ul.order_notes li.note .meta {
+  font-family: var(--dya-font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: var(--dya-tracking-mono);
+  color: var(--dya-ink-fade);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+body.dy-admin #woocommerce-order-notes ul.order_notes li.note .delete_note {
+  color: var(--dya-danger);
+  text-decoration: none;
+  font-size: 11px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+body.dy-admin #woocommerce-order-actions p.submit { margin: 0; }
+
+// Order status select (#order_status) in sidebar
+body.dy-admin #order_status,
+body.dy-admin select#order_status {
+  width: 100%;
+}

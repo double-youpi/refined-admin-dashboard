@@ -1,0 +1,620 @@
+// ── (d) Tabs natifs `.nav-tab-wrapper` (Privacy, Settings tabs, etc.) ─
+// Ce bloc habille les onglets natifs des pages ÉTRANGÈRES, en !important
+// parce que certaines les repeignent elles-mêmes. Les pages Double Youpï
+// sont exclues : elles ont leur propre traitement dans _nav-tabs.scss, avec
+// un trait animé en ::after. Sans cette exclusion, le !important passait
+// devant le `border: 0` de cette feuille et l'onglet actif portait DEUX
+// traits accent, de largeurs différentes, l'un au-dessus de l'autre.
+body.dy-admin:not([class*="page_doubleyoupi"]) .nav-tab-wrapper,
+body.dy-admin:not([class*="page_doubleyoupi"]) h2.nav-tab-wrapper {
+  background: transparent !important;
+  border-bottom: 1px solid var(--dya-line) !important;
+  padding: 0 !important;
+  margin: 16px 0 18px !important;
+}
+body.dy-admin:not([class*="page_doubleyoupi"]) .nav-tab {
+  background: transparent !important;
+  border: 0 !important;
+  color: var(--dya-ink-soft) !important;
+  padding: 10px 14px !important;
+  margin: 0 4px -1px 0 !important;
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  border-bottom: 2px solid transparent !important;
+  border-radius: 0 !important;
+  text-shadow: none !important;
+}
+body.dy-admin:not([class*="page_doubleyoupi"]) .nav-tab:hover,
+body.dy-admin:not([class*="page_doubleyoupi"]) .nav-tab:focus { color: var(--dya-ink) !important; background: var(--dya-paper-2) !important; }
+body.dy-admin:not([class*="page_doubleyoupi"]) .nav-tab.nav-tab-active {
+  color: var(--dya-ink) !important;
+  border-bottom-color: var(--dya-accent) !important;
+  background: transparent !important;
+}
+
+// ── (e) Privacy settings tabs wrapper specifically ───────────────────
+body.dy-admin .privacy-settings-header,
+body.dy-admin .privacy-settings-tabs-wrapper,
+body.dy-admin .privacy-settings-tabs-content,
+body.dy-admin .privacy-settings-section {
+  background: transparent !important;
+  border-color: var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+  box-shadow: none !important;
+}
+body.dy-admin .privacy-settings-title-section {
+  background: transparent !important;
+}
+body.dy-admin .privacy-settings-title-section h1,
+body.dy-admin .privacy-settings-title-section h2 {
+  color: var(--dya-ink) !important;
+  background: transparent !important;
+}
+body.dy-admin .privacy-settings-tab {
+  background: transparent !important;
+  color: var(--dya-ink-soft) !important;
+  border-bottom: 2px solid transparent !important;
+  text-shadow: none !important;
+}
+body.dy-admin .privacy-settings-tab.active,
+body.dy-admin .privacy-settings-tab[aria-selected="true"] {
+  color: var(--dya-ink) !important;
+  border-bottom-color: var(--dya-accent) !important;
+  background: transparent !important;
+}
+
+// ── (f) Classic editor (TinyMCE) ─────────────────────────────────────
+body.dy-admin #poststuff,
+body.dy-admin #post-body,
+body.dy-admin #wp-content-editor-tools,
+body.dy-admin #wp-content-editor-container,
+body.dy-admin #wp-content-wrap,
+body.dy-admin .wp-editor-wrap,
+body.dy-admin .wp-editor-container {
+  background: transparent !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin .wp-editor-tabs {
+  background: transparent !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin .wp-switch-editor {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink-soft) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-bottom: 0 !important;
+  margin-right: 2px !important;
+}
+body.dy-admin .wp-switch-editor.switch-tmce.active,
+body.dy-admin .wp-switch-editor.switch-html.active {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .mce-toolbar-grp,
+body.dy-admin .mce-panel,
+body.dy-admin .mce-toolbar,
+body.dy-admin .mce-btn,
+body.dy-admin .mce-btn button {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+  box-shadow: none !important;
+}
+body.dy-admin .wp-editor-area {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-top: 0 !important;
+}
+// T12 — "Code" mode: no accent halo/border on focus (the editor already has
+// its frame; the accent focus ring clashed).
+body.dy-admin .wp-editor-area:focus,
+body.dy-admin textarea#content:focus,
+body.dy-admin .wp-editor-container textarea:focus {
+  border-color: var(--dya-edge) !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+// WP notification dialogs (edit lock #post-lock-dialog, etc.):
+// white background by default → unreadable in dark mode.
+body.dy-admin .notification-dialog-background { background: rgba(0, 0, 0, .6) !important; }
+body.dy-admin .notification-dialog {
+  background: var(--dya-paper) !important; color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge) !important; box-shadow: var(--dya-shadow-lg) !important;
+  border-radius: var(--dya-r-lg) !important;
+}
+body.dy-admin #post-lock-dialog .post-locked-message,
+body.dy-admin .notification-dialog .post-locked-message { color: var(--dya-ink) !important; }
+body.dy-admin #post-lock-dialog .currently-editing,
+body.dy-admin .notification-dialog p { color: var(--dya-ink-soft) !important; }
+body.dy-admin #post-lock-dialog .post-locked-avatar { border-color: var(--dya-edge) !important; }
+
+body.dy-admin #titlediv #title,
+body.dy-admin #titlediv input[type="text"] {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge) !important;
+  font-size: 22px !important;
+  padding: 12px 14px !important;
+}
+body.dy-admin #edit-slug-box {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink-soft) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-sm);
+  padding: 8px 12px;
+}
+
+// ── (g) Postbox metaboxes (Publish, Categories, Tags, Featured Image…) ─
+body.dy-admin .postbox,
+body.dy-admin .postbox .inside,
+body.dy-admin .postbox .postbox-header,
+body.dy-admin .stuffbox {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+  box-shadow: none !important;
+}
+body.dy-admin .postbox > .postbox-header h2,
+body.dy-admin .postbox > .postbox-header .hndle,
+body.dy-admin .postbox h2.hndle,
+body.dy-admin .postbox h3.hndle {
+  color: var(--dya-ink) !important;
+  // No separator below the metabox title (deemed unnecessary).
+  border-bottom: 0 !important;
+  background: transparent !important;
+}
+body.dy-admin .postbox .handlediv,
+body.dy-admin .postbox .handle-order-higher,
+body.dy-admin .postbox .handle-order-lower { color: var(--dya-ink-mute); }
+body.dy-admin #submitdiv #minor-publishing,
+body.dy-admin #submitdiv #major-publishing-actions,
+body.dy-admin #misc-publishing-actions .misc-pub-section {
+  background: transparent !important;
+  border-color: var(--dya-edge) !important;
+  color: var(--dya-ink-soft) !important;
+}
+
+// ── (h) Gutenberg / block-editor / site-editor surfaces ───────────────
+// We STYLE the chrome but avoid overriding active surfaces
+// (editing canvas, block popovers) to avoid breaking native React components.
+body.dy-admin.block-editor-page,
+body.dy-admin.site-editor-php,
+body.dy-admin .interface-interface-skeleton__body,
+body.dy-admin .interface-interface-skeleton__content {
+  background: var(--dya-bg) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .edit-post-header,
+body.dy-admin .edit-site-header-edit-mode,
+body.dy-admin .edit-site-header,
+body.dy-admin .editor-header,
+body.dy-admin .interface-interface-skeleton__header {
+  background: var(--dya-paper) !important;
+  border-bottom: 1px solid var(--dya-line) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .edit-post-sidebar,
+body.dy-admin .edit-site-sidebar,
+body.dy-admin .interface-interface-skeleton__sidebar,
+body.dy-admin .interface-interface-skeleton__secondary-sidebar {
+  background: var(--dya-paper) !important;
+  border-color: var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .components-panel,
+body.dy-admin .components-panel__body {
+  background: transparent !important;
+  border-color: var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .components-panel__body-toggle,
+body.dy-admin .components-panel__body-title {
+  background: transparent !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .components-base-control__label,
+body.dy-admin .components-input-control__label,
+body.dy-admin .components-checkbox-control__label {
+  color: var(--dya-ink-soft) !important;
+}
+body.dy-admin .block-editor-block-breadcrumb,
+body.dy-admin .block-editor-block-breadcrumb__current,
+body.dy-admin .editor-block-breadcrumb {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink-soft) !important;
+  border-color: var(--dya-edge) !important;
+}
+// Block-editor headers (widgets, post, site-editor)
+body.dy-admin .edit-widgets-header,
+body.dy-admin .edit-widgets-header__navigable-toolbar-wrapper,
+body.dy-admin .interface-interface-skeleton__footer,
+body.dy-admin .interface-complementary-area-header,
+body.dy-admin .components-panel__header,
+body.dy-admin .components-placeholder,
+body.dy-admin .editor-document-bar,
+body.dy-admin .editor-layout__toggle-publish-panel,
+body.dy-admin .edit-post-meta-boxes-area,
+body.dy-admin .components-resizable-box__container {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+  box-shadow: none !important;
+}
+body.dy-admin .components-placeholder__label,
+body.dy-admin .components-placeholder__instructions {
+  color: var(--dya-ink-soft) !important;
+}
+// Bloc widget area inner blocks (the white canvas of the widget)
+body.dy-admin .wp-block-widget-area__inner-blocks,
+body.dy-admin .editor-styles-wrapper,
+body.dy-admin .editor-styles-wrapper.block-editor-writing-flow {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .components-popover,
+body.dy-admin .components-popover__content {
+  background: var(--dya-paper-3) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge-strong) !important;
+}
+// Site-editor dataviews (Patterns, Pages, Templates list views)
+body.dy-admin .admin-ui-page,
+body.dy-admin .admin-ui-page__content,
+body.dy-admin .admin-ui-page__header,
+body.dy-admin .edit-site-page,
+body.dy-admin .edit-site-page-patterns,
+body.dy-admin .edit-site-page-templates,
+body.dy-admin .edit-site-page-pages,
+body.dy-admin .edit-site-page-patterns-dataviews,
+body.dy-admin .admin-ui-navigable-region.admin-ui-page,
+body.dy-admin .dataviews-wrapper,
+body.dy-admin .dataviews-view-table,
+body.dy-admin .dataviews-view-grid {
+  background: var(--dya-bg) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin .admin-ui-page__header,
+body.dy-admin .dataviews-pagination,
+body.dy-admin .dataviews-filters {
+  background: var(--dya-paper) !important;
+  border-bottom: 1px solid var(--dya-line) !important;
+}
+body.dy-admin .components-search-control,
+body.dy-admin .components-search-control input {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin .components-menu-group,
+body.dy-admin .components-menu-item__button {
+  background: transparent !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .components-menu-item__button:hover {
+  background: var(--dya-paper-2) !important;
+}
+
+// ── (i) Code editors (Theme Editor / Plugin Editor CodeMirror) ────────
+// Styles the chrome (header, files panel on the right) AND CodeMirror
+// itself. WP loads `cm-s-default` (light theme) via wp-includes/css/dist/
+// code-editor/style.css. We override via specificity `body.dy-admin
+// .CodeMirror.cm-s-default` (0,3,0) which beats WP rules on `.CodeMirror`
+// (0,1,0). No !important needed.
+body.dy-admin #templateside,
+body.dy-admin #pluginside,
+body.dy-admin #template,
+body.dy-admin #file-editor-linting-error,
+body.dy-admin .theme-editor-php .wrap,
+body.dy-admin .plugin-editor-php .wrap {
+  background: transparent !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin #templateside {
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-md);
+  padding: 14px;
+}
+body.dy-admin #templateside h2,
+body.dy-admin #templateside ul,
+body.dy-admin #templateside ul li,
+body.dy-admin #templateside ul ul,
+body.dy-admin #pluginside h2,
+body.dy-admin #pluginside ul,
+body.dy-admin #pluginside ul li {
+  color: var(--dya-ink-soft) !important;
+  background: transparent !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin #templateside ul li.current,
+body.dy-admin #pluginside ul li.current,
+body.dy-admin #templateside ul li.notice,
+body.dy-admin #pluginside ul li.notice {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+  border-radius: var(--dya-r-sm);
+}
+
+// CodeMirror dark theme — palette inspired by One Dark / Material Darker,
+// adapted to DY tokens (--dya-bg / --dya-paper / --dya-accent / --dya-line).
+//
+// Subtle border: `color-mix(--dya-line @ 45%)` rather than full --dya-line
+// so the CodeMirror frame does not flash in dark mode — the bg contrast
+// is already enough to separate the editor from the templateside panel.
+// WP-native declares `#template .CodeMirror { border: 1px solid #dcdcde }`
+// (specificity 0,1,1) → we must prefix with `#template` to win the
+// specificity battle on the border (0,2,1 vs 0,1,1).
+body.dy-admin .CodeMirror,
+body.dy-admin .CodeMirror.cm-s-default {
+  background: var(--dya-bg) !important;
+  color: var(--dya-ink) !important;
+  border-radius: var(--dya-r-md);
+  font-family: var(--dya-font-mono, ui-monospace, 'JetBrains Mono', monospace);
+  font-size: 13px;
+  line-height: 1.55;
+}
+body.dy-admin #template .CodeMirror,
+body.dy-admin #template textarea {
+  border: 1px solid var(--dya-line-soft);
+}
+
+// #template wraps the editor pane to the LEFT of the file tree
+// (#templateside, width 16em). WP-native sets no margin-right
+// → the editor slides under the tree on narrow viewports. We force
+// the 16em gutter (sidebar) + 20px (visual gap) so the editor
+// stays in a clean column.
+body.dy-admin #template > div {
+  margin-right: calc(16em + 20px);
+}
+body.dy-admin .CodeMirror-scroll {
+  background: transparent !important;
+}
+body.dy-admin .CodeMirror-gutters {
+  background: var(--dya-bg-elev, var(--dya-paper)) !important;
+  border-right: 1px solid var(--dya-line) !important;
+  color: var(--dya-ink-mute);
+}
+body.dy-admin .CodeMirror-linenumber {
+  color: var(--dya-ink-mute) !important;
+  padding: 0 8px 0 12px;
+}
+body.dy-admin .CodeMirror-cursor {
+  border-left: 2px solid var(--dya-accent) !important;
+}
+body.dy-admin .CodeMirror-selected {
+  background: color-mix(in srgb, var(--dya-accent) 22%, transparent) !important;
+}
+body.dy-admin .CodeMirror-focused .CodeMirror-selected {
+  background: color-mix(in srgb, var(--dya-accent) 32%, transparent) !important;
+}
+body.dy-admin .CodeMirror-activeline-background {
+  background: color-mix(in srgb, var(--dya-ink) 4%, transparent) !important;
+}
+body.dy-admin .CodeMirror-matchingbracket {
+  color: var(--dya-accent) !important;
+  border-bottom: 1px solid var(--dya-accent);
+  background: color-mix(in srgb, var(--dya-accent) 14%, transparent);
+}
+body.dy-admin .CodeMirror-nonmatchingbracket {
+  color: var(--dya-warning, #f7c948) !important;
+}
+
+// Token colors — synthwave-ish on dark.
+body.dy-admin .cm-comment      { color: #6c7385; font-style: italic; }
+body.dy-admin .cm-keyword,
+body.dy-admin .cm-builtin      { color: #c792ea; } // mauve/lavender
+body.dy-admin .cm-atom,
+body.dy-admin .cm-number       { color: #f78c6c; } // orange
+body.dy-admin .cm-string,
+body.dy-admin .cm-string-2     { color: #c3e88d; } // pale green
+body.dy-admin .cm-variable     { color: #ecedf2; }
+body.dy-admin .cm-variable-2,
+body.dy-admin .cm-variable-3,
+body.dy-admin .cm-type         { color: #82aaff; } // cyan-blue
+body.dy-admin .cm-property     { color: #82aaff; }
+body.dy-admin .cm-def          { color: #82aaff; }
+body.dy-admin .cm-operator     { color: #89ddff; } // teal
+body.dy-admin .cm-meta         { color: #ffcb6b; } // yellow
+body.dy-admin .cm-tag          { color: #f07178; } // coral
+body.dy-admin .cm-attribute    { color: #ffcb6b; }
+body.dy-admin .cm-bracket      { color: #89ddff; }
+body.dy-admin .cm-qualifier    { color: #ffcb6b; }
+body.dy-admin .cm-header       { color: #c792ea; font-weight: 600; }
+body.dy-admin .cm-link         { color: #82aaff; text-decoration: underline; }
+body.dy-admin .cm-error,
+body.dy-admin .CodeMirror-error-message { color: var(--dya-danger, #ff5370) !important; }
+
+// The button/action bar below the CodeMirror.
+body.dy-admin .CodeMirror-search-match {
+  background: color-mix(in srgb, #ffcb6b 28%, transparent) !important;
+}
+body.dy-admin .CodeMirror-dialog {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border-top: 1px solid var(--dya-line) !important;
+}
+body.dy-admin .CodeMirror-dialog input {
+  background: var(--dya-bg-elev, var(--dya-paper)) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid var(--dya-edge) !important;
+}
+
+// Plugin-editor warning callout (`.notice.notice-warning.inline.
+// active-plugin-edit-warning`) — paper-2 background slightly more prominent
+// than the base notice + more generous padding. No border-left
+// (the DS explicitly forbids border-left on notices, see comment in
+// _notices.scss); the warning dot rendered by the generic
+// `.notice-warning::before` rule (background: --dya-warn) is enough to
+// signal the warning variant.
+body.dy-admin .active-plugin-edit-warning {
+  background: var(--dya-paper-2) !important;
+  padding: 14px 18px !important;
+  margin: 14px 0 !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .active-plugin-edit-warning p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+body.dy-admin .active-plugin-edit-warning strong {
+  color: var(--dya-warning, #f7c948);
+  font-weight: 600;
+}
+
+// ── (i-bis) Override of the shared WP-native rule ────────────────────
+// WP-core declares a long selector-list that sets `border: 1px solid
+// #c3c4c7` + `box-shadow: 0 1px 1px rgba(0,0,0,.04)` on a batch of
+// surfaces (menus, widgets, accordions, table.widefat, comment-ays,
+// stuffbox, feature-filter, wp-editor-container, etc.). The `#c3c4c7`
+// flashes pale on a dark background. We replace it with the DS:
+// border `--dya-line`, box-shadow none, border-radius `--dya-r-md`.
+body.dy-admin #menu-management .menu-edit,
+body.dy-admin #menu-settings-column .accordion-container,
+body.dy-admin .comment-ays,
+body.dy-admin .feature-filter,
+body.dy-admin .manage-menus,
+body.dy-admin .menu-item-handle,
+body.dy-admin .popular-tags,
+body.dy-admin .stuffbox,
+body.dy-admin .widget-inside,
+body.dy-admin .widget-top,
+body.dy-admin .widgets-holder-wrap,
+body.dy-admin .wp-editor-container,
+body.dy-admin p.popular-tags,
+body.dy-admin table.widefat {
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-md, 10px) !important;
+  box-shadow: none !important;
+}
+
+// ── (j) Nav menus (nav-menus.php) — FLAT surfaces ────────────────────
+// The menus page lives on the PAGE BACKGROUND: the frame, the management
+// container, accordion sections, and header/footer strips are transparent.
+// We keep as cards only what deserves visual separation (draggable item bars,
+// list panel, expanded item — defined elsewhere).
+body.dy-admin .nav-menus-php #nav-menus-frame,
+body.dy-admin .nav-menus-php #menu-management,
+body.dy-admin .nav-menus-php #menu-management .menu-edit,
+body.dy-admin .nav-menus-php .menu-settings,
+body.dy-admin .nav-menus-php .accordion-section,
+body.dy-admin .nav-menus-php .accordion-section-content,
+body.dy-admin .nav-menus-php .accordion-section-title,
+body.dy-admin .nav-menus-php .manage-menus,
+body.dy-admin .nav-menus-php .nav-menus-php-toolbar,
+body.dy-admin .nav-menus-php #post-body-content,
+body.dy-admin .nav-menus-php #post-body,
+body.dy-admin #nav-menu-header,
+body.dy-admin #nav-menu-footer {
+  background: transparent !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+  box-shadow: none !important;
+}
+// audit-2: WP makes `#nav-menu-footer` sticky (bottom: 0) with a white
+// background; the flat reset above turned it transparent, so the Save/Create
+// bar floated see-through over the menu items when the structure column is
+// taller than the viewport. Solid canvas + hairline, sticky kept.
+body.dy-admin #nav-menu-footer {
+  background: var(--dya-bg) !important;
+  border-top: 1px solid var(--dya-line) !important;
+}
+// Menu item bars (Structure column) — small draggable cards.
+body.dy-admin .nav-menus-php .menu-item-handle {
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge) !important;
+  border-radius: var(--dya-r-md);
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .menu-edit > .menu-name-label,
+body.dy-admin #side-sortables .accordion-section-title {
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin .menu-item-bar .menu-item-handle:hover { background: var(--dya-paper-3) !important; }
+body.dy-admin #nav-menu-meta input[type="text"],
+body.dy-admin .menu-edit input[type="text"] {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+// Tabs accordion (Recent / All / Search) inside add-menu-meta panels
+body.dy-admin #nav-menus-frame ul.add-menu-item-tabs li,
+body.dy-admin #nav-menus-frame ul.category-tabs li,
+body.dy-admin .nav-menus-php ul.add-menu-item-tabs li,
+body.dy-admin .nav-menus-php ul.category-tabs li,
+body.dy-admin .nav-menus-php li.tabs {
+  background: transparent !important;
+  color: var(--dya-ink-soft) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin .nav-menus-php li.tabs.tabs,           /* current */
+body.dy-admin .nav-menus-php ul.add-menu-item-tabs li.tabs,
+body.dy-admin .nav-menus-php ul.category-tabs li.tabs {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+  border-bottom-color: var(--dya-paper-2) !important;
+}
+body.dy-admin .tabs-panel,
+body.dy-admin .nav-menus-php .tabs-panel,
+body.dy-admin .tabs-panel-active,
+body.dy-admin .tabs-panel-inactive,
+body.dy-admin .tabs-panel-view-all {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin .tabs-panel label,
+body.dy-admin .tabs-panel ul li label {
+  color: var(--dya-ink-soft) !important;
+}
+// Header info banner (.manage-menus + .menu-management-form)
+body.dy-admin .nav-menus-php .menu-management-form,
+body.dy-admin .nav-menus-php .menu-edit .menu-management {
+  background: transparent !important;
+}
+// "Add to menu" button area (.button-controls)
+body.dy-admin .nav-menus-php .button-controls,
+body.dy-admin .nav-menus-php .list-controls,
+body.dy-admin .nav-menus-php .add-to-menu {
+  background: transparent !important;
+  color: var(--dya-ink-soft) !important;
+}
+// Footer save area
+body.dy-admin .nav-menus-php .menu-settings,
+body.dy-admin .nav-menus-php .major-publishing-actions,
+body.dy-admin .nav-menus-php .publishing-action {
+  background: transparent !important;
+}
+// (#nav-menu-header / #nav-menu-footer are already set FLAT above.)
+body.dy-admin .bulk-select-button,
+body.dy-admin .bulk-select-button:hover {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+body.dy-admin .menu-name-label {
+  color: var(--dya-ink-soft) !important;
+}
+
+// ── (k) Widgets page (classic) ────────────────────────────────────────
+body.dy-admin .widgets-php #widgets-right,
+body.dy-admin .widgets-php #available-widgets,
+body.dy-admin .widgets-php .widgets-holder-wrap,
+body.dy-admin .widgets-php .sidebar-name,
+body.dy-admin .widgets-php .widget,
+body.dy-admin .widgets-php .widget-inside {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+  box-shadow: none !important;
+}
+body.dy-admin .widgets-php .widget-top {
+  background: var(--dya-paper-2) !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-edge) !important;
+}
+

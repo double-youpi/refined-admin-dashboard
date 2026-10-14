@@ -1,0 +1,393 @@
+// =============================================================
+// _view-transitions.scss
+// Cross-document MPA View Transitions for wp-admin.
+//
+// Two browser sides need to negotiate a transition: BOTH the
+// outgoing and incoming page must declare `@view-transition`
+// with `navigation: auto`. WordPress is a server-rendered MPA,
+// so we declare it here once and every page that ships this
+// stylesheet participates automatically.
+//
+// Three layers stack to make navigation feel like an app:
+//
+//   1. Chrome morph (Tier 1) — singletons (rail, adminbar,
+//      chipbar, brand, track, subchipbar) get a stable
+//      view-transition-name. The browser interpolates their
+//      bounds/visuals between pages instead of cross-fading
+//      them, so the chrome appears persistent.
+//
+//   2. Content swap (Tier 2) — everything else (the .wrap
+//      content area) animates as the "root" group. The CSS
+//      picks one of four anims based on `html[data-nav-dir]`,
+//      which is set pre-paint by an inline script that read
+//      a sessionStorage handoff from the outgoing page.
+//      Directions: forward / backward / sibling / fade.
+//
+//   3. Reduced motion — animations are nulled. The morph is
+//      instant (no jump because positions match pixel-perfect).
+//
+// Fallback: browsers without VT support (Firefox stable,
+// Safari <18, Chrome <126) simply ignore @view-transition
+// and the ::view-transition-* selectors. Navigation behaves
+// exactly as today (full reload, no transition).
+// =============================================================
+
+// Opt every same-origin navigation into the VT pipeline.
+@view-transition {
+  navigation: auto;
+}
+
+// During the VT, the `::view-transition` pseudo-element is the root
+// container that hosts the OLD/NEW snapshots. Its background is
+// transparent by default → the browser's native background (white)
+// flashes between fades. We force it to the design system's `--dya-bg`
+// so everything stays dark during the animation.
+::view-transition {
+  background-color: var(--dya-bg);
+}
+// Same for the root group (cross-fade) — if one of the snapshots is
+// mid-opacity:0, the ::view-transition-group(root) becomes visible and
+// inherits a transparent background by default. Sealing the bg here
+// seals the flash too.
+::view-transition-group(root) {
+  background-color: var(--dya-bg);
+}
+
+// ── Tier 1 — Persistent chrome ────────────────────────────
+// Singleton selectors get a unique view-transition-name so
+// the browser MORPHS them between old and new snapshots.
+// Each name must be unique per page; these are all singletons
+// in the wp-admin DOM.
+body.dy-admin #wpadminbar    { view-transition-name: dy-vt-adminbar; }
+body.dy-admin #adminmenuwrap { view-transition-name: dy-vt-rail; }
+body.dy-admin .dy-rail-brand { view-transition-name: dy-vt-brand; }
+body.dy-admin .dy-chipbar    { view-transition-name: dy-vt-chipbar; }
+// Note: we do NOT add a view-transition-name to `.dy-chipbar-inner`.
+// The temptation is to do so to morph the inner box (boxed 1280 max-
+// width → full-width unboxed on upload.php), but in practice it
+// creates a "hole" in the parent `.dy-chipbar` snapshot (a named child
+// is excluded from its ancestor's snapshot). During the 320 ms morph
+// the bg + backdrop-filter of the chipbar is no longer painted in the
+// inner area → the root snapshot (directional page content) slides
+// BEHIND the chipbar, which flickers at the junction. Conclusion: we
+// keep the outer chipbar morph (cross-fading contents inside a stable
+// box); the chips snap to their new position during the cross-fade —
+// less smooth than a slide but flash-free.
+// The subchipbar can be hidden on pages without taxonomies; only
+// give it a transition-name when it is actually rendered, otherwise
+// the "old" page has a name that the "new" page doesn't, which forces
+// a hard cross-fade for that element.
+body.dy-admin .dy-subchipbar:not([hidden]) { view-transition-name: dy-vt-subchipbar; }
+// .dy-track is the chipbar's animated underline. Giving it its own
+// name lifts it out of the chipbar's snapshot, so the browser
+// interpolates its X position between pages — free "sliding
+// underline between chips" effect on cross-page navigation.
+body.dy-admin .dy-track      { view-transition-name: dy-vt-chip-track; }
+
+// The film-grain overlay (body::after, fixed inset:0, mix-blend-mode:
+// overlay) is layered above everything else. Without a name it would
+// be part of the root snapshot and would cross-fade on every nav —
+// during the fade both the old and new grain layers are visible at
+// reduced opacity, which reads as a "refresh flash". Giving the
+// pseudo a name lifts it out of the root and morphs it instead.
+// Since old and new grain are pixel-identical (same SVG data URI,
+// same opacity, same blend), the morph is visually a no-op → the
+// grain appears genuinely static across navigations.
+body.dy-admin::after { view-transition-name: dy-vt-grain; }
+// Match the chrome morph timing so the grain doesn't pop.
+::view-transition-group(dy-vt-grain) {
+  animation-duration: 0ms;
+}
+
+// Speed up the chrome morph slightly so it feels tight (default
+// is ~250ms cross-fade; we want closer to a snap).
+::view-transition-group(dy-vt-adminbar),
+::view-transition-group(dy-vt-rail),
+::view-transition-group(dy-vt-brand),
+::view-transition-group(dy-vt-chipbar),
+::view-transition-group(dy-vt-subchipbar),
+::view-transition-group(dy-vt-chip-track) {
+  animation-duration: 320ms;
+  animation-timing-function: cubic-bezier(.16, 1, .3, 1);
+}
+
+// ── Tier 2 — Directional content swap ─────────────────────
+// The "root" group covers everything not named above (i.e. the
+// page content). Four directions, each with its own keyframes.
+// All easings align with the rail-snap aesthetic.
+
+// Default — cross-fade visible. OLD fades out + NEW fades in, with a
+// slight desync for a clean handoff. Amplitudes increased so the user
+// perceives the animation as a transition, not a reload.
+::view-transition-old(root) {
+  animation: dy-vt-fade-out 220ms cubic-bezier(.16, 1, .3, 1) forwards;
+}
+::view-transition-new(root) {
+  animation: dy-vt-fade-in 360ms cubic-bezier(.16, 1, .3, 1) forwards;
+}
+
+@keyframes dy-vt-fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+@keyframes dy-vt-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+// forward — drill-in. Old slide-up-fade, new slide-up-from-bottom.
+// Amplitudes: 28px (instead of 12px) to clearly signal the direction.
+html[data-nav-dir="forward"] ::view-transition-old(root) {
+  animation: dy-vt-drill-out-up 240ms cubic-bezier(.4, 0, .6, 1) forwards;
+}
+html[data-nav-dir="forward"] ::view-transition-new(root) {
+  animation: dy-vt-drill-in 380ms cubic-bezier(.16, 1, .3, 1) forwards;
+}
+@keyframes dy-vt-drill-out-up {
+  from { opacity: 1; transform: translateY(0)    scale(1);   }
+  to   { opacity: 0; transform: translateY(-14px) scale(.985); }
+}
+@keyframes dy-vt-drill-in {
+  from { opacity: 0; transform: translateY(28px) scale(.97); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);   }
+}
+
+// backward — inverse forward. Old slide-down, new slide-from-top.
+html[data-nav-dir="backward"] ::view-transition-old(root) {
+  animation: dy-vt-drill-out-down 240ms cubic-bezier(.4, 0, .6, 1) forwards;
+}
+html[data-nav-dir="backward"] ::view-transition-new(root) {
+  animation: dy-vt-drill-out 380ms cubic-bezier(.16, 1, .3, 1) forwards;
+}
+@keyframes dy-vt-drill-out-down {
+  from { opacity: 1; transform: translateY(0)   scale(1);    }
+  to   { opacity: 0; transform: translateY(14px) scale(1.015); }
+}
+@keyframes dy-vt-drill-out {
+  from { opacity: 0; transform: translateY(-22px) scale(1.03); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+// sibling — lateral slide. Old slides out left, new slides in from right.
+// Amplitudes 28px so the slide is unmistakably visible
+// (previously 6px = almost imperceptible).
+html[data-nav-dir="sibling"] ::view-transition-old(root) {
+  animation: dy-vt-sibling-out 200ms cubic-bezier(.4, 0, .6, 1) forwards;
+}
+html[data-nav-dir="sibling"] ::view-transition-new(root) {
+  animation: dy-vt-sibling-in 320ms cubic-bezier(.16, 1, .3, 1) forwards;
+}
+@keyframes dy-vt-sibling-out {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(-22px); }
+}
+@keyframes dy-vt-sibling-in {
+  from { opacity: 0; transform: translateX(28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+// ── Tier 3 — Terminal cursor + page wipe ─────────────────
+//
+// Every admin H1 receives a terminal cursor: an accent vertical bar
+// that blinks 1em to the right of the title. During page transitions
+// (click intercepted by admin.js), the bar orchestrates a wipe:
+//
+//   Phase 1 (150ms) lock     — bar stops blinking, opacity 1
+//   Phase 2 (300ms) wipe-out — bar slides left across the title,
+//                              erasing it via a ::before "eraser";
+//                              content fade+blur out in parallel
+//   Phase 3 (cross-doc)      — navigation (chrome morph via Tier 1)
+//   Phase 4 (300ms) wipe-in  — bar starts at the left of the new title
+//                              and slides right, revealing it;
+//                              content fade+blur in in parallel
+//   Phase 5 (150ms) reveal   — bar resumes blinking at opacity 0.5
+//
+// The bar is `::after` on the H1; the eraser is `::before`. States
+// are driven by `html[data-dy-cursor]` set by admin.js (orchestrator)
+// and by the pre-paint script in ViewTransitions.php
+// (handoff `dy-cursor-arrival`).
+
+// ── Resting state: H1 carries the blinking bar on the right ─────
+// `view-transition-name`: lifts the H1 out of the root group of the
+// cross-doc VT so the browser interpolates its bounding box between
+// pages. Without this, an H1 whose position differs between two pages
+// (different margins / containers) would only cross-fade as part of
+// the root — no geometric morph → spatial continuity of the title is
+// lost. With the name, the bar/eraser slide smoothly from the old
+// position to the new one during navigation.
+//
+// `width: max-content`: critical so that interpolation does not stretch
+// the box when the H1 switches from `display: block; width: full` to
+// `display: inline-block; width: shrink-to-content` depending on the page.
+body.dy-admin .wrap > h1 {
+  position: relative;
+  padding-right: 0.5em;
+  padding-top: 0;
+  width: max-content;
+  max-width: 100%;
+  view-transition-name: dy-vt-page-title;
+}
+
+// The H1 now has its own VT-group → we apply the same duration and
+// easing as the chrome morph (Tier 1) for a consistent read: the
+// title follows the same choreography as the rail/chipbar.
+::view-transition-group(dy-vt-page-title) {
+  animation-duration: 320ms;
+  animation-timing-function: cubic-bezier(.16, 1, .3, 1);
+}
+
+// Eraser (::before). Hidden at rest (width 0). Its color matches
+// `--dya-bg` to "eat" the title underneath without revealing any fill
+// tint. During the wipe it grows from right to left, covering the title.
+body.dy-admin .wrap > h1::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0.5em;
+  bottom: 0;
+  width: 0;
+  background: var(--dya-bg);
+  z-index: 1;
+  pointer-events: none;
+}
+
+// Cursor (::after). At rest: positioned to the right of the title, blinking.
+// Color = accent of the CURRENT SECTION (`--dya-line-color`, set by
+// `body.dy-line-*`), not the global accent. Because the H1 carries
+// `view-transition-name: dy-vt-page-title`, its `::after` is captured in
+// the VT snapshot: during an INTER-SECTION navigation, the native cross-fade
+// of the group morphs the color from the old section to the new one — the
+// hue switch is therefore smooth without any JS orchestration. Falls back to
+// `--dya-accent` for pages without a section class.
+body.dy-admin .wrap > h1::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 3px;
+  height: 1.25em;
+  background: var(--dya-line-color, var(--dya-accent));
+  opacity: 0.5;
+  z-index: 2;
+  pointer-events: none;
+  animation: dy-cursor-blink 1.2s ease-in-out infinite;
+}
+
+@keyframes dy-cursor-blink {
+  0%, 100% { opacity: 0.5; }
+  50%      { opacity: 0; }
+}
+
+// ── Exception: ACF field group editor ────────────────────────────────
+// On post-type=acf-field-group, the "title" is the NAME of the field
+// group (an editable field relocated into the DY banner). The blinking
+// cursor on the page H1 would be confusing — it would suggest that
+// this H1 is the editable area. We disable it here.
+body.dy-admin.post-type-acf-field-group .wrap > h1::after { content: none; }
+
+// ── Phase 1: lock — bar opacity 1, stop blink (150ms) ──
+html[data-dy-cursor="lock"] body.dy-admin .wrap > h1::after {
+  animation: none;
+  opacity: 1;
+  transition: opacity 150ms ease;
+}
+
+// ── Phase 2: wipe-out (300ms) — bar slides left, eraser covers ──
+html[data-dy-cursor="wipe-out"] body.dy-admin .wrap > h1::before {
+  animation: dy-cursor-wipe-out 300ms cubic-bezier(.4, 0, .6, 1) forwards;
+}
+html[data-dy-cursor="wipe-out"] body.dy-admin .wrap > h1::after {
+  animation: dy-cursor-slide-left 300ms cubic-bezier(.4, 0, .6, 1) forwards;
+  opacity: 1;
+}
+
+@keyframes dy-cursor-wipe-out {
+  from { width: 0;   }
+  to   { width: calc(100% - 0.5em); }
+}
+@keyframes dy-cursor-slide-left {
+  from { right: 0; }
+  to   { right: calc(100% - 3px); }
+}
+
+// ── Phases 2 + 4: content fade+blur (out/in) ────────────────────────
+// Targets all direct children of .wrap EXCEPT the H1 itself.
+// Includes the eyebrow and the page-title-action button.
+html[data-dy-cursor="wipe-out"] body.dy-admin .wrap > :not(h1):not(.dy-page-sub) {
+  transition: opacity 300ms ease, filter 300ms ease;
+  opacity: 0;
+  filter: blur(12px);
+  pointer-events: none;
+}
+
+// ── Phase 4: wipe-in (300ms) — bar starts at left, eraser shrinks ──────
+// `data-dy-cursor="wipe-in"` is set by pre-paint BEFORE the first paint
+// → the H1 arrives with the eraser covering everything (width: 100%-padding)
+// and the bar on the left; the animation then reverses both.
+
+html[data-dy-cursor="wipe-in"] body.dy-admin .wrap > h1::before {
+  width: calc(100% - 1em - 4px);
+  animation: dy-cursor-wipe-in 300ms cubic-bezier(.16, 1, .3, 1) forwards;
+}
+html[data-dy-cursor="wipe-in"] body.dy-admin .wrap > h1::after {
+  right: calc(100% - 3px);
+  animation: dy-cursor-slide-right 300ms cubic-bezier(.16, 1, .3, 1) forwards;
+  opacity: 1;
+}
+
+@keyframes dy-cursor-wipe-in {
+  from { width: calc(100% - 1em - 4px); }
+  to   { width: 0; }
+}
+@keyframes dy-cursor-slide-right {
+  from { right: calc(100% - 3px); }
+  to   { right: 0; }
+}
+
+// Content pre-blurred at mount (incoming), then transitions to visible.
+html[data-dy-cursor="wipe-in"] body.dy-admin .wrap > :not(h1):not(.dy-page-sub) {
+  opacity: 0;
+  filter: blur(12px);
+  animation: dy-cursor-content-reveal 300ms cubic-bezier(.16, 1, .3, 1) forwards;
+  pointer-events: none;
+}
+
+@keyframes dy-cursor-content-reveal {
+  to { opacity: 1; filter: blur(0); }
+}
+
+// ── Phase 5: reveal — bar resumes blinking (150ms transition) ──
+html[data-dy-cursor="reveal"] body.dy-admin .wrap > h1::after {
+  transition: opacity 150ms ease;
+  // The blink animation resumes naturally after admin.js removes the attribute
+  // — no need to restart it here.
+}
+
+// ── Arrival mode: suppress the root cross-doc fade ──────────────────
+// The cross-doc VT runs for the chrome (Tier 1) but the root group
+// must stay invisible — the wipe-in orchestrates the content reveal,
+// not the default VT fade.
+html[data-dy-cursor="wipe-in"] ::view-transition-old(root),
+html[data-dy-cursor="wipe-in"] ::view-transition-new(root) {
+  animation: none !important;
+}
+
+// ── Reduced motion ───────────────────────────────────────────────────
+// Nulls all VT animations + disables the blinking cursor and the wipe.
+// The bar remains statically displayed at opacity 0.5.
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+  body.dy-admin .wrap > h1::after { animation: none !important; }
+  body.dy-admin .wrap > h1::before { display: none; }
+  html[data-dy-cursor] body.dy-admin .wrap > :not(h1):not(.dy-page-sub) {
+    opacity: 1 !important;
+    filter: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
