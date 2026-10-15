@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Double Youpi 0.9.40-dev\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-10-14T22:47:44+00:00\n"
+"POT-Creation-Date: 2026-10-15T15:27:13+00:00\n"
 "PO-Revision-Date: 2026-05-20 22:31+0000\n"
 "Last-Translator: Double Youpï\n"
 "Language-Team: Double Youpï (English (United States))\n"
@@ -54,8 +54,8 @@ msgid ""
 "out of its way. Want to run it on its own? Deactivate the suite first."
 msgstr ""
 
-#: src/Admin/AdminMenu.php:157 src/Admin/OverviewPage.php:157
-#: src/Admin/OverviewPage.php:560
+#: src/Admin/AdminMenu.php:80 src/Admin/AdminMenu.php:202
+#: src/Admin/OverviewPage.php:157 src/Admin/OverviewPage.php:560
 #: src/Modules/Admin/Dashboard/Widgets/Data/ModulesWidget.php:110
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:160
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:65
@@ -3220,30 +3220,30 @@ msgstr "Edit collection"
 msgid "No collections found"
 msgstr "No collections found"
 
-#: src/Modules/MediaLibrary/DuplicateDetector.php:122
-#: src/Modules/MediaLibrary/DuplicateDetector.php:136
-#: src/Modules/Toolkit/Features/DuplicatePosts.php:101
+#: src/Modules/MediaLibrary/DuplicateDetector.php:80
+#: src/Modules/MediaLibrary/DuplicateDetector.php:150
+#: src/Modules/MediaLibrary/DuplicateDetector.php:164
 msgid "Duplicate"
 msgstr "Duplicate"
 
-#: src/Modules/MediaLibrary/DuplicateDetector.php:135
+#: src/Modules/MediaLibrary/DuplicateDetector.php:163
 msgid "View original"
 msgstr "View original"
 
-#: src/Modules/MediaLibrary/FolderManager.php:114
+#: src/Modules/MediaLibrary/FolderManager.php:118
 msgid "Move to folder…"
 msgstr "Move to folder…"
 
-#: src/Modules/MediaLibrary/FolderManager.php:117
+#: src/Modules/MediaLibrary/FolderManager.php:121
 msgid "Add to collection…"
 msgstr "Add to collection…"
 
-#: src/Modules/MediaLibrary/FolderManager.php:606
-#: src/Modules/MediaLibrary/FolderManager.php:642
+#: src/Modules/MediaLibrary/FolderManager.php:610
+#: src/Modules/MediaLibrary/FolderManager.php:646
 msgid "A folder cannot be moved into itself or one of its subfolders."
 msgstr "A folder cannot be moved into itself or one of its subfolders."
 
-#: src/Modules/MediaLibrary/FolderManager.php:667
+#: src/Modules/MediaLibrary/FolderManager.php:671
 msgid "Could not delete folder."
 msgstr "Could not delete folder."
 
@@ -4255,6 +4255,11 @@ msgid ""
 msgstr ""
 "Adds a « Duplicate » link in the Posts/Pages/CPT lists. Clones the content, "
 "meta and taxonomies as a draft. Replaces Yoast Duplicate Post."
+
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:101
+msgctxt "post row action: copy this post as a draft"
+msgid "Duplicate"
+msgstr "Duplicate"
 
 #: src/Modules/Toolkit/Features/DuplicatePosts.php:102
 msgid "Duplicate this content as a draft"

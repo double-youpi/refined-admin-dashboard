@@ -98,7 +98,7 @@ final class DuplicatePosts extends AbstractFeature {
 			self::ACTION . '_' . $post->ID,
 			self::NONCE
 		);
-		$label   = esc_html__( 'Duplicate', 'doubleyoupi-refined-admin-dashboard' );
+		$label   = esc_html_x( 'Duplicate', 'post row action: copy this post as a draft', 'doubleyoupi-refined-admin-dashboard' );
 		$title   = esc_attr__( 'Duplicate this content as a draft', 'doubleyoupi-refined-admin-dashboard' );
 		$actions['doubleyoupi_duplicate'] =
 			'<a href="' . esc_url( $url ) . '" title="' . $title . '" rel="permalink">' . $label . '</a>';

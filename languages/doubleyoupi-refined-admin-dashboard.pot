@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Youpï Refined Admin Dashboard 1.0.1\n"
+"Project-Id-Version: Double Youpï Refined Admin Dashboard 1.0.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-refined-admin-dashboard\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-14T22:47:44+00:00\n"
+"POT-Creation-Date: 2026-10-15T15:27:13+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: doubleyoupi-refined-admin-dashboard\n"
@@ -45,7 +45,8 @@ msgstr ""
 msgid "You are already running the full Double Youpï suite, and it includes Double Youpï Refined Admin Dashboard. This standalone copy stepped aside to stay out of its way. Want to run it on its own? Deactivate the suite first."
 msgstr ""
 
-#: src/Admin/AdminMenu.php:157
+#: src/Admin/AdminMenu.php:80
+#: src/Admin/AdminMenu.php:202
 #: src/Admin/OverviewPage.php:157
 #: src/Admin/OverviewPage.php:560
 #: src/Modules/Admin/Dashboard/Widgets/Data/ModulesWidget.php:110
@@ -3097,30 +3098,30 @@ msgstr ""
 msgid "No collections found"
 msgstr ""
 
-#: src/Modules/MediaLibrary/DuplicateDetector.php:122
-#: src/Modules/MediaLibrary/DuplicateDetector.php:136
-#: src/Modules/Toolkit/Features/DuplicatePosts.php:101
+#: src/Modules/MediaLibrary/DuplicateDetector.php:80
+#: src/Modules/MediaLibrary/DuplicateDetector.php:150
+#: src/Modules/MediaLibrary/DuplicateDetector.php:164
 msgid "Duplicate"
 msgstr ""
 
-#: src/Modules/MediaLibrary/DuplicateDetector.php:135
+#: src/Modules/MediaLibrary/DuplicateDetector.php:163
 msgid "View original"
 msgstr ""
 
-#: src/Modules/MediaLibrary/FolderManager.php:114
+#: src/Modules/MediaLibrary/FolderManager.php:118
 msgid "Move to folder…"
 msgstr ""
 
-#: src/Modules/MediaLibrary/FolderManager.php:117
+#: src/Modules/MediaLibrary/FolderManager.php:121
 msgid "Add to collection…"
 msgstr ""
 
-#: src/Modules/MediaLibrary/FolderManager.php:606
-#: src/Modules/MediaLibrary/FolderManager.php:642
+#: src/Modules/MediaLibrary/FolderManager.php:610
+#: src/Modules/MediaLibrary/FolderManager.php:646
 msgid "A folder cannot be moved into itself or one of its subfolders."
 msgstr ""
 
-#: src/Modules/MediaLibrary/FolderManager.php:667
+#: src/Modules/MediaLibrary/FolderManager.php:671
 msgid "Could not delete folder."
 msgstr ""
 
@@ -4072,6 +4073,11 @@ msgstr ""
 
 #: src/Modules/Toolkit/Features/DuplicatePosts.php:36
 msgid "Adds a « Duplicate » link in the Posts/Pages/CPT lists. Clones the content, meta and taxonomies as a draft. Replaces Yoast Duplicate Post."
+msgstr ""
+
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:101
+msgctxt "post row action: copy this post as a draft"
+msgid "Duplicate"
 msgstr ""
 
 #: src/Modules/Toolkit/Features/DuplicatePosts.php:102

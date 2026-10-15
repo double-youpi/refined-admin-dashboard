@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, admin
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -127,6 +127,14 @@ Privacy policy: https://doubleyoupi.com/privacy
 
 == Changelog ==
 
+= 1.0.2 =
+* New: a Settings link in the plugin's row on the Plugins screen.
+* Fix: the duplicate badge now shows on duplicate files, in the media grid and in media windows. It did not appear before.
+* Fix: the duplicate badge and its column are translated, and read as a noun in German, Spanish, Italian and Portuguese.
+* The Duplicate column is back in the list view when the duplicate badge is on, with a link to the original file.
+* Fix: the "Duplicate" link of the post lists has its own translation, so it no longer reads "Doublon" in French.
+* Translations: the French interface was reviewed against the official WordPress French glossary, and a few Hindi lines were tidied.
+
 = 1.0.1 =
 * Fix: dashboard widgets no longer appear twice while the page loads.
 * Fix: in the media library, the details panel no longer overlaps the section bar.
@@ -152,6 +160,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.2 =
+The duplicate badge of the media library now shows, a Settings link on the Plugins screen, and a reviewed French translation.
 
 = 1.0.1 =
 Fixes from the first week: plugin menu icons are back, dashboard widgets load once, smoother editors and media windows.

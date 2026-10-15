@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-10-14T22:47:44+00:00\n"
+"POT-Creation-Date: 2026-10-15T15:27:13+00:00\n"
 "Language: fr_FR\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
@@ -55,8 +55,8 @@ msgstr ""
 "pour ne pas la gêner. Vous préférez l’utiliser seule ? Désactivez d’abord la "
 "suite."
 
-#: src/Admin/AdminMenu.php:157 src/Admin/OverviewPage.php:157
-#: src/Admin/OverviewPage.php:560
+#: src/Admin/AdminMenu.php:80 src/Admin/AdminMenu.php:202
+#: src/Admin/OverviewPage.php:157 src/Admin/OverviewPage.php:560
 #: src/Modules/Admin/Dashboard/Widgets/Data/ModulesWidget.php:110
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:160
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:65
@@ -159,7 +159,7 @@ msgstr "Joindre une capture"
 
 #: src/Admin/Feedback.php:272
 msgid "or paste an image here (Ctrl/Cmd + V)"
-msgstr "ou collez une image ici (Ctrl/Cmd + V)"
+msgstr "ou collez une image ici (Ctrl/Cmd + V)"
 
 #: src/Admin/Feedback.php:275
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:369
@@ -231,7 +231,7 @@ msgstr "Trop de retours en peu de temps. Veuillez réessayer dans une heure."
 
 #: src/Admin/Feedback.php:443 src/Admin/Feedback.php:447
 msgid "The feedback service did not answer. Please try again later."
-msgstr "Le service de retours n’a pas répondu. Veuillez réessayer plus tard."
+msgstr "Le service de retour n’a pas répondu. Veuillez réessayer plus tard."
 
 #: src/Admin/HeroQuips.php:51
 msgid "Objectively the best plugin you've installed in the last five minutes."
@@ -431,7 +431,7 @@ msgstr "Enregistrer les modules"
 
 #: src/Admin/OverviewPage.php:466
 msgid "Coming soon"
-msgstr "Bientôt"
+msgstr "Bientôt disponible"
 
 #: src/Admin/OverviewPage.php:556
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:386
@@ -493,12 +493,13 @@ msgid ""
 "appreciated ;) Otherwise, just using it (and dropping a kind review) already "
 "helps a lot. Thanks!"
 msgstr ""
-"Moi c’est <b>%1$s</b>, designer et dev freelance, alias %2$s. Je fabrique "
-"Double Youpï pour que WordPress soit plus agréable à utiliser. Cette "
-"extension restera gratuite à vie, mises à jour comprises. Si un truc coince "
-"ou vous manque, merci de me le dire. Et si l’extension vous est utile et "
-"vous plaît vraiment, un café ça fait toujours plaisir ;) Sinon, juste "
-"l’utiliser (et lâcher un avis sympa) aide déjà énormément. Merci !"
+"Moi c’est <b>%1$s</b>, designer et développeur indépendant, alias %2$s. Je "
+"fabrique Double Youpï pour que WordPress soit plus agréable à utiliser. "
+"Cette extension restera gratuite à vie, mises à jour comprises. Si quelque "
+"chose coince ou vous manque, merci de me le dire. Et si l’extension vous est "
+"utile et vous plaît vraiment, un café fait toujours plaisir ;) Sinon, "
+"simplement l’utiliser (et laisser un avis sympa) aide déjà énormément. "
+"Merci !"
 
 #. translators: %s: author first name (bold).
 #: src/Admin/OverviewPage.php:759
@@ -511,12 +512,12 @@ msgid ""
 "Otherwise, just using it (and dropping a kind review) already helps a lot. "
 "Thanks!"
 msgstr ""
-"Moi c’est <b>%s</b>, designer et dev freelance. Je fabrique Double Youpï "
-"pour que WordPress soit plus agréable à utiliser. Cette extension restera "
-"gratuite à vie, mises à jour comprises. Si un truc coince ou vous manque, "
-"merci de me le dire. Et si l’extension vous est utile et vous plaît "
-"vraiment, un café ça fait toujours plaisir ;) Sinon, juste l’utiliser (et "
-"lâcher un avis sympa) aide déjà énormément. Merci !"
+"Moi c’est <b>%s</b>, designer et développeur indépendant. Je fabrique Double "
+"Youpï pour que WordPress soit plus agréable à utiliser. Cette extension "
+"restera gratuite à vie, mises à jour comprises. Si quelque chose coince ou "
+"vous manque, merci de me le dire. Et si l’extension vous est utile et vous "
+"plaît vraiment, un café fait toujours plaisir ;) Sinon, simplement "
+"l’utiliser (et laisser un avis sympa) aide déjà énormément. Merci !"
 
 #. translators: %s: author first name.
 #: src/Admin/OverviewPage.php:771
@@ -691,7 +692,7 @@ msgstr "Voir le site"
 
 #: src/Modules/Admin/AdminColumnsConflict.php:129
 msgid "Admin Columns deactivated."
-msgstr "Admin Columns désactivé."
+msgstr "Admin Columns désactivée."
 
 #: src/Modules/Admin/AdminColumnsConflict.php:143
 msgid "Admin Columns is active."
@@ -794,7 +795,7 @@ msgstr "Fermer le panneau de personnalisation"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:359
 msgid "Current screen"
-msgstr "Écran courant"
+msgstr "Écran actuel"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:360
 #: src/Modules/Admin/Tables/TablesReimagined.php:482
@@ -863,7 +864,7 @@ msgstr "Impossible de lancer la sauvegarde."
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:376
 msgid "Drag a tile onto the current screen, or click it to add it."
 msgstr ""
-"Glissez une tuile sur l’écran courant, ou cliquez dessus pour l’ajouter."
+"Glissez une tuile sur l’écran actuel, ou cliquez dessus pour l’ajouter."
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:377
 msgid "Assign to role"
@@ -898,7 +899,7 @@ msgstr "Afficher l’écran WordPress (dernier)"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:384
 msgid "Auto-sync"
-msgstr "Synchro auto"
+msgstr "Synchronisation automatique"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:385
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:170
@@ -976,14 +977,14 @@ msgstr "Supprimer la disposition « %s » ?"
 #, php-format
 msgid "Replace the current layout with « %s »? Unsaved changes will be lost."
 msgstr ""
-"Remplacer la disposition courante par « %s » ? Les modifications non "
+"Remplacer la disposition actuelle par « %s » ? Les modifications non "
 "enregistrées seront perdues."
 
 #. translators: %s: disposition name
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:409
 #, php-format
 msgid "Update « %s » with the current settings?"
-msgstr "Mettre à jour « %s » avec les paramètres actuels ?"
+msgstr "Mettre à jour « %s » avec les réglages actuels ?"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:410
 msgid "Clear everything and start from a single blank screen?"
@@ -1011,7 +1012,7 @@ msgstr "Appliquer"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:416
 msgid "Update with current settings"
-msgstr "Mettre à jour avec les paramètres actuels"
+msgstr "Mettre à jour avec les réglages actuels"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:417
 #: src/Modules/Admin/Settings.php:873
@@ -1077,7 +1078,7 @@ msgstr "déjà sur %s"
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:434
 #, php-format
 msgid "default: %s"
-msgstr "défaut : %s"
+msgstr "par défaut : %s"
 
 #. translators: %s: list of roles and their current disposition
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:436
@@ -1095,7 +1096,7 @@ msgstr "Rôles assignés."
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:440
 msgid "Remove this widget"
-msgstr "Supprimer ce widget"
+msgstr "Retirer ce widget"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:441
 msgid "Delete this screen"
@@ -1169,7 +1170,7 @@ msgstr "Quelque chose de neuf"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:462
 msgid "At least one user screen is required."
-msgstr "Au moins un écran utilisateur est requis."
+msgstr "Au moins un écran utilisateur est nécessaire."
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:463
 msgid "Delete this screen?"
@@ -1219,7 +1220,7 @@ msgstr "Ajouter un paragraphe…"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:478
 msgid "Background color"
-msgstr "Couleur de fond"
+msgstr "Couleur d’arrière-plan"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:479
 msgid "Global"
@@ -1227,11 +1228,11 @@ msgstr "Global"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:480
 msgid "Reset to global color"
-msgstr "Réinitialiser sur la couleur globale"
+msgstr "Revenir à la couleur globale"
 
 #: src/Modules/Admin/Dashboard/Layout/Dispositions.php:149
 msgid "A disposition name is required."
-msgstr "Un nom de disposition est requis."
+msgstr "Un nom de disposition est obligatoire."
 
 #: src/Modules/Admin/Dashboard/Layout/Dispositions.php:154
 msgid "Maximum number of saved dispositions reached."
@@ -1297,7 +1298,7 @@ msgstr "On y va ?"
 #: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:250
 #: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:264
 msgid "Sales and orders, without leaving the dashboard."
-msgstr "Le nerf de la guerre, sans quitter le tableau de bord."
+msgstr "Les ventes et les commandes, sans quitter le tableau de bord."
 
 #: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:267
 msgid "The cash drawer"
@@ -1313,7 +1314,7 @@ msgstr "Standard"
 
 #: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:312
 msgid "Recommended by Double Youpï"
-msgstr "Recommandée Double Youpï"
+msgstr "Recommandée par Double Youpï"
 
 #: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:313
 msgid "Editor"
@@ -1321,7 +1322,7 @@ msgstr "Éditeur"
 
 #: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:313
 msgid "Focus on content creation"
-msgstr "Focus création de contenu"
+msgstr "Priorité à la création de contenu"
 
 #: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:314
 msgid "Administrator"
@@ -1345,7 +1346,7 @@ msgstr "Boutique"
 
 #: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:319
 msgid "Your shop, then the editor flow"
-msgstr "Votre boutique, puis le flux éditeur"
+msgstr "Votre boutique, puis le flux de travail éditorial"
 
 #: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:320
 msgid "Shop Pro"
@@ -1353,7 +1354,7 @@ msgstr "Boutique Pro"
 
 #: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:320
 msgid "Sales in depth, plus the editor flow"
-msgstr "Les ventes en détail, plus le flux éditeur"
+msgstr "Les ventes en détail, plus le flux de travail éditorial"
 
 #: src/Modules/Admin/Dashboard/Layout/LayoutValidator.php:46
 msgid "The layout payload must be an array."
@@ -1367,7 +1368,7 @@ msgstr "Version de disposition invalide (attendue %1$d, reçue %2$d)."
 
 #: src/Modules/Admin/Dashboard/Layout/LayoutValidator.php:67
 msgid "At least one screen is required."
-msgstr "Au moins un écran est requis."
+msgstr "Au moins un écran est nécessaire."
 
 #: src/Modules/Admin/Dashboard/Layout/LayoutValidator.php:158
 msgid "No valid screen after sanitization."
@@ -1377,7 +1378,7 @@ msgstr "Aucun écran valide après nettoyage."
 #: src/Modules/Admin/Dashboard/Renderer.php:190
 #, php-format
 msgid "%s and plugins"
-msgstr "Informations %s et Extensions"
+msgstr "%s et extensions"
 
 #: src/Modules/Admin/Dashboard/Renderer.php:191
 msgid "WordPress"
@@ -1389,7 +1390,7 @@ msgstr "Aucun widget natif ou d’extension n’est enregistré sur ce site."
 
 #: src/Modules/Admin/Dashboard/Renderer.php:219
 msgid "This widget could not be rendered (callback missing)."
-msgstr "Ce widget n’a pas pu être affiché (callback manquant)."
+msgstr "Ce widget n’a pas pu être affiché (fonction de rappel manquante)."
 
 #: src/Modules/Admin/Dashboard/Renderer.php:382
 msgid "Dashboard screens navigation"
@@ -1426,7 +1427,7 @@ msgstr "La disposition doit être un objet."
 
 #: src/Modules/Admin/Dashboard/RestController.php:372
 msgid "Widget ID required."
-msgstr "ID de widget requis."
+msgstr "L’ID du widget est obligatoire."
 
 #. translators: %s is the widget identifier that could not be found.
 #: src/Modules/Admin/Dashboard/RestController.php:382
@@ -1436,7 +1437,7 @@ msgstr "Widget « %s » inconnu."
 
 #: src/Modules/Admin/Dashboard/RestController.php:392
 msgid "You are not allowed to see this widget."
-msgstr "Vous n’avez pas le droit de voir ce widget."
+msgstr "Vous n’avez pas l’autorisation de voir ce widget."
 
 #: src/Modules/Admin/Dashboard/Tokens/TokenResolver.php:102
 msgid "Hello"
@@ -1472,7 +1473,7 @@ msgstr "Titre"
 
 #: src/Modules/Admin/Dashboard/Widgets/Content/HeadingWidget.php:35
 msgid "A configurable title, frameless, to structure the Dashboard."
-msgstr "Un titre configurable, sans cadre, pour structurer le Dashboard."
+msgstr "Un titre configurable, sans cadre, pour structurer le tableau de bord."
 
 #: src/Modules/Admin/Dashboard/Widgets/Content/ParagraphWidget.php:35
 msgid ""
@@ -1528,7 +1529,7 @@ msgstr "il y a %d j"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/AdminLinkWidget.php:24
 msgid "Admin link"
-msgstr "Lien admin"
+msgstr "Lien d’administration"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/AdminLinkWidget.php:28
 msgid "Single shortcut button to an admin page."
@@ -1564,7 +1565,8 @@ msgstr "Sauvegarde"
 #: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:33
 msgid "Date, size and status of the last backup. Turns red if > 7 days."
 msgstr ""
-"Date, taille et statut de la dernière sauvegarde. Devient rouge si > 7 jours."
+"Date, taille et état de la dernière sauvegarde. Devient rouge au-delà de 7 "
+"jours."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:94
 msgid "No Double Youpï backup."
@@ -1594,16 +1596,17 @@ msgstr "Créer (un type)"
 #: src/Modules/Admin/Dashboard/Widgets/Data/CreateButtonWidget.php:36
 msgid "Single-action button to create a new post of the configured type."
 msgstr ""
-"Bouton à action unique pour créer un nouveau contenu du type configuré."
+"Bouton à action unique pour créer une nouvelle publication du type configuré."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/CreateButtonWidget.php:95
 msgid ""
 "A button that immediately creates a new entry of the chosen content type."
-msgstr "Un bouton qui crée immédiatement un nouveau contenu du type choisi."
+msgstr ""
+"Un bouton qui crée immédiatement une nouvelle publication du type choisi."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/CreateButtonWidget.php:96
 msgid "Post type"
-msgstr "Type de contenu"
+msgstr "Type de publication"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/CreateButtonWidget.php:97
 msgid "Label (optional)"
@@ -1635,12 +1638,12 @@ msgid ""
 "One create button per content type, generated automatically, including your "
 "custom post types."
 msgstr ""
-"Un bouton de création par type de contenu, généré automatiquement, y compris "
-"vos types personnalisés."
+"Un bouton de création par type de publication, généré automatiquement, y "
+"compris vos types personnalisés."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/CreateHubWidget.php:144
 msgid "No content type available to create."
-msgstr "Aucun type de contenu à créer."
+msgstr "Aucun type de publication à créer."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/DiskWidget.php:30
 msgid "Disk space"
@@ -1651,8 +1654,9 @@ msgid ""
 "Server disk space, media library size, DB size. Cached 1h to avoid walking "
 "on each pageload."
 msgstr ""
-"Espace disque serveur, taille médiathèque, taille DB. Cache 1h pour ne pas "
-"walker à chaque pageload."
+"Espace disque du serveur, taille de la médiathèque, taille de la base de "
+"données. Mis en cache 1 h pour ne pas tout parcourir à chaque chargement de "
+"page."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/DiskWidget.php:144
 msgid "Disk"
@@ -1664,7 +1668,7 @@ msgstr "médias"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/DiskWidget.php:161
 msgid "db"
-msgstr "db"
+msgstr "bdd"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/ModulesWidget.php:31
 #: src/Modules/Admin/Dashboard/Widgets/Data/ModulesWidget.php:84
@@ -1673,8 +1677,7 @@ msgstr "Modules"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/ModulesWidget.php:35
 msgid "Status of the suite modules: active, disabled, in progress."
-msgstr ""
-"État des modules de la suite : actifs, désactivés, en cours d’implémentation."
+msgstr "État des modules de la suite : actifs, désactivés, en cours."
 
 #. translators: 1: active count, 2: total
 #. translators: 1: enabled count, 2: total
@@ -1718,8 +1721,8 @@ msgid ""
 "Configurable buttons for frequent admin actions. Multiple instances possible "
 "for distinct workflows."
 msgstr ""
-"Boutons configurables vers les actions admin fréquentes. Plusieurs instances "
-"possibles pour des workflows distincts."
+"Boutons configurables vers les actions d’administration fréquentes. "
+"Plusieurs instances possibles pour des flux de travail distincts."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:64
 msgid ""
@@ -1749,11 +1752,11 @@ msgstr "+ Page"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:110
 msgid "+ Media"
-msgstr "+ Médias"
+msgstr "+ Média"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:115
 msgid "Clear cache"
-msgstr "Vider cache"
+msgstr "Vider le cache"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:120
 msgid "Update plugins"
@@ -1782,7 +1785,7 @@ msgstr "Thèmes"
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:145
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:67
 msgid "Customizer"
-msgstr "Personnalisateur"
+msgstr "Outil de personnalisation"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:165
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:66
@@ -1791,7 +1794,7 @@ msgstr "Permaliens"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:199
 msgid "No action. Edit the widget config."
-msgstr "Aucune action. Édite la config du widget."
+msgstr "Aucune action. Modifiez les réglages du widget."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:24
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:82
@@ -1804,8 +1807,8 @@ msgid ""
 "Configurable bookmarks to frequently used admin pages. Multiple instances "
 "possible to categorize."
 msgstr ""
-"Bookmarks configurables vers les pages admin fréquentes. Plusieurs instances "
-"possibles pour catégoriser."
+"Marque-pages configurables vers les pages d’administration fréquentes. "
+"Plusieurs instances possibles pour les classer."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:55
 msgid "Posts"
@@ -1831,8 +1834,8 @@ msgstr "Outils"
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:78
 msgid "Bookmarks to the admin pages you visit most. Add one from the dropdown."
 msgstr ""
-"Favoris vers les pages d’administration que vous consultez le plus. Ajoutez-"
-"en un depuis le menu."
+"Marque-pages vers les pages d’administration que vous consultez le plus. "
+"Ajoutez-en un depuis le menu."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:84
 msgid "Add a shortcut"
@@ -1845,7 +1848,7 @@ msgstr "Aucun raccourci configuré."
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteHealthWidget.php:29
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteHealthWidget.php:139
 msgid "WordPress health"
-msgstr "Santé WordPress"
+msgstr "Santé de WordPress"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteHealthWidget.php:33
 msgid "Summary of WP_Site_Health tests: critical, recommended, passed."
@@ -1947,7 +1950,7 @@ msgstr "Hybride"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/StaticSiteWidget.php:106
 msgid "Static Site module not active."
-msgstr "Module Site statique non actif."
+msgstr "Module Site statique inactif."
 
 #. translators: %d: page count
 #: src/Modules/Admin/Dashboard/Widgets/Data/StaticSiteWidget.php:115
@@ -1961,7 +1964,7 @@ msgstr[1] "%d pages générées"
 #: src/Modules/Admin/Dashboard/Widgets/Data/StaticSiteWidget.php:128
 #, php-format
 msgid "Last export: %s ago"
-msgstr "Dernier export il y a %s"
+msgstr "Dernier export : il y a %s"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/TodoWidget.php:26
 #: src/Modules/Admin/Dashboard/Widgets/Data/TodoWidget.php:75
@@ -1972,7 +1975,7 @@ msgstr "À traiter"
 msgid ""
 "Drafts, scheduled posts, comments in moderation, plugins awaiting update."
 msgstr ""
-"Brouillons, articles programmés, commentaires en attente de modération, "
+"Brouillons, articles planifiés, commentaires en attente de modération, "
 "extensions à mettre à jour."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/TodoWidget.php:66
@@ -1983,7 +1986,7 @@ msgstr "Brouillons"
 #: src/Modules/Admin/Editor/EditorReimagined.php:235
 #: src/Modules/Admin/Tables/TablesReimagined.php:441
 msgid "Scheduled"
-msgstr "Programmés"
+msgstr "Planifiés"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/TodoWidget.php:68
 msgid "In moderation"
@@ -1992,27 +1995,27 @@ msgstr "En modération"
 #: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:33
 #: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:85
 msgid "Toolkit"
-msgstr "Outils"
+msgstr "Boîte à outils"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:37
 msgid "State of the quick toggles (Disable Comments, Classic Editor, etc.)."
 msgstr ""
-"État des réglages rapides (Désactiver les commentaires, Éditeur classique, "
-"etc.)."
+"État des interrupteurs rapides (Désactiver les commentaires, Éditeur "
+"classique, etc.)."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:103
 msgid "No toggle available."
-msgstr "Aucun réglage disponible."
+msgstr "Aucun interrupteur disponible."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/WcActivityWidget.php:28
 #: src/Modules/Admin/Dashboard/Widgets/Data/WcActivityWidget.php:93
 #: src/Modules/Admin/Dashboard/Widgets/Data/WcActivityWidget.php:103
 msgid "Shop activity"
-msgstr "Activité boutique"
+msgstr "Activité de la boutique"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/WcActivityWidget.php:32
 msgid "Latest orders: number, amount, status and time."
-msgstr "Dernières commandes : numéro, montant, statut et heure."
+msgstr "Dernières commandes : numéro, montant, état et heure."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/WcActivityWidget.php:95
 #: src/Modules/Admin/Dashboard/Widgets/Data/WcLowStockWidget.php:122
@@ -2060,7 +2063,8 @@ msgstr "Stock faible"
 msgid ""
 "Products running low or out of stock, with a quick preview. Cached 15 min."
 msgstr ""
-"Produits en stock faible ou en rupture, avec un aperçu rapide. Cache 15 min."
+"Produits en stock faible ou en rupture, avec un aperçu rapide. Mis en cache "
+"15 min."
 
 #. translators: %d: count
 #: src/Modules/Admin/Dashboard/Widgets/Data/WcLowStockWidget.php:137
@@ -2076,11 +2080,11 @@ msgstr "à surveiller"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/WcLowStockWidget.php:148
 msgid "stock alerts"
-msgstr "alertes stock"
+msgstr "alertes de stock"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/WcLowStockWidget.php:150
 msgid "All products well stocked."
-msgstr "Tous les produits bien approvisionnés."
+msgstr "Tous les produits sont bien approvisionnés."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/WcLowStockWidget.php:156
 msgid "low"
@@ -2154,12 +2158,12 @@ msgid ""
 "Revenue collected this month vs last month (same days elapsed). Cached 15 "
 "min."
 msgstr ""
-"CA encaissé ce mois-ci vs le mois dernier (mêmes jours écoulés). Cache 15 "
-"min."
+"Chiffre d’affaires encaissé ce mois-ci, comparé au mois dernier (mêmes jours "
+"écoulés). Mis en cache 15 min."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/WcRevenueWidget.php:129
 msgid "vs last month"
-msgstr "vs le mois dernier"
+msgstr "par rapport au mois dernier"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/WcRevenueWidget.php:133
 msgid "first sales of the period"
@@ -2181,8 +2185,8 @@ msgstr "Ventes (7 jours)"
 msgid ""
 "Daily revenue sparkline over the last 7 days, plus total and order count."
 msgstr ""
-"Courbe du CA jour par jour sur les 7 derniers jours, plus le total et le "
-"nombre de commandes."
+"Courbe du chiffre d’affaires jour par jour sur les 7 derniers jours, plus le "
+"total et le nombre de commandes."
 
 #. translators: %d: order count
 #: src/Modules/Admin/Dashboard/Widgets/Data/WcSalesTrendWidget.php:127
@@ -2196,11 +2200,11 @@ msgstr[1] "%d commandes"
 #: src/Modules/Admin/Dashboard/Widgets/Data/WcTopProductsWidget.php:116
 #: src/Modules/Admin/Dashboard/Widgets/Data/WcTopProductsWidget.php:127
 msgid "Top products"
-msgstr "Top produits"
+msgstr "Meilleurs produits"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/WcTopProductsWidget.php:38
 msgid "Best sellers this month by units sold. Cached 30 min."
-msgstr "Meilleures ventes du mois par quantité vendue. Cache 30 min."
+msgstr "Meilleures ventes du mois par quantité vendue. Mis en cache 30 min."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/WcTopProductsWidget.php:132
 msgid "No sales this month yet."
@@ -2220,9 +2224,10 @@ msgid ""
 "items, promote sub-pages to top-level, and toggle Double Youpï styling per "
 "sub-page."
 msgstr ""
-"Réorganisez visuellement votre navigation admin : glissez-déposez les chips "
-"entre les lignes, masquez des éléments, promouvez des sous-pages au niveau "
-"supérieur, et activez ou désactivez le style Double Youpï par sous-page."
+"Réorganisez visuellement votre navigation d’administration : glissez-déposez "
+"les pastilles entre les lignes, masquez des éléments, faites passer des sous-"
+"pages au premier niveau, et activez ou désactivez le style Double Youpï par "
+"sous-page."
 
 #: src/Modules/Admin/Developer/Renderer.php:35
 msgid ""
@@ -2261,11 +2266,11 @@ msgstr "Options de publication"
 
 #: src/Modules/Admin/Editor/EditorReimagined.php:227
 msgid "Collapse panel"
-msgstr "Réduire le panneau"
+msgstr "Replier le panneau"
 
 #: src/Modules/Admin/Editor/EditorReimagined.php:228
 msgid "Expand panel"
-msgstr "Développer le panneau"
+msgstr "Déplier le panneau"
 
 #: src/Modules/Admin/Editor/EditorReimagined.php:229
 msgid "Permalink"
@@ -2523,7 +2528,7 @@ msgstr "Réorganiser"
 #: src/Modules/Admin/PostOrdering.php:217 src/Modules/Admin/Settings.php:295
 #: src/Modules/Admin/Tables/TablesReimagined.php:465
 msgid "Drag to reorder"
-msgstr "Glisser pour réorganiser"
+msgstr "Faites glisser pour réorganiser"
 
 #: src/Modules/Admin/PostOrdering.php:264
 #: src/Modules/Admin/Tables/TablesReimagined.php:476
@@ -2532,23 +2537,23 @@ msgstr "Échec du réordonnancement. Rechargez la page."
 
 #: src/Modules/Admin/PostOrdering.php:305
 msgid "Unknown post type."
-msgstr "Type de contenu inconnu."
+msgstr "Type de publication inconnu."
 
 #: src/Modules/Admin/PostOrdering.php:308
 msgid "This post type is not orderable."
-msgstr "Ce type de contenu n’est pas réordonnable."
+msgstr "Ce type de publication ne peut pas être réordonné."
 
 #: src/Modules/Admin/PostOrdering.php:311
 msgid "You cannot edit this post type."
-msgstr "Vous ne pouvez pas modifier ce type de contenu."
+msgstr "Vous ne pouvez pas modifier ce type de publication."
 
 #: src/Modules/Admin/Profile.php:100
 msgid "You are not allowed to export these settings."
-msgstr "Vous n’avez pas le droit d’exporter ces réglages."
+msgstr "Vous n’avez pas l’autorisation d’exporter ces réglages."
 
 #: src/Modules/Admin/Profile.php:120
 msgid "You are not allowed to import these settings."
-msgstr "Vous n’avez pas le droit d’importer ces réglages."
+msgstr "Vous n’avez pas l’autorisation d’importer ces réglages."
 
 #: src/Modules/Admin/Profile.php:360
 msgid "Accent color and logo"
@@ -2611,14 +2616,12 @@ msgstr "Choisir une image"
 #: src/Modules/Admin/Settings.php:213 src/Modules/Admin/Settings.php:422
 msgid "Color too dark: even strong saturation cannot recover identity here."
 msgstr ""
-"Couleur trop sombre : même une forte saturation ne peut pas récupérer "
-"l’identité ici."
+"Couleur trop sombre : même une forte saturation ne lui rend pas son identité."
 
 #: src/Modules/Admin/Settings.php:214 src/Modules/Admin/Settings.php:425
 msgid "Color too light: even strong saturation cannot recover identity here."
 msgstr ""
-"Couleur trop claire : même une forte saturation ne peut pas récupérer "
-"l’identité ici."
+"Couleur trop claire : même une forte saturation ne lui rend pas son identité."
 
 #: src/Modules/Admin/Settings.php:215 src/Modules/Admin/Settings.php:431
 msgid "Gray too dark: without saturation, tinted surfaces will turn muddy."
@@ -2764,8 +2767,8 @@ msgstr "Réorganiser"
 msgid ""
 "Customize the look of your WordPress admin. Everything else is automatic."
 msgstr ""
-"Personnalisez l’apparence de votre admin WordPress. Tout le reste est "
-"automatique."
+"Personnalisez l’apparence de votre administration WordPress. Tout le reste "
+"est automatique."
 
 #: src/Modules/Admin/Settings.php:610
 msgid "Some settings are pinned in code."
@@ -2870,7 +2873,7 @@ msgid ""
 "you switch back."
 msgstr ""
 "L’onglet Réorganiser est masqué en mode natif. Votre disposition est "
-"conservée pour votre retour."
+"conservée si vous y revenez."
 
 #: src/Modules/Admin/Settings.php:818 src/Modules/Admin/Settings.php:822
 msgid "Section pages on hover"
@@ -3059,7 +3062,7 @@ msgstr "Tout réinitialiser"
 
 #: src/Modules/Admin/Tables/TablesReimagined.php:471
 msgid "selected"
-msgstr "sélectionné·s"
+msgstr "sélectionné(s)"
 
 #: src/Modules/Admin/Tables/TablesReimagined.php:473
 msgid "Add New"
@@ -3088,7 +3091,7 @@ msgstr "Slug"
 
 #: src/Modules/Admin/Tables/TablesReimagined.php:484
 msgid "Status"
-msgstr "Statut"
+msgstr "État"
 
 #: src/Modules/Admin/Tables/TablesReimagined.php:485
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:142
@@ -3149,7 +3152,7 @@ msgstr "Tout mettre à jour"
 
 #: src/Modules/Admin/Tables/TablesReimagined.php:507
 msgid "Auto-updates"
-msgstr "MAJ auto"
+msgstr "Mises à jour auto"
 
 #: src/Modules/Admin/Tables/TablesReimagined.php:508
 msgid "More"
@@ -3192,7 +3195,7 @@ msgstr ""
 
 #: src/Modules/Admin/Welcome.php:108
 msgid "You are not allowed to do this."
-msgstr "Vous n’avez pas le droit de faire cela."
+msgstr "Vous n’avez pas l’autorisation de faire cela."
 
 #: src/Modules/Admin/Welcome.php:128
 msgid "Refined Admin Dashboard is on."
@@ -3299,32 +3302,32 @@ msgstr "Modifier la collection"
 msgid "No collections found"
 msgstr "Aucune collection trouvée"
 
-#: src/Modules/MediaLibrary/DuplicateDetector.php:122
-#: src/Modules/MediaLibrary/DuplicateDetector.php:136
-#: src/Modules/Toolkit/Features/DuplicatePosts.php:101
+#: src/Modules/MediaLibrary/DuplicateDetector.php:80
+#: src/Modules/MediaLibrary/DuplicateDetector.php:150
+#: src/Modules/MediaLibrary/DuplicateDetector.php:164
 msgid "Duplicate"
 msgstr "Doublon"
 
-#: src/Modules/MediaLibrary/DuplicateDetector.php:135
+#: src/Modules/MediaLibrary/DuplicateDetector.php:163
 msgid "View original"
 msgstr "Voir l’original"
 
-#: src/Modules/MediaLibrary/FolderManager.php:114
+#: src/Modules/MediaLibrary/FolderManager.php:118
 msgid "Move to folder…"
 msgstr "Déplacer dans un dossier…"
 
-#: src/Modules/MediaLibrary/FolderManager.php:117
+#: src/Modules/MediaLibrary/FolderManager.php:121
 msgid "Add to collection…"
 msgstr "Ajouter à une collection…"
 
-#: src/Modules/MediaLibrary/FolderManager.php:606
-#: src/Modules/MediaLibrary/FolderManager.php:642
+#: src/Modules/MediaLibrary/FolderManager.php:610
+#: src/Modules/MediaLibrary/FolderManager.php:646
 msgid "A folder cannot be moved into itself or one of its subfolders."
 msgstr ""
 "Un dossier ne peut pas être déplacé dans lui-même ou dans l’un de ses sous-"
 "dossiers."
 
-#: src/Modules/MediaLibrary/FolderManager.php:667
+#: src/Modules/MediaLibrary/FolderManager.php:671
 msgid "Could not delete folder."
 msgstr "Impossible de supprimer le dossier."
 
@@ -3610,7 +3613,7 @@ msgstr "Erreur de chargement."
 
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:138
 msgid "Drag to resize"
-msgstr "Glisser pour redimensionner"
+msgstr "Faites glisser pour redimensionner"
 
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:139
 msgid "View full size"
@@ -3792,9 +3795,7 @@ msgstr "%d fichiers sélectionnés"
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:216
 msgid "Leave a field empty to keep each file’s existing value unchanged."
 msgstr ""
-"Laissez un champ vide pour conserver la valeur actuelle de chaque "
-"fichier.Laissez un champ vide pour conserver la valeur existante de chaque "
-"fichier."
+"Laissez un champ vide pour conserver la valeur existante de chaque fichier."
 
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:217
 msgid "Alt text"
@@ -3927,7 +3928,7 @@ msgstr "Lecture de la source…"
 
 #: src/Modules/MediaLibrary/Migration/MigrationI18n.php:28
 msgid "Import preview"
-msgstr "Aperçu de l’import"
+msgstr "Aperçu de l’importation"
 
 #. translators: %1$d: folders, %2$d: collections, %3$d: media
 #: src/Modules/MediaLibrary/Migration/MigrationI18n.php:30
@@ -3937,7 +3938,7 @@ msgstr "%1$d dossiers, %2$d collections et %3$d médias seront importés."
 
 #: src/Modules/MediaLibrary/Migration/MigrationI18n.php:31
 msgid "Start import"
-msgstr "Démarrer l’import"
+msgstr "Démarrer l’importation"
 
 #: src/Modules/MediaLibrary/Migration/MigrationI18n.php:33
 msgid "Importing…"
@@ -4289,7 +4290,7 @@ msgid ""
 "Forces TinyMCE on all posts/pages/CPTs and disables the block widget editor. "
 "Replaces Classic Editor / Disable Gutenberg."
 msgstr ""
-"Impose TinyMCE sur tous les articles, pages et types de contenu "
+"Impose TinyMCE sur tous les articles, pages et types de publication "
 "personnalisés, et désactive l’éditeur de widgets en blocs. Remplace Classic "
 "Editor et Disable Gutenberg."
 
@@ -4299,7 +4300,7 @@ msgstr "Désactiver les commentaires"
 
 #: src/Modules/Toolkit/Features/DisableComments.php:35
 msgid "Cut comments and trackbacks everywhere"
-msgstr "Couper les commentaires et trackbacks partout"
+msgstr "Couper les commentaires et les rétroliens partout"
 
 #: src/Modules/Toolkit/Features/DisableComments.php:39
 msgid ""
@@ -4307,7 +4308,7 @@ msgid ""
 "admin bar icon, blocks POST to wp-comments-post.php. Replaces Disable "
 "Comments."
 msgstr ""
-"Retire la prise en charge des commentaires de tous les types de contenu, "
+"Retire la prise en charge des commentaires de tous les types de publication, "
 "masque le menu Commentaires et son icône dans la barre d’administration, "
 "bloque les envois vers wp-comments-post.php. Remplace Disable Comments."
 
@@ -4332,7 +4333,7 @@ msgid ""
 "Prompt."
 msgstr ""
 "Supprime l’invite plein écran de vérification de l’e-mail d’administration "
-"que WordPress affiche à la connexion tous les quelques mois. Remplace Make "
+"que WordPress affiche à la connexion, à intervalles réguliers. Remplace Make "
 "Disable Admin Email Verification Prompt."
 
 #: src/Modules/Toolkit/Features/DisableUpdateEmails.php:32
@@ -4351,18 +4352,18 @@ msgid ""
 "critical emails are kept, and core update emails are untouched. Replaces "
 "Companion Auto Update / Easy Updates Manager."
 msgstr ""
-"Met fin au spam dans la boîte de réception causé par les mises à jour "
-"automatiques réussies d’extensions/thèmes. Les e-mails d’échec et critiques "
-"sont conservés, et les e-mails de mise à jour du cœur ne sont pas touchés. "
-"Remplace Companion Auto Update / Easy Updates Manager."
+"Met fin aux e-mails indésirables envoyés après chaque mise à jour "
+"automatique réussie d’une extension ou d’un thème. Les e-mails d’échec et "
+"critiques sont conservés, et les e-mails de mise à jour du cœur ne sont pas "
+"touchés. Remplace Companion Auto Update / Easy Updates Manager."
 
 #: src/Modules/Toolkit/Features/DuplicatePosts.php:28
 msgid "Duplicate a post/page"
-msgstr "Dupliquer un article/page"
+msgstr "Dupliquer un article ou une page"
 
 #: src/Modules/Toolkit/Features/DuplicatePosts.php:32
 msgid "Enable a « Duplicate » link in the admin lists"
-msgstr "Activer un lien « Dupliquer » dans les listes admin"
+msgstr "Activer un lien « Dupliquer » dans les listes de l’administration"
 
 #: src/Modules/Toolkit/Features/DuplicatePosts.php:36
 msgid ""
@@ -4370,8 +4371,13 @@ msgid ""
 "meta and taxonomies as a draft. Replaces Yoast Duplicate Post."
 msgstr ""
 "Ajoute un lien « Dupliquer » dans les listes d’articles, de pages et de "
-"types de contenu personnalisés. Copie le contenu, les métadonnées et les "
+"types de publication personnalisés. Copie le contenu, les métadonnées et les "
 "taxonomies dans un brouillon. Remplace Yoast Duplicate Post."
+
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:101
+msgctxt "post row action: copy this post as a draft"
+msgid "Duplicate"
+msgstr "Dupliquer"
 
 #: src/Modules/Toolkit/Features/DuplicatePosts.php:102
 msgid "Duplicate this content as a draft"
@@ -4379,11 +4385,11 @@ msgstr "Dupliquer ce contenu en brouillon"
 
 #: src/Modules/Toolkit/Features/DuplicatePosts.php:111
 msgid "Post ID missing."
-msgstr "ID de contenu manquant."
+msgstr "ID de publication manquant."
 
 #: src/Modules/Toolkit/Features/DuplicatePosts.php:121
 msgid "Source post not found."
-msgstr "Contenu source introuvable."
+msgstr "Publication source introuvable."
 
 #: src/Modules/Toolkit/Features/DuplicatePosts.php:151
 msgid "(Copy)"
@@ -4403,9 +4409,9 @@ msgid ""
 "content. Replaces Really Simple SSL. (The WordPress « Site Address » setting "
 "is not modified: do it manually.)"
 msgstr ""
-"301 redirect front et admin, réécriture des URLs http→https dans le contenu. "
-"Remplace Really Simple SSL. (Le réglage WordPress « Adresse du site » n’est "
-"pas modifié : à faire à la main.)"
+"Redirection 301 sur le site et dans l’administration, réécriture des "
+"adresses http→https dans le contenu. Remplace Really Simple SSL. (Le réglage "
+"WordPress « Adresse du site » n’est pas modifié : à faire à la main.)"
 
 #: src/Modules/Toolkit/Features/ForceHttps.php:70
 msgid ""
@@ -4414,9 +4420,9 @@ msgid ""
 "override: add_filter( 'doubleyoupi_toolkit_force_https_in_local', "
 "'__return_true' );"
 msgstr ""
-"Environnement local détecté : Force HTTPS bloqué ici pour ne pas casser "
+"Environnement local détecté : Forcer HTTPS est bloqué ici pour ne pas casser "
 "l’accès au site (les certificats locaux ne sont généralement pas "
-"configurés). Pour outrepasser : "
+"configurés). Pour passer outre : "
 "add_filter( 'doubleyoupi_toolkit_force_https_in_local', '__return_true' );"
 
 #: src/Modules/Toolkit/Features/HideLogin.php:64
@@ -4477,8 +4483,8 @@ msgstr ""
 #, php-format
 msgid "Locked out? Add %s to wp-config.php to restore the default login."
 msgstr ""
-"Verrouillé dehors ? Ajoutez %s à wp-config.php pour rétablir la connexion "
-"par défaut."
+"Vous ne pouvez plus vous connecter ? Ajoutez %s à wp-config.php pour "
+"rétablir la connexion par défaut."
 
 #: src/Modules/Toolkit/Features/HideLogin.php:423
 msgid "This page does not exist."
@@ -4516,8 +4522,8 @@ msgstr ""
 "Le %2$s par défaut renvoie désormais une 404 aux visiteurs déconnectés. "
 "Ajoutez la nouvelle URL à vos favoris.\n"
 "\n"
-"Si vous êtes un jour verrouillé dehors, ajoutez cette ligne à wp-config.php "
-"pour rétablir la connexion par défaut :\n"
+"Si un jour vous ne pouvez plus vous connecter, ajoutez cette ligne à wp-"
+"config.php pour rétablir la connexion par défaut :\n"
 "define( 'DOUBLEYOUPI_HIDE_LOGIN_DISABLE', true );"
 
 #: src/Modules/Toolkit/Features/IntuitiveSave.php:35
@@ -4535,10 +4541,10 @@ msgid ""
 "Editor), Cmd+S triggers the primary button. Gutenberg is untouched (it "
 "already has its native shortcut). Behavior similar to Bricks."
 msgstr ""
-"Sur les pages admin avec un formulaire à enregistrer (Réglages, profil, "
-"édition de term, Classic Editor), Cmd+S déclenche le bouton primaire. "
-"Gutenberg n’est pas touché (il a déjà le raccourci natif). Comportement "
-"similaire à Bricks."
+"Sur les pages d’administration avec un formulaire à enregistrer (Réglages, "
+"profil, modification d’un terme, Classic Editor), Cmd+S déclenche le bouton "
+"principal. L’éditeur de blocs n’est pas concerné (il a déjà son propre "
+"raccourci). Comportement similaire à Bricks."
 
 #: src/Modules/Toolkit/Features/LocalAvatars.php:67
 msgid "Local avatars"
@@ -4649,7 +4655,7 @@ msgstr "%s détecté, nous lui laissons la main."
 
 #: src/Modules/Toolkit/ToolsPage.php:246
 msgid "Tools updated. Reload the page to see the effects."
-msgstr "Outils mis à jour. Recharge la page pour voir les effets."
+msgstr "Outils mis à jour. Rechargez la page pour voir les effets."
 
 #~ msgid ""
 #~ "Folders, collections, duplicate and orphan cleanup, auto alt text and "
