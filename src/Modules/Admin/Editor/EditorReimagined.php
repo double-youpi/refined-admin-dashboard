@@ -38,7 +38,41 @@ final class EditorReimagined {
 	public function boot(): void {
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue' ] );
 		add_filter( 'admin_body_class', [ $this, 'body_class' ] );
+		add_action( 'edit_form_top', [ $this, 'print_skeleton' ] );
 		add_action( 'rest_api_init', [ $this, 'register_rest_routes' ] );
+	}
+
+	/**
+	 * Loading skeleton, printed at the top of form#post so it is painted with
+	 * the first frame (the redesigned form stays transparent until the editor
+	 * is ready, see "Loading" in _editor-reimagined.scss). Decorative only:
+	 * hidden from assistive tech, inert, and `display:none` without JS.
+	 */
+	public function print_skeleton(): void {
+		$screen = $this->target_screen();
+		if ( null === $screen || 'reimagined' !== $this->get_mode( $screen['signature'] ) ) {
+			return;
+		}
+		$has_editor = post_type_supports( $screen['postType'], 'editor' );
+		$html       = '<div class="dy-ed-skel' . ( $has_editor ? '' : ' dy-ed-skel--no-editor' ) . '" aria-hidden="true" inert>'
+			. '<div class="dy-ed-skel__bar"><i></i><i></i><i></i></div>'
+			. '<div class="dy-ed-skel__grid">'
+			. '<div class="dy-ed-skel__card"><div class="dy-ed-skel__tools"></div><div class="dy-ed-skel__lines">'
+			. str_repeat( '<i></i>', $has_editor ? 10 : 4 )
+			. '</div></div>'
+			. '<div class="dy-ed-skel__card dy-ed-skel__side">' . str_repeat( '<i></i>', 7 ) . '</div>'
+			. '</div></div>';
+		echo wp_kses(
+			$html,
+			[
+				'div' => [
+					'class'       => true,
+					'aria-hidden' => true,
+					'inert'       => true,
+				],
+				'i'   => [],
+			]
+		);
 	}
 
 	// =====================================================================

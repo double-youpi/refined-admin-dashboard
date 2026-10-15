@@ -33,38 +33,129 @@ body.dy-admin.dy-editor-reimagined .dy-treimg__toggle:hover { border-color: var(
 // Publication info footer (status / visibility / date) — sits flush with the header.
 body.dy-admin #misc-publishing-actions { padding: 0; }
 
-// ── Anti-FOUC: no flash of the native editor ──────────────────────────────
-// `dy-editor-reimagined` is set SERVER-SIDE (present from the first paint);
-// JS adds `dy-ed-ready` once the build is complete (title/cmdbar relocated,
-// normal column flattened, inspector mounted). Until ready, we hide the
-// editor area (form#post = command bar + #poststuff) — the page H1 stays
-// visible. We use opacity (NOT display:none) to avoid breaking TinyMCE init,
-// and a failsafe reveals after 4s if JS fails.
-body.dy-admin.dy-editor-reimagined #post {
+// ── Loading: a skeleton, then ONE reveal when the editor is ready ─────────
+// `dy-editor-reimagined` is set SERVER-SIDE and EditorReimagined prints a
+// decorative `.dy-ed-skel` at the top of form#post (hook `edit_form_top`):
+// the skeleton is there from the first paint, and inside the View Transition
+// snapshot. Underneath, JS builds the command bar / inspector and TinyMCE
+// initialises while the real form is transparent (opacity, NOT display or
+// visibility: TinyMCE has to measure, #title has to stay focusable). JS adds
+// `dy-ed-revealed` once the visual editor is initialised and its height has
+// settled (right after the build in Code mode or without an editor):
+// skeleton out, form in, one crossfade. Nothing moves afterwards above the
+// fold because the writing area has its height from the first frame
+// (--dy-ed-min below). The Yoast / Rank Math island is revealed with the rest,
+// already below the editor, instead of sitting under the toolbar.
+// Safety nets: scoped to `body.js` (JavaScript off: nothing is ever hidden),
+// and the 4 s keyframes reveal the form if our script never runs.
+body.dy-admin.dy-editor-reimagined #post { position: relative; }
+body.js.dy-admin.dy-editor-reimagined:not(.dy-ed-revealed) #post > :not(.dy-ed-skel) {
   opacity: 0;
+  pointer-events: none;
   animation: dy-ed-failsafe-reveal 1ms linear 4s forwards;
 }
-@keyframes dy-ed-failsafe-reveal { to { opacity: 1; } }
-body.dy-admin.dy-editor-reimagined.dy-ed-ready #post {
-  opacity: 1; animation: none;
-  transition: opacity 260ms cubic-bezier(.16, 1, .3, 1);
-}
-@media (prefers-reduced-motion: reduce) {
-  body.dy-admin.dy-editor-reimagined.dy-ed-ready #post { transition: none; }
+@keyframes dy-ed-failsafe-reveal { to { opacity: 1; pointer-events: auto; } }
+body.js.dy-admin.dy-editor-reimagined.dy-ed-revealed #post > :not(.dy-ed-skel) {
+  opacity: 1;
+  transition: opacity 280ms var(--dya-ease);
 }
 
-// ── Edit area: animated opening (anti-jank TinyMCE) ───────────────────
-// #content_ifr (TinyMCE iframe) jumps in height during init (the wpautoresize
-// plugin fires several ticks, and the textarea/quicktags are briefly visible
-// before being hidden). We COLLAPSE the edit area to `height:0` from the
-// first paint (robust regardless of the number of children — unlike the
-// grid-rows trick which only collapses a single row). When JS detects the
-// editor is ready (TinyMCE init), it animates height 0 → natural then sets
-// `dy-ed-tmce-ready` (the CSS constraint disappears, height reverts to auto
-// and follows autoresize). The card toolbar remains visible.
-body.dy-admin.dy-editor-reimagined:not(.dy-ed-tmce-ready) #wp-content-editor-container {
-  height: 0;
-  overflow: hidden;
+// Reserved writing surface, shared with the skeleton: the editor card has its
+// final size from the first frame, and short posts keep a comfortable area.
+// Carried by the iframe / textarea (not the container) so all of it stays
+// clickable; TinyMCE's autoresize still grows it past the floor.
+body.dy-admin.dy-editor-reimagined { --dy-ed-min: clamp(320px, 52vh, 620px); }
+body.dy-admin.dy-editor-reimagined #content_ifr,
+body.dy-admin.dy-editor-reimagined #wp-content-editor-container > textarea.wp-editor-area {
+  min-height: var(--dy-ed-min);
+}
+
+// Skeleton: same tracks as the real layout (command bar, then content |
+// inspector), drawn with the same tokens, absolutely positioned over the
+// transparent form so the swap does not shift anything.
+body.dy-admin .dy-ed-skel { display: none; }
+body.js.dy-admin.dy-editor-reimagined .dy-ed-skel {
+  --dy-skel-side: 320px;
+  display: block;
+  position: absolute; inset: 0 0 auto 0; z-index: 2;
+  animation: dy-ed-skel-out 1ms linear 4s forwards; // twin of the form's net
+}
+body.js.dy-admin.dy-editor-reimagined.dy-ed-inspector-collapsed .dy-ed-skel { --dy-skel-side: 62px; }
+@keyframes dy-ed-skel-out { to { opacity: 0; visibility: hidden; } }
+body.js.dy-admin.dy-editor-reimagined.dy-ed-revealed .dy-ed-skel {
+  opacity: 0; visibility: hidden; animation: none;
+  transition: opacity 280ms var(--dya-ease), visibility 0s linear 280ms;
+}
+body.dy-admin.dy-editor-reimagined .dy-ed-skel {
+  .dy-ed-skel__bar,
+  .dy-ed-skel__card {
+    position: relative; overflow: hidden; box-sizing: border-box;
+    background: var(--dya-paper); border: 1px solid var(--dya-edge);
+    border-radius: var(--dya-r-xl); box-shadow: var(--dya-shadow-sm);
+  }
+  // Same box as .dy-ed-cmdbar (10px padding + title + slug ≈ 89px, margin 22px).
+  .dy-ed-skel__bar {
+    display: flex; align-items: center; gap: 12px;
+    height: 89px; margin: 0 0 22px; padding: 0 28px 0 16px; box-shadow: var(--dya-shadow-md);
+  }
+  .dy-ed-skel__grid {
+    display: grid; gap: 24px; align-items: start;
+    grid-template-columns: minmax(0, 1fr) var(--dy-skel-side);
+  }
+  // Editor card: tools strip (#wp-content-editor-tools ≈ 75px), then the TinyMCE
+  // toolbar row + the reserved writing surface, then the word-count footer.
+  .dy-ed-skel__tools { height: 74px; background: var(--dya-bg-elev); border-bottom: 1px solid var(--dya-line); }
+  .dy-ed-skel__lines {
+    display: flex; flex-direction: column; gap: 12px;
+    height: calc(var(--dy-ed-min) + 57px + 24px); padding: 84px 28px 0; box-sizing: border-box;
+  }
+  &.dy-ed-skel--no-editor .dy-ed-skel__tools { display: none; }
+  &.dy-ed-skel--no-editor .dy-ed-skel__lines { height: auto; padding: 24px 28px; }
+  .dy-ed-skel__side {
+    display: flex; flex-direction: column; gap: 16px;
+    height: min(560px, 62vh); padding: 18px 16px;
+  }
+  i { display: block; height: 10px; border-radius: var(--dya-r-pill); background: var(--dya-paper-2); }
+  .dy-ed-skel__bar i:nth-child(1) { width: 38%; height: 18px; }
+  .dy-ed-skel__bar i:nth-child(2) { width: 22%; }
+  .dy-ed-skel__bar i:nth-child(3) {
+    width: 76px; height: 32px; margin-left: auto; border-radius: var(--dya-r-md);
+    background: color-mix(in srgb, var(--dya-accent) 28%, var(--dya-paper-2));
+  }
+  .dy-ed-skel__lines i:nth-child(1) { width: 42%; height: 16px; margin-bottom: 10px; }
+  .dy-ed-skel__lines i:nth-child(3n + 2) { width: 96%; }
+  .dy-ed-skel__lines i:nth-child(3n + 3) { width: 88%; }
+  .dy-ed-skel__lines i:nth-child(3n + 4) { width: 61%; margin-bottom: 14px; }
+  .dy-ed-skel__side i:nth-child(1) { width: 34%; height: 12px; margin-bottom: 6px; }
+  .dy-ed-skel__side i:nth-child(n + 2) { width: 78%; }
+  .dy-ed-skel__side i:nth-child(2n + 3) { width: 56%; }
+
+  // Shimmer, one sweep shared by all cards (discreet, ink at 5%).
+  .dy-ed-skel__bar::after,
+  .dy-ed-skel__card::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(100deg, transparent 35%, color-mix(in srgb, var(--dya-ink) 5%, transparent) 50%, transparent 65%) 0 0 / 250% 100% no-repeat;
+    animation: dy-ed-shimmer 1.6s linear infinite;
+  }
+}
+@keyframes dy-ed-shimmer { from { background-position: 100% 0; } to { background-position: 0 0; } }
+// The bar wraps in a column below 1100px (see Responsive): no inspector track,
+// taller bar. Below 782px the bar wraps again: keep only the editor card.
+@media (max-width: 1100px) {
+  body.js.dy-admin.dy-editor-reimagined .dy-ed-skel {
+    .dy-ed-skel__bar { height: 118px; }
+    .dy-ed-skel__grid { grid-template-columns: minmax(0, 1fr); }
+    .dy-ed-skel__side { display: none; }
+  }
+}
+@media (max-width: 782px) {
+  body.js.dy-admin.dy-editor-reimagined .dy-ed-skel .dy-ed-skel__bar { height: 132px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.js.dy-admin.dy-editor-reimagined.dy-ed-revealed #post > :not(.dy-ed-skel),
+  body.js.dy-admin.dy-editor-reimagined.dy-ed-revealed .dy-ed-skel { transition: none; }
+  body.dy-admin.dy-editor-reimagined .dy-ed-skel .dy-ed-skel__bar::after,
+  body.dy-admin.dy-editor-reimagined .dy-ed-skel .dy-ed-skel__card::after { animation: none; display: none; }
 }
 
 // Light theme: columns reset native controls to the light color-scheme
@@ -72,8 +163,13 @@ body.dy-admin.dy-editor-reimagined:not(.dy-ed-tmce-ready) #wp-content-editor-con
 body.dy-admin.dy-editor-reimagined.dy-theme-light #postbox-container-1,
 body.dy-admin.dy-editor-reimagined.dy-theme-light #postbox-container-2 { color-scheme: light; }
 
-body.dy-admin.dy-editor-reimagined {
-
+// The natives that editor-reimagined.js MOVES into the command bar (title,
+// slug, Preview, Save draft, Publish) leave their old places empty; those are
+// hidden only when the script can run (`body.js`, set by WordPress at the top
+// of <body>, before the form is parsed: identical with JavaScript). Without
+// it nothing moves, and hiding them left a post that could be neither titled
+// (#title 0px wide) nor saved (14/10/2026).
+body.js.dy-admin.dy-editor-reimagined {
   // Native #titlediv (emptied: #title has moved to the bar) is hidden.
   #titlediv { display:none; }
   // Native publish box actions have moved to the bar → hide the action
@@ -82,6 +178,10 @@ body.dy-admin.dy-editor-reimagined {
   #minor-publishing-actions { display:none; }
   // Any residual native preview action left in the box.
   #submitdiv #preview-action { display:none; }
+}
+
+body.dy-admin.dy-editor-reimagined {
+
   // Top meta tabs (already hidden elsewhere, ensuring they are gone here too).
   #screen-meta, #screen-meta-links { display:none; }
 

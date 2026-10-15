@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, admin
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,6 +15,8 @@ A dark and light redesign of the WordPress admin: navigation, tables, editor, no
 The WordPress admin has looked the same since 2013, and it shows. Grey on grey, a sidebar that every plugin adds a line to, a dashboard full of widgets nobody reads. You spend your days in there. It might as well be pleasant.
 
 Double Youpï Refined Admin Dashboard redraws the whole thing, in dark or light, using only WordPress's own components. Nothing is reinvented: the markup stays native, so your plugins keep working and their screens get the same treatment.
+
+https://www.youtube.com/watch?v=untjaB9-KSs
 
 **A dark theme that actually arrives dark**
 
@@ -55,7 +57,7 @@ Redrawing the admin and leaving the Media screen alone would have been a strange
 * WebP and AVIF generated on upload, and alt text filled from the filename when it is missing.
 * Coming from FileBird, Real Media Library, HappyFiles or another folder plugin? Your folders are imported in one click, and nothing is deleted.
 
-This is the whole of Double Youpï Refined Media Library, a free plugin of ours that is also published on its own. Same folders, same collections, same settings: if you already run it, activate this one and everything is where you left it. If you only ever wanted the media library, that plugin on its own is the right choice.
+This is the whole of [Double Youpï Refined Media Library](https://wordpress.org/plugins/doubleyoupi-refined-media-library/), a free plugin of ours that is also published on its own. Same folders, same collections, same settings: if you already run it, activate this one and everything is where you left it. If you only ever wanted the media library, that plugin on its own is the right choice.
 
 **It steps aside when it should**
 
@@ -117,13 +119,27 @@ Privacy policy: https://doubleyoupi.com/privacy
 8. The editor follows suit, custom fields included: your accent, your contrast, native components only.
 9. Your plugins get the same treatment. WooCommerce here, with every native and third-party row action kept.
 10. One accent colour and your logo. The text contrast against your colour is computed for you, so it stays readable.
-11. Your client's logo and name on the login screen, in the same design as the admin.
+11. Your logo and name on the login screen, in the same design as the admin.
 12. The media library comes included: folders and collections on the left, a filter by file type, the redrawn grid on the right.
 13. Click a file and its panel opens beside the grid, with the preview, the folder, the collections and the fields you edit.
 14. Find the files nothing uses. Posts, pages, featured images and custom fields are checked first, and deleting sends files to the trash.
 15. Coming from FileBird or another folder plugin? Preview its folders, then import them in one click. The source plugin is never modified.
 
 == Changelog ==
+
+= 1.0.1 =
+* Fix: dashboard widgets no longer appear twice while the page loads.
+* Fix: in the media library, the details panel no longer overlaps the section bar.
+* Fix: media windows (such as "Choose a logo" or "Add Media") have even spacing and a single selection ring, and in "Load more" mode the folder column no longer covers the first thumbnails.
+* Fix: typing an accent colour no longer shows an error at every keystroke.
+* Improvement: the classic editor loads in one smooth step instead of jumping into place.
+* Fix: without JavaScript, the classic editor shows the title field and the Publish button again.
+* Improvement: the block editor shows its frame from the very first moment and appears in one step; the featured image no longer pushes the sidebar down.
+* Fix: menu icons from plugins such as WPForms or WP Mail SMTP show again in the section bar and the flyouts (regression in 1.0.0).
+* Fix: with debug logging on, an unknown menu entry is logged once a day instead of on every screen; Background and Header from classic themes now sit under Appearance.
+* Fix: a rail flyout taller than the screen now opens below the admin bar and scrolls, its title kept in view.
+* Fix: the dashboard presets no longer offer the Backup or Static site widget when that module is not installed.
+* Fix: an empty note no longer tells people without the Customize button to click it.
 
 = 1.0.0 =
 * First public release. Dark and light themes applied before the first paint, a themed design system across every native screen, a themed login screen, your accent colour and logo.
@@ -136,6 +152,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.1 =
+Fixes from the first week: plugin menu icons are back, dashboard widgets load once, smoother editors and media windows.
 
 = 1.0.0 =
 First public release.

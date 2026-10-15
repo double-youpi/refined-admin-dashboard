@@ -490,7 +490,7 @@ JS;
 
 		printf(
 			'<template id="dy-admin-rail-tpl">%s</template>' . "\n",
-			wp_kses( $rail_html, Kses::ui_tags() )
+			wp_kses( $rail_html, Kses::ui_tags(), Kses::ui_protocols() )
 		);
 		wp_print_inline_script_tag( self::INJECTOR_JS, [ 'id' => 'doubleyoupi-admin-rail-injector' ] );
 	}

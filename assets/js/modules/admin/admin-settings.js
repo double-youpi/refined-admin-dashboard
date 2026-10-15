@@ -289,9 +289,12 @@
 		let committed = ($input.val() || '').toLowerCase();
 		let before    = null; // rail colours before the first preview of a change
 		let timer     = null;
+		let typedAt   = 0;    // last keystroke in the field
 
 		// Iris fires `change` on every tick of a drag: the rail follows
 		// continuously, the save (and the shimmer) wait for the hand to stop.
+		// A typed color waits a little longer, so the open picker shows it
+		// before the save closes it.
 		function onColor (color) {
 			color = (color || '').toLowerCase();
 			markSelectedSwatch(color);
@@ -307,7 +310,7 @@
 			if (!before) before = railSnapshot();
 			previewAccent(color);
 			clearTimeout(timer);
-			timer = setTimeout(function () { commit(color); }, 450);
+			timer = setTimeout(function () { commit(color); }, Date.now() - typedAt < 400 ? 900 : 450);
 		}
 
 		function commit (color) {
@@ -366,7 +369,29 @@
 				change: function (event, ui) { onColor(ui.color.toString()); },
 			});
 		}
-		$input.on('input', function () { onColor(this.value); });
+		// Typing goes through incomplete values (#f, #ff9…), which are not
+		// errors yet: the field stays neutral until the value is a full hex,
+		// and the format message waits until the field is left.
+		function typedHex (value) {
+			const v = (value || '').trim().toLowerCase();
+			return v.charAt(0) === '#' ? v : '#' + v;
+		}
+		$input.on('input', function () {
+			typedAt = Date.now();
+			const color = typedHex(this.value);
+			if (!HEX_RE.test(color)) {
+				clearTimeout(timer);
+				$picker.attr('data-state', 'valid');
+				$feedback.attr('hidden', true);
+				return;
+			}
+			onColor(color);
+		});
+		$input.on('change', function () {
+			// Empty: WordPress's own clear handler takes it.
+			if (typedHex(this.value) === '#') return;
+			onColor(typedHex(this.value));
+		});
 		$swatches.on('click', function (e) {
 			e.preventDefault();
 			setColor(this.getAttribute('data-color'));

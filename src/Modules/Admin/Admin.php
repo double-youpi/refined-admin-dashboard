@@ -255,6 +255,7 @@ JS;
 		( new PostOrdering() )->boot();
 		( new Tables\TablesReimagined() )->boot();
 		( new Editor\EditorReimagined() )->boot();
+		( new Editor\BlockEditorLoading() )->boot();
 		( new AcfBanner() )->boot();
 
 		// Automatic adoption of third-party elements (notices, buttons…) via catalogue + JS.

@@ -245,6 +245,17 @@ body.dy-admin.upload-php.auto-fold #dy-folder-panel {
     top  0.3s cubic-bezier(0.2, 0.7, 0.2, 1) !important;
 }
 
+// The details panel on the right is the folder panel's twin: Refined Media
+// Library gives both the same top (admin bar + gutter + brand + 32px). The
+// brand is hidden on this screen (rule below), so `--dy-brand-h` is measured
+// at 0 and that formula leaves the details panel at 84px, over the bottom of
+// the section bar (95px at 1600px wide). It takes the folder panel's anchor
+// instead, here and in the scroll phase below, so both columns start on the
+// same line.
+body.dy-admin.upload-php #dy-detail-panel {
+  top: var(--dy-panel-top, calc(var(--wp-admin--admin-bar--height, 32px) + var(--dy-title-h, 60px) + var(--dy-gutter, 20px) + 10px)) !important;
+}
+
 // Scroll phase: when `body.dy-panel-expanded` is added by the folder-tree
 // JS (title scrolled out of the viewport), the panel is promoted to "sticky":
 // top = topbar + chipbar + gutter — it floats just below the fixed admin
@@ -252,7 +263,8 @@ body.dy-admin.upload-php.auto-fold #dy-folder-panel {
 // While `#wpcontent` scrolls internally, the panel stays pinned. Mirror of
 // `body.dy-panel-expanded #dy-folder-panel` in media-library.scss, but
 // adapted to our chrome.
-body.dy-admin.upload-php.dy-panel-expanded #dy-folder-panel {
+body.dy-admin.upload-php.dy-panel-expanded #dy-folder-panel,
+body.dy-admin.upload-php.dy-panel-expanded #dy-detail-panel {
   top: calc(var(--dya-topbar-h, 44px) + var(--dya-chipbar-h, 44px) + var(--dy-gutter, 20px)) !important;
 }
 

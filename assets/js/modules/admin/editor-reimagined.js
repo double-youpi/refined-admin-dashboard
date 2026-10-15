@@ -308,86 +308,51 @@
     if (content && c2 && c2.parentNode !== content) content.appendChild(c2);
   }
 
-  // Animated reveal of the editing area. The CSS keeps it COLLAPSED
-  // (grid-rows 0fr); TinyMCE (#content_ifr) jumps in height during its init
-  // (wpautoresize) → we wait until it is ready, then add `dy-ed-tmce-ready`
-  // which animates the reveal (0fr→1fr). Failsafe + Text mode both handled.
-  function setupEditorReveal() {
-    var container = document.getElementById('wp-content-editor-container');
-    if (!container) return;
-    var wrap = document.getElementById('wp-content-wrap');
-    var opened = false;
-    var failsafe = setTimeout(open, 3500);
-    function open() {
-      if (opened) return;
-      opened = true;
+  // ONE reveal for the whole form (see _editor-reimagined.scss, "Loading").
+  // The CSS keeps form#post transparent under the server-printed skeleton
+  // until `dy-ed-revealed`. We wait for the visual editor to be initialised
+  // (admin.js paints its iframe at that moment) and for its height to settle
+  // for a few frames. No height animation any more: the writing area has its
+  // reserved height (--dy-ed-min) from the first frame, so the wpautoresize
+  // ticks that follow init can only grow it below the fold.
+  function setupReveal() {
+    var revealed = false, settling = false;
+    var failsafe = setTimeout(reveal, 3000);
+    function reveal() {
+      if (revealed) return;
+      revealed = true;
       clearTimeout(failsafe);
-      // TinyMCE's autoresize plays its jittery sequence right after init.
-      // A fixed delay lets this sequence FINISH (the poll alone was catching
-      // a false plateau mid-sequence and opening too early); the subsequent
-      // poll only serves as a net to confirm final stability.
-      setTimeout(startPoll, 500);
+      body.classList.add('dy-ed-revealed');
     }
-    function startPoll() {
-      // TinyMCE's autoresize causes #content_ifr height to OSCILLATE after
-      // init (growing/shrinking). We POLL the container's natural height
-      // (scrollHeight, measurable even while collapsed via hidden overflow)
-      // as long as it changes; we only animate the reveal once STABLE →
-      // the entire jittery phase happens while it is collapsed (invisible).
-      var c = container, last = -1, stable = 0, ticks = 0;
+    function settle() {
+      if (settling) return;
+      settling = true;
+      var c = document.getElementById('wp-content-editor-container');
+      if (!c) { requestAnimationFrame(reveal); return; }
+      var last = -1, stable = 0, ticks = 0;
       (function poll() {
+        if (revealed) return;
         var h = c.scrollHeight;
         if (Math.abs(h - last) <= 1) { stable++; } else { stable = 0; last = h; }
-        if (stable >= 4 || ++ticks > 90) { animateOpen(); return; } // stable ~4 frames OR ~1.5s max
+        if (stable >= 6 || ++ticks > 30) { reveal(); return; } // ~100 ms stable, ~500 ms max
         requestAnimationFrame(poll);
       })();
     }
-    function animateOpen() {
-      var c = container;
-      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      // Remove the CSS `height:0` constraint → height reverts to auto.
-      body.classList.add('dy-ed-tmce-ready');
-      if (reduce) return;                       // no animation: instant reveal
-      var target = c.scrollHeight;              // final height (stabilised by the poll)
-      if (!target) return;
-      // FLIP pattern: lock the START at 0 without transition (reflow), then
-      // animate to the target. All synchronous → no paint at the final size.
-      c.style.transition = 'none';
-      c.style.height = '0px';
-      c.style.overflow = 'hidden';
-      void c.offsetHeight;                      // commit the start at 0
-      c.style.transition = 'height 460ms cubic-bezier(.16, 1, .3, 1)';
-      c.style.height = target + 'px';
-      var ft;
-      var finish = function (e) {
-        // IMPORTANT: ignore transitionend events that BUBBLE from TinyMCE
-        // children (animated buttons/toolbar) — otherwise `finish` runs too
-        // early and cuts the animation (height snaps to auto). We only react
-        // to the `height` transition OF the container itself.
-        if (e && (e.target !== c || e.propertyName !== 'height')) return;
-        c.style.transition = '';
-        c.style.height = '';                    // → auto: follows autoresize from now on
-        c.style.overflow = '';
-        c.removeEventListener('transitionend', finish);
-        clearTimeout(ft);
-      };
-      ft = setTimeout(function () { finish(); }, 760); // failsafe if transitionend is missed
-      c.addEventListener('transitionend', finish);
-    }
-    // Text mode (visual editor disabled / HTML tab): no iframe to wait for.
-    if (wrap && wrap.classList.contains('html-active')) { open(); return; }
-    // Visual editor already initialised (our script ran after TinyMCE)?
-    var ed = window.tinymce && window.tinymce.get && window.tinymce.get('content');
-    if (ed && ed.initialized) { open(); return; }
-    // Otherwise, wait for the "content" editor to initialise.
+    var wrap = document.getElementById('wp-content-wrap');
+    // No editor (post type without 'editor'), Code tab active, or rich
+    // editing disabled: TinyMCE will not initialise, reveal after the build.
+    if (!document.getElementById('wp-content-editor-container') || !window.tinymce ||
+        (wrap && wrap.classList.contains('html-active'))) { settle(); return; }
+    var ed = window.tinymce.get && window.tinymce.get('content');
+    if (ed && ed.initialized) { settle(); return; }
     if (window.jQuery) {
       window.jQuery(document).on('tinymce-editor-init.dyedreveal', function (e, editor) {
-        if (editor && editor.id === 'content') open();
+        if (editor && editor.id === 'content') settle();
       });
     }
-    if (window.tinymce && window.tinymce.on) {
+    if (window.tinymce.on) {
       window.tinymce.on('AddEditor', function (e) {
-        if (e.editor && e.editor.id === 'content') { e.editor.on('init', open); }
+        if (e.editor && e.editor.id === 'content') { e.editor.on('init', settle); }
       });
     }
   }
@@ -411,8 +376,7 @@
     buildInspector();      // (relocates Content AI as a separate card internally)
     decorateNormalBoxes(); // Normal column (left): chevron + collapse on ALL blocks
     relocateNormalColumn();// … then flow it below the editor (same column, consistent spacing)
-    setupEditorReveal();   // animated reveal of the editing area when TinyMCE is ready
-    // Animated entrance (next frame to trigger the CSS transition).
+    setupReveal();         // skeleton → form, in one go, once TinyMCE is ready
     requestAnimationFrame(function () { body.classList.remove('dy-ed-booting'); body.classList.add('dy-ed-ready'); });
   }
 

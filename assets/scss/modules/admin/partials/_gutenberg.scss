@@ -642,6 +642,128 @@ html.wp-toolbar body.dy-admin.is-fullscreen-mode.block-editor-page,
 html.wp-toolbar body.dy-admin.is-fullscreen-mode.site-editor-php {
   padding-top: 0 !important;
 }
+// …and the rail's grid column goes too. Core hides #adminmenumain from the
+// first paint (`body.js.is-fullscreen-mode`, class printed server-side by
+// edit-form-blocks.php) but #wpwrap kept its `rail` track: until React mounted
+// the fixed skeleton (left: 0), the screen showed a rail-wide empty strip next
+// to the full-width top bar, then the strip vanished under the skeleton.
+// Same breakpoint as core.
+@media (min-width: 782px) {
+  body.dy-admin.is-fullscreen-mode.block-editor-page #wpwrap {
+    grid-template-columns: 0 minmax(0, 1fr);
+  }
+}
+
+// ── Loading: the editor frame from the first paint, then ONE reveal ──────
+// `dy-be-loading` is set server-side (BlockEditorLoading). While it is on, a
+// fixed pseudo-element draws the frame React is about to mount (header,
+// canvas, settings sidebar) with an indeterminate accent bar, and React's
+// skeleton stays transparent while it mounts, loads the canvas iframe and
+// renders the blocks (opacity only: React measures and focuses normally).
+// block-editor-loading.js swaps to `dy-be-ready` when the editor store is
+// ready and the canvas holds its blocks: one crossfade instead of
+// dark page → header + empty canvas → white canvas → content.
+// Nets: `body.js` scope (no JS, no editor anyway) and 5 to 6 s keyframes.
+body.js.dy-admin.block-editor-page:is(.dy-be-loading, .dy-be-ready) #editor::before,
+body.js.dy-admin.block-editor-page:is(.dy-be-loading, .dy-be-ready) #editor::after {
+  content: "";
+  position: fixed;
+  left: var(--dya-rail-w-current, var(--dya-rail-w));
+  right: 0;
+  pointer-events: none;
+}
+body.js.dy-admin.block-editor-page.is-fullscreen-mode:is(.dy-be-loading, .dy-be-ready) #editor::before,
+body.js.dy-admin.block-editor-page.is-fullscreen-mode:is(.dy-be-loading, .dy-be-ready) #editor::after {
+  left: 0;
+}
+// The frame: header (52px, paper, bottom rule), sidebar (280px, paper), canvas.
+// z-index 0 + earlier in tree order → under React's fixed skeleton.
+body.js.dy-admin.block-editor-page:is(.dy-be-loading, .dy-be-ready) #editor::before {
+  top: var(--dya-topbar-h);
+  bottom: 0;
+  z-index: 0;
+  background:
+    linear-gradient(var(--dya-line) 0 0) 0 52px / 100% 1px no-repeat,
+    linear-gradient(var(--dya-paper) 0 0) 0 0 / 100% 52px no-repeat,
+    linear-gradient(var(--dya-paper) 0 0) right 0 top 53px / 280px 100% no-repeat,
+    var(--dya-bg);
+}
+body.js.dy-admin.block-editor-page.dy-be-no-sidebar:is(.dy-be-loading, .dy-be-ready) #editor::before {
+  background:
+    linear-gradient(var(--dya-line) 0 0) 0 52px / 100% 1px no-repeat,
+    linear-gradient(var(--dya-paper) 0 0) 0 0 / 100% 52px no-repeat,
+    var(--dya-bg);
+}
+// The indicator: a 2px accent sweep under the header, above everything.
+body.js.dy-admin.block-editor-page:is(.dy-be-loading, .dy-be-ready) #editor::after {
+  top: calc(var(--dya-topbar-h) + 52px);
+  height: 2px;
+  z-index: 1;
+  background: linear-gradient(90deg, transparent, var(--dya-accent), transparent) 0 0 / 40% 100% no-repeat;
+  animation: dy-be-sweep 1.3s var(--dya-ease) infinite;
+}
+@keyframes dy-be-sweep { from { background-position: -67% 0; } to { background-position: 167% 0; } }
+
+body.js.dy-admin.block-editor-page.dy-be-loading .interface-interface-skeleton {
+  opacity: 0;
+  pointer-events: none;
+  animation: dy-be-failsafe-in 1ms linear 5s forwards;
+}
+// The frame's net fires 1 s after the skeleton's (whose clock starts at the React mount).
+body.js.dy-admin.block-editor-page.dy-be-loading #editor::before { animation: dy-be-failsafe-out 1ms linear 6s forwards; }
+body.js.dy-admin.block-editor-page.dy-be-loading #editor::after {
+  animation: dy-be-sweep 1.3s var(--dya-ease) infinite, dy-be-failsafe-out 1ms linear 6s forwards;
+}
+@keyframes dy-be-failsafe-in { to { opacity: 1; pointer-events: auto; } }
+@keyframes dy-be-failsafe-out { to { opacity: 0; visibility: hidden; } }
+
+body.js.dy-admin.block-editor-page.dy-be-ready .interface-interface-skeleton {
+  opacity: 1;
+  transition: opacity 320ms var(--dya-ease);
+}
+body.js.dy-admin.block-editor-page.dy-be-ready #editor::before,
+body.js.dy-admin.block-editor-page.dy-be-ready #editor::after {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 320ms var(--dya-ease), visibility 0s linear 320ms;
+}
+@media (max-width: 781px) {
+  // Core shows the sidebar as an overlay on small screens: no sidebar track.
+  body.js.dy-admin.block-editor-page:is(.dy-be-loading, .dy-be-ready) #editor::before {
+    background:
+      linear-gradient(var(--dya-line) 0 0) 0 52px / 100% 1px no-repeat,
+      linear-gradient(var(--dya-paper) 0 0) 0 0 / 100% 52px no-repeat,
+      var(--dya-bg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.js.dy-admin.block-editor-page:is(.dy-be-loading, .dy-be-ready) #editor::after {
+    animation: none;
+    background-position: 50% 0;
+  }
+  body.js.dy-admin.block-editor-page.dy-be-ready .interface-interface-skeleton,
+  body.js.dy-admin.block-editor-page.dy-be-ready #editor::before,
+  body.js.dy-admin.block-editor-page.dy-be-ready #editor::after { transition: none; }
+}
+
+// Featured image (document panel): while core fetches the attachment it
+// renders the preview button with a spinner only (min-height 40px), then the
+// <img> at aspect-ratio 2/1 → the panel grew ~75px and pushed everything
+// below. The button now holds the 2:1 box in both states, and the image
+// fades in. (Padding reset: our generic `.components-button` padding inset
+// the image by 10px on each side.)
+body.dy-admin .editor-post-featured-image__preview {
+  padding: 0;
+  aspect-ratio: 2 / 1;
+}
+body.dy-admin .editor-post-featured-image__preview-image {
+  height: 100%;
+  animation: dy-be-img-in 220ms var(--dya-ease) both;
+}
+@keyframes dy-be-img-in { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  body.dy-admin .editor-post-featured-image__preview-image { animation: none; }
+}
 // Sidebar panel toggles (Categories, Tags…) are full-width buttons with the
 // title on the left and the chevron on the right; the generic
 // `.components-button` sizing (32px, centred) squashed them.

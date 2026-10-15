@@ -526,12 +526,19 @@
     });
     let openLi = null, openTimer = 0, closeTimer = 0;
 
+    // The card stays below the fixed admin bar, which is drawn above it: a
+    // card taller than the screen used to be pinned at 12px and slid under
+    // the bar, its title cut (two-level flyouts, 14/10/2026). Its max height
+    // follows, so a long list scrolls inside the card (overflow: auto).
     function place(li, card) {
       const r = li.getBoundingClientRect(), w = wrap.getBoundingClientRect();
+      const bar = document.getElementById('wpadminbar');
+      const minTop = Math.max(12, Math.round((bar ? bar.getBoundingClientRect().bottom : 0) + 8));
       card.style.left = Math.round(w.right + 8) + 'px';
+      card.style.maxHeight = Math.max(160, window.innerHeight - minTop - 12) + 'px';
       card.style.top = '0px';
       const h = card.offsetHeight;
-      card.style.top = Math.round(Math.max(12, Math.min(r.top - 6, window.innerHeight - h - 12))) + 'px';
+      card.style.top = Math.round(Math.max(minTop, Math.min(r.top - 6, window.innerHeight - h - 12))) + 'px';
     }
     function open(li) {
       clearTimeout(openTimer); clearTimeout(closeTimer);

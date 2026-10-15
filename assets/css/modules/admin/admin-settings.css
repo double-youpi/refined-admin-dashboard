@@ -198,6 +198,15 @@
   align-items: center;
 }
 
+body.dy-admin .dy-accent-picker .wp-picker-container input[type=text].iris-error {
+  background: var(--dya-paper);
+  border-color: var(--dya-edge);
+  color: var(--dya-ink);
+}
+body.dy-admin .dy-accent-picker .wp-picker-container input[type=text].iris-error:focus {
+  border-color: var(--dya-edge-strong);
+}
+
 .dy-accent-feedback[hidden],
 .dy-accent-suggestion[hidden] {
   display: none !important;

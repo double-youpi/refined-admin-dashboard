@@ -90,7 +90,7 @@ final class Chipbar {
 			$is_current = ( $item['slug'] === $current_slug ) ? ' current' : '';
 			$icon_html  = self::chip_icon_html( $item['slug'] );
 
-			echo '<a class="' . esc_attr( 'dy-chip' . $is_current ) . '" href="' . esc_url( $item['url'] ) . '">' . wp_kses( $icon_html, Kses::ui_tags() ) . esc_html( $item['label'] ) . '</a>';
+			echo '<a class="' . esc_attr( 'dy-chip' . $is_current ) . '" href="' . esc_url( $item['url'] ) . '">' . wp_kses( $icon_html, Kses::ui_tags(), Kses::ui_protocols() ) . esc_html( $item['label'] ) . '</a>';
 		}
 
 		// Underline track — positioned by the JS.

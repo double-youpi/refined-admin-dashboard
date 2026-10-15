@@ -49,6 +49,11 @@ final class PluginMap {
 		'widgets.php'                     => 'site',
 		'site-editor.php'                 => 'site',
 		'font-library.php'                => 'site',
+		// Classic themes add these under Appearance (Customizer shortcuts):
+		// design surfaces, not stack decisions. Unmapped, the heuristic sent
+		// them to System and logged them on every screen (14/10/2026).
+		'custom-background'               => 'site',
+		'custom-header'                   => 'site',
 		// System
 		'options-general.php'             => 'system',
 		'update-core.php'                 => 'system',
@@ -479,8 +484,7 @@ final class PluginMap {
 		else {
 			$line = self::heuristic( $menu_slug );
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- debug-only diagnostic, gated behind WP_DEBUG.
-				error_log( "[doubleyoupi-admin] unmapped plugin slug '{$menu_slug}' -> heuristic returned '{$line}'" );
+				self::log_unmapped( $menu_slug, (string) $line );
 			}
 		}
 
@@ -492,6 +496,33 @@ final class PluginMap {
 		 * @param string      $slug  The menu slug being analyzed
 		 */
 		return apply_filters( 'doubleyoupi_admin_plugin_line', $line, $menu_slug );
+	}
+
+	/** Unknown menu slugs already reported, so each is logged once a day. */
+	private const UNMAPPED_LOGGED = 'doubleyoupi_admin_unmapped_logged';
+
+	/**
+	 * Debug diagnostic for a slug the maps do not know: ONE line per slug,
+	 * then silence for a day. It used to be written on every admin screen,
+	 * for every unknown entry (ten unknown plugins, ten lines per click),
+	 * drowning the debug.log where a developer looks for real errors.
+	 */
+	private static function log_unmapped( string $slug, string $line ): void {
+		static $seen = null;
+		if ( ! function_exists( 'get_transient' ) ) {
+			return;
+		}
+		if ( null === $seen ) {
+			$stored = get_transient( self::UNMAPPED_LOGGED );
+			$seen   = is_array( $stored ) ? $stored : [];
+		}
+		if ( isset( $seen[ $slug ] ) ) {
+			return;
+		}
+		$seen[ $slug ] = 1;
+		set_transient( self::UNMAPPED_LOGGED, $seen, DAY_IN_SECONDS );
+		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- debug-only diagnostic, gated behind WP_DEBUG, once per slug and day.
+		error_log( "[doubleyoupi-admin] unmapped plugin slug '{$slug}' -> heuristic returned '{$line}'" );
 	}
 
 	/**

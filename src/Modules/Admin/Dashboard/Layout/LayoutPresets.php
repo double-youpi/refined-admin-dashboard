@@ -1,6 +1,9 @@
 <?php declare(strict_types=1);
 namespace DoubleYoupi\Modules\Admin\Dashboard\Layout;
 
+use DoubleYoupi\Core\ModuleRegistry;
+use DoubleYoupi\Core\ModuleSettings;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -23,8 +26,34 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 final class LayoutPresets {
 
+	/**
+	 * Widgets that only make sense with a Double Youpï module, keyed by
+	 * widget id → module id. Without the module (Refined Admin Dashboard
+	 * alone ships neither), the widget could only say "no backup", a dead
+	 * end on a default dashboard (14/10/2026).
+	 */
+	private const MODULE_WIDGETS = [
+		'backup'      => 'backups',
+		'static_site' => 'static-site',
+	];
+
+	/** Whether a widget's module is installed and switched on. */
+	private static function widget_available( string $widget_id ): bool {
+		$module = self::MODULE_WIDGETS[ $widget_id ] ?? null;
+		if ( null === $module ) {
+			return true;
+		}
+		return ModuleRegistry::has( $module ) && ModuleSettings::is_enabled( $module );
+	}
+
 	/** Common layout wrapper (avoids repeating the root fields). */
 	private static function wrap( string $preset, array $screens ): array {
+		foreach ( $screens as $i => $screen ) {
+			$screens[ $i ]['widgets'] = array_values( array_filter(
+				$screen['widgets'] ?? [],
+				static fn( array $w ): bool => self::widget_available( (string) ( $w['id'] ?? '' ) )
+			) );
+		}
 		return [
 			'version'          => 4,
 			'schema'           => 'doubleyoupi.dashboard.v4',

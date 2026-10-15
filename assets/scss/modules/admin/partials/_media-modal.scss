@@ -65,13 +65,26 @@ body.dy-admin .media-modal {
     padding: 6px 16px 0 !important;
     transition: right .28s cubic-bezier(.2, .8, .2, 1) !important;
   }
-  // overflow:visible → the accent ring / hover shadow of edge tiles are no
-  // longer clipped by the container (actual scroll lives on .attachments).
-  .attachments-wrapper {
-    padding: 0 16px !important;
+  // The grid scrolls in `ul.attachments` with infinite scrolling (the
+  // default) and in `.attachments-wrapper` in "Load more" mode
+  // (.has-load-more, a profile option). Padding and `right` belong on THAT
+  // box: the other one is static, so its padding and `right` do nothing.
+  // The 16px keep the grid off the folder column, on the toolbar's own
+  // inset; the 6px on top leave room for the selection ring (2px, plus the
+  // 1px lift) that the scroll box would otherwise clip.
+  .attachments-browser:not(.has-load-more) .attachments,
+  .attachments-browser.has-load-more .attachments-wrapper {
+    padding: 6px 16px 16px !important;
     box-sizing: border-box;
-    overflow: visible !important;
     transition: right .28s cubic-bezier(.2, .8, .2, 1) !important;
+  }
+  // The folder column's offset follows the same box. Refined Media Library
+  // steps `.attachments` aside by `--dy-modal-fw`, which works when that <ul>
+  // is the positioned scroller; in "Load more" mode it is static, its `left`
+  // is ignored, and the column covered the first thumbnails and took their
+  // clicks (14/10/2026). The wrapper, positioned in that mode, takes it.
+  .attachments-browser.dy-has-folder-panel.has-load-more .attachments-wrapper {
+    left: var(--dy-modal-fw, 220px) !important;
   }
 
   // ── Attachments grid: SAME rendering as the media library page ─────
@@ -109,6 +122,22 @@ body.dy-admin .media-modal {
   }
   .attachment.details {
     box-shadow: 0 0 0 2px var(--dya-accent), 0 0 20px color-mix(in srgb, var(--dya-accent) 25%, transparent) !important;
+  }
+  // One selection ring: ours, on the tile. Refined Media Library draws its
+  // own on the thumbnail inside (`.dy-ml-modal .attachment.selected
+  // .thumbnail`, media-library.scss), in RML's accent rather than the site's:
+  // the chosen tile showed two rings of two colours (14/10/2026).
+  &.dy-ml-modal .attachment:is(.selected, .details) .thumbnail {
+    box-shadow: none !important;
+  }
+  // The caption follows the tile's own inset (7.5%, see `.attachment` above).
+  // Refined Media Library pins it at 12px in its modals, which matched 7.5%
+  // of the former 160px tiles only: on the tighter grid the gradient stopped
+  // 0.7px above the image and left a light seam under it (14/10/2026).
+  &.dy-ml-modal .attachment:not(:has(.filename))::after {
+    left: 7.5% !important;
+    right: 7.5% !important;
+    bottom: 7.5% !important;
   }
   .attachment .thumbnail,
   .attachment .attachment-preview {
@@ -172,13 +201,17 @@ body.dy-admin .media-modal {
   }
   // × button: closes the detail panel AND deselects the current media
   // (injected by media-filters.js). Subtle, switches to accent on hover.
+  // 16px = the sidebar's padding: the × sits on the corner of the content,
+  // not of the frame. !important because media-library.scss sets 8px / 10px
+  // / 24px with !important on `.dy-ml-modal .dy-detail-close`, which beat
+  // the values that used to be here.
   .media-sidebar .dy-detail-close {
     position: absolute;
-    top: 8px;
-    right: 8px;
+    top: 16px !important;
+    right: 16px !important;
     z-index: 5;
-    width: 26px;
-    height: 26px;
+    width: 26px !important;
+    height: 26px !important;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -209,7 +242,8 @@ body.dy-admin .media-modal {
     opacity: 0 !important;
     pointer-events: none !important;
   }
-  .attachments-browser:not(:has(.attachment.selected, .attachment.details)) .attachments-wrapper,
+  .attachments-browser:not(.has-load-more):not(:has(.attachment.selected, .attachment.details)) .attachments,
+  .attachments-browser.has-load-more:not(:has(.attachment.selected, .attachment.details)) .attachments-wrapper,
   .attachments-browser:not(:has(.attachment.selected, .attachment.details)) > .media-toolbar {
     right: 0 !important;
   }
@@ -222,6 +256,12 @@ body.dy-admin .media-modal {
   }
   .media-sidebar .attachment-details,
   .media-sidebar .attachment-info { border-bottom: 0 !important; }
+  // Same for the sidebar's `.attachment-details` block. The universal dark
+  // layer paints every `.attachment-details` in paper, which is right for the
+  // two-column "Edit media" frame but drew a card here, with its text flush
+  // on the card's left edge. Transparent, the sidebar's 16px padding becomes
+  // the inner margin.
+  .media-sidebar .attachment-details { background: transparent !important; }
   // Action links ("Edit image", "Delete permanently"): the dark skin
   // was adding a border-bottom → a parasitic rule below the info block.
   // We reset them to clean links with no border.

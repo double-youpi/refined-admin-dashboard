@@ -67,8 +67,12 @@ final class NoteWidget extends AbstractDataWidget {
 			<span class="dy-dashboard__card-title"><?php echo esc_html( $title !== '' ? $title : __( 'Note', 'doubleyoupi-refined-admin-dashboard' ) ); ?></span>
 		</div>
 		<div class="dy-dashboard__card-body dy-dashboard__note-body">
-			<?php if ( trim( $body ) === '' ) : ?>
-				<p class="dy-dashboard__note-empty"><?php esc_html_e( 'Click Customize to edit this note.', 'doubleyoupi-refined-admin-dashboard' ); ?></p>
+			<?php if ( trim( $body ) === '' && ( current_user_can( 'doubleyoupi_customize_dashboard' ) || current_user_can( 'manage_options' ) ) ) : ?>
+				<?php // The empty editor that NoteEdit (dashboard.js) would build, placeholder included, so the text no longer changes when the script runs. Must stay empty for :empty::before. ?>
+				<div class="dy-dashboard__note-content dy-dashboard__note-edit" data-placeholder="<?php esc_attr_e( 'Click to write your note…', 'doubleyoupi-refined-admin-dashboard' ); ?>"></div>
+			<?php elseif ( trim( $body ) === '' ) : ?>
+				<?php // Read only for this person: no Customize button to point to (it used to say "Click Customize"). ?>
+				<p class="dy-dashboard__note-empty"><?php esc_html_e( 'No note yet.', 'doubleyoupi-refined-admin-dashboard' ); ?></p>
 			<?php else : ?>
 				<div class="dy-dashboard__note-content"><?php echo wp_kses_post( wpautop( $body ) ); ?></div>
 			<?php endif; ?>

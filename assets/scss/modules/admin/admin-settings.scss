@@ -181,6 +181,15 @@ $ease-out: var(--dya-ease-out, cubic-bezier(.16, 1, .3, 1));
 }
 // Iris keeps its native look.
 .dy-accent-picker .wp-picker-container { display: inline-flex; gap: 6px; align-items: center; }
+// Iris marks every half-typed value (#f, #ff9…) with .iris-error, which
+// WordPress paints pink with a red border: the field flashed at each key.
+// Our own message says what is wrong, once the field is left.
+body.dy-admin .dy-accent-picker .wp-picker-container input[type="text"].iris-error {
+	background: var(--dya-paper);
+	border-color: var(--dya-edge);
+	color: var(--dya-ink);
+	&:focus { border-color: var(--dya-edge-strong); }
+}
 
 // The [hidden] attribute loses to `display: flex` at equal specificity.
 .dy-accent-feedback[hidden],

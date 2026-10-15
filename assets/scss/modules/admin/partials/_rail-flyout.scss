@@ -45,6 +45,14 @@ body.dy-theme-light .dy-rail-fly {
   color: var(--dyf-ink);
 }
 .dy-rail-fly__head::before { content: ""; width: 3px; height: 12px; border-radius: 2px; background: var(--dyf-color); }
+// A list taller than the screen scrolls inside the card: the head stays
+// pinned on top (over the card's 6px padding), so the section keeps its
+// name while scrolling (14/10/2026).
+.dy-rail-fly__head {
+  position: sticky; top: -6px; z-index: 1;
+  margin: -6px -6px 0; padding: 12px 16px 8px;
+  background: var(--dya-paper);
+}
 
 .dy-rail-fly__list, .dy-rail-fly__sub { list-style: none; margin: 0; padding: 0; }
 .dy-rail-fly__list > li { margin: 0; }

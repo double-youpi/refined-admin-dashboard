@@ -3814,7 +3814,18 @@
 					}
 				});
 			}, { root: dom.viewport || null, threshold: 0.2 });
-			slots.forEach(s => { s.classList.add('js-fx'); this.io.observe(s); });
+			// The screen on display has already been brought in by the CSS
+			// entrance (.dy-dashboard__slots fade-up), which starts at first
+			// paint, long before this footer script runs. Hiding its cards
+			// again with .js-fx would play their entrance a second time:
+			// they are marked as revealed and left alone. The cascade stays
+			// for the other screens, revealed when they are swiped into view.
+			const shown = dom.screens[state.activeScreenIndex] || null;
+			slots.forEach(s => {
+				if (shown && shown.contains(s)) { s.classList.add('is-revealed'); return; }
+				s.classList.add('js-fx');
+				this.io.observe(s);
+			});
 		},
 		// Reveals a slot (CSS cascade via .is-revealed) + triggers count-ups.
 		reveal(slot) {

@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Double Youpi 0.9.40-dev\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-10-13T02:01:16+00:00\n"
+"POT-Creation-Date: 2026-10-14T22:47:44+00:00\n"
 "PO-Revision-Date: 2026-05-20 22:34+0000\n"
 "Last-Translator: Double Youpï\n"
 "Language-Team: Double Youpï (English (United Kingdom))\n"
@@ -60,7 +60,7 @@ msgstr ""
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:160
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:65
 #: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:117
-#: src/Modules/Admin/Editor/EditorReimagined.php:191
+#: src/Modules/Admin/Editor/EditorReimagined.php:225
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:64
 #: src/Modules/MediaLibrary/MediaLibrary.php:172
 msgid "Settings"
@@ -603,45 +603,45 @@ msgstr ""
 msgid "Admin"
 msgstr "Admin"
 
-#: src/Modules/Admin/Admin.php:302
+#: src/Modules/Admin/Admin.php:303
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:477
 #: src/Modules/Admin/Settings.php:655
 msgid "Accent color"
 msgstr "Accent colour"
 
-#: src/Modules/Admin/Admin.php:303
+#: src/Modules/Admin/Admin.php:304
 msgid "The Double Youpï Admin module manages the administration palette."
 msgstr "The Double Youpï Admin module manages the administration palette."
 
-#: src/Modules/Admin/Admin.php:304
+#: src/Modules/Admin/Admin.php:305
 msgid "Configure →"
 msgstr "Configure →"
 
-#: src/Modules/Admin/Admin.php:354
+#: src/Modules/Admin/Admin.php:355
 #: src/Modules/Admin/Tables/TablesReimagined.php:453
 msgid "Screen options"
 msgstr "Screen options"
 
-#: src/Modules/Admin/Admin.php:355
+#: src/Modules/Admin/Admin.php:356
 #: src/Modules/Admin/Tables/TablesReimagined.php:454
 msgid "Columns"
 msgstr "Columns"
 
-#: src/Modules/Admin/Admin.php:356
+#: src/Modules/Admin/Admin.php:357
 #: src/Modules/Admin/Tables/TablesReimagined.php:459
 msgid "Pagination"
 msgstr "Pagination"
 
-#: src/Modules/Admin/Admin.php:357
+#: src/Modules/Admin/Admin.php:358
 #: src/Modules/Admin/Tables/TablesReimagined.php:460
 msgid "Items per page"
 msgstr "Items per page"
 
-#: src/Modules/Admin/Admin.php:516
+#: src/Modules/Admin/Admin.php:517
 msgid "Session"
 msgstr "Session"
 
-#: src/Modules/Admin/Admin.php:518
+#: src/Modules/Admin/Admin.php:519
 msgid "Invert theme"
 msgstr "Invert theme"
 
@@ -812,6 +812,7 @@ msgid "Note title"
 msgstr "Note title"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:373
+#: src/Modules/Admin/Dashboard/Widgets/Data/NoteWidget.php:72
 msgid "Click to write your note…"
 msgstr "Click to write your note…"
 
@@ -1206,108 +1207,108 @@ msgstr "Built-in (customised)"
 msgid "Saved disposition"
 msgstr "Saved disposition"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:92
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:121
 msgid "Today, we're on a roll"
 msgstr "Today, we're on a roll"
 
 #. translators: **{{site.name}}** is replaced by the site name (bold).
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:121
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:150
 msgid "What are we making on **{{site.name}}** today?"
 msgstr "What are we making on **{{site.name}}** today?"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:123
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:152
 msgid "Picking up the thread"
 msgstr "Picking up the thread"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:126
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:182
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:155
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:211
 msgid "The engine room"
 msgstr "The engine room"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:150
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:222
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:249
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:179
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:251
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:278
 msgid "Keyboards at the ready"
 msgstr "Keyboards at the ready"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:152
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:222
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:249
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:181
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:251
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:278
 msgid "Blank page? Never heard of it."
 msgstr "Blank page? Never heard of it."
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:154
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:223
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:250
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:183
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:252
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:279
 msgid "What's next?"
 msgstr "What's next?"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:169
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:198
 msgid "All in order?"
 msgstr "All in order?"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:206
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:235
 msgid "Shall we?"
 msgstr "Shall we?"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:221
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:235
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:250
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:264
 msgid "Sales and orders, without leaving the dashboard."
 msgstr "Sales and orders, without leaving the dashboard."
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:238
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:267
 msgid "The cash drawer"
 msgstr "The cash drawer"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:240
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:269
 msgid "What comes in, what moves, what's running low."
 msgstr "What comes in, what moves, what's running low."
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:283
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:312
 msgid "Standard"
 msgstr "Standard"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:283
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:312
 msgid "Recommended by Double Youpï"
 msgstr "Recommended by Double Youpï"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:284
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:313
 msgid "Editor"
 msgstr "Editor"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:284
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:313
 msgid "Focus on content creation"
 msgstr "Focus on content creation"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:285
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:314
 msgid "Administrator"
 msgstr ""
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:285
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:314
 msgid "Technical health and maintenance"
 msgstr ""
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:286
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:315
 msgid "Minimal"
 msgstr "Minimal"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:286
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:315
 msgid "Just create and go"
 msgstr ""
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:290
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:319
 msgid "Shop"
 msgstr ""
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:290
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:319
 msgid "Your shop, then the editor flow"
 msgstr ""
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:291
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:320
 msgid "Shop Pro"
 msgstr ""
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:291
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:320
 msgid "Sales in depth, plus the editor flow"
 msgstr ""
 
@@ -1653,9 +1654,9 @@ msgstr "A free text note saved on the dashboard. Multiple instances supported."
 msgid "My note"
 msgstr "My note"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/NoteWidget.php:71
-msgid "Click Customize to edit this note."
-msgstr "Click Customize to edit this note."
+#: src/Modules/Admin/Dashboard/Widgets/Data/NoteWidget.php:75
+msgid "No note yet."
+msgstr "No note yet."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:24
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:195
@@ -1925,7 +1926,7 @@ msgid "Drafts"
 msgstr "Drafts"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/TodoWidget.php:67
-#: src/Modules/Admin/Editor/EditorReimagined.php:201
+#: src/Modules/Admin/Editor/EditorReimagined.php:235
 #: src/Modules/Admin/Tables/TablesReimagined.php:441
 msgid "Scheduled"
 msgstr "Scheduled"
@@ -2181,64 +2182,64 @@ msgstr "The overrides must be an object."
 msgid "Signatures must be an array."
 msgstr "Signatures must be an array."
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:189
+#: src/Modules/Admin/Editor/EditorReimagined.php:223
 #: src/Modules/Admin/Tables/TablesReimagined.php:448
 msgid "Native view"
 msgstr "Native view"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:190
+#: src/Modules/Admin/Editor/EditorReimagined.php:224
 #: src/Modules/Admin/Tables/TablesReimagined.php:449
 msgid "Redesigned view"
 msgstr "Redesigned view"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:192
-#: src/Modules/Admin/Editor/EditorReimagined.php:209
+#: src/Modules/Admin/Editor/EditorReimagined.php:226
+#: src/Modules/Admin/Editor/EditorReimagined.php:243
 msgid "Publishing options"
 msgstr "Publishing options"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:193
+#: src/Modules/Admin/Editor/EditorReimagined.php:227
 msgid "Collapse panel"
 msgstr "Collapse panel"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:194
+#: src/Modules/Admin/Editor/EditorReimagined.php:228
 msgid "Expand panel"
 msgstr "Expand panel"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:195
+#: src/Modules/Admin/Editor/EditorReimagined.php:229
 msgid "Permalink"
 msgstr "Permalink"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:196
+#: src/Modules/Admin/Editor/EditorReimagined.php:230
 msgid "Add a title"
 msgstr "Add a title"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:197
+#: src/Modules/Admin/Editor/EditorReimagined.php:231
 #: src/Modules/Admin/Tables/TablesReimagined.php:451
 msgid "Switch to native view"
 msgstr "Switch to native view"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:198
+#: src/Modules/Admin/Editor/EditorReimagined.php:232
 #: src/Modules/Admin/Tables/TablesReimagined.php:452
 msgid "Switch to redesigned view"
 msgstr "Switch to redesigned view"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:200
+#: src/Modules/Admin/Editor/EditorReimagined.php:234
 #: src/Modules/Admin/Tables/TablesReimagined.php:440
 msgid "Published"
 msgstr "Published"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:202
-#: src/Modules/Admin/Editor/EditorReimagined.php:205
+#: src/Modules/Admin/Editor/EditorReimagined.php:236
+#: src/Modules/Admin/Editor/EditorReimagined.php:239
 #: src/Modules/Admin/Tables/TablesReimagined.php:442
 msgid "Draft"
 msgstr "Draft"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:203
+#: src/Modules/Admin/Editor/EditorReimagined.php:237
 #: src/Modules/Admin/Tables/TablesReimagined.php:443
 msgid "Pending"
 msgstr "Pending"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:204
+#: src/Modules/Admin/Editor/EditorReimagined.php:238
 #: src/Modules/Admin/Tables/TablesReimagined.php:444
 msgid "Private"
 msgstr "Private"
@@ -4676,6 +4677,9 @@ msgstr "Tools updated. Reload the page to see the effects."
 
 #~ msgid "A handful of essential widgets"
 #~ msgstr "A handful of essential widgets"
+
+#~ msgid "Click Customize to edit this note."
+#~ msgstr "Click Customize to edit this note."
 
 #~ msgid "Open Site Health →"
 #~ msgstr "Open Site Health →"
