@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, admin
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -127,6 +127,14 @@ Privacy policy: https://doubleyoupi.com/privacy
 
 == Changelog ==
 
+= 1.0.3 =
+* New: your folders and collections now appear in the Bricks 2.4 media browser. Open a folder or a collection to filter, create, rename, move and delete folders, and move files, all from the builder.
+* New: a file uploaded from the Bricks media browser lands in the folder you have open.
+* New: in the builder's "WordPress: Media library" window, the folder panel is there too.
+* Improvement: a section bar too long for the screen now shows arrows and scrolls, and the notifications badge no longer hides its last entries.
+* Fix: on the dashboard, the Create widget keeps a set height and scrolls when the site has many content types.
+* Translations: the French interface was updated after review by the WordPress French translation team.
+
 = 1.0.2 =
 * New: a Settings link in the plugin's row on the Plugins screen.
 * Fix: the duplicate badge now shows on duplicate files, in the media grid and in media windows. It did not appear before.
@@ -160,6 +168,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.3 =
+Your media folders and collections now work inside the Bricks 2.4 media browser, and long section bars scroll.
 
 = 1.0.2 =
 The duplicate badge of the media library now shows, a Settings link on the Plugins screen, and a reviewed French translation.

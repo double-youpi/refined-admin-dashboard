@@ -28,6 +28,42 @@ final class Chipbar {
 
 	public function boot(): void {
 		add_action( 'in_admin_header', [ $this, 'render' ], 6 );
+		// After every bar (notice dock 5, chip bar 6, sub-chip bar 7, Double
+		// Youpï pages' bar 8), before the page content.
+		add_action( 'in_admin_header', [ $this, 'print_scroll_prepaint' ], 9 );
+	}
+
+	/**
+	 * Places the chip bars before they are painted (16/10/2026). A bar with
+	 * more chips than room scrolls sideways (arrows and fades: admin.js,
+	 * _bar-scroll.scss); here, synchronously:
+	 * - the main bar keeps room for the notices pill painted over its right
+	 *   end, measured since its label is translated and hidden on small
+	 *   screens (`--dy-bar-reserve`);
+	 * - the current chip is brought into view, or the scroll of the page we
+	 *   came from is kept when it still shows it (same section).
+	 */
+	public function print_scroll_prepaint(): void {
+		$js = <<<'JS'
+(function(){
+var d=document,t=d.querySelector('#dy-notice-dock .dy-notice-trigger'),r=t&&t.offsetWidth?t.offsetWidth+12:0,s=null;
+try{s=JSON.parse(sessionStorage.getItem('dy-bar-scroll')||'null');}catch(e){}
+if(s&&Date.now()-(s.t||0)>15000){s=null;}
+d.querySelectorAll('.dy-chipbar:not([hidden]),.dy-subchipbar:not([hidden])').forEach(function(b){
+var sub=b.classList.contains('dy-subchipbar'),i=b.querySelector(sub?'.dy-subchipbar-inner':'.dy-chipbar-inner');
+if(!i){return;}
+if(!sub&&r){b.style.setProperty('--dy-bar-reserve',r+'px');}
+var max=i.scrollWidth-i.clientWidth;if(max<=1){return;}
+var c=i.querySelector(sub?'.dy-subchip.current':'.dy-chip.current'),cs=getComputedStyle(i),pl=parseFloat(cs.paddingLeft)||0,pr=parseFloat(cs.paddingRight)||0,v=i.clientWidth-pl-pr;
+function seen(x){if(!c){return true;}var a=c.offsetLeft-x;return a>=pl-1&&a+c.offsetWidth<=pl+v+1;}
+var x=0;
+if(s&&s.kind===(sub?'sub':'chip')&&seen(Math.min(s.left,max))){x=Math.min(s.left,max);}
+else if(c&&!seen(0)){x=Math.max(0,Math.min(max,c.offsetLeft-pl-(v-c.offsetWidth)/2));}
+i.scrollLeft=x;
+});
+})();
+JS;
+		wp_print_inline_script_tag( $js, [ 'id' => 'doubleyoupi-admin-bars-prepaint' ] );
 	}
 
 	public function render(): void {

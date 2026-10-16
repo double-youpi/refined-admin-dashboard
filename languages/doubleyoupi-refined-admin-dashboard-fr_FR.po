@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-10-15T15:27:13+00:00\n"
+"POT-Creation-Date: 2026-10-16T18:22:43+00:00\n"
 "Language: fr_FR\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
@@ -63,7 +63,7 @@ msgstr ""
 #: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:117
 #: src/Modules/Admin/Editor/EditorReimagined.php:225
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:64
-#: src/Modules/MediaLibrary/MediaLibrary.php:172
+#: src/Modules/MediaLibrary/MediaLibrary.php:176
 msgid "Settings"
 msgstr "Réglages"
 
@@ -384,6 +384,9 @@ msgid "Suite"
 msgstr "Suite"
 
 #: src/Admin/OverviewPage.php:177 src/Admin/OverviewPage.php:217
+#: src/Modules/MediaLibrary/FolderService.php:252
+#: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:158
+#: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:186
 #: src/Modules/Toolkit/Features/DuplicatePosts.php:116
 #: src/Modules/Toolkit/Features/DuplicatePosts.php:127
 #: src/Modules/Toolkit/ToolsPage.php:212
@@ -563,8 +566,8 @@ msgstr ""
 "intelligent, navigation retravaillée, tableaux de contenu redessinés, mode "
 "sombre et votre identité visuelle."
 
-#: src/Core/ModuleCatalog.php:50 src/Modules/MediaLibrary/MediaLibrary.php:132
-#: src/Modules/MediaLibrary/MediaLibrary.php:184
+#: src/Core/ModuleCatalog.php:50 src/Modules/MediaLibrary/MediaLibrary.php:136
+#: src/Modules/MediaLibrary/MediaLibrary.php:188
 msgid "Refined Media Library"
 msgstr "Refined Media Library"
 
@@ -716,8 +719,8 @@ msgstr "Désactiver Admin Columns"
 msgid "Keep Admin Columns"
 msgstr "Garder Admin Columns"
 
-#: src/Modules/Admin/Chipbar.php:85 src/Modules/Admin/Chipbar.php:127
-#: src/Modules/Admin/Chipbar.php:212
+#: src/Modules/Admin/Chipbar.php:121 src/Modules/Admin/Chipbar.php:163
+#: src/Modules/Admin/Chipbar.php:248
 msgid "Section navigation"
 msgstr "Navigation de section"
 
@@ -753,7 +756,7 @@ msgstr "Commerce"
 #: src/Modules/Admin/ColumnModel.php:881
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:63
 msgid "Users"
-msgstr "Utilisateurs"
+msgstr "Comptes"
 
 #: src/Modules/Admin/ColumnModel.php:882
 msgid "Community"
@@ -769,7 +772,7 @@ msgstr "Système"
 
 #: src/Modules/Admin/ColumnModel.php:885
 msgid "Developer"
-msgstr "Développeur"
+msgstr "Développement"
 
 #: src/Modules/Admin/Dashboard/Compat/WpDashboardWidgetsAdapter.php:205
 msgid "Native WordPress widget"
@@ -816,7 +819,7 @@ msgstr "Widgets"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:363
 msgid "Layout"
-msgstr "Disposition"
+msgstr "Mise en page"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:364
 msgid "Screens"
@@ -876,7 +879,7 @@ msgstr "Aucun"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:379
 msgid "Lock the layout"
-msgstr "Verrouiller la disposition"
+msgstr "Verrouiller la mise en page"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:380
 msgid "Export JSON"
@@ -884,7 +887,7 @@ msgstr "Exporter le JSON"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:381
 #: src/Modules/Admin/Settings.php:885
-#: src/Modules/MediaLibrary/MediaLibrary.php:180
+#: src/Modules/MediaLibrary/MediaLibrary.php:184
 #: src/Modules/MediaLibrary/Migration/MigrationI18n.php:25
 msgid "Import"
 msgstr "Importer"
@@ -925,19 +928,19 @@ msgstr "Vos réglages actuels"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:393
 msgid "Save as disposition"
-msgstr "Enregistrer comme disposition"
+msgstr "Enregistrer comme mise en page"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:394
 msgid "Disposition name:"
-msgstr "Nom de la disposition :"
+msgstr "Nom de la mise en page :"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:395
 msgid "Disposition name"
-msgstr "Nom de la disposition"
+msgstr "Nom de la mise en page"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:396
 msgid "New disposition"
-msgstr "Nouvelle disposition"
+msgstr "Nouvelle mise en page"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:397
 #: src/Modules/Admin/Settings.php:324
@@ -948,19 +951,19 @@ msgstr "Enregistrer"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:399
 msgid "Delete this disposition"
-msgstr "Supprimer cette disposition"
+msgstr "Supprimer cette mise en page"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:400
 msgid "Disposition saved."
-msgstr "Disposition enregistrée."
+msgstr "Mise en page enregistrée."
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:401
 msgid "Disposition updated."
-msgstr "Disposition mise à jour."
+msgstr "Mise en page mise à jour."
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:402
 msgid "Disposition deleted."
-msgstr "Disposition supprimée."
+msgstr "Mise en page supprimée."
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:403
 msgid "Not styled yet"
@@ -970,14 +973,14 @@ msgstr "À styliser"
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:405
 #, php-format
 msgid "Delete the disposition « %s »?"
-msgstr "Supprimer la disposition « %s » ?"
+msgstr "Supprimer la mise en page « %s » ?"
 
 #. translators: %s: disposition name
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:407
 #, php-format
 msgid "Replace the current layout with « %s »? Unsaved changes will be lost."
 msgstr ""
-"Remplacer la disposition actuelle par « %s » ? Les modifications non "
+"Remplacer la mise en page actuelle par « %s » ? Les modifications non "
 "enregistrées seront perdues."
 
 #. translators: %s: disposition name
@@ -992,11 +995,11 @@ msgstr "Tout vider et repartir d’un seul écran vierge ?"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:411
 msgid "This file is not a valid disposition export."
-msgstr "Ce fichier n’est pas un export de disposition valide."
+msgstr "Ce fichier n’est pas un export de mise en page valide."
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:412
 msgid "Imported disposition"
-msgstr "Disposition importée"
+msgstr "Mise en page importée"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:414
 #: src/Modules/Admin/Tables/TablesReimagined.php:466
@@ -1031,11 +1034,11 @@ msgstr "Vider complètement"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:420
 msgid "Save as new disposition"
-msgstr "Enregistrer comme nouvelle disposition"
+msgstr "Enregistrer comme nouvelle mise en page"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:421
 msgid "Import a disposition"
-msgstr "Importer une disposition"
+msgstr "Importer une mise en page"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:422
 msgid "Assign to role(s)…"
@@ -1051,11 +1054,11 @@ msgstr "Déverrouiller"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:425
 msgid "Layout locked."
-msgstr "Disposition verrouillée."
+msgstr "Mise en page verrouillée."
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:426
 msgid "Layout unlocked."
-msgstr "Disposition déverrouillée."
+msgstr "Mise en page déverrouillée."
 
 #. translators: %s: disposition name
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:429
@@ -1066,7 +1069,7 @@ msgstr "Assigner « %s » à des rôles"
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:430
 msgid "Users with these roles will see this disposition (read-only)."
 msgstr ""
-"Les utilisateurs de ces rôles verront cette disposition (lecture seule)."
+"Les comptes ayant ces rôles verront cette mise en page (lecture seule)."
 
 #. translators: %s: another disposition name
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:432
@@ -1087,7 +1090,7 @@ msgid ""
 "These roles are already assigned to another disposition: %s. Switch them to "
 "this one?"
 msgstr ""
-"Ces rôles sont déjà assignés à une autre disposition : %s. Les basculer sur "
+"Ces rôles sont déjà assignés à une autre mise en page : %s. Les basculer sur "
 "celle-ci ?"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:437
@@ -1170,7 +1173,7 @@ msgstr "Quelque chose de neuf"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:462
 msgid "At least one user screen is required."
-msgstr "Au moins un écran utilisateur est nécessaire."
+msgstr "Au moins un écran personnalisé est nécessaire."
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:463
 msgid "Delete this screen?"
@@ -1179,12 +1182,12 @@ msgstr "Supprimer cet écran ?"
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:464
 msgid "Reset to the standard layout? All customizations will be lost."
 msgstr ""
-"Réinitialiser à la disposition standard ? Toutes les personnalisations "
+"Réinitialiser à la mise en page standard ? Toutes les personnalisations "
 "seront perdues."
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:465
 msgid "Layout exported"
-msgstr "Disposition exportée"
+msgstr "Mise en page exportée"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:466
 msgid "Invalid JSON"
@@ -1232,16 +1235,16 @@ msgstr "Revenir à la couleur globale"
 
 #: src/Modules/Admin/Dashboard/Layout/Dispositions.php:149
 msgid "A disposition name is required."
-msgstr "Un nom de disposition est obligatoire."
+msgstr "Un nom de mise en page est obligatoire."
 
 #: src/Modules/Admin/Dashboard/Layout/Dispositions.php:154
 msgid "Maximum number of saved dispositions reached."
-msgstr "Nombre maximum de dispositions enregistrées atteint."
+msgstr "Nombre maximum de mises en page enregistrées atteint."
 
 #: src/Modules/Admin/Dashboard/Layout/Dispositions.php:189
 #: src/Modules/Admin/Dashboard/RestController.php:323
 msgid "Unknown disposition."
-msgstr "Disposition inconnue."
+msgstr "Mise en page inconnue."
 
 #: src/Modules/Admin/Dashboard/Layout/Dispositions.php:243
 msgid "Built-in (customized)"
@@ -1249,7 +1252,7 @@ msgstr "Intégrée (personnalisée)"
 
 #: src/Modules/Admin/Dashboard/Layout/Dispositions.php:259
 msgid "Saved disposition"
-msgstr "Disposition enregistrée"
+msgstr "Mise en page enregistrée"
 
 #: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:121
 msgid "Today, we're on a roll"
@@ -1318,7 +1321,7 @@ msgstr "Recommandée par Double Youpï"
 
 #: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:313
 msgid "Editor"
-msgstr "Éditeur"
+msgstr "Éditeur/éditrice"
 
 #: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:313
 msgid "Focus on content creation"
@@ -1326,7 +1329,7 @@ msgstr "Priorité à la création de contenu"
 
 #: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:314
 msgid "Administrator"
-msgstr "Administrateur"
+msgstr "Administrateur/administratrice"
 
 #: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:314
 msgid "Technical health and maintenance"
@@ -1358,13 +1361,13 @@ msgstr "Les ventes en détail, plus le flux de travail éditorial"
 
 #: src/Modules/Admin/Dashboard/Layout/LayoutValidator.php:46
 msgid "The layout payload must be an array."
-msgstr "Le contenu de la disposition doit être un tableau."
+msgstr "Le contenu de la mise en page doit être un tableau."
 
 #. translators: %1$d: expected version, %2$d: received version
 #: src/Modules/Admin/Dashboard/Layout/LayoutValidator.php:59
 #, php-format
 msgid "Invalid layout version (expected %1$d, got %2$d)."
-msgstr "Version de disposition invalide (attendue %1$d, reçue %2$d)."
+msgstr "Version de mise en page invalide (attendue %1$d, reçue %2$d)."
 
 #: src/Modules/Admin/Dashboard/Layout/LayoutValidator.php:67
 msgid "At least one screen is required."
@@ -1423,7 +1426,7 @@ msgstr "Ce widget n’a pas pu se charger."
 #: src/Modules/Admin/Dashboard/RestController.php:242
 #: src/Modules/Admin/Dashboard/RestController.php:287
 msgid "The layout must be an object."
-msgstr "La disposition doit être un objet."
+msgstr "La mise en page doit être un objet."
 
 #: src/Modules/Admin/Dashboard/RestController.php:372
 msgid "Widget ID required."
@@ -1769,7 +1772,7 @@ msgstr "Menus"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:130
 msgid "+ User"
-msgstr "+ Utilisateur"
+msgstr "+ Compte"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:135
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:58
@@ -2252,12 +2255,12 @@ msgstr "Les signatures doivent être un tableau."
 #: src/Modules/Admin/Editor/EditorReimagined.php:223
 #: src/Modules/Admin/Tables/TablesReimagined.php:448
 msgid "Native view"
-msgstr "Affichage natif"
+msgstr "Vue native"
 
 #: src/Modules/Admin/Editor/EditorReimagined.php:224
 #: src/Modules/Admin/Tables/TablesReimagined.php:449
 msgid "Redesigned view"
-msgstr "Affichage repensé"
+msgstr "Vue repensée"
 
 #: src/Modules/Admin/Editor/EditorReimagined.php:226
 #: src/Modules/Admin/Editor/EditorReimagined.php:243
@@ -2283,12 +2286,12 @@ msgstr "Ajouter un titre"
 #: src/Modules/Admin/Editor/EditorReimagined.php:231
 #: src/Modules/Admin/Tables/TablesReimagined.php:451
 msgid "Switch to native view"
-msgstr "Basculer vers l’affichage natif"
+msgstr "Basculer vers la vue native"
 
 #: src/Modules/Admin/Editor/EditorReimagined.php:232
 #: src/Modules/Admin/Tables/TablesReimagined.php:452
 msgid "Switch to redesigned view"
-msgstr "Basculer vers l’affichage repensé"
+msgstr "Basculer vers la vue repensée"
 
 #: src/Modules/Admin/Editor/EditorReimagined.php:234
 #: src/Modules/Admin/Tables/TablesReimagined.php:440
@@ -2428,23 +2431,23 @@ msgstr "Aucun commentaire"
 
 #: src/Modules/Admin/Eyebrow.php:515
 msgid "No users"
-msgstr "Aucun utilisateur"
+msgstr "Aucun compte"
 
 #. translators: %1$d is the number of users, %2$d the number of distinct roles.
 #: src/Modules/Admin/Eyebrow.php:520
 #, php-format
 msgid "%1$d user · %2$d role"
 msgid_plural "%1$d users · %2$d roles"
-msgstr[0] "%1$d utilisateur · %2$d rôle"
-msgstr[1] "%1$d utilisateurs · %2$d rôles"
+msgstr[0] "%1$d compte · %2$d rôle"
+msgstr[1] "%1$d comptes · %2$d rôles"
 
 #. translators: %d is the number of users.
 #: src/Modules/Admin/Eyebrow.php:531
 #, php-format
 msgid "%d user"
 msgid_plural "%d users"
-msgstr[0] "%d utilisateur"
-msgstr[1] "%d utilisateurs"
+msgstr[0] "%d compte"
+msgstr[1] "%d comptes"
 
 #: src/Modules/Admin/Eyebrow.php:546
 msgid "No extension"
@@ -2533,7 +2536,7 @@ msgstr "Faites glisser pour réorganiser"
 #: src/Modules/Admin/PostOrdering.php:264
 #: src/Modules/Admin/Tables/TablesReimagined.php:476
 msgid "Reorder failed. Please refresh."
-msgstr "Échec du réordonnancement. Rechargez la page."
+msgstr "Échec du réordonnancement. Veuillez actualiser la page."
 
 #: src/Modules/Admin/PostOrdering.php:305
 msgid "Unknown post type."
@@ -2561,15 +2564,15 @@ msgstr "Couleur d’accent et logo"
 
 #: src/Modules/Admin/Profile.php:361 src/Modules/Admin/Settings.php:851
 msgid "Per-user customization"
-msgstr "Personnalisation par utilisateur"
+msgstr "Personnalisation par compte"
 
 #: src/Modules/Admin/Profile.php:362
 msgid ""
 "Navigation tree (reimagined or native), section pages on hover, and the "
 "Reorganize layout"
 msgstr ""
-"Arborescence (repensée ou native), pages de la section au survol, et "
-"disposition de Réorganiser"
+"Arborescence (repensée ou native), pages de la section au survol, et mise en "
+"page de Réorganiser"
 
 #: src/Modules/Admin/Profile.php:363
 msgid "Screens left in native styling"
@@ -2872,7 +2875,7 @@ msgid ""
 "The Reorganize tab is hidden in native mode. Your layout is kept for when "
 "you switch back."
 msgstr ""
-"L’onglet Réorganiser est masqué en mode natif. Votre disposition est "
+"L’onglet Réorganiser est masqué en mode natif. Votre mise en page est "
 "conservée si vous y revenez."
 
 #: src/Modules/Admin/Settings.php:818 src/Modules/Admin/Settings.php:822
@@ -2950,7 +2953,7 @@ msgstr "Choix personnels : thème, largeur du rail"
 
 #: src/Modules/Admin/Settings.php:910
 msgid "Dashboard layouts"
-msgstr "Dispositions du tableau de bord"
+msgstr "Mises en page du tableau de bord"
 
 #: src/Modules/Admin/Settings.php:917
 msgid "Pin the profile in code, on every site"
@@ -3190,8 +3193,8 @@ msgid ""
 "administrator settings (accent color, logo) still apply when enabled."
 msgstr ""
 "Lorsque cette option est désactivée, ce compte utilise l’administration "
-"WordPress standard. Les réglages de l’administrateur (couleur d’accent, "
-"logo) s’appliquent toujours lorsqu’elle est activée."
+"WordPress standard. Les réglages de l’administrateur ou de l’administratrice "
+"(couleur d’accent, logo) s’appliquent toujours lorsqu’elle est activée."
 
 #: src/Modules/Admin/Welcome.php:108
 msgid "You are not allowed to do this."
@@ -3270,16 +3273,18 @@ msgid ""
 msgstr ""
 "Le menu est devenu un rail à sept sections, les listes et l’éditeur ont été "
 "redessinés, les notifications sont regroupées au même endroit et le tableau "
-"de bord est modulaire. Chacun choisit son thème clair ou sombre depuis la "
-"barre du haut, et tout le reste est automatique."
+"de bord est modulaire. Chaque personne choisit son thème clair ou sombre "
+"depuis la barre du haut, et tout le reste est automatique."
 
 #: src/Modules/MediaLibrary/CollectionManager.php:169
+#: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:253
 msgid "Could not delete collection."
 msgstr "Impossible de supprimer la collection."
 
 #: src/Modules/MediaLibrary/CollectionTaxonomy.php:84
 #: src/Modules/MediaLibrary/CollectionTaxonomy.php:86
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:52
+#: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:76
 #: src/Modules/MediaLibrary/Settings.php:256
 msgid "Collections"
 msgstr "Collections"
@@ -3320,14 +3325,16 @@ msgstr "Déplacer dans un dossier…"
 msgid "Add to collection…"
 msgstr "Ajouter à une collection…"
 
-#: src/Modules/MediaLibrary/FolderManager.php:610
-#: src/Modules/MediaLibrary/FolderManager.php:646
+#: src/Modules/MediaLibrary/FolderManager.php:604
+#: src/Modules/MediaLibrary/FolderManager.php:640
+#: src/Modules/MediaLibrary/FolderService.php:202
 msgid "A folder cannot be moved into itself or one of its subfolders."
 msgstr ""
 "Un dossier ne peut pas être déplacé dans lui-même ou dans l’un de ses sous-"
 "dossiers."
 
-#: src/Modules/MediaLibrary/FolderManager.php:671
+#: src/Modules/MediaLibrary/FolderManager.php:665
+#: src/Modules/MediaLibrary/FolderService.php:241
 msgid "Could not delete folder."
 msgstr "Impossible de supprimer le dossier."
 
@@ -3831,6 +3838,25 @@ msgstr "Réessayer"
 msgid "More fields"
 msgstr "Plus de champs"
 
+#: src/Modules/MediaLibrary/FolderService.php:151
+#: src/Modules/MediaLibrary/FolderService.php:154
+#: src/Modules/MediaLibrary/FolderService.php:180
+#: src/Modules/MediaLibrary/FolderService.php:199
+#: src/Modules/MediaLibrary/FolderService.php:235
+#: src/Modules/MediaLibrary/FolderService.php:255
+#: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:258
+#: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:270
+#: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:285
+#: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:392
+#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:43
+msgid "Something went wrong. Please try again."
+msgstr "Une erreur est survenue. Veuillez réessayer."
+
+#: src/Modules/MediaLibrary/FolderService.php:278
+#: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:412
+msgid "A folder or collection with this name already exists here."
+msgstr "Un dossier ou une collection porte déjà ce nom ici."
+
 #: src/Modules/MediaLibrary/FolderTaxonomy.php:65
 msgid "Add folder"
 msgstr "Ajouter un dossier"
@@ -3846,6 +3872,13 @@ msgstr "Mettre à jour le dossier"
 #: src/Modules/MediaLibrary/FolderTaxonomy.php:68
 msgid "No folders found"
 msgstr "Aucun dossier trouvé"
+
+#: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:405
+msgid ""
+"Collections are kept apart from folders: this change is not possible here."
+msgstr ""
+"Les collections restent à part des dossiers : cette modification n’est pas "
+"possible ici."
 
 #: src/Modules/MediaLibrary/MediaLibrary.php:74
 msgid ""
@@ -3863,11 +3896,11 @@ msgstr ""
 "Double Youpï Refined Media Library est installée et en retrait : réactivez-"
 "la si vous voulez la médiathèque sans le reste."
 
-#: src/Modules/MediaLibrary/MediaLibrary.php:133
+#: src/Modules/MediaLibrary/MediaLibrary.php:137
 msgid "Media Library"
 msgstr "Médiathèque"
 
-#: src/Modules/MediaLibrary/MediaLibrary.php:175
+#: src/Modules/MediaLibrary/MediaLibrary.php:179
 msgid "Unused media"
 msgstr "Médias inutilisés"
 
@@ -3979,10 +4012,6 @@ msgstr "Annulation…"
 #, php-format
 msgid "%d imported folders removed."
 msgstr "%d dossiers importés supprimés."
-
-#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:43
-msgid "Something went wrong. Please try again."
-msgstr "Une erreur est survenue. Veuillez réessayer."
 
 #: src/Modules/MediaLibrary/Migration/MigrationManager.php:468
 msgid ""
@@ -4332,8 +4361,8 @@ msgid ""
 "login every few months. Replaces Make Disable Admin Email Verification "
 "Prompt."
 msgstr ""
-"Supprime l’invite plein écran de vérification de l’e-mail d’administration "
-"que WordPress affiche à la connexion, à intervalles réguliers. Remplace Make "
+"Retire l’invite plein écran de vérification de l’e-mail d’administration que "
+"WordPress affiche à la connexion, à intervalles réguliers. Remplace Make "
 "Disable Admin Email Verification Prompt."
 
 #: src/Modules/Toolkit/Features/DisableUpdateEmails.php:32
@@ -4422,7 +4451,7 @@ msgid ""
 msgstr ""
 "Environnement local détecté : Forcer HTTPS est bloqué ici pour ne pas casser "
 "l’accès au site (les certificats locaux ne sont généralement pas "
-"configurés). Pour passer outre : "
+"configurés). Pour surcharger ce comportement : "
 "add_filter( 'doubleyoupi_toolkit_force_https_in_local', '__return_true' );"
 
 #: src/Modules/Toolkit/Features/HideLogin.php:64
@@ -4440,9 +4469,9 @@ msgid ""
 "constant prevents lockout. Replaces WPS Hide Login."
 msgstr ""
 "Déplace wp-login.php vers un slug personnalisé et renvoie une 404 sur la "
-"connexion par défaut pour les visiteurs déconnectés. Vous envoie la nouvelle "
-"URL par e-mail, et une constante de récupération dans wp-config évite tout "
-"verrouillage. Remplace WPS Hide Login."
+"connexion par défaut pour les internautes non connectés. Vous envoie la "
+"nouvelle URL par e-mail, et une constante de récupération dans wp-config "
+"évite tout verrouillage. Remplace WPS Hide Login."
 
 #: src/Modules/Toolkit/Features/HideLogin.php:99
 msgid ""
@@ -4519,7 +4548,7 @@ msgstr ""
 "\n"
 "Nouvelle URL de connexion : %1$s\n"
 "\n"
-"Le %2$s par défaut renvoie désormais une 404 aux visiteurs déconnectés. "
+"Le %2$s par défaut renvoie désormais une 404 aux internautes non connectés. "
 "Ajoutez la nouvelle URL à vos favoris.\n"
 "\n"
 "Si un jour vous ne pouvez plus vous connecter, ajoutez cette ligne à wp-"
@@ -4552,8 +4581,7 @@ msgstr "Avatars locaux"
 
 #: src/Modules/Toolkit/Features/LocalAvatars.php:71
 msgid "Per-user avatar upload, with zero Gravatar requests"
-msgstr ""
-"Téléversement d’avatar par utilisateur, sans aucune requête vers Gravatar"
+msgstr "Téléversement d’avatar par compte, sans aucune requête vers Gravatar"
 
 #: src/Modules/Toolkit/Features/LocalAvatars.php:75
 msgid ""
@@ -4562,10 +4590,10 @@ msgid ""
 "an uploaded avatar get a generated initials avatar. Replaces Simple Local "
 "Avatars."
 msgstr ""
-"Ajoute un champ de téléversement d’avatar aux profils utilisateurs et sert "
+"Ajoute un champ de téléversement d’avatar aux profils des comptes et sert "
 "chaque avatar localement : aucune requête n’atteint gravatar.com "
-"(respectueux du RGPD). Les utilisateurs sans avatar téléversé reçoivent un "
-"avatar généré à partir de leurs initiales. Remplace Simple Local Avatars."
+"(respectueux du RGPD). Les comptes sans avatar téléversé reçoivent un avatar "
+"généré à partir de leurs initiales. Remplace Simple Local Avatars."
 
 #: src/Modules/Toolkit/Features/LocalAvatars.php:353
 msgid "Local avatar"

@@ -20,7 +20,7 @@ final class SoloConfig {
 	}
 
 	public static function version(): string {
-		return '1.0.2';
+		return '1.0.3';
 	}
 
 	public static function installed_version_option(): string {

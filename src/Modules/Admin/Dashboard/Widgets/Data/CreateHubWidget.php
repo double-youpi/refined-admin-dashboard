@@ -143,7 +143,8 @@ final class CreateHubWidget extends AbstractDataWidget {
 			<?php if ( empty( $types ) ) : ?>
 				<p class="dy-dashboard__empty"><?php esc_html_e( 'No content type available to create.', 'doubleyoupi-refined-admin-dashboard' ); ?></p>
 			<?php else : ?>
-				<div class="dy-dashboard__create-grid">
+				<?php // Capped height: past a few rows the tiles scroll inside the card (data-inner-scroll keeps the wheel from switching screens). ?>
+				<div class="dy-dashboard__create-grid" data-inner-scroll>
 					<?php foreach ( $types as $t ) : ?>
 						<a class="dy-dashboard__create-tile" href="<?php echo esc_url( (string) $t['url'] ); ?>">
 							<span class="dy-dashboard__create-tile-icon" aria-hidden="true">

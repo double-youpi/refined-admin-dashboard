@@ -864,6 +864,77 @@
     });
   }
 
+  // ── 8bis. Chip bars that overflow: arrows, fades, wheel ──
+  // A bar with more chips than room scrolls sideways (16/10/2026). Its
+  // scrollbar is hidden (_bar-scroll.scss): an arrow on a fade shows on the
+  // side where chips are hidden and scrolls by most of a screen; a vertical
+  // wheel over the bar scrolls it sideways, until an end, then the page
+  // scrolls again. The main bar keeps room for the notices pill, whose width
+  // changes with its label and counter. First placement: Chipbar.php.
+  (function () {
+    const bars = document.querySelectorAll('.dy-chipbar:not([hidden]), .dy-subchipbar:not([hidden])');
+    if (!bars.length) return;
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const pill = document.querySelector('#dy-notice-dock .dy-notice-trigger');
+    const chevron = (dir) => '<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><path d="'
+      + (dir < 0 ? 'M10 3.5 5.5 8l4.5 4.5' : 'M6 3.5l4.5 4.5L6 12.5')
+      + '" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+    bars.forEach(function (bar) {
+      const sub = bar.classList.contains('dy-subchipbar');
+      const inner = bar.querySelector(sub ? '.dy-subchipbar-inner' : '.dy-chipbar-inner');
+      if (!inner) return;
+
+      // Mouse affordance only: keyboard users reach every chip with Tab,
+      // and the browser scrolls the focused chip into view.
+      const ui = document.createElement('div');
+      ui.className = 'dy-barscroll';
+      ui.setAttribute('aria-hidden', 'true');
+      [-1, 1].forEach(function (dir) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.tabIndex = -1;
+        btn.className = 'dy-barscroll__btn dy-barscroll__btn--' + (dir < 0 ? 'prev' : 'next');
+        btn.innerHTML = '<span class="dy-barscroll__icon">' + chevron(dir) + '</span>';
+        btn.addEventListener('click', function () {
+          const step = Math.max(120, Math.round(inner.clientWidth * 0.7));
+          inner.scrollBy({ left: dir * step, behavior: reduce ? 'auto' : 'smooth' });
+        });
+        ui.appendChild(btn);
+      });
+      bar.appendChild(ui);
+
+      function update() {
+        if (!sub && pill) {
+          const w = pill.offsetWidth;
+          bar.style.setProperty('--dy-bar-reserve', (w ? w + 12 : 0) + 'px');
+        }
+        const max = inner.scrollWidth - inner.clientWidth;
+        bar.classList.toggle('dy-can-prev', max > 1 && inner.scrollLeft > 1);
+        bar.classList.toggle('dy-can-next', max > 1 && inner.scrollLeft < max - 1);
+      }
+      update();
+      inner.addEventListener('scroll', update, { passive: true });
+      if ('ResizeObserver' in window) {
+        const ro = new ResizeObserver(update);
+        ro.observe(inner);
+        if (!sub && pill) ro.observe(pill);
+      } else {
+        window.addEventListener('resize', update);
+      }
+
+      inner.addEventListener('wheel', function (e) {
+        // A trackpad's sideways swipe is already horizontal: leave it native.
+        if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+        const max = inner.scrollWidth - inner.clientWidth;
+        if (max <= 1) return;
+        if ((e.deltaY < 0 && inner.scrollLeft <= 0) || (e.deltaY > 0 && inner.scrollLeft >= max - 1)) return;
+        e.preventDefault();
+        inner.scrollLeft += e.deltaY;
+      }, { passive: false });
+    });
+  })();
+
   // ── 9. View Transitions — direction sniff ────────────
   // The CSS in _view-transitions.scss opts the document into
   // cross-document VT and animates the content swap based on
@@ -959,6 +1030,13 @@
             kind: chipClicked.classList.contains('dy-subchip') ? 'sub' : 'chip',
             x: Math.round(chipR.left - barR.left + bar.scrollLeft),
             w: Math.round(chipR.width),
+            t: Date.now(),
+          }));
+          // The bar's own scroll, kept by the pre-paint script of the next
+          // page when it still shows the current chip (Chipbar.php).
+          sessionStorage.setItem('dy-bar-scroll', JSON.stringify({
+            kind: chipClicked.classList.contains('dy-subchip') ? 'sub' : 'chip',
+            left: Math.round(bar.scrollLeft),
             t: Date.now(),
           }));
         } catch (_) {}

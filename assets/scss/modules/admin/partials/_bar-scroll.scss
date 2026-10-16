@@ -1,0 +1,125 @@
+// =============================================================
+// _bar-scroll.scss
+// Chip bar and sub-chip bar with more chips than room (16/10/2026).
+// Both bars already scrolled sideways, but nothing said so, and the last
+// chips slid under the notices pill painted over the main bar's right end.
+// Now: the scrollbar is hidden, and an arrow on a fade shows on the side
+// where chips are hidden (`.dy-can-prev` / `.dy-can-next`, set by admin.js
+// §8bis, which also turns a vertical wheel into a sideways scroll). The main
+// bar keeps room for the pill (`--dy-bar-reserve`, measured by script: the
+// pill's label is translated and hidden on small screens). First placement,
+// before paint: Chipbar::print_scroll_prepaint().
+// =============================================================
+
+// The colour each fade melts into: the bar's own background.
+body.dy-admin .dy-chipbar,
+body.dy-admin .dy-subchipbar { --dy-bar-bg: var(--dya-bg); }
+body.dy-admin.dy-theme-light .dy-chipbar { --dy-bar-bg: var(--dya-paper); }
+body.dy-admin.dy-theme-light .dy-subchipbar { --dy-bar-bg: var(--dya-paper-2); }
+
+// The scroller: room for the pill at the end of the main
+// bar, and clipped to the content column so no chip shows in the side
+// gutters or around the pill's rounded ends (exactly at the column edge:
+// any tolerance let a sliver of letters show beside the arrows). `position: relative` on the
+// sub-chip bar too, so the pre-paint script reads offsets against it.
+body.dy-admin .dy-chipbar-inner,
+body.dy-admin .dy-subchipbar-inner {
+  overscroll-behavior-x: contain;
+  clip-path: inset(0 calc(var(--dya-wrap-pad-x) + var(--dy-bar-reserve, 0px)) 0 var(--dya-wrap-pad-x));
+}
+// The scrollbar goes only when the script runs: without JavaScript there
+// are no arrows, and the thin scrollbar is the only sign of more chips.
+body.js.dy-admin .dy-chipbar-inner,
+body.js.dy-admin .dy-subchipbar-inner { scrollbar-width: none; }
+body.js.dy-admin .dy-chipbar-inner::-webkit-scrollbar,
+body.js.dy-admin .dy-subchipbar-inner::-webkit-scrollbar { display: none; height: 0; }
+body.dy-admin .dy-chipbar-inner { padding-right: calc(var(--dya-wrap-pad-x) + var(--dy-bar-reserve, 0px)); }
+body.dy-admin .dy-subchipbar-inner { position: relative; }
+
+// The arrows: an overlay on the same column as the chips (same max width,
+// same gutters, pill reserve included), above them.
+body.dy-admin .dy-barscroll {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  max-width: var(--dya-wrap-max);
+  margin: 0 auto;
+  padding: 0 calc(var(--dya-wrap-pad-x) + var(--dy-bar-reserve, 0px)) 0 var(--dya-wrap-pad-x);
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+body.dy-admin .dy-barscroll__btn {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  width: 76px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  color: var(--dya-ink-soft);
+  cursor: pointer;
+  pointer-events: auto;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--dya-t-fast) var(--dya-ease),
+    visibility 0s linear var(--dya-t-fast);
+}
+body.dy-admin .dy-barscroll__btn--prev {
+  justify-content: flex-start;
+  // 1px past the clip edge: the edge falls on a fraction of a pixel, and that
+  // shared column showed half a letter beside the arrow.
+  margin-left: -1px;
+  padding-left: 3px;
+  background: linear-gradient(to right, var(--dy-bar-bg) 36%, transparent);
+}
+body.dy-admin .dy-barscroll__btn--next {
+  justify-content: flex-end;
+  margin-right: -1px;
+  padding-right: 3px;
+  background: linear-gradient(to left, var(--dy-bar-bg) 36%, transparent);
+}
+body.dy-admin .dy-can-prev .dy-barscroll__btn--prev,
+body.dy-admin .dy-can-next .dy-barscroll__btn--next {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+body.dy-admin .dy-barscroll__icon {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--dya-paper-2);
+  box-shadow: var(--dya-shadow-sm);
+  transition: background var(--dya-t-fast) var(--dya-ease), color var(--dya-t-fast) var(--dya-ease);
+}
+body.dy-admin.dy-theme-light .dy-barscroll__icon { background: var(--dya-bg); }
+body.dy-admin .dy-barscroll__btn:hover { color: var(--dya-ink); }
+body.dy-admin .dy-barscroll__btn:hover .dy-barscroll__icon { background: var(--dya-paper-3); }
+
+// Sub-chip bar: 36px tall, smaller arrows.
+body.dy-admin .dy-subchipbar .dy-barscroll__btn { width: 60px; }
+body.dy-admin .dy-subchipbar .dy-barscroll__icon { width: 22px; height: 22px; }
+
+// Small screens: the main bar gets outer gutters (_responsive.scss), the
+// overlay follows them.
+@media (max-width: 600px) {
+  body.dy-admin .dy-chipbar .dy-barscroll {
+    left: var(--dya-wrap-pad-x);
+    right: var(--dya-wrap-pad-x);
+  }
+}
+
+@media print {
+  body.dy-admin .dy-barscroll { display: none; }
+}

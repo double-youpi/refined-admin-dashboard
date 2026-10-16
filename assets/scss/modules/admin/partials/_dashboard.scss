@@ -3505,11 +3505,30 @@ body.dy-admin.index-php {
 	// stacking 4 large blocks vertically. No media query needed — adapts
 	// to any number of content types.
 	.dy-dashboard__slot--4 .dy-dashboard__card-body { justify-content: center; }
+	// Capped height (16/10/2026): a site with many content types (17 on the
+	// test bench) made the card taller than the screen, which clipped it at
+	// both ends with no way to reach the rest. Past about two rows the tiles
+	// scroll inside the card; the cut through the third row and the fade
+	// below (scroll-driven, see the end of this file) show there is more.
+	// `data-inner-scroll` on the grid keeps the wheel from switching screens.
 	.dy-dashboard__create-grid {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(108px, 1fr));
 		gap: 12px;
-		margin-top: 4px;
+		// Room for the tiles' 3px rise on hover, which the scroller would clip.
+		padding-top: 4px;
+		max-height: min(340px, 42vh);
+		overflow-y: auto;
+		overscroll-behavior: contain;
+		scrollbar-width: thin;
+		scrollbar-color: var(--dya-line-strong) transparent;
+	}
+	@supports (animation-timeline: scroll()) {
+		.dy-dashboard__create-grid {
+			mask-image: linear-gradient(to bottom, transparent, #000 var(--dy-create-fade-top), #000 calc(100% - var(--dy-create-fade)), transparent);
+			animation: dy-create-fade linear both;
+			animation-timeline: scroll(self);
+		}
 	}
 	.dy-dashboard__create-tile {
 		min-width: 0;
@@ -4039,4 +4058,26 @@ body.dy-admin.index-php .dy-dashboard--editable .dy-dashboard__slot.is-configura
 }
 body.dy-admin.index-php .dy-dashboard--editable .dy-dashboard__slot.is-configurable:hover::after {
 	opacity: 1;
+}
+
+// Fades on the "Create" tiles while some are still above or below
+// (scroll-driven: the bottom fade shrinks to nothing as the list reaches its
+// end, the top one grows as it leaves its start). Registered so they can be
+// animated; 0 when the list does not scroll, since an inactive scroll
+// timeline leaves the properties at their initial value.
+@property --dy-create-fade {
+	syntax: "<length>";
+	inherits: false;
+	initial-value: 0px;
+}
+@property --dy-create-fade-top {
+	syntax: "<length>";
+	inherits: false;
+	initial-value: 0px;
+}
+@keyframes dy-create-fade {
+	from { --dy-create-fade: 44px; --dy-create-fade-top: 0px; }
+	12%  { --dy-create-fade-top: 28px; }
+	88%  { --dy-create-fade: 44px; }
+	to   { --dy-create-fade: 0px; --dy-create-fade-top: 28px; }
 }

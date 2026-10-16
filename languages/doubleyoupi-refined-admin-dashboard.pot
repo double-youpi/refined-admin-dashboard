@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Youpï Refined Admin Dashboard 1.0.2\n"
+"Project-Id-Version: Double Youpï Refined Admin Dashboard 1.0.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-refined-admin-dashboard\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-15T15:27:13+00:00\n"
+"POT-Creation-Date: 2026-10-16T18:22:43+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: doubleyoupi-refined-admin-dashboard\n"
@@ -55,7 +55,7 @@ msgstr ""
 #: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:117
 #: src/Modules/Admin/Editor/EditorReimagined.php:225
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:64
-#: src/Modules/MediaLibrary/MediaLibrary.php:172
+#: src/Modules/MediaLibrary/MediaLibrary.php:176
 msgid "Settings"
 msgstr ""
 
@@ -374,6 +374,9 @@ msgstr ""
 
 #: src/Admin/OverviewPage.php:177
 #: src/Admin/OverviewPage.php:217
+#: src/Modules/MediaLibrary/FolderService.php:252
+#: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:158
+#: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:186
 #: src/Modules/Toolkit/Features/DuplicatePosts.php:116
 #: src/Modules/Toolkit/Features/DuplicatePosts.php:127
 #: src/Modules/Toolkit/ToolsPage.php:212
@@ -521,8 +524,8 @@ msgid "A full rethink of the WordPress admin: smart dashboard, reworked navigati
 msgstr ""
 
 #: src/Core/ModuleCatalog.php:50
-#: src/Modules/MediaLibrary/MediaLibrary.php:132
-#: src/Modules/MediaLibrary/MediaLibrary.php:184
+#: src/Modules/MediaLibrary/MediaLibrary.php:136
+#: src/Modules/MediaLibrary/MediaLibrary.php:188
 msgid "Refined Media Library"
 msgstr ""
 
@@ -645,9 +648,9 @@ msgstr ""
 msgid "Keep Admin Columns"
 msgstr ""
 
-#: src/Modules/Admin/Chipbar.php:85
-#: src/Modules/Admin/Chipbar.php:127
-#: src/Modules/Admin/Chipbar.php:212
+#: src/Modules/Admin/Chipbar.php:121
+#: src/Modules/Admin/Chipbar.php:163
+#: src/Modules/Admin/Chipbar.php:248
 msgid "Section navigation"
 msgstr ""
 
@@ -813,7 +816,7 @@ msgstr ""
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:381
 #: src/Modules/Admin/Settings.php:885
-#: src/Modules/MediaLibrary/MediaLibrary.php:180
+#: src/Modules/MediaLibrary/MediaLibrary.php:184
 #: src/Modules/MediaLibrary/Migration/MigrationI18n.php:25
 msgid "Import"
 msgstr ""
@@ -3070,12 +3073,14 @@ msgid "The menu became a rail with seven sections, lists and the editor were red
 msgstr ""
 
 #: src/Modules/MediaLibrary/CollectionManager.php:169
+#: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:253
 msgid "Could not delete collection."
 msgstr ""
 
 #: src/Modules/MediaLibrary/CollectionTaxonomy.php:84
 #: src/Modules/MediaLibrary/CollectionTaxonomy.php:86
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:52
+#: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:76
 #: src/Modules/MediaLibrary/Settings.php:256
 msgid "Collections"
 msgstr ""
@@ -3116,12 +3121,14 @@ msgstr ""
 msgid "Add to collection…"
 msgstr ""
 
-#: src/Modules/MediaLibrary/FolderManager.php:610
-#: src/Modules/MediaLibrary/FolderManager.php:646
+#: src/Modules/MediaLibrary/FolderManager.php:604
+#: src/Modules/MediaLibrary/FolderManager.php:640
+#: src/Modules/MediaLibrary/FolderService.php:202
 msgid "A folder cannot be moved into itself or one of its subfolders."
 msgstr ""
 
-#: src/Modules/MediaLibrary/FolderManager.php:671
+#: src/Modules/MediaLibrary/FolderManager.php:665
+#: src/Modules/MediaLibrary/FolderService.php:241
 msgid "Could not delete folder."
 msgstr ""
 
@@ -3613,6 +3620,25 @@ msgstr ""
 msgid "More fields"
 msgstr ""
 
+#: src/Modules/MediaLibrary/FolderService.php:151
+#: src/Modules/MediaLibrary/FolderService.php:154
+#: src/Modules/MediaLibrary/FolderService.php:180
+#: src/Modules/MediaLibrary/FolderService.php:199
+#: src/Modules/MediaLibrary/FolderService.php:235
+#: src/Modules/MediaLibrary/FolderService.php:255
+#: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:258
+#: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:270
+#: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:285
+#: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:392
+#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:43
+msgid "Something went wrong. Please try again."
+msgstr ""
+
+#: src/Modules/MediaLibrary/FolderService.php:278
+#: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:412
+msgid "A folder or collection with this name already exists here."
+msgstr ""
+
 #: src/Modules/MediaLibrary/FolderTaxonomy.php:65
 msgid "Add folder"
 msgstr ""
@@ -3629,6 +3655,10 @@ msgstr ""
 msgid "No folders found"
 msgstr ""
 
+#: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:405
+msgid "Collections are kept apart from folders: this change is not possible here."
+msgstr ""
+
 #: src/Modules/MediaLibrary/MediaLibrary.php:74
 msgid "Turning the media library off hands the Media screen back to WordPress. Your folders and your collections are kept, and come back if you turn it on again."
 msgstr ""
@@ -3637,11 +3667,11 @@ msgstr ""
 msgid "Double Youpï Refined Media Library is installed and standing aside: reactivate it if you want the media library without the rest."
 msgstr ""
 
-#: src/Modules/MediaLibrary/MediaLibrary.php:133
+#: src/Modules/MediaLibrary/MediaLibrary.php:137
 msgid "Media Library"
 msgstr ""
 
-#: src/Modules/MediaLibrary/MediaLibrary.php:175
+#: src/Modules/MediaLibrary/MediaLibrary.php:179
 msgid "Unused media"
 msgstr ""
 
@@ -3747,10 +3777,6 @@ msgstr ""
 #: src/Modules/MediaLibrary/Migration/MigrationI18n.php:42
 #, php-format
 msgid "%d imported folders removed."
-msgstr ""
-
-#: src/Modules/MediaLibrary/Migration/MigrationI18n.php:43
-msgid "Something went wrong. Please try again."
 msgstr ""
 
 #: src/Modules/MediaLibrary/Migration/MigrationManager.php:468

@@ -210,6 +210,23 @@ body.dy-admin.dy-theme-light {
   color-scheme: light;
 }
 
+body.dy-admin.dy-lines-accent {
+  --dya-line-content: var(--dya-accent);
+  --dya-line-content-soft: rgba(var(--dya-accent-rgb), .10);
+  --dya-line-commerce: var(--dya-accent);
+  --dya-line-commerce-soft: rgba(var(--dya-accent-rgb), .10);
+  --dya-line-users: var(--dya-accent);
+  --dya-line-users-soft: rgba(var(--dya-accent-rgb), .10);
+  --dya-line-community: var(--dya-accent);
+  --dya-line-community-soft: rgba(var(--dya-accent-rgb), .10);
+  --dya-line-site: var(--dya-accent);
+  --dya-line-site-soft: rgba(var(--dya-accent-rgb), .10);
+  --dya-line-system: var(--dya-accent);
+  --dya-line-system-soft: rgba(var(--dya-accent-rgb), .10);
+  --dya-line-developer: var(--dya-accent);
+  --dya-line-developer-soft: rgba(var(--dya-accent-rgb), .10);
+}
+
 body.dy-density-compact {
   --dya-wrap-pad-y: 18px;
   --dya-topbar-h: 40px;
@@ -379,12 +396,10 @@ body.dy-admin.index-php .dy-dashboard__viewport {
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
+  overscroll-behavior-x: contain;
 }
 body.dy-admin.index-php .dy-dashboard__viewport::-webkit-scrollbar {
   display: none;
-}
-body.dy-admin.index-php .dy-dashboard__viewport {
-  overscroll-behavior-x: contain;
 }
 body.dy-admin.index-php .dy-dashboard__viewport.is-drag-scrolling {
   cursor: grabbing;
@@ -3656,7 +3671,19 @@ body.dy-admin.index-php .dy-dashboard__create-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(108px, 1fr));
   gap: 12px;
-  margin-top: 4px;
+  padding-top: 4px;
+  max-height: min(340px, 42vh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--dya-line-strong) transparent;
+}
+@supports (animation-timeline: scroll()) {
+  body.dy-admin.index-php .dy-dashboard__create-grid {
+    mask-image: linear-gradient(to bottom, transparent, #000 var(--dy-create-fade-top), #000 calc(100% - var(--dy-create-fade)), transparent);
+    animation: dy-create-fade linear both;
+    animation-timeline: scroll(self);
+  }
 }
 body.dy-admin.index-php .dy-dashboard__create-tile {
   min-width: 0;
@@ -4150,4 +4177,31 @@ body.dy-admin.index-php .dy-dashboard--editable .dy-dashboard__slot.is-configura
 
 body.dy-admin.index-php .dy-dashboard--editable .dy-dashboard__slot.is-configurable:hover::after {
   opacity: 1;
+}
+
+@property --dy-create-fade {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --dy-create-fade-top {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@keyframes dy-create-fade {
+  from {
+    --dy-create-fade: 44px;
+    --dy-create-fade-top: 0px;
+  }
+  12% {
+    --dy-create-fade-top: 28px;
+  }
+  88% {
+    --dy-create-fade: 44px;
+  }
+  to {
+    --dy-create-fade: 0px;
+    --dy-create-fade-top: 28px;
+  }
 }
