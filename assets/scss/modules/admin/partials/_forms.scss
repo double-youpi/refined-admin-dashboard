@@ -6,6 +6,11 @@
 // =============================================================
 
 // ── Generic inputs ────────────────────────────────────
+// Textareas are left alone on `dy-native-content` screens (18/10/2026): those
+// apps draw some of their own textareas as plain text (Divi's Theme Builder
+// names its templates in auto-sized textareas), and our 110px minimum height
+// and resize handle turned each name into a field. `:where()` keeps the
+// specificity of these rules unchanged everywhere else.
 body.dy-admin input[type="text"],
 body.dy-admin input[type="search"],
 body.dy-admin input[type="email"],
@@ -19,7 +24,7 @@ body.dy-admin input[type="time"],
 body.dy-admin input[type="month"],
 body.dy-admin input[type="week"],
 body.dy-admin input[type="color"],
-body.dy-admin textarea,
+body.dy-admin:where(:not(.dy-native-content)) textarea,
 body.dy-admin select {
   background: var(--dya-paper);
   border: 1px solid var(--dya-edge);
@@ -38,7 +43,7 @@ body.dy-admin select {
   transition: border-color var(--dya-t-fast), box-shadow var(--dya-t-fast);
 }
 
-body.dy-admin textarea {
+body.dy-admin:where(:not(.dy-native-content)) textarea {
   min-height: 110px;
   resize: vertical;
   line-height: var(--dya-lh-base);
@@ -86,14 +91,14 @@ body.dy-admin input[type="email"]:focus,
 body.dy-admin input[type="url"]:focus,
 body.dy-admin input[type="password"]:focus,
 body.dy-admin input[type="number"]:focus,
-body.dy-admin textarea:focus,
+body.dy-admin:where(:not(.dy-native-content)) textarea:focus,
 body.dy-admin select:focus {
   border-color: var(--dya-edge-strong);
   box-shadow: 0 0 0 3px var(--dya-line-soft);
 }
 
 body.dy-admin input::placeholder,
-body.dy-admin textarea::placeholder { color: var(--dya-ink-fade); opacity: 1; }
+body.dy-admin:where(:not(.dy-native-content)) textarea::placeholder { color: var(--dya-ink-fade); opacity: 1; }
 
 // Inline width helpers WP applies
 body.dy-admin .regular-text  { width: 25em; }

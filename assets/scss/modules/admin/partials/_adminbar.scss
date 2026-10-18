@@ -90,6 +90,10 @@ body.dy-admin #wpadminbar .ab-item:focus {
 // forcing the span to inherit from its `<a>` parent (already themed via
 // tokens), icons correctly follow ink-soft↔ink in both themes.
 // Specificity (1,2,1) > colors.min (1,1,1).
+// The icon font goes on the element, as core does, not on `::before`: a
+// plugin that draws its icon with its own font sets it on `::before`, and
+// ours overrode it (W3 Total Cache: its logo is the letter A of its `w3tc`
+// font, which then showed as a plain serif « A », 18/10/2026).
 body.dy-admin #wpadminbar .ab-icon {
   display: inline-grid;
   place-items: center;
@@ -97,9 +101,9 @@ body.dy-admin #wpadminbar .ab-icon {
   height: 14px;
   margin-right:0;
   color: inherit;
+  font-family: dashicons;
 }
 body.dy-admin #wpadminbar .ab-icon::before {
-  font-family: dashicons;
   font-size: 16px;
   line-height: 1;
   color: inherit;
@@ -172,6 +176,44 @@ body.dy-admin #wp-admin-bar-my-account > .ab-sub-wrapper {
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
+}
+
+// ── Counters that third parties hang on their top item ──────────
+// Easy Digital Downloads puts a count bubble after « EDD », placed for the
+// core 32px block bar (`margin-top: 7px`, `vertical-align: top`, both
+// `!important`). Our items are flex rows centred in the bar, so that top
+// margin pushed the bubble 3.5px below the label (feedback
+// fb_20261018T151610, 18/10/2026). Centred like the label instead.
+body.dy-admin #wpadminbar .ab-top-menu > li > .ab-item > .edd-menu-notification-counter {
+  margin: 0 0 0 6px !important;
+  align-self: center;
+}
+// Labels of third-party items follow their link's ink. Core paints every
+// `#wp-toolbar span.ab-label` white for its black bar (blue on hover), so a
+// plugin label (W3 Total Cache's « Performance ») vanished on the light bar.
+// The items we skin ourselves keep their own rules (`:where()` adds nothing
+// to the specificity, which beats core's base and hover rules).
+body.dy-admin #wpadminbar:not(.mobile) > #wp-toolbar > :where(.ab-top-menu) > li:where(:not(#wp-admin-bar-updates, #wp-admin-bar-comments, #wp-admin-bar-new-content, #wp-admin-bar-doubleyoupi-static-mode)) > .ab-item > span.ab-label {
+  color: inherit;
+}
+
+// W3 Total Cache (and the core pattern it borrows) hangs a bare
+// `.awaiting-mod` count after its label, `display: block` with the bar's
+// tall line height, so the figure sat below its 18px bubble. Centred in the
+// bubble, beside the label. The comments count is `.ab-label.awaiting-mod`
+// and keeps its own pill.
+body.dy-admin #wpadminbar .ab-top-menu > li > .ab-item > .awaiting-mod:not(.ab-label) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  box-sizing: border-box;
+  height: 18px;
+  margin-left: 6px;
+  line-height: 18px;
+}
+body.dy-admin #wpadminbar .ab-top-menu > li > .ab-item > .awaiting-mod:not(.ab-label) > * {
+  line-height: inherit;
 }
 
 // ── Items to hide completely ──────────────────────────

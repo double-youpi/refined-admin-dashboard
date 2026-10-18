@@ -172,6 +172,56 @@ body.dy-admin .components-toolbar-button__icon {
   place-items: center;
 }
 
+// Block inserter tiles (icon above label) are `.components-button` too since
+// WordPress 7.1: the 32px single-line sizing above squashed them, and each
+// label fell onto the next row of icons (feedback fb_20261017T115225, nl_NL).
+// Core layout back, RAD colours kept.
+body.dy-admin .components-button.block-editor-block-types-list__item {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  height: auto;
+  padding: 8px;
+  font-size: 13px;
+  line-height: normal;
+  white-space: normal;
+}
+body.dy-admin .block-editor-block-types-list__item-title {
+  line-height: normal;
+  white-space: normal;
+}
+
+// Inserter panel (left): its tabbed body kept the core white ground under
+// RAD's ink, unreadable in the dark theme (17/10/2026). It takes the
+// settings sidebar's paper.
+body.dy-admin .block-editor-tabbed-sidebar {
+  background: var(--dya-paper);
+  color: var(--dya-ink);
+}
+// The block icons kept the core near-black. A block that sets its own icon
+// colour does it inline, which still wins.
+body.dy-admin .block-editor-block-types-list__item-icon {
+  color: var(--dya-ink);
+}
+// Search fields built on the core InputControl: RAD's generic field style
+// painted the <input> alone, narrower than its frame, so the fill stopped
+// short of the magnifier. The frame carries the fill, the input stays clear.
+// `!important` and one more class: two older blanket rules already force
+// these fills with `!important` (paper-2 on the control and its input in
+// wp-production, bg on every InputControl frame in the WooCommerce part).
+body.dy-admin .components-base-control.components-search-control {
+  background: transparent !important;
+}
+body.dy-admin .components-search-control .components-input-control__container {
+  background: var(--dya-paper-2) !important;
+  border-radius: var(--dya-r-sm);
+}
+body.dy-admin .components-search-control input.components-input-control__input {
+  background: transparent !important;
+  border-radius: 0;
+  box-shadow: none;
+}
+
 // ── Content / canvas area ──────────────────────────────
 body.dy-admin .interface-interface-skeleton__content,
 body.dy-admin .editor-styles-wrapper-frame,

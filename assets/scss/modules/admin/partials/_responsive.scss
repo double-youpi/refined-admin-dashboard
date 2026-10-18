@@ -51,7 +51,7 @@
   body.dy-admin input[type="url"],
   body.dy-admin input[type="password"],
   body.dy-admin input[type="number"],
-  body.dy-admin textarea,
+  body.dy-admin:where(:not(.dy-native-content)) textarea,
   body.dy-admin select { padding: 9px 13px; }
 
   // Welcome panel — wider gutters

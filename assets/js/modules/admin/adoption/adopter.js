@@ -109,8 +109,15 @@
   /** @type {HTMLElement|null} */
   const rootEl = document.getElementById('wpwrap');
 
+  // A JavaScript app screen recognised in the browser (NativeContent, app
+  // detection) gets `dy-native-content` after this file has loaded: checked
+  // at run time, like the server-side guard that does not load it at all.
+  function steppedBack() {
+    return body.classList.contains('dy-native-content');
+  }
+
   function runOnce() {
-    if (!rootEl) return;
+    if (!rootEl || steppedBack()) return;
     scan(rootEl);
   }
 
@@ -123,6 +130,7 @@
   if (!rootEl || typeof MutationObserver === 'undefined') return;
 
   new MutationObserver(function (mutations) {
+    if (steppedBack()) return;
     var batch = [];
     mutations.forEach(function (m) {
       for (var i = 0; i < m.addedNodes.length; i++) batch.push(m.addedNodes[i]);

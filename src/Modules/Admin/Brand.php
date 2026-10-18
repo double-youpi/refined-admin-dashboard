@@ -139,6 +139,19 @@ JS;
 
 		$css .= '}';
 
+		// The media library (RML, embedded) carries its own accent tokens, set
+		// to the Double Youpï violet so that RML alone keeps it. With RAD
+		// present, RAD's accent takes over the whole library: the page, its
+		// folder panel and the media pickers it dresses (18/10/2026, user
+		// feedback). Scoped one class deeper than RML's own declarations.
+		// Contract with RML: --accent / --accent-rgb on the library page and its
+		// pickers, --dy-accent / --dy-accent-rgb / --dy-accent-hover everywhere.
+		// RML derives its tints from these, with the violet as fallback.
+		$css .= 'body.dy-admin{--dy-accent:var(--dya-accent);--dy-accent-rgb:var(--dya-accent-rgb);'
+			. '--dy-accent-hover:color-mix(in srgb,var(--dya-accent) 86%,#fff);}';
+		$css .= 'body.dy-admin.upload-php,body.dy-admin .media-modal.dy-ml-modal{'
+			. '--accent:var(--dya-accent);--accent-rgb:var(--dya-accent-rgb);}';
+
 		// CSS assembled from individually sanitized values (sanitize_hex_color for
 		// the accent, esc_url for the logo); printed on the spot through the
 		// WordPress APIs, after the stylesheets it overrides.

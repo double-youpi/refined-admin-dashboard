@@ -667,10 +667,10 @@ body.dy-admin #wpadminbar .ab-icon {
   height: 14px;
   margin-right: 0;
   color: inherit;
+  font-family: dashicons;
 }
 
 body.dy-admin #wpadminbar .ab-icon::before {
-  font-family: dashicons;
   font-size: 16px;
   line-height: 1;
   color: inherit;
@@ -720,6 +720,30 @@ body.dy-admin #wp-admin-bar-my-account > .ab-sub-wrapper {
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
+}
+
+body.dy-admin #wpadminbar .ab-top-menu > li > .ab-item > .edd-menu-notification-counter {
+  margin: 0 0 0 6px !important;
+  align-self: center;
+}
+
+body.dy-admin #wpadminbar:not(.mobile) > #wp-toolbar > :where(.ab-top-menu) > li:where(:not(#wp-admin-bar-updates, #wp-admin-bar-comments, #wp-admin-bar-new-content, #wp-admin-bar-doubleyoupi-static-mode)) > .ab-item > span.ab-label {
+  color: inherit;
+}
+
+body.dy-admin #wpadminbar .ab-top-menu > li > .ab-item > .awaiting-mod:not(.ab-label) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  box-sizing: border-box;
+  height: 18px;
+  margin-left: 6px;
+  line-height: 18px;
+}
+
+body.dy-admin #wpadminbar .ab-top-menu > li > .ab-item > .awaiting-mod:not(.ab-label) > * {
+  line-height: inherit;
 }
 
 body.dy-admin #wp-admin-bar-menu-toggle,
@@ -7805,7 +7829,7 @@ body.dy-admin input[type=time],
 body.dy-admin input[type=month],
 body.dy-admin input[type=week],
 body.dy-admin input[type=color],
-body.dy-admin textarea,
+body.dy-admin:where(:not(.dy-native-content)) textarea,
 body.dy-admin select {
   background: var(--dya-paper);
   border: 1px solid var(--dya-edge);
@@ -7824,7 +7848,7 @@ body.dy-admin select {
   transition: border-color var(--dya-t-fast), box-shadow var(--dya-t-fast);
 }
 
-body.dy-admin textarea {
+body.dy-admin:where(:not(.dy-native-content)) textarea {
   min-height: 110px;
   resize: vertical;
   line-height: var(--dya-lh-base);
@@ -7867,14 +7891,14 @@ body.dy-admin input[type=email]:focus,
 body.dy-admin input[type=url]:focus,
 body.dy-admin input[type=password]:focus,
 body.dy-admin input[type=number]:focus,
-body.dy-admin textarea:focus,
+body.dy-admin:where(:not(.dy-native-content)) textarea:focus,
 body.dy-admin select:focus {
   border-color: var(--dya-edge-strong);
   box-shadow: 0 0 0 3px var(--dya-line-soft);
 }
 
 body.dy-admin input::placeholder,
-body.dy-admin textarea::placeholder {
+body.dy-admin:where(:not(.dy-native-content)) textarea::placeholder {
   color: var(--dya-ink-fade);
   opacity: 1;
 }
@@ -15388,6 +15412,7 @@ body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content .comp
 }
 body.dy-admin.dy-native-content #wpbody-content,
 body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content {
+  color-scheme: light;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   color: #3c434a;
   letter-spacing: normal;
@@ -15416,7 +15441,7 @@ body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content .post
 }
 body.dy-admin.dy-native-content #wpbody-content input[type=text], body.dy-admin.dy-native-content #wpbody-content input[type=search], body.dy-admin.dy-native-content #wpbody-content input[type=email],
 body.dy-admin.dy-native-content #wpbody-content input[type=url], body.dy-admin.dy-native-content #wpbody-content input[type=password], body.dy-admin.dy-native-content #wpbody-content input[type=number],
-body.dy-admin.dy-native-content #wpbody-content input[type=tel], body.dy-admin.dy-native-content #wpbody-content input[type=date], body.dy-admin.dy-native-content #wpbody-content select, body.dy-admin.dy-native-content #wpbody-content textarea,
+body.dy-admin.dy-native-content #wpbody-content input[type=tel], body.dy-admin.dy-native-content #wpbody-content input[type=date], body.dy-admin.dy-native-content #wpbody-content select,
 body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content input[type=text],
 body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content input[type=search],
 body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content input[type=email],
@@ -15425,8 +15450,7 @@ body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content input
 body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content input[type=number],
 body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content input[type=tel],
 body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content input[type=date],
-body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content select,
-body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content textarea {
+body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content select {
   background: #fff !important;
   border: 1px solid #8c8f94 !important;
   color: #2c3338 !important;
@@ -15436,15 +15460,14 @@ body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content texta
 body.dy-admin.dy-native-content #wpbody-content input[type=text]:focus, body.dy-admin.dy-native-content #wpbody-content input[type=search]:focus,
 body.dy-admin.dy-native-content #wpbody-content input[type=email]:focus, body.dy-admin.dy-native-content #wpbody-content input[type=url]:focus,
 body.dy-admin.dy-native-content #wpbody-content input[type=password]:focus, body.dy-admin.dy-native-content #wpbody-content input[type=number]:focus,
-body.dy-admin.dy-native-content #wpbody-content select:focus, body.dy-admin.dy-native-content #wpbody-content textarea:focus,
+body.dy-admin.dy-native-content #wpbody-content select:focus,
 body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content input[type=text]:focus,
 body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content input[type=search]:focus,
 body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content input[type=email]:focus,
 body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content input[type=url]:focus,
 body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content input[type=password]:focus,
 body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content input[type=number]:focus,
-body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content select:focus,
-body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content textarea:focus {
+body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content select:focus {
   border-color: #2271b1 !important;
   box-shadow: 0 0 0 1px #2271b1 !important;
   outline: 2px solid transparent !important;
@@ -15457,6 +15480,55 @@ body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content .form
 body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content .form-table td {
   background: transparent !important;
   border: 0 !important;
+}
+
+body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content textarea {
+  background: #fff !important;
+  border: 1px solid #8c8f94 !important;
+  color: #2c3338 !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+}
+
+body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content textarea:focus {
+  border-color: #2271b1 !important;
+  box-shadow: 0 0 0 1px #2271b1 !important;
+  outline: 2px solid transparent !important;
+}
+
+body.dy-admin.dy-native-content[class*=page_w3tc] #wpbody-content {
+  --dya-bg: #fff;
+  --dya-paper: #fff;
+  --dya-paper-2: #f6f7f7;
+  --dya-paper-3: #f0f0f1;
+  --dya-edge: #c3c4c7;
+  --dya-edge-strong: #8c8f94;
+  --dya-line: #dcdcde;
+}
+
+body.dy-admin.dy-native-content #w3tc .metabox-holder {
+  display: block;
+  gap: normal;
+}
+body.dy-admin.dy-native-content #w3tc .postbox-container {
+  display: block;
+  gap: normal;
+}
+body.dy-admin.dy-native-content #w3tc .postbox-header {
+  padding: 0;
+  gap: normal;
+  background: transparent !important;
+}
+body.dy-admin.dy-native-content #w3tc .postbox .hndle {
+  flex: 1 1 auto;
+  gap: normal;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #1d2327 !important;
+}
+body.dy-admin.dy-native-content #w3tc .postbox .inside {
+  margin: 11px 0;
+  background: transparent !important;
 }
 
 body.dy-admin #wpbody-content .rank-math-metabox-frame,
@@ -17127,6 +17199,46 @@ body.dy-admin .components-toolbar-button__icon {
   height: 16px;
   display: inline-grid;
   place-items: center;
+}
+
+body.dy-admin .components-button.block-editor-block-types-list__item {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  height: auto;
+  padding: 8px;
+  font-size: 13px;
+  line-height: normal;
+  white-space: normal;
+}
+
+body.dy-admin .block-editor-block-types-list__item-title {
+  line-height: normal;
+  white-space: normal;
+}
+
+body.dy-admin .block-editor-tabbed-sidebar {
+  background: var(--dya-paper);
+  color: var(--dya-ink);
+}
+
+body.dy-admin .block-editor-block-types-list__item-icon {
+  color: var(--dya-ink);
+}
+
+body.dy-admin .components-base-control.components-search-control {
+  background: transparent !important;
+}
+
+body.dy-admin .components-search-control .components-input-control__container {
+  background: var(--dya-paper-2) !important;
+  border-radius: var(--dya-r-sm);
+}
+
+body.dy-admin .components-search-control input.components-input-control__input {
+  background: transparent !important;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 body.dy-admin .interface-interface-skeleton__content,
@@ -18906,7 +19018,7 @@ body.dy-admin .comment-status-bullet.is-trash {
   body.dy-admin input[type=url],
   body.dy-admin input[type=password],
   body.dy-admin input[type=number],
-  body.dy-admin textarea,
+  body.dy-admin:where(:not(.dy-native-content)) textarea,
   body.dy-admin select {
     padding: 9px 13px;
   }

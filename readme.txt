@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, admin
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -127,6 +127,15 @@ Privacy policy: https://doubleyoupi.com/privacy
 
 == Changelog ==
 
+= 1.0.4 =
+* Fix: in the block editor, the block inserter shows each block name under its own icon again (since WordPress 7.1 it slipped onto the row below). In dark mode the inserter panel is dark too, and its search field is one piece.
+* Fix: in the Divi 5 Theme Builder, template names show as plain labels again instead of text boxes.
+* Fix: in the top bar, the EDD counter is centred, and W3 Total Cache keeps its icon, counter and label, readable in light mode too.
+* Fix: W3 Total Cache screens keep their own native look, with the rail and section bars around them.
+* New: plugin screens that ship their own app (Animation Addons for Elementor, for example) are recognised on their own and left exactly as their authors designed them, in light and dark mode.
+* Fix: your accent colour now reaches the whole media library: folders, hovers, selection, focus, the detail panel and the media windows.
+* Fix: the list view pagination buttons no longer show a dropdown arrow.
+
 = 1.0.3 =
 * New: your folders and collections now appear in the Bricks 2.4 media browser. Open a folder or a collection to filter, create, rename, move and delete folders, and move files, all from the builder.
 * New: a file uploaded from the Bricks media browser lands in the folder you have open.
@@ -168,6 +177,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.4 =
+The block inserter works again on WordPress 7.1, Divi 5 and W3 Total Cache screens are fixed, and your accent colour now reaches the whole media library.
 
 = 1.0.3 =
 Your media folders and collections now work inside the Bricks 2.4 media browser, and long section bars scroll.

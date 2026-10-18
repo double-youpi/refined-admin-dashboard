@@ -23,6 +23,46 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class NativeContent {
 
 	/**
+	 * Browser-side detection of JavaScript app screens (18/10/2026).
+	 *
+	 * A plugin page whose server-rendered content is only an empty mount point
+	 * (a React/Vue/Tailwind app such as Animation Addons for Elementor fills it
+	 * later) ships its own complete interface: our dark-mode ink recoloured its
+	 * text on its own light cards. Runs at `admin_footer`, before the footer
+	 * scripts that mount the app, so the class is set before the app paints.
+	 * Notices, screen options and our own nodes are ignored; a hidden input is
+	 * not content. Any visible text or real control means a classic page.
+	 */
+	private const APP_DETECT_JS = <<<'JS'
+(function () {
+	var b = document.body, w = document.getElementById('wpbody-content');
+	if (!b || !w || b.classList.contains('dy-native-content')) { return; }
+	var skip = '#screen-meta,#screen-meta-links,.clear,.notice,.updated,.error,.update-nag,[id^="dy-"],[class^="dy-"]';
+	var solid = 'input:not([type="hidden"]),select,textarea,button,table,form,img,svg,a,h1,h2,h3,h4,p,label,ul,ol,iframe';
+	var mounts = 0;
+	for (var i = 0; i < w.children.length; i++) {
+		var e = w.children[i];
+		if (/^(SCRIPT|STYLE|LINK|TEMPLATE|NOSCRIPT|BR)$/.test(e.tagName) || e.matches(skip)) { continue; }
+		if (e.textContent.trim() !== '' || e.querySelector(solid)) { return; }
+		if (e.id || e.className) { mounts++; }
+	}
+	if (mounts) { b.classList.add('dy-native-content', 'dy-native-app'); }
+})();
+JS;
+
+	/**
+	 * App screens we skin on purpose, kept out of the browser-side detection:
+	 * WooCommerce's admin (`page=wc-admin`, a React app mounted in an empty
+	 * root) has its own part of the design system. Prefixes, filterable via
+	 * `doubleyoupi_native_app_skinned_prefixes`.
+	 *
+	 * @var string[]
+	 */
+	private const SKINNED_APP_PREFIXES = [
+		'wc-admin',
+	];
+
+	/**
 	 * Page slug prefixes (`?page=…`) treated as native content.
 	 * Filterable via `doubleyoupi_native_content_prefixes`.
 	 *
@@ -45,6 +85,9 @@ final class NativeContent {
 		// Admin Columns (Tailwind settings UI). Since 12/10/2026 we step aside
 		// instead of deactivating it (see AdminColumnsConflict).
 		'codepress-admin-columns',
+		// W3 Total Cache: own header, menus and dashboard grid, which our
+		// design system broke apart (18/10/2026, seen by Raphaël).
+		'w3tc',
 
 		// ── Themes with their OWN admin design system (React/SPA dashboards) ──
 		// Manifesto §2 "detect and step back": for mainstream themes that ship a
@@ -96,6 +139,27 @@ final class NativeContent {
 
 	public function boot(): void {
 		add_filter( 'admin_body_class', [ $this, 'body_class' ] );
+		add_action( 'admin_footer', [ $this, 'print_app_detection' ], 1 );
+	}
+
+	/**
+	 * Prints the app-screen detection on plugin pages (`?page=…`) that are not
+	 * already handled: listed native content, builder screens, our own pages,
+	 * and the app screens we skin on purpose.
+	 */
+	public function print_app_detection(): void {
+		$page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( (string) $_GET['page'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only display state.
+		if ( '' === $page || str_starts_with( $page, 'doubleyoupi' ) || self::is_current() || BuilderScreen::is_managed() ) {
+			return;
+		}
+		/** @var string[] $skinned */
+		$skinned = (array) apply_filters( 'doubleyoupi_native_app_skinned_prefixes', self::SKINNED_APP_PREFIXES );
+		foreach ( $skinned as $prefix ) {
+			if ( '' !== (string) $prefix && str_starts_with( $page, strtolower( (string) $prefix ) ) ) {
+				return;
+			}
+		}
+		wp_print_inline_script_tag( self::APP_DETECT_JS, [ 'id' => 'doubleyoupi-native-app-detect' ] );
 	}
 
 	/**

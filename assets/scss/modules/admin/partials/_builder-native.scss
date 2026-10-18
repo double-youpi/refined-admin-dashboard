@@ -44,6 +44,11 @@ body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) {
     background: #fff;
   }
   #wpbody-content {
+    // The canvas is light in both themes, so are the browser's own controls:
+    // under our dark `color-scheme`, a plugin that resets a button to the
+    // browser default (Animation Addons: `background: revert-layer`) got a
+    // dark grey button under its dark text (18/10/2026).
+    color-scheme: light;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
       Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     color: #3c434a;
@@ -97,7 +102,8 @@ body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) {
     // Form fields → native.
     input[type="text"], input[type="search"], input[type="email"],
     input[type="url"], input[type="password"], input[type="number"],
-    input[type="tel"], input[type="date"], select, textarea {
+    // (Textareas: see the builder-native rule after this block.)
+    input[type="tel"], input[type="date"], select {
       background: #fff !important;
       border: 1px solid #8c8f94 !important;
       color: #2c3338 !important;
@@ -107,7 +113,7 @@ body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) {
     input[type="text"]:focus, input[type="search"]:focus,
     input[type="email"]:focus, input[type="url"]:focus,
     input[type="password"]:focus, input[type="number"]:focus,
-    select:focus, textarea:focus {
+    select:focus {
       border-color: #2271b1 !important;
       box-shadow: 0 0 0 1px #2271b1 !important;
       outline: 2px solid transparent !important;
@@ -125,6 +131,70 @@ body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) {
       background: transparent !important;
       border: 0 !important;
     }
+  }
+}
+
+// Textareas get the forced native look on builder screens only. On
+// `dy-native-content` screens we leave them entirely to WordPress and the
+// app (18/10/2026): Divi's Theme Builder draws its template names as plain
+// text in textareas, and this `!important` frame turned them into fields.
+body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content textarea {
+  background: #fff !important;
+  border: 1px solid #8c8f94 !important;
+  color: #2c3338 !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+}
+body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content textarea:focus {
+  border-color: #2271b1 !important;
+  box-shadow: 0 0 0 1px #2271b1 !important;
+  outline: 2px solid transparent !important;
+}
+
+// W3 Total Cache (native content since 18/10/2026). Its dashboard reuses
+// `.metabox-holder` / `.postbox-container` as its own block wrappers and lays
+// its widgets out itself; our dashboard grid (two columns, flex containers)
+// squeezed the whole page into half its width, and our card skin painted the
+// header and body of each box dark under the native ink. Core values back,
+// inside W3TC's own wrapper only (`#w3tc.wrap`, on every one of its pages).
+// Light tokens on its pages (body class `toplevel_page_w3tc_*` or
+// `…_page_w3tc_*`): the native canvas only resets the ink, so our notices and
+// primary buttons, drawn from the paper and bg tokens, stayed dark under it
+// (dark on dark). Its notices sit outside `#w3tc`, hence `#wpbody-content`.
+body.dy-admin.dy-native-content[class*="page_w3tc"] #wpbody-content {
+  --dya-bg: #fff;
+  --dya-paper: #fff;
+  --dya-paper-2: #f6f7f7;
+  --dya-paper-3: #f0f0f1;
+  --dya-edge: #c3c4c7;
+  --dya-edge-strong: #8c8f94;
+  --dya-line: #dcdcde;
+}
+body.dy-admin.dy-native-content #w3tc {
+  .metabox-holder {
+    display: block;
+    gap: normal;
+  }
+  .postbox-container {
+    display: block;
+    gap: normal;
+  }
+  // `!important` on the fills and the title ink: our card skin sets them so.
+  .postbox-header {
+    padding: 0;
+    gap: normal;
+    background: transparent !important;
+  }
+  .postbox .hndle {
+    flex: 1 1 auto;
+    gap: normal;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #1d2327 !important;
+  }
+  .postbox .inside {
+    margin: 11px 0;
+    background: transparent !important;
   }
 }
 
