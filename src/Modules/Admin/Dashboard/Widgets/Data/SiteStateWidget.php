@@ -27,7 +27,7 @@ final class SiteStateWidget extends AbstractDataWidget {
 	}
 
 	public function description(): string {
-		return __( 'WP/PHP versions, SSL, plugins to update, PHP errors.', 'doubleyoupi-refined-admin-dashboard' );
+		return __( 'WordPress and PHP versions, SSL, pending updates.', 'doubleyoupi-refined-admin-dashboard' );
 	}
 
 	public function icon_svg(): string {
@@ -81,7 +81,7 @@ final class SiteStateWidget extends AbstractDataWidget {
 				<span class="dy-dashboard__dot dy-dashboard__dot--<?php echo $core > 0 ? 'warn' : 'ok'; ?>"></span>
 				<span class="dy-dashboard__row-v">WP <?php echo esc_html( $wp ); ?></span>
 				<?php if ( $core > 0 ) : ?>
-					<span class="dy-dashboard__row-k"><?php esc_html_e( 'up to date', 'doubleyoupi-refined-admin-dashboard' ); ?></span>
+					<span class="dy-dashboard__row-k"><?php esc_html_e( 'Update available', 'doubleyoupi-refined-admin-dashboard' ); ?></span>
 				<?php endif; ?>
 			</div>
 			<div class="dy-dashboard__row">

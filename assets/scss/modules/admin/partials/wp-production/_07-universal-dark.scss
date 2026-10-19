@@ -559,6 +559,27 @@ body.dy-admin.upload-php #dy-add-media-action:focus-visible {
   border-color: var(--dya-accent) !important;
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--dya-accent) 35%, transparent) !important;
 }
+// Light theme: the accent, like the other primary actions on a light page
+// and like Refined Media Library's own light theme (19/10/2026); the dark
+// theme keeps the inverse pill above. The focus ring moves outside: an
+// accent ring would vanish on the accent.
+body.dy-admin.dy-theme-light.upload-php #dy-add-media-action {
+  background: var(--dya-accent) !important;
+  border-color: var(--dya-accent) !important;
+  color: var(--dya-accent-on, #fff) !important;
+}
+body.dy-admin.dy-theme-light.upload-php #dy-add-media-action:hover {
+  background: color-mix(in srgb, var(--dya-accent) 86%, #fff) !important;
+  border-color: color-mix(in srgb, var(--dya-accent) 86%, #fff) !important;
+  color: var(--dya-accent-on, #fff) !important;
+}
+body.dy-admin.dy-theme-light.upload-php #dy-add-media-action:focus-visible {
+  border-color: var(--dya-accent) !important;
+  box-shadow: 0 0 0 2px var(--dya-bg), 0 0 0 4px var(--dya-accent) !important;
+}
+body.dy-admin.dy-theme-light.upload-php #dy-add-media-action .dashicons {
+  color: inherit !important;
+}
 body.dy-admin.upload-php #dy-add-media-action .dashicons {
   font-size: 14px !important;
   width: 14px;

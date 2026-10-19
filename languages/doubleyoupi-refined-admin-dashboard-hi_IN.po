@@ -1,8 +1,9 @@
 msgid ""
 msgstr ""
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-10-18T18:29:45+00:00\n"
+"POT-Creation-Date: 2026-10-19T02:03:52+00:00\n"
 "Language: hi_IN\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
@@ -31,7 +32,7 @@ msgstr ""
 
 #. Author of the plugin
 #: doubleyoupi-refined-admin-dashboard.php src/Admin/DyShell.php:118
-#: src/Admin/OverviewPage.php:357
+#: src/Admin/OverviewPage.php:364
 msgid "Double Youpï"
 msgstr "Double Youpï"
 
@@ -42,23 +43,23 @@ msgstr "https://doubleyoupi.com"
 
 #: doubleyoupi-refined-admin-dashboard.php:57
 msgid ""
-"You are already running the full Double Youpï suite, and it includes Double "
-"Youpï Refined Admin Dashboard. This standalone copy stepped aside to stay "
-"out of its way. Want to run it on its own? Deactivate the suite first."
+"Another Double Youpï plugin that already includes Double Youpï Refined Admin "
+"Dashboard is active, so this standalone copy stepped aside to stay out of "
+"its way. Want to run it on its own? Deactivate the other plugin first."
 msgstr ""
-"आप पहले से ही पूरा Double Youpï suite चला रहे हैं, जिसमें Double Youpï Refined Admin "
-"Dashboard शामिल है। इसलिए यह स्टैंडअलोन संस्करण रास्ते से हट गया है। इसे अकेले चलाना चाहते "
-"हैं? पहले suite को निष्क्रिय करें।"
+"Double Youpï का एक और प्लगइन सक्रिय है, जिसमें Double Youpï Refined Admin "
+"Dashboard पहले से शामिल है। इसलिए यह स्टैंडअलोन संस्करण रास्ते से हट गया है। इसे अकेले "
+"चलाना चाहते हैं? पहले दूसरे प्लगइन को निष्क्रिय करें।"
 
 #: src/Admin/AdminMenu.php:80 src/Admin/AdminMenu.php:202
-#: src/Admin/OverviewPage.php:157 src/Admin/OverviewPage.php:560
+#: src/Admin/OverviewPage.php:158 src/Admin/OverviewPage.php:577
 #: src/Modules/Admin/Dashboard/Widgets/Data/ModulesWidget.php:110
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:160
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:158
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:65
-#: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:117
+#: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:119
 #: src/Modules/Admin/Editor/EditorReimagined.php:225
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:64
-#: src/Modules/MediaLibrary/MediaLibrary.php:176
+#: src/Modules/MediaLibrary/MediaLibrary.php:206
 msgid "Settings"
 msgstr "सेटिंग्स"
 
@@ -114,7 +115,7 @@ msgid "(anonymous site identifier)"
 msgstr "(साइट का गुमनाम पहचानकर्ता)"
 
 #: src/Admin/Feedback.php:246 src/Admin/Feedback.php:307
-#: src/Admin/OverviewPage.php:663 src/Modules/Admin/Notices.php:120
+#: src/Admin/OverviewPage.php:680 src/Modules/Admin/Notices.php:120
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:137
 msgid "Close"
 msgstr "बंद करें"
@@ -318,61 +319,61 @@ msgstr "Double Youpï · सारांश"
 msgid "Overview"
 msgstr "सारांश"
 
-#: src/Admin/OverviewPage.php:153 src/Admin/OverviewPage.php:467
+#: src/Admin/OverviewPage.php:154 src/Admin/OverviewPage.php:484
 #: src/Modules/Admin/Dashboard/Widgets/Data/ModulesWidget.php:101
 msgid "Active"
 msgstr "सक्रिय"
 
-#: src/Admin/OverviewPage.php:154 src/Admin/OverviewPage.php:156
-#: src/Admin/OverviewPage.php:468 src/Admin/OverviewPage.php:533
+#: src/Admin/OverviewPage.php:155 src/Admin/OverviewPage.php:157
+#: src/Admin/OverviewPage.php:485 src/Admin/OverviewPage.php:550
 #: src/Modules/Admin/Dashboard/Widgets/Data/StaticSiteWidget.php:86
 #: src/Modules/Toolkit/ToolsPage.php:123
 msgid "Disabled"
 msgstr "अक्षम"
 
-#: src/Admin/OverviewPage.php:155 src/Admin/OverviewPage.php:532
+#: src/Admin/OverviewPage.php:156 src/Admin/OverviewPage.php:549
 #: src/Modules/Toolkit/ToolsPage.php:120
 msgid "Enabled"
 msgstr "सक्रिय"
 
-#: src/Admin/OverviewPage.php:158
+#: src/Admin/OverviewPage.php:159
 msgid "Could not save. Please retry."
 msgstr "सहेजा नहीं जा सका. कृपया पुनः प्रयास करें।"
 
-#: src/Admin/OverviewPage.php:159
+#: src/Admin/OverviewPage.php:165
 msgid "Install for free"
 msgstr "निःशुल्क इंस्टॉल करें"
 
-#: src/Admin/OverviewPage.php:160
+#: src/Admin/OverviewPage.php:166
 msgid "Installing…"
 msgstr "इंस्टॉल हो रहा है…"
 
-#: src/Admin/OverviewPage.php:161
+#: src/Admin/OverviewPage.php:167
 msgid "Installed ✓"
 msgstr "इंस्टॉल हो गया ✓"
 
-#: src/Admin/OverviewPage.php:162
+#: src/Admin/OverviewPage.php:168
 msgid "Install failed, open the installer"
 msgstr "इंस्टॉल विफल, इंस्टॉलर खोलें"
 
-#: src/Admin/OverviewPage.php:163
+#: src/Admin/OverviewPage.php:169
 msgid "Soon on WordPress.org"
 msgstr "जल्द ही WordPress.org पर"
 
-#: src/Admin/OverviewPage.php:164
+#: src/Admin/OverviewPage.php:170
 msgid "Discover on doubleyoupi.com"
 msgstr "doubleyoupi.com पर देखें"
 
-#: src/Admin/OverviewPage.php:165 src/Admin/OverviewPage.php:610
-#: src/Admin/OverviewPage.php:640
+#: src/Admin/OverviewPage.php:171 src/Admin/OverviewPage.php:627
+#: src/Admin/OverviewPage.php:657
 msgid "Free"
 msgstr "निःशुल्क"
 
-#: src/Admin/OverviewPage.php:166 src/Admin/OverviewPage.php:610
+#: src/Admin/OverviewPage.php:172 src/Admin/OverviewPage.php:627
 msgid "Suite"
 msgstr "सुइट"
 
-#: src/Admin/OverviewPage.php:177 src/Admin/OverviewPage.php:217
+#: src/Admin/OverviewPage.php:184 src/Admin/OverviewPage.php:224
 #: src/Modules/MediaLibrary/FolderService.php:252
 #: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:158
 #: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:186
@@ -382,19 +383,19 @@ msgstr "सुइट"
 msgid "Access denied."
 msgstr "पहुँच अस्वीकृत।"
 
-#: src/Admin/OverviewPage.php:199
+#: src/Admin/OverviewPage.php:206
 msgid "Modules updated. Reload the page to see the effects."
 msgstr "मॉड्यूल अद्यतन किए गए। प्रभाव देखने के लिए पृष्ठ पुनः लोड करें।"
 
-#: src/Admin/OverviewPage.php:200 src/Modules/Toolkit/ToolsPage.php:247
+#: src/Admin/OverviewPage.php:207 src/Modules/Toolkit/ToolsPage.php:247
 msgid "No changes to save."
 msgstr "सहेजने के लिए कोई परिवर्तन नहीं।"
 
-#: src/Admin/OverviewPage.php:226
+#: src/Admin/OverviewPage.php:233
 msgid "Unknown module."
 msgstr "अज्ञात मॉड्यूल।"
 
-#: src/Admin/OverviewPage.php:320
+#: src/Admin/OverviewPage.php:327
 msgid ""
 "Modular suite for pros who ship WordPress sites. Enable the modules you "
 "need, disable the rest."
@@ -402,45 +403,45 @@ msgstr ""
 "WordPress साइट डिलीवर करने वाले पेशेवरों के लिए मॉड्यूलर सूट। आपको जिन मॉड्यूल की ज़रूरत "
 "हो उन्हें सक्रिय करें, बाक़ी निष्क्रिय करें।"
 
-#: src/Admin/OverviewPage.php:343
+#: src/Admin/OverviewPage.php:350
 msgid ""
 "Your whole WordPress admin, redrawn. Each part can be turned on or off below."
 msgstr ""
 "आपका पूरा WordPress प्रशासन, नए सिरे से बनाया गया। हर हिस्सा नीचे चालू या बंद किया "
 "जा सकता है।"
 
-#: src/Admin/OverviewPage.php:372
-msgid "Suite information"
-msgstr "सूट के बारे में जानकारी"
-
 #: src/Admin/OverviewPage.php:379
+msgid "Plugin information"
+msgstr "प्लगइन जानकारी"
+
+#: src/Admin/OverviewPage.php:386
 msgid "active modules"
 msgstr "सक्रिय मॉड्यूल"
 
-#: src/Admin/OverviewPage.php:423
+#: src/Admin/OverviewPage.php:430
 msgid "Save modules"
 msgstr "मॉड्यूल सहेजें"
 
-#: src/Admin/OverviewPage.php:466
+#: src/Admin/OverviewPage.php:483
 msgid "Coming soon"
 msgstr "जल्द ही"
 
-#: src/Admin/OverviewPage.php:556
+#: src/Admin/OverviewPage.php:573
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:386
-#: src/Modules/Admin/Settings.php:948 src/Modules/MediaLibrary/Settings.php:387
-#: src/Modules/MediaLibrary/Settings.php:414
+#: src/Modules/Admin/Settings.php:948 src/Modules/MediaLibrary/Settings.php:423
+#: src/Modules/MediaLibrary/Settings.php:450
 msgid "Saved"
 msgstr "सहेजा गया"
 
-#: src/Admin/OverviewPage.php:578
+#: src/Admin/OverviewPage.php:595
 msgid "Reload to apply"
 msgstr "लागू करने के लिए पुनः लोड करें"
 
-#: src/Admin/OverviewPage.php:583
+#: src/Admin/OverviewPage.php:600
 msgid "In preparation"
 msgstr "तैयारी में"
 
-#: src/Admin/OverviewPage.php:637
+#: src/Admin/OverviewPage.php:654
 #: src/Modules/Admin/Tables/TablesReimagined.php:479
 #: src/Modules/MediaLibrary/Migration/MigrationI18n.php:24
 #: src/Modules/MediaLibrary/OrphanAdminPage.php:158
@@ -448,34 +449,34 @@ msgstr "तैयारी में"
 msgid "Preview"
 msgstr "पूर्वावलोकन"
 
-#: src/Admin/OverviewPage.php:642
+#: src/Admin/OverviewPage.php:659
 msgid "Soon on WP.org"
 msgstr "जल्द ही WP.org पर"
 
-#: src/Admin/OverviewPage.php:644
+#: src/Admin/OverviewPage.php:661
 msgid "In the suite"
 msgstr "सुइट में"
 
-#: src/Admin/OverviewPage.php:672
+#: src/Admin/OverviewPage.php:689
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:135
 msgid "Previous"
 msgstr "पिछला"
 
-#: src/Admin/OverviewPage.php:674
+#: src/Admin/OverviewPage.php:691
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:136
 msgid "Next"
 msgstr "अगला"
 
-#: src/Admin/OverviewPage.php:718
+#: src/Admin/OverviewPage.php:735
 msgid "Support the project"
 msgstr "परियोजना का समर्थन करें"
 
-#: src/Admin/OverviewPage.php:732
+#: src/Admin/OverviewPage.php:749
 msgid "Free, and built to stay that way"
 msgstr "मुफ़्त, और ऐसा ही बने रहने के लिए बनाया गया"
 
 #. translators: 1: author first name (bold), 2: freelance studio name (linked).
-#: src/Admin/OverviewPage.php:749
+#: src/Admin/OverviewPage.php:766
 #, php-format
 msgid ""
 "I'm <b>%1$s</b>, a freelance designer and dev, aka %2$s. I build Double "
@@ -492,7 +493,7 @@ msgstr ""
 "रिव्यू छोड़ना) ही बहुत मदद करता है। शुक्रिया!"
 
 #. translators: %s: author first name (bold).
-#: src/Admin/OverviewPage.php:759
+#: src/Admin/OverviewPage.php:776
 #, php-format
 msgid ""
 "I'm <b>%s</b>, a freelance designer and dev. I build Double Youpï to make "
@@ -509,41 +510,41 @@ msgstr ""
 "बहुत मदद करता है। शुक्रिया!"
 
 #. translators: %s: author first name.
-#: src/Admin/OverviewPage.php:771
+#: src/Admin/OverviewPage.php:788
 #, php-format
 msgid "%s · Double Youpï"
 msgstr "%s · Double Youpï"
 
-#: src/Admin/OverviewPage.php:784
+#: src/Admin/OverviewPage.php:801
 msgid "Buy me a coffee"
 msgstr "मुझे एक कॉफ़ी पिलाएँ"
 
-#: src/Admin/OverviewPage.php:800
+#: src/Admin/OverviewPage.php:817
 msgid "Leave a review"
 msgstr "समीक्षा दें"
 
-#: src/Admin/OverviewPage.php:807
+#: src/Admin/OverviewPage.php:824
 msgid "All Double Youpï plugins on WordPress.org"
 msgstr "WordPress.org पर सभी Double Youpï प्लगइन"
 
-#: src/Admin/OverviewPage.php:823
+#: src/Admin/OverviewPage.php:840
 msgid "Report or suggest"
 msgstr "बताएँ या सुझाव दें"
 
-#: src/Admin/OverviewPage.php:858 src/Admin/OverviewPage.php:867
+#: src/Admin/OverviewPage.php:875 src/Admin/OverviewPage.php:884
 msgid "Want to get involved?"
 msgstr "योगदान देना चाहते हैं?"
 
-#: src/Admin/OverviewPage.php:869
+#: src/Admin/OverviewPage.php:886
 msgid "Found a bug or got an idea to make it better? Let me know."
 msgstr "कोई बग मिला या इसे बेहतर बनाने का सुझाव है? मुझे बताएँ।"
 
-#: src/Core/ModuleCatalog.php:38 src/Modules/Admin/Admin.php:128
+#: src/Core/ModuleCatalog.php:37 src/Modules/Admin/Admin.php:128
 #: src/Modules/Admin/Settings.php:548
 msgid "Refined Admin Dashboard"
 msgstr "Refined Admin Dashboard"
 
-#: src/Core/ModuleCatalog.php:39
+#: src/Core/ModuleCatalog.php:38
 msgid ""
 "A full rethink of the WordPress admin: smart dashboard, reworked navigation, "
 "redesigned content tables, dark mode, and your branding."
@@ -551,78 +552,18 @@ msgstr ""
 "WordPress एडमिन का पूरा पुनर्विचार: स्मार्ट डैशबोर्ड, फिर से डिज़ाइन किया गया नेविगेशन, "
 "नई कॉन्टेंट टेबल, डार्क मोड और आपकी ब्रांडिंग।"
 
-#: src/Core/ModuleCatalog.php:50 src/Modules/MediaLibrary/MediaLibrary.php:136
-#: src/Modules/MediaLibrary/MediaLibrary.php:188
+#: src/Core/ModuleCatalog.php:49 src/Modules/MediaLibrary/MediaLibrary.php:137
+#: src/Modules/MediaLibrary/MediaLibrary.php:218
 msgid "Refined Media Library"
 msgstr "Refined Media Library"
 
-#: src/Core/ModuleCatalog.php:51
+#: src/Core/ModuleCatalog.php:50
 msgid ""
 "Folders and collections, drag & drop, quick preview, duplicate & orphan "
 "cleanup, plus WebP/AVIF conversion on upload."
 msgstr ""
 "फ़ोल्डर और संग्रह, ड्रैग एंड ड्रॉप, त्वरित पूर्वावलोकन, डुप्लिकेट और अनाथ फ़ाइलों की सफ़ाई, "
 "और अपलोड पर WebP/AVIF रूपांतरण।"
-
-#: src/Core/ModuleCatalog.php:58
-msgid "Simple Performance"
-msgstr ""
-
-#: src/Core/ModuleCatalog.php:59
-msgid ""
-"Caching, CSS/JS, lazy-load, responsive WebP/AVIF delivery, self-hosted "
-"fonts, and a native Cloudflare CDN."
-msgstr ""
-"कैशिंग, CSS/JS, लेज़ी-लोड, रिस्पॉन्सिव WebP/AVIF डिलीवरी, सेल्फ़-होस्टेड फ़ॉन्ट और नेटिव "
-"Cloudflare CDN।"
-
-#: src/Core/ModuleCatalog.php:68
-msgid "Simple Static"
-msgstr ""
-
-#: src/Core/ModuleCatalog.php:69
-msgid ""
-"Static HTML export to shrink your attack surface and host free on Cloudflare "
-"Pages, Netlify or GitHub Pages."
-msgstr ""
-"अपनी अटैक सरफ़ेस घटाने और Cloudflare Pages, Netlify या GitHub Pages पर मुफ़्त होस्ट "
-"करने के लिए स्टैटिक HTML एक्सपोर्ट।"
-
-#: src/Core/ModuleCatalog.php:79
-msgid "Simple SEO & Accessibility"
-msgstr ""
-
-#: src/Core/ModuleCatalog.php:80
-msgid ""
-"Completes Rank Math on accessibility: auto aria-labels, AI alt-text, and a "
-"WCAG audit."
-msgstr ""
-"एक्सेसिबिलिटी पर Rank Math को पूरा करता है: स्वचालित aria-label, AI ऑल्ट-टेक्स्ट और "
-"WCAG ऑडिट।"
-
-#: src/Core/ModuleCatalog.php:87
-msgid "Simple Metrics"
-msgstr ""
-
-#: src/Core/ModuleCatalog.php:88
-msgid ""
-"PageSpeed Insights tracking in the admin: per-page history over time, on "
-"mobile and desktop."
-msgstr ""
-"एडमिन में PageSpeed Insights ट्रैकिंग: समय के साथ प्रति-पेज इतिहास, मोबाइल और डेस्कटॉप "
-"पर।"
-
-#: src/Core/ModuleCatalog.php:95
-msgid "Simple Backups"
-msgstr ""
-
-#: src/Core/ModuleCatalog.php:96
-msgid ""
-"Scheduled full or DB-only backups, with rotation and one-click restore (auto-"
-"snapshot first)."
-msgstr ""
-"शेड्यूल किए गए पूर्ण या केवल-DB बैकअप, रोटेशन और एक-क्लिक रिस्टोर के साथ (पहले ऑटो-"
-"स्नैपशॉट)।"
 
 #: src/Modules/Admin/Admin.php:129 src/Modules/Admin/Rail.php:503
 msgid "Admin"
@@ -718,7 +659,7 @@ msgid "Plugin Editor"
 msgstr "प्लगइन संपादक"
 
 #: src/Modules/Admin/ColumnModel.php:645
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:155
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:153
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:68
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteHealthWidget.php:199
 msgid "Site Health"
@@ -748,6 +689,7 @@ msgid "Community"
 msgstr "समुदाय"
 
 #: src/Modules/Admin/ColumnModel.php:883
+#: src/Modules/MediaLibrary/Settings.php:331
 msgid "Appearance"
 msgstr "दिखावट"
 
@@ -797,7 +739,7 @@ msgid "Paragraph"
 msgstr "अनुच्छेद"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:362
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:150
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:148
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:61
 msgid "Widgets"
 msgstr "विजेट"
@@ -871,7 +813,7 @@ msgstr "JSON निर्यात करें"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:381
 #: src/Modules/Admin/Settings.php:885
-#: src/Modules/MediaLibrary/MediaLibrary.php:184
+#: src/Modules/MediaLibrary/MediaLibrary.php:214
 #: src/Modules/MediaLibrary/Migration/MigrationI18n.php:25
 msgid "Import"
 msgstr "आयात करें"
@@ -1231,108 +1173,109 @@ msgstr "अंतर्निहित (अनुकूलित)"
 msgid "Saved disposition"
 msgstr "सहेजा गया डिस्पोज़िशन"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:121
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:129
 msgid "Today, we're on a roll"
 msgstr "आज हम धूम मचा रहे हैं"
 
 #. translators: **{{site.name}}** is replaced by the site name (bold).
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:150
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:158
 msgid "What are we making on **{{site.name}}** today?"
 msgstr "आज **{{site.name}}** पर हम क्या बनाएँ?"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:152
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:160
 msgid "Picking up the thread"
 msgstr "सिलसिला जारी"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:155
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:211
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:163
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:219
 msgid "The engine room"
 msgstr "इंजन रूम"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:179
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:251
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:278
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:187
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:259
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:286
 msgid "Keyboards at the ready"
 msgstr "कीबोर्ड तैयार"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:181
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:251
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:278
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:189
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:259
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:286
 msgid "Blank page? Never heard of it."
 msgstr "खाली पन्ना? कभी सुना नहीं।"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:183
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:252
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:279
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:191
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:260
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:287
 msgid "What's next?"
 msgstr "आगे क्या?"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:198
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:206
 msgid "All in order?"
 msgstr "सब ठीक-ठाक?"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:235
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:243
 msgid "Shall we?"
 msgstr "चलें?"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:250
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:264
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:258
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:272
 msgid "Sales and orders, without leaving the dashboard."
 msgstr "बिक्री और ऑर्डर, डैशबोर्ड छोड़े बिना।"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:267
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:275
 msgid "The cash drawer"
 msgstr "गल्ला"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:269
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:277
 msgid "What comes in, what moves, what's running low."
 msgstr "क्या आया, क्या चला, क्या कम पड़ रहा है।"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:312
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:320
 msgid "Standard"
 msgstr "मानक"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:312
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:320
 msgid "Recommended by Double Youpï"
 msgstr "Double Youpï द्वारा अनुशंसित"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:313
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:321
 msgid "Editor"
 msgstr "संपादक"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:313
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:321
 msgid "Focus on content creation"
 msgstr "कंटेंट निर्माण पर फोकस"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:314
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:322
 msgid "Administrator"
 msgstr "प्रशासक"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:314
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:322
 msgid "Technical health and maintenance"
 msgstr "तकनीकी स्वास्थ्य और रखरखाव"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:315
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:323
 msgid "Minimal"
 msgstr "न्यूनतम"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:315
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:323
 msgid "Just create and go"
 msgstr "बस बनाएँ और चलें"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:319
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:327
 msgid "Shop"
 msgstr "दुकान"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:319
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:327
 msgid "Your shop, then the editor flow"
 msgstr "आपकी दुकान, फिर एडिटर प्रवाह"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:320
-msgid "Shop Pro"
-msgstr "दुकान प्रो"
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:328
+msgctxt "dashboard layout name"
+msgid "Sales"
+msgstr "बिक्री"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:320
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:328
 msgid "Sales in depth, plus the editor flow"
 msgstr "विस्तार में बिक्री, साथ ही एडिटर प्रवाह"
 
@@ -1447,6 +1390,11 @@ msgid_plural "%d updates are available."
 msgstr[0] "%d अपडेट उपलब्ध।"
 msgstr[1] "%d अपडेट उपलब्ध।"
 
+#: src/Modules/Admin/Dashboard/Widgets/Backup/AbstractBackupSource.php:63
+msgctxt "backup destination"
+msgid "Local"
+msgstr "स्थानीय"
+
 #: src/Modules/Admin/Dashboard/Widgets/Content/HeadingWidget.php:31
 msgid "Heading"
 msgstr "शीर्षक"
@@ -1468,12 +1416,8 @@ msgid "Recent activity"
 msgstr "हाल की गतिविधि"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/ActivityWidget.php:33
-msgid ""
-"Unified stream: published posts, updated plugins, uploaded media, admin "
-"logins."
-msgstr ""
-"एकीकृत स्ट्रीम: प्रकाशित पोस्ट, अपडेट किए गए प्लगइन, अपलोड किए गए मीडिया, एडमिन "
-"लॉगिन।"
+msgid "Posts and pages published or updated in the last 7 days."
+msgstr "पिछले 7 दिनों में प्रकाशित या अपडेट की गई पोस्ट और पेज।"
 
 #. translators: %d is the post ID (shown when the post has no title).
 #: src/Modules/Admin/Dashboard/Widgets/Data/ActivityWidget.php:83
@@ -1487,21 +1431,21 @@ msgstr "हाल की कोई गतिविधि नहीं।"
 
 #. translators: %d is a number of minutes.
 #: src/Modules/Admin/Dashboard/Widgets/Data/ActivityWidget.php:127
-#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:136
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:267
 #, php-format
 msgid "%d min ago"
 msgstr "%d मिनट पहले"
 
 #. translators: %d is a number of hours.
 #: src/Modules/Admin/Dashboard/Widgets/Data/ActivityWidget.php:132
-#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:140
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:271
 #, php-format
 msgid "%d h ago"
 msgstr "%d घंटे पहले"
 
 #. translators: %d is a number of days.
 #: src/Modules/Admin/Dashboard/Widgets/Data/ActivityWidget.php:136
-#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:143
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:274
 #, php-format
 msgid "%d d ago"
 msgstr "%d दिन पहले"
@@ -1535,31 +1479,70 @@ msgstr "URL"
 msgid "Open in a new tab"
 msgstr "नए टैब में खोलें"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:29
-#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:90
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:40
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:187
 msgid "Backup"
 msgstr "बैकअप"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:33
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:44
 msgid "Date, size and status of the last backup. Turns red if > 7 days."
 msgstr "अंतिम बैकअप की तारीख़, आकार और स्थिति। 7 दिनों से अधिक होने पर लाल हो जाता है।"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:94
-msgid "No Double Youpï backup."
-msgstr "कोई Double Youpï बैकअप नहीं।"
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:170
+msgctxt "backup status"
+msgid "Completed"
+msgstr "पूर्ण"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:102
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:171
+msgctxt "backup status"
+msgid "Failed"
+msgstr "विफल"
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:172
+msgctxt "backup status"
+msgid "In progress"
+msgstr "जारी है"
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:194
+msgid "No backup plugin detected."
+msgstr "कोई बैकअप प्लगइन नहीं मिला।"
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:196
+msgid "No backup recorded yet."
+msgstr "अभी तक कोई बैकअप दर्ज नहीं है।"
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:202
+msgid "Backed up in the cloud."
+msgstr "क्लाउड में बैकअप लिया गया।"
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:206
 msgid "never"
 msgstr "कभी नहीं"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:123
+#. translators: %s: a time span such as "5 hours" (from human_time_diff).
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:230
+#, php-format
+msgid "Next backup in %s"
+msgstr "अगला बैकअप %s में"
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:244
 msgid "Run a full backup"
 msgstr "पूर्ण बैकअप चलाएं"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:127
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:251
 #: src/Modules/Admin/Dashboard/Widgets/Data/StaticSiteWidget.php:137
 msgid "Configure"
 msgstr "कॉन्फ़िगर करें"
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:253
+msgid "Find a backup plugin"
+msgstr "बैकअप प्लगइन खोजें"
+
+#. translators: %s: the backup plugin's name, e.g. "UpdraftPlus".
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:256
+#, php-format
+msgid "Open %s"
+msgstr "%s खोलें"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/CreateButtonWidget.php:28
 msgid "Create button"
@@ -1648,13 +1631,13 @@ msgid "Modules"
 msgstr "मॉड्यूल"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/ModulesWidget.php:35
-msgid "Status of the suite modules: active, disabled, in progress."
-msgstr "सूट के मॉड्यूल की स्थिति: सक्रिय, निष्क्रिय, कार्यान्वयन प्रगति पर।"
+msgid "Which Double Youpï modules are on or off."
+msgstr "Double Youpï के कौन-से मॉड्यूल चालू या बंद हैं।"
 
 #. translators: 1: active count, 2: total
 #. translators: 1: enabled count, 2: total
 #: src/Modules/Admin/Dashboard/Widgets/Data/ModulesWidget.php:91
-#: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:93
+#: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:95
 #, php-format
 msgid "%1$d / %2$d"
 msgstr "%1$d / %2$d"
@@ -1681,12 +1664,12 @@ msgstr "मेरा नोट"
 msgid "No note yet."
 msgstr "अभी कोई नोट नहीं है।"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:24
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:195
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:25
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:203
 msgid "Quick actions"
 msgstr "त्वरित क्रियाएँ"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:28
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:29
 msgid ""
 "Configurable buttons for frequent admin actions. Multiple instances possible "
 "for distinct workflows."
@@ -1694,74 +1677,74 @@ msgstr ""
 "बार-बार उपयोग होने वाली एडमिन क्रियाओं के लिए कॉन्फ़िगर करने योग्य बटन। अलग-अलग "
 "workflow के लिए कई instances संभव।"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:64
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:67
 msgid ""
 "Quick-access buttons for the admin actions you run most often. Add one from "
 "the dropdown."
 msgstr ""
 "सबसे ज़्यादा इस्तेमाल होने वाली एडमिन क्रियाओं के लिए त्वरित बटन। ड्रॉपडाउन से जोड़ें।"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:68
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:71
 #: src/Modules/Admin/Tables/TablesReimagined.php:468
 #: src/Modules/MediaLibrary/OrphanAdminPage.php:210
 msgid "Actions"
 msgstr "क्रियाएँ"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:70
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:73
 msgid "Add an action"
 msgstr "एक क्रिया जोड़ें"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:100
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:103
 msgid "+ Post"
 msgstr "+ पोस्ट"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:105
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:108
 msgid "+ Page"
 msgstr "+ पेज"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:110
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:113
 msgid "+ Media"
 msgstr "+ मीडिया"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:115
-msgid "Clear cache"
-msgstr "कैश साफ़ करें"
-
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:120
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:118
 msgid "Update plugins"
 msgstr "प्लगइन अपडेट करें"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:125
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:123
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:59
 msgid "Menus"
 msgstr "मेन्यू"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:130
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:128
 msgid "+ User"
 msgstr "+ उपयोगकर्ता"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:135
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:133
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:58
 #: src/Modules/Admin/Tables/TablesReimagined.php:487
 msgid "Comments"
 msgstr "टिप्पणियाँ"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:140
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:138
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:60
 msgid "Themes"
 msgstr "थीम"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:145
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:143
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:67
 msgid "Customizer"
 msgstr "कस्टमाइज़र"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:165
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:163
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:66
 msgid "Permalinks"
 msgstr "परमालिंक"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:199
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:172
+msgid "Clear cache"
+msgstr "कैश साफ़ करें"
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:207
 msgid "No action. Edit the widget config."
 msgstr "कोई क्रिया नहीं. विजेट कॉन्फ़िगरेशन संपादित करें।"
 
@@ -1868,17 +1851,21 @@ msgid "Site status"
 msgstr "साइट की स्थिति"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:30
-msgid "WP/PHP versions, SSL, plugins to update, PHP errors."
-msgstr "WP/PHP संस्करण, SSL, अपडेट किए जाने वाले प्लगइन, PHP त्रुटियाँ।"
+msgid "WordPress and PHP versions, SSL, pending updates."
+msgstr "WordPress और PHP संस्करण, SSL, लंबित अपडेट।"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:73
 msgid "upd."
 msgstr "अपडेट"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:76
-#: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:84
 msgid "up to date"
 msgstr "अद्यतन"
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:84
+#: src/Modules/Admin/Tables/TablesReimagined.php:502
+msgid "Update available"
+msgstr "अपडेट उपलब्ध"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:93
 msgid "SSL active"
@@ -1956,7 +1943,7 @@ msgid "In moderation"
 msgstr "मॉडरेशन में"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:33
-#: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:85
+#: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:87
 msgid "Toolkit"
 msgstr "टूलकिट"
 
@@ -1964,7 +1951,7 @@ msgstr "टूलकिट"
 msgid "State of the quick toggles (Disable Comments, Classic Editor, etc.)."
 msgstr "त्वरित टॉगल की स्थिति (टिप्पणियाँ अक्षम करें, क्लासिक एडिटर, आदि)।"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:103
+#: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:105
 msgid "No toggle available."
 msgstr "कोई टॉगल उपलब्ध नहीं।"
 
@@ -2845,7 +2832,7 @@ msgstr ""
 "हर व्यक्ति अपनी प्रोफ़ाइल से अपने खाते के लिए Double Youpï इंटरफ़ेस बंद कर सकता है। आपकी "
 "सेटिंग्स डिफ़ॉल्ट बनी रहती हैं।"
 
-#: src/Modules/Admin/Settings.php:861 src/Modules/MediaLibrary/Settings.php:313
+#: src/Modules/Admin/Settings.php:861 src/Modules/MediaLibrary/Settings.php:349
 msgid "Save changes"
 msgstr "परिवर्तन सहेजें"
 
@@ -3063,10 +3050,6 @@ msgstr "अपडेट हो गया"
 msgid "Update failed"
 msgstr "अपडेट विफल"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:502
-msgid "Update available"
-msgstr "अपडेट उपलब्ध"
-
 #: src/Modules/Admin/Tables/TablesReimagined.php:503
 msgid "1 update available"
 msgstr "1 अपडेट उपलब्ध"
@@ -3206,7 +3189,7 @@ msgstr "संग्रह नहीं हटाया जा सका।"
 #: src/Modules/MediaLibrary/CollectionTaxonomy.php:86
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:52
 #: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:76
-#: src/Modules/MediaLibrary/Settings.php:256
+#: src/Modules/MediaLibrary/Settings.php:274
 msgid "Collections"
 msgstr "संग्रह"
 
@@ -3260,7 +3243,7 @@ msgstr "फ़ोल्डर नहीं हटाया जा सका।"
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:35
 #: src/Modules/MediaLibrary/FolderTaxonomy.php:61
 #: src/Modules/MediaLibrary/FolderTaxonomy.php:63
-#: src/Modules/MediaLibrary/Settings.php:248
+#: src/Modules/MediaLibrary/Settings.php:266
 msgid "Folders"
 msgstr "फ़ोल्डर"
 
@@ -3794,7 +3777,7 @@ msgid ""
 "Collections are kept apart from folders: this change is not possible here."
 msgstr "संग्रह फ़ोल्डरों से अलग रहते हैं, इसलिए यह बदलाव यहाँ संभव नहीं है।"
 
-#: src/Modules/MediaLibrary/MediaLibrary.php:74
+#: src/Modules/MediaLibrary/MediaLibrary.php:75
 msgid ""
 "Turning the media library off hands the Media screen back to WordPress. Your "
 "folders and your collections are kept, and come back if you turn it on again."
@@ -3802,7 +3785,7 @@ msgstr ""
 "मीडिया लाइब्रेरी बंद करने पर मीडिया स्क्रीन फिर से WordPress की हो जाती है। आपके "
 "फ़ोल्डर और संग्रह सुरक्षित रहते हैं और दोबारा चालू करने पर लौट आते हैं।"
 
-#: src/Modules/MediaLibrary/MediaLibrary.php:77
+#: src/Modules/MediaLibrary/MediaLibrary.php:78
 msgid ""
 "Double Youpï Refined Media Library is installed and standing aside: "
 "reactivate it if you want the media library without the rest."
@@ -3810,11 +3793,11 @@ msgstr ""
 "Double Youpï Refined Media Library संस्थापित है और पीछे हट गई है: यदि आप बाकी के "
 "बिना केवल मीडिया लाइब्रेरी चाहते हैं तो इसे फिर से सक्रिय करें।"
 
-#: src/Modules/MediaLibrary/MediaLibrary.php:137
+#: src/Modules/MediaLibrary/MediaLibrary.php:138
 msgid "Media Library"
 msgstr "मीडिया लाइब्रेरी"
 
-#: src/Modules/MediaLibrary/MediaLibrary.php:179
+#: src/Modules/MediaLibrary/MediaLibrary.php:209
 msgid "Unused media"
 msgstr "अप्रयुक्त मीडिया"
 
@@ -4125,73 +4108,81 @@ msgstr "स्थायी रूप से हटाएँ"
 msgid "Delete selected media"
 msgstr "चयनित मीडिया हटाएँ"
 
-#: src/Modules/MediaLibrary/Settings.php:224
+#: src/Modules/MediaLibrary/Settings.php:242
 msgid "Optimization"
 msgstr "ऑप्टिमाइज़ेशन"
 
 #. translators: %s: name of the module piloting image conversion
-#: src/Modules/MediaLibrary/Settings.php:231
+#: src/Modules/MediaLibrary/Settings.php:249
 #, php-format
 msgid "Piloted by %s. Settings managed there."
 msgstr "%s द्वारा संचालित। सेटिंग्स वहीं प्रबंधित होती हैं।"
 
-#: src/Modules/MediaLibrary/Settings.php:233
+#: src/Modules/MediaLibrary/Settings.php:251
 msgid "This server cannot generate WebP images."
 msgstr "यह सर्वर WebP छवियाँ नहीं बना सकता।"
 
-#: src/Modules/MediaLibrary/Settings.php:234
+#: src/Modules/MediaLibrary/Settings.php:252
 msgid "This server cannot generate AVIF images."
 msgstr "यह सर्वर AVIF छवियाँ नहीं बना सकता।"
 
-#: src/Modules/MediaLibrary/Settings.php:241
+#: src/Modules/MediaLibrary/Settings.php:259
 msgid "Organisation"
 msgstr "व्यवस्था"
 
-#: src/Modules/MediaLibrary/Settings.php:249
+#: src/Modules/MediaLibrary/Settings.php:267
 msgid "Organise the media library into folders"
 msgstr "मीडिया लाइब्रेरी को फ़ोल्डर में व्यवस्थित करें"
 
-#: src/Modules/MediaLibrary/Settings.php:257
+#: src/Modules/MediaLibrary/Settings.php:275
 msgid "Group media into cross-folder collections"
 msgstr "मीडिया को फ़ोल्डर-पार संग्रहों में समूहित करें"
 
-#: src/Modules/MediaLibrary/Settings.php:264
+#: src/Modules/MediaLibrary/Settings.php:282
 msgid "Auto alt & title"
 msgstr "स्वचालित alt और शीर्षक"
 
-#: src/Modules/MediaLibrary/Settings.php:265
+#: src/Modules/MediaLibrary/Settings.php:283
 msgid "Fill alt text and title from filename on upload (if empty)"
 msgstr "अपलोड पर फ़ाइलनाम से alt और शीर्षक भरें (यदि रिक्त)"
 
-#: src/Modules/MediaLibrary/Settings.php:274
+#: src/Modules/MediaLibrary/Settings.php:292
 msgid "Duplicate badge"
 msgstr "डुप्लिकेट बैज"
 
-#: src/Modules/MediaLibrary/Settings.php:275
+#: src/Modules/MediaLibrary/Settings.php:293
 msgid "Mark files already in the library, by content"
 msgstr "पहले से मौजूद फ़ाइलों को उनकी सामग्री से चिह्नित करें"
 
-#: src/Modules/MediaLibrary/Settings.php:283
+#: src/Modules/MediaLibrary/Settings.php:301
 msgid "Conversion"
 msgstr "रूपांतरण"
 
-#: src/Modules/MediaLibrary/Settings.php:290
+#: src/Modules/MediaLibrary/Settings.php:308
 msgid "WebP on upload"
 msgstr "अपलोड पर WebP"
 
-#: src/Modules/MediaLibrary/Settings.php:291
+#: src/Modules/MediaLibrary/Settings.php:309
 msgid "Generate a WebP version of each image on upload"
 msgstr "अपलोड पर हर छवि का WebP संस्करण बनाएँ"
 
-#: src/Modules/MediaLibrary/Settings.php:300
+#: src/Modules/MediaLibrary/Settings.php:318
 msgid "AVIF on upload"
 msgstr "अपलोड पर AVIF"
 
-#: src/Modules/MediaLibrary/Settings.php:301
+#: src/Modules/MediaLibrary/Settings.php:319
 msgid "Generate an AVIF version too (requires Imagick)"
 msgstr "एक AVIF संस्करण भी बनाएँ (Imagick आवश्यक)"
 
-#: src/Modules/MediaLibrary/Settings.php:349
+#: src/Modules/MediaLibrary/Settings.php:338
+msgid "Light theme"
+msgstr "लाइट थीम"
+
+#: src/Modules/MediaLibrary/Settings.php:339
+msgid "Show the media library on a light background"
+msgstr "मीडिया लाइब्रेरी को हल्की पृष्ठभूमि पर दिखाएँ"
+
+#: src/Modules/MediaLibrary/Settings.php:385
 msgid ""
 "Double Youpï Refined Admin Dashboard includes this media library, and "
 "redraws the rest of the admin the same way. It is free too."
@@ -4199,15 +4190,15 @@ msgstr ""
 "Double Youpï Refined Admin Dashboard में यह मीडिया लाइब्रेरी शामिल है, और यह बाकी "
 "प्रशासन को भी उसी तरह नए सिरे से बनाता है। यह भी निःशुल्क है।"
 
-#: src/Modules/MediaLibrary/Settings.php:350
+#: src/Modules/MediaLibrary/Settings.php:386
 msgid "Read about it"
 msgstr "और जानें"
 
-#: src/Modules/MediaLibrary/Settings.php:400
+#: src/Modules/MediaLibrary/Settings.php:436
 msgid "Conversion quality"
 msgstr "रूपांतरण गुणवत्ता"
 
-#: src/Modules/MediaLibrary/Settings.php:401
+#: src/Modules/MediaLibrary/Settings.php:437
 msgid "Higher means better quality and larger files. Default 82."
 msgstr "अधिक = बेहतर गुणवत्ता और बड़ी फ़ाइलें। डिफ़ॉल्ट 82।"
 
@@ -4572,1834 +4563,3 @@ msgstr "%s मिला, हम नियंत्रण उसे सौंप 
 #: src/Modules/Toolkit/ToolsPage.php:246
 msgid "Tools updated. Reload the page to see the effects."
 msgstr "उपकरण अपडेट किए गए। प्रभाव देखने के लिए पृष्ठ पुनः लोड करें।"
-
-#~ msgid ""
-#~ "Folders, collections, duplicate and orphan cleanup, auto alt text and "
-#~ "WebP/AVIF conversion for the WordPress media library, without the per-"
-#~ "image fiddling."
-#~ msgstr ""
-#~ "वर्डप्रेस मीडिया लाइब्रेरी के लिए फ़ोल्डर, संग्रह, डुप्लिकेट और अनुपयोगी फ़ाइलों की सफ़ाई, "
-#~ "स्वचालित ऑल्ट टेक्स्ट और WebP/AVIF रूपांतरण, हर छवि के लिए अलग सेटिंग के बिना।"
-
-#~ msgid ""
-#~ "You are already running the full Double Youpï suite, and it includes "
-#~ "Double Youpï Refined Media Library. This standalone copy stepped aside to "
-#~ "stay out of its way. Want to run it on its own? Deactivate the suite "
-#~ "first."
-#~ msgstr ""
-#~ "आप पहले से ही पूरा Double Youpï suite चला रहे हैं, जिसमें Double Youpï Refined "
-#~ "Media Library शामिल है। इसलिए यह स्टैंडअलोन संस्करण रास्ते से हट गया है। इसे अकेले "
-#~ "चलाना चाहते हैं? पहले suite को निष्क्रिय करें।"
-
-#~ msgid ""
-#~ "I'm <b>%s</b>, a freelance UX/UI designer and developer. I build Double "
-#~ "Youpï to make WordPress genuinely nicer to use, and this module stays "
-#~ "free, with its updates included, for the long run. No paywalled basics, "
-#~ "no dark patterns. If it helps your work, a coffee keeps it going. Either "
-#~ "way, thanks for being here."
-#~ msgstr ""
-#~ "मैं <b>%s</b> हूँ, एक फ़्रीलांस UX/UI डिज़ाइनर और डेवलपर। मैं Double Youpï इसलिए "
-#~ "बनाता हूँ ताकि WordPress सचमुच इस्तेमाल में बेहतर लगे, और यह मॉड्यूल लंबे समय तक मुफ़्त "
-#~ "रहता है, अपडेट सहित। न तो ज़रूरी सुविधाएँ पेवॉल के पीछे, न डार्क पैटर्न। अगर यह आपके "
-#~ "काम आए, तो एक कॉफ़ी मुझे इसे जारी रखने में मदद करती है। और अगर नहीं, तो कोई बात "
-#~ "नहीं: इसे इस्तेमाल करना (और एक अच्छी समीक्षा छोड़ना) पहले से ही बहुत मदद करता है।"
-
-#~ msgid ""
-#~ "I'm <b>%1$s</b>, a freelance UX/UI designer and developer working as "
-#~ "%2$s. I build Double Youpï to make WordPress genuinely nicer to use, and "
-#~ "this module stays free, with its updates included, for the long run. It "
-#~ "gets better with your feedback, so tell me what's missing or what bugs "
-#~ "you. If it helps your work, a coffee keeps it going. Either way, thanks "
-#~ "for being here."
-#~ msgstr ""
-#~ "मैं <b>%1$s</b> हूँ, %2$s के नाम से काम करने वाला फ़्रीलांस UX/UI डिज़ाइनर और डेवलपर। "
-#~ "मैं Double Youpï बनाता हूँ ताकि WordPress सचमुच इस्तेमाल में ज़्यादा सुखद हो, और यह "
-#~ "मॉड्यूल लंबे समय तक मुफ़्त रहेगा, अपडेट सहित। यह आपके फ़ीडबैक से बेहतर होता है, तो बताइए "
-#~ "क्या कमी है या क्या अटकता है। अगर यह आपके काम आता है, तो एक कॉफ़ी इसे चलाए रखती "
-#~ "है। वैसे भी, यहाँ होने के लिए शुक्रिया।"
-
-#~ msgid ""
-#~ "I'm <b>%s</b>, a freelance UX/UI designer and developer. I build Double "
-#~ "Youpï to make WordPress genuinely nicer to use, and this module stays "
-#~ "free, with its updates included, for the long run. It gets better with "
-#~ "your feedback, so tell me what's missing or what bugs you. If it helps "
-#~ "your work, a coffee keeps it going. Either way, thanks for being here."
-#~ msgstr ""
-#~ "मैं <b>%s</b> हूँ, फ़्रीलांस UX/UI डिज़ाइनर और डेवलपर। मैं Double Youpï बनाता हूँ ताकि "
-#~ "WordPress सचमुच इस्तेमाल में ज़्यादा सुखद हो, और यह मॉड्यूल लंबे समय तक मुफ़्त रहेगा, "
-#~ "अपडेट सहित। यह आपके फ़ीडबैक से बेहतर होता है, तो बताइए क्या कमी है या क्या अटकता है। "
-#~ "अगर यह आपके काम आता है, तो एक कॉफ़ी इसे चलाए रखती है। वैसे भी, यहाँ होने के लिए "
-#~ "शुक्रिया।"
-
-#~ msgid "Coming soon to Double Youpï"
-#~ msgstr "जल्द ही Double Youpï में"
-
-#~ msgid "Up next"
-#~ msgstr "अगला"
-
-#~ msgid "Almost ready"
-#~ msgstr "लगभग तैयार"
-
-#~ msgid ""
-#~ "Clone production to a private subdomain to test safely, with noindex, "
-#~ "robots and optional basic auth."
-#~ msgstr ""
-#~ "सुरक्षित परीक्षण के लिए प्रोडक्शन को एक निजी सबडोमेन पर क्लोन करें, noindex, robots "
-#~ "और वैकल्पिक basic auth के साथ।"
-
-# Retrait devant Refined Admin Dashboard, qui embarque la médiathèque.
-#~ msgid ""
-#~ "Double Youpï Refined Admin Dashboard is active, and it includes this "
-#~ "whole media library: folders, collections and the detail panel. This copy "
-#~ "stepped aside. Your folders, collections and settings are untouched, and "
-#~ "the dashboard is using them right now. Want the media library on its own? "
-#~ "Deactivate Refined Admin Dashboard first."
-#~ msgstr ""
-#~ "Double Youpï Refined Admin Dashboard सक्रिय है और इसमें यह पूरी मीडिया लाइब्रेरी "
-#~ "शामिल है: फ़ोल्डर, संग्रह और विवरण पैनल। यह प्रति पीछे हट गई है। आपके फ़ोल्डर, संग्रह "
-#~ "और सेटिंग्स अछूते हैं, और डैशबोर्ड उन्हें अभी उपयोग कर रहा है। केवल मीडिया लाइब्रेरी "
-#~ "चाहिए? पहले Refined Admin Dashboard को निष्क्रिय करें।"
-
-#~ msgid ""
-#~ "Modular WordPress optimization suite for professionals: performance, "
-#~ "images, static, SEO, metrics."
-#~ msgstr ""
-#~ "पेशेवरों के लिए मॉड्यूलर WordPress ऑप्टिमाइज़ेशन सूट: प्रदर्शन, छवियाँ, स्टेटिक, SEO, "
-#~ "मेट्रिक्स।"
-
-#~ msgid ""
-#~ "Double Youpï: the Composer dependencies are missing. Run <code>composer "
-#~ "install</code> inside the plugin folder."
-#~ msgstr ""
-#~ "Double Youpï: Composer निर्भरताएँ अनुपस्थित हैं। प्लगइन फ़ोल्डर में <code>composer "
-#~ "install</code> चलाएँ।"
-
-#~ msgid ""
-#~ "WordPress admin redesign: typography, spacing, palette, login screen. "
-#~ "Customizable logo and accent color."
-#~ msgstr ""
-#~ "WordPress एडमिन का रीडिज़ाइन: टाइपोग्राफी, स्पेसिंग, पैलेट, लॉगिन स्क्रीन। लोगो और "
-#~ "एक्सेंट कलर अनुकूलन योग्य।"
-
-#~ msgid ""
-#~ "Enhanced media library: folders and collections, drag & drop, orphan "
-#~ "scanner, WebP/AVIF conversion on upload."
-#~ msgstr ""
-#~ "समृद्ध मीडिया लाइब्रेरी: फ़ोल्डर और संग्रह, ड्रैग एंड ड्रॉप, अनाथ फ़ाइलों का स्कैनर, "
-#~ "अपलोड पर WebP/AVIF रूपांतरण।"
-
-#~ msgid "Performance + CDN"
-#~ msgstr "प्रदर्शन + CDN"
-
-#~ msgid ""
-#~ "Runtime optimizations (cache, CSS/JS, lazy, defer), WebP/AVIF image "
-#~ "conversion + <picture> injection, self-hosted fonts, WebM video, "
-#~ "Cloudflare CDN."
-#~ msgstr ""
-#~ "रनटाइम ऑप्टिमाइज़ेशन (कैश, CSS/JS, lazy, defer), छवियों का WebP/AVIF रूपांतरण + "
-#~ "<picture> injection, स्व-होस्टेड फ़ॉन्ट, WebM वीडियो, Cloudflare CDN।"
-
-#~ msgid "Static Site"
-#~ msgstr "स्टेटिक साइट"
-
-#~ msgid ""
-#~ "Static HTML generation to reduce WordPress attack surface and host on "
-#~ "Cloudflare Pages, Netlify, GitHub Pages."
-#~ msgstr ""
-#~ "स्टेटिक HTML जनरेशन: WordPress पर अटैक सरफ़ेस घटाने और Cloudflare Pages, "
-#~ "Netlify, GitHub Pages पर होस्ट करने के लिए।"
-
-#~ msgid ""
-#~ "Toggles that replace common micro-plugins: Classic Editor, Disable "
-#~ "Comments, Duplicate Post, Force HTTPS, Safe SVG."
-#~ msgstr ""
-#~ "सामान्य माइक्रो-प्लगइन्स को बदलने वाले टॉगल: Classic Editor, Disable Comments, "
-#~ "Duplicate Post, Force HTTPS, Safe SVG।"
-
-#~ msgid "SEO + Accessibility"
-#~ msgstr "SEO + एक्सेसिबिलिटी"
-
-#~ msgid ""
-#~ "Complement to Rank Math for accessibility: auto aria-label, AI-generated "
-#~ "alt-text, WCAG audit."
-#~ msgstr ""
-#~ "एक्सेसिबिलिटी पर Rank Math का पूरक: स्वचालित aria-label, AI द्वारा alt-text, "
-#~ "WCAG ऑडिट।"
-
-#~ msgid "PSI Metrics"
-#~ msgstr "PSI मेट्रिक्स"
-
-#~ msgid ""
-#~ "PageSpeed Insights monitoring in the admin. Per-page evolution over time, "
-#~ "mobile and desktop."
-#~ msgstr ""
-#~ "एडमिन के अंदर PageSpeed Insights निगरानी। प्रति पेज समय के साथ विकास, मोबाइल "
-#~ "और डेस्कटॉप।"
-
-#~ msgid "Backups"
-#~ msgstr "बैकअप"
-
-#~ msgid ""
-#~ "Full backups (DB + files) or DB only, cron scheduling, rotation, restore "
-#~ "with auto-snapshot."
-#~ msgstr ""
-#~ "पूर्ण बैकअप (DB + फ़ाइलें) या केवल DB, क्रॉन शेड्यूलिंग, रोटेशन, ऑटो-स्नैपशॉट के साथ "
-#~ "रिस्टोर।"
-
-#~ msgid "Staging"
-#~ msgstr "स्टेजिंग"
-
-#~ msgid ""
-#~ "Clone production to a dedicated subdomain to test in isolation. Privacy "
-#~ "enforced (noindex, robots.txt, optional basic auth)."
-#~ msgstr ""
-#~ "अलग-थलग परीक्षण के लिए प्रोडक्शन का एक समर्पित सब-डोमेन पर क्लोन। गोपनीयता मजबूर "
-#~ "(noindex, robots.txt, वैकल्पिक basic auth)।"
-
-#~ msgid "Please enter a licence key."
-#~ msgstr "कृपया एक लाइसेंस की दर्ज करें।"
-
-#, php-format
-#~ msgid "Could not reach the licence server: %s"
-#~ msgstr "लाइसेंस सर्वर तक नहीं पहुँचा जा सका: %s"
-
-#~ msgid "Activation failed. Please check your licence key."
-#~ msgstr "सक्रियण विफल। कृपया अपनी लाइसेंस की जाँचें।"
-
-#~ msgid "The server response could not be verified. Please contact support."
-#~ msgstr "सर्वर प्रतिक्रिया सत्यापित नहीं हो सकी। कृपया सपोर्ट से संपर्क करें।"
-
-#~ msgid ""
-#~ "Your Double Youpï licence has expired. Updates are paused: <a "
-#~ "href=\"#\">renew your licence</a>."
-#~ msgstr ""
-#~ "आपकी Double Youpï लाइसेंस समाप्त हो गई है। अपडेट रुक गए हैं: <a href=\"#\">लाइसेंस "
-#~ "नवीनीकृत करें</a>।"
-
-#~ msgid ""
-#~ "Double Youpï could not reach the licence server. The plugin continues to "
-#~ "work during the 30-day grace period."
-#~ msgstr ""
-#~ "Double Youpï लाइसेंस सर्वर तक नहीं पहुँच सका। प्लगइन 30-दिन की ग्रेस अवधि में काम "
-#~ "करता रहेगा।"
-
-#~ msgid ""
-#~ "No valid Double Youpï licence found. Please <a href=\"#\">activate your "
-#~ "licence</a>."
-#~ msgstr ""
-#~ "कोई वैध Double Youpï लाइसेंस नहीं मिली। कृपया <a href=\"#\">अपनी लाइसेंस सक्रिय "
-#~ "करें</a>।"
-
-#~ msgid "Updates expired"
-#~ msgstr "अपडेट समाप्त"
-
-#~ msgid "Degraded: could not reach licence server"
-#~ msgstr "घटित: लाइसेंस सर्वर तक नहीं पहुँचा जा सका"
-
-#~ msgid "Invalid or missing"
-#~ msgstr "अमान्य या अनुपस्थित"
-
-#~ msgid "Site"
-#~ msgstr "साइट"
-
-#~ msgid "Admin site"
-#~ msgstr "एडमिन साइट"
-
-#~ msgid "Focus on technical health"
-#~ msgstr "तकनीकी स्वास्थ्य पर फोकस"
-
-#~ msgid "A handful of essential widgets"
-#~ msgstr "कुछ आवश्यक विजेट"
-
-#~ msgid "Click Customize to edit this note."
-#~ msgstr "इस नोट को संपादित करने के लिए अनुकूलित करें पर क्लिक करें।"
-
-#~ msgid "Open Site Health →"
-#~ msgstr "साइट हेल्थ खोलें →"
-
-#, php-format
-#~ msgid "%d item%s"
-#~ msgid_plural "%d items%s"
-#~ msgstr[0] "%d आइटम%s"
-#~ msgstr[1] "%d आइटम%s"
-
-#, php-format
-#~ msgid "%d pending · %d approved"
-#~ msgid_plural "%d pending · %d approved"
-#~ msgstr[0] "%d प्रतीक्षारत · %d अनुमोदित"
-#~ msgstr[1] "%d प्रतीक्षारत · %d अनुमोदित"
-
-#~ msgid "Notices"
-#~ msgstr "सूचनाएँ"
-
-#~ msgid "Captured notices"
-#~ msgstr "कैप्चर की गई सूचनाएँ"
-
-#~ msgid ""
-#~ "Notices from WordPress and plugins land here instead of cluttering the "
-#~ "top of the page."
-#~ msgstr ""
-#~ "वर्डप्रेस और प्लगइन्स की सूचनाएँ पृष्ठ के शीर्ष पर भीड़ लगाने के बजाय यहाँ दिखाई देती हैं।"
-
-#, php-format
-#~ msgid "%d notices"
-#~ msgstr "%d सूचनाएँ"
-
-#~ msgid "1 notice"
-#~ msgstr "1 सूचना"
-
-#~ msgid "No notices"
-#~ msgstr "कोई सूचना नहीं"
-
-#~ msgid "Notice dismissed"
-#~ msgstr "सूचना खारिज की गई"
-
-#~ msgid ""
-#~ "Applied to primary buttons, links and active states. The color should "
-#~ "stay in a reasonable brightness range so the DS tinted surfaces remain "
-#~ "readable."
-#~ msgstr ""
-#~ "प्राथमिक बटन, लिंक, सक्रिय अवस्थाओं पर लागू। रंग को उचित चमक सीमा में रहना चाहिए "
-#~ "ताकि DS की रंगीन सतहें पढ़ने योग्य रहें।"
-
-#~ msgid "Use accent color for all menu lines"
-#~ msgstr "सभी मेन्यू पंक्तियों के लिए एक्सेंट रंग का उपयोग करें"
-
-#~ msgid ""
-#~ "If enabled, the 7 menu lines (Content, Commerce, Users, Community, Site, "
-#~ "System, Developer) all use the accent color. Otherwise, each line keeps "
-#~ "its own color."
-#~ msgstr ""
-#~ "यदि सक्षम है, मेन्यू की सभी 7 पंक्तियाँ (सामग्री, वाणिज्य, उपयोगकर्ता, समुदाय, साइट, "
-#~ "सिस्टम, डेवलपर) एक्सेंट रंग का उपयोग करती हैं। अन्यथा, प्रत्येक पंक्ति अपना स्वयं का रंग "
-#~ "रखती है।"
-
-#~ msgid "Custom logo"
-#~ msgstr "कस्टम लोगो"
-
-#~ msgid ""
-#~ "Logo shown above the side menu. If empty, the default Double Youpï logo "
-#~ "is used."
-#~ msgstr ""
-#~ "साइड मेन्यू के ऊपर प्रदर्शित लोगो। यदि रिक्त है, तो डिफ़ॉल्ट Double Youpï लोगो "
-#~ "उपयोग किया जाता है।"
-
-#~ msgid ""
-#~ "Let each user enable or disable the Double Youpï admin interface for "
-#~ "their own account"
-#~ msgstr ""
-#~ "प्रत्येक उपयोगकर्ता को अपने खाते के लिए Double Youpï एडमिन इंटरफ़ेस सक्षम या अक्षम "
-#~ "करने दें"
-
-#~ msgid ""
-#~ "When enabled, your settings above still apply by default, but each user "
-#~ "gets an \"Interface customization\" block on their profile to opt out. "
-#~ "Administrators can also toggle it per user from the user edit screen."
-#~ msgstr ""
-#~ "सक्षम होने पर, ऊपर दी गई आपकी सेटिंग्स डिफ़ॉल्ट रूप से लागू रहती हैं, लेकिन प्रत्येक "
-#~ "उपयोगकर्ता को बाहर निकलने के लिए उनकी प्रोफ़ाइल पर एक «इंटरफ़ेस अनुकूलन» ब्लॉक मिलता "
-#~ "है। व्यवस्थापक उपयोगकर्ता संपादन स्क्रीन से इसे प्रति-उपयोगकर्ता भी टॉगल कर सकते हैं।"
-
-#, php-format
-#~ msgid "[Double Youpï] Backup failed on %s"
-#~ msgstr "[Double Youpï] %s पर बैकअप विफल"
-
-#, php-format
-#~ msgid "[Double Youpï] Backup completed on %s"
-#~ msgstr "[Double Youpï] %s पर बैकअप पूरा हुआ"
-
-#, php-format
-#~ msgid "Site     : %s"
-#~ msgstr "साइट     : %s"
-
-#, php-format
-#~ msgid "Type     : %s"
-#~ msgstr "प्रकार    : %s"
-
-#, php-format
-#~ msgid "Bucket   : %s"
-#~ msgstr "Bucket   : %s"
-
-#, php-format
-#~ msgid "Trigger   : %s"
-#~ msgstr "Trigger   : %s"
-
-#, php-format
-#~ msgid "Duration : %ds"
-#~ msgstr "अवधि     : %ds"
-
-#, php-format
-#~ msgid "Size     : %s"
-#~ msgstr "आकार     : %s"
-
-#, php-format
-#~ msgid "DB rows  : %d"
-#~ msgstr "DB पंक्तियाँ: %d"
-
-#, php-format
-#~ msgid "Files    : %d"
-#~ msgstr "फ़ाइलें   : %d"
-
-#~ msgid "Errors encountered:"
-#~ msgstr "सामना की गई त्रुटियाँ:"
-
-#, php-format
-#~ msgid "Full list: %s"
-#~ msgstr "पूरी सूची: %s"
-
-#~ msgid "Email sent automatically by Double Youpï Backups."
-#~ msgstr "Double Youpï Backups द्वारा स्वचालित रूप से भेजा गया ईमेल।"
-
-#~ msgid "Creating backup…"
-#~ msgstr "बैकअप बनाया जा रहा है…"
-
-#~ msgid "Preparing database export…"
-#~ msgstr "डेटाबेस निर्यात तैयार किया जा रहा है…"
-
-#, php-format
-#~ msgid "Database export: table %1$d / %2$d"
-#~ msgstr "DB निर्यात: तालिका %1$d / %2$d"
-
-#~ msgid "Archiving files…"
-#~ msgstr "फ़ाइलें संग्रहीत हो रही हैं…"
-
-#, php-format
-#~ msgid "%s rows"
-#~ msgstr "%s पंक्तियाँ"
-
-#~ msgid "Done."
-#~ msgstr "हो गया।"
-
-#~ msgid "Error: see the log."
-#~ msgstr "त्रुटि: लॉग देखें।"
-
-#~ msgid "Permanently delete this backup?"
-#~ msgstr "इस बैकअप को स्थायी रूप से हटाएँ?"
-
-#~ msgid ""
-#~ "Restore this backup now? A snapshot of the current state will be created "
-#~ "automatically beforehand."
-#~ msgstr ""
-#~ "अभी इस बैकअप को पुनर्स्थापित करें? पहले वर्तमान स्थिति का एक snapshot स्वचालित रूप से "
-#~ "बनेगा।"
-
-#, php-format
-#~ msgid ""
-#~ "WARNING: this backup comes from %1$s. Your URLs will be replaced %1$s → "
-#~ "%2$s. Confirm?"
-#~ msgstr ""
-#~ "ध्यान दें: यह बैकअप %1$s से आता है। आपके URL %1$s → %2$s में बदले जाएँगे। पुष्टि करें?"
-
-#~ msgid "Restore in progress… Do not close this page."
-#~ msgstr "पुनर्स्थापन जारी… यह पृष्ठ बंद न करें।"
-
-#~ msgid "Backup restored."
-#~ msgstr "बैकअप पुनर्स्थापित।"
-
-#, php-format
-#~ msgid "%1$d backup stored locally · Space used: %2$s"
-#~ msgid_plural "%1$d backups stored locally · Space used: %2$s"
-#~ msgstr[0] "%1$d बैकअप स्थानीय रूप से संग्रहीत · उपयोग किया गया स्थान: %2$s"
-#~ msgstr[1] "%1$d बैकअप स्थानीय रूप से संग्रहीत · उपयोग किया गया स्थान: %2$s"
-
-#, php-format
-#~ msgid "%1$d backups stored locally · Space used: %2$s"
-#~ msgstr "%1$d बैकअप स्थानीय रूप से संग्रहीत · उपयोग किया गया स्थान: %2$s"
-
-#~ msgid "No backup yet. Create one with the buttons above."
-#~ msgstr "अभी कोई बैकअप नहीं। ऊपर दिए गए बटनों से एक बनाएँ।"
-
-#~ msgid "Full backup"
-#~ msgstr "पूर्ण बैकअप"
-
-#~ msgid "DB only"
-#~ msgstr "केवल DB"
-
-#~ msgid "Bucket"
-#~ msgstr "Bucket"
-
-#~ msgid "Origin"
-#~ msgstr "मूल"
-
-#, php-format
-#~ msgid ""
-#~ "Storage: %s. The restore always creates an automatic snapshot of the "
-#~ "current state first (bucket auto-pre-restore)."
-#~ msgstr ""
-#~ "भंडारण: %s। पुनर्स्थापन हमेशा वर्तमान स्थिति का एक स्वचालित snapshot पहले बनाता है "
-#~ "(bucket auto-pre-restore)।"
-
-#~ msgid "Full"
-#~ msgstr "पूर्ण"
-
-#~ msgid "This site"
-#~ msgstr "यह साइट"
-
-#~ msgid "Download"
-#~ msgstr "डाउनलोड करें"
-
-#~ msgid "Automatic full backup"
-#~ msgstr "स्वचालित पूर्ण बैकअप"
-
-#~ msgid ""
-#~ "A scheduled full backup (database + files). Runs on the chosen frequency, "
-#~ "pushes to the selected destinations."
-#~ msgstr ""
-#~ "एक निर्धारित पूर्ण बैकअप (डेटाबेस + फ़ाइलें)। चयनित आवृत्ति पर चलता है, चयनित गंतव्यों "
-#~ "पर भेजा जाता है।"
-
-#~ msgid "Run an automatic full backup on a schedule"
-#~ msgstr "अनुसूचित स्वचालित पूर्ण बैकअप चलाएँ"
-
-#~ msgid "Frequency"
-#~ msgstr "आवृत्ति"
-
-#~ msgid "Time"
-#~ msgstr "समय"
-
-#~ msgid "Server time."
-#~ msgstr "सर्वर समय।"
-
-#~ msgid "Day of the week"
-#~ msgstr "सप्ताह का दिन"
-
-#~ msgid "Day of the month"
-#~ msgstr "महीने का दिन"
-
-#~ msgid "1 = first day of the month."
-#~ msgstr "1 = महीने का पहला दिन।"
-
-#~ msgid "Include uploads"
-#~ msgstr "अपलोड शामिल करें"
-
-#~ msgid "Include wp-content/uploads/ (medias) in the backup"
-#~ msgstr "बैकअप में wp-content/uploads/ (मीडिया) शामिल करें"
-
-#~ msgid ""
-#~ "Uncheck to skip the media folder if it is heavy. The DB + plugins/themes "
-#~ "are still included."
-#~ msgstr ""
-#~ "यदि मीडिया फ़ोल्डर भारी है तो छोड़ने के लिए अनचेक करें। DB + प्लगइन्स/थीम शामिल रहते "
-#~ "हैं।"
-
-#~ msgid "Keep last"
-#~ msgstr "रखें अंतिम"
-
-#~ msgid "backups before deleting the oldest"
-#~ msgstr "बैकअप, सबसे पुराने हटाने से पहले"
-
-#~ msgid "Destinations"
-#~ msgstr "गंतव्य"
-
-#~ msgid ""
-#~ "Local is always kept. FTP and Google Drive require credentials below."
-#~ msgstr ""
-#~ "स्थानीय हमेशा रखा जाता है। FTP और गूगल ड्राइव के लिए नीचे क्रेडेंशियल्स आवश्यक हैं।"
-
-#~ msgid "Automatic database backup"
-#~ msgstr "स्वचालित डेटाबेस बैकअप"
-
-#~ msgid ""
-#~ "A scheduled DB-only backup. Lightweight, ideal for daily snapshots. Can "
-#~ "be sent by email."
-#~ msgstr ""
-#~ "एक निर्धारित केवल-DB बैकअप। हल्का, दैनिक स्नैपशॉट के लिए आदर्श। ईमेल से भेजा जा सकता "
-#~ "है।"
-
-#~ msgid "Run an automatic DB-only backup on a schedule"
-#~ msgstr "अनुसूचित स्वचालित केवल-DB बैकअप चलाएँ"
-
-#~ msgid "Email sends the compressed SQL dump as an attachment (max 20 MB)."
-#~ msgstr "ईमेल संपीड़ित SQL डंप को अनुलग्नक के रूप में भेजता है (अधिकतम 20 MB)।"
-
-#~ msgid "Destination credentials"
-#~ msgstr "गंतव्य क्रेडेंशियल्स"
-
-#~ msgid ""
-#~ "Credentials for the remote destinations selected above. Local storage "
-#~ "requires no credentials."
-#~ msgstr ""
-#~ "ऊपर चयनित दूरस्थ गंतव्यों के लिए क्रेडेंशियल्स। स्थानीय भंडारण को क्रेडेंशियल्स की आवश्यकता "
-#~ "नहीं है।"
-
-#~ msgid "FTP / SFTP"
-#~ msgstr "FTP / SFTP"
-
-#~ msgid "Host"
-#~ msgstr "होस्ट"
-
-#~ msgid "Port"
-#~ msgstr "पोर्ट"
-
-#~ msgid "21 for FTP, 22 for SFTP."
-#~ msgstr "FTP के लिए 21, SFTP के लिए 22।"
-
-#~ msgid "User"
-#~ msgstr "उपयोगकर्ता"
-
-#~ msgid "Password"
-#~ msgstr "पासवर्ड"
-
-#~ msgid ""
-#~ "Stored as-is in the WP options table. Use a dedicated FTP account with "
-#~ "restricted scope."
-#~ msgstr ""
-#~ "WP options तालिका में जैसा है वैसा संग्रहीत। प्रतिबंधित दायरे वाले समर्पित FTP खाते का "
-#~ "उपयोग करें।"
-
-#~ msgid "Remote path"
-#~ msgstr "दूरस्थ पथ"
-
-#~ msgid "Use SFTP"
-#~ msgstr "SFTP का उपयोग करें"
-
-#~ msgid "Use SFTP (SSH) instead of plain FTP"
-#~ msgstr "साधारण FTP के बजाय SFTP (SSH) का उपयोग करें"
-
-#~ msgid "phpseclib detected, SFTP available."
-#~ msgstr "phpseclib पाया गया, SFTP उपलब्ध।"
-
-#~ msgid ""
-#~ "phpseclib not installed: SFTP unavailable. Run composer require phpseclib/"
-#~ "phpseclib to enable."
-#~ msgstr ""
-#~ "phpseclib स्थापित नहीं: SFTP अनुपलब्ध। सक्षम करने के लिए composer require "
-#~ "phpseclib/phpseclib चलाएँ।"
-
-#~ msgid "Test connection"
-#~ msgstr "कनेक्शन परीक्षण करें"
-
-#~ msgid "Google Drive"
-#~ msgstr "Google Drive"
-
-#~ msgid "OAuth connection"
-#~ msgstr "OAuth कनेक्शन"
-
-#~ msgid "Connect Google Drive"
-#~ msgstr "गूगल ड्राइव कनेक्ट करें"
-
-#~ msgid ""
-#~ "Google Drive integration is in preparation. The destination already "
-#~ "appears in the lists above for forward compatibility but does not "
-#~ "transfer yet."
-#~ msgstr ""
-#~ "गूगल ड्राइव एकीकरण तैयारी में है। आगे की संगतता के लिए गंतव्य ऊपर सूचियों में दिखता है "
-#~ "लेकिन अभी स्थानांतरण नहीं करता।"
-
-#~ msgid "Email (DB-only)"
-#~ msgstr "ईमेल (केवल DB)"
-
-#~ msgid "Recipient"
-#~ msgstr "प्राप्तकर्ता"
-
-#~ msgid ""
-#~ "Only used by the « Email » destination on DB-only backups. Leave empty to "
-#~ "use the site admin email."
-#~ msgstr ""
-#~ "केवल DB बैकअप पर « ईमेल » गंतव्य द्वारा प्रयुक्त। साइट व्यवस्थापक ईमेल उपयोग करने हेतु "
-#~ "रिक्त छोड़ें।"
-
-#~ msgid "Notifications & behaviors"
-#~ msgstr "सूचनाएँ और व्यवहार"
-
-#~ msgid "Email after backup"
-#~ msgstr "बैकअप के बाद ईमेल"
-
-#~ msgid "Send a notification email after every backup"
-#~ msgstr "प्रत्येक बैकअप के बाद सूचना ईमेल भेजें"
-
-#~ msgid ""
-#~ "A status report (size, duration, errors). Distinct from the « Email » "
-#~ "destination which attaches the SQL file."
-#~ msgstr ""
-#~ "एक स्थिति रिपोर्ट (आकार, अवधि, त्रुटियाँ)। « ईमेल » गंतव्य से भिन्न जो SQL फ़ाइल "
-#~ "संलग्न करता है।"
-
-#~ msgid "Notification recipient"
-#~ msgstr "सूचना प्राप्तकर्ता"
-
-#~ msgid "Errors only"
-#~ msgstr "केवल त्रुटियाँ"
-
-#~ msgid "Only send if the backup fails"
-#~ msgstr "केवल बैकअप विफलता पर भेजें"
-
-#~ msgid "Clear cache after restore"
-#~ msgstr "पुनर्स्थापन के बाद कैश साफ़ करें"
-
-#~ msgid "Object Cache + transients + opcache_reset() after every restore"
-#~ msgstr "प्रत्येक पुनर्स्थापन के बाद Object Cache + transients + opcache_reset()"
-
-#~ msgid "DB tables to exclude"
-#~ msgstr "बाहर रखी जाने वाली DB तालिकाएँ"
-
-#~ msgid "One table per line, full prefix (e.g. wp_actionscheduler_logs)."
-#~ msgstr "प्रति पंक्ति एक तालिका, पूर्ण उपसर्ग (उदा. wp_actionscheduler_logs)।"
-
-#~ msgid "File paths to exclude"
-#~ msgstr "बाहर रखे जाने वाले फ़ाइल पाथ"
-
-#~ msgid ""
-#~ "One path per line, relative to wp-content/. System paths (backups, cache, "
-#~ "upgrade) are already excluded."
-#~ msgstr ""
-#~ "प्रति पंक्ति एक पथ, wp-content/ के सापेक्ष। सिस्टम पथ (backups, cache, upgrade) "
-#~ "पहले से बहिष्कृत हैं।"
-
-#~ msgid "Local storage"
-#~ msgstr "स्थानीय भंडारण"
-
-#~ msgid ""
-#~ "Backups are always written to disk first, then pushed to the configured "
-#~ "remote destinations."
-#~ msgstr ""
-#~ "बैकअप हमेशा पहले डिस्क पर लिखे जाते हैं, फिर कॉन्फ़िगर किए गए दूरस्थ गंतव्यों पर भेजे जाते "
-#~ "हैं।"
-
-#~ msgid "Hourly"
-#~ msgstr "प्रति घंटा"
-
-#~ msgid "Daily"
-#~ msgstr "दैनिक"
-
-#~ msgid "Weekly"
-#~ msgstr "साप्ताहिक"
-
-#~ msgid "Monthly"
-#~ msgstr "मासिक"
-
-#~ msgid "Sunday"
-#~ msgstr "रविवार"
-
-#~ msgid "Monday"
-#~ msgstr "सोमवार"
-
-#~ msgid "Tuesday"
-#~ msgstr "मंगलवार"
-
-#~ msgid "Wednesday"
-#~ msgstr "बुधवार"
-
-#~ msgid "Thursday"
-#~ msgstr "गुरुवार"
-
-#~ msgid "Friday"
-#~ msgstr "शुक्रवार"
-
-#~ msgid "Saturday"
-#~ msgstr "शनिवार"
-
-#~ msgid "Local"
-#~ msgstr "स्थानीय"
-
-#~ msgid "Google Drive (coming soon)"
-#~ msgstr "गूगल ड्राइव (जल्द आ रहा है)"
-
-#~ msgid "Email (attachment)"
-#~ msgstr "ईमेल (अनुलग्नक)"
-
-#~ msgid "Testing…"
-#~ msgstr "परीक्षण हो रहा है…"
-
-#~ msgid "Connection successful."
-#~ msgstr "कनेक्शन सफल।"
-
-#~ msgid "Failed:"
-#~ msgstr "विफल:"
-
-#~ msgid "Network error."
-#~ msgstr "नेटवर्क त्रुटि।"
-
-#~ msgid ""
-#~ "Full or DB-only backups, cron scheduling, automatic rotation, one-click "
-#~ "restore with prior auto-snapshot."
-#~ msgstr ""
-#~ "पूर्ण या केवल-DB बैकअप, cron शेड्यूलिंग, स्वचालित रोटेशन, पूर्व auto-snapshot के साथ "
-#~ "एक-क्लिक पुनर्स्थापन।"
-
-#, php-format
-#~ msgid "[Double Youpï] DB backup: %1$s (%2$s)"
-#~ msgstr "[Double Youpï] DB बैकअप: %1$s (%2$s)"
-
-#~ msgid "The compressed SQL dump is attached."
-#~ msgstr "संपीड़ित SQL डंप संलग्न है।"
-
-#~ msgid ""
-#~ "To restore: gunzip the file, then mysql -u<user> -p<db> < database.sql."
-#~ msgstr ""
-#~ "पुनर्स्थापित करने हेतु: फ़ाइल को gunzip करें, फिर mysql -u<user> -p<db> < "
-#~ "database.sql।"
-
-#~ msgid "— Root (no folder) —"
-#~ msgstr "— रूट (कोई फ़ोल्डर नहीं) —"
-
-#~ msgid "— Choose a collection —"
-#~ msgstr "— एक संग्रह चुनें —"
-
-#, php-format
-#~ msgid ""
-#~ "Delete folder « %s »?\n"
-#~ "\n"
-#~ "Media inside won’t be deleted — they will be moved to « Media without "
-#~ "folder »."
-#~ msgstr ""
-#~ "फ़ोल्डर « %s » हटाएँ?\n"
-#~ "\n"
-#~ "अंदर की मीडिया नहीं हटेगी — उन्हें « फ़ोल्डर के बिना मीडिया » में स्थानांतरित कर दिया "
-#~ "जाएगा।"
-
-#, php-format
-#~ msgid ""
-#~ "Delete collection « %s »?\n"
-#~ "\n"
-#~ "Media files won’t be deleted — they will simply be removed from this "
-#~ "collection."
-#~ msgstr ""
-#~ "संग्रह « %s » हटाएँ?\n"
-#~ "\n"
-#~ "मीडिया फ़ाइलें नहीं हटेंगी — उन्हें केवल इस संग्रह से हटाया जाएगा।"
-
-#~ msgid "— No folder —"
-#~ msgstr "— कोई फ़ोल्डर नहीं —"
-
-#~ msgid "Error — try again"
-#~ msgstr "त्रुटि — पुनः प्रयास करें"
-
-#, php-format
-#~ msgid "I confirm the permanent deletion of %d media files."
-#~ msgstr "मैं %d मीडिया फ़ाइलों के स्थायी हटाए जाने की पुष्टि करता हूँ।"
-
-#~ msgid "Deleting…"
-#~ msgstr "हटाया जा रहा है…"
-
-#, php-format
-#~ msgid "%d files deleted."
-#~ msgstr "%d फ़ाइलें हटा दी गईं।"
-
-#~ msgid ""
-#~ "Media files not referenced in any post, page, featured image, or custom "
-#~ "field. Files uploaded less than 24 hours ago are excluded."
-#~ msgstr ""
-#~ "किसी भी पोस्ट, पेज, फ़ीचर्ड छवि या कस्टम फ़ील्ड में संदर्भित नहीं की गई मीडिया फ़ाइलें। "
-#~ "24 घंटे से कम समय पहले अपलोड की गई फ़ाइलें बहिष्कृत हैं।"
-
-#~ msgid "Virtual folders"
-#~ msgstr "वर्चुअल फ़ोल्डर"
-
-#, php-format
-#~ msgid "Piloted by %s — settings managed there."
-#~ msgstr "%s द्वारा संचालित — सेटिंग्स वहीं प्रबंधित होती हैं।"
-
-#~ msgid "40–95 (default: 82)"
-#~ msgstr "40–95 (डिफ़ॉल्ट: 82)"
-
-#~ msgid "Analyzing the media library…"
-#~ msgstr "मीडिया लाइब्रेरी का विश्लेषण…"
-
-#~ msgid "Conversion in progress…"
-#~ msgstr "रूपांतरण जारी…"
-
-#, php-format
-#~ msgid "Converted: %1$d / %2$d"
-#~ msgstr "रूपांतरित: %1$d / %2$d"
-
-#~ msgid "Bulk optimization"
-#~ msgstr "बल्क ऑप्टिमाइज़ेशन"
-
-#~ msgid ""
-#~ "Converts all existing media to WebP/AVIF according to the image settings "
-#~ "above. The process may take several minutes on large media libraries."
-#~ msgstr ""
-#~ "ऊपर छवि सेटिंग्स के अनुसार सभी मौजूदा मीडिया को WebP/AVIF में रूपांतरित करता है। बड़ी "
-#~ "मीडिया लाइब्रेरी पर प्रक्रिया में कई मिनट लग सकते हैं।"
-
-#~ msgid "Convert all existing media"
-#~ msgstr "सभी मौजूदा मीडिया रूपांतरित करें"
-
-#~ msgid "Reset state"
-#~ msgstr "स्थिति रीसेट करें"
-
-#, php-format
-#~ msgid "Last run: %1$d / %2$d media processed."
-#~ msgstr "अंतिम रन: %1$d / %2$d मीडिया संसाधित।"
-
-#~ msgid "Optimized variants"
-#~ msgstr "ऑप्टिमाइज़ की गई variants"
-
-#~ msgid "Not converted"
-#~ msgstr "रूपांतरित नहीं"
-
-#, php-format
-#~ msgid "Savings  : %s"
-#~ msgstr "बचत      : %s"
-
-#~ msgid "Detected on disk (converted outside Performance)."
-#~ msgstr "डिस्क पर पहचाना गया (Performance के बाहर रूपांतरित)।"
-
-#, php-format
-#~ msgid "%s detected, we hand HTML cache control over to it."
-#~ msgstr "%s पहचाना गया, हम HTML कैश का नियंत्रण उसे देते हैं।"
-
-#~ msgid "WP Rocket detected, we hand the page cache over to it."
-#~ msgstr "WP Rocket पहचाना गया, हम पृष्ठ कैश का नियंत्रण उसे देते हैं।"
-
-#~ msgid "W3 Total Cache detected, we hand the page cache over to it."
-#~ msgstr "W3 Total Cache पहचाना गया, हम पृष्ठ कैश का नियंत्रण उसे देते हैं।"
-
-#~ msgid "WP Rocket detected, we hand CSS/JS minification over to it."
-#~ msgstr "WP Rocket पहचाना गया, हम CSS/JS minification का नियंत्रण उसे देते हैं।"
-
-#~ msgid "W3 Total Cache detected, we hand CSS/JS minification over to it."
-#~ msgstr ""
-#~ "W3 Total Cache पहचाना गया, हम CSS/JS minification का नियंत्रण उसे देते हैं।"
-
-#~ msgid ""
-#~ "LiteSpeed Cache detected, lazy load is already handled on the server."
-#~ msgstr "LiteSpeed Cache पहचाना गया, lazy load पहले से सर्वर पर प्रबंधित है।"
-
-#~ msgid "WP Rocket detected, we hand lazy load over to it."
-#~ msgstr "WP Rocket पहचाना गया, हम lazy load का नियंत्रण उसे देते हैं।"
-
-#~ msgid "WP Rocket detected, we hand JavaScript defer over to it."
-#~ msgstr "WP Rocket पहचाना गया, हम JavaScript defer का नियंत्रण उसे देते हैं।"
-
-#~ msgid ""
-#~ "LiteSpeed Web Server detected, Brotli and Cache-Control are handled "
-#~ "natively."
-#~ msgstr ""
-#~ "LiteSpeed Web Server पहचाना गया, Brotli और Cache-Control मूल रूप से प्रबंधित हैं।"
-
-#~ msgid ""
-#~ "nginx server detected, .htaccess is not honored: see the docs for the "
-#~ "snippet to paste in nginx.conf."
-#~ msgstr ""
-#~ "nginx सर्वर पहचाना गया, .htaccess का सम्मान नहीं होता: nginx.conf में चिपकाने "
-#~ "हेतु snippet के लिए डॉक देखें।"
-
-#~ msgid "Performance"
-#~ msgstr "प्रदर्शन"
-
-#~ msgid "Images & media"
-#~ msgstr "छवियाँ और मीडिया"
-
-#~ msgid "CDN"
-#~ msgstr "CDN"
-
-#~ msgid ""
-#~ "Runtime optimizations for the site. The module detects competing caches "
-#~ "(LiteSpeed, WP Rocket) and steps aside where they do better."
-#~ msgstr ""
-#~ "साइट के रनटाइम ऑप्टिमाइज़ेशन। मॉड्यूल प्रतिस्पर्धी कैश (LiteSpeed, WP Rocket) का "
-#~ "पता लगाता है और जहाँ वे बेहतर हैं वहाँ पीछे हट जाता है।"
-
-#~ msgid "Disableable optimizations"
-#~ msgstr "निष्क्रिय किए जा सकने वाले ऑप्टिमाइज़ेशन"
-
-#~ msgid ""
-#~ "May affect your site in some cases. Uncheck if you observe a problem."
-#~ msgstr ""
-#~ "कुछ मामलों में आपकी साइट को प्रभावित कर सकते हैं। यदि समस्या देखते हैं, तो अनचेक करें।"
-
-#~ msgid "Page cache"
-#~ msgstr "पृष्ठ कैश"
-
-#~ msgid ""
-#~ "Serves pre-generated HTML to anonymous visitors. Disable on sites with "
-#~ "cart, sessions or personalized content."
-#~ msgstr ""
-#~ "अनाम विज़िटर को पूर्व-उत्पन्न HTML परोसता है। कार्ट, sessions या व्यक्तिगत कंटेंट "
-#~ "वाली साइटों पर निष्क्रिय करें।"
-
-#~ msgid "Defer non-critical JavaScript"
-#~ msgstr "गैर-महत्वपूर्ण JavaScript को रोकें"
-
-#~ msgid ""
-#~ "Defers script execution until after rendering. Disable if you see "
-#~ "JavaScript errors in the console."
-#~ msgstr ""
-#~ "रेंडरिंग के बाद स्क्रिप्ट निष्पादन को टालता है। यदि कंसोल में JavaScript त्रुटियाँ दिखें, "
-#~ "तो निष्क्रिय करें।"
-
-#~ msgid "Advanced optimizations"
-#~ msgstr "उन्नत ऑप्टिमाइज़ेशन"
-
-#~ msgid "beta"
-#~ msgstr "बीटा"
-
-#~ msgid ""
-#~ "Significant performance gains, but imperfect heuristics. Test on a "
-#~ "staging page before leaving in production."
-#~ msgstr ""
-#~ "महत्वपूर्ण प्रदर्शन लाभ, परंतु अपूर्ण हेयूरिस्टिक्स। प्रोडक्शन में छोड़ने से पहले स्टेजिंग पेज पर "
-#~ "परीक्षण करें।"
-
-#~ msgid "Automatic Critical CSS"
-#~ msgstr "स्वचालित Critical CSS"
-
-#~ msgid ""
-#~ "Inlines CSS above the fold, defers the rest. Check that there is no FOUC "
-#~ "on your key pages after enabling."
-#~ msgstr ""
-#~ "Above-the-fold CSS को inline करता है, बाक़ी टालता है। सक्रियण के बाद अपने मुख्य "
-#~ "पृष्ठों पर FOUC न होने की पुष्टि करें।"
-
-#~ msgid "Unused CSS purge"
-#~ msgstr "अप्रयुक्त CSS का purge"
-
-#~ msgid ""
-#~ "Removes CSS rules whose selectors do not match the HTML. Risky for CSS "
-#~ "injected dynamically by JS (modals, popups)."
-#~ msgstr ""
-#~ "उन CSS नियमों को हटाता है जिनका कोई selector HTML से मेल नहीं खाता। JS द्वारा "
-#~ "गतिशील रूप से injected CSS (modals, popups) पर जोखिम।"
-
-#~ msgid "Image settings"
-#~ msgstr "छवि सेटिंग्स"
-
-#~ msgid "Video conversion MP4 → WebM"
-#~ msgstr "वीडियो रूपांतरण MP4 → WebM"
-
-#~ msgid ""
-#~ "Generates a WebM (VP9) variant and adds it as <source> in the HTML. "
-#~ "Requires ffmpeg on the server."
-#~ msgstr ""
-#~ "एक WebM (VP9) variant उत्पन्न करता है और HTML में <source> के रूप में जोड़ता है। "
-#~ "सर्वर पर ffmpeg आवश्यक।"
-
-#~ msgid "Cloudflare CDN"
-#~ msgstr "Cloudflare CDN"
-
-#~ msgid "optional"
-#~ msgstr "वैकल्पिक"
-
-#~ msgid ""
-#~ "When a token is entered, the CDN cache is purged automatically on publish "
-#~ "and on theme change."
-#~ msgstr ""
-#~ "जब एक टोकन दर्ज होता है, प्रकाशन और थीम बदलाव पर CDN कैश स्वतः साफ़ हो जाता है।"
-
-#~ msgid "API Token"
-#~ msgstr "API Token"
-
-#, php-format
-#~ msgid "Token with the Zone.Cache Purge + Zone.Read scopes. %s"
-#~ msgstr "Zone.Cache Purge + Zone.Read स्कोप के साथ टोकन। %s"
-
-#~ msgid "Create a token"
-#~ msgstr "टोकन बनाएँ"
-
-#~ msgid "Zone ID"
-#~ msgstr "Zone ID"
-
-#~ msgid "Detected automatically when the token is saved if left empty."
-#~ msgstr "रिक्त छोड़ने पर टोकन सहेजते समय स्वतः पहचानी जाएगी।"
-
-#~ msgid "HTTP compression (Brotli, Gzip)"
-#~ msgstr "HTTP कम्प्रेशन (Brotli, Gzip)"
-
-#~ msgid ""
-#~ "Reduces the size of transferred HTML/CSS/JS. Managed via .htaccess on "
-#~ "Apache."
-#~ msgstr ""
-#~ "स्थानांतरित HTML/CSS/JS का आकार घटाता है। Apache पर .htaccess के माध्यम से "
-#~ "प्रबंधित।"
-
-#~ msgid "Cache headers for assets (1 year, immutable)"
-#~ msgstr "एसेट्स के लिए Cache-Control हेडर (1 वर्ष, immutable)"
-
-#~ msgid "Browsers cache images, CSS and JS for a long time."
-#~ msgstr "ब्राउज़र छवियों, CSS और JS को लंबे समय तक कैश में रखते हैं।"
-
-#~ msgid "Lazy load off-screen images"
-#~ msgstr "ऑफ़-स्क्रीन छवियों का lazy load"
-
-#~ msgid ""
-#~ "Defers loading to images actually viewed. The first image (LCP) stays "
-#~ "eager + fetchpriority high."
-#~ msgstr ""
-#~ "वास्तव में देखी गई छवियों तक लोडिंग को टालता है। पहली छवि (LCP) eager + "
-#~ "fetchpriority high में रहती है।"
-
-#~ msgid "Preload main CSS"
-#~ msgstr "मुख्य CSS का preload"
-
-#~ msgid "Saves one network round-trip on the main stylesheet."
-#~ msgstr "मुख्य stylesheet पर एक नेटवर्क राउंड-ट्रिप बचाता है।"
-
-#~ msgid "DNS prefetch for external domains"
-#~ msgstr "बाहरी डोमेन का DNS prefetch"
-
-#~ msgid "Resolves DNS for fonts, analytics and CDN ahead of time."
-#~ msgstr "फ़ॉन्ट, analytics और CDN के DNS को पहले से हल करता है।"
-
-#~ msgid "CSS and JavaScript minification"
-#~ msgstr "CSS और JavaScript का minification"
-
-#~ msgid ""
-#~ "Compacts non-minified local files. Automatic fallback if minification "
-#~ "fails."
-#~ msgstr ""
-#~ "non-minified स्थानीय फ़ाइलों को कॉम्पैक्ट करता है। यदि minification विफल हो तो "
-#~ "स्वचालित fallback।"
-
-#~ msgid "<picture>/<source> injection WebP/AVIF"
-#~ msgstr "<picture>/<source> Injection WebP/AVIF"
-
-#~ msgid ""
-#~ "Automatically wraps <img> in <picture> with the available WebP/AVIF "
-#~ "variants. Bricks-compatible (preserves native <picture>)."
-#~ msgstr ""
-#~ "<img> को उपलब्ध WebP/AVIF variants के साथ <picture> में स्वतः लपेटता है। Bricks-"
-#~ "संगत (मूल <picture> को सुरक्षित रखता है)।"
-
-#~ msgid "Anti-CLS dimensions"
-#~ msgstr "Anti-CLS आयाम"
-
-#~ msgid ""
-#~ "Adds width/height + aspect-ratio to images and videos that lack them. "
-#~ "Safelist for sliders and carousels (Swiper, Splide, Slick)."
-#~ msgstr ""
-#~ "जिन छवियों और वीडियो में नहीं है उन पर width/height + aspect-ratio जोड़ता है। "
-#~ "Slider और carousel के लिए safelist (Swiper, Splide, Slick)।"
-
-#~ msgid "Self-hosted Google Fonts (GDPR)"
-#~ msgstr "Google Fonts का स्व-होस्टिंग (GDPR)"
-
-#~ msgid ""
-#~ "Local mirror of the fonts.googleapis.com stylesheets. No IP is sent to "
-#~ "Google."
-#~ msgstr ""
-#~ "fonts.googleapis.com शीट्स का स्थानीय मिरर। Google को कोई IP नहीं भेजी जाती।"
-
-#~ msgid "Preload critical fonts"
-#~ msgstr "महत्वपूर्ण फ़ॉन्ट का preload"
-
-#~ msgid "Automatic preloading of up to 2 woff2 fonts to avoid FOIT/FOUT."
-#~ msgstr "FOIT/FOUT से बचने के लिए अधिकतम 2 woff2 फ़ॉन्ट का स्वचालित preload।"
-
-#~ msgid "Automatic optimizations"
-#~ msgstr "स्वचालित ऑप्टिमाइज़ेशन"
-
-#~ msgid ""
-#~ "Always active on your site. We have verified they pose no risk of "
-#~ "breaking anything."
-#~ msgstr ""
-#~ "आपकी साइट पर हमेशा सक्रिय। हमने पुष्टि की है कि इनसे कुछ भी टूटने का जोखिम नहीं है।"
-
-#~ msgid "Formats to generate"
-#~ msgstr "उत्पन्न किए जाने वाले प्रारूप"
-
-#~ msgid "WebP"
-#~ msgstr "WebP"
-
-#~ msgid "AVIF (Imagick required)"
-#~ msgstr "AVIF (Imagick आवश्यक)"
-
-#~ msgid ""
-#~ "Formats are automatically disabled if the server does not support them."
-#~ msgstr "यदि सर्वर इन्हें समर्थित नहीं करता, प्रारूप स्वचालित रूप से निष्क्रिय हो जाते हैं।"
-
-#~ msgid "Compression quality"
-#~ msgstr "कम्प्रेशन गुणवत्ता"
-
-#~ msgid "40–95 (default 82, balance quality/weight)"
-#~ msgstr "40–95 (डिफ़ॉल्ट 82, गुणवत्ता/आकार संतुलन)"
-
-#~ msgid "Competitors detected"
-#~ msgstr "प्रतिस्पर्धी पहचाने गए"
-
-#~ msgid ""
-#~ "Performance disables the optimizations they already handle better than us."
-#~ msgstr ""
-#~ "Performance उन ऑप्टिमाइज़ेशन को निष्क्रिय करता है जिन्हें वे हमसे बेहतर पहले से प्रबंधित "
-#~ "करते हैं।"
-
-#~ msgid "Staging URL"
-#~ msgstr "स्टेजिंग URL"
-
-#~ msgid "(not configured, see the Settings tab)"
-#~ msgstr "(कॉन्फ़िगर नहीं, सेटिंग्स टैब)"
-
-#~ msgid "Last sync"
-#~ msgstr "अंतिम सिंक्रोनाइज़ेशन"
-
-#~ msgid "Last error"
-#~ msgstr "अंतिम त्रुटि"
-
-#~ msgid "Health check"
-#~ msgstr "हेल्थ जाँच"
-
-#~ msgid "Configure the subdomain first in the Settings tab."
-#~ msgstr "पहले सेटिंग्स टैब में सब-डोमेन कॉन्फ़िगर करें।"
-
-#~ msgid "Create staging"
-#~ msgstr "स्टेजिंग बनाएँ"
-
-#~ msgid ""
-#~ "Full clone: DB + files. May take a few minutes depending on site size."
-#~ msgstr "पूर्ण क्लोन: DB + फ़ाइलें। साइट के आकार के आधार पर कुछ मिनट लग सकते हैं।"
-
-#~ msgid "Operation in progress… refresh the page in a few minutes."
-#~ msgstr "ऑपरेशन जारी… कुछ मिनट में पृष्ठ रिफ़्रेश करें।"
-
-#~ msgid "Open staging"
-#~ msgstr "स्टेजिंग खोलें"
-
-#~ msgid "Re-sync from production"
-#~ msgstr "प्रोडक्शन से पुनः सिंक करें"
-
-#~ msgid "Destroy staging"
-#~ msgstr "स्टेजिंग नष्ट करें"
-
-#~ msgid "Retry creation"
-#~ msgstr "निर्माण पुनः प्रयास करें"
-
-#~ msgid "Destroy staging? DB + files will be deleted."
-#~ msgstr "स्टेजिंग नष्ट करें? DB + फ़ाइलें हटा दी जाएँगी।"
-
-#~ msgid "No staging"
-#~ msgstr "कोई स्टेजिंग नहीं"
-
-#~ msgid "Clone in progress…"
-#~ msgstr "क्लोनिंग जारी…"
-
-#~ msgid "✓ Operational"
-#~ msgstr "✓ संचालित"
-
-#~ msgid "✗ Error (see details)"
-#~ msgstr "✗ त्रुटि (विवरण देखें)"
-
-#~ msgid "Destruction in progress…"
-#~ msgstr "विनाश जारी…"
-
-#~ msgid "Configuration"
-#~ msgstr "कॉन्फ़िगरेशन"
-
-#~ msgid "Staging subdomain"
-#~ msgstr "स्टेजिंग सब-डोमेन"
-
-#~ msgid ""
-#~ "The subdomain must already be configured at the DNS level and point to "
-#~ "this server. The module does NOT configure DNS."
-#~ msgstr ""
-#~ "सब-डोमेन पहले से DNS पर कॉन्फ़िगर होना चाहिए और इस सर्वर पर इंगित करना चाहिए। "
-#~ "मॉड्यूल DNS कॉन्फ़िगर नहीं करता।"
-
-#~ msgid "Staging DB prefix"
-#~ msgstr "स्टेजिंग DB उपसर्ग"
-
-#, php-format
-#~ msgid "Must end with _ and differ from the prod prefix (%s)."
-#~ msgstr "_ से समाप्त होना चाहिए और प्रोडक्शन उपसर्ग (%s) से भिन्न होना चाहिए।"
-
-#~ msgid "Staging folder"
-#~ msgstr "स्टेजिंग फ़ोल्डर"
-
-#~ msgid "Path relative to ABSPATH. The subdomain must point to this folder."
-#~ msgstr "ABSPATH से सापेक्ष पाथ। सब-डोमेन को इस फ़ोल्डर पर इंगित करना चाहिए।"
-
-#~ msgid "Privacy"
-#~ msgstr "गोपनीयता"
-
-#~ msgid "Basic Auth"
-#~ msgstr "Basic Auth"
-
-#~ msgid "Protect staging with HTTP password (.htpasswd)"
-#~ msgstr "HTTP पासवर्ड (.htpasswd) से स्टेजिंग की सुरक्षा करें"
-
-#~ msgid ""
-#~ "Apache only. On nginx (LocalWP), auth_basic must be added to the vhost "
-#~ "manually."
-#~ msgstr ""
-#~ "केवल Apache। nginx (LocalWP) पर, vhost में मैन्युअल रूप से auth_basic जोड़ना होगा।"
-
-#~ msgid ""
-#~ "The password is applied on the next clone via .htpasswd (bcrypt hash)."
-#~ msgstr "पासवर्ड अगले क्लोन पर .htpasswd के माध्यम से लागू होगा (bcrypt hash)।"
-
-#~ msgid "Cloned content"
-#~ msgstr "क्लोन की गई सामग्री"
-
-#~ msgid "Also clone wp-content/uploads/ (can be large)"
-#~ msgstr "wp-content/uploads/ भी क्लोन करें (बड़ा हो सकता है)"
-
-#~ msgid "Tables to exclude"
-#~ msgstr "बाहर रखी जाने वाली तालिकाएँ"
-
-#~ msgid "One table per line (full prefix, e.g. wp_actionscheduler_logs)."
-#~ msgstr "प्रति पंक्ति एक तालिका (पूर्ण उपसर्ग, उदा. wp_actionscheduler_logs)।"
-
-#~ msgid "Paths to exclude"
-#~ msgstr "बहिष्कृत किए जाने वाले पाथ"
-
-#~ msgid ""
-#~ "One path per line (under wp-content/). System paths (cache/, upgrade/) "
-#~ "are already excluded."
-#~ msgstr ""
-#~ "प्रति पंक्ति एक पाथ (wp-content/ के अंतर्गत)। सिस्टम पाथ (cache/, upgrade/) पहले "
-#~ "से बहिष्कृत हैं।"
-
-#~ msgid "Post-clone email"
-#~ msgstr "क्लोन के बाद ईमेल"
-
-#~ msgid "Send an email after every clone"
-#~ msgstr "प्रत्येक क्लोन के बाद एक ईमेल भेजें"
-
-#, php-format
-#~ msgid "[Double Youpï] Staging clone failed from %s"
-#~ msgstr "[Double Youpï] %s से स्टेजिंग क्लोन विफल"
-
-#, php-format
-#~ msgid "[Double Youpï] Staging cloned from %s"
-#~ msgstr "[Double Youpï] %s से स्टेजिंग क्लोन की गई"
-
-#, php-format
-#~ msgid "Production : %s"
-#~ msgstr "प्रोडक्शन : %s"
-
-#, php-format
-#~ msgid "Staging    : %s"
-#~ msgstr "स्टेजिंग    : %s"
-
-#, php-format
-#~ msgid "Duration   : %ds"
-#~ msgstr "अवधि       : %ds"
-
-#, php-format
-#~ msgid "URLs rewritten: %d"
-#~ msgstr "पुनर्लेखित URL: %d"
-
-#, php-format
-#~ msgid "Files      : %d"
-#~ msgstr "फ़ाइलें     : %d"
-
-#~ msgid "Errors:"
-#~ msgstr "त्रुटियाँ:"
-
-#, php-format
-#~ msgid "See details: %s"
-#~ msgstr "विवरण देखें: %s"
-
-#~ msgid "Email sent automatically by Double Youpï Staging."
-#~ msgstr "Double Youpï Staging द्वारा स्वचालित रूप से भेजा गया ईमेल।"
-
-#~ msgid "present"
-#~ msgstr "उपस्थित"
-
-#~ msgid "absent"
-#~ msgstr "अनुपस्थित"
-
-#~ msgid "DOM extension"
-#~ msgstr "DOM एक्सटेंशन"
-
-#~ msgid "cURL extension"
-#~ msgstr "cURL एक्सटेंशन"
-
-#~ msgid "absent (streams fallback)"
-#~ msgstr "अनुपस्थित (streams fallback)"
-
-#~ msgid "ZIP extension (snapshots)"
-#~ msgstr "ZIP एक्सटेंशन (स्नैपशॉट)"
-
-#~ msgid "absent, Revert unavailable"
-#~ msgstr "अनुपस्थित, Revert उपलब्ध नहीं"
-
-#~ msgid "Serving mode"
-#~ msgstr "Serving मोड"
-
-#~ msgid "Sentinel .active"
-#~ msgstr "Sentinel .active"
-
-#~ msgid ".htaccess (serving rules)"
-#~ msgstr ".htaccess (serving नियम)"
-
-#~ msgid "nginx: rules ignored (PHP intercept active)"
-#~ msgstr "nginx: नियम अनदेखे (PHP intercept सक्रिय)"
-
-#~ msgid "block installed"
-#~ msgstr "ब्लॉक स्थापित"
-
-#~ msgid "block absent"
-#~ msgstr "ब्लॉक अनुपस्थित"
-
-#~ msgid "Static folder"
-#~ msgstr "स्टेटिक फ़ोल्डर"
-
-#~ msgid "Loopback OK"
-#~ msgstr "Loopback OK"
-
-#~ msgid "No static file exists for this URL."
-#~ msgstr "इस URL के लिए कोई स्टेटिक फ़ाइल नहीं है।"
-
-#, php-format
-#~ msgid "Could not fetch the WordPress version: %s"
-#~ msgstr "WordPress संस्करण नहीं प्राप्त किया जा सका: %s"
-
-#~ msgid "Action reserved for administrators."
-#~ msgstr "क्रिया केवल प्रशासकों के लिए आरक्षित।"
-
-#~ msgid "Page URL:"
-#~ msgstr "पृष्ठ का URL:"
-
-#~ msgid "Push this page"
-#~ msgstr "यह पृष्ठ Push करें"
-
-#~ msgid "Remove from static"
-#~ msgstr "स्टेटिक से हटाएँ"
-
-#~ msgid "Push in progress…"
-#~ msgstr "Push जारी…"
-
-#~ msgid "Page pushed successfully."
-#~ msgstr "पृष्ठ सफलतापूर्वक Push किया गया।"
-
-#~ msgid "Error during push."
-#~ msgstr "Push के दौरान त्रुटि।"
-
-#~ msgid "Remove this page from static?"
-#~ msgstr "इस पृष्ठ को स्टेटिक से हटाएँ?"
-
-#~ msgid "Deletion in progress…"
-#~ msgstr "हटाया जा रहा है…"
-
-#~ msgid "Page removed from static."
-#~ msgstr "पृष्ठ स्टेटिक से हटाया गया।"
-
-#~ msgid "Error while deleting."
-#~ msgstr "हटाते समय त्रुटि।"
-
-#~ msgid "Every minute"
-#~ msgstr "हर मिनट"
-
-#, php-format
-#~ msgid "%s Mode"
-#~ msgstr "%s मोड"
-
-#~ msgid "Mode: Disabled"
-#~ msgstr "मोड: अक्षम"
-
-#~ msgid "Mode: Hybrid"
-#~ msgstr "मोड: हाइब्रिड"
-
-#~ msgid "Mode: Strict static"
-#~ msgstr "मोड: स्टेटिक स्ट्रिक्ट"
-
-#~ msgid "Open the Static page"
-#~ msgstr "स्टेटिक पृष्ठ खोलें"
-
-#~ msgid "Double Youpï: static site"
-#~ msgstr "Double Youpï: स्टेटिक साइट"
-
-#~ msgid "Current mode:"
-#~ msgstr "वर्तमान मोड:"
-
-#, php-format
-#~ msgid "%s HTML pages generated"
-#~ msgstr "%s HTML पेज उत्पन्न किए गए"
-
-#, php-format
-#~ msgid "Last push: %s"
-#~ msgstr "अंतिम push: %s"
-
-#, php-format
-#~ msgid "%1$d OK / %2$d failed"
-#~ msgstr "%1$d OK / %2$d विफल"
-
-#~ msgid ""
-#~ "Static serving paused: all visitors are served by WordPress. Generated "
-#~ "files stay on disk, ready to be re-activated."
-#~ msgstr ""
-#~ "स्टैटिक सर्विंग रोक दिया गया: सभी विज़िटर्स को सीधे WordPress द्वारा सर्व किया जा "
-#~ "रहा है। जनरेट की गई फ़ाइलें डिस्क पर सुरक्षित रहती हैं, फिर से सक्रिय करने के लिए तैयार।"
-
-#~ msgid ""
-#~ "Serves the static HTML when it exists, otherwise falls back to WordPress. "
-#~ "Recommended in production."
-#~ msgstr ""
-#~ "जब स्टेटिक HTML उपलब्ध हो तब उसे परोसता है, अन्यथा WordPress पर लौटता है। "
-#~ "प्रोडक्शन में अनुशंसित।"
-
-#~ msgid "Strict static"
-#~ msgstr "स्टेटिक स्ट्रिक्ट"
-
-#~ msgid ""
-#~ "Static only. URLs not generated return a custom 404. Use only after full "
-#~ "QA."
-#~ msgstr ""
-#~ "केवल स्टेटिक। जो URL जनरेट नहीं हुए वे एक कस्टम 404 लौटाते हैं। पूर्ण QA के बाद उपयोग "
-#~ "करें।"
-
-#~ msgid "Starting…"
-#~ msgstr "प्रारंभ हो रहा है…"
-
-#~ msgid "Collecting URLs…"
-#~ msgstr "URL एकत्र किए जा रहे हैं…"
-
-#, php-format
-#~ msgid "%1$d / %2$d URLs"
-#~ msgstr "%1$d / %2$d URL"
-
-#, php-format
-#~ msgid "%1$d OK · %2$d failed"
-#~ msgstr "%1$d ठीक · %2$d विफल"
-
-#~ msgid ""
-#~ "Clear all static? This action is irreversible (snapshots allow rolling "
-#~ "back)."
-#~ msgstr ""
-#~ "पूरा स्टेटिक खाली करें? यह क्रिया अपरिवर्तनीय है (स्नैपशॉट से वापस लौटा जा सकता है)।"
-
-#~ msgid ""
-#~ "Enable STRICT mode? WordPress will be unavailable to anonymous visitors. "
-#~ "Make sure you have done a recent full push."
-#~ msgstr ""
-#~ "स्ट्रिक्ट मोड सक्रिय करें? WordPress अनाम विज़िटर के लिए अनुपलब्ध रहेगा। पुष्टि करें कि "
-#~ "आपने हाल ही में फ़ुल push किया है।"
-
-#~ msgid "Diagnostics"
-#~ msgstr "डायग्नोस्टिक्स"
-
-#~ msgid ""
-#~ "Checks that the environment, the server and the static pipeline are ready."
-#~ msgstr "पुष्टि करता है कि एनवायरनमेंट, सर्वर और स्टेटिक पाइपलाइन तैयार हैं।"
-
-#~ msgid "Verification"
-#~ msgstr "सत्यापन"
-
-#~ msgid "Value"
-#~ msgstr "मान"
-
-#~ msgid "Test loopback"
-#~ msgstr "Loopback का परीक्षण करें"
-
-#~ msgid "Compare static head vs WP"
-#~ msgstr "स्टेटिक head की WP के साथ तुलना करें"
-
-#~ msgid "Operations"
-#~ msgstr "ऑपरेशंस"
-
-#~ msgid "Create a snapshot"
-#~ msgstr "Snapshot बनाएँ"
-
-#~ msgid "List snapshots"
-#~ msgstr "Snapshots की सूची दिखाएँ"
-
-#~ msgid "Scan for orphans"
-#~ msgstr "अनाथों को स्कैन करें"
-
-#~ msgid "Delete orphans"
-#~ msgstr "अनाथ हटाएँ"
-
-#~ msgid "Top tracked 404s"
-#~ msgstr "शीर्ष ट्रैक की गई 404"
-
-#~ msgid "Push log"
-#~ msgstr "Push जर्नल"
-
-#~ msgid "The last 20 recorded pushes."
-#~ msgstr "अंतिम 20 दर्ज किए गए push।"
-
-#~ msgid "No push recorded yet."
-#~ msgstr "अभी कोई push दर्ज नहीं।"
-
-#~ msgid "URLs"
-#~ msgstr "URL"
-
-#~ msgid "OK / Failed"
-#~ msgstr "OK / विफल"
-
-#~ msgid "Duration"
-#~ msgstr "अवधि"
-
-#~ msgid "Success"
-#~ msgstr "सफलता"
-
-#~ msgid "Current mode"
-#~ msgstr "वर्तमान मोड"
-
-#~ msgid "Last push"
-#~ msgstr "अंतिम push"
-
-#~ msgid ".htaccess"
-#~ msgstr ".htaccess"
-
-#~ msgid "nginx: PHP intercept active"
-#~ msgstr "nginx: PHP intercept सक्रिय"
-
-#~ msgid "installed"
-#~ msgstr "स्थापित"
-
-#~ msgid "Builder detected"
-#~ msgstr "Builder पहचाना गया"
-
-#~ msgid "Full push"
-#~ msgstr "पूर्ण Push"
-
-#~ msgid "Clear static"
-#~ msgstr "स्टेटिक खाली करें"
-
-#~ msgid "advanced"
-#~ msgstr "उन्नत"
-
-#~ msgid "Partial push"
-#~ msgstr "आंशिक Push"
-
-#~ msgid "By post type"
-#~ msgstr "पोस्ट प्रकार द्वारा"
-
-#~ msgid "— select —"
-#~ msgstr "— चुनें —"
-
-#~ msgid "Push this type"
-#~ msgstr "इस प्रकार को Push करें"
-
-#~ msgid "By IDs"
-#~ msgstr "ID द्वारा"
-
-#~ msgid "Push these IDs"
-#~ msgstr "ये ID Push करें"
-
-#~ msgid "Auto-push on publish"
-#~ msgstr "प्रकाशन पर ऑटो-push"
-
-#~ msgid "Automatically repush modified pages (post + home + type archive)."
-#~ msgstr "संशोधित पृष्ठों का स्वचालित re-push (पोस्ट + होम + प्रकार का संग्रह)।"
-
-#~ msgid "Trailing slash"
-#~ msgstr "अंतिम slash"
-
-#~ msgid "Forces the trailing slash on URLs (WP consistency)."
-#~ msgstr "URL पर अंतिम slash थोपता है (WP के साथ संगति)।"
-
-#~ msgid "Query string → WP"
-#~ msgstr "Query string → WP"
-
-#~ msgid ""
-#~ "Pass URLs with a query string through to live WordPress (useful for "
-#~ "Bricks Query Filter, search, etc.)."
-#~ msgstr ""
-#~ "Query string वाले URL को live WordPress पर जाने दें (Bricks Query Filter, "
-#~ "search आदि के लिए उपयोगी)।"
-
-#~ msgid "404 tracking"
-#~ msgstr "404 ट्रैकिंग"
-
-#~ msgid "Records 404 URLs to detect pages missing from the static build."
-#~ msgstr "स्टेटिक में लापता पृष्ठों का पता लगाने के लिए 404 URL रिकॉर्ड करता है।"
-
-#~ msgid "Excluded paths"
-#~ msgstr "बहिष्कृत पाथ"
-
-#~ msgid ""
-#~ "One path per line. URLs starting with these prefixes are not generated as "
-#~ "static (served by WP)."
-#~ msgstr ""
-#~ "प्रति पंक्ति एक पाथ। इन उपसर्गों से शुरू होने वाले URL स्टेटिक में जनरेट नहीं होते (WP "
-#~ "द्वारा परोसे जाते हैं)।"
-
-#~ msgid "No 404 tracked."
-#~ msgstr "कोई 404 ट्रैक नहीं।"
-
-#~ msgid "Occurrences"
-#~ msgstr "घटनाएँ"
-
-#~ msgid "Last"
-#~ msgstr "अंतिम"
-
-#~ msgid "Main"
-#~ msgstr "मुख्य"
-
-#~ msgid "Log"
-#~ msgstr "जर्नल"
-
-#~ msgid ""
-#~ "Generates and serves a static HTML version of the site. Reduces the "
-#~ "WordPress attack surface and allows free hosting on Cloudflare Pages, "
-#~ "Netlify or GitHub Pages."
-#~ msgstr ""
-#~ "साइट के एक स्टेटिक HTML संस्करण का जनरेशन और serving। WordPress पर अटैक सरफ़ेस "
-#~ "घटाता है और Cloudflare Pages, Netlify या GitHub Pages पर निःशुल्क होस्टिंग "
-#~ "सक्षम करता है।"
-
-#~ msgid "Quick tools"
-#~ msgstr "त्वरित उपकरण"
-
-#, php-format
-#~ msgid "%s detected — we hand control over to it."
-#~ msgstr "%s पहचाना गया — हम उसे नियंत्रण देते हैं।"
-
-#~ msgid "Monthly revenue"
-#~ msgstr "मासिक राजस्व"
-
-#~ msgid "Your shop essentials at a glance"
-#~ msgstr "एक नज़र में आपकी दुकान की मुख्य बातें"
-
-#~ msgid "Full view: sales and operations"
-#~ msgstr "पूर्ण दृश्य: बिक्री और संचालन"
-
-#, php-format
-#~ msgid "%d order%s"
-#~ msgid_plural "%d orders%s"
-#~ msgstr[0] "%d ऑर्डर%s"
-#~ msgstr[1] "%d ऑर्डर%s"
-
-#~ msgid ""
-#~ "Import folders and collections from another media library plugin. Your "
-#~ "media stay in place — this only re-creates the folder structure inside "
-#~ "Refined Media Library. The source plugin is never modified, so you can "
-#~ "verify the result before removing it."
-#~ msgstr ""
-#~ "किसी अन्य मीडिया लाइब्रेरी प्लगइन से फ़ोल्डर और संग्रह आयात करें। आपकी मीडिया "
-#~ "यथास्थान रहती है — यह केवल Refined Media Library में फ़ोल्डर संरचना दोबारा बनाता "
-#~ "है। स्रोत प्लगइन कभी संशोधित नहीं होता, इसलिए हटाने से पहले आप परिणाम जाँच सकते हैं।"
-
-#, php-format
-#~ msgid "Done — %1$d folders and %2$d media imported."
-#~ msgstr "पूर्ण — %1$d फ़ोल्डर और %2$d मीडिया आयात किए गए।"
-
-#~ msgid "Changes are saved automatically."
-#~ msgstr "परिवर्तन स्वतः सहेजे जाते हैं।"
-
-#~ msgid "Install failed — open the installer"
-#~ msgstr "इंस्टॉल विफल — इंस्टॉलर खोलें"
-
-#~ msgid ""
-#~ "Double Youpï is shaped by the pros who use it. An idea, a bug, a request?"
-#~ msgstr ""
-#~ "Double Youpï को वही पेशेवर आकार देते हैं जो इसे इस्तेमाल करते हैं। कोई सुझाव, कोई बग, "
-#~ "कोई अनुरोध?"
-
-#~ msgid "Share feedback"
-#~ msgstr "अपनी राय दें"
-
-#~ msgid "Feedback"
-#~ msgstr "प्रतिक्रिया"
-
-#~ msgid ""
-#~ "Admin Columns rewrites WordPress list-table columns, which conflicts with "
-#~ "the reimagined tables in Refined Admin Dashboard. It was deactivated "
-#~ "automatically to prevent a broken layout."
-#~ msgstr ""
-#~ "Admin Columns वर्डप्रेस सूची-तालिका कॉलम को फिर से लिखता है, जो Refined Admin "
-#~ "Dashboard की पुनर्कल्पित तालिकाओं से टकराता है। टूटे लेआउट को रोकने के लिए इसे "
-#~ "स्वचालित रूप से निष्क्रिय कर दिया गया।"
-
-#~ msgid "Got it, dismiss"
-#~ msgstr "समझ गया, खारिज करें"
-
-#~ msgid "Send feedback about this screen"
-#~ msgstr "इस स्क्रीन के बारे में फ़ीडबैक भेजें"
-
-#~ msgid "It concerns"
-#~ msgstr "यह संबंधित है"
-
-#~ msgid ""
-#~ "We could not tell which plugin this screen belongs to. Pick it above if "
-#~ "you know."
-#~ msgstr ""
-#~ "हम यह नहीं जान सके कि यह स्क्रीन किस प्लगइन की है। यदि आप जानते हैं तो ऊपर चुनें।"
-
-#~ msgid ""
-#~ "A dark and light redesign of the whole WordPress admin: a navigation rail "
-#~ "you can reorganise, reimagined list tables and post editor, one place for "
-#~ "every notice, a dashboard you compose, and a built-in toolkit. Native "
-#~ "components only."
-#~ msgstr ""
-#~ "पूरे वर्डप्रेस एडमिन का डार्क और लाइट रीडिज़ाइन: एक नेविगेशन रेल जिसे आप पुनर्व्यवस्थित "
-#~ "करते हैं, नए सिरे से सोची गई सूचियाँ और संपादक, सभी सूचनाओं के लिए एक ही जगह, एक "
-#~ "डैशबोर्ड जिसे आप स्वयं बनाते हैं, और एक अंतर्निर्मित टूलकिट। केवल नेटिव घटक।"
-
-#~ msgid ""
-#~ "If enabled, the 7 menu lines (Content, Commerce, Users, Community, "
-#~ "Appearance, System, Developer) all use the accent color. Otherwise, each "
-#~ "line keeps its own color."
-#~ msgstr ""
-#~ "यदि सक्षम है, मेन्यू की सभी 7 पंक्तियाँ (सामग्री, वाणिज्य, उपयोगकर्ता, समुदाय, "
-#~ "दिखावट, सिस्टम, डेवलपर) एक्सेंट रंग का उपयोग करती हैं। अन्यथा, प्रत्येक पंक्ति अपना स्वयं "
-#~ "का रंग रखती है।"
-
-#~ msgid "Reimagined (recommended): seven sections, content first"
-#~ msgstr "नया रूप (अनुशंसित): सात खंड, सामग्री पहले"
-
-#~ msgid "Native WordPress: the menu as WordPress orders it, drawn by our rail"
-#~ msgstr "मूल WordPress: मेनू जैसा WordPress क्रम देता है, हमारी रेल से बना"
-
-#~ msgid ""
-#~ "Native keeps the muscle memory of a team trained on the WordPress menu: "
-#~ "same entries, same order, same sub-menus. Everything else in Refined "
-#~ "Admin Dashboard still applies. The Reorganize tab is hidden in native "
-#~ "mode; your layout is kept for when you switch back."
-#~ msgstr ""
-#~ "मूल मोड WordPress मेनू पर प्रशिक्षित टीम की आदतें बनाए रखता है: वही प्रविष्टियाँ, "
-#~ "वही क्रम, वही उप-मेनू। Refined Admin Dashboard का बाकी सब लागू रहता है। मूल मोड "
-#~ "में पुनर्व्यवस्थित टैब छिपा रहता है; वापसी के लिए आपका लेआउट सुरक्षित रहता है।"
-
-#~ msgid "One level (recommended): the pages of the section"
-#~ msgstr "एक स्तर (अनुशंसित): अनुभाग के पृष्ठ"
-
-#~ msgid "Two levels: the pages and their sub-pages"
-#~ msgstr "दो स्तर: पृष्ठ और उनके उप-पृष्ठ"
-
-#~ msgid ""
-#~ "Hovering a section of the rail opens its pages next to it: every page is "
-#~ "one click away, whatever the section you are in. Keyboard: the right "
-#~ "arrow opens the list, Escape closes it. Nothing changes at rest."
-#~ msgstr ""
-#~ "रेल के किसी अनुभाग पर होवर करने से उसके पृष्ठ बगल में खुल जाते हैं: आप चाहे किसी भी "
-#~ "अनुभाग में हों, हर पृष्ठ एक क्लिक की दूरी पर है। कीबोर्ड: दायाँ तीर सूची खोलता है, "
-#~ "Escape उसे बंद करता है। स्थिर अवस्था में कुछ नहीं बदलता।"
-
-#~ msgid ""
-#~ "The site-level setup as one JSON file: export it from a finished site, "
-#~ "import it on the next one. It carries:"
-#~ msgstr ""
-#~ "साइट-स्तर का सेटअप एक JSON फ़ाइल में: तैयार साइट से निर्यात करें, अगली पर आयात करें। "
-#~ "इसमें शामिल है:"
-
-#~ msgid ""
-#~ "Personal choices (theme, rail width) and dashboard layouts stay with each "
-#~ "site."
-#~ msgstr "व्यक्तिगत चुनाव (थीम, रेल की चौड़ाई) और डैशबोर्ड लेआउट हर साइट के अपने रहते हैं।"
-
-#~ msgid "To pin it in code on every site, add to wp-config.php:"
-#~ msgstr "हर साइट पर इसे कोड में तय करने के लिए wp-config.php में जोड़ें:"
-
-#~ msgid ""
-#~ "Values go through the same checks as this form. The logo keeps its URL "
-#~ "only; the image is not copied."
-#~ msgstr ""
-#~ "मान इस फ़ॉर्म जैसी ही जाँच से गुज़रते हैं। लोगो केवल अपना URL रखता है; छवि कॉपी नहीं "
-#~ "होती।"
-
-#~ msgid "Dark or light"
-#~ msgstr "गहरा या हल्का"
-
-#~ msgid ""
-#~ "Each person picks their theme with the sun and moon button in the top "
-#~ "bar. Nothing to set here."
-#~ msgstr ""
-#~ "हर व्यक्ति ऊपरी पट्टी के सूरज-चाँद बटन से अपनी थीम चुनता है। यहाँ कुछ सेट नहीं करना।"
-
-#~ msgid "Three things worth a look"
-#~ msgstr "तीन चीज़ें देखने लायक"
-
-#~ msgid "Setting up several sites?"
-#~ msgstr "कई साइटें सेट कर रहे हैं?"
-
-#~ msgid "Export this setup as a profile and import it on the next one."
-#~ msgstr "इस सेटअप को प्रोफ़ाइल के रूप में निर्यात करें और अगली साइट पर आयात करें।"
-
-#~ msgid ""
-#~ "Nested folders with drag-and-drop, collections, duplicate and orphan "
-#~ "cleanup, auto alt text and WebP/AVIF for the WordPress media library, "
-#~ "without the per-image fiddling."
-#~ msgstr ""
-#~ "ड्रैग-एंड-ड्रॉप वाले नेस्टेड फ़ोल्डर, संग्रह, डुप्लिकेट और अनाथ फ़ाइलों की सफ़ाई, स्वचालित "
-#~ "वैकल्पिक टेक्स्ट और WordPress मीडिया लाइब्रेरी के लिए WebP/AVIF, बिना प्रति-छवि "
-#~ "सेटिंग के।"
-
-#~ msgid "Maintenance"
-#~ msgstr "रखरखाव"
-
-#~ msgid "Add the tab that finds files nothing points to"
-#~ msgstr "वह टैब जोड़ें जो उन फ़ाइलों को ढूँढता है जिनका कोई उपयोग नहीं करता"

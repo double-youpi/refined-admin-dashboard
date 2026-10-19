@@ -12852,7 +12852,7 @@ body.dy-admin.index-php .dy-dashboard__field {
   flex-direction: column;
   gap: 6px;
 }
-body.dy-admin.index-php .dy-dashboard__field--dya-inline {
+body.dy-admin.index-php .dy-dashboard__field--inline {
   flex-direction: row;
   align-items: center;
   gap: 10px;
@@ -13887,21 +13887,21 @@ body.dy-admin.index-php .dy-dashboard__btn {
   cursor: pointer;
   transition: background var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease);
 }
-body.dy-admin.index-php .dy-dashboard__btn--dya-ghost {
+body.dy-admin.index-php .dy-dashboard__btn--ghost {
   background: transparent;
   border: 1px solid var(--dya-edge-strong);
   color: var(--dya-ink);
 }
-body.dy-admin.index-php .dy-dashboard__btn--dya-ghost:hover {
+body.dy-admin.index-php .dy-dashboard__btn--ghost:hover {
   background: var(--dya-paper-2);
   border-color: var(--dya-accent);
 }
-body.dy-admin.index-php .dy-dashboard__btn--dya-primary {
+body.dy-admin.index-php .dy-dashboard__btn--primary {
   background: var(--dya-accent);
   border: 1px solid var(--dya-accent);
   color: var(--dya-accent-on, #fff);
 }
-body.dy-admin.index-php .dy-dashboard__btn--dya-primary:hover {
+body.dy-admin.index-php .dy-dashboard__btn--primary:hover {
   filter: brightness(1.08);
 }
 body.dy-admin.index-php .dy-dashboard__btn-row {
@@ -14067,22 +14067,22 @@ body.dy-admin.index-php .dy-dashboard__pill--ok {
   background: rgba(76, 195, 138, 0.14);
   color: var(--dya-success);
 }
-body.dy-admin.index-php .dy-dashboard__pill--dya-warn {
+body.dy-admin.index-php .dy-dashboard__pill--warn {
   background: rgba(245, 166, 35, 0.16);
   color: var(--dya-warn);
 }
-body.dy-admin.index-php .dy-dashboard__pill--dya-danger {
+body.dy-admin.index-php .dy-dashboard__pill--danger {
   background: rgba(240, 101, 87, 0.16);
   color: var(--dya-danger);
 }
-body.dy-admin.index-php .dy-dashboard__pill--dya-accent {
+body.dy-admin.index-php .dy-dashboard__pill--accent {
   background: rgba(var(--dya-accent-rgb, 212, 178, 122), 0.18);
   color: var(--dya-accent);
 }
-body.dy-admin.index-php .dy-dashboard__pill--dya-warn::before, body.dy-admin.index-php .dy-dashboard__pill--dya-danger::before {
+body.dy-admin.index-php .dy-dashboard__pill--warn::before, body.dy-admin.index-php .dy-dashboard__pill--danger::before {
   animation: dy-fx-pulse 1.8s var(--dya-ease) infinite;
 }
-body.dy-admin.index-php .dy-dashboard__pill--dya-static::before {
+body.dy-admin.index-php .dy-dashboard__pill--static::before {
   animation: none !important;
 }
 body.dy-admin.index-php .dy-dashboard__row {
@@ -14108,11 +14108,11 @@ body.dy-admin.index-php .dy-dashboard__dot--ok {
   box-shadow: 0 0 0 0 color-mix(in srgb, var(--dya-success) 50%, transparent);
   animation: dy-fx-breathe 3.2s var(--dya-ease) infinite;
 }
-body.dy-admin.index-php .dy-dashboard__dot--dya-warn {
+body.dy-admin.index-php .dy-dashboard__dot--warn {
   background: var(--dya-warn);
   animation: dy-fx-ring-warn 2s var(--dya-ease) infinite;
 }
-body.dy-admin.index-php .dy-dashboard__dot--dya-danger {
+body.dy-admin.index-php .dy-dashboard__dot--danger {
   background: var(--dya-danger);
   animation: dy-fx-ring-danger 1.6s var(--dya-ease) infinite;
 }
@@ -14177,7 +14177,7 @@ body.dy-admin.index-php .dy-dashboard__big-num {
 body.dy-admin.index-php .dy-dashboard__big-num--ok {
   color: var(--dya-ink);
 }
-body.dy-admin.index-php .dy-dashboard__big-num--dya-warn {
+body.dy-admin.index-php .dy-dashboard__big-num--warn {
   color: var(--dya-warn);
 }
 body.dy-admin.index-php .dy-dashboard__big-num--bad {
@@ -14212,7 +14212,7 @@ body.dy-admin.index-php .dy-dashboard__progress-bar::after {
   transform: translateX(-100%);
   animation: dy-fx-bar-shine 2.6s var(--dya-ease) infinite;
 }
-body.dy-admin.index-php .dy-dashboard__progress-bar--dya-warn {
+body.dy-admin.index-php .dy-dashboard__progress-bar--warn {
   background: linear-gradient(90deg, color-mix(in srgb, var(--dya-warn) 70%, transparent), var(--dya-warn));
 }
 body.dy-admin.index-php .dy-dashboard__progress-bar--bad {
@@ -15013,10 +15013,10 @@ body.dy-admin.index-php .dy-dashboard__toast.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
-body.dy-admin.index-php .dy-dashboard__toast--dya-success {
+body.dy-admin.index-php .dy-dashboard__toast--success {
   border-color: var(--dya-success);
 }
-body.dy-admin.index-php .dy-dashboard__toast--dya-warn {
+body.dy-admin.index-php .dy-dashboard__toast--warn {
   border-color: var(--dya-warn);
 }
 body.dy-admin.index-php .dy-dashboard__toast--error {
@@ -22686,6 +22686,27 @@ body.dy-admin.upload-php #dy-add-media-action:focus-visible {
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--dya-accent) 35%, transparent) !important;
 }
 
+body.dy-admin.dy-theme-light.upload-php #dy-add-media-action {
+  background: var(--dya-accent) !important;
+  border-color: var(--dya-accent) !important;
+  color: var(--dya-accent-on, #fff) !important;
+}
+
+body.dy-admin.dy-theme-light.upload-php #dy-add-media-action:hover {
+  background: color-mix(in srgb, var(--dya-accent) 86%, #fff) !important;
+  border-color: color-mix(in srgb, var(--dya-accent) 86%, #fff) !important;
+  color: var(--dya-accent-on, #fff) !important;
+}
+
+body.dy-admin.dy-theme-light.upload-php #dy-add-media-action:focus-visible {
+  border-color: var(--dya-accent) !important;
+  box-shadow: 0 0 0 2px var(--dya-bg), 0 0 0 4px var(--dya-accent) !important;
+}
+
+body.dy-admin.dy-theme-light.upload-php #dy-add-media-action .dashicons {
+  color: inherit !important;
+}
+
 body.dy-admin.upload-php #dy-add-media-action .dashicons {
   font-size: 14px !important;
   width: 14px;
@@ -28005,7 +28026,7 @@ body.dy-admin .media-modal .attachment .filename {
   background: linear-gradient(to top, rgba(6, 8, 12, 0.92) 14%, rgba(6, 8, 12, 0.55) 58%, transparent 100%) !important;
   border: 0 !important;
   box-shadow: none !important;
-  color: var(--dya-ink) !important;
+  color: #ecedf2 !important;
   font-size: 10.5px !important;
   font-weight: 500 !important;
   line-height: 1.3 !important;

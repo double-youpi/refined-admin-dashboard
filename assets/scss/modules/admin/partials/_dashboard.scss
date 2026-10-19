@@ -1614,7 +1614,7 @@ body.dy-admin.index-php {
 		display: flex;
 		flex-direction: column;
 		gap: 6px;
-		&--dya-inline {
+		&--inline {
 			flex-direction: row;
 			align-items: center;
 			gap: 10px;
@@ -1671,7 +1671,7 @@ body.dy-admin.index-php {
 
 	// ── Per-screen colors: 2 cells (accent + background) on one row ──
 	// Each cell = label above + control (swatch + hex + reset).
-	// `&--dya-inline`-like: we force row (the base .field is column).
+	// `&--inline`-like: we force row (the base .field is column).
 	.dy-dashboard__color-row.dy-dashboard__color-row {
 		flex-direction: row;
 		align-items: flex-start;
@@ -2587,13 +2587,13 @@ body.dy-admin.index-php {
 		border-radius: var(--dya-r-md);
 		cursor: pointer;
 		transition: background var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease);
-		&--dya-ghost {
+		&--ghost {
 			background: transparent;
 			border: 1px solid var(--dya-edge-strong);
 			color: var(--dya-ink);
 			&:hover { background: var(--dya-paper-2); border-color: var(--dya-accent); }
 		}
-		&--dya-primary {
+		&--primary {
 			background: var(--dya-accent);
 			border: 1px solid var(--dya-accent);
 			// --dya-accent-on is computed in OKLCH from the lightness of --dya-accent:
@@ -2790,16 +2790,16 @@ body.dy-admin.index-php {
 			opacity: 0.9;
 		}
 		&--ok     { background: rgba(76, 195, 138, 0.14);  color: var(--dya-success); }
-		&--dya-warn   { background: rgba(245, 166, 35, 0.16);  color: var(--dya-warn); }
-		&--dya-danger { background: rgba(240, 101, 87, 0.16);  color: var(--dya-danger); }
-		&--dya-accent { background: rgba(var(--dya-accent-rgb, 212, 178, 122), 0.18); color: var(--dya-accent); }
+		&--warn   { background: rgba(245, 166, 35, 0.16);  color: var(--dya-warn); }
+		&--danger { background: rgba(240, 101, 87, 0.16);  color: var(--dya-danger); }
+		&--accent { background: rgba(var(--dya-accent-rgb, 212, 178, 122), 0.18); color: var(--dya-accent); }
 		// Active/alert state makes the dot pulse.
-		&--dya-warn::before,
-		&--dya-danger::before { animation: dy-fx-pulse 1.8s var(--dya-ease) infinite; }
+		&--warn::before,
+		&--danger::before { animation: dy-fx-pulse 1.8s var(--dya-ease) infinite; }
 		// Modifier `--dya-static`: suppresses the dot pulse while keeping the
 		// state color. For "stable" states signaled in color
 		// (e.g. static disabled = red) without unwanted blinking.
-		&--dya-static::before { animation: none !important; }
+		&--static::before { animation: none !important; }
 	}
 	.dy-dashboard__row {
 		display: flex;
@@ -2818,8 +2818,8 @@ body.dy-admin.index-php {
 			box-shadow: 0 0 0 0 color-mix(in srgb, var(--dya-success) 50%, transparent);
 			animation: dy-fx-breathe 3.2s var(--dya-ease) infinite;
 		}
-		&--dya-warn   { background: var(--dya-warn);   animation: dy-fx-ring-warn 2s var(--dya-ease) infinite; }
-		&--dya-danger { background: var(--dya-danger); animation: dy-fx-ring-danger 1.6s var(--dya-ease) infinite; }
+		&--warn   { background: var(--dya-warn);   animation: dy-fx-ring-warn 2s var(--dya-ease) infinite; }
+		&--danger { background: var(--dya-danger); animation: dy-fx-ring-danger 1.6s var(--dya-ease) infinite; }
 		&--mute   { background: var(--dya-ink-mute); opacity: 0.5; }
 	}
 	.dy-dashboard__row-v {
@@ -2876,7 +2876,7 @@ body.dy-admin.index-php {
 		font-variant-numeric: tabular-nums;
 		color: var(--dya-ink);
 		&--ok   { color: var(--dya-ink); }
-		&--dya-warn { color: var(--dya-warn); }
+		&--warn { color: var(--dya-warn); }
 		&--bad  { color: var(--dya-danger); }
 	}
 	.dy-dashboard__big-num-unit {
@@ -2912,7 +2912,7 @@ body.dy-admin.index-php {
 			transform: translateX(-100%);
 			animation: dy-fx-bar-shine 2.6s var(--dya-ease) infinite;
 		}
-		&--dya-warn { background: linear-gradient(90deg, color-mix(in srgb, var(--dya-warn) 70%, transparent), var(--dya-warn)); }
+		&--warn { background: linear-gradient(90deg, color-mix(in srgb, var(--dya-warn) 70%, transparent), var(--dya-warn)); }
 		&--bad  { background: linear-gradient(90deg, color-mix(in srgb, var(--dya-danger) 70%, transparent), var(--dya-danger)); }
 	}
 	// Sous-stats (media / db).
@@ -3653,8 +3653,8 @@ body.dy-admin.index-php {
 		transform: translateY(8px);
 		transition: opacity var(--dya-t-med) var(--dya-ease), transform var(--dya-t-med) var(--dya-ease);
 		&.is-visible { opacity: 1; transform: translateY(0); }
-		&--dya-success { border-color: var(--dya-success); }
-		&--dya-warn    { border-color: var(--dya-warn); }
+		&--success { border-color: var(--dya-success); }
+		&--warn    { border-color: var(--dya-warn); }
 		&--error   { border-color: var(--dya-danger); }
 	}
 

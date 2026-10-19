@@ -149,22 +149,29 @@ final class OverviewPage {
 				'nonce'         => wp_create_nonce( self::AJAX_ACTION ),
 				'reloadModules' => array_values( self::RELOAD_REQUIRED_IDS ),
 				'installBaseUrl' => self_admin_url( 'plugin-install.php?tab=search&type=term&s=' ),
-				'i18n'          => [
-					'statusActive'   => __( 'Active', 'doubleyoupi-refined-admin-dashboard' ),
-					'statusInactive' => __( 'Disabled', 'doubleyoupi-refined-admin-dashboard' ),
-					'switchOn'       => __( 'Enabled', 'doubleyoupi-refined-admin-dashboard' ),
-					'switchOff'      => __( 'Disabled', 'doubleyoupi-refined-admin-dashboard' ),
-					'settings'       => __( 'Settings', 'doubleyoupi-refined-admin-dashboard' ),
-					'saveError'      => __( 'Could not save. Please retry.', 'doubleyoupi-refined-admin-dashboard' ),
-					'install'        => __( 'Install for free', 'doubleyoupi-refined-admin-dashboard' ),
-					'installing'     => __( 'Installing…', 'doubleyoupi-refined-admin-dashboard' ),
-					'installed'      => __( 'Installed ✓', 'doubleyoupi-refined-admin-dashboard' ),
-					'installError'   => __( 'Install failed, open the installer', 'doubleyoupi-refined-admin-dashboard' ),
-					'comingSoon'     => __( 'Soon on WordPress.org', 'doubleyoupi-refined-admin-dashboard' ),
-					'discover'       => __( 'Discover on doubleyoupi.com', 'doubleyoupi-refined-admin-dashboard' ),
-					'free'           => __( 'Free', 'doubleyoupi-refined-admin-dashboard' ),
-					'suite'          => __( 'Suite', 'doubleyoupi-refined-admin-dashboard' ),
-				],
+				'i18n'          => array_merge(
+					[
+						'statusActive'   => __( 'Active', 'doubleyoupi-refined-admin-dashboard' ),
+						'statusInactive' => __( 'Disabled', 'doubleyoupi-refined-admin-dashboard' ),
+						'switchOn'       => __( 'Enabled', 'doubleyoupi-refined-admin-dashboard' ),
+						'switchOff'      => __( 'Disabled', 'doubleyoupi-refined-admin-dashboard' ),
+						'settings'       => __( 'Settings', 'doubleyoupi-refined-admin-dashboard' ),
+						'saveError'      => __( 'Could not save. Please retry.', 'doubleyoupi-refined-admin-dashboard' ),
+					],
+					// Showcase modal strings, only when a showcase card exists:
+					// a plugin that ships every module it lists (Refined Admin
+					// Dashboard) has nothing to advertise (19/10/2026).
+					self::has_vitrine() ? [
+						'install'      => __( 'Install for free', 'doubleyoupi-refined-admin-dashboard' ),
+						'installing'   => __( 'Installing…', 'doubleyoupi-refined-admin-dashboard' ),
+						'installed'    => __( 'Installed ✓', 'doubleyoupi-refined-admin-dashboard' ),
+						'installError' => __( 'Install failed, open the installer', 'doubleyoupi-refined-admin-dashboard' ),
+						'comingSoon'   => __( 'Soon on WordPress.org', 'doubleyoupi-refined-admin-dashboard' ),
+						'discover'     => __( 'Discover on doubleyoupi.com', 'doubleyoupi-refined-admin-dashboard' ),
+						'free'         => __( 'Free', 'doubleyoupi-refined-admin-dashboard' ),
+						'suite'        => __( 'Suite', 'doubleyoupi-refined-admin-dashboard' ),
+					] : []
+				),
 			]
 		);
 	}
@@ -369,7 +376,7 @@ final class OverviewPage {
 				<p class="dy-overview__tagline">
 					<?php echo esc_html( $tagline ); ?>
 				</p>
-				<div class="dy-overview__hero-meta" aria-label="<?php esc_attr_e( 'Suite information', 'doubleyoupi-refined-admin-dashboard' ); ?>">
+				<div class="dy-overview__hero-meta" aria-label="<?php esc_attr_e( 'Plugin information', 'doubleyoupi-refined-admin-dashboard' ); ?>">
 					<?php if ( '' !== $quip ) : ?>
 						<?php // Solo: random quip (accented) in place of the counter. ?>
 						<span class="dy-overview__hero-quip"><?php echo esc_html( $quip ); ?></span>
@@ -447,6 +454,16 @@ final class OverviewPage {
 	 * @param array{id:string, name:string, description:string, icon:string, status:string, settings_url:?string} $module
 	 * @param int $index Position in the grid — used for the staggered entry animation (--dya-card-i).
 	 */
+	/** Whether the grid shows a showcase card (a listed module not bundled here). */
+	private static function has_vitrine(): bool {
+		foreach ( ModuleCatalog::all() as $module ) {
+			if ( ModuleCatalog::STATUS_AVAILABLE === $module['status'] && ! ModuleRegistry::has( $module['id'] ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private static function render_card( array $module, int $index = 0 ): void {
 		$is_available  = $module['status'] === ModuleCatalog::STATUS_AVAILABLE;
 

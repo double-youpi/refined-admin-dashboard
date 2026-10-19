@@ -68,7 +68,9 @@ final class ToolkitWidget extends AbstractDataWidget {
 			'enabled_count' => count( $enabled ),
 			'total'         => count( $items ),
 			'items'         => $items,
-			'settings_url'  => admin_url( 'admin.php?page=doubleyoupi#dy-toolkit' ),
+			// The Tools page (Toolkit's ToolsPage::PAGE_SLUG, named here rather
+			// than imported: a module does not load another module's classes).
+			'settings_url'  => admin_url( 'admin.php?page=doubleyoupi-tools' ),
 		];
 	}
 

@@ -1,8 +1,9 @@
 msgid ""
 msgstr ""
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-10-18T18:29:45+00:00\n"
+"POT-Creation-Date: 2026-10-19T02:03:52+00:00\n"
 "Language: es_ES\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
@@ -32,7 +33,7 @@ msgstr ""
 
 #. Author of the plugin
 #: doubleyoupi-refined-admin-dashboard.php src/Admin/DyShell.php:118
-#: src/Admin/OverviewPage.php:357
+#: src/Admin/OverviewPage.php:364
 msgid "Double Youpï"
 msgstr "Double Youpï"
 
@@ -43,23 +44,23 @@ msgstr "https://doubleyoupi.com"
 
 #: doubleyoupi-refined-admin-dashboard.php:57
 msgid ""
-"You are already running the full Double Youpï suite, and it includes Double "
-"Youpï Refined Admin Dashboard. This standalone copy stepped aside to stay "
-"out of its way. Want to run it on its own? Deactivate the suite first."
+"Another Double Youpï plugin that already includes Double Youpï Refined Admin "
+"Dashboard is active, so this standalone copy stepped aside to stay out of "
+"its way. Want to run it on its own? Deactivate the other plugin first."
 msgstr ""
-"Ya estás usando la suite completa Double Youpï, que incluye Double Youpï "
-"Refined Admin Dashboard. Por eso esta versión independiente se ha hecho a un "
-"lado para no estorbar. ¿Prefieres usarla sola? Desactiva primero la suite."
+"Hay otro plugin de Double Youpï activo que ya incluye Double Youpï Refined "
+"Admin Dashboard. Por eso esta versión independiente se ha hecho a un lado "
+"para no estorbar. ¿Prefieres usarla sola? Desactiva primero el otro plugin."
 
 #: src/Admin/AdminMenu.php:80 src/Admin/AdminMenu.php:202
-#: src/Admin/OverviewPage.php:157 src/Admin/OverviewPage.php:560
+#: src/Admin/OverviewPage.php:158 src/Admin/OverviewPage.php:577
 #: src/Modules/Admin/Dashboard/Widgets/Data/ModulesWidget.php:110
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:160
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:158
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:65
-#: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:117
+#: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:119
 #: src/Modules/Admin/Editor/EditorReimagined.php:225
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:64
-#: src/Modules/MediaLibrary/MediaLibrary.php:176
+#: src/Modules/MediaLibrary/MediaLibrary.php:206
 msgid "Settings"
 msgstr "Ajustes"
 
@@ -117,7 +118,7 @@ msgid "(anonymous site identifier)"
 msgstr "(identificador anónimo del sitio)"
 
 #: src/Admin/Feedback.php:246 src/Admin/Feedback.php:307
-#: src/Admin/OverviewPage.php:663 src/Modules/Admin/Notices.php:120
+#: src/Admin/OverviewPage.php:680 src/Modules/Admin/Notices.php:120
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:137
 msgid "Close"
 msgstr "Cerrar"
@@ -326,61 +327,61 @@ msgstr "Double Youpï · Resumen"
 msgid "Overview"
 msgstr "Resumen"
 
-#: src/Admin/OverviewPage.php:153 src/Admin/OverviewPage.php:467
+#: src/Admin/OverviewPage.php:154 src/Admin/OverviewPage.php:484
 #: src/Modules/Admin/Dashboard/Widgets/Data/ModulesWidget.php:101
 msgid "Active"
 msgstr "Activa"
 
-#: src/Admin/OverviewPage.php:154 src/Admin/OverviewPage.php:156
-#: src/Admin/OverviewPage.php:468 src/Admin/OverviewPage.php:533
+#: src/Admin/OverviewPage.php:155 src/Admin/OverviewPage.php:157
+#: src/Admin/OverviewPage.php:485 src/Admin/OverviewPage.php:550
 #: src/Modules/Admin/Dashboard/Widgets/Data/StaticSiteWidget.php:86
 #: src/Modules/Toolkit/ToolsPage.php:123
 msgid "Disabled"
 msgstr "Desactivado"
 
-#: src/Admin/OverviewPage.php:155 src/Admin/OverviewPage.php:532
+#: src/Admin/OverviewPage.php:156 src/Admin/OverviewPage.php:549
 #: src/Modules/Toolkit/ToolsPage.php:120
 msgid "Enabled"
 msgstr "Activado"
 
-#: src/Admin/OverviewPage.php:158
+#: src/Admin/OverviewPage.php:159
 msgid "Could not save. Please retry."
 msgstr "No se pudo guardar: inténtalo de nuevo."
 
-#: src/Admin/OverviewPage.php:159
+#: src/Admin/OverviewPage.php:165
 msgid "Install for free"
 msgstr "Instalar gratis"
 
-#: src/Admin/OverviewPage.php:160
+#: src/Admin/OverviewPage.php:166
 msgid "Installing…"
 msgstr "Instalando…"
 
-#: src/Admin/OverviewPage.php:161
+#: src/Admin/OverviewPage.php:167
 msgid "Installed ✓"
 msgstr "Instalado ✓"
 
-#: src/Admin/OverviewPage.php:162
+#: src/Admin/OverviewPage.php:168
 msgid "Install failed, open the installer"
 msgstr "Error al instalar, abre el instalador"
 
-#: src/Admin/OverviewPage.php:163
+#: src/Admin/OverviewPage.php:169
 msgid "Soon on WordPress.org"
 msgstr "Pronto en WordPress.org"
 
-#: src/Admin/OverviewPage.php:164
+#: src/Admin/OverviewPage.php:170
 msgid "Discover on doubleyoupi.com"
 msgstr "Descúbrelo en doubleyoupi.com"
 
-#: src/Admin/OverviewPage.php:165 src/Admin/OverviewPage.php:610
-#: src/Admin/OverviewPage.php:640
+#: src/Admin/OverviewPage.php:171 src/Admin/OverviewPage.php:627
+#: src/Admin/OverviewPage.php:657
 msgid "Free"
 msgstr "Gratis"
 
-#: src/Admin/OverviewPage.php:166 src/Admin/OverviewPage.php:610
+#: src/Admin/OverviewPage.php:172 src/Admin/OverviewPage.php:627
 msgid "Suite"
 msgstr "Suite"
 
-#: src/Admin/OverviewPage.php:177 src/Admin/OverviewPage.php:217
+#: src/Admin/OverviewPage.php:184 src/Admin/OverviewPage.php:224
 #: src/Modules/MediaLibrary/FolderService.php:252
 #: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:158
 #: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:186
@@ -390,19 +391,19 @@ msgstr "Suite"
 msgid "Access denied."
 msgstr "Acceso denegado."
 
-#: src/Admin/OverviewPage.php:199
+#: src/Admin/OverviewPage.php:206
 msgid "Modules updated. Reload the page to see the effects."
 msgstr "Módulos actualizados. Recarga la página para ver los efectos."
 
-#: src/Admin/OverviewPage.php:200 src/Modules/Toolkit/ToolsPage.php:247
+#: src/Admin/OverviewPage.php:207 src/Modules/Toolkit/ToolsPage.php:247
 msgid "No changes to save."
 msgstr "No hay cambios que guardar."
 
-#: src/Admin/OverviewPage.php:226
+#: src/Admin/OverviewPage.php:233
 msgid "Unknown module."
 msgstr "Módulo desconocido."
 
-#: src/Admin/OverviewPage.php:320
+#: src/Admin/OverviewPage.php:327
 msgid ""
 "Modular suite for pros who ship WordPress sites. Enable the modules you "
 "need, disable the rest."
@@ -410,45 +411,45 @@ msgstr ""
 "Suite modular para profesionales que entregan sitios WordPress. Activa los "
 "módulos que necesites, desactiva el resto."
 
-#: src/Admin/OverviewPage.php:343
+#: src/Admin/OverviewPage.php:350
 msgid ""
 "Your whole WordPress admin, redrawn. Each part can be turned on or off below."
 msgstr ""
 "Todo tu escritorio de WordPress, rediseñado. Cada parte se activa o se "
 "desactiva abajo."
 
-#: src/Admin/OverviewPage.php:372
-msgid "Suite information"
-msgstr "Información sobre la suite"
-
 #: src/Admin/OverviewPage.php:379
+msgid "Plugin information"
+msgstr "Información del plugin"
+
+#: src/Admin/OverviewPage.php:386
 msgid "active modules"
 msgstr "módulos activos"
 
-#: src/Admin/OverviewPage.php:423
+#: src/Admin/OverviewPage.php:430
 msgid "Save modules"
 msgstr "Guardar los módulos"
 
-#: src/Admin/OverviewPage.php:466
+#: src/Admin/OverviewPage.php:483
 msgid "Coming soon"
 msgstr "Próximamente"
 
-#: src/Admin/OverviewPage.php:556
+#: src/Admin/OverviewPage.php:573
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:386
-#: src/Modules/Admin/Settings.php:948 src/Modules/MediaLibrary/Settings.php:387
-#: src/Modules/MediaLibrary/Settings.php:414
+#: src/Modules/Admin/Settings.php:948 src/Modules/MediaLibrary/Settings.php:423
+#: src/Modules/MediaLibrary/Settings.php:450
 msgid "Saved"
 msgstr "Guardado"
 
-#: src/Admin/OverviewPage.php:578
+#: src/Admin/OverviewPage.php:595
 msgid "Reload to apply"
 msgstr "Recargar para aplicar"
 
-#: src/Admin/OverviewPage.php:583
+#: src/Admin/OverviewPage.php:600
 msgid "In preparation"
 msgstr "En preparación"
 
-#: src/Admin/OverviewPage.php:637
+#: src/Admin/OverviewPage.php:654
 #: src/Modules/Admin/Tables/TablesReimagined.php:479
 #: src/Modules/MediaLibrary/Migration/MigrationI18n.php:24
 #: src/Modules/MediaLibrary/OrphanAdminPage.php:158
@@ -456,34 +457,34 @@ msgstr "En preparación"
 msgid "Preview"
 msgstr "Vista previa"
 
-#: src/Admin/OverviewPage.php:642
+#: src/Admin/OverviewPage.php:659
 msgid "Soon on WP.org"
 msgstr "Pronto en WP.org"
 
-#: src/Admin/OverviewPage.php:644
+#: src/Admin/OverviewPage.php:661
 msgid "In the suite"
 msgstr "En la suite"
 
-#: src/Admin/OverviewPage.php:672
+#: src/Admin/OverviewPage.php:689
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:135
 msgid "Previous"
 msgstr "Anterior"
 
-#: src/Admin/OverviewPage.php:674
+#: src/Admin/OverviewPage.php:691
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:136
 msgid "Next"
 msgstr "Siguiente"
 
-#: src/Admin/OverviewPage.php:718
+#: src/Admin/OverviewPage.php:735
 msgid "Support the project"
 msgstr "Apoyar el proyecto"
 
-#: src/Admin/OverviewPage.php:732
+#: src/Admin/OverviewPage.php:749
 msgid "Free, and built to stay that way"
 msgstr "Gratis, y hecho para seguir siéndolo"
 
 #. translators: 1: author first name (bold), 2: freelance studio name (linked).
-#: src/Admin/OverviewPage.php:749
+#: src/Admin/OverviewPage.php:766
 #, php-format
 msgid ""
 "I'm <b>%1$s</b>, a freelance designer and dev, aka %2$s. I build Double "
@@ -501,7 +502,7 @@ msgstr ""
 "ayudas un montón. ¡Gracias!"
 
 #. translators: %s: author first name (bold).
-#: src/Admin/OverviewPage.php:759
+#: src/Admin/OverviewPage.php:776
 #, php-format
 msgid ""
 "I'm <b>%s</b>, a freelance designer and dev. I build Double Youpï to make "
@@ -519,41 +520,41 @@ msgstr ""
 "montón. ¡Gracias!"
 
 #. translators: %s: author first name.
-#: src/Admin/OverviewPage.php:771
+#: src/Admin/OverviewPage.php:788
 #, php-format
 msgid "%s · Double Youpï"
 msgstr "%s · Double Youpï"
 
-#: src/Admin/OverviewPage.php:784
+#: src/Admin/OverviewPage.php:801
 msgid "Buy me a coffee"
 msgstr "Invítame a un café"
 
-#: src/Admin/OverviewPage.php:800
+#: src/Admin/OverviewPage.php:817
 msgid "Leave a review"
 msgstr "Dejar una reseña"
 
-#: src/Admin/OverviewPage.php:807
+#: src/Admin/OverviewPage.php:824
 msgid "All Double Youpï plugins on WordPress.org"
 msgstr "Todos los plugins Double Youpï en WordPress.org"
 
-#: src/Admin/OverviewPage.php:823
+#: src/Admin/OverviewPage.php:840
 msgid "Report or suggest"
 msgstr "Informar o sugerir"
 
-#: src/Admin/OverviewPage.php:858 src/Admin/OverviewPage.php:867
+#: src/Admin/OverviewPage.php:875 src/Admin/OverviewPage.php:884
 msgid "Want to get involved?"
 msgstr "¿Quieres participar?"
 
-#: src/Admin/OverviewPage.php:869
+#: src/Admin/OverviewPage.php:886
 msgid "Found a bug or got an idea to make it better? Let me know."
 msgstr "¿Has visto un fallo o tienes una idea para mejorarlo? Cuéntamelo."
 
-#: src/Core/ModuleCatalog.php:38 src/Modules/Admin/Admin.php:128
+#: src/Core/ModuleCatalog.php:37 src/Modules/Admin/Admin.php:128
 #: src/Modules/Admin/Settings.php:548
 msgid "Refined Admin Dashboard"
 msgstr "Refined Admin Dashboard"
 
-#: src/Core/ModuleCatalog.php:39
+#: src/Core/ModuleCatalog.php:38
 msgid ""
 "A full rethink of the WordPress admin: smart dashboard, reworked navigation, "
 "redesigned content tables, dark mode, and your branding."
@@ -562,78 +563,18 @@ msgstr ""
 "inteligente, navegación rediseñada, tablas de contenido renovadas, modo "
 "oscuro y tu marca."
 
-#: src/Core/ModuleCatalog.php:50 src/Modules/MediaLibrary/MediaLibrary.php:136
-#: src/Modules/MediaLibrary/MediaLibrary.php:188
+#: src/Core/ModuleCatalog.php:49 src/Modules/MediaLibrary/MediaLibrary.php:137
+#: src/Modules/MediaLibrary/MediaLibrary.php:218
 msgid "Refined Media Library"
 msgstr "Refined Media Library"
 
-#: src/Core/ModuleCatalog.php:51
+#: src/Core/ModuleCatalog.php:50
 msgid ""
 "Folders and collections, drag & drop, quick preview, duplicate & orphan "
 "cleanup, plus WebP/AVIF conversion on upload."
 msgstr ""
 "Carpetas y colecciones, arrastrar y soltar, vista previa rápida, limpieza de "
 "duplicados y archivos huérfanos, y conversión WebP/AVIF al subir."
-
-#: src/Core/ModuleCatalog.php:58
-msgid "Simple Performance"
-msgstr ""
-
-#: src/Core/ModuleCatalog.php:59
-msgid ""
-"Caching, CSS/JS, lazy-load, responsive WebP/AVIF delivery, self-hosted "
-"fonts, and a native Cloudflare CDN."
-msgstr ""
-"Caché, CSS/JS, carga diferida, entrega responsive WebP/AVIF, fuentes auto-"
-"alojadas y CDN nativo de Cloudflare."
-
-#: src/Core/ModuleCatalog.php:68
-msgid "Simple Static"
-msgstr ""
-
-#: src/Core/ModuleCatalog.php:69
-msgid ""
-"Static HTML export to shrink your attack surface and host free on Cloudflare "
-"Pages, Netlify or GitHub Pages."
-msgstr ""
-"Exportación HTML estática para reducir tu superficie de ataque y alojar "
-"gratis en Cloudflare Pages, Netlify o GitHub Pages."
-
-#: src/Core/ModuleCatalog.php:79
-msgid "Simple SEO & Accessibility"
-msgstr ""
-
-#: src/Core/ModuleCatalog.php:80
-msgid ""
-"Completes Rank Math on accessibility: auto aria-labels, AI alt-text, and a "
-"WCAG audit."
-msgstr ""
-"Complementa Rank Math en accesibilidad: aria-labels automáticos, texto "
-"alternativo con IA y auditoría WCAG."
-
-#: src/Core/ModuleCatalog.php:87
-msgid "Simple Metrics"
-msgstr ""
-
-#: src/Core/ModuleCatalog.php:88
-msgid ""
-"PageSpeed Insights tracking in the admin: per-page history over time, on "
-"mobile and desktop."
-msgstr ""
-"Seguimiento de PageSpeed Insights en la administración: historial por página "
-"a lo largo del tiempo, en móvil y escritorio."
-
-#: src/Core/ModuleCatalog.php:95
-msgid "Simple Backups"
-msgstr ""
-
-#: src/Core/ModuleCatalog.php:96
-msgid ""
-"Scheduled full or DB-only backups, with rotation and one-click restore (auto-"
-"snapshot first)."
-msgstr ""
-"Copias de seguridad programadas, completas o solo de BD, con rotación y "
-"restauración con un clic (snapshot automático primero)."
 
 #: src/Modules/Admin/Admin.php:129 src/Modules/Admin/Rail.php:503
 msgid "Admin"
@@ -730,7 +671,7 @@ msgid "Plugin Editor"
 msgstr "Editor de plugins"
 
 #: src/Modules/Admin/ColumnModel.php:645
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:155
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:153
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:68
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteHealthWidget.php:199
 msgid "Site Health"
@@ -760,6 +701,7 @@ msgid "Community"
 msgstr "Comunidad"
 
 #: src/Modules/Admin/ColumnModel.php:883
+#: src/Modules/MediaLibrary/Settings.php:331
 msgid "Appearance"
 msgstr "Apariencia"
 
@@ -809,7 +751,7 @@ msgid "Paragraph"
 msgstr "Párrafo"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:362
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:150
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:148
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:61
 msgid "Widgets"
 msgstr "Widgets"
@@ -884,7 +826,7 @@ msgstr "Exportar JSON"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:381
 #: src/Modules/Admin/Settings.php:885
-#: src/Modules/MediaLibrary/MediaLibrary.php:184
+#: src/Modules/MediaLibrary/MediaLibrary.php:214
 #: src/Modules/MediaLibrary/Migration/MigrationI18n.php:25
 msgid "Import"
 msgstr "Importar"
@@ -1249,108 +1191,109 @@ msgstr "Integrada (personalizada)"
 msgid "Saved disposition"
 msgstr "Disposición guardada"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:121
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:129
 msgid "Today, we're on a roll"
 msgstr "Hoy estamos en racha"
 
 #. translators: **{{site.name}}** is replaced by the site name (bold).
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:150
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:158
 msgid "What are we making on **{{site.name}}** today?"
 msgstr "¿Qué creamos hoy en **{{site.name}}**?"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:152
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:160
 msgid "Picking up the thread"
 msgstr "Retomamos el hilo"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:155
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:211
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:163
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:219
 msgid "The engine room"
 msgstr "La sala de máquinas"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:179
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:251
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:278
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:187
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:259
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:286
 msgid "Keyboards at the ready"
 msgstr "A los teclados"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:181
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:251
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:278
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:189
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:259
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:286
 msgid "Blank page? Never heard of it."
 msgstr "¿Página en blanco? No me suena."
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:183
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:252
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:279
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:191
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:260
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:287
 msgid "What's next?"
 msgstr "¿Y ahora qué?"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:198
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:206
 msgid "All in order?"
 msgstr "¿Todo en orden?"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:235
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:243
 msgid "Shall we?"
 msgstr "¿Vamos?"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:250
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:264
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:258
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:272
 msgid "Sales and orders, without leaving the dashboard."
 msgstr "Ventas y pedidos, sin salir del escritorio."
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:267
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:275
 msgid "The cash drawer"
 msgstr "La caja"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:269
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:277
 msgid "What comes in, what moves, what's running low."
 msgstr "Lo que entra, lo que se mueve, lo que escasea."
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:312
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:320
 msgid "Standard"
 msgstr "Estándar"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:312
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:320
 msgid "Recommended by Double Youpï"
 msgstr "Recomendada Double Youpï"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:313
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:321
 msgid "Editor"
 msgstr "Editor"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:313
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:321
 msgid "Focus on content creation"
 msgstr "Foco en la creación de contenido"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:314
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:322
 msgid "Administrator"
 msgstr "Administrador"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:314
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:322
 msgid "Technical health and maintenance"
 msgstr "Salud técnica y mantenimiento"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:315
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:323
 msgid "Minimal"
 msgstr "Mínimo"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:315
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:323
 msgid "Just create and go"
 msgstr "Crear y listo"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:319
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:327
 msgid "Shop"
 msgstr "Tienda"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:319
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:327
 msgid "Your shop, then the editor flow"
 msgstr "Tu tienda, luego el flujo de editor"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:320
-msgid "Shop Pro"
-msgstr "Tienda Pro"
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:328
+msgctxt "dashboard layout name"
+msgid "Sales"
+msgstr "Ventas"
 
-#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:320
+#: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:328
 msgid "Sales in depth, plus the editor flow"
 msgstr "Ventas en detalle, más el flujo de editor"
 
@@ -1465,6 +1408,11 @@ msgid_plural "%d updates are available."
 msgstr[0] "%d actualización disponible."
 msgstr[1] "%d actualizaciones disponibles."
 
+#: src/Modules/Admin/Dashboard/Widgets/Backup/AbstractBackupSource.php:63
+msgctxt "backup destination"
+msgid "Local"
+msgstr "Local"
+
 #: src/Modules/Admin/Dashboard/Widgets/Content/HeadingWidget.php:31
 msgid "Heading"
 msgstr "Título"
@@ -1487,12 +1435,8 @@ msgid "Recent activity"
 msgstr "Actividad reciente"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/ActivityWidget.php:33
-msgid ""
-"Unified stream: published posts, updated plugins, uploaded media, admin "
-"logins."
-msgstr ""
-"Flujo unificado: posts publicados, plugins actualizados, medios subidos, "
-"conexiones admin."
+msgid "Posts and pages published or updated in the last 7 days."
+msgstr "Entradas y páginas publicadas o actualizadas en los últimos 7 días."
 
 #. translators: %d is the post ID (shown when the post has no title).
 #: src/Modules/Admin/Dashboard/Widgets/Data/ActivityWidget.php:83
@@ -1506,21 +1450,21 @@ msgstr "Sin actividad reciente."
 
 #. translators: %d is a number of minutes.
 #: src/Modules/Admin/Dashboard/Widgets/Data/ActivityWidget.php:127
-#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:136
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:267
 #, php-format
 msgid "%d min ago"
 msgstr "hace %d min"
 
 #. translators: %d is a number of hours.
 #: src/Modules/Admin/Dashboard/Widgets/Data/ActivityWidget.php:132
-#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:140
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:271
 #, php-format
 msgid "%d h ago"
 msgstr "hace %d h"
 
 #. translators: %d is a number of days.
 #: src/Modules/Admin/Dashboard/Widgets/Data/ActivityWidget.php:136
-#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:143
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:274
 #, php-format
 msgid "%d d ago"
 msgstr "hace %d días"
@@ -1556,31 +1500,70 @@ msgstr "URL"
 msgid "Open in a new tab"
 msgstr "Abrir en una pestaña nueva"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:29
-#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:90
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:40
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:187
 msgid "Backup"
 msgstr "Copia"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:33
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:44
 msgid "Date, size and status of the last backup. Turns red if > 7 days."
 msgstr "Fecha, tamaño y estado de la última copia. Se vuelve rojo si > 7 días."
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:94
-msgid "No Double Youpï backup."
-msgstr "Ninguna copia de Double Youpï."
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:170
+msgctxt "backup status"
+msgid "Completed"
+msgstr "Completada"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:102
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:171
+msgctxt "backup status"
+msgid "Failed"
+msgstr "Fallida"
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:172
+msgctxt "backup status"
+msgid "In progress"
+msgstr "En curso"
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:194
+msgid "No backup plugin detected."
+msgstr "No se ha detectado ningún plugin de copias de seguridad."
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:196
+msgid "No backup recorded yet."
+msgstr "Todavía no hay ninguna copia de seguridad."
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:202
+msgid "Backed up in the cloud."
+msgstr "Copia de seguridad en la nube."
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:206
 msgid "never"
 msgstr "nunca"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:123
+#. translators: %s: a time span such as "5 hours" (from human_time_diff).
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:230
+#, php-format
+msgid "Next backup in %s"
+msgstr "Próxima copia de seguridad en %s"
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:244
 msgid "Run a full backup"
 msgstr "Iniciar una copia de seguridad completa"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:127
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:251
 #: src/Modules/Admin/Dashboard/Widgets/Data/StaticSiteWidget.php:137
 msgid "Configure"
 msgstr "Configurar"
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:253
+msgid "Find a backup plugin"
+msgstr "Buscar un plugin de copias de seguridad"
+
+#. translators: %s: the backup plugin's name, e.g. "UpdraftPlus".
+#: src/Modules/Admin/Dashboard/Widgets/Data/BackupWidget.php:256
+#, php-format
+msgid "Open %s"
+msgstr "Abrir %s"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/CreateButtonWidget.php:28
 msgid "Create button"
@@ -1673,15 +1656,13 @@ msgid "Modules"
 msgstr "Módulos"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/ModulesWidget.php:35
-msgid "Status of the suite modules: active, disabled, in progress."
-msgstr ""
-"Estado de los módulos de la suite: activos, desactivados, en curso de "
-"implementación."
+msgid "Which Double Youpï modules are on or off."
+msgstr "Qué módulos de Double Youpï están activados o desactivados."
 
 #. translators: 1: active count, 2: total
 #. translators: 1: enabled count, 2: total
 #: src/Modules/Admin/Dashboard/Widgets/Data/ModulesWidget.php:91
-#: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:93
+#: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:95
 #, php-format
 msgid "%1$d / %2$d"
 msgstr "%1$d / %2$d"
@@ -1710,12 +1691,12 @@ msgstr "Mi nota"
 msgid "No note yet."
 msgstr "Todavía no hay ninguna nota."
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:24
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:195
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:25
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:203
 msgid "Quick actions"
 msgstr "Acciones rápidas"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:28
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:29
 msgid ""
 "Configurable buttons for frequent admin actions. Multiple instances possible "
 "for distinct workflows."
@@ -1723,7 +1704,7 @@ msgstr ""
 "Botones configurables hacia las acciones admin frecuentes. Varias instancias "
 "posibles para flujos distintos."
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:64
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:67
 msgid ""
 "Quick-access buttons for the admin actions you run most often. Add one from "
 "the dropdown."
@@ -1731,67 +1712,67 @@ msgstr ""
 "Botones de acceso rápido a las acciones de administración más frecuentes. "
 "Añade una desde el desplegable."
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:68
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:71
 #: src/Modules/Admin/Tables/TablesReimagined.php:468
 #: src/Modules/MediaLibrary/OrphanAdminPage.php:210
 msgid "Actions"
 msgstr "Acciones"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:70
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:73
 msgid "Add an action"
 msgstr "Añadir una acción"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:100
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:103
 msgid "+ Post"
 msgstr "+ Entrada"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:105
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:108
 msgid "+ Page"
 msgstr "+ Página"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:110
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:113
 msgid "+ Media"
 msgstr "+ Medios"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:115
-msgid "Clear cache"
-msgstr "Vaciar caché"
-
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:120
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:118
 msgid "Update plugins"
 msgstr "Actualizar plugins"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:125
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:123
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:59
 msgid "Menus"
 msgstr "Menús"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:130
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:128
 msgid "+ User"
 msgstr "+ Usuario"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:135
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:133
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:58
 #: src/Modules/Admin/Tables/TablesReimagined.php:487
 msgid "Comments"
 msgstr "Comentarios"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:140
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:138
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:60
 msgid "Themes"
 msgstr "Temas"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:145
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:143
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:67
 msgid "Customizer"
 msgstr "Personalizador"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:165
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:163
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:66
 msgid "Permalinks"
 msgstr "Enlaces permanentes"
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:199
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:172
+msgid "Clear cache"
+msgstr "Vaciar caché"
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:207
 msgid "No action. Edit the widget config."
 msgstr "Sin acciones. Edita la configuración del widget."
 
@@ -1901,17 +1882,21 @@ msgid "Site status"
 msgstr "Estado del sitio"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:30
-msgid "WP/PHP versions, SSL, plugins to update, PHP errors."
-msgstr "Versiones WP/PHP, SSL, plugins a actualizar, errores PHP."
+msgid "WordPress and PHP versions, SSL, pending updates."
+msgstr "Versiones de WordPress y PHP, SSL, actualizaciones pendientes."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:73
 msgid "upd."
 msgstr "act."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:76
-#: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:84
 msgid "up to date"
 msgstr "actualizado"
+
+#: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:84
+#: src/Modules/Admin/Tables/TablesReimagined.php:502
+msgid "Update available"
+msgstr "Actualización disponible"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:93
 msgid "SSL active"
@@ -1991,7 +1976,7 @@ msgid "In moderation"
 msgstr "En moderación"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:33
-#: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:85
+#: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:87
 msgid "Toolkit"
 msgstr "Herramientas"
 
@@ -2000,7 +1985,7 @@ msgid "State of the quick toggles (Disable Comments, Classic Editor, etc.)."
 msgstr ""
 "Estado de los ajustes rápidos (Desactivar comentarios, Editor clásico, etc.)."
 
-#: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:103
+#: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:105
 msgid "No toggle available."
 msgstr "Ningún ajuste disponible."
 
@@ -2900,7 +2885,7 @@ msgstr ""
 "Cada persona puede desactivar la interfaz de Double Youpï para su propia "
 "cuenta, desde su perfil. Tus ajustes siguen siendo los predeterminados."
 
-#: src/Modules/Admin/Settings.php:861 src/Modules/MediaLibrary/Settings.php:313
+#: src/Modules/Admin/Settings.php:861 src/Modules/MediaLibrary/Settings.php:349
 msgid "Save changes"
 msgstr "Guardar cambios"
 
@@ -3125,10 +3110,6 @@ msgstr "Actualizado"
 msgid "Update failed"
 msgstr "Error al actualizar"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:502
-msgid "Update available"
-msgstr "Actualización disponible"
-
 #: src/Modules/Admin/Tables/TablesReimagined.php:503
 msgid "1 update available"
 msgstr "1 actualización disponible"
@@ -3275,7 +3256,7 @@ msgstr "No se ha podido eliminar la colección."
 #: src/Modules/MediaLibrary/CollectionTaxonomy.php:86
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:52
 #: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:76
-#: src/Modules/MediaLibrary/Settings.php:256
+#: src/Modules/MediaLibrary/Settings.php:274
 msgid "Collections"
 msgstr "Colecciones"
 
@@ -3330,7 +3311,7 @@ msgstr "No se ha podido eliminar la carpeta."
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:35
 #: src/Modules/MediaLibrary/FolderTaxonomy.php:61
 #: src/Modules/MediaLibrary/FolderTaxonomy.php:63
-#: src/Modules/MediaLibrary/Settings.php:248
+#: src/Modules/MediaLibrary/Settings.php:266
 msgid "Folders"
 msgstr "Carpetas"
 
@@ -3867,7 +3848,7 @@ msgstr ""
 "Las colecciones se mantienen separadas de las carpetas: este cambio no es "
 "posible aquí."
 
-#: src/Modules/MediaLibrary/MediaLibrary.php:74
+#: src/Modules/MediaLibrary/MediaLibrary.php:75
 msgid ""
 "Turning the media library off hands the Media screen back to WordPress. Your "
 "folders and your collections are kept, and come back if you turn it on again."
@@ -3876,7 +3857,7 @@ msgstr ""
 "WordPress. Tus carpetas y tus colecciones se conservan y reaparecen si "
 "vuelves a activarla."
 
-#: src/Modules/MediaLibrary/MediaLibrary.php:77
+#: src/Modules/MediaLibrary/MediaLibrary.php:78
 msgid ""
 "Double Youpï Refined Media Library is installed and standing aside: "
 "reactivate it if you want the media library without the rest."
@@ -3884,11 +3865,11 @@ msgstr ""
 "Double Youpï Refined Media Library está instalado y en segundo plano: "
 "actívalo de nuevo si quieres la biblioteca de medios sin el resto."
 
-#: src/Modules/MediaLibrary/MediaLibrary.php:137
+#: src/Modules/MediaLibrary/MediaLibrary.php:138
 msgid "Media Library"
 msgstr "Biblioteca de medios"
 
-#: src/Modules/MediaLibrary/MediaLibrary.php:179
+#: src/Modules/MediaLibrary/MediaLibrary.php:209
 msgid "Unused media"
 msgstr "Medios sin uso"
 
@@ -4208,74 +4189,82 @@ msgstr "Borrar definitivamente"
 msgid "Delete selected media"
 msgstr "Eliminar los medios seleccionados"
 
-#: src/Modules/MediaLibrary/Settings.php:224
+#: src/Modules/MediaLibrary/Settings.php:242
 msgid "Optimization"
 msgstr "Optimización"
 
 #. translators: %s: name of the module piloting image conversion
-#: src/Modules/MediaLibrary/Settings.php:231
+#: src/Modules/MediaLibrary/Settings.php:249
 #, php-format
 msgid "Piloted by %s. Settings managed there."
 msgstr "Controlado por %s. Los ajustes se gestionan allí."
 
-#: src/Modules/MediaLibrary/Settings.php:233
+#: src/Modules/MediaLibrary/Settings.php:251
 msgid "This server cannot generate WebP images."
 msgstr "Este servidor no puede generar imágenes WebP."
 
-#: src/Modules/MediaLibrary/Settings.php:234
+#: src/Modules/MediaLibrary/Settings.php:252
 msgid "This server cannot generate AVIF images."
 msgstr "Este servidor no puede generar imágenes AVIF."
 
-#: src/Modules/MediaLibrary/Settings.php:241
+#: src/Modules/MediaLibrary/Settings.php:259
 msgid "Organisation"
 msgstr "Organización"
 
-#: src/Modules/MediaLibrary/Settings.php:249
+#: src/Modules/MediaLibrary/Settings.php:267
 msgid "Organise the media library into folders"
 msgstr "Organizar la biblioteca de medios en carpetas"
 
-#: src/Modules/MediaLibrary/Settings.php:257
+#: src/Modules/MediaLibrary/Settings.php:275
 msgid "Group media into cross-folder collections"
 msgstr "Agrupar medios en colecciones transversales"
 
-#: src/Modules/MediaLibrary/Settings.php:264
+#: src/Modules/MediaLibrary/Settings.php:282
 msgid "Auto alt & title"
 msgstr "Auto alt y título"
 
-#: src/Modules/MediaLibrary/Settings.php:265
+#: src/Modules/MediaLibrary/Settings.php:283
 msgid "Fill alt text and title from filename on upload (if empty)"
 msgstr ""
 "Rellenar alt y título desde el nombre del archivo al subir (si está vacío)"
 
-#: src/Modules/MediaLibrary/Settings.php:274
+#: src/Modules/MediaLibrary/Settings.php:292
 msgid "Duplicate badge"
 msgstr "Distintivo de duplicado"
 
-#: src/Modules/MediaLibrary/Settings.php:275
+#: src/Modules/MediaLibrary/Settings.php:293
 msgid "Mark files already in the library, by content"
 msgstr "Marcar los archivos ya presentes, según su contenido"
 
-#: src/Modules/MediaLibrary/Settings.php:283
+#: src/Modules/MediaLibrary/Settings.php:301
 msgid "Conversion"
 msgstr "Conversión"
 
-#: src/Modules/MediaLibrary/Settings.php:290
+#: src/Modules/MediaLibrary/Settings.php:308
 msgid "WebP on upload"
 msgstr "WebP al subir"
 
-#: src/Modules/MediaLibrary/Settings.php:291
+#: src/Modules/MediaLibrary/Settings.php:309
 msgid "Generate a WebP version of each image on upload"
 msgstr "Generar una versión WebP de cada imagen al subir"
 
-#: src/Modules/MediaLibrary/Settings.php:300
+#: src/Modules/MediaLibrary/Settings.php:318
 msgid "AVIF on upload"
 msgstr "AVIF al subir"
 
-#: src/Modules/MediaLibrary/Settings.php:301
+#: src/Modules/MediaLibrary/Settings.php:319
 msgid "Generate an AVIF version too (requires Imagick)"
 msgstr "Generar también una versión AVIF (requiere Imagick)"
 
-#: src/Modules/MediaLibrary/Settings.php:349
+#: src/Modules/MediaLibrary/Settings.php:338
+msgid "Light theme"
+msgstr "Tema claro"
+
+#: src/Modules/MediaLibrary/Settings.php:339
+msgid "Show the media library on a light background"
+msgstr "Mostrar la biblioteca de medios sobre fondo claro"
+
+#: src/Modules/MediaLibrary/Settings.php:385
 msgid ""
 "Double Youpï Refined Admin Dashboard includes this media library, and "
 "redraws the rest of the admin the same way. It is free too."
@@ -4283,15 +4272,15 @@ msgstr ""
 "Double Youpï Refined Admin Dashboard incluye esta biblioteca de medios y "
 "rediseña el resto del escritorio de la misma manera. También es gratuito."
 
-#: src/Modules/MediaLibrary/Settings.php:350
+#: src/Modules/MediaLibrary/Settings.php:386
 msgid "Read about it"
 msgstr "Saber más"
 
-#: src/Modules/MediaLibrary/Settings.php:400
+#: src/Modules/MediaLibrary/Settings.php:436
 msgid "Conversion quality"
 msgstr "Calidad de conversión"
 
-#: src/Modules/MediaLibrary/Settings.php:401
+#: src/Modules/MediaLibrary/Settings.php:437
 msgid "Higher means better quality and larger files. Default 82."
 msgstr "Más alto = mejor calidad y archivos más grandes. Por defecto 82."
 
@@ -4668,1889 +4657,3 @@ msgstr "%s detectado, le cedemos el control."
 #: src/Modules/Toolkit/ToolsPage.php:246
 msgid "Tools updated. Reload the page to see the effects."
 msgstr "Herramientas actualizadas. Recarga la página para ver los efectos."
-
-#~ msgid ""
-#~ "Folders, collections, duplicate and orphan cleanup, auto alt text and "
-#~ "WebP/AVIF conversion for the WordPress media library, without the per-"
-#~ "image fiddling."
-#~ msgstr ""
-#~ "Carpetas, colecciones, detección de duplicados y archivos huérfanos, "
-#~ "texto alternativo automático y conversión WebP/AVIF para la biblioteca de "
-#~ "medios de WordPress, sin ajustes imagen por imagen."
-
-#~ msgid ""
-#~ "You are already running the full Double Youpï suite, and it includes "
-#~ "Double Youpï Refined Media Library. This standalone copy stepped aside to "
-#~ "stay out of its way. Want to run it on its own? Deactivate the suite "
-#~ "first."
-#~ msgstr ""
-#~ "Ya estás usando la suite completa Double Youpï, que incluye Double Youpï "
-#~ "Refined Media Library. Por eso esta versión independiente se ha hecho a "
-#~ "un lado para no estorbar. ¿Prefieres usarla sola? Desactiva primero la "
-#~ "suite."
-
-#~ msgid ""
-#~ "I'm <b>%s</b>, a freelance UX/UI designer and developer. I build Double "
-#~ "Youpï to make WordPress genuinely nicer to use, and this module stays "
-#~ "free, with its updates included, for the long run. No paywalled basics, "
-#~ "no dark patterns. If it helps your work, a coffee keeps it going. Either "
-#~ "way, thanks for being here."
-#~ msgstr ""
-#~ "Soy <b>%s</b>, diseñador UX/UI y desarrollador freelance. Creo Double "
-#~ "Youpï para hacer WordPress realmente más agradable de usar, y este módulo "
-#~ "es gratis, con sus actualizaciones incluidas, a largo plazo. Sin "
-#~ "funciones básicas de pago, sin patrones oscuros. Si te ayuda en tu "
-#~ "trabajo, un café me permite seguir. Y si no, sin problema: usarlo (y "
-#~ "dejar una buena reseña) ya ayuda mucho."
-
-#~ msgid ""
-#~ "I'm <b>%1$s</b>, a freelance UX/UI designer and developer working as "
-#~ "%2$s. I build Double Youpï to make WordPress genuinely nicer to use, and "
-#~ "this module stays free, with its updates included, for the long run. It "
-#~ "gets better with your feedback, so tell me what's missing or what bugs "
-#~ "you. If it helps your work, a coffee keeps it going. Either way, thanks "
-#~ "for being here."
-#~ msgstr ""
-#~ "Soy <b>%1$s</b>, diseñador UX/UI y desarrollador freelance bajo el nombre "
-#~ "%2$s. Creo Double Youpï para que WordPress sea realmente más agradable de "
-#~ "usar, y este módulo seguirá siendo gratuito, con sus actualizaciones "
-#~ "incluidas, a largo plazo. Mejora con tus comentarios, así que dime qué "
-#~ "falta o qué falla. Si te ayuda en tu trabajo, un café lo mantiene en "
-#~ "marcha. En cualquier caso, gracias por estar aquí."
-
-#~ msgid ""
-#~ "I'm <b>%s</b>, a freelance UX/UI designer and developer. I build Double "
-#~ "Youpï to make WordPress genuinely nicer to use, and this module stays "
-#~ "free, with its updates included, for the long run. It gets better with "
-#~ "your feedback, so tell me what's missing or what bugs you. If it helps "
-#~ "your work, a coffee keeps it going. Either way, thanks for being here."
-#~ msgstr ""
-#~ "Soy <b>%s</b>, diseñador UX/UI y desarrollador freelance. Creo Double "
-#~ "Youpï para que WordPress sea realmente más agradable de usar, y este "
-#~ "módulo seguirá siendo gratuito, con sus actualizaciones incluidas, a "
-#~ "largo plazo. Mejora con tus comentarios, así que dime qué falta o qué "
-#~ "falla. Si te ayuda en tu trabajo, un café lo mantiene en marcha. En "
-#~ "cualquier caso, gracias por estar aquí."
-
-#~ msgid "Coming soon to Double Youpï"
-#~ msgstr "Próximamente en Double Youpï"
-
-#~ msgid "Up next"
-#~ msgstr "A continuación"
-
-#~ msgid "Almost ready"
-#~ msgstr "Casi listo"
-
-#~ msgid ""
-#~ "Clone production to a private subdomain to test safely, with noindex, "
-#~ "robots and optional basic auth."
-#~ msgstr ""
-#~ "Clona producción en un subdominio privado para probar sin riesgos, con "
-#~ "noindex, robots y basic auth opcional."
-
-# Retrait devant Refined Admin Dashboard, qui embarque la médiathèque.
-#~ msgid ""
-#~ "Double Youpï Refined Admin Dashboard is active, and it includes this "
-#~ "whole media library: folders, collections and the detail panel. This copy "
-#~ "stepped aside. Your folders, collections and settings are untouched, and "
-#~ "the dashboard is using them right now. Want the media library on its own? "
-#~ "Deactivate Refined Admin Dashboard first."
-#~ msgstr ""
-#~ "Double Youpï Refined Admin Dashboard está activo e incluye toda esta "
-#~ "biblioteca de medios: carpetas, colecciones y panel de detalles. Esta "
-#~ "copia se ha hecho a un lado. Tus carpetas, colecciones y ajustes están "
-#~ "intactos, y el escritorio los está usando ahora mismo. ¿Quieres la "
-#~ "biblioteca de medios sola? Desactiva antes Refined Admin Dashboard."
-
-#~ msgid ""
-#~ "Modular WordPress optimization suite for professionals: performance, "
-#~ "images, static, SEO, metrics."
-#~ msgstr ""
-#~ "Suite modular de optimización de WordPress para profesionales: "
-#~ "rendimiento, imágenes, estático, SEO, métricas."
-
-#~ msgid ""
-#~ "Double Youpï: the Composer dependencies are missing. Run <code>composer "
-#~ "install</code> inside the plugin folder."
-#~ msgstr ""
-#~ "Double Youpï: faltan las dependencias de Composer. Ejecuta <code>composer "
-#~ "install</code> en la carpeta del plugin."
-
-#~ msgid ""
-#~ "WordPress admin redesign: typography, spacing, palette, login screen. "
-#~ "Customizable logo and accent color."
-#~ msgstr ""
-#~ "Rediseño del admin de WordPress: tipografía, espaciado, paleta, pantalla "
-#~ "de login. Logo y color de acento personalizables."
-
-#~ msgid ""
-#~ "Enhanced media library: folders and collections, drag & drop, orphan "
-#~ "scanner, WebP/AVIF conversion on upload."
-#~ msgstr ""
-#~ "Biblioteca enriquecida: carpetas y colecciones, arrastrar y soltar, "
-#~ "escáner de huérfanos, conversión WebP/AVIF al subir."
-
-#~ msgid "Performance + CDN"
-#~ msgstr "Rendimiento + CDN"
-
-#~ msgid ""
-#~ "Runtime optimizations (cache, CSS/JS, lazy, defer), WebP/AVIF image "
-#~ "conversion + <picture> injection, self-hosted fonts, WebM video, "
-#~ "Cloudflare CDN."
-#~ msgstr ""
-#~ "Optimizaciones en runtime (caché, CSS/JS, lazy, defer), conversión de "
-#~ "imágenes WebP/AVIF + inyección <picture>, fuentes auto-alojadas, vídeo "
-#~ "WebM, CDN Cloudflare."
-
-#~ msgid "Static Site"
-#~ msgstr "Sitio Estático"
-
-#~ msgid ""
-#~ "Static HTML generation to reduce WordPress attack surface and host on "
-#~ "Cloudflare Pages, Netlify, GitHub Pages."
-#~ msgstr ""
-#~ "Generación de HTML estático para reducir la superficie de ataque de "
-#~ "WordPress y alojarlo en Cloudflare Pages, Netlify, GitHub Pages."
-
-#~ msgid ""
-#~ "Toggles that replace common micro-plugins: Classic Editor, Disable "
-#~ "Comments, Duplicate Post, Force HTTPS, Safe SVG."
-#~ msgstr ""
-#~ "Interruptores que reemplazan los micro-plugins habituales: Classic "
-#~ "Editor, Disable Comments, Duplicate Post, Force HTTPS, Safe SVG."
-
-#~ msgid "SEO + Accessibility"
-#~ msgstr "SEO + Accesibilidad"
-
-#~ msgid ""
-#~ "Complement to Rank Math for accessibility: auto aria-label, AI-generated "
-#~ "alt-text, WCAG audit."
-#~ msgstr ""
-#~ "Complemento a Rank Math en accesibilidad: aria-label automático, alt-text "
-#~ "con IA, auditoría WCAG."
-
-#~ msgid "PSI Metrics"
-#~ msgstr "Métricas PSI"
-
-#~ msgid ""
-#~ "PageSpeed Insights monitoring in the admin. Per-page evolution over time, "
-#~ "mobile and desktop."
-#~ msgstr ""
-#~ "Monitorización PageSpeed Insights en el admin. Evolución en el tiempo por "
-#~ "página, móvil y escritorio."
-
-#~ msgid "Backups"
-#~ msgstr "Copias de seguridad"
-
-#~ msgid ""
-#~ "Full backups (DB + files) or DB only, cron scheduling, rotation, restore "
-#~ "with auto-snapshot."
-#~ msgstr ""
-#~ "Copias completas (BD + archivos) o solo BD, planificación cron, rotación, "
-#~ "restauración con auto-snapshot."
-
-#~ msgid "Staging"
-#~ msgstr "Preproducción"
-
-#~ msgid ""
-#~ "Clone production to a dedicated subdomain to test in isolation. Privacy "
-#~ "enforced (noindex, robots.txt, optional basic auth)."
-#~ msgstr ""
-#~ "Clon de producción a un subdominio dedicado para probar de forma aislada. "
-#~ "Privacidad forzada (noindex, robots.txt, basic auth opcional)."
-
-#~ msgid "Please enter a licence key."
-#~ msgstr "Introduce una clave de licencia."
-
-#, php-format
-#~ msgid "Could not reach the licence server: %s"
-#~ msgstr "No se ha podido contactar con el servidor de licencias: %s"
-
-#~ msgid "Activation failed. Please check your licence key."
-#~ msgstr "Activación fallida. Comprueba tu clave de licencia."
-
-#~ msgid "The server response could not be verified. Please contact support."
-#~ msgstr ""
-#~ "No se ha podido verificar la respuesta del servidor. Contacta con soporte."
-
-#~ msgid ""
-#~ "Your Double Youpï licence has expired. Updates are paused: <a "
-#~ "href=\"#\">renew your licence</a>."
-#~ msgstr ""
-#~ "Tu licencia Double Youpï ha caducado. Las actualizaciones están en pausa: "
-#~ "<a href=\"#\">renovar la licencia</a>."
-
-#~ msgid ""
-#~ "Double Youpï could not reach the licence server. The plugin continues to "
-#~ "work during the 30-day grace period."
-#~ msgstr ""
-#~ "Double Youpï no ha podido contactar con el servidor de licencias. El "
-#~ "plugin sigue funcionando durante los 30 días de gracia."
-
-#~ msgid ""
-#~ "No valid Double Youpï licence found. Please <a href=\"#\">activate your "
-#~ "licence</a>."
-#~ msgstr ""
-#~ "No se ha encontrado una licencia Double Youpï válida. <a "
-#~ "href=\"#\">Activa tu licencia</a>."
-
-#~ msgid "Updates expired"
-#~ msgstr "Actualizaciones caducadas"
-
-#~ msgid "Degraded: could not reach licence server"
-#~ msgstr "Degradada: servidor de licencias inalcanzable"
-
-#~ msgid "Invalid or missing"
-#~ msgstr "Inválida o ausente"
-
-#~ msgid "Site"
-#~ msgstr "Sitio"
-
-#~ msgid "Admin site"
-#~ msgstr "Admin sitio"
-
-#~ msgid "Focus on technical health"
-#~ msgstr "Foco en la salud técnica"
-
-#~ msgid "A handful of essential widgets"
-#~ msgstr "Algunos widgets esenciales"
-
-#~ msgid "Click Customize to edit this note."
-#~ msgstr "Haz clic en Personalizar para editar esta nota."
-
-#~ msgid "Open Site Health →"
-#~ msgstr "Abrir Salud del sitio →"
-
-#, php-format
-#~ msgid "%d item%s"
-#~ msgid_plural "%d items%s"
-#~ msgstr[0] "%d elemento%s"
-#~ msgstr[1] "%d elementos%s"
-
-#, php-format
-#~ msgid "%d pending · %d approved"
-#~ msgid_plural "%d pending · %d approved"
-#~ msgstr[0] "%d en espera · %d aprobado"
-#~ msgstr[1] "%d en espera · %d aprobados"
-
-#~ msgid "Notices"
-#~ msgstr "Avisos"
-
-#~ msgid "Captured notices"
-#~ msgstr "Avisos capturados"
-
-#~ msgid ""
-#~ "Notices from WordPress and plugins land here instead of cluttering the "
-#~ "top of the page."
-#~ msgstr ""
-#~ "Los avisos de WordPress y los plugins aparecen aquí en lugar de saturar "
-#~ "la parte superior de la página."
-
-#, php-format
-#~ msgid "%d notices"
-#~ msgstr "%d avisos"
-
-#~ msgid "1 notice"
-#~ msgstr "1 aviso"
-
-#~ msgid "No notices"
-#~ msgstr "Sin avisos"
-
-#~ msgid "Notice dismissed"
-#~ msgstr "Aviso descartado"
-
-#~ msgid ""
-#~ "Applied to primary buttons, links and active states. The color should "
-#~ "stay in a reasonable brightness range so the DS tinted surfaces remain "
-#~ "readable."
-#~ msgstr ""
-#~ "Aplicado a botones primarios, enlaces y estados activos. El color debe "
-#~ "mantenerse en un rango de luminosidad razonable para que las superficies "
-#~ "tintadas del DS sigan siendo legibles."
-
-#~ msgid "Use accent color for all menu lines"
-#~ msgstr "Usar el color de acento para todas las líneas del menú"
-
-#~ msgid ""
-#~ "If enabled, the 7 menu lines (Content, Commerce, Users, Community, Site, "
-#~ "System, Developer) all use the accent color. Otherwise, each line keeps "
-#~ "its own color."
-#~ msgstr ""
-#~ "Si está activado, las 7 líneas del menú (Contenido, Comercio, Usuarios, "
-#~ "Comunidad, Sitio, Sistema, Desarrollador) usan el color de acento. Si no, "
-#~ "cada línea conserva su color propio."
-
-#~ msgid "Custom logo"
-#~ msgstr "Logo personalizado"
-
-#~ msgid ""
-#~ "Logo shown above the side menu. If empty, the default Double Youpï logo "
-#~ "is used."
-#~ msgstr ""
-#~ "Logo mostrado sobre el menú lateral. Si está vacío, se usa el logo Double "
-#~ "Youpi por defecto."
-
-#~ msgid ""
-#~ "Let each user enable or disable the Double Youpï admin interface for "
-#~ "their own account"
-#~ msgstr ""
-#~ "Permitir que cada usuario active o desactive la interfaz de "
-#~ "administración de Double Youpï para su propia cuenta"
-
-#~ msgid ""
-#~ "When enabled, your settings above still apply by default, but each user "
-#~ "gets an \"Interface customization\" block on their profile to opt out. "
-#~ "Administrators can also toggle it per user from the user edit screen."
-#~ msgstr ""
-#~ "Cuando está activado, tus ajustes anteriores se siguen aplicando por "
-#~ "defecto, pero cada usuario obtiene un bloque «Personalización de la "
-#~ "interfaz» en su perfil para excluirse. Los administradores también pueden "
-#~ "activarlo o desactivarlo por usuario desde la pantalla de edición de "
-#~ "usuario."
-
-#, php-format
-#~ msgid "[Double Youpï] Backup failed on %s"
-#~ msgstr "[Double Youpï] Fallo de copia en %s"
-
-#, php-format
-#~ msgid "[Double Youpï] Backup completed on %s"
-#~ msgstr "[Double Youpï] Copia completada en %s"
-
-#, php-format
-#~ msgid "Site     : %s"
-#~ msgstr "Sitio    : %s"
-
-#, php-format
-#~ msgid "Type     : %s"
-#~ msgstr "Tipo     : %s"
-
-#, php-format
-#~ msgid "Bucket   : %s"
-#~ msgstr "Bucket   : %s"
-
-#, php-format
-#~ msgid "Trigger   : %s"
-#~ msgstr "Trigger   : %s"
-
-#, php-format
-#~ msgid "Duration : %ds"
-#~ msgstr "Duración : %ds"
-
-#, php-format
-#~ msgid "Size     : %s"
-#~ msgstr "Tamaño   : %s"
-
-#, php-format
-#~ msgid "DB rows  : %d"
-#~ msgstr "Filas BD : %d"
-
-#, php-format
-#~ msgid "Files    : %d"
-#~ msgstr "Archivos : %d"
-
-#~ msgid "Errors encountered:"
-#~ msgstr "Errores encontrados:"
-
-#, php-format
-#~ msgid "Full list: %s"
-#~ msgstr "Lista completa: %s"
-
-#~ msgid "Email sent automatically by Double Youpï Backups."
-#~ msgstr "Email enviado automáticamente por Double Youpï Backups."
-
-#~ msgid "Creating backup…"
-#~ msgstr "Creando la copia…"
-
-#~ msgid "Preparing database export…"
-#~ msgstr "Preparando exportación de base de datos…"
-
-#, php-format
-#~ msgid "Database export: table %1$d / %2$d"
-#~ msgstr "Exportación BD: tabla %1$d / %2$d"
-
-#~ msgid "Archiving files…"
-#~ msgstr "Archivando archivos…"
-
-#, php-format
-#~ msgid "%s rows"
-#~ msgstr "%s filas"
-
-#~ msgid "Done."
-#~ msgstr "Listo."
-
-#~ msgid "Error: see the log."
-#~ msgstr "Error: ver el registro."
-
-#~ msgid "Permanently delete this backup?"
-#~ msgstr "¿Eliminar definitivamente esta copia?"
-
-#~ msgid ""
-#~ "Restore this backup now? A snapshot of the current state will be created "
-#~ "automatically beforehand."
-#~ msgstr ""
-#~ "¿Restaurar esta copia ahora? Se creará automáticamente un snapshot del "
-#~ "estado actual antes."
-
-#, php-format
-#~ msgid ""
-#~ "WARNING: this backup comes from %1$s. Your URLs will be replaced %1$s → "
-#~ "%2$s. Confirm?"
-#~ msgstr ""
-#~ "ATENCIÓN: esta copia viene de %1$s. Tus URLs se reemplazarán de %1$s → "
-#~ "%2$s. ¿Confirmar?"
-
-#~ msgid "Restore in progress… Do not close this page."
-#~ msgstr "Restauración en curso… No cierres esta página."
-
-#~ msgid "Backup restored."
-#~ msgstr "Copia restaurada."
-
-#, php-format
-#~ msgid "%1$d backup stored locally · Space used: %2$s"
-#~ msgid_plural "%1$d backups stored locally · Space used: %2$s"
-#~ msgstr[0] "%1$d copia almacenada localmente · Espacio usado: %2$s"
-#~ msgstr[1] "%1$d copias almacenadas localmente · Espacio usado: %2$s"
-
-#, php-format
-#~ msgid "%1$d backups stored locally · Space used: %2$s"
-#~ msgstr ""
-#~ "%1$d copias de seguridad almacenadas localmente · Espacio usado: %2$s"
-
-#~ msgid "No backup yet. Create one with the buttons above."
-#~ msgstr "Aún no hay ninguna copia. Crea una con los botones anteriores."
-
-#~ msgid "Full backup"
-#~ msgstr "Copia completa"
-
-#~ msgid "DB only"
-#~ msgstr "Solo BD"
-
-#~ msgid "Bucket"
-#~ msgstr "Bucket"
-
-#~ msgid "Origin"
-#~ msgstr "Origen"
-
-#, php-format
-#~ msgid ""
-#~ "Storage: %s. The restore always creates an automatic snapshot of the "
-#~ "current state first (bucket auto-pre-restore)."
-#~ msgstr ""
-#~ "Almacenamiento: %s. La restauración siempre crea un snapshot automático "
-#~ "del estado actual antes (bucket auto-pre-restore)."
-
-#~ msgid "Full"
-#~ msgstr "Completo"
-
-#~ msgid "This site"
-#~ msgstr "Este sitio"
-
-#~ msgid "Download"
-#~ msgstr "Descargar"
-
-#~ msgid "Automatic full backup"
-#~ msgstr "Copia de seguridad completa automática"
-
-#~ msgid ""
-#~ "A scheduled full backup (database + files). Runs on the chosen frequency, "
-#~ "pushes to the selected destinations."
-#~ msgstr ""
-#~ "Una copia de seguridad completa programada (base de datos + archivos). Se "
-#~ "ejecuta con la frecuencia elegida y se envía a los destinos seleccionados."
-
-#~ msgid "Run an automatic full backup on a schedule"
-#~ msgstr "Ejecutar una copia completa automática programada"
-
-#~ msgid "Frequency"
-#~ msgstr "Frecuencia"
-
-#~ msgid "Time"
-#~ msgstr "Hora"
-
-#~ msgid "Server time."
-#~ msgstr "Hora del servidor."
-
-#~ msgid "Day of the week"
-#~ msgstr "Día de la semana"
-
-#~ msgid "Day of the month"
-#~ msgstr "Día del mes"
-
-#~ msgid "1 = first day of the month."
-#~ msgstr "1 = primer día del mes."
-
-#~ msgid "Include uploads"
-#~ msgstr "Incluir uploads"
-
-#~ msgid "Include wp-content/uploads/ (medias) in the backup"
-#~ msgstr "Incluir wp-content/uploads/ (medios) en la copia"
-
-#~ msgid ""
-#~ "Uncheck to skip the media folder if it is heavy. The DB + plugins/themes "
-#~ "are still included."
-#~ msgstr ""
-#~ "Desmarcar para omitir la carpeta de medios si es pesada. La BD y plugins/"
-#~ "temas siguen incluidos."
-
-#~ msgid "Keep last"
-#~ msgstr "Conservar las últimas"
-
-#~ msgid "backups before deleting the oldest"
-#~ msgstr "copias antes de borrar las más antiguas"
-
-#~ msgid "Destinations"
-#~ msgstr "Destinos"
-
-#~ msgid ""
-#~ "Local is always kept. FTP and Google Drive require credentials below."
-#~ msgstr ""
-#~ "El almacenamiento local siempre se conserva. FTP y Google Drive requieren "
-#~ "las credenciales de abajo."
-
-#~ msgid "Automatic database backup"
-#~ msgstr "Copia automática de base de datos"
-
-#~ msgid ""
-#~ "A scheduled DB-only backup. Lightweight, ideal for daily snapshots. Can "
-#~ "be sent by email."
-#~ msgstr ""
-#~ "Una copia solo BD programada. Ligera, ideal para snapshots diarios. Se "
-#~ "puede enviar por correo."
-
-#~ msgid "Run an automatic DB-only backup on a schedule"
-#~ msgstr "Ejecutar una copia solo BD automática programada"
-
-#~ msgid "Email sends the compressed SQL dump as an attachment (max 20 MB)."
-#~ msgstr "Correo envía el volcado SQL comprimido como adjunto (máx. 20 MB)."
-
-#~ msgid "Destination credentials"
-#~ msgstr "Credenciales de destinos"
-
-#~ msgid ""
-#~ "Credentials for the remote destinations selected above. Local storage "
-#~ "requires no credentials."
-#~ msgstr ""
-#~ "Credenciales para los destinos remotos seleccionados arriba. El "
-#~ "almacenamiento local no las necesita."
-
-#~ msgid "FTP / SFTP"
-#~ msgstr "FTP / SFTP"
-
-#~ msgid "Host"
-#~ msgstr "Servidor"
-
-#~ msgid "Port"
-#~ msgstr "Puerto"
-
-#~ msgid "21 for FTP, 22 for SFTP."
-#~ msgstr "21 para FTP, 22 para SFTP."
-
-#~ msgid "User"
-#~ msgstr "Usuario"
-
-#~ msgid "Password"
-#~ msgstr "Contraseña"
-
-#~ msgid ""
-#~ "Stored as-is in the WP options table. Use a dedicated FTP account with "
-#~ "restricted scope."
-#~ msgstr ""
-#~ "Almacenado tal cual en la tabla options de WP. Use una cuenta FTP "
-#~ "dedicada con permisos restringidos."
-
-#~ msgid "Remote path"
-#~ msgstr "Ruta remota"
-
-#~ msgid "Use SFTP"
-#~ msgstr "Usar SFTP"
-
-#~ msgid "Use SFTP (SSH) instead of plain FTP"
-#~ msgstr "Usar SFTP (SSH) en lugar de FTP simple"
-
-#~ msgid "phpseclib detected, SFTP available."
-#~ msgstr "phpseclib detectado, SFTP disponible."
-
-#~ msgid ""
-#~ "phpseclib not installed: SFTP unavailable. Run composer require phpseclib/"
-#~ "phpseclib to enable."
-#~ msgstr ""
-#~ "phpseclib no instalado: SFTP no disponible. Ejecute composer require "
-#~ "phpseclib/phpseclib para activarlo."
-
-#~ msgid "Test connection"
-#~ msgstr "Probar conexión"
-
-#~ msgid "Google Drive"
-#~ msgstr "Google Drive"
-
-#~ msgid "OAuth connection"
-#~ msgstr "Conexión OAuth"
-
-#~ msgid "Connect Google Drive"
-#~ msgstr "Conectar Google Drive"
-
-#~ msgid ""
-#~ "Google Drive integration is in preparation. The destination already "
-#~ "appears in the lists above for forward compatibility but does not "
-#~ "transfer yet."
-#~ msgstr ""
-#~ "La integración con Google Drive está en preparación. El destino ya "
-#~ "aparece en las listas para compatibilidad futura pero aún no transfiere."
-
-#~ msgid "Email (DB-only)"
-#~ msgstr "Correo (solo BD)"
-
-#~ msgid "Recipient"
-#~ msgstr "Destinatario"
-
-#~ msgid ""
-#~ "Only used by the « Email » destination on DB-only backups. Leave empty to "
-#~ "use the site admin email."
-#~ msgstr ""
-#~ "Solo usado por el destino « Correo » en copias solo BD. Deje vacío para "
-#~ "usar el correo de administración del sitio."
-
-#~ msgid "Notifications & behaviors"
-#~ msgstr "Notificaciones y comportamientos"
-
-#~ msgid "Email after backup"
-#~ msgstr "Email tras backup"
-
-#~ msgid "Send a notification email after every backup"
-#~ msgstr "Enviar un correo de notificación después de cada copia"
-
-#~ msgid ""
-#~ "A status report (size, duration, errors). Distinct from the « Email » "
-#~ "destination which attaches the SQL file."
-#~ msgstr ""
-#~ "Un informe de estado (tamaño, duración, errores). Distinto del destino "
-#~ "« Correo » que adjunta el archivo SQL."
-
-#~ msgid "Notification recipient"
-#~ msgstr "Destinatario de notificaciones"
-
-#~ msgid "Errors only"
-#~ msgstr "Solo errores"
-
-#~ msgid "Only send if the backup fails"
-#~ msgstr "Enviar solo en caso de fallo de copia"
-
-#~ msgid "Clear cache after restore"
-#~ msgstr "Vaciar la caché tras restaurar"
-
-#~ msgid "Object Cache + transients + opcache_reset() after every restore"
-#~ msgstr "Object Cache + transients + opcache_reset() tras cada restauración"
-
-#~ msgid "DB tables to exclude"
-#~ msgstr "Tablas BD a excluir"
-
-#~ msgid "One table per line, full prefix (e.g. wp_actionscheduler_logs)."
-#~ msgstr ""
-#~ "Una tabla por línea, prefijo completo (p. ej. wp_actionscheduler_logs)."
-
-#~ msgid "File paths to exclude"
-#~ msgstr "Rutas de archivos a excluir"
-
-#~ msgid ""
-#~ "One path per line, relative to wp-content/. System paths (backups, cache, "
-#~ "upgrade) are already excluded."
-#~ msgstr ""
-#~ "Una ruta por línea, relativa a wp-content/. Las rutas del sistema "
-#~ "(backups, cache, upgrade) ya están excluidas."
-
-#~ msgid "Local storage"
-#~ msgstr "Almacenamiento local"
-
-#~ msgid ""
-#~ "Backups are always written to disk first, then pushed to the configured "
-#~ "remote destinations."
-#~ msgstr ""
-#~ "Las copias siempre se escriben primero en disco y luego se envían a los "
-#~ "destinos remotos configurados."
-
-#~ msgid "Hourly"
-#~ msgstr "Cada hora"
-
-#~ msgid "Daily"
-#~ msgstr "Diario"
-
-#~ msgid "Weekly"
-#~ msgstr "Semanal"
-
-#~ msgid "Monthly"
-#~ msgstr "Mensual"
-
-#~ msgid "Sunday"
-#~ msgstr "Domingo"
-
-#~ msgid "Monday"
-#~ msgstr "Lunes"
-
-#~ msgid "Tuesday"
-#~ msgstr "Martes"
-
-#~ msgid "Wednesday"
-#~ msgstr "Miércoles"
-
-#~ msgid "Thursday"
-#~ msgstr "Jueves"
-
-#~ msgid "Friday"
-#~ msgstr "Viernes"
-
-#~ msgid "Saturday"
-#~ msgstr "Sábado"
-
-#~ msgid "Local"
-#~ msgstr "Local"
-
-#~ msgid "Google Drive (coming soon)"
-#~ msgstr "Google Drive (próximamente)"
-
-#~ msgid "Email (attachment)"
-#~ msgstr "Correo (adjunto)"
-
-#~ msgid "Testing…"
-#~ msgstr "Probando…"
-
-#~ msgid "Connection successful."
-#~ msgstr "Conexión exitosa."
-
-#~ msgid "Failed:"
-#~ msgstr "Falló:"
-
-#~ msgid "Network error."
-#~ msgstr "Error de red."
-
-#~ msgid ""
-#~ "Full or DB-only backups, cron scheduling, automatic rotation, one-click "
-#~ "restore with prior auto-snapshot."
-#~ msgstr ""
-#~ "Copias completas o solo BD, planificación cron, rotación automática, "
-#~ "restauración en un clic con auto-snapshot previo."
-
-#, php-format
-#~ msgid "[Double Youpï] DB backup: %1$s (%2$s)"
-#~ msgstr "[Double Youpï] Copia BD: %1$s (%2$s)"
-
-#~ msgid "The compressed SQL dump is attached."
-#~ msgstr "El volcado SQL comprimido está adjunto."
-
-#~ msgid ""
-#~ "To restore: gunzip the file, then mysql -u<user> -p<db> < database.sql."
-#~ msgstr ""
-#~ "Para restaurar: gunzip el archivo, luego mysql -u<user> -p<db> < "
-#~ "database.sql."
-
-#~ msgid "— Root (no folder) —"
-#~ msgstr "— Raíz (sin carpeta) —"
-
-#~ msgid "— Choose a collection —"
-#~ msgstr "— Elige una colección —"
-
-#, php-format
-#~ msgid ""
-#~ "Delete folder « %s »?\n"
-#~ "\n"
-#~ "Media inside won’t be deleted — they will be moved to « Media without "
-#~ "folder »."
-#~ msgstr ""
-#~ "¿Eliminar la carpeta « %s »?\n"
-#~ "\n"
-#~ "Los medios dentro no se eliminarán — se moverán a « Medios sin carpeta »."
-
-#, php-format
-#~ msgid ""
-#~ "Delete collection « %s »?\n"
-#~ "\n"
-#~ "Media files won’t be deleted — they will simply be removed from this "
-#~ "collection."
-#~ msgstr ""
-#~ "¿Eliminar la colección « %s »?\n"
-#~ "\n"
-#~ "Los archivos de medios no se eliminarán — simplemente se retirarán de "
-#~ "esta colección."
-
-#~ msgid "— No folder —"
-#~ msgstr "— Sin carpeta —"
-
-#~ msgid "Error — try again"
-#~ msgstr "Error — vuelve a intentarlo"
-
-#, php-format
-#~ msgid "I confirm the permanent deletion of %d media files."
-#~ msgstr "Confirmo la eliminación permanente de %d archivos de medios."
-
-#~ msgid "Deleting…"
-#~ msgstr "Eliminando…"
-
-#, php-format
-#~ msgid "%d files deleted."
-#~ msgstr "%d archivos eliminados."
-
-#~ msgid ""
-#~ "Media files not referenced in any post, page, featured image, or custom "
-#~ "field. Files uploaded less than 24 hours ago are excluded."
-#~ msgstr ""
-#~ "Archivos de medios sin referencia en ningún post, página, imagen "
-#~ "destacada o campo personalizado. Se excluyen los archivos subidos hace "
-#~ "menos de 24 horas."
-
-#~ msgid "Virtual folders"
-#~ msgstr "Carpetas virtuales"
-
-#, php-format
-#~ msgid "Piloted by %s — settings managed there."
-#~ msgstr "Pilotado por %s — los ajustes se gestionan allí."
-
-#~ msgid "40–95 (default: 82)"
-#~ msgstr "40–95 (predeterminado: 82)"
-
-#~ msgid "Analyzing the media library…"
-#~ msgstr "Análisis de la biblioteca…"
-
-#~ msgid "Conversion in progress…"
-#~ msgstr "Conversión en curso…"
-
-#, php-format
-#~ msgid "Converted: %1$d / %2$d"
-#~ msgstr "Convertido: %1$d / %2$d"
-
-#~ msgid "Bulk optimization"
-#~ msgstr "Optimización masiva"
-
-#~ msgid ""
-#~ "Converts all existing media to WebP/AVIF according to the image settings "
-#~ "above. The process may take several minutes on large media libraries."
-#~ msgstr ""
-#~ "Convierte todos los medios existentes a WebP/AVIF según los ajustes de "
-#~ "imágenes anteriores. El proceso puede tardar varios minutos en "
-#~ "bibliotecas grandes."
-
-#~ msgid "Convert all existing media"
-#~ msgstr "Convertir todos los medios existentes"
-
-#~ msgid "Reset state"
-#~ msgstr "Reinicializar el estado"
-
-#, php-format
-#~ msgid "Last run: %1$d / %2$d media processed."
-#~ msgstr "Última ejecución: %1$d / %2$d medios procesados."
-
-#~ msgid "Optimized variants"
-#~ msgstr "Variantes optimizadas"
-
-#~ msgid "Not converted"
-#~ msgstr "No convertido"
-
-#, php-format
-#~ msgid "Savings  : %s"
-#~ msgstr "Ahorro   : %s"
-
-#~ msgid "Detected on disk (converted outside Performance)."
-#~ msgstr "Detectado en disco (convertido fuera de Performance)."
-
-#, php-format
-#~ msgid "%s detected, we hand HTML cache control over to it."
-#~ msgstr "%s detectado, le dejamos el control sobre la caché HTML."
-
-#~ msgid "WP Rocket detected, we hand the page cache over to it."
-#~ msgstr ""
-#~ "WP Rocket detectado, le dejamos el control sobre la caché de páginas."
-
-#~ msgid "W3 Total Cache detected, we hand the page cache over to it."
-#~ msgstr ""
-#~ "W3 Total Cache detectado, le dejamos el control sobre la caché de páginas."
-
-#~ msgid "WP Rocket detected, we hand CSS/JS minification over to it."
-#~ msgstr ""
-#~ "WP Rocket detectado, le dejamos el control sobre la minificación CSS/JS."
-
-#~ msgid "W3 Total Cache detected, we hand CSS/JS minification over to it."
-#~ msgstr ""
-#~ "W3 Total Cache detectado, le dejamos el control sobre la minificación CSS/"
-#~ "JS."
-
-#~ msgid ""
-#~ "LiteSpeed Cache detected, lazy load is already handled on the server."
-#~ msgstr ""
-#~ "LiteSpeed Cache detectado, el lazy load ya se gestiona en el servidor."
-
-#~ msgid "WP Rocket detected, we hand lazy load over to it."
-#~ msgstr "WP Rocket detectado, le dejamos el control sobre el lazy load."
-
-#~ msgid "WP Rocket detected, we hand JavaScript defer over to it."
-#~ msgstr ""
-#~ "WP Rocket detectado, le dejamos el control sobre el defer JavaScript."
-
-#~ msgid ""
-#~ "LiteSpeed Web Server detected, Brotli and Cache-Control are handled "
-#~ "natively."
-#~ msgstr ""
-#~ "LiteSpeed Web Server detectado, Brotli y Cache-Control se gestionan de "
-#~ "forma nativa."
-
-#~ msgid ""
-#~ "nginx server detected, .htaccess is not honored: see the docs for the "
-#~ "snippet to paste in nginx.conf."
-#~ msgstr ""
-#~ "Servidor nginx detectado, .htaccess no se respeta: consulta la doc para "
-#~ "el snippet a pegar en nginx.conf."
-
-#~ msgid "Performance"
-#~ msgstr "Rendimiento"
-
-#~ msgid "Images & media"
-#~ msgstr "Imágenes y medios"
-
-#~ msgid "CDN"
-#~ msgstr "CDN"
-
-#~ msgid ""
-#~ "Runtime optimizations for the site. The module detects competing caches "
-#~ "(LiteSpeed, WP Rocket) and steps aside where they do better."
-#~ msgstr ""
-#~ "Optimizaciones en runtime del sitio. El módulo detecta las cachés "
-#~ "concurrentes (LiteSpeed, WP Rocket) y se retira allí donde lo hacen mejor."
-
-#~ msgid "Disableable optimizations"
-#~ msgstr "Optimizaciones desactivables"
-
-#~ msgid ""
-#~ "May affect your site in some cases. Uncheck if you observe a problem."
-#~ msgstr ""
-#~ "Pueden afectar a tu sitio en algunos casos. Desmárcalo si observas un "
-#~ "problema."
-
-#~ msgid "Page cache"
-#~ msgstr "Caché de páginas"
-
-#~ msgid ""
-#~ "Serves pre-generated HTML to anonymous visitors. Disable on sites with "
-#~ "cart, sessions or personalized content."
-#~ msgstr ""
-#~ "Sirve HTML pre-generado a los visitantes anónimos. Desactívalo en sitios "
-#~ "con carrito, sesiones o contenidos personalizados."
-
-#~ msgid "Defer non-critical JavaScript"
-#~ msgstr "Aplazar JavaScript no crítico"
-
-#~ msgid ""
-#~ "Defers script execution until after rendering. Disable if you see "
-#~ "JavaScript errors in the console."
-#~ msgstr ""
-#~ "Aplaza la ejecución de los scripts tras el renderizado. Desactívalo si "
-#~ "ves errores JavaScript en la consola."
-
-#~ msgid "Advanced optimizations"
-#~ msgstr "Optimizaciones avanzadas"
-
-#~ msgid "beta"
-#~ msgstr "beta"
-
-#~ msgid ""
-#~ "Significant performance gains, but imperfect heuristics. Test on a "
-#~ "staging page before leaving in production."
-#~ msgstr ""
-#~ "Importantes mejoras de rendimiento, pero con heurísticas imperfectas. "
-#~ "Pruébalo en una página de preproducción antes de dejarlo en producción."
-
-#~ msgid "Automatic Critical CSS"
-#~ msgstr "CSS crítico automático"
-
-#~ msgid ""
-#~ "Inlines CSS above the fold, defers the rest. Check that there is no FOUC "
-#~ "on your key pages after enabling."
-#~ msgstr ""
-#~ "Inline del CSS por encima del fold, aplaza el resto. Comprueba que no hay "
-#~ "FOUC en tus páginas clave tras activar."
-
-#~ msgid "Unused CSS purge"
-#~ msgstr "Purga del CSS no utilizado"
-
-#~ msgid ""
-#~ "Removes CSS rules whose selectors do not match the HTML. Risky for CSS "
-#~ "injected dynamically by JS (modals, popups)."
-#~ msgstr ""
-#~ "Elimina las reglas CSS cuyo selector no coincide con el HTML. Riesgo en "
-#~ "el CSS inyectado dinámicamente por JS (modals, popups)."
-
-#~ msgid "Image settings"
-#~ msgstr "Ajustes de imágenes"
-
-#~ msgid "Video conversion MP4 → WebM"
-#~ msgstr "Conversión vídeo MP4 → WebM"
-
-#~ msgid ""
-#~ "Generates a WebM (VP9) variant and adds it as <source> in the HTML. "
-#~ "Requires ffmpeg on the server."
-#~ msgstr ""
-#~ "Genera una variante WebM (VP9) y la añade como <source> en el HTML. "
-#~ "Requiere ffmpeg en el servidor."
-
-#~ msgid "Cloudflare CDN"
-#~ msgstr "CDN Cloudflare"
-
-#~ msgid "optional"
-#~ msgstr "opcional"
-
-#~ msgid ""
-#~ "When a token is entered, the CDN cache is purged automatically on publish "
-#~ "and on theme change."
-#~ msgstr ""
-#~ "Cuando se introduce un token, se purga automáticamente la caché CDN al "
-#~ "publicar y al cambiar de tema."
-
-#~ msgid "API Token"
-#~ msgstr "Token de API"
-
-#, php-format
-#~ msgid "Token with the Zone.Cache Purge + Zone.Read scopes. %s"
-#~ msgstr "Token con los scopes Zone.Cache Purge + Zone.Read. %s"
-
-#~ msgid "Create a token"
-#~ msgstr "Crear un token"
-
-#~ msgid "Zone ID"
-#~ msgstr "ID de zona"
-
-#~ msgid "Detected automatically when the token is saved if left empty."
-#~ msgstr "Detectada automáticamente al guardar el token si está vacía."
-
-#~ msgid "HTTP compression (Brotli, Gzip)"
-#~ msgstr "Compresión HTTP (Brotli, Gzip)"
-
-#~ msgid ""
-#~ "Reduces the size of transferred HTML/CSS/JS. Managed via .htaccess on "
-#~ "Apache."
-#~ msgstr ""
-#~ "Reduce el tamaño del HTML/CSS/JS transferidos. Gestionado vía .htaccess "
-#~ "en Apache."
-
-#~ msgid "Cache headers for assets (1 year, immutable)"
-#~ msgstr "Cache-Control de los assets (1 año, immutable)"
-
-#~ msgid "Browsers cache images, CSS and JS for a long time."
-#~ msgstr ""
-#~ "Los navegadores guardan imágenes, CSS y JS en caché durante mucho tiempo."
-
-#~ msgid "Lazy load off-screen images"
-#~ msgstr "Lazy load de las imágenes fuera de pantalla"
-
-#~ msgid ""
-#~ "Defers loading to images actually viewed. The first image (LCP) stays "
-#~ "eager + fetchpriority high."
-#~ msgstr ""
-#~ "Aplaza la carga a las imágenes realmente vistas. La primera imagen (LCP) "
-#~ "se mantiene en eager + fetchpriority high."
-
-#~ msgid "Preload main CSS"
-#~ msgstr "Preload del CSS principal"
-
-#~ msgid "Saves one network round-trip on the main stylesheet."
-#~ msgstr "Ahorra un viaje de red en la hoja de estilo principal."
-
-#~ msgid "DNS prefetch for external domains"
-#~ msgstr "DNS prefetch de los dominios externos"
-
-#~ msgid "Resolves DNS for fonts, analytics and CDN ahead of time."
-#~ msgstr "Resuelve los DNS de fonts, analytics y CDN por adelantado."
-
-#~ msgid "CSS and JavaScript minification"
-#~ msgstr "Minificación CSS y JavaScript"
-
-#~ msgid ""
-#~ "Compacts non-minified local files. Automatic fallback if minification "
-#~ "fails."
-#~ msgstr ""
-#~ "Compacta los archivos locales no minificados. Fallback automático si la "
-#~ "minificación falla."
-
-#~ msgid "<picture>/<source> injection WebP/AVIF"
-#~ msgstr "Inyección <picture>/<source> WebP/AVIF"
-
-#~ msgid ""
-#~ "Automatically wraps <img> in <picture> with the available WebP/AVIF "
-#~ "variants. Bricks-compatible (preserves native <picture>)."
-#~ msgstr ""
-#~ "Envuelve automáticamente los <img> en <picture> con las variantes WebP/"
-#~ "AVIF disponibles. Compatible con Bricks (conserva los <picture> nativos)."
-
-#~ msgid "Anti-CLS dimensions"
-#~ msgstr "Dimensiones anti-CLS"
-
-#~ msgid ""
-#~ "Adds width/height + aspect-ratio to images and videos that lack them. "
-#~ "Safelist for sliders and carousels (Swiper, Splide, Slick)."
-#~ msgstr ""
-#~ "Añade width/height + aspect-ratio en las imágenes y vídeos que no los "
-#~ "tienen. Safelist para sliders y carruseles (Swiper, Splide, Slick)."
-
-#~ msgid "Self-hosted Google Fonts (GDPR)"
-#~ msgstr "Auto-alojamiento de Google Fonts (RGPD)"
-
-#~ msgid ""
-#~ "Local mirror of the fonts.googleapis.com stylesheets. No IP is sent to "
-#~ "Google."
-#~ msgstr ""
-#~ "Mirror local de las hojas fonts.googleapis.com. No se envía ninguna IP a "
-#~ "Google."
-
-#~ msgid "Preload critical fonts"
-#~ msgstr "Preload de las fuentes críticas"
-
-#~ msgid "Automatic preloading of up to 2 woff2 fonts to avoid FOIT/FOUT."
-#~ msgstr ""
-#~ "Precarga automática de hasta 2 fuentes woff2 para evitar el FOIT/FOUT."
-
-#~ msgid "Automatic optimizations"
-#~ msgstr "Optimizaciones automáticas"
-
-#~ msgid ""
-#~ "Always active on your site. We have verified they pose no risk of "
-#~ "breaking anything."
-#~ msgstr ""
-#~ "Siempre activas en tu sitio. Hemos verificado que no tienen riesgo de "
-#~ "romper nada."
-
-#~ msgid "Formats to generate"
-#~ msgstr "Formatos a generar"
-
-#~ msgid "WebP"
-#~ msgstr "WebP"
-
-#~ msgid "AVIF (Imagick required)"
-#~ msgstr "AVIF (Imagick requerido)"
-
-#~ msgid ""
-#~ "Formats are automatically disabled if the server does not support them."
-#~ msgstr ""
-#~ "Los formatos se desactivan automáticamente si el servidor no los soporta."
-
-#~ msgid "Compression quality"
-#~ msgstr "Calidad de compresión"
-
-#~ msgid "40–95 (default 82, balance quality/weight)"
-#~ msgstr "40–95 (predeterminado 82, equilibrio calidad/peso)"
-
-#~ msgid "Competitors detected"
-#~ msgstr "Concurrentes detectados"
-
-#~ msgid ""
-#~ "Performance disables the optimizations they already handle better than us."
-#~ msgstr ""
-#~ "Performance desactiva las optimizaciones que ellos ya gestionan mejor que "
-#~ "nosotros."
-
-#~ msgid "Staging URL"
-#~ msgstr "URL preproducción"
-
-#~ msgid "(not configured, see the Settings tab)"
-#~ msgstr "(no configurado, pestaña Ajustes)"
-
-#~ msgid "Last sync"
-#~ msgstr "Última sincronización"
-
-#~ msgid "Last error"
-#~ msgstr "Último error"
-
-#~ msgid "Health check"
-#~ msgstr "Comprobación de salud"
-
-#~ msgid "Configure the subdomain first in the Settings tab."
-#~ msgstr "Configura primero el subdominio en la pestaña Ajustes."
-
-#~ msgid "Create staging"
-#~ msgstr "Crear la preproducción"
-
-#~ msgid ""
-#~ "Full clone: DB + files. May take a few minutes depending on site size."
-#~ msgstr ""
-#~ "Clon completo: BD + archivos. Puede tardar unos minutos según el tamaño "
-#~ "del sitio."
-
-#~ msgid "Operation in progress… refresh the page in a few minutes."
-#~ msgstr "Operación en curso… recarga la página dentro de unos minutos."
-
-#~ msgid "Open staging"
-#~ msgstr "Abrir la preproducción"
-
-#~ msgid "Re-sync from production"
-#~ msgstr "Resincronizar desde producción"
-
-#~ msgid "Destroy staging"
-#~ msgstr "Destruir la preproducción"
-
-#~ msgid "Retry creation"
-#~ msgstr "Reintentar la creación"
-
-#~ msgid "Destroy staging? DB + files will be deleted."
-#~ msgstr "¿Destruir la preproducción? La BD + archivos se eliminarán."
-
-#~ msgid "No staging"
-#~ msgstr "Sin preproducción"
-
-#~ msgid "Clone in progress…"
-#~ msgstr "Clon en curso…"
-
-#~ msgid "✓ Operational"
-#~ msgstr "✓ Operativo"
-
-#~ msgid "✗ Error (see details)"
-#~ msgstr "✗ Error (ver detalle)"
-
-#~ msgid "Destruction in progress…"
-#~ msgstr "Destrucción en curso…"
-
-#~ msgid "Configuration"
-#~ msgstr "Configuración"
-
-#~ msgid "Staging subdomain"
-#~ msgstr "Subdominio de preproducción"
-
-#~ msgid ""
-#~ "The subdomain must already be configured at the DNS level and point to "
-#~ "this server. The module does NOT configure DNS."
-#~ msgstr ""
-#~ "El subdominio debe estar configurado por DNS y apuntar a este servidor. "
-#~ "El módulo NO configura el DNS."
-
-#~ msgid "Staging DB prefix"
-#~ msgstr "Prefijo BD preproducción"
-
-#, php-format
-#~ msgid "Must end with _ and differ from the prod prefix (%s)."
-#~ msgstr "Debe terminar en _ y ser distinto al prefijo prod (%s)."
-
-#~ msgid "Staging folder"
-#~ msgstr "Carpeta de preproducción"
-
-#~ msgid "Path relative to ABSPATH. The subdomain must point to this folder."
-#~ msgstr "Ruta relativa a ABSPATH. El subdominio debe apuntar a esta carpeta."
-
-#~ msgid "Privacy"
-#~ msgstr "Privacidad"
-
-#~ msgid "Basic Auth"
-#~ msgstr "Basic Auth"
-
-#~ msgid "Protect staging with HTTP password (.htpasswd)"
-#~ msgstr "Proteger la preproducción por contraseña HTTP (.htpasswd)"
-
-#~ msgid ""
-#~ "Apache only. On nginx (LocalWP), auth_basic must be added to the vhost "
-#~ "manually."
-#~ msgstr ""
-#~ "Solo Apache. En nginx (LocalWP), hay que añadir auth_basic en el vhost "
-#~ "manualmente."
-
-#~ msgid ""
-#~ "The password is applied on the next clone via .htpasswd (bcrypt hash)."
-#~ msgstr ""
-#~ "La contraseña se aplica en el próximo clon vía .htpasswd (hash bcrypt)."
-
-#~ msgid "Cloned content"
-#~ msgstr "Contenido clonado"
-
-#~ msgid "Also clone wp-content/uploads/ (can be large)"
-#~ msgstr "Clonar también wp-content/uploads/ (puede ser voluminoso)"
-
-#~ msgid "Tables to exclude"
-#~ msgstr "Tablas a excluir"
-
-#~ msgid "One table per line (full prefix, e.g. wp_actionscheduler_logs)."
-#~ msgstr ""
-#~ "Una tabla por línea (prefijo completo, ej. wp_actionscheduler_logs)."
-
-#~ msgid "Paths to exclude"
-#~ msgstr "Rutas a excluir"
-
-#~ msgid ""
-#~ "One path per line (under wp-content/). System paths (cache/, upgrade/) "
-#~ "are already excluded."
-#~ msgstr ""
-#~ "Una ruta por línea (bajo wp-content/). Las rutas del sistema (cache/, "
-#~ "upgrade/) ya están excluidas."
-
-#~ msgid "Post-clone email"
-#~ msgstr "Email post-clon"
-
-#~ msgid "Send an email after every clone"
-#~ msgstr "Enviar un email tras cada clon"
-
-#, php-format
-#~ msgid "[Double Youpï] Staging clone failed from %s"
-#~ msgstr "[Double Youpï] Fallo de clon de preproducción desde %s"
-
-#, php-format
-#~ msgid "[Double Youpï] Staging cloned from %s"
-#~ msgstr "[Double Youpï] Preproducción clonada desde %s"
-
-#, php-format
-#~ msgid "Production : %s"
-#~ msgstr "Producción : %s"
-
-#, php-format
-#~ msgid "Staging    : %s"
-#~ msgstr "Preprod    : %s"
-
-#, php-format
-#~ msgid "Duration   : %ds"
-#~ msgstr "Duración   : %ds"
-
-#, php-format
-#~ msgid "URLs rewritten: %d"
-#~ msgstr "URLs reescritas: %d"
-
-#, php-format
-#~ msgid "Files      : %d"
-#~ msgstr "Archivos   : %d"
-
-#~ msgid "Errors:"
-#~ msgstr "Errores:"
-
-#, php-format
-#~ msgid "See details: %s"
-#~ msgstr "Ver el detalle: %s"
-
-#~ msgid "Email sent automatically by Double Youpï Staging."
-#~ msgstr "Email enviado automáticamente por Double Youpï Staging."
-
-#~ msgid "present"
-#~ msgstr "presente"
-
-#~ msgid "absent"
-#~ msgstr "ausente"
-
-#~ msgid "DOM extension"
-#~ msgstr "Extensión DOM"
-
-#~ msgid "cURL extension"
-#~ msgstr "Extensión cURL"
-
-#~ msgid "absent (streams fallback)"
-#~ msgstr "ausente (fallback streams)"
-
-#~ msgid "ZIP extension (snapshots)"
-#~ msgstr "Extensión ZIP (snapshots)"
-
-#~ msgid "absent, Revert unavailable"
-#~ msgstr "ausente, Revert no disponible"
-
-#~ msgid "Serving mode"
-#~ msgstr "Modo de serving"
-
-#~ msgid "Sentinel .active"
-#~ msgstr "Sentinel .active"
-
-#~ msgid ".htaccess (serving rules)"
-#~ msgstr ".htaccess (reglas de serving)"
-
-#~ msgid "nginx: rules ignored (PHP intercept active)"
-#~ msgstr "nginx: reglas ignoradas (intercept PHP activo)"
-
-#~ msgid "block installed"
-#~ msgstr "bloque instalado"
-
-#~ msgid "block absent"
-#~ msgstr "bloque ausente"
-
-#~ msgid "Static folder"
-#~ msgstr "Carpeta estática"
-
-#~ msgid "Loopback OK"
-#~ msgstr "Loopback OK"
-
-#~ msgid "No static file exists for this URL."
-#~ msgstr "No existe un archivo estático para esta URL."
-
-#, php-format
-#~ msgid "Could not fetch the WordPress version: %s"
-#~ msgstr "No se ha podido obtener la versión de WordPress: %s"
-
-#~ msgid "Action reserved for administrators."
-#~ msgstr "Acción reservada a los administradores."
-
-#~ msgid "Page URL:"
-#~ msgstr "URL de la página:"
-
-#~ msgid "Push this page"
-#~ msgstr "Push de esta página"
-
-#~ msgid "Remove from static"
-#~ msgstr "Retirar del estático"
-
-#~ msgid "Push in progress…"
-#~ msgstr "Push en curso…"
-
-#~ msgid "Page pushed successfully."
-#~ msgstr "Página enviada correctamente."
-
-#~ msgid "Error during push."
-#~ msgstr "Error durante el push."
-
-#~ msgid "Remove this page from static?"
-#~ msgstr "¿Retirar esta página del estático?"
-
-#~ msgid "Deletion in progress…"
-#~ msgstr "Eliminación en curso…"
-
-#~ msgid "Page removed from static."
-#~ msgstr "Página retirada del estático."
-
-#~ msgid "Error while deleting."
-#~ msgstr "Error al eliminar."
-
-#~ msgid "Every minute"
-#~ msgstr "Cada minuto"
-
-#, php-format
-#~ msgid "%s Mode"
-#~ msgstr "Modo %s"
-
-#~ msgid "Mode: Disabled"
-#~ msgstr "Modo: Desactivado"
-
-#~ msgid "Mode: Hybrid"
-#~ msgstr "Modo: Híbrido"
-
-#~ msgid "Mode: Strict static"
-#~ msgstr "Modo: Estático estricto"
-
-#~ msgid "Open the Static page"
-#~ msgstr "Abrir la página Estático"
-
-#~ msgid "Double Youpï: static site"
-#~ msgstr "Double Youpï: sitio estático"
-
-#~ msgid "Current mode:"
-#~ msgstr "Modo actual:"
-
-#, php-format
-#~ msgid "%s HTML pages generated"
-#~ msgstr "%s páginas HTML generadas"
-
-#, php-format
-#~ msgid "Last push: %s"
-#~ msgstr "Último push: %s"
-
-#, php-format
-#~ msgid "%1$d OK / %2$d failed"
-#~ msgstr "%1$d OK / %2$d fallo"
-
-#~ msgid ""
-#~ "Static serving paused: all visitors are served by WordPress. Generated "
-#~ "files stay on disk, ready to be re-activated."
-#~ msgstr ""
-#~ "Servicio estático en pausa: todos los visitantes son servidos por "
-#~ "WordPress. Los archivos generados se conservan en disco, listos para "
-#~ "reactivarse."
-
-#~ msgid ""
-#~ "Serves the static HTML when it exists, otherwise falls back to WordPress. "
-#~ "Recommended in production."
-#~ msgstr ""
-#~ "Sirve HTML estático cuando existe, en caso contrario recurre a WordPress. "
-#~ "Recomendado en producción."
-
-#~ msgid "Strict static"
-#~ msgstr "Estático estricto"
-
-#~ msgid ""
-#~ "Static only. URLs not generated return a custom 404. Use only after full "
-#~ "QA."
-#~ msgstr ""
-#~ "Solo lo estático. Las URLs no generadas devuelven un 404 propio. A usar "
-#~ "tras una QA completa."
-
-#~ msgid "Starting…"
-#~ msgstr "Iniciando…"
-
-#~ msgid "Collecting URLs…"
-#~ msgstr "Recopilando URL…"
-
-#, php-format
-#~ msgid "%1$d / %2$d URLs"
-#~ msgstr "%1$d / %2$d URLs"
-
-#, php-format
-#~ msgid "%1$d OK · %2$d failed"
-#~ msgstr "%1$d correctas · %2$d con error"
-
-#~ msgid ""
-#~ "Clear all static? This action is irreversible (snapshots allow rolling "
-#~ "back)."
-#~ msgstr ""
-#~ "¿Vaciar todo el estático? Esta acción es irreversible (los snapshots "
-#~ "permiten volver atrás)."
-
-#~ msgid ""
-#~ "Enable STRICT mode? WordPress will be unavailable to anonymous visitors. "
-#~ "Make sure you have done a recent full push."
-#~ msgstr ""
-#~ "¿Activar el modo ESTRICTO? WordPress no estará disponible para los "
-#~ "visitantes anónimos. Comprueba que has hecho un full push reciente."
-
-#~ msgid "Diagnostics"
-#~ msgstr "Diagnósticos"
-
-#~ msgid ""
-#~ "Checks that the environment, the server and the static pipeline are ready."
-#~ msgstr ""
-#~ "Comprueba que el entorno, el servidor y el pipeline estático están listos."
-
-#~ msgid "Verification"
-#~ msgstr "Comprobación"
-
-#~ msgid "Value"
-#~ msgstr "Valor"
-
-#~ msgid "Test loopback"
-#~ msgstr "Probar el loopback"
-
-#~ msgid "Compare static head vs WP"
-#~ msgstr "Comparar head estático vs WP"
-
-#~ msgid "Operations"
-#~ msgstr "Operaciones"
-
-#~ msgid "Create a snapshot"
-#~ msgstr "Crear un snapshot"
-
-#~ msgid "List snapshots"
-#~ msgstr "Listar los snapshots"
-
-#~ msgid "Scan for orphans"
-#~ msgstr "Escanear huérfanos"
-
-#~ msgid "Delete orphans"
-#~ msgstr "Eliminar los huérfanos"
-
-#~ msgid "Top tracked 404s"
-#~ msgstr "Top 404 rastreadas"
-
-#~ msgid "Push log"
-#~ msgstr "Registro de push"
-
-#~ msgid "The last 20 recorded pushes."
-#~ msgstr "Los 20 últimos push registrados."
-
-#~ msgid "No push recorded yet."
-#~ msgstr "Ningún push registrado todavía."
-
-#~ msgid "URLs"
-#~ msgstr "URLs"
-
-#~ msgid "OK / Failed"
-#~ msgstr "OK / Fallo"
-
-#~ msgid "Duration"
-#~ msgstr "Duración"
-
-#~ msgid "Success"
-#~ msgstr "Éxito"
-
-#~ msgid "Current mode"
-#~ msgstr "Modo actual"
-
-#~ msgid "Last push"
-#~ msgstr "Último push"
-
-#~ msgid ".htaccess"
-#~ msgstr ".htaccess"
-
-#~ msgid "nginx: PHP intercept active"
-#~ msgstr "nginx: intercept PHP activo"
-
-#~ msgid "installed"
-#~ msgstr "instalado"
-
-#~ msgid "Builder detected"
-#~ msgstr "Constructor detectado"
-
-#~ msgid "Full push"
-#~ msgstr "Push completo"
-
-#~ msgid "Clear static"
-#~ msgstr "Vaciar el estático"
-
-#~ msgid "advanced"
-#~ msgstr "avanzado"
-
-#~ msgid "Partial push"
-#~ msgstr "Push parcial"
-
-#~ msgid "By post type"
-#~ msgstr "Por post type"
-
-#~ msgid "— select —"
-#~ msgstr "— seleccionar —"
-
-#~ msgid "Push this type"
-#~ msgstr "Push de este tipo"
-
-#~ msgid "By IDs"
-#~ msgstr "Por IDs"
-
-#~ msgid "Push these IDs"
-#~ msgstr "Push de estos IDs"
-
-#~ msgid "Auto-push on publish"
-#~ msgstr "Auto-push al publicar"
-
-#~ msgid "Automatically repush modified pages (post + home + type archive)."
-#~ msgstr ""
-#~ "Repush automático de las páginas modificadas (post + home + archivo del "
-#~ "tipo)."
-
-#~ msgid "Trailing slash"
-#~ msgstr "Slash final"
-
-#~ msgid "Forces the trailing slash on URLs (WP consistency)."
-#~ msgstr "Fuerza el slash final en las URLs (coherencia con WP)."
-
-#~ msgid "Query string → WP"
-#~ msgstr "Query string → WP"
-
-#~ msgid ""
-#~ "Pass URLs with a query string through to live WordPress (useful for "
-#~ "Bricks Query Filter, search, etc.)."
-#~ msgstr ""
-#~ "Deja pasar las URLs con query string al WordPress en vivo (útil para "
-#~ "Bricks Query Filter, búsqueda, etc.)."
-
-#~ msgid "404 tracking"
-#~ msgstr "Seguimiento 404"
-
-#~ msgid "Records 404 URLs to detect pages missing from the static build."
-#~ msgstr ""
-#~ "Registra las URLs en 404 para detectar las páginas que faltan en el "
-#~ "estático."
-
-#~ msgid "Excluded paths"
-#~ msgstr "Rutas excluidas"
-
-#~ msgid ""
-#~ "One path per line. URLs starting with these prefixes are not generated as "
-#~ "static (served by WP)."
-#~ msgstr ""
-#~ "Una ruta por línea. Las URLs que empiecen por estos prefijos no se "
-#~ "generan en estático (las sirve WP)."
-
-#~ msgid "No 404 tracked."
-#~ msgstr "Ninguna 404 rastreada."
-
-#~ msgid "Occurrences"
-#~ msgstr "Ocurrencias"
-
-#~ msgid "Last"
-#~ msgstr "Última"
-
-#~ msgid "Main"
-#~ msgstr "Principal"
-
-#~ msgid "Log"
-#~ msgstr "Registro"
-
-#~ msgid ""
-#~ "Generates and serves a static HTML version of the site. Reduces the "
-#~ "WordPress attack surface and allows free hosting on Cloudflare Pages, "
-#~ "Netlify or GitHub Pages."
-#~ msgstr ""
-#~ "Genera y sirve una versión HTML estática del sitio. Reduce la superficie "
-#~ "de ataque de WordPress y permite el alojamiento gratuito en Cloudflare "
-#~ "Pages, Netlify o GitHub Pages."
-
-#~ msgid "Quick tools"
-#~ msgstr "Herramientas rápidas"
-
-#, php-format
-#~ msgid "%s detected — we hand control over to it."
-#~ msgstr "%s detectado — le dejamos el control."
-
-#~ msgid "Monthly revenue"
-#~ msgstr "Ingresos del mes"
-
-#~ msgid "Your shop essentials at a glance"
-#~ msgstr "Lo esencial de tu tienda de un vistazo"
-
-#~ msgid "Full view: sales and operations"
-#~ msgstr "Vista completa: ventas y operaciones"
-
-#, php-format
-#~ msgid "%d order%s"
-#~ msgid_plural "%d orders%s"
-#~ msgstr[0] "%d pedido%s"
-#~ msgstr[1] "%d pedidos%s"
-
-#~ msgid ""
-#~ "Import folders and collections from another media library plugin. Your "
-#~ "media stay in place — this only re-creates the folder structure inside "
-#~ "Refined Media Library. The source plugin is never modified, so you can "
-#~ "verify the result before removing it."
-#~ msgstr ""
-#~ "Importa carpetas y colecciones desde otro plugin de biblioteca de medios. "
-#~ "Tus medios permanecen en su sitio: esto solo recrea la estructura de "
-#~ "carpetas en Refined Media Library. El plugin de origen nunca se modifica, "
-#~ "así que puedes verificar el resultado antes de eliminarlo."
-
-#, php-format
-#~ msgid "Done — %1$d folders and %2$d media imported."
-#~ msgstr "Listo: %1$d carpetas y %2$d medios importados."
-
-#~ msgid "Changes are saved automatically."
-#~ msgstr "Los cambios se guardan automáticamente."
-
-#~ msgid "Install failed — open the installer"
-#~ msgstr "Error de instalación: abre el instalador"
-
-#~ msgid ""
-#~ "Double Youpï is shaped by the pros who use it. An idea, a bug, a request?"
-#~ msgstr ""
-#~ "A Double Youpï le dan forma los profesionales que lo usan. ¿Una idea, un "
-#~ "fallo, una petición?"
-
-#~ msgid "Share feedback"
-#~ msgstr "Comparte tu opinión"
-
-#~ msgid "Feedback"
-#~ msgstr "Comentarios"
-
-#~ msgid ""
-#~ "Admin Columns rewrites WordPress list-table columns, which conflicts with "
-#~ "the reimagined tables in Refined Admin Dashboard. It was deactivated "
-#~ "automatically to prevent a broken layout."
-#~ msgstr ""
-#~ "Admin Columns reescribe las columnas de las tablas de listas de "
-#~ "WordPress, lo que entra en conflicto con las tablas rediseñadas de "
-#~ "Refined Admin Dashboard. Se desactivó automáticamente para evitar una "
-#~ "visualización rota."
-
-#~ msgid "Got it, dismiss"
-#~ msgstr "Entendido, descartar"
-
-#~ msgid "Send feedback about this screen"
-#~ msgstr "Enviar comentarios sobre esta pantalla"
-
-#~ msgid "It concerns"
-#~ msgstr "Se refiere a"
-
-#~ msgid ""
-#~ "We could not tell which plugin this screen belongs to. Pick it above if "
-#~ "you know."
-#~ msgstr ""
-#~ "No pudimos saber a qué plugin pertenece esta pantalla. Elígelo arriba si "
-#~ "lo sabes."
-
-#~ msgid ""
-#~ "A dark and light redesign of the whole WordPress admin: a navigation rail "
-#~ "you can reorganise, reimagined list tables and post editor, one place for "
-#~ "every notice, a dashboard you compose, and a built-in toolkit. Native "
-#~ "components only."
-#~ msgstr ""
-#~ "Un rediseño oscuro y claro de toda la administración de WordPress: un "
-#~ "raíl de navegación que reorganizas, tablas y editor repensados, un único "
-#~ "lugar para todos los avisos, un escritorio que compones y un kit de "
-#~ "herramientas integrado. Solo componentes nativos."
-
-#~ msgid ""
-#~ "If enabled, the 7 menu lines (Content, Commerce, Users, Community, "
-#~ "Appearance, System, Developer) all use the accent color. Otherwise, each "
-#~ "line keeps its own color."
-#~ msgstr ""
-#~ "Si está activado, las 7 líneas del menú (Contenido, Comercio, Usuarios, "
-#~ "Comunidad, Apariencia, Sistema, Desarrollador) usan el color de acento. "
-#~ "Si no, cada línea conserva su color propio."
-
-#~ msgid "Reimagined (recommended): seven sections, content first"
-#~ msgstr "Reimaginado (recomendado): siete secciones, el contenido primero"
-
-#~ msgid "Native WordPress: the menu as WordPress orders it, drawn by our rail"
-#~ msgstr ""
-#~ "WordPress nativo: el menú tal como lo ordena WordPress, dibujado por "
-#~ "nuestro raíl"
-
-#~ msgid ""
-#~ "Native keeps the muscle memory of a team trained on the WordPress menu: "
-#~ "same entries, same order, same sub-menus. Everything else in Refined "
-#~ "Admin Dashboard still applies. The Reorganize tab is hidden in native "
-#~ "mode; your layout is kept for when you switch back."
-#~ msgstr ""
-#~ "El modo nativo conserva los reflejos de un equipo formado con el menú de "
-#~ "WordPress: mismas entradas, mismo orden, mismos submenús. Todo lo demás "
-#~ "de Refined Admin Dashboard sigue aplicándose. La pestaña Reorganizar se "
-#~ "oculta en modo nativo; tu disposición se conserva para cuando vuelvas."
-
-#~ msgid "One level (recommended): the pages of the section"
-#~ msgstr "Un nivel (recomendado): las páginas de la sección"
-
-#~ msgid "Two levels: the pages and their sub-pages"
-#~ msgstr "Dos niveles: las páginas y sus subpáginas"
-
-#~ msgid ""
-#~ "Hovering a section of the rail opens its pages next to it: every page is "
-#~ "one click away, whatever the section you are in. Keyboard: the right "
-#~ "arrow opens the list, Escape closes it. Nothing changes at rest."
-#~ msgstr ""
-#~ "Al pasar el ratón por una sección del riel se abren sus páginas al lado: "
-#~ "cada página está a un clic, estés en la sección que estés. Teclado: la "
-#~ "flecha derecha abre la lista, Escape la cierra. En reposo no cambia nada."
-
-#~ msgid ""
-#~ "The site-level setup as one JSON file: export it from a finished site, "
-#~ "import it on the next one. It carries:"
-#~ msgstr ""
-#~ "La configuración del sitio en un solo archivo JSON: expórtala desde un "
-#~ "sitio terminado e impórtala en el siguiente. Incluye:"
-
-#~ msgid ""
-#~ "Personal choices (theme, rail width) and dashboard layouts stay with each "
-#~ "site."
-#~ msgstr ""
-#~ "Las elecciones personales (tema, ancho del raíl) y las disposiciones del "
-#~ "escritorio se quedan en cada sitio."
-
-#~ msgid "To pin it in code on every site, add to wp-config.php:"
-#~ msgstr ""
-#~ "Para fijarlo en el código en todos los sitios, añade a wp-config.php:"
-
-#~ msgid ""
-#~ "Values go through the same checks as this form. The logo keeps its URL "
-#~ "only; the image is not copied."
-#~ msgstr ""
-#~ "Los valores pasan por las mismas comprobaciones que este formulario. El "
-#~ "logotipo conserva solo su URL; la imagen no se copia."
-
-#~ msgid "Dark or light"
-#~ msgstr "Oscuro o claro"
-
-#~ msgid ""
-#~ "Each person picks their theme with the sun and moon button in the top "
-#~ "bar. Nothing to set here."
-#~ msgstr ""
-#~ "Cada persona elige su tema con el botón de sol y luna de la barra "
-#~ "superior. Aquí no hay nada que ajustar."
-
-#~ msgid "Three things worth a look"
-#~ msgstr "Tres cosas que merecen un vistazo"
-
-#~ msgid "Setting up several sites?"
-#~ msgstr "¿Configuras varios sitios?"
-
-#~ msgid "Export this setup as a profile and import it on the next one."
-#~ msgstr "Exporta esta configuración como perfil e impórtala en el siguiente."
-
-#~ msgid ""
-#~ "Nested folders with drag-and-drop, collections, duplicate and orphan "
-#~ "cleanup, auto alt text and WebP/AVIF for the WordPress media library, "
-#~ "without the per-image fiddling."
-#~ msgstr ""
-#~ "Carpetas anidadas con arrastrar y soltar, colecciones, limpieza de "
-#~ "duplicados y archivos huérfanos, texto alternativo automático y WebP/AVIF "
-#~ "para la biblioteca de medios de WordPress, sin ajustes imagen por imagen."
-
-#~ msgid "Maintenance"
-#~ msgstr "Mantenimiento"
-
-#~ msgid "Add the tab that finds files nothing points to"
-#~ msgstr "Añadir la pestaña que encuentra los archivos que ya nada utiliza"

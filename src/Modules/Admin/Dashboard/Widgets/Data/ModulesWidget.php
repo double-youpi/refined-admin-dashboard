@@ -32,7 +32,7 @@ final class ModulesWidget extends AbstractDataWidget {
 	}
 
 	public function description(): string {
-		return __( 'Status of the suite modules: active, disabled, in progress.', 'doubleyoupi-refined-admin-dashboard' );
+		return __( 'Which Double Youpï modules are on or off.', 'doubleyoupi-refined-admin-dashboard' );
 	}
 
 	public function icon_svg(): string {

@@ -3,6 +3,7 @@ namespace DoubleYoupi\Modules\Admin\Dashboard\Layout;
 
 use DoubleYoupi\Core\ModuleRegistry;
 use DoubleYoupi\Core\ModuleSettings;
+use DoubleYoupi\Modules\Admin\Dashboard\Widgets\Backup\BackupSources;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -37,13 +38,20 @@ final class LayoutPresets {
 		'static_site' => 'static-site',
 	];
 
-	/** Whether a widget's module is installed and switched on. */
+	/**
+	 * Whether a widget's module is installed and switched on. The Backup widget
+	 * also has something to say when the site runs a backup plugin it can
+	 * read (19/10/2026, BackupSources).
+	 */
 	private static function widget_available( string $widget_id ): bool {
 		$module = self::MODULE_WIDGETS[ $widget_id ] ?? null;
 		if ( null === $module ) {
 			return true;
 		}
-		return ModuleRegistry::has( $module ) && ModuleSettings::is_enabled( $module );
+		if ( ModuleRegistry::has( $module ) && ModuleSettings::is_enabled( $module ) ) {
+			return true;
+		}
+		return 'backup' === $widget_id && BackupSources::any_active();
 	}
 
 	/** Common layout wrapper (avoids repeating the root fields). */
@@ -254,7 +262,7 @@ final class LayoutPresets {
 	}
 
 	/**
-	 * WooCommerce "Shop Pro" (advanced) — shop screen + a "cash drawer" screen
+	 * WooCommerce "Sales" (advanced, named "Shop Pro" until 19/10/2026) — shop screen + a "cash drawer" screen
 	 * (monthly revenue + activity + stock), then the Editor flow. WC required.
 	 *
 	 * @return array<string, mixed>
@@ -317,7 +325,7 @@ final class LayoutPresets {
 
 		if ( self::wc_active() ) {
 			$presets[] = [ 'slug' => 'boutique',     'name' => __( 'Shop',     'doubleyoupi-refined-admin-dashboard' ), 'description' => __( 'Your shop, then the editor flow', 'doubleyoupi-refined-admin-dashboard' ) ];
-			$presets[] = [ 'slug' => 'boutique-pro', 'name' => __( 'Shop Pro', 'doubleyoupi-refined-admin-dashboard' ), 'description' => __( 'Sales in depth, plus the editor flow', 'doubleyoupi-refined-admin-dashboard' ) ];
+			$presets[] = [ 'slug' => 'boutique-pro', 'name' => _x( 'Sales', 'dashboard layout name', 'doubleyoupi-refined-admin-dashboard' ), 'description' => __( 'Sales in depth, plus the editor flow', 'doubleyoupi-refined-admin-dashboard' ) ];
 		}
 
 		return $presets;

@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace DoubleYoupi\Modules\Admin\Dashboard\Widgets\Data;
 
+use DoubleYoupi\Core\ModuleRegistry;
 use DoubleYoupi\Modules\Admin\Dashboard\Widgets\AbstractDataWidget;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -44,8 +45,10 @@ final class QuickActionsWidget extends AbstractDataWidget {
 	}
 
 	public function default_config(): array {
+		// Only actions this build can perform (no "Clear cache" without the
+		// Performance module).
 		return [
-			'actions' => [ 'new_post', 'new_page', 'new_media', 'cache_flush' ],
+			'actions' => array_values( array_intersect( [ 'new_post', 'new_page', 'new_media', 'cache_flush' ], array_keys( self::action_catalog() ) ) ),
 		];
 	}
 
@@ -95,7 +98,7 @@ final class QuickActionsWidget extends AbstractDataWidget {
 	 * @return array<string, array{label:string, url:string, cap:string}>
 	 */
 	public static function action_catalog(): array {
-		return [
+		$catalog = [
 			'new_post'        => [
 				'label' => __( '+ Post', 'doubleyoupi-refined-admin-dashboard' ),
 				'url'   => admin_url( 'post-new.php' ),
@@ -110,11 +113,6 @@ final class QuickActionsWidget extends AbstractDataWidget {
 				'label' => __( '+ Media', 'doubleyoupi-refined-admin-dashboard' ),
 				'url'   => admin_url( 'media-new.php' ),
 				'cap'   => 'upload_files',
-			],
-			'cache_flush'     => [
-				'label' => __( 'Clear cache', 'doubleyoupi-refined-admin-dashboard' ),
-				'url'   => admin_url( 'admin.php?page=doubleyoupi-performance#cache' ),
-				'cap'   => 'manage_options',
 			],
 			'plugins_update'  => [
 				'label' => __( 'Update plugins', 'doubleyoupi-refined-admin-dashboard' ),
@@ -167,6 +165,16 @@ final class QuickActionsWidget extends AbstractDataWidget {
 				'cap'   => 'manage_options',
 			],
 		];
+		// "Clear cache" belongs to the Performance module: offered only when
+		// it ships (Refined Admin Dashboard alone has no cache to clear).
+		if ( ModuleRegistry::has( 'performance' ) ) {
+			$catalog['cache_flush'] = [
+				'label' => __( 'Clear cache', 'doubleyoupi-refined-admin-dashboard' ),
+				'url'   => admin_url( 'admin.php?page=doubleyoupi-performance#cache' ),
+				'cap'   => 'manage_options',
+			];
+		}
+		return $catalog;
 	}
 
 	public function get_data( array $config ): array {

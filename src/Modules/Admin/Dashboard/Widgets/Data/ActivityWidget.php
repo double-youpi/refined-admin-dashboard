@@ -30,7 +30,7 @@ final class ActivityWidget extends AbstractDataWidget {
 	}
 
 	public function description(): string {
-		return __( 'Unified stream: published posts, updated plugins, uploaded media, admin logins.', 'doubleyoupi-refined-admin-dashboard' );
+		return __( 'Posts and pages published or updated in the last 7 days.', 'doubleyoupi-refined-admin-dashboard' );
 	}
 
 	public function icon_svg(): string {

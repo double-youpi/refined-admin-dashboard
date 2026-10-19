@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 namespace DoubleYoupi\Modules\Admin\Dashboard\Widgets;
 
+use DoubleYoupi\Core\ModuleRegistry;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -64,7 +66,11 @@ final class WidgetRegistry {
 		// v4 — new widgets.
 		$this->register( new Data\NoteWidget() );
 		$this->register( new Data\SiteHealthWidget() );
-		$this->register( new Data\StaticSiteWidget() );
+		// Only with the Static Site module: alone, it could only advertise a
+		// module this build does not ship.
+		if ( ModuleRegistry::has( 'static-site' ) ) {
+			$this->register( new Data\StaticSiteWidget() );
+		}
 		$this->register( new Data\ToolkitWidget() );
 		$this->register( new Data\CreateButtonWidget() );
 		$this->register( new Data\CreateHubWidget() );

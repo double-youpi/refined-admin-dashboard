@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, admin
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,7 +27,7 @@ https://www.youtube.com/watch?v=untjaB9-KSs
 
 **A sidebar you can finally organise**
 
-* Menu entries are grouped into themed lines rather than piled up in the order plugins were installed.
+* Menu entries are grouped into themed lines rather than piled up in one long list.
 * The rail is resizable and collapsible, and remembers how you left it.
 * A second bar shows the sub-pages and the useful tabs of the current screen, so you stop going back and forth.
 * An editor lets you reorder, move, hide, promote or demote any entry, without touching code. Newly installed plugins are detected and offered to you rather than silently appended.
@@ -127,6 +127,15 @@ Privacy policy: https://doubleyoupi.com/privacy
 
 == Changelog ==
 
+= 1.0.5 =
+* New: the Backup widget of the dashboard reads the backup plugin your site already uses (UpdraftPlus, All-in-One WP Migration, Duplicator, WPvivid, BackWPup, Backup Migration, Total Upkeep, XCloner, Jetpack Backup or BlogVault) and shows your last backup. It only reads what that plugin has saved.
+* New: the media library follows your light or dark theme, switched live, including an open media window.
+* Fix: warning and danger colours show again on the dashboard and the Overview. Badges, buttons and toasts had turned grey.
+* Fix: the dashboard no longer offers a widget or an action for a feature this plugin does not include, the Toolkit link opens the Tools page, and the Site status widget says "Update available" when WordPress has an update waiting.
+* Fix: in light mode, captions under the thumbnails of media windows are readable, and the "Add Media File" button takes your accent colour.
+* The "Shop Pro" dashboard layout is now called "Sales".
+* Translations: the bundled language files no longer carry strings the plugin does not use, and plurals follow the rule of each language (in French and Portuguese, zero is now singular).
+
 = 1.0.4 =
 * Fix: in the block editor, the block inserter shows each block name under its own icon again (since WordPress 7.1 it slipped onto the row below). In dark mode the inserter panel is dark too, and its search field is one piece.
 * Fix: in the Divi 5 Theme Builder, template names show as plain labels again instead of text boxes.
@@ -163,7 +172,7 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Fix: menu icons from plugins such as WPForms or WP Mail SMTP show again in the section bar and the flyouts (regression in 1.0.0).
 * Fix: with debug logging on, an unknown menu entry is logged once a day instead of on every screen; Background and Header from classic themes now sit under Appearance.
 * Fix: a rail flyout taller than the screen now opens below the admin bar and scrolls, its title kept in view.
-* Fix: the dashboard presets no longer offer the Backup or Static site widget when that module is not installed.
+* Fix: the dashboard presets no longer offer a widget that has nothing to show on your site.
 * Fix: an empty note no longer tells people without the Customize button to click it.
 
 = 1.0.0 =
@@ -177,6 +186,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.5 =
+The Backup widget now reads UpdraftPlus and nine other backup plugins, and the media library follows your light or dark theme.
 
 = 1.0.4 =
 The block inserter works again on WordPress 7.1, Divi 5 and W3 Total Cache screens are fixed, and your accent colour now reaches the whole media library.

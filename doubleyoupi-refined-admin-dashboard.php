@@ -3,7 +3,7 @@
  * Plugin Name:       Double Youpï Refined Admin Dashboard
  * Plugin URI:        https://doubleyoupi.com/plugins/refined-admin-dashboard
  * Description:       A dark and light redesign of the whole WordPress admin: a navigation rail you can reorganise, reimagined list tables and post editor, one place for every notice, a dashboard you compose, a media library with folders and collections, and a built-in toolkit. Native components only.
- * Version:           1.0.4
+ * Version:           1.0.5
  * Requires at least: 6.5
  * Requires PHP:      8.1
  * Author:            Double Youpï
@@ -54,7 +54,7 @@ if ( $doubleyoupi_standalone_container !== null ) {
 	add_action( 'admin_notices', static function () use ( $doubleyoupi_standalone_container ): void {
 		// Translated here, at display time, in the same order as the list above.
 		$notices = array(
-			__( 'You are already running the full Double Youpï suite, and it includes Double Youpï Refined Admin Dashboard. This standalone copy stepped aside to stay out of its way. Want to run it on its own? Deactivate the suite first.', 'doubleyoupi-refined-admin-dashboard' ),
+			__( 'Another Double Youpï plugin that already includes Double Youpï Refined Admin Dashboard is active, so this standalone copy stepped aside to stay out of its way. Want to run it on its own? Deactivate the other plugin first.', 'doubleyoupi-refined-admin-dashboard' ),
 		);
 		echo '<div class="notice notice-warning"><p>'
 			. esc_html( $notices[ $doubleyoupi_standalone_container ] ?? '' )
@@ -68,7 +68,7 @@ if ( $doubleyoupi_standalone_container !== null ) {
 // active and have defined them first. Its values stay, and this build still
 // finds its own files, because the autoloader and Core\Build below are bound
 // to THIS directory rather than to the constant.
-defined( 'DOUBLEYOUPI_VERSION' )  || define( 'DOUBLEYOUPI_VERSION', '1.0.4' );
+defined( 'DOUBLEYOUPI_VERSION' )  || define( 'DOUBLEYOUPI_VERSION', '1.0.5' );
 defined( 'DOUBLEYOUPI_FILE' )     || define( 'DOUBLEYOUPI_FILE', __FILE__ );
 defined( 'DOUBLEYOUPI_DIR' )      || define( 'DOUBLEYOUPI_DIR', plugin_dir_path( __FILE__ ) );
 defined( 'DOUBLEYOUPI_URL' )      || define( 'DOUBLEYOUPI_URL', plugin_dir_url( __FILE__ ) );
