@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, admin
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -127,6 +127,15 @@ Privacy policy: https://doubleyoupi.com/privacy
 
 == Changelog ==
 
+= 1.0.7 =
+* Fix: in dark mode, the screens of Yoast SEO (Tools), WPForms and Elementor and the Bricks settings are easy to read, and so are the Yoast SEO and Rank Math boxes in the editor.
+* Fix: the screens of BackWPup, Duplicator, WPvivid, All-in-One WP Migration, Backup Migration, Total Upkeep and XCloner keep their own colours, and stay readable in dark mode.
+* Fix: in the redesigned post list, the Comments column and the Yoast SEO columns have proper headings instead of technical names, and Rank Math's inline edit buttons no longer show in every row.
+* Fix: the Backup widget now shows when a WPvivid backup has completed, and when a Backup Migration backup has failed.
+* Fix: Backup Migration now appears in the menu and the section bar, and its banner joins the notifications centre.
+* Fix: the radio buttons of All-in-One WP Migration no longer show a second circle.
+* Translations: a German sentence of the Developer page was reworded.
+
 = 1.0.6 =
 * New: a single review request after a week of use, in the notifications centre. "No thanks" closes it for good.
 * New: a "Leave a review" link beside the Feedback button.
@@ -191,6 +200,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.7 =
+Compatibility fixes for Yoast SEO, Rank Math, WPForms, Elementor, Bricks and seven backup plugins, mostly in dark mode.
 
 = 1.0.6 =
 A "Leave a review" link, a one-time review request after a week, and fixes for W3 Total Cache screens and the section bars.

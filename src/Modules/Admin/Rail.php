@@ -271,8 +271,7 @@ JS;
 	}
 
 	private function strip_label( string $raw ): string {
-		$clean = preg_replace( '/<span[^>]*>.*?<\/span>/s', '', $raw ) ?? $raw;
-		return trim( wp_strip_all_tags( $clean ) );
+		return ColumnModel::strip_label( $raw );
 	}
 
 	public function active_line(): ?string {

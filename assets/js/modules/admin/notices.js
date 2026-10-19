@@ -35,7 +35,9 @@
   // for inline field errors that we do not want to capture.
   // `#wf-onboarding-banner`: Wordfence onboarding banner (custom markup,
   // not a `.notice`) injected site-wide → we capture it in the center too.
-  var NOTICE_SELECTOR = '.notice, div.updated, div.error, .update-nag, #wf-onboarding-banner';
+  // `.bmi-banner`: Backup Migration's promo banner, same case, shown on the
+  // plugins screen and its own page (compatibility pass, 19/10/2026).
+  var NOTICE_SELECTOR = '.notice, div.updated, div.error, .update-nag, #wf-onboarding-banner, .bmi-banner';
 
   // Containers where a "notice" is actually a functional screen element
   // (meta box, table, media frame, options screen, our own chrome) —

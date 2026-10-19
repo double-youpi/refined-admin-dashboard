@@ -866,9 +866,15 @@ final class ColumnModel {
 		return $fallback;
 	}
 
-	private static function strip_label( string $raw ): string {
-		$clean = preg_replace( '/<span[^>]*>.*?<\/span>/s', '', $raw ) ?? $raw;
-		return trim( wp_strip_all_tags( $clean ) );
+	/**
+	 * Menu label without its count badges (`<span class="update-plugins">…`).
+	 * A plugin that wraps its whole label in a span (Backup Migration:
+	 * `<span id="bmi-menu">Backup Migration</span>`) kept nothing and its
+	 * entry vanished from the rail (19/10/2026): the text is kept then.
+	 */
+	public static function strip_label( string $raw ): string {
+		$clean = trim( wp_strip_all_tags( preg_replace( '/<span[^>]*>.*?<\/span>/s', '', $raw ) ?? $raw ) );
+		return '' !== $clean ? $clean : trim( wp_strip_all_tags( $raw ) );
 	}
 
 	/**

@@ -63,9 +63,37 @@ final class BackupMigration extends AbstractBackupSource {
 				$newest = (string) $file;
 			}
 		}
+		$failed = $this->failed_run( $dir, $mtime );
+		if ( $failed ) {
+			return new BackupSnapshot( $failed, BackupSnapshot::STATUS_FAILED, null, '', $next );
+		}
 		if ( '' === $newest ) {
 			return null;
 		}
 		return new BackupSnapshot( $mtime, BackupSnapshot::STATUS_SUCCESS, self::bytes( filesize( $newest ) ), self::local_label(), $next );
+	}
+
+	/**
+	 * A failed run leaves no archive, only its log: `latest.<suffix>.log` ends
+	 * with an END-CODE line, #001 for a success and anything else for an
+	 * error (#002) or an abort (#003, #004). Seen on a real backup that ran
+	 * out of execution time, 19/10/2026. Returns the end time of a failed run
+	 * newer than the newest archive, or 0.
+	 */
+	private function failed_run( string $dir, int $after ): int {
+		foreach ( (array) glob( $dir . 'latest.*.log' ) as $log ) {
+			$log  = (string) $log;
+			$time = is_file( $log ) ? (int) filemtime( $log ) : 0;
+			if ( $time <= $after ) {
+				continue;
+			}
+			$size = (int) filesize( $log );
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- the tail of a local log file of another plugin; WP_Filesystem only reads whole files.
+			$tail = (string) file_get_contents( $log, false, null, max( 0, $size - 512 ) );
+			if ( preg_match_all( '/\[END-CODE\][^\n]*(#\d{3})/', $tail, $codes ) && '#001' !== end( $codes[1] ) ) {
+				return $time;
+			}
+		}
+		return 0;
 	}
 }

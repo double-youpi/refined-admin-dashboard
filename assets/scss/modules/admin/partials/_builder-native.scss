@@ -157,18 +157,28 @@ body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpbody-content texta
 // squeezed the whole page into half its width, and our card skin painted the
 // header and body of each box dark under the native ink. Core values back,
 // inside W3TC's own wrapper only (`#w3tc.wrap`, on every one of its pages).
-// Light tokens on its pages (body class `toplevel_page_w3tc_*` or
-// `…_page_w3tc_*`): the native canvas only resets the ink, so our notices and
-// primary buttons, drawn from the paper and bg tokens, stayed dark under it
-// (dark on dark). Its notices sit outside `#w3tc`, hence `#wpbody-content`.
-body.dy-admin.dy-native-content[class*="page_w3tc"] #wpbody-content {
+// Light tokens on every native-content screen: the native canvas only resets
+// the ink, so whatever we still draw from the bg and paper tokens there (our
+// notices and primary buttons, an older skin rule such as Yoast's `.yoast`
+// ground) stayed dark under the native ink, dark on dark. First seen on W3
+// Total Cache (18/10, then scoped to its pages), again on Yoast's Tools in the
+// dark theme (19/10, compatibility pass): made general. `#wpbody-content`,
+// so the notices above the plugin's own wrapper are covered too. Builder
+// screens too (their checkboxes were solid black squares on Elementor's white
+// settings in the dark theme), on #wpcontent: Elementor 4 mounts its top bar
+// and side navigation beside #wpbody-content.
+body.dy-admin.dy-native-content #wpbody-content,
+body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpcontent {
   --dya-bg: #fff;
+  --dya-bg-elev: #fff;
   --dya-paper: #fff;
   --dya-paper-2: #f6f7f7;
   --dya-paper-3: #f0f0f1;
   --dya-edge: #c3c4c7;
   --dya-edge-strong: #8c8f94;
   --dya-line: #dcdcde;
+  --dya-line-soft: #f0f0f1;
+  --dya-line-strong: #c3c4c7;
 }
 // Its footer is moved by its script after #wpfooter and pinned with an inline
 // `bottom: -<its height>px`, meant for the core layout where that lands below
@@ -222,6 +232,19 @@ body.dy-admin #wpbody-content .yoast-settings {
   --dya-ink: #3c434a;
   --dya-ink-soft: #50575e;
   --dya-ink-mute: #646970;
+  // Light grounds too: our checkboxes and radios draw from these, and showed
+  // as solid black squares inside the white island in the dark theme (Rank
+  // Math's « Pillar Content », 19/10/2026 compatibility pass).
+  --dya-bg: #fff;
+  --dya-bg-elev: #fff;
+  --dya-paper: #fff;
+  --dya-paper-2: #f6f7f7;
+  --dya-paper-3: #f0f0f1;
+  --dya-edge: #c3c4c7;
+  --dya-edge-strong: #8c8f94;
+  --dya-line: #dcdcde;
+  --dya-line-soft: #f0f0f1;
+  --dya-line-strong: #c3c4c7;
 
   // Neutralize our card / control tints inside the island.
   [data-dy-adopt],
@@ -306,7 +329,9 @@ body.dy-admin.dy-native-content .rank-math-breadcrumbs-wrap {
 // Solid buttons (BUY, Settings…): DS mint background → native WP grey. We spare
 // "link" buttons (Easy/Advanced mode selector, intentionally transparent)
 // via `:not(.button-link):not(.is-link)`.
-body.dy-admin.dy-native-content #wpbody-content .button:not(.button-link):not(.is-link),
+// Duplicator marks its own orange buttons `.button.primary` (not WordPress's
+// `.button-primary`, which our skin paints): they keep their colour (19/10/2026).
+body.dy-admin.dy-native-content #wpbody-content .button:not(.button-link):not(.is-link):not(.primary),
 body.dy-admin.dy-native-content #wpbody-content .button-secondary:not(.button-link):not(.is-link),
 body.dy-admin.dy-native-content #wpbody-content .module-settings {
   background: #f6f7f7 !important;

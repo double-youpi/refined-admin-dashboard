@@ -3,7 +3,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-10-19T03:02:20+00:00\n"
+"POT-Creation-Date: 2026-10-19T11:56:41+00:00\n"
 "Language: es_ES\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
@@ -596,7 +596,7 @@ msgstr ""
 "Carpetas y colecciones, arrastrar y soltar, vista previa rápida, limpieza de "
 "duplicados y archivos huérfanos, y conversión WebP/AVIF al subir."
 
-#: src/Modules/Admin/Admin.php:129 src/Modules/Admin/Rail.php:503
+#: src/Modules/Admin/Admin.php:129 src/Modules/Admin/Rail.php:502
 msgid "Admin"
 msgstr "Admin"
 
@@ -703,33 +703,33 @@ msgstr "Salud del sitio"
 msgid "Updates"
 msgstr "Actualizaciones"
 
-#: src/Modules/Admin/ColumnModel.php:879
+#: src/Modules/Admin/ColumnModel.php:885
 msgid "Content"
 msgstr "Contenido"
 
-#: src/Modules/Admin/ColumnModel.php:880
+#: src/Modules/Admin/ColumnModel.php:886
 msgid "Commerce"
 msgstr "Comercio"
 
-#: src/Modules/Admin/ColumnModel.php:881
+#: src/Modules/Admin/ColumnModel.php:887
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:63
 msgid "Users"
 msgstr "Usuarios"
 
-#: src/Modules/Admin/ColumnModel.php:882
+#: src/Modules/Admin/ColumnModel.php:888
 msgid "Community"
 msgstr "Comunidad"
 
-#: src/Modules/Admin/ColumnModel.php:883
+#: src/Modules/Admin/ColumnModel.php:889
 #: src/Modules/MediaLibrary/Settings.php:331
 msgid "Appearance"
 msgstr "Apariencia"
 
-#: src/Modules/Admin/ColumnModel.php:884
+#: src/Modules/Admin/ColumnModel.php:890
 msgid "System"
 msgstr "Sistema"
 
-#: src/Modules/Admin/ColumnModel.php:885
+#: src/Modules/Admin/ColumnModel.php:891
 msgid "Developer"
 msgstr "Desarrollador"
 
@@ -2577,15 +2577,15 @@ msgstr "Pantallas dejadas con el estilo nativo"
 msgid "Toolkit toggles"
 msgstr "Interruptores del Toolkit"
 
-#: src/Modules/Admin/Rail.php:502
+#: src/Modules/Admin/Rail.php:501
 msgid "Dashboard"
 msgstr "Escritorio"
 
-#: src/Modules/Admin/Rail.php:686
+#: src/Modules/Admin/Rail.php:685
 msgid "Resize navigation"
 msgstr "Redimensionar navegación"
 
-#: src/Modules/Admin/Rail.php:687
+#: src/Modules/Admin/Rail.php:686
 msgid "Toggle navigation width"
 msgstr "Cambiar ancho de navegación"
 

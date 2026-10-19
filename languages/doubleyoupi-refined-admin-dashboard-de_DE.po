@@ -3,7 +3,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-10-19T03:02:20+00:00\n"
+"POT-Creation-Date: 2026-10-19T11:56:41+00:00\n"
 "Language: de_DE\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
@@ -604,7 +604,7 @@ msgstr ""
 "Ordner und Sammlungen, Drag & Drop, Schnellvorschau, Bereinigung von "
 "Duplikaten und verwaisten Dateien, plus WebP/AVIF-Konvertierung beim Upload."
 
-#: src/Modules/Admin/Admin.php:129 src/Modules/Admin/Rail.php:503
+#: src/Modules/Admin/Admin.php:129 src/Modules/Admin/Rail.php:502
 msgid "Admin"
 msgstr "Admin"
 
@@ -711,33 +711,33 @@ msgstr "Website-Zustand"
 msgid "Updates"
 msgstr "Aktualisierungen"
 
-#: src/Modules/Admin/ColumnModel.php:879
+#: src/Modules/Admin/ColumnModel.php:885
 msgid "Content"
 msgstr "Inhalt"
 
-#: src/Modules/Admin/ColumnModel.php:880
+#: src/Modules/Admin/ColumnModel.php:886
 msgid "Commerce"
 msgstr "Commerce"
 
-#: src/Modules/Admin/ColumnModel.php:881
+#: src/Modules/Admin/ColumnModel.php:887
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:63
 msgid "Users"
 msgstr "Benutzer"
 
-#: src/Modules/Admin/ColumnModel.php:882
+#: src/Modules/Admin/ColumnModel.php:888
 msgid "Community"
 msgstr "Community"
 
-#: src/Modules/Admin/ColumnModel.php:883
+#: src/Modules/Admin/ColumnModel.php:889
 #: src/Modules/MediaLibrary/Settings.php:331
 msgid "Appearance"
 msgstr "Design"
 
-#: src/Modules/Admin/ColumnModel.php:884
+#: src/Modules/Admin/ColumnModel.php:890
 msgid "System"
 msgstr "System"
 
-#: src/Modules/Admin/ColumnModel.php:885
+#: src/Modules/Admin/ColumnModel.php:891
 msgid "Developer"
 msgstr "Entwickler"
 
@@ -2242,8 +2242,8 @@ msgid ""
 "sub-page."
 msgstr ""
 "Organisieren Sie Ihre Admin-Navigation visuell: ziehen Sie Chips zwischen "
-"Zeilen, blenden Sie Elemente aus, promovieren Sie Unterseiten auf die "
-"oberste Ebene und schalten Sie das Double Youpï-Styling pro Unterseite um."
+"Zeilen, blenden Sie Elemente aus, heben Sie Unterseiten auf die oberste "
+"Ebene und schalten Sie das Double Youpï-Styling pro Unterseite um."
 
 #: src/Modules/Admin/Developer/Renderer.php:35
 msgid ""
@@ -2595,15 +2595,15 @@ msgstr "Bildschirme im nativen Stil"
 msgid "Toolkit toggles"
 msgstr "Toolkit-Schalter"
 
-#: src/Modules/Admin/Rail.php:502
+#: src/Modules/Admin/Rail.php:501
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#: src/Modules/Admin/Rail.php:686
+#: src/Modules/Admin/Rail.php:685
 msgid "Resize navigation"
 msgstr "Navigation skalieren"
 
-#: src/Modules/Admin/Rail.php:687
+#: src/Modules/Admin/Rail.php:686
 msgid "Toggle navigation width"
 msgstr "Navigationsbreite umschalten"
 

@@ -368,6 +368,14 @@ body.dy-admin .dy-treimg {
   // Cellule générique venue d'une extension : les images éventuelles restent
   // à la hauteur de la ligne.
   .dy-trow__cell--generic img { max-height: 24px; width: auto; }
+  // Rank Math cache son édition en place (« Save », « Cancel », champ, libellés)
+  // par `.wp-list-table td …` : recopiée hors du tableau, elle apparaissait
+  // dans la colonne « SEO Details » (passe de compatibilité du 19/10).
+  .dy-trow__cell[data-col^="rank_math"] {
+    .rank-math-column-edit,
+    .rank-math-column-value,
+    label { display: none; }
+  }
   // ── Loco progress bar (`.progress > .t > .bar` + `.l` = %) ────
   // Native: narrow bar (~30px) + % beside it. Transformed into a PILL
   // that takes the FULL column width, with the % (`.l`) right-aligned

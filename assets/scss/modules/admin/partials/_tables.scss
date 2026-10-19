@@ -1098,8 +1098,11 @@ body.dy-admin .wp-list-table .no-items td {
 // RAISES perceived lightness instead of lowering it — exactly the
 // opposite of the intended effect. Solid color = clean differentiation,
 // stripes visibly darker than the table without speckle.
-body.dy-admin:not(.dy-theme-light) .wp-list-table tbody tr:nth-child(even),
-body.dy-admin:not(.dy-theme-light) .wp-list-table tbody tr.alternate {
+// Not on native-content or builder screens: their canvas is light in both themes, and
+// darkening a white paper by 15% left mid-grey stripes there (WPForms' forms
+// list, 19/10/2026 compatibility pass).
+body.dy-admin:not(.dy-theme-light):not(.dy-native-content):not(.dy-builder-native) .wp-list-table tbody tr:nth-child(even),
+body.dy-admin:not(.dy-theme-light):not(.dy-native-content):not(.dy-builder-native) .wp-list-table tbody tr.alternate {
   // `!important` required because `_wp-production.scss` (loaded after this file)
   // sets `background-color: transparent` on odd striped rows (overriding a
   // WP-native rule that painted white #f6f7f7 on dark).

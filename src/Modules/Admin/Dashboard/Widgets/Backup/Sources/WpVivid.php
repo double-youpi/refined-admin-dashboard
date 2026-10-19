@@ -66,10 +66,14 @@ final class WpVivid extends AbstractBackupSource {
 			return null;
 		}
 		$str    = (string) ( $msg['status']['str'] ?? '' );
+		// A successful run saves its message while the task still reads
+		// "running" (WPvivid 0.9.136, seen on a real backup on 19/10/2026), and
+		// WPvivid's own report counts it as "Succeeded". No task is running any
+		// more (checked above), so it finished.
 		$status = match ( $str ) {
-			'completed'       => BackupSnapshot::STATUS_SUCCESS,
-			'error', 'cancel' => BackupSnapshot::STATUS_FAILED,
-			default           => BackupSnapshot::STATUS_UNKNOWN,
+			'completed', 'running' => BackupSnapshot::STATUS_SUCCESS,
+			'error', 'cancel'      => BackupSnapshot::STATUS_FAILED,
+			default                => BackupSnapshot::STATUS_UNKNOWN,
 		};
 
 		$list  = self::option( 'wpvivid_backup_list' );

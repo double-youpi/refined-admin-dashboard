@@ -88,6 +88,16 @@ JS;
 		// W3 Total Cache: own header, menus and dashboard grid, which our
 		// design system broke apart (18/10/2026, seen by Raphaël).
 		'w3tc',
+		// Backup plugins read by the dashboard's backup widget: their own
+		// white cards and pale headings came out unreadable under our dark
+		// ink (compatibility pass of 19/10/2026).
+		'backwpup',         // BackWPup (onboarding, backups, settings)
+		'duplicator',       // Duplicator
+		'wpvivid',          // WPvivid Backup (page=WPvivid…)
+		'ai1wm_',           // All-in-One WP Migration
+		'backup-migration', // Backup Migration
+		'boldgrid-backup',  // Total Upkeep
+		'xcloner_',         // XCloner
 
 		// ── Themes with their OWN admin design system (React/SPA dashboards) ──
 		// Manifesto §2 "detect and step back": for mainstream themes that ship a

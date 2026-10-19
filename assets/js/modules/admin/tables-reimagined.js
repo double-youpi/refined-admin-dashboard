@@ -1237,8 +1237,7 @@
   // ---------------------------------------------------------------------
   var OPT_COLS = {
     post: META_COLS.map(function (c) {
-      var lab = thLabel(c.th, '');
-      if (!lab) { var bub = c.th.querySelector('[title]'); lab = (bub && bub.getAttribute('title')) || (c.id === 'comments' ? (L.comments || 'Comments') : c.id); }
+      var lab = headLabel(c.th, c.id);
       return { id: c.id, key: c.id, label: lab, meta: c };
     }),
     user: [{ id: 'role', key: 'role', label: I18N.colRole }],
@@ -1373,6 +1372,20 @@
     var t = c.textContent.replace(/\s+/g, ' ').trim();
     return t || fallback;
   }
+  // Label of a meta column heading. Icon-only headings keep nothing once the
+  // screen-reader text is stripped: their name for screen readers comes next
+  // (Yoast's "SEO score", compatibility pass of 19/10; the sort link's own
+  // hint, "Sort ascending.", is a direct child of the link and is skipped),
+  // then the bubble's title, then the column id.
+  function headLabel(th, id) {
+    var t = thLabel(th, '');
+    if (t) return t;
+    var sr = [].filter.call(th.querySelectorAll('.screen-reader-text'), function (e) { return e.parentElement.tagName !== 'A'; })[0];
+    t = sr ? sr.textContent.replace(/\s+/g, ' ').trim() : '';
+    if (t) return t;
+    var bub = th.querySelector('[title]');
+    return (bub && bub.getAttribute('title')) || (id === 'comments' ? (L.comments || 'Comments') : id);
+  }
   // 3-state sort cycle: '' (default) → 'desc' → 'asc' → ''.
   function nextDir(cur) { return cur === '' ? 'desc' : (cur === 'desc' ? 'asc' : ''); }
   function cycleSort(clientSort, key, th, sortA) {
@@ -1417,12 +1430,9 @@
       }
       first = false;
       var th = nativeTh(c.id);
-      var label = thLabel(th, c.id);          // clean label, without the screen-reader "Sort…" text
+      var label = th ? headLabel(th, c.id) : c.id;
       var sortA = th ? th.querySelector('a') : null;
       var sortable = th && th.classList.contains('sortable') && sortA;
-      // Icon-only headings (the comments bubble) keep nothing once the
-      // screen-reader text is stripped: fall back to the bubble's title.
-      if (!label && th) { var bub = th.querySelector('[title]'); label = (bub && bub.getAttribute('title')) || (c.id === 'comments' ? (L.comments || 'Comments') : c.id); }
       var cell = el('<span class="dy-treimg__col dy-treimg__col--' + c.id + '"' + (c.meta ? ' data-col="' + escAttr(c.id) + '"' : '') + '></span>');
       if (c.meta && label) cell.setAttribute('title', label);
       if (sortable) {
