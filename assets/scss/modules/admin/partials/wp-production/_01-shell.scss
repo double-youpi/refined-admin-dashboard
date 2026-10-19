@@ -136,6 +136,11 @@ body.dy-admin #wpwrap > .skip-link {
 body.dy-admin #wpcontent {
   margin-left: 0 !important;
   padding-left: 0 !important;
+  // Plugins that pad #wpcontent for the core layout (W3 Total Cache:
+  // `#wpcontent { padding-right: 20px }`) narrowed our sticky bars and let
+  // the content ground show beside them (19/10/2026). No !important: the
+  // Media screen keeps its deliberate right padding (_07-universal-dark).
+  padding-right: 0;
 }
 
 // 9. WP applies `min-width: 600px` on .wrap on some pages → forces

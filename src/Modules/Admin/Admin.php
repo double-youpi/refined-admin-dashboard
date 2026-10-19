@@ -231,6 +231,10 @@ JS;
 		( new Subchipbar( $this->rail ) )->boot();
 		( new Adminbar() )->boot();
 		( new Notices() )->boot();
+		// One review request after a week of use, inside the notifications
+		// centre (see ReviewAsk): booted here so it only exists where the
+		// redesign, and so the centre, applies.
+		( new ReviewAsk() )->boot();
 		( new MimeIcons() )->boot();
 		// Capability markers (dy-core-tooltips, dy-core-icons, dy-core-wpds…):
 		// what this WordPress can do, detected by function/handle, not version.

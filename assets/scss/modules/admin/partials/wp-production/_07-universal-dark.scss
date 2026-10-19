@@ -304,6 +304,12 @@ body.dy-admin.upload-php #wpcontent {
 body.dy-admin.upload-php:not(:has(.dy-detail-open)) #wpcontent {
   padding-right: 20px;
 }
+// The sticky bars run through that padding: otherwise they stopped 20px
+// short and the column ground showed beside them, a pale strip once the
+// media library got its light theme (19/10/2026).
+body.dy-admin.upload-php:not(:has(.dy-detail-open)) :is(.dy-chipbar, .dy-subchipbar) {
+  margin-right: -20px;
+}
 // `.wrap` margin-right:
 //   - detail panel CLOSED: 0 (the grid hugs the content-box edge;
 //     the #wpcontent scrollbar absorbs the remaining 10px between the

@@ -170,6 +170,17 @@ body.dy-admin.dy-native-content[class*="page_w3tc"] #wpbody-content {
   --dya-edge-strong: #8c8f94;
   --dya-line: #dcdcde;
 }
+// Its footer is moved by its script after #wpfooter and pinned with an inline
+// `bottom: -<its height>px`, meant for the core layout where that lands below
+// the whole page. Here #wpfooter sits in #wpcontent, our scrolling column, so
+// the footer landed one screen down, over the content (19/10/2026). Back in
+// the flow, at the end of the page.
+body.dy-admin.dy-native-content[class*="page_w3tc"] #w3tc-footer {
+  position: relative !important;
+  bottom: auto !important;
+  margin-left: 0 !important;
+}
+
 body.dy-admin.dy-native-content #w3tc {
   .metabox-holder {
     display: block;

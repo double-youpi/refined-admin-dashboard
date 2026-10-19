@@ -15506,6 +15506,12 @@ body.dy-admin.dy-native-content[class*=page_w3tc] #wpbody-content {
   --dya-line: #dcdcde;
 }
 
+body.dy-admin.dy-native-content[class*=page_w3tc] #w3tc-footer {
+  position: relative !important;
+  bottom: auto !important;
+  margin-left: 0 !important;
+}
+
 body.dy-admin.dy-native-content #w3tc .metabox-holder {
   display: block;
   gap: normal;
@@ -19794,6 +19800,7 @@ body.dy-admin #wpwrap > .skip-link {
 body.dy-admin #wpcontent {
   margin-left: 0 !important;
   padding-left: 0 !important;
+  padding-right: 0;
 }
 
 body.dy-admin .wrap {
@@ -22520,6 +22527,10 @@ body.dy-admin.upload-php #wpcontent {
 
 body.dy-admin.upload-php:not(:has(.dy-detail-open)) #wpcontent {
   padding-right: 20px;
+}
+
+body.dy-admin.upload-php:not(:has(.dy-detail-open)) :is(.dy-chipbar, .dy-subchipbar) {
+  margin-right: -20px;
 }
 
 body.dy-admin.upload-php:has(#dy-folder-panel) .wrap {

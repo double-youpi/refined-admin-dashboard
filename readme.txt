@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, admin
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -127,6 +127,11 @@ Privacy policy: https://doubleyoupi.com/privacy
 
 == Changelog ==
 
+= 1.0.6 =
+* New: a single review request after a week of use, in the notifications centre. "No thanks" closes it for good.
+* New: a "Leave a review" link beside the Feedback button.
+* Fix: on W3 Total Cache screens the footer is back in place, and the section bars no longer show a light strip on their right edge.
+
 = 1.0.5 =
 * New: the Backup widget of the dashboard reads the backup plugin your site already uses (UpdraftPlus, All-in-One WP Migration, Duplicator, WPvivid, BackWPup, Backup Migration, Total Upkeep, XCloner, Jetpack Backup or BlogVault) and shows your last backup. It only reads what that plugin has saved.
 * New: the media library follows your light or dark theme, switched live, including an open media window.
@@ -186,6 +191,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.6 =
+A "Leave a review" link, a one-time review request after a week, and fixes for W3 Total Cache screens and the section bars.
 
 = 1.0.5 =
 The Backup widget now reads UpdraftPlus and nine other backup plugins, and the media library follows your light or dark theme.
