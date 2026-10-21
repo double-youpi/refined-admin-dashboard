@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, admin
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.8
+Stable tag: 1.0.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -127,6 +127,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 
 == Changelog ==
 
+= 1.0.9 =
+* New: Russian translation. It follows WordPress's own Russian vocabulary but has not yet been reviewed by a native speaker: corrections are welcome on translate.wordpress.org.
+
 = 1.0.8 =
 * Improvement: accessibility, after a full audit. Icon buttons, checkboxes and fields have names for screen readers, contrasts reach WCAG AA in both themes (the media library included), click targets are at least 24px, and no text is smaller than 11px (12px for column headings).
 * Fix: on multisite, "My Sites" opens on two levels again, and the network admin shows the right plugin counts.
@@ -211,6 +214,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.9 =
+A Russian translation of the interface.
 
 = 1.0.8 =
 An accessibility pass (screen reader names, AA contrast, larger text and click targets), multisite fixes, and a readable publish panel in dark mode.

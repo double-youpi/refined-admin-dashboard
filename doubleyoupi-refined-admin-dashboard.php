@@ -3,7 +3,7 @@
  * Plugin Name:       Double Youpï Refined Admin Dashboard
  * Plugin URI:        https://doubleyoupi.com/plugins/refined-admin-dashboard
  * Description:       A dark and light redesign of the whole WordPress admin: a navigation rail you can reorganise, reimagined list tables and post editor, one place for every notice, a dashboard you compose, a media library with folders and collections, and a built-in toolkit. Native components only.
- * Version:           1.0.8
+ * Version:           1.0.9
  * Requires at least: 6.5
  * Requires PHP:      8.1
  * Author:            Double Youpï
@@ -68,7 +68,7 @@ if ( $doubleyoupi_standalone_container !== null ) {
 // active and have defined them first. Its values stay, and this build still
 // finds its own files, because the autoloader and Core\Build below are bound
 // to THIS directory rather than to the constant.
-defined( 'DOUBLEYOUPI_VERSION' )  || define( 'DOUBLEYOUPI_VERSION', '1.0.8' );
+defined( 'DOUBLEYOUPI_VERSION' )  || define( 'DOUBLEYOUPI_VERSION', '1.0.9' );
 defined( 'DOUBLEYOUPI_FILE' )     || define( 'DOUBLEYOUPI_FILE', __FILE__ );
 defined( 'DOUBLEYOUPI_DIR' )      || define( 'DOUBLEYOUPI_DIR', plugin_dir_path( __FILE__ ) );
 defined( 'DOUBLEYOUPI_URL' )      || define( 'DOUBLEYOUPI_URL', plugin_dir_url( __FILE__ ) );
