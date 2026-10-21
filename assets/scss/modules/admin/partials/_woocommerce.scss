@@ -50,7 +50,7 @@ body.dy-admin .order-status {
   padding: 2px 8px;
   border-radius: var(--dya-r-pill);
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-mono);
@@ -154,7 +154,7 @@ body.dy-admin .woocommerce-summary__item:hover {
 }
 body.dy-admin .woocommerce-summary__item-label {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -172,7 +172,7 @@ body.dy-admin .woocommerce-summary__item-data {
 body.dy-admin .woocommerce-summary__item-delta,
 body.dy-admin .woocommerce-summary__item-delta--good {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   letter-spacing: 0;
   color: var(--dya-success);
   text-transform: uppercase;
@@ -317,7 +317,7 @@ body.dy-admin .order_data_column h3,
 body.dy-admin .order_data_column h4 {
   margin: 0 0 12px;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   // WC forces `#order_data … h3 { color:#333 }` (ID selector, higher specificity)
@@ -367,7 +367,7 @@ body.dy-admin .order_data_column .address {
 body.dy-admin .order_data_column .address p { margin: 0 0 4px; }
 body.dy-admin .order_data_column .form-field label {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -401,7 +401,7 @@ body.dy-admin table.woocommerce_order_items thead th {
   border-bottom: 1px solid var(--dya-line);
   padding: 10px 14px;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -421,7 +421,7 @@ body.dy-admin table.woocommerce_order_items .item .item-name strong {
 }
 body.dy-admin table.woocommerce_order_items .item .wc-order-item-sku {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   color: var(--dya-ink-fade);
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-mono);
@@ -496,7 +496,7 @@ body.dy-admin #woocommerce-order-notes ul.order_notes li.note p { margin: 0; }
 body.dy-admin #woocommerce-order-notes ul.order_notes li.note .note_content { margin-bottom: 6px; }
 body.dy-admin #woocommerce-order-notes ul.order_notes li.note .meta {
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-mono);
   color: var(--dya-ink-fade);

@@ -53,7 +53,7 @@ body.dy-admin.widgets-php #access-off {
 body.dy-admin.widgets-php .widget-access-link a:hover,
 body.dy-admin.widgets-php #access-on:hover,
 body.dy-admin.widgets-php #access-off:hover {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 
 // Available widget cards: vertical gap (WP stacks them edge-to-edge).
@@ -230,7 +230,7 @@ body.dy-admin.nav-menus-php a.show-link {
   float: none;
   margin: 8px 0 16px 0;
   text-align: left;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 
 // Open menu item detail (.menu-item-settings).

@@ -68,7 +68,7 @@ body.dy-admin {
 		&.mode-static_strict {
 			background: var(--dya-accent-soft, rgba(var(--dya-accent-rgb, 34, 113, 177), .12));
 			border-color: rgba(var(--dya-accent-rgb, 34, 113, 177), .35);
-			color: var(--dya-accent);
+			color: var(--dya-accent-text);
 
 			&::before {
 				background: var(--dya-accent);
@@ -111,7 +111,7 @@ body.dy-admin {
 	@media (max-width: 782px) {
 		#wpadminbar .doubleyoupi-bar-pill {
 			padding: 0 8px 0 6px;
-			font-size: 10px;
+			font-size: 11px;
 			gap: 5px;
 
 			&::before {

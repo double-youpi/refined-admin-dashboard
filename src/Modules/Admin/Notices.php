@@ -87,7 +87,7 @@ final class Notices {
 			. ' data-count="0" title="%1$s">'
 			. '%2$s'
 			. '<span class="dy-notice-trigger__label">%3$s</span>'
-			. '<span class="dy-notice-trigger__count" aria-hidden="true">0</span>'
+			. '<span class="dy-notice-trigger__count">0</span>'
 			. '</button>'
 			. '</div>'
 			. '</div>',

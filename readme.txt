@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, admin
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.7
+Stable tag: 1.0.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -127,6 +127,17 @@ Privacy policy: https://doubleyoupi.com/privacy
 
 == Changelog ==
 
+= 1.0.8 =
+* Improvement: accessibility, after a full audit. Icon buttons, checkboxes and fields have names for screen readers, contrasts reach WCAG AA in both themes (the media library included), click targets are at least 24px, and no text is smaller than 11px (12px for column headings).
+* Fix: on multisite, "My Sites" opens on two levels again, and the network admin shows the right plugin counts.
+* Fix: every drop-down menu of the top bar opens again, including those that plugins add.
+* Fix: on WordPress 7.2, a single magnifying glass sits next to the command palette shortcut instead of two.
+* Fix: in the block editor, the publish panel no longer sits under the top bar, and it is readable in dark mode.
+* Improvement: in the editor header, the Rank Math scores match the admin design, and the Yoast SEO score colours are back.
+* Fix: Google Fonts previews are readable in dark mode.
+* Fix: on a dashboard screen with its own accent colour, the accented word of the title takes that colour.
+* Improvement: when the redesigned list cannot show its rows, it falls back to the native list instead of staying empty.
+
 = 1.0.7 =
 * Fix: in dark mode, the screens of Yoast SEO (Tools), WPForms and Elementor and the Bricks settings are easy to read, and so are the Yoast SEO and Rank Math boxes in the editor.
 * Fix: the screens of BackWPup, Duplicator, WPvivid, All-in-One WP Migration, Backup Migration, Total Upkeep and XCloner keep their own colours, and stay readable in dark mode.
@@ -200,6 +211,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.8 =
+An accessibility pass (screen reader names, AA contrast, larger text and click targets), multisite fixes, and a readable publish panel in dark mode.
 
 = 1.0.7 =
 Compatibility fixes for Yoast SEO, Rank Math, WPForms, Elementor, Bricks and seven backup plugins, mostly in dark mode.

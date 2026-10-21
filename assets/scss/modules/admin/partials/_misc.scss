@@ -24,7 +24,7 @@ body.dy-admin.dy-show-footer #wpfooter {
   margin: 56px auto 0;
   border-top: 1px solid var(--dya-line);
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-fade);
@@ -148,7 +148,7 @@ body.dy-admin .health-check-accordion .health-check-accordion-trigger .title {
 body.dy-admin .health-check-accordion .health-check-accordion-trigger .badge {
   flex: 0 0 auto;
   font-family: var(--dya-font-mono);
-  font-size: 9.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   padding: 3px 9px;
@@ -181,7 +181,7 @@ body.dy-admin .site-health-progress .progress-label {
 }
 body.dy-admin .site-health-issue-count {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -406,7 +406,7 @@ body.dy-admin .wp-list-table.comments .author {
 body.dy-admin .wp-list-table.comments .comment-meta,
 body.dy-admin .wp-list-table.comments .submitted-on {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-mono);
   color: var(--dya-ink-fade);
@@ -428,7 +428,7 @@ body.dy-admin #menu-management .nav-tabs-wrapper { background: transparent; bord
 body.dy-admin #menu-name-label label,
 body.dy-admin .menu-name-label label {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -519,7 +519,7 @@ body.dy-admin .form-wrap .form-field {
 body.dy-admin .form-wrap .form-field label {
   display: block;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -542,13 +542,13 @@ body.dy-admin .form-wrap p.description {
 body.dy-admin.network-admin .wp-heading-inline::after {
   content: " · NETWORK";
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: var(--dya-tracking-label);
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   margin-left: 8px;
   vertical-align: 4px;
 }
-body.dy-admin.network-admin .dy-page-sub { color: var(--dya-accent); }
+body.dy-admin.network-admin .dy-page-sub { color: var(--dya-accent-text); }
 
 // ── Single-comment edit page ─────────────────────────
 body.dy-admin #comment-status-radio {

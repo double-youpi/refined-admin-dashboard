@@ -30,9 +30,21 @@ body.dy-admin.plugins-php .toggle-auto-update {
   transition: background var(--dya-t-fast) ease;
   cursor: pointer;
 }
-body.dy-admin.plugins-php .toggle-auto-update .dashicons,
-body.dy-admin.plugins-php .toggle-auto-update .label {
+body.dy-admin.plugins-php .toggle-auto-update .dashicons {
   display: none;
+}
+// The label is the switch's only name: hidden from sight, kept for screen
+// readers (`display: none` left an unnamed link, audit of 21/10/2026).
+body.dy-admin.plugins-php .toggle-auto-update .label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 body.dy-admin.plugins-php .toggle-auto-update::before {
   content: "";
@@ -112,7 +124,7 @@ body.dy-admin.options-privacy-php .privacy-text-section h3 {
   color: var(--dya-ink) !important;
 }
 body.dy-admin.options-privacy-php .privacy-text-section a {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 
 // =============================================================
@@ -205,12 +217,12 @@ body.dy-admin.themes-php .theme.add-new-theme a:focus::after {
 body.dy-admin.themes-php .theme.add-new-theme a:hover span::after,
 body.dy-admin.themes-php .theme.add-new-theme a:focus span::after {
   background: var(--dya-paper) !important;
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
   box-shadow: 0 0 0 1px var(--dya-accent);
 }
 body.dy-admin.themes-php .theme.add-new-theme a:hover .theme-name,
 body.dy-admin.themes-php .theme.add-new-theme a:focus .theme-name {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 
 

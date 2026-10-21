@@ -38,7 +38,7 @@ body.dy-admin[class*="loco-translate_page_"] {
   .panel-body, .panel-footer { background: transparent !important; color: var(--dya-ink-soft) !important; }
   // Banner text + its link (was light on white → invisible).
   .panel span, .panel p, .panel label { color: var(--dya-ink-soft) !important; }
-  .panel a { color: var(--dya-accent) !important; }
+  .panel a { color: var(--dya-accent-text) !important; }
 
   // ── Tables (WP-list-table + .loco-listing) ───────────────────────
   .wp-list-table, .loco-listing { background: var(--dya-paper) !important; border-color: var(--dya-edge) !important; }
@@ -57,7 +57,7 @@ body.dy-admin[class*="loco-translate_page_"] {
     border: 0 !important;
   }
   .wp-list-table td a:hover, .loco-listing td a:hover, td > a:hover {
-    color: var(--dya-accent) !important;
+    color: var(--dya-accent-text) !important;
   }
 
   // ── Buttons (Loco renders blue .button / .loco-button) ───────────
@@ -155,7 +155,7 @@ body.dy-admin[class*="loco-translate_page_"] {
   }
   // Editor sidebar widgets (comments, context…).
   .wg-content, .wg-content p, .wg-content li, .wg-content dd { color: var(--dya-ink-soft) !important; }
-  .wg-content a { color: var(--dya-accent) !important; }
+  .wg-content a { color: var(--dya-accent-text) !important; }
   // Glyphs / icons (often in Loco brand colour).
   .icon-info, .icon-warning, .icon-file, .has-icon::before { color: var(--dya-ink-soft) !important; }
 

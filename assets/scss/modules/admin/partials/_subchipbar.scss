@@ -65,7 +65,7 @@ body.dy-admin .dy-subchipbar-inner:hover::-webkit-scrollbar-thumb { background: 
 // shorter and quieter. Optional: omit if cluttered.
 body.dy-admin .dy-subchipbar-label {
   font-family: var(--dya-font-mono);
-  font-size: 9.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-fade);
@@ -112,7 +112,7 @@ body.dy-admin .dy-subchip:hover .dot { opacity: 1; }
 
 body.dy-admin .dy-subchip-count {
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0;
   color: var(--dya-ink-fade);
 }

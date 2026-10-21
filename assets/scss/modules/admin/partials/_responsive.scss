@@ -393,7 +393,7 @@
   body.dy-admin .wp-list-table tbody td[data-colname]::before {
     content: attr(data-colname);
     font-family: var(--dya-font-mono);
-    font-size: 9.5px;
+    font-size: 11px;
     text-transform: uppercase;
     letter-spacing: var(--dya-tracking-label);
     color: var(--dya-ink-fade);
@@ -544,7 +544,7 @@
     width: calc(35% - 24px);
     white-space: normal;
     font-family: var(--dya-font-mono);
-    font-size: 10.5px;
+    font-size: 11px;
     line-height: 1.4;
     letter-spacing: var(--dya-tracking-mono);
     text-transform: uppercase;

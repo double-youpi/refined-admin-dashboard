@@ -17,7 +17,7 @@ body.dy-admin .dy-ed-nativebar { display:flex; justify-content:flex-end; margin:
 body.dy-admin .dy-ed-toggle {
   display:inline-flex; align-items:center; gap:7px; height:32px; padding:0 13px;
   border:1px solid var(--dya-edge); border-radius:var(--dya-r-sm); background:transparent; color:var(--dya-ink-soft);
-  font-family:var(--dya-font-mono); font-size:10.5px; letter-spacing:var(--dya-tracking-mono); text-transform:uppercase;
+  font-family:var(--dya-font-mono); font-size:11px; letter-spacing:var(--dya-tracking-mono); text-transform:uppercase;
   cursor:pointer; transition:color var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease);
 }
 body.dy-admin .dy-ed-toggle:hover { color:var(--dya-ink); border-color:var(--dya-edge-strong); background:var(--dya-paper-2); }
@@ -27,8 +27,8 @@ body.dy-admin .dy-ed-toggle svg { width:14px; height:14px; }
 // the tables (`.dy-treimg__toggle`, defined in _tables-reimagined). We only add
 // the accent state when the editor is in REDESIGNED mode (equivalent to
 // `body.dy-tables-reimagined .dy-treimg__toggle` on the tables side).
-body.dy-admin.dy-editor-reimagined .dy-treimg__toggle { border-color: var(--dya-accent); color: var(--dya-accent); }
-body.dy-admin.dy-editor-reimagined .dy-treimg__toggle:hover { border-color: var(--dya-accent); color: var(--dya-accent); background: var(--dya-paper-2); }
+body.dy-admin.dy-editor-reimagined .dy-treimg__toggle { border-color: var(--dya-accent); color: var(--dya-accent-text); }
+body.dy-admin.dy-editor-reimagined .dy-treimg__toggle:hover { border-color: var(--dya-accent); color: var(--dya-accent-text); background: var(--dya-paper-2); }
 
 // Publication info footer (status / visibility / date) — sits flush with the header.
 body.dy-admin #misc-publishing-actions { padding: 0; }
@@ -212,7 +212,7 @@ body.dy-admin.dy-editor-reimagined {
   #elementor-switch-mode .elementor-switch-mode-button:hover {
     background:var(--dya-paper-2); color:var(--dya-ink); border-color:var(--dya-ink-fade);
   }
-  #elementor-switch-mode-button .eicon-elementor-square { color:var(--dya-accent); }
+  #elementor-switch-mode-button .eicon-elementor-square { color:var(--dya-accent-text); }
 
   // ── Sticky command bar ──────────────────────────────────────
   .dy-ed-cmdbar {
@@ -240,7 +240,7 @@ body.dy-admin.dy-editor-reimagined {
     // pressed the slug against its focus border (clipped). We add space
     // so the title's focus border is fully visible.
     margin-top:4px;
-    font-family:var(--dya-font-mono); font-size:10.5px; color:var(--dya-ink-fade);
+    font-family:var(--dya-font-mono); font-size:11px; color:var(--dya-ink-fade);
   }
   .dy-ed-cmdbar__slug .dy-ed-slugi { width:11px; height:11px; flex:0 0 auto; }
   // #edit-slug-box relocated: neutralize its native inline style.
@@ -253,7 +253,7 @@ body.dy-admin.dy-editor-reimagined {
   .dy-ed-cmdbar__slug #edit-slug-box #sample-permalink,
   .dy-ed-cmdbar__slug #edit-slug-box #sample-permalink a { color:var(--dya-ink-mute); overflow-wrap:anywhere; word-break:break-word; min-width:0; }
   .dy-ed-cmdbar__slug .button.edit-slug {
-    margin-left:4px; padding:2px 8px; min-height:0; height:auto; font-size:9px; line-height:1.6;
+    margin-left:4px; padding:2px 8px; min-height:0; height:auto; font-size:11px; line-height:1.6;
     border:1px solid var(--dya-edge); border-radius:var(--dya-r-xs); color:var(--dya-ink-mute); background:transparent;
     text-transform:uppercase; letter-spacing:.08em;
   }
@@ -269,7 +269,7 @@ body.dy-admin.dy-editor-reimagined {
   // Status pill
   .dy-ed-pill {
     display:inline-flex; align-items:center; gap:6px; flex:0 0 auto;
-    font-family:var(--dya-font-mono); font-size:10px; text-transform:uppercase; letter-spacing:var(--dya-tracking-label);
+    font-family:var(--dya-font-mono); font-size:11px; text-transform:uppercase; letter-spacing:var(--dya-tracking-label);
     padding:5px 11px; border-radius:var(--dya-r-pill); border:1px solid var(--dya-edge); color:var(--dya-ink-mute);
   }
   .dy-ed-pill .d { width:6px; height:6px; border-radius:50%; background:currentColor; }
@@ -420,7 +420,7 @@ body.dy-admin.dy-editor-reimagined {
   #post-body, #post-body-content { margin-right:0 !important; }
   #postdivrich .post-status-info {
     border:0; border-top:1px solid var(--dya-line); background:var(--dya-bg-elev);
-    color:var(--dya-ink-mute); font-family:var(--dya-font-mono); font-size:10.5px;
+    color:var(--dya-ink-mute); font-family:var(--dya-font-mono); font-size:11px;
   }
 
   // ── Inspector: side column = STACK OF CARDS (Settings + AI) ──
@@ -679,7 +679,7 @@ body.dy-admin.dy-editor-reimagined {
   .acf-field .acf-label label { font-size:12.5px; font-weight:500; color:var(--dya-ink); }
   .acf-field .acf-label .description,
   .acf-field .acf-label p.description { font-size:11px; color:var(--dya-ink-mute); margin:3px 0 0; line-height:1.45; }
-  .acf-field .acf-label .acf-required { color:var(--dya-accent); }
+  .acf-field .acf-label .acf-required { color:var(--dya-accent-text); }
 
   // Input fields
   .acf-input input[type="text"], .acf-input input[type="number"], .acf-input input[type="email"],
@@ -755,7 +755,7 @@ body.dy-admin.dy-editor-reimagined {
   }
   .acf-flexible-content .layout .acf-fc-layout-order {
     background:var(--dya-paper-3); color:var(--dya-ink-mute); border-radius:var(--dya-r-xs); border:1px solid var(--dya-edge);
-    width:auto; min-width:22px; height:20px; line-height:18px; font-family:var(--dya-font-mono); font-size:9px; padding:0 5px;
+    width:auto; min-width:22px; height:20px; line-height:18px; font-family:var(--dya-font-mono); font-size:11px; padding:0 5px;
   }
   .acf-flexible-content .layout .acf-fc-layout-controls {
     margin-left:auto; display:inline-flex; gap:3px; right:auto; position:static; top:auto;
@@ -771,12 +771,12 @@ body.dy-admin.dy-editor-reimagined {
   .acf-repeater > .acf-table { border:1px solid var(--dya-edge); border-radius:var(--dya-r-md); background:var(--dya-paper-2); border-collapse:separate; overflow:hidden; }
   .acf-repeater > .acf-table > thead > tr > th {
     background:var(--dya-bg-elev); border-bottom:1px solid var(--dya-line); color:var(--dya-ink-fade);
-    font-family:var(--dya-font-mono); font-size:9px; letter-spacing:var(--dya-tracking-label); text-transform:uppercase; padding:8px 10px;
+    font-family:var(--dya-font-mono); font-size:11px; letter-spacing:var(--dya-tracking-label); text-transform:uppercase; padding:8px 10px;
   }
   .acf-repeater > .acf-table > tbody > tr { transition:background var(--dya-t-fast) var(--dya-ease); }
   .acf-repeater > .acf-table > tbody > tr:hover { background:color-mix(in srgb, var(--dya-ink) 3%, transparent); }
   .acf-repeater .acf-row-handle { color:var(--dya-ink-fade); }
-  .acf-repeater .acf-row-handle.order { font-family:var(--dya-font-mono); font-size:10px; color:var(--dya-ink-mute); cursor:grab; }
+  .acf-repeater .acf-row-handle.order { font-family:var(--dya-font-mono); font-size:11px; color:var(--dya-ink-mute); cursor:grab; }
   .acf-repeater .acf-row-handle .acf-icon { background:transparent; border:0; color:var(--dya-ink-fade); box-shadow:none; }
   .acf-repeater .acf-row-handle .acf-icon.-minus:hover { color:var(--dya-danger); background:color-mix(in srgb, var(--dya-danger) 12%, transparent); }
   .acf-repeater > .acf-actions { margin-top:10px; }
@@ -815,7 +815,7 @@ body.dy-admin.dy-editor-reimagined.dy-ed-inspector-collapsed {
   #postbox-container-1.dy-ed-inspector .handle-order-lower { display:none !important; }
   .dy-ed-secic { width:20px; height:20px; margin:0; color:var(--dya-ink-soft); }
   #postbox-container-1.dy-ed-inspector .postbox-header:hover .dy-ed-secic,
-  #postbox-container-1.dy-ed-inspector .postbox:hover .dy-ed-secic { color:var(--dya-accent); }
+  #postbox-container-1.dy-ed-inspector .postbox:hover .dy-ed-secic { color:var(--dya-accent-text); }
 }
 
 // =====================================================================

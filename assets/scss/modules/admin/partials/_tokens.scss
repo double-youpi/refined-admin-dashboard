@@ -30,8 +30,8 @@
   // ── Ink ────────────────────────────────────────────────────
   --dya-ink:       #ededee;
   --dya-ink-soft:  #a8a9ad;
-  --dya-ink-mute:  #8a8b92; // QA: remonté (fonctionnel AA ~4.7 sur --dya-paper ; était #6f7077 ~3.9)
-  --dya-ink-fade:  #80818a; // audit-2: AA fonctionnel (5.0 sur --dya-bg, 4.5 sur --dya-paper ; était #787980 ~4.4)
+  --dya-ink-mute:  #9a9ba2; // audit du 21/10 : 5,1:1 sur --dya-paper-3 (était #8a8b92, 4,18:1)
+  --dya-ink-fade:  #93949b; // audit du 21/10 : 4,7:1 sur --dya-paper-3 (était #80818a, 3,66:1)
 
   // ── Rules / dividers ───────────────────────────────────────
   --dya-line:        rgba(255, 255, 255, .07);
@@ -298,7 +298,11 @@ body.dy-admin-login {
     // contrast against the light --dya-paper.
     // Dark mode: lift the luminance floor so a mid-tone accent (default
     // #7c54ff, L≈.59 → 4.2:1 on --dya-bg) reads AA as text. Fill usages keep --dya-accent.
-    --dya-accent-text: oklch(from var(--dya-accent) max(l, 0.64) c h);
+    // Floor raised to .72 on 21/10/2026: at .64 the accent read 2.7 to 4:1 on
+    // our tinted dark surfaces (row titles on hover, badges, page summary).
+    // Chroma capped at .15: a vivid violet at L .72 falls outside sRGB, and
+    // the browser clips it back darker (#5b3efe gave #857cff, 4:1).
+    --dya-accent-text: oklch(from var(--dya-accent) max(l, 0.72) min(c, 0.15) h);
   }
 
   // In LIGHT mode: cap the accent luminance (≤ .5) for text use,
@@ -307,6 +311,16 @@ body.dy-admin-login {
   // this readable variant → globally fixes low-contrast accent-as-text
   // (Elementor widget links, WooCommerce triggers, Rank Math mode
   // selector…).
+  // An accent set inline lower down (a dashboard screen's own colour,
+  // Renderer.php) must carry its readable text variant with it: the token
+  // above was computed from the body's accent (21/10/2026).
+  body.dy-admin [style*="--dya-accent:"] {
+    --dya-accent-text: oklch(from var(--dya-accent) max(l, 0.72) min(c, 0.15) h);
+  }
+  body.dy-admin.dy-theme-light [style*="--dya-accent:"] {
+    --dya-accent-text: oklch(from var(--dya-accent) min(l, 0.5) c h);
+  }
+
   body.dy-theme-light {
     --dya-accent-text: oklch(from var(--dya-accent) min(l, 0.5) c h);
     --wp-admin-theme-color:           var(--dya-accent-text);
@@ -356,8 +370,8 @@ body.dy-admin-login {
   // BEFORE body is rendered (view-transition snapshots).
   --dya-ink:       #18181a;
   --dya-ink-soft:  #44444a;
-  --dya-ink-mute:  #707177; // QA: fonctionnel AA (~4.9 sur blanc ; était #76777b ~4.47)
-  --dya-ink-fade:  #727378; // audit-2: AA fonctionnel (4.7 sur blanc ; était #8a8b91 ~3.4)
+  --dya-ink-mute:  #636469; // audit du 21/10 : 4,9:1 sur --dya-paper-3 teinté, tout accent (était #707177, 4,06:1)
+  --dya-ink-fade:  #66676d; // audit du 21/10 : 4,7:1 sur --dya-paper-3 teinté (était #727378, 3,95:1)
 
   --dya-line:        rgba(0, 0, 0, .07);
   --dya-line-strong: rgba(0, 0, 0, .12);
@@ -367,9 +381,9 @@ body.dy-admin-login {
 
   // Semantic colours as TEXT on white: the dark-first values (#4cc38a…) sit
   // at 2 to 3:1 on a light ground. Deeper variants keep the hue, pass AA.
-  --dya-success: #167a4b;
-  --dya-warn:    #a35f00;
-  --dya-danger:  #d13425;
+  --dya-success: #147245; // 21/10/2026 : 4,95:1 sur --dya-paper-3 (était #167a4b, 4,45)
+  --dya-warn:    #995900; // 21/10/2026 : 4,6:1 sur --dya-paper-3 (était #a35f00, 4,16)
+  --dya-danger:  #c22f20; // 21/10/2026 : 4,7:1 sur --dya-paper-3 (était #d13425, 4,13)
   --dya-info:    #1d6cad; // audit-2: 4.5:1 on the light badge/paper (line-users blue was 3:1)
 }
 
@@ -382,8 +396,8 @@ body.dy-theme-light {
 
   --dya-ink:       #18181a;
   --dya-ink-soft:  #44444a;
-  --dya-ink-mute:  #707177; // QA: fonctionnel AA (~4.9 sur blanc ; était #76777b ~4.47)
-  --dya-ink-fade:  #727378; // audit-2: AA fonctionnel (4.7 sur blanc ; était #8a8b91 ~3.4)
+  --dya-ink-mute:  #636469; // audit du 21/10 : 4,9:1 sur --dya-paper-3 teinté, tout accent (était #707177, 4,06:1)
+  --dya-ink-fade:  #66676d; // audit du 21/10 : 4,7:1 sur --dya-paper-3 teinté (était #727378, 3,95:1)
 
   --dya-line:        rgba(0, 0, 0, .07);
   --dya-line-strong: rgba(0, 0, 0, .12);
@@ -392,9 +406,9 @@ body.dy-theme-light {
   --dya-grain-blend: multiply;
 
   // Semantic colours, AA as text on white (see :root:has block above).
-  --dya-success: #167a4b;
-  --dya-warn:    #a35f00;
-  --dya-danger:  #d13425;
+  --dya-success: #147245; // 21/10/2026 : 4,95:1 sur --dya-paper-3 (était #167a4b, 4,45)
+  --dya-warn:    #995900; // 21/10/2026 : 4,6:1 sur --dya-paper-3 (était #a35f00, 4,16)
+  --dya-danger:  #c22f20; // 21/10/2026 : 4,7:1 sur --dya-paper-3 (était #d13425, 4,13)
   --dya-info:    #1d6cad; // audit-2: 4.5:1 on the light badge/paper (line-users blue was 3:1)
 
   --dya-line-content:         #b48848;

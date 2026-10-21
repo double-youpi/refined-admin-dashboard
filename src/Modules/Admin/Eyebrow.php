@@ -537,10 +537,26 @@ JS;
 		if ( ! function_exists( 'get_plugins' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
-		$all    = get_plugins();
-		$active = (array) get_option( 'active_plugins', [] );
-		$total  = count( $all );
-		$nact   = count( $active );
+		// The same numbers as the list below it (multisite, 21/10/2026): in the
+		// network admin, what is active for the network; on a site, what is
+		// active there, network-wide plugins included when WordPress shows
+		// them (super admins, filter `show_network_active_plugins`).
+		$all     = get_plugins();
+		$network = is_network_admin();
+		if ( ! $network && is_multisite() ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WordPress core filter.
+			$show_network_active = (bool) apply_filters( 'show_network_active_plugins', current_user_can( 'manage_network_plugins' ) );
+			if ( ! $show_network_active ) {
+				$all = array_filter( $all, static fn( string $file ): bool => ! is_plugin_active_for_network( $file ), ARRAY_FILTER_USE_KEY );
+			}
+		}
+		$total = count( $all );
+		$nact  = count(
+			array_filter(
+				array_keys( $all ),
+				static fn( string $file ): bool => $network ? is_plugin_active_for_network( $file ) : is_plugin_active( $file )
+			)
+		);
 
 		if ( $total === 0 ) {
 			return __( 'No extension', 'doubleyoupi-refined-admin-dashboard' );

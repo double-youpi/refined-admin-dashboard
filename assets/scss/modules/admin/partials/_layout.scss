@@ -147,7 +147,11 @@ body.dy-admin.dy-line-developer {
   body.dy-admin.dy-line-site,
   body.dy-admin.dy-line-system,
   body.dy-admin.dy-line-developer {
-    --dya-line-color-on: oklch(from var(--dya-line-color) clamp(0, calc((0.5 - l) * 100), 1) 0 0);
+    // Threshold .555 (was .5): where white and black text read equally on
+    // our section colours. At .5 the light-theme Users and Site pills got
+    // black text at 4.26 and 3.79:1 (audit of 21/10/2026); white gives
+    // 4.93 and 5.54:1, every other colour keeps its better ink.
+    --dya-line-color-on: oklch(from var(--dya-line-color) clamp(0, calc((0.555 - l) * 100), 1) 0 0);
   }
 }
 

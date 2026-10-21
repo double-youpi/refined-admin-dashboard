@@ -470,7 +470,7 @@ body.dy-admin.index-php {
 		animation-delay: 200ms;
 	}
 	.dy-dashboard__eyebrow-count {
-		color: var(--dya-accent);
+		color: var(--dya-accent-text);
 		font-weight: 500;
 		font-variant-numeric: tabular-nums;
 	}
@@ -585,7 +585,7 @@ body.dy-admin.index-php {
 		}
 	}
 	.dy-dashboard__paragraph-link {
-		color: var(--dya-accent);
+		color: var(--dya-accent-text);
 		text-decoration: underline;
 		text-decoration-thickness: 1px;
 		text-underline-offset: 3px;
@@ -688,7 +688,7 @@ body.dy-admin.index-php {
 		}
 		// Survol direct du « + » → accent.
 		.dy-dashboard__slot-ghost-plus:hover {
-			color: var(--dya-accent);
+			color: var(--dya-accent-text);
 			background: color-mix(in srgb, var(--dya-accent) 16%, transparent);
 		}
 		// Fully empty screen → cells + "+" always visible.
@@ -1160,7 +1160,7 @@ body.dy-admin.index-php {
 
 		// Dashicons: vertically aligned + accent-tinted.
 		.dashicons, .dashicons-before::before {
-			color: var(--dya-accent);
+			color: var(--dya-accent-text);
 			vertical-align: middle;
 		}
 	}
@@ -1346,7 +1346,7 @@ body.dy-admin.index-php {
 		border-radius: 50%;
 		background: var(--dya-paper);
 		border: 0 solid var(--dya-accent);
-		color: var(--dya-accent);
+		color: var(--dya-accent-text);
 		cursor: pointer;
 		opacity: 0;
 		pointer-events: none;
@@ -1409,7 +1409,7 @@ body.dy-admin.index-php {
 			outline-offset: 2px;
 		}
 
-		svg { color: var(--dya-accent); }
+		svg { color: var(--dya-accent-text); }
 	}
 
 	// Open state: hide the button; the sidebar takes over.
@@ -1460,7 +1460,7 @@ body.dy-admin.index-php {
 		font-size: var(--dya-fs-xs);
 		letter-spacing: var(--dya-tracking-label);
 		text-transform: uppercase;
-		color: var(--dya-accent);
+		color: var(--dya-accent-text);
 		font-weight: 600;
 	}
 	.dy-dashboard__sidebar-close {
@@ -1493,8 +1493,8 @@ body.dy-admin.index-php {
 		letter-spacing: -0.01em;
 		cursor: pointer;
 		transition: color var(--dya-t-fast) var(--dya-ease), gap var(--dya-t-fast) var(--dya-ease);
-		svg { color: var(--dya-accent); }
-		&:hover { color: var(--dya-accent); gap: 9px; }
+		svg { color: var(--dya-accent-text); }
+		&:hover { color: var(--dya-accent-text); gap: 9px; }
 		&[hidden] { display: none; }
 	}
 
@@ -1518,7 +1518,7 @@ body.dy-admin.index-php {
 		cursor: pointer;
 		transition: color var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease), opacity var(--dya-t-fast) var(--dya-ease);
 		svg { display: block; }
-		&:hover:not(:disabled) { color: var(--dya-accent); border-color: var(--dya-edge-strong); }
+		&:hover:not(:disabled) { color: var(--dya-accent-text); border-color: var(--dya-edge-strong); }
 		&:disabled { opacity: 0.32; cursor: default; }
 	}
 
@@ -1596,7 +1596,7 @@ body.dy-admin.index-php {
 		border-radius: var(--dya-r-sm, 6px);
 		color: var(--dya-ink-mute);
 		transition: color var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease);
-		&:hover { color: var(--dya-accent); background: var(--dya-paper-3); }
+		&:hover { color: var(--dya-accent-text); background: var(--dya-paper-3); }
 		&:focus-visible { outline: 2px solid var(--dya-accent); outline-offset: 2px; }
 		svg { color: inherit; transform: none !important; } // never rotate
 	}
@@ -1754,7 +1754,7 @@ body.dy-admin.index-php {
 		cursor: pointer;
 		flex: 0 0 auto;
 		transition: color var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease);
-		&:hover { color: var(--dya-accent); border-color: var(--dya-accent); }
+		&:hover { color: var(--dya-accent-text); border-color: var(--dya-accent); }
 		&[hidden] { display: none; }
 	}
 
@@ -1974,7 +1974,7 @@ body.dy-admin.index-php {
 		background: var(--dya-paper-3);
 		border: 1px solid var(--dya-edge);
 		border-radius: var(--dya-r-sm, 6px);
-		color: var(--dya-accent);
+		color: var(--dya-accent-text);
 		cursor: pointer;
 		transition: background var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease);
 		z-index: 2;
@@ -2037,7 +2037,7 @@ body.dy-admin.index-php {
 		gap: 2px;
 		h5 {
 			font-family: var(--dya-font-mono);
-			font-size: 9.5px;
+			font-size: 11px;
 			letter-spacing: var(--dya-tracking-label);
 			text-transform: uppercase;
 			color: var(--dya-ink-mute);
@@ -2066,8 +2066,8 @@ body.dy-admin.index-php {
 		}
 		code {
 			font-family: var(--dya-font-mono);
-			font-size: 10.5px;
-			color: var(--dya-accent);
+			font-size: 11px;
+			color: var(--dya-accent-text);
 			background: transparent;
 			padding: 0;
 		}
@@ -2147,7 +2147,7 @@ body.dy-admin.index-php {
 		max-width: calc(100% - 10px);
 		padding: 2px 5px;
 		font-family: var(--dya-font-mono);
-		font-size: 8px;
+		font-size: 11px;
 		line-height: 1.2;
 		letter-spacing: var(--dya-tracking-label);
 		text-transform: uppercase;
@@ -2169,7 +2169,7 @@ body.dy-admin.index-php {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		color: var(--dya-accent);
+		color: var(--dya-accent-text);
 		svg { width: 24px; height: 24px; }
 	}
 	.dy-dashboard__tile-meta {
@@ -2190,7 +2190,7 @@ body.dy-admin.index-php {
 	}
 	.dy-dashboard__tile-slots {
 		font-family: var(--dya-font-mono);
-		font-size: 9.5px;
+		font-size: 11px;
 		letter-spacing: var(--dya-tracking-label);
 		text-transform: uppercase;
 		color: var(--dya-ink-mute);
@@ -2276,7 +2276,7 @@ body.dy-admin.index-php {
 		align-items: center;
 		justify-content: center;
 		border-radius: 50%;
-		color: var(--dya-accent);
+		color: var(--dya-accent-text);
 		background: color-mix(in srgb, var(--dya-accent) 16%, transparent);
 	}
 	.dy-dashboard__preset-custom-text {
@@ -2316,7 +2316,7 @@ body.dy-admin.index-php {
 		transition: opacity var(--dya-t-fast) var(--dya-ease), color var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease);
 		.dy-dashboard__preset-btn:hover & { opacity: 1; }
 		&:hover { opacity: 1; color: var(--dya-ink); background: var(--dya-paper-3); }
-		&[aria-expanded="true"] { opacity: 1; color: var(--dya-accent); background: var(--dya-paper-3); }
+		&[aria-expanded="true"] { opacity: 1; color: var(--dya-accent-text); background: var(--dya-paper-3); }
 		&:focus-visible { outline: 2px solid var(--dya-accent); outline-offset: 2px; opacity: 1; }
 	}
 	// Dropdown menu — `position: fixed` to escape the sidebar's overflow:auto
@@ -2446,7 +2446,7 @@ body.dy-admin.index-php {
 	.dy-dashboard__role-conflict {
 		margin-left: auto;
 		font-family: var(--dya-font-mono);
-		font-size: 10.5px;
+		font-size: 11px;
 		letter-spacing: 0.01em;
 		color: var(--dya-warn);
 		white-space: nowrap;
@@ -2455,7 +2455,7 @@ body.dy-admin.index-php {
 	.dy-dashboard__role-default {
 		margin-left: auto;
 		font-family: var(--dya-font-mono);
-		font-size: 10.5px;
+		font-size: 11px;
 		letter-spacing: 0.01em;
 		color: var(--dya-ink-mute);
 		opacity: 0.85;
@@ -2526,7 +2526,7 @@ body.dy-admin.index-php {
 		font-family: var(--dya-font-mono);
 		font-size: var(--dya-fs-xs);
 		letter-spacing: var(--dya-tracking-label);
-		color: var(--dya-accent);
+		color: var(--dya-accent-text);
 		min-width: 28px;
 	}
 	.dy-dashboard__screen-item-title {
@@ -2576,7 +2576,7 @@ body.dy-admin.index-php {
 		text-transform: uppercase;
 		color: var(--dya-ink-mute);
 		transition: color var(--dya-t-fast) var(--dya-ease);
-		&.is-saving { color: var(--dya-accent); }
+		&.is-saving { color: var(--dya-accent-text); }
 	}
 	.dy-dashboard__btn {
 		font-family: var(--dya-font-mono);
@@ -2669,7 +2669,7 @@ body.dy-admin.index-php {
 			display: inline-flex;
 			width: 18px;
 			height: 18px;
-			color: var(--dya-accent);
+			color: var(--dya-accent-text);
 			svg { width: 18px; height: 18px; }
 		}
 		.dy-dashboard__drag-ghost-label {
@@ -2738,13 +2738,13 @@ body.dy-admin.index-php {
 	// the SVG fell back to its intrinsic dimensions (72×59px).
 	// - height: 1em → follows the adjacent text size (~14-15px in tile-name).
 	// - width: auto → preserves the viewBox aspect ratio.
-	// - color: var(--dya-accent) → fill:currentColor on the SVG ⇒ logo in accent.
+	// - color: var(--dya-accent-text) → fill:currentColor on the SVG ⇒ logo in accent.
 	.dy-dashboard__brand-logo {
 		flex: 0 0 auto;
 		display: inline-block;
 		width: auto;
 		height: 1em;
-		color: var(--dya-accent);
+		color: var(--dya-accent-text);
 		vertical-align: -0.12em; // optical adjustment (the glyph has an apparent descender)
 	}
 	// Inside the palette tile name: the parent is a block-level `<span>` —
@@ -2756,7 +2756,7 @@ body.dy-admin.index-php {
 	}
 	.dy-dashboard__card-meta {
 		font-family: var(--dya-font-mono);
-		font-size: 10px;
+		font-size: 11px;
 		letter-spacing: var(--dya-tracking-label);
 		text-transform: uppercase;
 		color: var(--dya-ink-mute);
@@ -2774,7 +2774,7 @@ body.dy-admin.index-php {
 		gap: 5px;
 		padding: 3px 9px;
 		font-family: var(--dya-font-mono);
-		font-size: 10px;
+		font-size: 11px;
 		letter-spacing: var(--dya-tracking-label);
 		text-transform: uppercase;
 		border-radius: var(--dya-r-pill);
@@ -2792,7 +2792,7 @@ body.dy-admin.index-php {
 		&--ok     { background: rgba(76, 195, 138, 0.14);  color: var(--dya-success); }
 		&--warn   { background: rgba(245, 166, 35, 0.16);  color: var(--dya-warn); }
 		&--danger { background: rgba(240, 101, 87, 0.16);  color: var(--dya-danger); }
-		&--accent { background: rgba(var(--dya-accent-rgb, 212, 178, 122), 0.18); color: var(--dya-accent); }
+		&--accent { background: rgba(var(--dya-accent-rgb, 212, 178, 122), 0.18); color: var(--dya-accent-text); }
 		// Active/alert state makes the dot pulse.
 		&--warn::before,
 		&--danger::before { animation: dy-fx-pulse 1.8s var(--dya-ease) infinite; }
@@ -2843,13 +2843,13 @@ body.dy-admin.index-php {
 		transition: color var(--dya-t-fast) var(--dya-ease), transform var(--dya-t-fast) var(--dya-ease);
 	}
 	a.dy-dashboard__row-k {
-		&:hover { color: var(--dya-accent); transform: translateX(2px); }
+		&:hover { color: var(--dya-accent-text); transform: translateX(2px); }
 	}
 	.dy-dashboard__cta {
 		display: inline-flex;
 		align-items: center;
 		gap: 5px;
-		color: var(--dya-accent);
+		color: var(--dya-accent-text);
 		font-family: var(--dya-font-mono);
 		font-size: var(--dya-fs-xs);
 		letter-spacing: var(--dya-tracking-label);
@@ -2921,7 +2921,7 @@ body.dy-admin.index-php {
 		gap: 14px;
 		flex-wrap: wrap;
 		font-family: var(--dya-font-mono);
-		font-size: 10.5px;
+		font-size: 11px;
 		letter-spacing: 0.02em;
 		color: var(--dya-ink-mute);
 		span { display: inline-flex; gap: 4px; }
@@ -2964,7 +2964,7 @@ body.dy-admin.index-php {
 	.dy-dashboard__list-time {
 		flex: 0 0 auto;
 		font-family: var(--dya-font-mono);
-		font-size: 10px;
+		font-size: 11px;
 		letter-spacing: 0.02em;
 		color: var(--dya-ink-mute);
 		white-space: nowrap;
@@ -3004,7 +3004,7 @@ body.dy-admin.index-php {
 		transition: background var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease), color var(--dya-t-fast) var(--dya-ease);
 		// Actif : teinte accent.
 		&.is-on {
-			color: var(--dya-accent);
+			color: var(--dya-accent-text);
 			background: color-mix(in srgb, var(--dya-accent) 15%, transparent);
 			border-color: color-mix(in srgb, var(--dya-accent) 38%, transparent);
 		}
@@ -3055,7 +3055,7 @@ body.dy-admin.index-php {
 		letter-spacing: var(--dya-tracking-label);
 		text-transform: uppercase;
 		font-weight: 600;
-		color: var(--dya-accent);
+		color: var(--dya-accent-text);
 		text-decoration: none;
 		line-height: 1;
 		// The hover effect lives on the children (underline + arrow) — the
@@ -3119,7 +3119,7 @@ body.dy-admin.index-php {
 	// ════════════════════════════════════════════════════════════
 
 	// Accented large number (orders to process) + "amount" variant (revenue).
-	.dy-dashboard__big-num--accent { color: var(--dya-accent); }
+	.dy-dashboard__big-num--accent { color: var(--dya-accent-text); }
 	.dy-dashboard__big-num--money {
 		font-size: clamp(28px, 2.7vw, 40px);   // amounts are longer strings
 		letter-spacing: -0.02em;
@@ -3201,7 +3201,7 @@ body.dy-admin.index-php {
 		color: var(--dya-ink);
 		text-decoration: none;
 		transition: color var(--dya-t-fast) var(--dya-ease);
-		&:hover { color: var(--dya-accent); }
+		&:hover { color: var(--dya-accent-text); }
 	}
 	.dy-dashboard__order-total {
 		font-variant-numeric: tabular-nums;
@@ -3211,7 +3211,7 @@ body.dy-admin.index-php {
 	}
 	.dy-dashboard__order-time {
 		font-family: var(--dya-font-mono);
-		font-size: 10.5px;
+		font-size: 11px;
 		color: var(--dya-ink-mute);
 		white-space: nowrap;
 	}
@@ -3231,13 +3231,13 @@ body.dy-admin.index-php {
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
-			&:hover { color: var(--dya-accent); }
+			&:hover { color: var(--dya-accent-text); }
 		}
 	}
 	.dy-dashboard__stock-qty {
 		flex: 0 0 auto;
 		font-family: var(--dya-font-mono);
-		font-size: 10.5px;
+		font-size: 11px;
 		color: var(--dya-warn);
 		font-variant-numeric: tabular-nums;
 	}
@@ -3247,7 +3247,7 @@ body.dy-admin.index-php {
 		margin-top: 12px;
 		// Fixed height = anti-CLS; the SVG stretches inside it.
 		line-height: 0;
-		color: var(--dya-accent);   // currentColor pilote ligne + aire + dot
+		color: var(--dya-accent-text);   // currentColor pilote ligne + aire + dot
 		&.is-empty { opacity: 0.4; }
 	}
 	.dy-dashboard__spark { display: block; width: 100%; overflow: visible; }
@@ -3319,7 +3319,7 @@ body.dy-admin.index-php {
 		font-family: var(--dya-font-mono);
 		font-size: 11px;
 		font-weight: 700;
-		color: var(--dya-accent);
+		color: var(--dya-accent-text);
 		width: 1.2em;
 		text-align: center;
 		font-variant-numeric: tabular-nums;
@@ -3330,7 +3330,7 @@ body.dy-admin.index-php {
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
-		&:hover { color: var(--dya-accent); }
+		&:hover { color: var(--dya-accent-text); }
 	}
 	.dy-dashboard__rank-qty {
 		font-family: var(--dya-font-mono);
@@ -3373,7 +3373,7 @@ body.dy-admin.index-php {
 		// Accent chevron that appears on hover.
 		&::before {
 			content: "›";
-			color: var(--dya-accent);
+			color: var(--dya-accent-text);
 			font-weight: 700;
 			opacity: 0;
 			margin-right: -10px;
@@ -3403,7 +3403,7 @@ body.dy-admin.index-php {
 		color: var(--dya-ink);
 		text-decoration: none;
 		transition: transform var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease);
-		.dashicons { color: var(--dya-accent); font-size: 16px; width: 16px; height: 16px; transition: transform var(--dya-t-fast) var(--dya-ease); }
+		.dashicons { color: var(--dya-accent-text); font-size: 16px; width: 16px; height: 16px; transition: transform var(--dya-t-fast) var(--dya-ease); }
 		&:hover {
 			transform: translateY(-2px);
 			border-color: color-mix(in srgb, var(--dya-accent) 50%, transparent);
@@ -3443,7 +3443,7 @@ body.dy-admin.index-php {
 		letter-spacing: -0.01em;
 		border-radius: var(--dya-r-xl);
 		transition: color var(--dya-t-fast) var(--dya-ease), transform var(--dya-t-fast) var(--dya-ease);
-		&:hover { color: var(--dya-accent); transform: translateY(-2px); }
+		&:hover { color: var(--dya-accent-text); transform: translateY(-2px); }
 	}
 	// Create button badge: dashicon for the content type + "+" badge.
 	.dy-dashboard__create-btn-icon {
@@ -3453,7 +3453,7 @@ body.dy-admin.index-php {
 		align-items: center;
 		justify-content: center;
 		border-radius: 50%;
-		color: var(--dya-accent);
+		color: var(--dya-accent-text);
 		background: color-mix(in srgb, var(--dya-accent) 13%, transparent);
 		transition: transform var(--dya-t-med) var(--dya-ease), background var(--dya-t-med) var(--dya-ease), box-shadow var(--dya-t-med) var(--dya-ease);
 		.dashicons { font-size: 24px; width: 24px; height: 24px; }
@@ -3490,7 +3490,7 @@ body.dy-admin.index-php {
 		justify-content: center;
 		background: color-mix(in srgb, var(--dya-accent) 13%, transparent);
 		border-radius: 50%;
-		color: var(--dya-accent);
+		color: var(--dya-accent-text);
 		transition: transform var(--dya-t-med) var(--dya-ease), box-shadow var(--dya-t-med) var(--dya-ease);
 		svg { display: block; }
 	}
@@ -3548,7 +3548,7 @@ body.dy-admin.index-php {
 			transform: translateY(-3px);
 			background: color-mix(in srgb, var(--dya-accent) 9%, transparent);
 			border-color: color-mix(in srgb, var(--dya-accent) 30%, transparent);
-			color: var(--dya-accent);
+			color: var(--dya-accent-text);
 			.dy-dashboard__create-tile-icon {
 				background: color-mix(in srgb, var(--dya-accent) 22%, transparent);
 				box-shadow: 0 0 0 6px color-mix(in srgb, var(--dya-accent) 10%, transparent);
@@ -3562,7 +3562,7 @@ body.dy-admin.index-php {
 		align-items: center;
 		justify-content: center;
 		border-radius: 50%;
-		color: var(--dya-accent);
+		color: var(--dya-accent-text);
 		background: color-mix(in srgb, var(--dya-accent) 13%, transparent);
 		transition: background var(--dya-t-med) var(--dya-ease), box-shadow var(--dya-t-med) var(--dya-ease);
 		.dashicons { font-size: 28px; width: 28px; height: 28px; }
@@ -3750,7 +3750,7 @@ body.dy-admin.index-php {
 				color: var(--dya-ink);
 			}
 		}
-		.dy-dashboard__eyebrow-count { color: var(--dya-accent); }
+		.dy-dashboard__eyebrow-count { color: var(--dya-accent-text); }
 
 		// ── Slots (widget cards) ──────────────────────────────────────
 		// The base mode is a translucent dark-glass that becomes invisible
@@ -3823,7 +3823,7 @@ body.dy-admin.index-php {
 				background: color-mix(in srgb, var(--dya-accent) 8%, var(--dya-paper));
 				border-color: var(--dya-accent);
 			}
-			svg { color: var(--dya-accent); }
+			svg { color: var(--dya-accent-text); }
 		}
 
 		// ── Native screen (light mode only) ──────────────────────────

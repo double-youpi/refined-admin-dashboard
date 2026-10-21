@@ -256,7 +256,7 @@
 .dy-dev-toggle {
 	appearance: none; display: inline-flex; align-items: center; gap: 4px;
 	height: 20px; padding: 0 7px 0 5px; border-radius: 99px;
-	font-size: 9px; font-weight: 700; letter-spacing: .06em; cursor: pointer;
+	font-size: 11px; font-weight: 700; letter-spacing: .06em; cursor: pointer;
 	border: 1px solid transparent; flex-shrink: 0;
 	transition: background 140ms ease, color 140ms ease;
 }
@@ -300,7 +300,7 @@
 }
 .dy-dev-drawer__inner { padding: 14px 16px 16px; }
 .dy-dev-drawer__title {
-	margin: 0 0 8px !important; font-size: 10px; font-weight: 700;
+	margin: 0 0 8px !important; font-size: 11px; font-weight: 700;
 	text-transform: uppercase; letter-spacing: .14em; color: var(--dya-ink-mute, #6f7077);
 	display: flex; align-items: center; gap: 8px;
 }

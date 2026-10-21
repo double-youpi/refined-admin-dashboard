@@ -297,11 +297,13 @@
     trigger.setAttribute('data-count', String(n));
     dock.setAttribute('data-empty', n === 0 ? 'true' : 'false');
 
-    // Accessible label.
+    // Tooltip. The accessible name is the button's own text, "Notifications"
+    // then the count: an `aria-label` such as "1 notification" did not
+    // contain the visible word (WCAG 2.5.3, audit of 21/10/2026).
     var label = n === 0 ? (I18N.empty || 'No notices')
       : (n === 1 ? (I18N.one || '1 notice')
         : (I18N.countLabel || '%d notices').replace('%d', String(n)));
-    trigger.setAttribute('aria-label', label);
+    trigger.removeAttribute('aria-label');
     trigger.setAttribute('title', label);
 
     if (counter) counter.textContent = String(n);

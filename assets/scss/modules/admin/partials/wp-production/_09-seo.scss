@@ -96,7 +96,7 @@ body.dy-admin .rank-math-tab-nav li a {
 body.dy-admin .rank-math-tab-nav a.active,
 body.dy-admin .rank-math-tab-nav li.active a {
   background: var(--dya-paper) !important;
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
   border-bottom-color: var(--dya-accent) !important;
 }
 
@@ -135,3 +135,72 @@ body.dy-admin .yoast-button--secondary {
   border: 1px solid var(--dya-edge) !important;
 }
 
+
+// ── Rank Math scores in the editor header (SEO and Content AI) ─────────
+// Rank Math draws them as pink, orange or green boxes with a 1px border, on
+// any admin: they clashed with our header (Raphaël, 21/10/2026). Same pill
+// as our header buttons, the state kept by its colour (our danger, warning
+// and success tokens, each tuned for its theme). `!important` on the colours:
+// Rank Math scopes its own to `button[aria-label="Rank Math"]`, beyond reach.
+body.dy-admin .interface-pinned-items .rank-math-toolbar-score {
+  --dy-rm-state: var(--dya-ink-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid color-mix(in srgb, var(--dy-rm-state) 35%, transparent) !important;
+  border-radius: var(--dya-r-md);
+  background: color-mix(in srgb, var(--dy-rm-state) 12%, var(--dya-paper-2)) !important;
+  color: var(--dy-rm-state) !important;
+  fill: currentColor !important;
+  font-family: var(--dya-font-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: var(--dya-tracking-mono);
+  line-height: 1;
+  white-space: nowrap;
+}
+body.dy-admin .interface-pinned-items .rank-math-toolbar-score.bad-fk  { --dy-rm-state: var(--dya-danger); }
+body.dy-admin .interface-pinned-items .rank-math-toolbar-score.ok-fk   { --dy-rm-state: var(--dya-warn); }
+body.dy-admin .interface-pinned-items .rank-math-toolbar-score.good-fk { --dy-rm-state: var(--dya-success); }
+body.dy-admin .interface-pinned-items .rank-math-toolbar-score :is(.seo-score, .score-text, .content-ai-score) {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  background: none;
+}
+body.dy-admin .interface-pinned-items .rank-math-toolbar-score .rm-icon {
+  float: none;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1;
+  color: inherit;
+}
+// The button around it adds nothing of its own.
+body.dy-admin .interface-pinned-items .components-button:has(> .rank-math-toolbar-score) {
+  width: auto;
+  height: auto;
+  min-width: 0;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
+body.dy-admin .interface-pinned-items .components-button:has(> .rank-math-toolbar-score):is(:hover, :focus-visible) .rank-math-toolbar-score {
+  background: color-mix(in srgb, var(--dy-rm-state) 20%, var(--dya-paper-2)) !important;
+}
+
+// Yoast's secondary button inside the editor (pre-publish panel, document
+// sidebar): a white Tailwind button on our dark panel (21/10/2026). Yoast's
+// own screens are left to Yoast (native content).
+body.dy-admin :is(.editor-post-publish-panel, .editor-sidebar, .interface-complementary-area) .yst-button--secondary {
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+  box-shadow: none !important;
+}
+body.dy-admin :is(.editor-post-publish-panel, .editor-sidebar, .interface-complementary-area) .yst-button--secondary:is(:hover, :focus-visible) {
+  background: var(--dya-paper-3) !important;
+}

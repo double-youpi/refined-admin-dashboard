@@ -104,7 +104,7 @@ $wpc: "body.dy-admin:not(.block-editor-page):not(.site-editor-php):not(.dy-nativ
 #{$wpc} .components-button:not(.is-primary):not(.is-secondary):not(.is-tertiary):not(.is-link):not(.is-destructive) {
   color: var(--dya-ink) !important;
 }
-#{$wpc} .components-button:hover:not(:disabled):not(.is-primary) { color: var(--dya-accent) !important; }
+#{$wpc} .components-button:hover:not(:disabled):not(.is-primary) { color: var(--dya-accent-text) !important; }
 
 // ── Inputs / controls.
 #{$wpc} .components-text-control__input,
@@ -174,4 +174,4 @@ $wpc: "body.dy-admin:not(.block-editor-page):not(.site-editor-php):not(.dy-nativ
 #{$wpc} .components-truncate {
   color: var(--dya-ink) !important;
 }
-#{$wpc} .components-external-link { color: var(--dya-accent) !important; }
+#{$wpc} .components-external-link { color: var(--dya-accent-text) !important; }

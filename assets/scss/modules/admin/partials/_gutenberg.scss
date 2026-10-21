@@ -360,7 +360,7 @@ body.dy-admin .components-base-control__label,
 body.dy-admin .components-base-control .components-base-control__label {
   display: block;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -528,7 +528,7 @@ body.dy-admin .dy-listview {
 }
 body.dy-admin .dy-listview h3 {
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -574,7 +574,7 @@ body.dy-admin .dy-editor-breadcrumb {
   align-items: center;
   gap: 6px;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -647,7 +647,7 @@ body.dy-admin .dy-site-editor-nav ul li.is-active a {
 }
 body.dy-admin .dy-site-editor-nav .group-label {
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-fade);
@@ -871,6 +871,30 @@ body.dy-admin .editor-sidebar,
 body.dy-admin .interface-complementary-area__fill {
   background: var(--dya-paper) !important;
   color: var(--dya-ink);
+}
+
+// Pre-publish and post-publish panel. WordPress pins it 32px from the top
+// (its own admin bar) on a white ground: under our taller bar its header
+// (Cancel / Publish) slid beneath it, and in dark mode the white ground
+// stayed under our light ink, "Visibility" and "Publish" unreadable
+// (Raphaël, 21/10/2026).
+body.dy-admin .editor-post-publish-panel {
+  top: var(--dya-topbar-h) !important;
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink);
+}
+// "Last edited …" in the document panel: WordPress's fixed #757575, 4.33:1
+// on our light paper and 3.8:1 on the dark one (audit of 21/10/2026).
+body.dy-admin .editor-post-last-edited-panel .components-text {
+  color: var(--dya-ink-mute);
+}
+// Its heading ("Are you ready to publish?") is hard-coded #1e1e1e.
+body.dy-admin .editor-post-publish-panel__prepublish strong {
+  color: var(--dya-ink);
+}
+body.dy-admin .editor-post-publish-panel :is(.editor-post-publish-panel__header, .editor-post-publish-panel__footer) {
+  background: var(--dya-paper) !important;
+  border-color: var(--dya-line) !important;
 }
 
 

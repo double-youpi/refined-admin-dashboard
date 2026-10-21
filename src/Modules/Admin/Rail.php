@@ -508,7 +508,8 @@ JS;
 		// Concatenation (not heredoc: PluginCheck.CodeAnalysis.Heredoc.NotAllowed).
 		// Values escaped at insertion; $inner is markup built with esc_url above.
 		return '<a class="dy-rail-brand" href="' . esc_url( $dashboard ) . '"'
-			. ' aria-label="' . esc_attr( $home_label ) . '" title="' . esc_attr( $home_label ) . '">'
+			// The name starts with the visible text (WCAG 2.5.3, audit of 21/10/2026).
+			. ' aria-label="' . esc_attr( '' !== trim( $brand_name ) ? $brand_name . ', ' . $home_label : $home_label ) . '" title="' . esc_attr( $home_label ) . '">'
 			. '<span class="dy-rail-logo" aria-hidden="true">' . $inner . '</span>'
 			. '<span class="dy-rail-brand-name">' . esc_html( $brand_name ) . '</span>'
 			. '</a>';

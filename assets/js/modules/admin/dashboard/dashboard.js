@@ -800,7 +800,7 @@
 			const idx = state.activeScreenIndex;
 			dom.dots.forEach((d, i) => {
 				d.classList.toggle('is-active', i === idx);
-				d.setAttribute('aria-selected', i === idx ? 'true' : 'false');
+				if (i === idx) { d.setAttribute('aria-current', 'true'); } else { d.removeAttribute('aria-current'); }
 			});
 			if (dom.navArrows.prev) {
 				dom.navArrows.prev.disabled = idx <= 0;
@@ -959,7 +959,6 @@
 				const dot = document.createElement('button');
 				dot.type = 'button';
 				dot.className = 'dy-dashboard__nav-dot';
-				dot.setAttribute('role', 'tab');
 				li.appendChild(dot);
 				const refLi = pag.querySelectorAll(':scope > li')[index] || null;
 				pag.insertBefore(li, refLi);
@@ -1664,6 +1663,9 @@
 			aside.id = 'dy-dashboard-sidebar';
 			aside.className = 'dy-dashboard__sidebar';
 			aside.setAttribute('aria-hidden', 'true');
+			// Closed = out of reach for the keyboard too, not only hidden from
+			// screen readers (accessibility audit, 21/10/2026).
+			aside.inert = true;
 			aside.innerHTML = this._template();
 			dom.root.appendChild(aside);
 			dom.sidebar = aside;
@@ -2765,6 +2767,7 @@
 			state.sidebarOpen = true;
 			dom.sidebar.classList.add('is-open');
 			dom.sidebar.setAttribute('aria-hidden', 'false');
+			dom.sidebar.inert = false;
 			dom.root.classList.add('dy-dashboard--sidebar-open');
 			this._hydrateFromState();
 			// Enters edit mode: ghost cells, handles, delete buttons.
@@ -2778,6 +2781,12 @@
 			state.sidebarOpen = false;
 			dom.sidebar.classList.remove('is-open');
 			dom.sidebar.setAttribute('aria-hidden', 'true');
+			// Focus inside would be lost once inert: back to "Customize".
+			if (dom.sidebar.contains(document.activeElement)) {
+				const opener = document.querySelector('[data-action="open-sidebar"]');
+				if (opener) opener.focus();
+			}
+			dom.sidebar.inert = true;
 			dom.root.classList.remove('dy-dashboard--sidebar-open');
 			this.deselectWidget();
 			// Exits edit mode: removes ghost cells, handles, delete buttons.
@@ -3914,6 +3923,8 @@
 				el.setAttribute('contenteditable', 'true');
 				el.classList.add('dy-dashboard__note-edit');
 				el.setAttribute('role', 'textbox');
+				// Its placeholder is its name for screen readers (audit, 21/10/2026).
+				el.setAttribute('aria-label', ph);
 				el.dataset.placeholder = ph;
 			};
 			mk(titleEl, t('note_title_ph'));
@@ -4044,6 +4055,7 @@
 			el.setAttribute('contenteditable', 'true');
 			el.classList.add('dy-dashboard__inline-edit');
 			el.setAttribute('role', 'textbox');
+			el.setAttribute('aria-label', ph);
 			el.dataset.placeholder = ph;
 		},
 		// Index resolved LIVE from the DOM (stable across reordering / deletion).

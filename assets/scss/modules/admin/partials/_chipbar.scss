@@ -73,7 +73,7 @@ body.dy-admin .dy-chipbar-inner:hover::-webkit-scrollbar-thumb { background: var
 
 body.dy-admin .dy-chipbar-label {
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-line-color, var(--dya-ink-mute));
@@ -127,7 +127,7 @@ body.dy-admin .dy-chip.current > .dot { opacity: 1; }
 
 body.dy-admin .dy-chip-count {
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 500;
   letter-spacing: .02em;
   padding: 1px 6px;

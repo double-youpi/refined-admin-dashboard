@@ -147,7 +147,7 @@ body.dy-admin .acf-flexible-content .acf-hl > li > a {
 body.dy-admin .acf-flexible-content > .acf-actions.acf-fc-top-actions .acf-btn-clear:hover,
 body.dy-admin .acf-flexible-content .acf-fc-meta a:hover,
 body.dy-admin .acf-flexible-content .acf-actions > a:hover,
-body.dy-admin .acf-flexible-content .acf-hl > li > a:hover { color: var(--dya-accent) !important; }
+body.dy-admin .acf-flexible-content .acf-hl > li > a:hover { color: var(--dya-accent-text) !important; }
 
 // ── T9 — Complex ACF fields in dark mode ────────────────────────────────────
 // Gallery
@@ -237,7 +237,7 @@ body.dy-admin .acf-flexible-content .acf-layout-collapse .acf-icon.-collapse::be
 body.dy-admin .acf-flexible-content .layout.-collapsed .acf-layout-collapse .acf-icon.-collapse::before {
   transform: translate(-50%, -50%) rotate(-45deg) !important; // chevron points right when collapsed
 }
-body.dy-admin .acf-flexible-content .acf-layout-collapse .acf-icon:hover { color: var(--dya-accent) !important; background-color: transparent !important; }
+body.dy-admin .acf-flexible-content .acf-layout-collapse .acf-icon:hover { color: var(--dya-accent-text) !important; background-color: transparent !important; }
 // No vertical separator before the collapse toggle.
 body.dy-admin .acf-flexible-content .acf-layout-collapse { border-left: 0 !important; }
 // Links inside metabox content: no underline via border-bottom.
@@ -920,7 +920,7 @@ body.dy-admin .acf-fc-layout-handle .acf-icon {
 }
 body.dy-admin .acf-fc-layout-controls a:hover .acf-icon,
 body.dy-admin .acf-fc-layout-controls .acf-icon:hover {
-  background-color: var(--dya-accent) !important; color: var(--dya-accent) !important;
+  background-color: var(--dya-accent) !important; color: var(--dya-accent-text) !important;
 }
 body.dy-admin .acf-fc-layout-controls,
 body.dy-admin .acf-fc-layout-actions-wrap { color: var(--dya-ink-soft) !important; }
@@ -961,7 +961,7 @@ body.dy-admin .acf-taxonomy-field .select2-selection--multiple .select2-search--
   width: 16px; height: 16px; margin: 5px 4px 0 2px;
   border-radius: var(--dya-r-xs);
   background: color-mix(in srgb, var(--dya-accent) 16%, transparent);
-  color: var(--dya-accent); font-weight: 700; font-size: 13px; line-height: 1;
+  color: var(--dya-accent-text); font-weight: 700; font-size: 13px; line-height: 1;
   vertical-align: middle;
 }
 

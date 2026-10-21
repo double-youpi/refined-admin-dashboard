@@ -395,7 +395,7 @@ body.dy-admin .CodeMirror-activeline-background {
   background: color-mix(in srgb, var(--dya-ink) 4%, transparent) !important;
 }
 body.dy-admin .CodeMirror-matchingbracket {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
   border-bottom: 1px solid var(--dya-accent);
   background: color-mix(in srgb, var(--dya-accent) 14%, transparent);
 }

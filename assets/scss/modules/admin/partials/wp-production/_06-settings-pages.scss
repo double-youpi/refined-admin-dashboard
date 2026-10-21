@@ -82,7 +82,7 @@ body.dy-admin.options-privacy-php .privacy-text-section h4 {
   color: var(--dya-ink) !important;
 }
 body.dy-admin.options-privacy-php .privacy-settings-accordion-panel a {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 // Description text below the H1
 body.dy-admin.options-privacy-php .privacy-settings-section-description,
@@ -226,6 +226,17 @@ body.dy-admin .font-library__font-card .components-truncate,
 body.dy-admin .font-library__font-card__name {
   color: var(--dya-ink) !important;
 }
+// Google Fonts previews are SVG images drawn in black on a transparent
+// ground (s.w.org/images/fonts/…/previews): unreadable on our dark ground,
+// reported from the Live Preview on 21/10/2026. Inverted in dark mode only.
+body.dy-admin:not(.dy-theme-light) .font-library__font-variant_demo-image {
+  filter: invert(1);
+}
+// The variants of one font are cards too (a `div`, not a `button`), with
+// WordPress's light grey hover: the inverted preview vanished on it.
+body.dy-admin:not(.dy-theme-light) .font-library__font-card:is(:hover, :focus-within) {
+  background: var(--dya-paper-2);
+}
 body.dy-admin .font-library__font-card__count {
   color: var(--dya-ink-mute) !important;
 }
@@ -241,7 +252,7 @@ body.dy-admin .font-library-page__tablist [role="tab"] span {
 // Active tab gets accent (underline), inactive tabs in ink-mute.
 body.dy-admin .font-library-page__tablist [role="tab"][aria-selected="true"],
 body.dy-admin .font-library-page__tablist [role="tab"][aria-selected="true"] span {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 
 // =============================================================

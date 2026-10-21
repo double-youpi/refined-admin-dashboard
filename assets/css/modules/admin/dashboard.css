@@ -7,8 +7,8 @@
   --dya-paper-3: #242b3a;
   --dya-ink: #ededee;
   --dya-ink-soft: #a8a9ad;
-  --dya-ink-mute: #8a8b92;
-  --dya-ink-fade: #80818a;
+  --dya-ink-mute: #9a9ba2;
+  --dya-ink-fade: #93949b;
   --dya-line: rgba(255, 255, 255, .07);
   --dya-line-strong: rgba(255, 255, 255, .14);
   --dya-line-soft: rgba(255, 255, 255, .04);
@@ -118,7 +118,13 @@ body.dy-admin-login {
 @supports (color: oklch(from red l c h)) {
   :root {
     --dya-accent-on: oklch(from var(--dya-accent) clamp(0, calc((0.6 - l) * 100), 1) 0 0);
-    --dya-accent-text: oklch(from var(--dya-accent) max(l, 0.64) c h);
+    --dya-accent-text: oklch(from var(--dya-accent) max(l, 0.72) min(c, 0.15) h);
+  }
+  body.dy-admin [style*="--dya-accent:"] {
+    --dya-accent-text: oklch(from var(--dya-accent) max(l, 0.72) min(c, 0.15) h);
+  }
+  body.dy-admin.dy-theme-light [style*="--dya-accent:"] {
+    --dya-accent-text: oklch(from var(--dya-accent) min(l, 0.5) c h);
   }
   body.dy-theme-light {
     --dya-accent-text: oklch(from var(--dya-accent) min(l, 0.5) c h);
@@ -135,16 +141,16 @@ body.dy-admin-login {
   --dya-paper-3: color-mix(in srgb, var(--dya-accent) 12%, white);
   --dya-ink: #18181a;
   --dya-ink-soft: #44444a;
-  --dya-ink-mute: #707177;
-  --dya-ink-fade: #727378;
+  --dya-ink-mute: #636469;
+  --dya-ink-fade: #66676d;
   --dya-line: rgba(0, 0, 0, .07);
   --dya-line-strong: rgba(0, 0, 0, .12);
   --dya-line-soft: rgba(0, 0, 0, .04);
   --dya-grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.03 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   --dya-grain-blend: multiply;
-  --dya-success: #167a4b;
-  --dya-warn: #a35f00;
-  --dya-danger: #d13425;
+  --dya-success: #147245;
+  --dya-warn: #995900;
+  --dya-danger: #c22f20;
   --dya-info: #1d6cad;
 }
 
@@ -156,16 +162,16 @@ body.dy-theme-light {
   --dya-paper-3: color-mix(in srgb, var(--dya-accent) 12%, white);
   --dya-ink: #18181a;
   --dya-ink-soft: #44444a;
-  --dya-ink-mute: #707177;
-  --dya-ink-fade: #727378;
+  --dya-ink-mute: #636469;
+  --dya-ink-fade: #66676d;
   --dya-line: rgba(0, 0, 0, .07);
   --dya-line-strong: rgba(0, 0, 0, .12);
   --dya-line-soft: rgba(0, 0, 0, .04);
   --dya-grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.03 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   --dya-grain-blend: multiply;
-  --dya-success: #167a4b;
-  --dya-warn: #a35f00;
-  --dya-danger: #d13425;
+  --dya-success: #147245;
+  --dya-warn: #995900;
+  --dya-danger: #c22f20;
   --dya-info: #1d6cad;
   --dya-line-content: #b48848;
   --dya-line-content-soft: rgba(180, 136, 72, .08);
@@ -580,7 +586,7 @@ body.dy-admin.index-php .dy-dashboard__eyebrow {
   animation-delay: 200ms;
 }
 body.dy-admin.index-php .dy-dashboard__eyebrow-count {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
@@ -687,7 +693,7 @@ body.dy-admin.index-php .dy-dashboard__paragraph code {
   color: var(--dya-ink);
 }
 body.dy-admin.index-php .dy-dashboard__paragraph-link {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
@@ -773,7 +779,7 @@ body.dy-admin.index-php .dy-dashboard--customizable .dy-dashboard__slot-ghost:ho
   transform: scale(1);
 }
 body.dy-admin.index-php .dy-dashboard--customizable .dy-dashboard__slot-ghost-plus:hover {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   background: color-mix(in srgb, var(--dya-accent) 16%, transparent);
 }
 body.dy-admin.index-php .dy-dashboard--customizable .dy-dashboard__slots[data-slots-used="0"] .dy-dashboard__slot-ghost {
@@ -1197,7 +1203,7 @@ body.dy-admin.index-php .dy-dashboard__native-item-body table tbody tr:hover {
   background: color-mix(in srgb, var(--dya-paper-2) 55%, transparent) !important;
 }
 body.dy-admin.index-php .dy-dashboard__native-item-body .dashicons, body.dy-admin.index-php .dy-dashboard__native-item-body .dashicons-before::before {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   vertical-align: middle;
 }
 body.dy-admin.index-php .dy-dashboard__native-empty {
@@ -1352,7 +1358,7 @@ body.dy-admin.index-php .dy-dashboard__nav-insert {
   border-radius: 50%;
   background: var(--dya-paper);
   border: 0 solid var(--dya-accent);
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   cursor: pointer;
   opacity: 0;
   pointer-events: none;
@@ -1417,7 +1423,7 @@ body.dy-admin.index-php .dy-dashboard__customize-btn:focus-visible {
   outline-offset: 2px;
 }
 body.dy-admin.index-php .dy-dashboard__customize-btn svg {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php .dy-dashboard--sidebar-open .dy-dashboard__customize-btn {
   opacity: 0;
@@ -1459,7 +1465,7 @@ body.dy-admin.index-php .dy-dashboard__sidebar-eyebrow {
   font-size: var(--dya-fs-xs);
   letter-spacing: var(--dya-tracking-label);
   text-transform: uppercase;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   font-weight: 600;
 }
 body.dy-admin.index-php .dy-dashboard__sidebar-close {
@@ -1497,10 +1503,10 @@ body.dy-admin.index-php .dy-dashboard__sidebar-back {
   transition: color var(--dya-t-fast) var(--dya-ease), gap var(--dya-t-fast) var(--dya-ease);
 }
 body.dy-admin.index-php .dy-dashboard__sidebar-back svg {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php .dy-dashboard__sidebar-back:hover {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   gap: 9px;
 }
 body.dy-admin.index-php .dy-dashboard__sidebar-back[hidden] {
@@ -1530,7 +1536,7 @@ body.dy-admin.index-php .dy-dashboard__history-btn svg {
   display: block;
 }
 body.dy-admin.index-php .dy-dashboard__history-btn:hover:not(:disabled) {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   border-color: var(--dya-edge-strong);
 }
 body.dy-admin.index-php .dy-dashboard__history-btn:disabled {
@@ -1644,7 +1650,7 @@ body.dy-admin.index-php .dy-dashboard__section-action {
   transition: color var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease);
 }
 body.dy-admin.index-php .dy-dashboard__section-action:hover {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   background: var(--dya-paper-3);
 }
 body.dy-admin.index-php .dy-dashboard__section-action:focus-visible {
@@ -1812,7 +1818,7 @@ body.dy-admin.index-php .dy-dashboard__color-reset {
   transition: color var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease);
 }
 body.dy-admin.index-php .dy-dashboard__color-reset:hover {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   border-color: var(--dya-accent);
 }
 body.dy-admin.index-php .dy-dashboard__color-reset[hidden] {
@@ -2046,7 +2052,7 @@ body.dy-admin.index-php .dy-dashboard__token-btn {
   background: var(--dya-paper-3);
   border: 1px solid var(--dya-edge);
   border-radius: var(--dya-r-sm, 6px);
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   cursor: pointer;
   transition: background var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease);
   z-index: 2;
@@ -2115,7 +2121,7 @@ body.dy-admin.index-php .dy-dashboard__token-group {
 }
 body.dy-admin.index-php .dy-dashboard__token-group h5 {
   font-family: var(--dya-font-mono);
-  font-size: 9.5px;
+  font-size: 11px;
   letter-spacing: var(--dya-tracking-label);
   text-transform: uppercase;
   color: var(--dya-ink-mute);
@@ -2143,8 +2149,8 @@ body.dy-admin.index-php .dy-dashboard__token-item:hover {
 }
 body.dy-admin.index-php .dy-dashboard__token-item code {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
-  color: var(--dya-accent);
+  font-size: 11px;
+  color: var(--dya-accent-text);
   background: transparent;
   padding: 0;
 }
@@ -2227,7 +2233,7 @@ body.dy-admin.index-php .dy-dashboard__tile-badge {
   max-width: calc(100% - 10px);
   padding: 2px 5px;
   font-family: var(--dya-font-mono);
-  font-size: 8px;
+  font-size: 11px;
   line-height: 1.2;
   letter-spacing: var(--dya-tracking-label);
   text-transform: uppercase;
@@ -2257,7 +2263,7 @@ body.dy-admin.index-php .dy-dashboard__tile-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php .dy-dashboard__tile-icon svg {
   width: 24px;
@@ -2281,7 +2287,7 @@ body.dy-admin.index-php .dy-dashboard__tile-desc {
 }
 body.dy-admin.index-php .dy-dashboard__tile-slots {
   font-family: var(--dya-font-mono);
-  font-size: 9.5px;
+  font-size: 11px;
   letter-spacing: var(--dya-tracking-label);
   text-transform: uppercase;
   color: var(--dya-ink-mute);
@@ -2359,7 +2365,7 @@ body.dy-admin.index-php .dy-dashboard__preset-custom-icon {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   background: color-mix(in srgb, var(--dya-accent) 16%, transparent);
 }
 body.dy-admin.index-php .dy-dashboard__preset-custom-text {
@@ -2406,7 +2412,7 @@ body.dy-admin.index-php .dy-dashboard__preset-menu-btn:hover {
 }
 body.dy-admin.index-php .dy-dashboard__preset-menu-btn[aria-expanded=true] {
   opacity: 1;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   background: var(--dya-paper-3);
 }
 body.dy-admin.index-php .dy-dashboard__preset-menu-btn:focus-visible {
@@ -2556,7 +2562,7 @@ body.dy-admin.index-php .dy-dashboard__role-name {
 body.dy-admin.index-php .dy-dashboard__role-conflict {
   margin-left: auto;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   letter-spacing: 0.01em;
   color: var(--dya-warn);
   white-space: nowrap;
@@ -2564,7 +2570,7 @@ body.dy-admin.index-php .dy-dashboard__role-conflict {
 body.dy-admin.index-php .dy-dashboard__role-default {
   margin-left: auto;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   letter-spacing: 0.01em;
   color: var(--dya-ink-mute);
   opacity: 0.85;
@@ -2640,7 +2646,7 @@ body.dy-admin.index-php .dy-dashboard__screen-item-num {
   font-family: var(--dya-font-mono);
   font-size: var(--dya-fs-xs);
   letter-spacing: var(--dya-tracking-label);
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   min-width: 28px;
 }
 body.dy-admin.index-php .dy-dashboard__screen-item-title {
@@ -2692,7 +2698,7 @@ body.dy-admin.index-php .dy-dashboard__sidebar-saved {
   transition: color var(--dya-t-fast) var(--dya-ease);
 }
 body.dy-admin.index-php .dy-dashboard__sidebar-saved.is-saving {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php .dy-dashboard__btn {
   font-family: var(--dya-font-mono);
@@ -2773,7 +2779,7 @@ body.dy-admin.index-php .dy-dashboard__drag-ghost .dy-dashboard__drag-ghost-icon
   display: inline-flex;
   width: 18px;
   height: 18px;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php .dy-dashboard__drag-ghost .dy-dashboard__drag-ghost-icon svg {
   width: 18px;
@@ -2836,7 +2842,7 @@ body.dy-admin.index-php .dy-dashboard__brand-logo {
   display: inline-block;
   width: auto;
   height: 1em;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   vertical-align: -0.12em;
 }
 body.dy-admin.index-php .dy-dashboard__tile-name {
@@ -2846,7 +2852,7 @@ body.dy-admin.index-php .dy-dashboard__tile-name {
 }
 body.dy-admin.index-php .dy-dashboard__card-meta {
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: var(--dya-tracking-label);
   text-transform: uppercase;
   color: var(--dya-ink-mute);
@@ -2864,7 +2870,7 @@ body.dy-admin.index-php .dy-dashboard__pill {
   gap: 5px;
   padding: 3px 9px;
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: var(--dya-tracking-label);
   text-transform: uppercase;
   border-radius: var(--dya-r-pill);
@@ -2894,7 +2900,7 @@ body.dy-admin.index-php .dy-dashboard__pill--danger {
 }
 body.dy-admin.index-php .dy-dashboard__pill--accent {
   background: rgba(var(--dya-accent-rgb, 212, 178, 122), 0.18);
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php .dy-dashboard__pill--warn::before, body.dy-admin.index-php .dy-dashboard__pill--danger::before {
   animation: dy-fx-pulse 1.8s var(--dya-ease) infinite;
@@ -2956,14 +2962,14 @@ body.dy-admin.index-php .dy-dashboard__row-k {
   transition: color var(--dya-t-fast) var(--dya-ease), transform var(--dya-t-fast) var(--dya-ease);
 }
 body.dy-admin.index-php a.dy-dashboard__row-k:hover {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   transform: translateX(2px);
 }
 body.dy-admin.index-php .dy-dashboard__cta {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   font-family: var(--dya-font-mono);
   font-size: var(--dya-fs-xs);
   letter-spacing: var(--dya-tracking-label);
@@ -3040,7 +3046,7 @@ body.dy-admin.index-php .dy-dashboard__sub {
   gap: 14px;
   flex-wrap: wrap;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   letter-spacing: 0.02em;
   color: var(--dya-ink-mute);
 }
@@ -3090,7 +3096,7 @@ body.dy-admin.index-php .dy-dashboard__list-item:hover::before {
 body.dy-admin.index-php .dy-dashboard__list-time {
   flex: 0 0 auto;
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.02em;
   color: var(--dya-ink-mute);
   white-space: nowrap;
@@ -3125,7 +3131,7 @@ body.dy-admin.index-php .dy-dashboard__badge {
   transition: background var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease), color var(--dya-t-fast) var(--dya-ease);
 }
 body.dy-admin.index-php .dy-dashboard__badge.is-on {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   background: color-mix(in srgb, var(--dya-accent) 15%, transparent);
   border-color: color-mix(in srgb, var(--dya-accent) 38%, transparent);
 }
@@ -3164,7 +3170,7 @@ body.dy-admin.index-php .dy-dashboard__card-foot-link {
   letter-spacing: var(--dya-tracking-label);
   text-transform: uppercase;
   font-weight: 600;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   text-decoration: none;
   line-height: 1;
 }
@@ -3221,7 +3227,7 @@ body.dy-admin.index-php .dy-dashboard__card-foot-link:focus-visible .dy-dashboar
   transform: scaleX(1);
 }
 body.dy-admin.index-php .dy-dashboard__big-num--accent {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php .dy-dashboard__big-num--money {
   font-size: clamp(28px, 2.7vw, 40px);
@@ -3317,7 +3323,7 @@ body.dy-admin.index-php .dy-dashboard__order-num {
   transition: color var(--dya-t-fast) var(--dya-ease);
 }
 body.dy-admin.index-php .dy-dashboard__order-num:hover {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php .dy-dashboard__order-total {
   font-variant-numeric: tabular-nums;
@@ -3327,7 +3333,7 @@ body.dy-admin.index-php .dy-dashboard__order-total {
 }
 body.dy-admin.index-php .dy-dashboard__order-time {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   color: var(--dya-ink-mute);
   white-space: nowrap;
 }
@@ -3348,19 +3354,19 @@ body.dy-admin.index-php .dy-dashboard__list--compact .dy-dashboard__list-label {
   white-space: nowrap;
 }
 body.dy-admin.index-php .dy-dashboard__list--compact .dy-dashboard__list-label:hover {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php .dy-dashboard__stock-qty {
   flex: 0 0 auto;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   color: var(--dya-warn);
   font-variant-numeric: tabular-nums;
 }
 body.dy-admin.index-php .dy-dashboard__spark-wrap {
   margin-top: 12px;
   line-height: 0;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php .dy-dashboard__spark-wrap.is-empty {
   opacity: 0.4;
@@ -3444,7 +3450,7 @@ body.dy-admin.index-php .dy-dashboard__rank-pos {
   font-family: var(--dya-font-mono);
   font-size: 11px;
   font-weight: 700;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   width: 1.2em;
   text-align: center;
   font-variant-numeric: tabular-nums;
@@ -3457,7 +3463,7 @@ body.dy-admin.index-php .dy-dashboard__rank-name {
   white-space: nowrap;
 }
 body.dy-admin.index-php .dy-dashboard__rank-name:hover {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php .dy-dashboard__rank-qty {
   font-family: var(--dya-font-mono);
@@ -3514,7 +3520,7 @@ body.dy-admin.index-php .dy-dashboard__btn-ghost {
 }
 body.dy-admin.index-php .dy-dashboard__btn-ghost::before {
   content: "›";
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   font-weight: 700;
   opacity: 0;
   margin-right: -10px;
@@ -3546,7 +3552,7 @@ body.dy-admin.index-php .dy-dashboard__shortcut {
   transition: transform var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease);
 }
 body.dy-admin.index-php .dy-dashboard__shortcut .dashicons {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   font-size: 16px;
   width: 16px;
   height: 16px;
@@ -3601,7 +3607,7 @@ body.dy-admin.index-php .dy-dashboard__admin-link {
 }
 body.dy-admin.index-php .dy-dashboard__create-btn:hover,
 body.dy-admin.index-php .dy-dashboard__admin-link:hover {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   transform: translateY(-2px);
 }
 body.dy-admin.index-php .dy-dashboard__create-btn-icon {
@@ -3612,7 +3618,7 @@ body.dy-admin.index-php .dy-dashboard__create-btn-icon {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   background: color-mix(in srgb, var(--dya-accent) 13%, transparent);
   transition: transform var(--dya-t-med) var(--dya-ease), background var(--dya-t-med) var(--dya-ease), box-shadow var(--dya-t-med) var(--dya-ease);
 }
@@ -3655,7 +3661,7 @@ body.dy-admin.index-php .dy-dashboard__admin-link-icon {
   justify-content: center;
   background: color-mix(in srgb, var(--dya-accent) 13%, transparent);
   border-radius: 50%;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   transition: transform var(--dya-t-med) var(--dya-ease), box-shadow var(--dya-t-med) var(--dya-ease);
 }
 body.dy-admin.index-php .dy-dashboard__admin-link-icon svg {
@@ -3704,7 +3710,7 @@ body.dy-admin.index-php .dy-dashboard__create-tile:hover {
   transform: translateY(-3px);
   background: color-mix(in srgb, var(--dya-accent) 9%, transparent);
   border-color: color-mix(in srgb, var(--dya-accent) 30%, transparent);
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php .dy-dashboard__create-tile:hover .dy-dashboard__create-tile-icon {
   background: color-mix(in srgb, var(--dya-accent) 22%, transparent);
@@ -3718,7 +3724,7 @@ body.dy-admin.index-php .dy-dashboard__create-tile-icon {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   background: color-mix(in srgb, var(--dya-accent) 13%, transparent);
   transition: background var(--dya-t-med) var(--dya-ease), box-shadow var(--dya-t-med) var(--dya-ease);
 }
@@ -3890,7 +3896,7 @@ body.dy-admin.index-php.dy-theme-light .dy-dashboard__paragraph code {
   color: var(--dya-ink);
 }
 body.dy-admin.index-php.dy-theme-light .dy-dashboard__eyebrow-count {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php.dy-theme-light .dy-dashboard__screen[data-screen-kind=user] .dy-dashboard__slot {
   background: var(--dya-paper) !important;
@@ -3930,7 +3936,7 @@ body.dy-admin.index-php.dy-theme-light .dy-dashboard__customize-btn:hover {
   border-color: var(--dya-accent);
 }
 body.dy-admin.index-php.dy-theme-light .dy-dashboard__customize-btn svg {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php.dy-theme-light .dy-dashboard__screen--native .dy-dashboard__native-item {
   background: #ffffff;

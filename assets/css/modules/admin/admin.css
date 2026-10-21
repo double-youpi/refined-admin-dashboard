@@ -7,8 +7,8 @@
   --dya-paper-3: #242b3a;
   --dya-ink: #ededee;
   --dya-ink-soft: #a8a9ad;
-  --dya-ink-mute: #8a8b92;
-  --dya-ink-fade: #80818a;
+  --dya-ink-mute: #9a9ba2;
+  --dya-ink-fade: #93949b;
   --dya-line: rgba(255, 255, 255, .07);
   --dya-line-strong: rgba(255, 255, 255, .14);
   --dya-line-soft: rgba(255, 255, 255, .04);
@@ -118,7 +118,13 @@ body.dy-admin-login {
 @supports (color: oklch(from red l c h)) {
   :root {
     --dya-accent-on: oklch(from var(--dya-accent) clamp(0, calc((0.6 - l) * 100), 1) 0 0);
-    --dya-accent-text: oklch(from var(--dya-accent) max(l, 0.64) c h);
+    --dya-accent-text: oklch(from var(--dya-accent) max(l, 0.72) min(c, 0.15) h);
+  }
+  body.dy-admin [style*="--dya-accent:"] {
+    --dya-accent-text: oklch(from var(--dya-accent) max(l, 0.72) min(c, 0.15) h);
+  }
+  body.dy-admin.dy-theme-light [style*="--dya-accent:"] {
+    --dya-accent-text: oklch(from var(--dya-accent) min(l, 0.5) c h);
   }
   body.dy-theme-light {
     --dya-accent-text: oklch(from var(--dya-accent) min(l, 0.5) c h);
@@ -135,16 +141,16 @@ body.dy-admin-login {
   --dya-paper-3: color-mix(in srgb, var(--dya-accent) 12%, white);
   --dya-ink: #18181a;
   --dya-ink-soft: #44444a;
-  --dya-ink-mute: #707177;
-  --dya-ink-fade: #727378;
+  --dya-ink-mute: #636469;
+  --dya-ink-fade: #66676d;
   --dya-line: rgba(0, 0, 0, .07);
   --dya-line-strong: rgba(0, 0, 0, .12);
   --dya-line-soft: rgba(0, 0, 0, .04);
   --dya-grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.03 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   --dya-grain-blend: multiply;
-  --dya-success: #167a4b;
-  --dya-warn: #a35f00;
-  --dya-danger: #d13425;
+  --dya-success: #147245;
+  --dya-warn: #995900;
+  --dya-danger: #c22f20;
   --dya-info: #1d6cad;
 }
 
@@ -156,16 +162,16 @@ body.dy-theme-light {
   --dya-paper-3: color-mix(in srgb, var(--dya-accent) 12%, white);
   --dya-ink: #18181a;
   --dya-ink-soft: #44444a;
-  --dya-ink-mute: #707177;
-  --dya-ink-fade: #727378;
+  --dya-ink-mute: #636469;
+  --dya-ink-fade: #66676d;
   --dya-line: rgba(0, 0, 0, .07);
   --dya-line-strong: rgba(0, 0, 0, .12);
   --dya-line-soft: rgba(0, 0, 0, .04);
   --dya-grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.03 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   --dya-grain-blend: multiply;
-  --dya-success: #167a4b;
-  --dya-warn: #a35f00;
-  --dya-danger: #d13425;
+  --dya-success: #147245;
+  --dya-warn: #995900;
+  --dya-danger: #c22f20;
   --dya-info: #1d6cad;
   --dya-line-content: #b48848;
   --dya-line-content-soft: rgba(180, 136, 72, .08);
@@ -534,7 +540,7 @@ body.dy-admin.dy-line-developer {
   body.dy-admin.dy-line-site,
   body.dy-admin.dy-line-system,
   body.dy-admin.dy-line-developer {
-    --dya-line-color-on: oklch(from var(--dya-line-color) clamp(0, calc((0.5 - l) * 100), 1) 0 0);
+    --dya-line-color-on: oklch(from var(--dya-line-color) clamp(0, calc((0.555 - l) * 100), 1) 0 0);
   }
 }
 body.dy-admin.dy-line-default {
@@ -693,7 +699,7 @@ body.dy-admin #wpadminbar li > .ab-item:focus .ab-icon::before {
 body.dy-admin #wpadminbar:not(.mobile) > #wp-toolbar li#wp-admin-bar-comments:hover .ab-label,
 body.dy-admin #wpadminbar:not(.mobile) > #wp-toolbar li#wp-admin-bar-comments.hover .ab-label,
 body.dy-admin #wpadminbar:not(.mobile) > #wp-toolbar #wp-admin-bar-comments > .ab-item:focus .ab-label {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 
 @media (max-width: 782px) {
@@ -766,7 +772,7 @@ body.dy-admin #wp-admin-bar-site-name > a::before {
 
 body.dy-admin #wp-admin-bar-updates .ab-label {
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   background: var(--dya-line-soft);
   padding: 1px 6px;
   border-radius: var(--dya-r-pill);
@@ -777,7 +783,7 @@ body.dy-admin #wpadminbar > #wp-toolbar #wp-admin-bar-comments span.ab-label,
 body.dy-admin #wp-admin-bar-comments .ab-label,
 body.dy-admin #wp-admin-bar-comments .ab-label.awaiting-mod {
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   background: var(--dya-line-content-soft);
   color: var(--dya-line-content);
   padding: 1px 6px;
@@ -794,7 +800,7 @@ body.dy-admin #wpadminbar #wp-admin-bar-new-content > a {
   border: 1px solid var(--dya-edge);
   background: var(--dya-paper);
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: var(--dya-tracking-label);
   text-transform: uppercase;
   color: var(--dya-ink-soft);
@@ -815,7 +821,7 @@ body.dy-admin #wpadminbar #wp-admin-bar-new-content.hover .ab-icon,
 body.dy-admin #wpadminbar #wp-admin-bar-new-content.hover .ab-icon::before,
 body.dy-admin #wpadminbar #wp-admin-bar-new-content:focus-within .ab-icon,
 body.dy-admin #wpadminbar #wp-admin-bar-new-content:focus-within .ab-icon::before {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 
 body.dy-admin #wpadminbar #wp-admin-bar-new-content > .ab-item:focus,
@@ -903,7 +909,7 @@ body.dy-admin #wp-admin-bar-my-account .avatar:not(img) {
   color: #fff;
   display: grid;
   place-items: center;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   font-family: var(--dya-font-mono);
 }
@@ -1157,7 +1163,7 @@ body.dy-admin #wpadminbar #wp-admin-bar-user-info .display-name.edit-profile {
   align-self: start;
   display: block;
   font-family: var(--dya-font-mono);
-  font-size: 9.5px;
+  font-size: 11px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--dya-ink-mute);
@@ -1168,7 +1174,7 @@ body.dy-admin #wpadminbar #wp-admin-bar-user-info .display-name.edit-profile {
 }
 
 body.dy-admin #wpadminbar #wp-admin-bar-user-info > .ab-item:hover .display-name.edit-profile {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   letter-spacing: 0.2em;
 }
 
@@ -1182,7 +1188,7 @@ body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item {
   padding: 0 4px 0 14px;
   border-radius: 0;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--dya-ink-soft);
@@ -1241,13 +1247,109 @@ body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item:hover::after,
 body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item:focus-visible::after {
   opacity: 1;
   transform: translateX(2px);
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 
 body.dy-admin #wpadminbar .ab-sub-wrapper .ab-sub-secondary {
   margin-top: 6px;
   padding-top: 6px;
   border-top: 1px solid var(--dya-line);
+}
+
+body.dy-admin #wpadminbar .menupop:not(#wp-admin-bar-new-content):not(#wp-admin-bar-my-account) {
+  position: relative;
+}
+
+body.dy-admin #wpadminbar .menupop:not(#wp-admin-bar-new-content):not(#wp-admin-bar-my-account) > .ab-sub-wrapper {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: auto;
+  min-width: 220px;
+  margin: 0;
+  padding: 6px;
+  background: var(--dya-paper-3);
+  border: 1px solid var(--dya-edge-strong);
+  border-radius: var(--dya-r-md);
+  box-shadow: var(--dya-shadow-lg);
+  z-index: 99999;
+}
+
+body.dy-admin.dy-theme-light #wpadminbar .menupop:not(#wp-admin-bar-new-content):not(#wp-admin-bar-my-account) > .ab-sub-wrapper {
+  background: #fff;
+}
+
+body.dy-admin #wpadminbar .menupop:not(#wp-admin-bar-new-content):not(#wp-admin-bar-my-account):is(:hover, .hover, :focus-within) > .ab-sub-wrapper {
+  display: block;
+}
+
+body.dy-admin #wpadminbar #wp-admin-bar-top-secondary .menupop:not(#wp-admin-bar-new-content):not(#wp-admin-bar-my-account) > .ab-sub-wrapper {
+  left: auto;
+  right: 0;
+}
+
+body.dy-admin #wpadminbar .ab-sub-wrapper .menupop:not(#wp-admin-bar-new-content):not(#wp-admin-bar-my-account) > .ab-sub-wrapper {
+  top: -7px;
+  left: 100%;
+}
+
+body.dy-admin #wpadminbar .menupop:not(#wp-admin-bar-new-content):not(#wp-admin-bar-my-account) .ab-sub-wrapper :is(.ab-submenu, .ab-sub-secondary) {
+  background: transparent;
+}
+
+body.dy-admin #wpadminbar .menupop:not(#wp-admin-bar-new-content):not(#wp-admin-bar-my-account) .ab-sub-wrapper .ab-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  height: auto;
+  padding: 6px 12px;
+  border-radius: var(--dya-r-sm);
+  font-family: var(--dya-font-body);
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--dya-ink-soft);
+  text-decoration: none;
+  text-shadow: none;
+  white-space: nowrap;
+  background: transparent;
+}
+
+body.dy-admin #wpadminbar .menupop:not(#wp-admin-bar-new-content):not(#wp-admin-bar-my-account) .ab-sub-wrapper li:is(:hover, .hover, :focus-within) > .ab-item {
+  color: var(--dya-ink);
+  background: var(--dya-paper-2);
+}
+
+body.dy-admin #wpadminbar .menupop:not(#wp-admin-bar-new-content):not(#wp-admin-bar-my-account) .ab-sub-wrapper .ab-item :is(.awaiting-mod, .update-plugins) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 6px;
+  border-radius: 9px;
+  font-size: 11px;
+  line-height: 1;
+}
+
+body.dy-admin #wpadminbar .menupop:not(#wp-admin-bar-new-content):not(#wp-admin-bar-my-account) .ab-sub-wrapper .ab-item :is(.awaiting-mod, .update-plugins) * {
+  line-height: 1;
+}
+
+body.dy-admin #wpadminbar .menupop:not(#wp-admin-bar-new-content):not(#wp-admin-bar-my-account) .ab-sub-wrapper .blavatar,
+body.dy-admin #wpadminbar .menupop:not(#wp-admin-bar-new-content):not(#wp-admin-bar-my-account) .ab-sub-wrapper .blavatar::before {
+  color: inherit;
+}
+
+body.dy-admin #wpadminbar .ab-sub-wrapper .menupop:not(#wp-admin-bar-new-content):not(#wp-admin-bar-my-account) > .ab-item .wp-admin-bar-arrow {
+  display: none;
+}
+
+body.dy-admin #wpadminbar .ab-sub-wrapper .menupop:not(#wp-admin-bar-new-content):not(#wp-admin-bar-my-account) > .ab-item::after {
+  content: "›";
+  margin-left: auto;
+  padding-left: 12px;
+  color: var(--dya-ink-mute);
 }
 
 @media (max-width: 782px) {
@@ -1354,7 +1456,7 @@ body.dy-admin #wpadminbar .ab-sub-wrapper .ab-sub-secondary {
   body.dy-admin #wp-admin-bar-my-account .avatar:not(img) {
     width: 24px !important;
     height: 24px !important;
-    font-size: 10px !important;
+    font-size: 11px !important;
   }
   body.dy-admin #wp-admin-bar-theme-toggle {
     width: 32px !important;
@@ -1365,16 +1467,16 @@ body.dy-admin #wpadminbar .ab-sub-wrapper .ab-sub-secondary {
   body.dy-admin #wpadminbar li#wp-admin-bar-doubleyoupi-static-mode > a {
     padding: 3px 8px !important;
     height: 22px !important;
-    font-size: 10px !important;
+    font-size: 11px !important;
     line-height: 1 !important;
   }
   body.dy-admin #wpadminbar li#wp-admin-bar-doubleyoupi-static-mode .ab-label {
-    font-size: 10px !important;
+    font-size: 11px !important;
   }
   body.dy-admin #wpadminbar li#wp-admin-bar-doubleyoupi-static-mode .ab-icon {
     width: 12px !important;
     height: 12px !important;
-    font-size: 10px !important;
+    font-size: 11px !important;
   }
   body.dy-admin #wp-admin-bar-new-content:hover > .ab-sub-wrapper,
   body.dy-admin #wp-admin-bar-my-account:hover > .ab-sub-wrapper {
@@ -1907,7 +2009,7 @@ body.dy-admin .dy-rail-toggle {
   border-radius: var(--dya-r-md);
   cursor: pointer;
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: var(--dya-tracking-label);
   text-transform: uppercase;
   z-index: 5;
@@ -2326,7 +2428,7 @@ body.dy-admin .dy-chipbar-inner:hover::-webkit-scrollbar-thumb {
 
 body.dy-admin .dy-chipbar-label {
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-line-color, var(--dya-ink-mute));
@@ -2388,7 +2490,7 @@ body.dy-admin .dy-chip.current > .dot {
 
 body.dy-admin .dy-chip-count {
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.02em;
   padding: 1px 6px;
@@ -2526,7 +2628,7 @@ body.dy-admin .dy-subchipbar-inner:hover::-webkit-scrollbar-thumb {
 
 body.dy-admin .dy-subchipbar-label {
   font-family: var(--dya-font-mono);
-  font-size: 9.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-fade);
@@ -2576,7 +2678,7 @@ body.dy-admin .dy-subchip:hover .dot {
 
 body.dy-admin .dy-subchip-count {
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0;
   color: var(--dya-ink-fade);
 }
@@ -2788,7 +2890,7 @@ body.dy-admin #wpadminbar .doubleyoupi-bar-pill.mode-static_fallback::before {
 body.dy-admin #wpadminbar .doubleyoupi-bar-pill.mode-static_strict {
   background: var(--dya-accent-soft, rgba(var(--dya-accent-rgb, 34, 113, 177), 0.12));
   border-color: rgba(var(--dya-accent-rgb, 34, 113, 177), 0.35);
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin #wpadminbar .doubleyoupi-bar-pill.mode-static_strict::before {
   background: var(--dya-accent);
@@ -2813,7 +2915,7 @@ body.dy-admin #wpadminbar #wp-admin-bar-doubleyoupi-static-mode.hover .doubleyou
 @media (max-width: 782px) {
   body.dy-admin #wpadminbar .doubleyoupi-bar-pill {
     padding: 0 8px 0 6px;
-    font-size: 10px;
+    font-size: 11px;
     gap: 5px;
   }
   body.dy-admin #wpadminbar .doubleyoupi-bar-pill::before {
@@ -2866,6 +2968,14 @@ body.dy-admin #wpadminbar #wp-admin-bar-command-palette .ab-icon::before {
   top: 0;
   -webkit-font-smoothing: antialiased;
 }
+body.dy-admin #wpadminbar #wp-admin-bar-command-palette .ab-icon.svg-icon::before, body.dy-admin #wpadminbar #wp-admin-bar-command-palette .ab-icon:has(svg)::before {
+  content: none;
+}
+body.dy-admin #wpadminbar #wp-admin-bar-command-palette .ab-icon svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+}
 body.dy-admin #wpadminbar #wp-admin-bar-command-palette .ab-label {
   height: auto;
   display: inline-flex;
@@ -2900,7 +3010,7 @@ body.dy-admin #wpadminbar #wp-admin-bar-command-palette .ab-item:focus {
 }
 body.dy-admin #wpadminbar #wp-admin-bar-command-palette .ab-item:hover kbd,
 body.dy-admin #wpadminbar #wp-admin-bar-command-palette .ab-item:focus kbd {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 @media (max-width: 782px) {
   body.dy-admin #wpadminbar #wp-admin-bar-command-palette .ab-item {
@@ -2913,6 +3023,10 @@ body.dy-admin #wpadminbar #wp-admin-bar-command-palette .ab-item:focus kbd {
   }
   body.dy-admin #wpadminbar #wp-admin-bar-command-palette .ab-icon::before {
     font-size: 22px;
+  }
+  body.dy-admin #wpadminbar #wp-admin-bar-command-palette .ab-icon svg {
+    width: 22px;
+    height: 22px;
   }
 }
 
@@ -3040,7 +3154,7 @@ body.dy-admin .commands-command-menu__item-label {
 }
 body.dy-admin .commands-command-menu__item-category {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--dya-ink-mute);
@@ -3100,7 +3214,7 @@ body.dy-admin .welcome-panel-close {
   top: 14px;
   right: 16px;
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -3153,7 +3267,7 @@ body.dy-admin .welcome-panel-column {
 body.dy-admin .welcome-panel-column h3 {
   margin: 0 0 12px;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -3581,7 +3695,7 @@ body.dy-admin #dashboard_site_health .site-health-progress-label {
   display: inline-flex;
   align-items: center;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
@@ -3710,7 +3824,7 @@ body.dy-admin #dashboard_activity .activity-block:last-child {
 body.dy-admin #dashboard_activity .activity-block h3 {
   margin: 0 0 10px;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -3737,7 +3851,7 @@ body.dy-admin #dashboard_activity ul li {
 body.dy-admin #dashboard_activity ul li > span:first-child,
 body.dy-admin #dashboard_activity ul li .row-date {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   color: var(--dya-ink-fade);
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-mono);
@@ -3763,7 +3877,7 @@ body.dy-admin #dashboard_activity #latest-comments .comment-author {
 
 body.dy-admin #dashboard_activity #latest-comments .comment-meta {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   color: var(--dya-ink-fade);
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-mono);
@@ -3845,7 +3959,7 @@ body.dy-admin #dashboard_quick_press .submit .button-primary:hover {
 
 body.dy-admin #dashboard_quick_press .drafts {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -3884,7 +3998,7 @@ body.dy-admin #dashboard_quick_press .draft-list ul li a:hover {
 
 body.dy-admin #dashboard_quick_press .draft-list ul li > span {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-mono);
   color: var(--dya-ink-fade);
@@ -3901,7 +4015,7 @@ body.dy-admin #dashboard_primary .wordpress-news-list h3,
 body.dy-admin #dashboard_primary .rss-widget h2.widget-title {
   margin: 0 0 10px;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -3927,11 +4041,14 @@ body.dy-admin #dashboard_primary .rss-widget li {
   font-size: 12.5px;
   padding: 0;
   margin: 0;
+  color: var(--dya-ink-soft);
 }
 
 body.dy-admin #dashboard_primary ul li a {
   color: var(--dya-ink);
   border-bottom: 0;
+  display: inline-block;
+  padding-block: 3px;
 }
 
 body.dy-admin #dashboard_primary ul li a:hover {
@@ -3941,7 +4058,7 @@ body.dy-admin #dashboard_primary ul li a:hover {
 body.dy-admin #dashboard_primary ul li span:last-child,
 body.dy-admin #dashboard_primary .rss-widget .rss-date {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-mono);
   color: var(--dya-ink-fade);
@@ -4002,7 +4119,7 @@ body.dy-admin ul.subsubsub li.current a {
 
 body.dy-admin ul.subsubsub li .count {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   color: var(--dya-ink-fade);
 }
 
@@ -4244,7 +4361,7 @@ body.dy-admin .tablenav-pages .pagination-links .total-pages {
   font-family: var(--dya-font-mono);
   font-size: 13px;
   font-weight: 500;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   min-width: auto;
   height: auto;
 }
@@ -4263,7 +4380,7 @@ body.dy-admin .tablenav-pages #current-page-selector {
   background: var(--dya-paper-2);
   border: 1px solid var(--dya-edge);
   border-radius: var(--dya-r-xs);
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   padding: 2px 6px;
   height: auto;
 }
@@ -4321,7 +4438,7 @@ body.dy-admin .wp-list-table thead td,
 body.dy-admin .wp-list-table tfoot th,
 body.dy-admin .wp-list-table tfoot td {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
@@ -4572,14 +4689,14 @@ body.dy-admin .wp-list-table .column-username strong a {
 body.dy-admin .wp-list-table .row-title:hover,
 body.dy-admin .wp-list-table .column-title strong a:hover,
 body.dy-admin .wp-list-table .column-fichier strong a:hover {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 
 body.dy-admin .wp-list-table .filename,
 body.dy-admin .wp-list-table .column-name .slug {
   display: block;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   color: var(--dya-ink-fade);
   margin: 2px 0 0;
   text-transform: lowercase;
@@ -4650,7 +4767,7 @@ body.dy-admin .wp-list-table .row-actions button.button-link {
 
 body.dy-admin .wp-list-table .row-actions a:hover,
 body.dy-admin .wp-list-table .row-actions button.button-link:hover {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 
 body.dy-admin .wp-list-table .row-actions .trash a,
@@ -4742,7 +4859,7 @@ body.dy-admin .wp-list-table thead .column-comments-icon {
 body.dy-admin .wp-list-table .post-state,
 body.dy-admin .wp-list-table .privacy-text {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-mono);
   background: var(--dya-paper-2);
@@ -4805,7 +4922,7 @@ body.dy-admin .dy-table-options-trigger:hover {
 }
 
 body.dy-admin .dy-table-options-trigger[aria-expanded=true] {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   border-color: var(--dya-accent);
   background: var(--dya-paper-2);
 }
@@ -4853,7 +4970,7 @@ body.dy-admin .dy-table-options-panel[hidden] {
 }
 body.dy-admin .dy-table-options-panel h3 {
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -4886,7 +5003,7 @@ body.dy-admin .dy-table-options-panel label {
 }
 
 body.dy-admin .dy-table-options-panel label:hover {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 
 body.dy-admin .dy-table-options-panel-row {
@@ -5079,6 +5196,15 @@ body.dy-admin .tablenav .one-page .pagination-links {
   display: none;
 }
 
+body.dy-admin .plugins :is(.plugin-version-author-uri, .plugin-description) a {
+  color: var(--dya-accent-text);
+}
+
+body.dy-admin .wp-list-table :is(td, th).column-primary > strong > a {
+  display: inline-block;
+  padding-block: 4px;
+}
+
 @keyframes dytr-row-in {
   from {
     opacity: 0;
@@ -5222,7 +5348,7 @@ body.dy-admin .dy-treimg__toggle {
   background: transparent;
   color: var(--dya-ink-soft);
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   letter-spacing: var(--dya-tracking-mono);
   text-transform: uppercase;
   white-space: nowrap;
@@ -5371,7 +5497,7 @@ body.dy-admin .dy-treimg .dy-treimg__head {
   background: var(--dya-bg-elev);
   border-bottom: 1px solid var(--dya-line);
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: var(--dya-tracking-label);
   text-transform: uppercase;
   color: var(--dya-ink-mute);
@@ -5515,23 +5641,23 @@ body.dy-admin .dy-treimg.dy-treimg--no-anim .dy-trow {
   animation: none !important;
 }
 body.dy-admin .dy-treimg.dy-treimg--orderable .dy-trow {
-  padding-left: 24px;
+  padding-left: 32px;
   min-height: 60px;
 }
 body.dy-admin .dy-treimg.dy-treimg--orderable .dy-treimg__head {
-  padding-left: 24px;
+  padding-left: 32px;
 }
 body.dy-admin .dy-treimg .dy-trow__grip {
   position: absolute;
-  left: 3px;
+  left: 0;
   top: 0;
   bottom: 0;
-  width: 17px;
+  width: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1px;
+  gap: 0;
   opacity: 0;
   z-index: 2;
   transition: opacity var(--dya-t-fast) var(--dya-ease);
@@ -5541,8 +5667,8 @@ body.dy-admin .dy-treimg .dy-trow.is-dragging .dy-trow__grip {
   opacity: 1;
 }
 body.dy-admin .dy-treimg .dy-trow__grip-bar {
-  width: 17px;
-  height: 18px;
+  width: 24px;
+  height: 12px;
   border: 0;
   background: transparent;
   padding: 0;
@@ -5558,14 +5684,14 @@ body.dy-admin .dy-treimg .dy-trow__grip-bar:active {
   cursor: grabbing;
 }
 body.dy-admin .dy-treimg .dy-trow__grip-bar svg {
-  width: 6px;
-  height: 13px;
+  width: 5px;
+  height: 11px;
   fill: currentColor;
   stroke: none;
 }
 body.dy-admin .dy-treimg .dy-trow__grip-chev {
-  width: 15px;
-  height: 10px;
+  width: 24px;
+  height: 24px;
   border: 0;
   background: transparent;
   padding: 0;
@@ -5613,7 +5739,7 @@ body.dy-admin .dy-treimg .dy-trow__author {
 }
 body.dy-admin .dy-treimg .dy-trow__cat {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   letter-spacing: var(--dya-tracking-mono);
   text-transform: uppercase;
   color: var(--dya-ink-mute);
@@ -5655,7 +5781,7 @@ body.dy-admin .dy-treimg .dy-trow__gcell a {
   border: 0;
 }
 body.dy-admin .dy-treimg .dy-trow__gcell a:hover {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin .dy-treimg .dy-trow__cell {
   min-width: 0;
@@ -5772,7 +5898,7 @@ body.dy-admin .dy-treimg .dy-trow__gcell .progress.warning .t .bar {
 body.dy-admin .dy-treimg .dy-trow__gcell .progress .l {
   flex: 0 0 auto;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   color: var(--dya-ink-soft);
   font-variant-numeric: tabular-nums;
   letter-spacing: var(--dya-tracking-mono);
@@ -5790,7 +5916,7 @@ body.dy-admin .dy-treimg.dy-treimg--generic .dy-trow__title-text a {
   text-decoration: none;
 }
 body.dy-admin .dy-treimg.dy-treimg--generic .dy-trow:hover .dy-trow__title-text, body.dy-admin .dy-treimg.dy-treimg--generic .dy-trow:hover .dy-trow__title-text a {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin .dy-treimg.dy-treimg--generic .dy-trow__title-text .lang {
   flex: 0 0 auto;
@@ -5812,7 +5938,7 @@ body.dy-admin .dy-treimg .dy-trow__title-text {
   transition: color var(--dya-t-fast) var(--dya-ease);
 }
 body.dy-admin .dy-treimg .dy-trow:hover .dy-trow__title-text {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin .dy-treimg .dy-trow__page {
   display: flex;
@@ -5831,7 +5957,7 @@ body.dy-admin .dy-treimg .dy-trow__page-text {
   transition: color var(--dya-t-fast) var(--dya-ease);
 }
 body.dy-admin .dy-treimg .dy-trow:hover .dy-trow__page-text {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin .dy-treimg .dy-trow[data-depth="0"] .dy-trow__page-text {
   font-weight: 550;
@@ -5845,7 +5971,7 @@ body.dy-admin .dy-treimg .dy-trow[data-depth="2"] .dy-trow__page-text {
 body.dy-admin .dy-treimg .dy-trow[data-depth="0"]:hover .dy-trow__page-text,
 body.dy-admin .dy-treimg .dy-trow[data-depth="1"]:hover .dy-trow__page-text,
 body.dy-admin .dy-treimg .dy-trow[data-depth="2"]:hover .dy-trow__page-text {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin .dy-treimg .dy-trow.is-qe-open {
   background: var(--dya-paper-2);
@@ -5931,7 +6057,7 @@ body.dy-admin .dy-treimg .dy-qe__field--sm {
 }
 body.dy-admin .dy-treimg .dy-qe__lab {
   font-family: var(--dya-font-mono);
-  font-size: 9.5px;
+  font-size: 11px;
   letter-spacing: var(--dya-tracking-label);
   text-transform: uppercase;
   color: var(--dya-ink-mute);
@@ -6095,7 +6221,7 @@ body.dy-admin .dy-treimg .dy-trow__badge {
   align-items: center;
   gap: 4px;
   font-family: var(--dya-font-mono);
-  font-size: 9.5px;
+  font-size: 11px;
   letter-spacing: var(--dya-tracking-mono);
   text-transform: uppercase;
   color: var(--dya-ink-mute);
@@ -6238,7 +6364,7 @@ body.dy-admin .dy-treimg [data-tip]:hover::after {
   border: 1px solid var(--dya-edge-strong);
   color: var(--dya-ink-soft);
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: var(--dya-tracking-mono);
   text-transform: uppercase;
   padding: 4px 8px;
@@ -6570,8 +6696,8 @@ body.dy-admin .dy-treimg .dy-tstatus--trash .dy-tstatus__dot {
     height: 15px;
   }
   body.dy-admin .dy-treimg .dy-trow__grip-chev {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
   }
   body.dy-admin .dy-treimg .dy-trow__grip-chev svg {
     width: 11px;
@@ -6732,7 +6858,7 @@ body.dy-admin .dy-treimg .dy-tfseg button.is-active {
 }
 body.dy-admin .dy-treimg .dy-tfseg button .n {
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: var(--dya-tracking-mono);
   color: var(--dya-ink-mute);
 }
@@ -6929,7 +7055,7 @@ body.dy-admin .dy-treimg .dy-tfactive__reset {
   color: var(--dya-ink-mute);
   cursor: pointer;
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: var(--dya-tracking-mono);
   text-transform: uppercase;
 }
@@ -6939,7 +7065,7 @@ body.dy-admin .dy-treimg .dy-tfactive__reset:hover {
 body.dy-admin .dy-treimg .dy-tfactive__count {
   margin-left: auto;
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: var(--dya-tracking-mono);
 }
 
@@ -7314,7 +7440,7 @@ body.dy-admin .dy-treimg--plugins .dy-tgroup {
   background: var(--dya-bg-elev);
   border-bottom: 1px solid var(--dya-line);
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: var(--dya-tracking-label);
   text-transform: uppercase;
   color: var(--dya-ink-mute);
@@ -7401,7 +7527,7 @@ body.dy-admin .dy-treimg--plugins .dy-trow--plugin.is-blocked .dy-trow__title-te
   color: var(--dya-ink-mute);
 }
 body.dy-admin .dy-treimg--plugins .dy-trow--plugin:hover .dy-trow__title-text {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin .dy-treimg--plugins .dy-tver {
   display: inline-flex;
@@ -7478,7 +7604,7 @@ body.dy-admin .dy-treimg--plugins .dy-treq {
   background: color-mix(in srgb, var(--dya-info) 12%, transparent);
   color: var(--dya-info);
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   letter-spacing: 0.02em;
   white-space: nowrap;
   max-width: 220px;
@@ -7521,7 +7647,7 @@ body.dy-admin .dy-treimg--plugins .dy-trow__desc-meta a {
   text-decoration: none;
 }
 body.dy-admin .dy-treimg--plugins .dy-trow__desc-meta a:hover {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin .dy-treimg--plugins .dy-trow__desc-sep {
   margin: 0 6px;
@@ -7665,7 +7791,7 @@ body.dy-admin .dy-treimg--plugins .dy-tupdates__btn svg {
 body.dy-admin .dy-treimg--plugins .dy-tfchip--more .dy-tfchip__pop .n {
   margin-left: auto;
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   color: var(--dya-ink-mute);
   padding-left: 12px;
 }
@@ -7689,7 +7815,7 @@ body.dy-admin .dy-treimg--plugins .dy-tempty[hidden] {
     --dya-grid: 26px 26px minmax(0, 1fr) minmax(0, 1.2fr) 60px 26px;
   }
   body.dy-admin .dy-treimg--plugins .dy-treimg__col--auto-updates {
-    font-size: 9px;
+    font-size: 12px;
   }
 }
 @media (max-width: 1024px) and (min-width: 768px) {
@@ -8850,7 +8976,7 @@ body.dy-admin .dy-notices-modal__clear {
   background: transparent;
   color: var(--dya-ink-mute);
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
@@ -9462,7 +9588,7 @@ body.dy-admin .theme-browser .theme .theme-name {
 
 body.dy-admin .theme-browser .theme .theme-author {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-mono);
   color: var(--dya-ink-fade);
@@ -9494,7 +9620,7 @@ body.dy-admin .theme-browser .theme.active .theme-screenshot::after {
   background: var(--dya-success);
   color: var(--dya-bg);
   font-family: var(--dya-font-mono);
-  font-size: 9.5px;
+  font-size: 11px;
   font-weight: 600;
   padding: 2px 6px;
   border-radius: var(--dya-r-xs);
@@ -9656,7 +9782,7 @@ body.dy-admin #edit-slug-box strong {
 body.dy-admin #edit-slug-box .edit-slug.button {
   margin-left: 4px;
   padding: 2px 8px;
-  font-size: 10.5px;
+  font-size: 11px;
 }
 
 body.dy-admin #postdivrich,
@@ -9680,7 +9806,7 @@ body.dy-admin .wp-switch-editor {
   border-bottom: 2px solid transparent;
   padding: 8px 12px;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-mono);
   color: var(--dya-ink-mute);
@@ -9956,7 +10082,7 @@ body.dy-admin .dy-ed-toggle {
   background: transparent;
   color: var(--dya-ink-soft);
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   letter-spacing: var(--dya-tracking-mono);
   text-transform: uppercase;
   cursor: pointer;
@@ -9976,12 +10102,12 @@ body.dy-admin .dy-ed-toggle svg {
 
 body.dy-admin.dy-editor-reimagined .dy-treimg__toggle {
   border-color: var(--dya-accent);
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 
 body.dy-admin.dy-editor-reimagined .dy-treimg__toggle:hover {
   border-color: var(--dya-accent);
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   background: var(--dya-paper-2);
 }
 
@@ -10267,7 +10393,7 @@ body.dy-admin.dy-editor-reimagined #elementor-switch-mode .elementor-switch-mode
   border-color: var(--dya-ink-fade);
 }
 body.dy-admin.dy-editor-reimagined #elementor-switch-mode-button .eicon-elementor-square {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.dy-editor-reimagined .dy-ed-cmdbar {
   position: sticky;
@@ -10324,7 +10450,7 @@ body.dy-admin.dy-editor-reimagined .dy-ed-cmdbar__slug {
   min-width: 0;
   margin-top: 4px;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   color: var(--dya-ink-fade);
 }
 body.dy-admin.dy-editor-reimagined .dy-ed-cmdbar__slug .dy-ed-slugi {
@@ -10358,7 +10484,7 @@ body.dy-admin.dy-editor-reimagined .dy-ed-cmdbar__slug .button.edit-slug {
   padding: 2px 8px;
   min-height: 0;
   height: auto;
-  font-size: 9px;
+  font-size: 11px;
   line-height: 1.6;
   border: 1px solid var(--dya-edge);
   border-radius: var(--dya-r-xs);
@@ -10391,7 +10517,7 @@ body.dy-admin.dy-editor-reimagined .dy-ed-pill {
   gap: 6px;
   flex: 0 0 auto;
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   padding: 5px 11px;
@@ -10648,7 +10774,7 @@ body.dy-admin.dy-editor-reimagined #postdivrich .post-status-info {
   background: var(--dya-bg-elev);
   color: var(--dya-ink-mute);
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
 }
 body.dy-admin.dy-editor-reimagined #postbox-container-1.dy-ed-inspector {
   position: sticky;
@@ -11056,7 +11182,7 @@ body.dy-admin.dy-editor-reimagined .acf-field .acf-label p.description {
   line-height: 1.45;
 }
 body.dy-admin.dy-editor-reimagined .acf-field .acf-label .acf-required {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.dy-editor-reimagined .acf-input input[type=text], body.dy-admin.dy-editor-reimagined .acf-input input[type=number], body.dy-admin.dy-editor-reimagined .acf-input input[type=email],
 body.dy-admin.dy-editor-reimagined .acf-input input[type=url], body.dy-admin.dy-editor-reimagined .acf-input input[type=password], body.dy-admin.dy-editor-reimagined .acf-input input[type=search],
@@ -11244,7 +11370,7 @@ body.dy-admin.dy-editor-reimagined .acf-flexible-content .layout .acf-fc-layout-
   height: 20px;
   line-height: 18px;
   font-family: var(--dya-font-mono);
-  font-size: 9px;
+  font-size: 11px;
   padding: 0 5px;
 }
 body.dy-admin.dy-editor-reimagined .acf-flexible-content .layout .acf-fc-layout-controls {
@@ -11282,7 +11408,7 @@ body.dy-admin.dy-editor-reimagined .acf-repeater > .acf-table > thead > tr > th 
   border-bottom: 1px solid var(--dya-line);
   color: var(--dya-ink-fade);
   font-family: var(--dya-font-mono);
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: var(--dya-tracking-label);
   text-transform: uppercase;
   padding: 8px 10px;
@@ -11298,7 +11424,7 @@ body.dy-admin.dy-editor-reimagined .acf-repeater .acf-row-handle {
 }
 body.dy-admin.dy-editor-reimagined .acf-repeater .acf-row-handle.order {
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   color: var(--dya-ink-mute);
   cursor: grab;
 }
@@ -11378,7 +11504,7 @@ body.dy-admin.dy-editor-reimagined.dy-ed-inspector-collapsed .dy-ed-secic {
 }
 body.dy-admin.dy-editor-reimagined.dy-ed-inspector-collapsed #postbox-container-1.dy-ed-inspector .postbox-header:hover .dy-ed-secic,
 body.dy-admin.dy-editor-reimagined.dy-ed-inspector-collapsed #postbox-container-1.dy-ed-inspector .postbox:hover .dy-ed-secic {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 
 @media (max-width: 1100px) {
@@ -11772,7 +11898,7 @@ body.dy-admin.index-php .dy-dashboard__eyebrow {
   animation-delay: 200ms;
 }
 body.dy-admin.index-php .dy-dashboard__eyebrow-count {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
@@ -11879,7 +12005,7 @@ body.dy-admin.index-php .dy-dashboard__paragraph code {
   color: var(--dya-ink);
 }
 body.dy-admin.index-php .dy-dashboard__paragraph-link {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
@@ -11965,7 +12091,7 @@ body.dy-admin.index-php .dy-dashboard--customizable .dy-dashboard__slot-ghost:ho
   transform: scale(1);
 }
 body.dy-admin.index-php .dy-dashboard--customizable .dy-dashboard__slot-ghost-plus:hover {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   background: color-mix(in srgb, var(--dya-accent) 16%, transparent);
 }
 body.dy-admin.index-php .dy-dashboard--customizable .dy-dashboard__slots[data-slots-used="0"] .dy-dashboard__slot-ghost {
@@ -12389,7 +12515,7 @@ body.dy-admin.index-php .dy-dashboard__native-item-body table tbody tr:hover {
   background: color-mix(in srgb, var(--dya-paper-2) 55%, transparent) !important;
 }
 body.dy-admin.index-php .dy-dashboard__native-item-body .dashicons, body.dy-admin.index-php .dy-dashboard__native-item-body .dashicons-before::before {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   vertical-align: middle;
 }
 body.dy-admin.index-php .dy-dashboard__native-empty {
@@ -12544,7 +12670,7 @@ body.dy-admin.index-php .dy-dashboard__nav-insert {
   border-radius: 50%;
   background: var(--dya-paper);
   border: 0 solid var(--dya-accent);
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   cursor: pointer;
   opacity: 0;
   pointer-events: none;
@@ -12609,7 +12735,7 @@ body.dy-admin.index-php .dy-dashboard__customize-btn:focus-visible {
   outline-offset: 2px;
 }
 body.dy-admin.index-php .dy-dashboard__customize-btn svg {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php .dy-dashboard--sidebar-open .dy-dashboard__customize-btn {
   opacity: 0;
@@ -12651,7 +12777,7 @@ body.dy-admin.index-php .dy-dashboard__sidebar-eyebrow {
   font-size: var(--dya-fs-xs);
   letter-spacing: var(--dya-tracking-label);
   text-transform: uppercase;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   font-weight: 600;
 }
 body.dy-admin.index-php .dy-dashboard__sidebar-close {
@@ -12689,10 +12815,10 @@ body.dy-admin.index-php .dy-dashboard__sidebar-back {
   transition: color var(--dya-t-fast) var(--dya-ease), gap var(--dya-t-fast) var(--dya-ease);
 }
 body.dy-admin.index-php .dy-dashboard__sidebar-back svg {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php .dy-dashboard__sidebar-back:hover {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   gap: 9px;
 }
 body.dy-admin.index-php .dy-dashboard__sidebar-back[hidden] {
@@ -12722,7 +12848,7 @@ body.dy-admin.index-php .dy-dashboard__history-btn svg {
   display: block;
 }
 body.dy-admin.index-php .dy-dashboard__history-btn:hover:not(:disabled) {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   border-color: var(--dya-edge-strong);
 }
 body.dy-admin.index-php .dy-dashboard__history-btn:disabled {
@@ -12836,7 +12962,7 @@ body.dy-admin.index-php .dy-dashboard__section-action {
   transition: color var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease);
 }
 body.dy-admin.index-php .dy-dashboard__section-action:hover {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   background: var(--dya-paper-3);
 }
 body.dy-admin.index-php .dy-dashboard__section-action:focus-visible {
@@ -13004,7 +13130,7 @@ body.dy-admin.index-php .dy-dashboard__color-reset {
   transition: color var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease);
 }
 body.dy-admin.index-php .dy-dashboard__color-reset:hover {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   border-color: var(--dya-accent);
 }
 body.dy-admin.index-php .dy-dashboard__color-reset[hidden] {
@@ -13238,7 +13364,7 @@ body.dy-admin.index-php .dy-dashboard__token-btn {
   background: var(--dya-paper-3);
   border: 1px solid var(--dya-edge);
   border-radius: var(--dya-r-sm, 6px);
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   cursor: pointer;
   transition: background var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease);
   z-index: 2;
@@ -13307,7 +13433,7 @@ body.dy-admin.index-php .dy-dashboard__token-group {
 }
 body.dy-admin.index-php .dy-dashboard__token-group h5 {
   font-family: var(--dya-font-mono);
-  font-size: 9.5px;
+  font-size: 11px;
   letter-spacing: var(--dya-tracking-label);
   text-transform: uppercase;
   color: var(--dya-ink-mute);
@@ -13335,8 +13461,8 @@ body.dy-admin.index-php .dy-dashboard__token-item:hover {
 }
 body.dy-admin.index-php .dy-dashboard__token-item code {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
-  color: var(--dya-accent);
+  font-size: 11px;
+  color: var(--dya-accent-text);
   background: transparent;
   padding: 0;
 }
@@ -13419,7 +13545,7 @@ body.dy-admin.index-php .dy-dashboard__tile-badge {
   max-width: calc(100% - 10px);
   padding: 2px 5px;
   font-family: var(--dya-font-mono);
-  font-size: 8px;
+  font-size: 11px;
   line-height: 1.2;
   letter-spacing: var(--dya-tracking-label);
   text-transform: uppercase;
@@ -13449,7 +13575,7 @@ body.dy-admin.index-php .dy-dashboard__tile-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php .dy-dashboard__tile-icon svg {
   width: 24px;
@@ -13473,7 +13599,7 @@ body.dy-admin.index-php .dy-dashboard__tile-desc {
 }
 body.dy-admin.index-php .dy-dashboard__tile-slots {
   font-family: var(--dya-font-mono);
-  font-size: 9.5px;
+  font-size: 11px;
   letter-spacing: var(--dya-tracking-label);
   text-transform: uppercase;
   color: var(--dya-ink-mute);
@@ -13551,7 +13677,7 @@ body.dy-admin.index-php .dy-dashboard__preset-custom-icon {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   background: color-mix(in srgb, var(--dya-accent) 16%, transparent);
 }
 body.dy-admin.index-php .dy-dashboard__preset-custom-text {
@@ -13598,7 +13724,7 @@ body.dy-admin.index-php .dy-dashboard__preset-menu-btn:hover {
 }
 body.dy-admin.index-php .dy-dashboard__preset-menu-btn[aria-expanded=true] {
   opacity: 1;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   background: var(--dya-paper-3);
 }
 body.dy-admin.index-php .dy-dashboard__preset-menu-btn:focus-visible {
@@ -13748,7 +13874,7 @@ body.dy-admin.index-php .dy-dashboard__role-name {
 body.dy-admin.index-php .dy-dashboard__role-conflict {
   margin-left: auto;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   letter-spacing: 0.01em;
   color: var(--dya-warn);
   white-space: nowrap;
@@ -13756,7 +13882,7 @@ body.dy-admin.index-php .dy-dashboard__role-conflict {
 body.dy-admin.index-php .dy-dashboard__role-default {
   margin-left: auto;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   letter-spacing: 0.01em;
   color: var(--dya-ink-mute);
   opacity: 0.85;
@@ -13832,7 +13958,7 @@ body.dy-admin.index-php .dy-dashboard__screen-item-num {
   font-family: var(--dya-font-mono);
   font-size: var(--dya-fs-xs);
   letter-spacing: var(--dya-tracking-label);
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   min-width: 28px;
 }
 body.dy-admin.index-php .dy-dashboard__screen-item-title {
@@ -13884,7 +14010,7 @@ body.dy-admin.index-php .dy-dashboard__sidebar-saved {
   transition: color var(--dya-t-fast) var(--dya-ease);
 }
 body.dy-admin.index-php .dy-dashboard__sidebar-saved.is-saving {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php .dy-dashboard__btn {
   font-family: var(--dya-font-mono);
@@ -13965,7 +14091,7 @@ body.dy-admin.index-php .dy-dashboard__drag-ghost .dy-dashboard__drag-ghost-icon
   display: inline-flex;
   width: 18px;
   height: 18px;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php .dy-dashboard__drag-ghost .dy-dashboard__drag-ghost-icon svg {
   width: 18px;
@@ -14028,7 +14154,7 @@ body.dy-admin.index-php .dy-dashboard__brand-logo {
   display: inline-block;
   width: auto;
   height: 1em;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   vertical-align: -0.12em;
 }
 body.dy-admin.index-php .dy-dashboard__tile-name {
@@ -14038,7 +14164,7 @@ body.dy-admin.index-php .dy-dashboard__tile-name {
 }
 body.dy-admin.index-php .dy-dashboard__card-meta {
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: var(--dya-tracking-label);
   text-transform: uppercase;
   color: var(--dya-ink-mute);
@@ -14056,7 +14182,7 @@ body.dy-admin.index-php .dy-dashboard__pill {
   gap: 5px;
   padding: 3px 9px;
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: var(--dya-tracking-label);
   text-transform: uppercase;
   border-radius: var(--dya-r-pill);
@@ -14086,7 +14212,7 @@ body.dy-admin.index-php .dy-dashboard__pill--danger {
 }
 body.dy-admin.index-php .dy-dashboard__pill--accent {
   background: rgba(var(--dya-accent-rgb, 212, 178, 122), 0.18);
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php .dy-dashboard__pill--warn::before, body.dy-admin.index-php .dy-dashboard__pill--danger::before {
   animation: dy-fx-pulse 1.8s var(--dya-ease) infinite;
@@ -14148,14 +14274,14 @@ body.dy-admin.index-php .dy-dashboard__row-k {
   transition: color var(--dya-t-fast) var(--dya-ease), transform var(--dya-t-fast) var(--dya-ease);
 }
 body.dy-admin.index-php a.dy-dashboard__row-k:hover {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   transform: translateX(2px);
 }
 body.dy-admin.index-php .dy-dashboard__cta {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   font-family: var(--dya-font-mono);
   font-size: var(--dya-fs-xs);
   letter-spacing: var(--dya-tracking-label);
@@ -14232,7 +14358,7 @@ body.dy-admin.index-php .dy-dashboard__sub {
   gap: 14px;
   flex-wrap: wrap;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   letter-spacing: 0.02em;
   color: var(--dya-ink-mute);
 }
@@ -14282,7 +14408,7 @@ body.dy-admin.index-php .dy-dashboard__list-item:hover::before {
 body.dy-admin.index-php .dy-dashboard__list-time {
   flex: 0 0 auto;
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.02em;
   color: var(--dya-ink-mute);
   white-space: nowrap;
@@ -14317,7 +14443,7 @@ body.dy-admin.index-php .dy-dashboard__badge {
   transition: background var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease), color var(--dya-t-fast) var(--dya-ease);
 }
 body.dy-admin.index-php .dy-dashboard__badge.is-on {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   background: color-mix(in srgb, var(--dya-accent) 15%, transparent);
   border-color: color-mix(in srgb, var(--dya-accent) 38%, transparent);
 }
@@ -14356,7 +14482,7 @@ body.dy-admin.index-php .dy-dashboard__card-foot-link {
   letter-spacing: var(--dya-tracking-label);
   text-transform: uppercase;
   font-weight: 600;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   text-decoration: none;
   line-height: 1;
 }
@@ -14413,7 +14539,7 @@ body.dy-admin.index-php .dy-dashboard__card-foot-link:focus-visible .dy-dashboar
   transform: scaleX(1);
 }
 body.dy-admin.index-php .dy-dashboard__big-num--accent {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php .dy-dashboard__big-num--money {
   font-size: clamp(28px, 2.7vw, 40px);
@@ -14509,7 +14635,7 @@ body.dy-admin.index-php .dy-dashboard__order-num {
   transition: color var(--dya-t-fast) var(--dya-ease);
 }
 body.dy-admin.index-php .dy-dashboard__order-num:hover {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php .dy-dashboard__order-total {
   font-variant-numeric: tabular-nums;
@@ -14519,7 +14645,7 @@ body.dy-admin.index-php .dy-dashboard__order-total {
 }
 body.dy-admin.index-php .dy-dashboard__order-time {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   color: var(--dya-ink-mute);
   white-space: nowrap;
 }
@@ -14540,19 +14666,19 @@ body.dy-admin.index-php .dy-dashboard__list--compact .dy-dashboard__list-label {
   white-space: nowrap;
 }
 body.dy-admin.index-php .dy-dashboard__list--compact .dy-dashboard__list-label:hover {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php .dy-dashboard__stock-qty {
   flex: 0 0 auto;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   color: var(--dya-warn);
   font-variant-numeric: tabular-nums;
 }
 body.dy-admin.index-php .dy-dashboard__spark-wrap {
   margin-top: 12px;
   line-height: 0;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php .dy-dashboard__spark-wrap.is-empty {
   opacity: 0.4;
@@ -14636,7 +14762,7 @@ body.dy-admin.index-php .dy-dashboard__rank-pos {
   font-family: var(--dya-font-mono);
   font-size: 11px;
   font-weight: 700;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   width: 1.2em;
   text-align: center;
   font-variant-numeric: tabular-nums;
@@ -14649,7 +14775,7 @@ body.dy-admin.index-php .dy-dashboard__rank-name {
   white-space: nowrap;
 }
 body.dy-admin.index-php .dy-dashboard__rank-name:hover {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php .dy-dashboard__rank-qty {
   font-family: var(--dya-font-mono);
@@ -14706,7 +14832,7 @@ body.dy-admin.index-php .dy-dashboard__btn-ghost {
 }
 body.dy-admin.index-php .dy-dashboard__btn-ghost::before {
   content: "›";
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   font-weight: 700;
   opacity: 0;
   margin-right: -10px;
@@ -14738,7 +14864,7 @@ body.dy-admin.index-php .dy-dashboard__shortcut {
   transition: transform var(--dya-t-fast) var(--dya-ease), border-color var(--dya-t-fast) var(--dya-ease), background var(--dya-t-fast) var(--dya-ease);
 }
 body.dy-admin.index-php .dy-dashboard__shortcut .dashicons {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   font-size: 16px;
   width: 16px;
   height: 16px;
@@ -14793,7 +14919,7 @@ body.dy-admin.index-php .dy-dashboard__admin-link {
 }
 body.dy-admin.index-php .dy-dashboard__create-btn:hover,
 body.dy-admin.index-php .dy-dashboard__admin-link:hover {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   transform: translateY(-2px);
 }
 body.dy-admin.index-php .dy-dashboard__create-btn-icon {
@@ -14804,7 +14930,7 @@ body.dy-admin.index-php .dy-dashboard__create-btn-icon {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   background: color-mix(in srgb, var(--dya-accent) 13%, transparent);
   transition: transform var(--dya-t-med) var(--dya-ease), background var(--dya-t-med) var(--dya-ease), box-shadow var(--dya-t-med) var(--dya-ease);
 }
@@ -14847,7 +14973,7 @@ body.dy-admin.index-php .dy-dashboard__admin-link-icon {
   justify-content: center;
   background: color-mix(in srgb, var(--dya-accent) 13%, transparent);
   border-radius: 50%;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   transition: transform var(--dya-t-med) var(--dya-ease), box-shadow var(--dya-t-med) var(--dya-ease);
 }
 body.dy-admin.index-php .dy-dashboard__admin-link-icon svg {
@@ -14896,7 +15022,7 @@ body.dy-admin.index-php .dy-dashboard__create-tile:hover {
   transform: translateY(-3px);
   background: color-mix(in srgb, var(--dya-accent) 9%, transparent);
   border-color: color-mix(in srgb, var(--dya-accent) 30%, transparent);
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php .dy-dashboard__create-tile:hover .dy-dashboard__create-tile-icon {
   background: color-mix(in srgb, var(--dya-accent) 22%, transparent);
@@ -14910,7 +15036,7 @@ body.dy-admin.index-php .dy-dashboard__create-tile-icon {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   background: color-mix(in srgb, var(--dya-accent) 13%, transparent);
   transition: background var(--dya-t-med) var(--dya-ease), box-shadow var(--dya-t-med) var(--dya-ease);
 }
@@ -15082,7 +15208,7 @@ body.dy-admin.index-php.dy-theme-light .dy-dashboard__paragraph code {
   color: var(--dya-ink);
 }
 body.dy-admin.index-php.dy-theme-light .dy-dashboard__eyebrow-count {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php.dy-theme-light .dy-dashboard__screen[data-screen-kind=user] .dy-dashboard__slot {
   background: var(--dya-paper) !important;
@@ -15122,7 +15248,7 @@ body.dy-admin.index-php.dy-theme-light .dy-dashboard__customize-btn:hover {
   border-color: var(--dya-accent);
 }
 body.dy-admin.index-php.dy-theme-light .dy-dashboard__customize-btn svg {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 body.dy-admin.index-php.dy-theme-light .dy-dashboard__screen--native .dy-dashboard__native-item {
   background: #ffffff;
@@ -16057,7 +16183,7 @@ body.dy-admin-login.dy-theme-light .dy-login-theme-toggle__icon--sun {
   width: 72px;
   height: 72px;
   background: color-mix(in srgb, var(--dya-accent) 12%, var(--dy-login-paper));
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   border: 1px solid color-mix(in srgb, var(--dya-accent) 25%, transparent);
   border-radius: 18px;
   font-family: var(--dya-font-display, "Bricolage Grotesque");
@@ -16126,7 +16252,7 @@ body.dy-admin-login label[for=user_login],
 body.dy-admin-login label[for=user_pass],
 body.dy-admin-login label[for=user_email] {
   font-family: var(--dya-font-mono, ui-monospace);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label, 0.12em);
   color: var(--dy-login-ink-mute);
@@ -16342,7 +16468,7 @@ body.dy-admin-login #backtoblog a:hover {
 }
 
 body.dy-admin-login #backtoblog a::first-letter {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   font-size: 1.15em;
 }
 
@@ -16432,7 +16558,7 @@ body.dy-admin-login #language-switcher button {
 body.dy-admin-login .language-switcher input[type=submit]:hover,
 body.dy-admin-login #language-switcher button:hover {
   border-color: var(--dya-accent);
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 
 .dy-login-signature {
@@ -16443,7 +16569,7 @@ body.dy-admin-login #language-switcher button:hover {
   z-index: 10;
   text-align: center;
   font-family: var(--dya-font-mono, ui-monospace);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label, 0.12em);
   color: var(--dy-login-ink-mute);
@@ -16473,7 +16599,7 @@ body.dy-admin-login #language-switcher button:hover {
   .dy-login-eyebrow {
     top: 16px;
     left: 20px;
-    font-size: 10px;
+    font-size: 11px;
   }
   .dy-login-theme-toggle {
     top: 14px;
@@ -16493,7 +16619,7 @@ body.dy-admin-login #language-switcher button:hover {
     padding: 24px 20px;
   }
   .dy-login-signature {
-    font-size: 9.5px;
+    font-size: 11px;
   }
 }
 .dy-login-logo--bg {
@@ -16555,7 +16681,7 @@ body.dy-admin .order-status {
   padding: 2px 8px;
   border-radius: var(--dya-r-pill);
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-mono);
@@ -16662,7 +16788,7 @@ body.dy-admin .woocommerce-summary__item:hover {
 
 body.dy-admin .woocommerce-summary__item-label {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -16682,7 +16808,7 @@ body.dy-admin .woocommerce-summary__item-data {
 body.dy-admin .woocommerce-summary__item-delta,
 body.dy-admin .woocommerce-summary__item-delta--good {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   letter-spacing: 0;
   color: var(--dya-success);
   text-transform: uppercase;
@@ -16821,7 +16947,7 @@ body.dy-admin .order_data_column h3,
 body.dy-admin .order_data_column h4 {
   margin: 0 0 12px;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute) !important;
@@ -16880,7 +17006,7 @@ body.dy-admin .order_data_column .address p {
 
 body.dy-admin .order_data_column .form-field label {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -16915,7 +17041,7 @@ body.dy-admin table.woocommerce_order_items thead th {
   border-bottom: 1px solid var(--dya-line);
   padding: 10px 14px;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -16941,7 +17067,7 @@ body.dy-admin table.woocommerce_order_items .item .item-name strong {
 
 body.dy-admin table.woocommerce_order_items .item .wc-order-item-sku {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   color: var(--dya-ink-fade);
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-mono);
@@ -17033,7 +17159,7 @@ body.dy-admin #woocommerce-order-notes ul.order_notes li.note .note_content {
 
 body.dy-admin #woocommerce-order-notes ul.order_notes li.note .meta {
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-mono);
   color: var(--dya-ink-fade);
@@ -17432,7 +17558,7 @@ body.dy-admin .components-base-control__label,
 body.dy-admin .components-base-control .components-base-control__label {
   display: block;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -17607,7 +17733,7 @@ body.dy-admin .dy-listview {
 
 body.dy-admin .dy-listview h3 {
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -17665,7 +17791,7 @@ body.dy-admin .dy-editor-breadcrumb {
   align-items: center;
   gap: 6px;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -17749,7 +17875,7 @@ body.dy-admin .dy-site-editor-nav ul li.is-active a {
 
 body.dy-admin .dy-site-editor-nav .group-label {
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-fade);
@@ -17970,6 +18096,25 @@ body.dy-admin .editor-sidebar,
 body.dy-admin .interface-complementary-area__fill {
   background: var(--dya-paper) !important;
   color: var(--dya-ink);
+}
+
+body.dy-admin .editor-post-publish-panel {
+  top: var(--dya-topbar-h) !important;
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink);
+}
+
+body.dy-admin .editor-post-last-edited-panel .components-text {
+  color: var(--dya-ink-mute);
+}
+
+body.dy-admin .editor-post-publish-panel__prepublish strong {
+  color: var(--dya-ink);
+}
+
+body.dy-admin .editor-post-publish-panel :is(.editor-post-publish-panel__header, .editor-post-publish-panel__footer) {
+  background: var(--dya-paper) !important;
+  border-color: var(--dya-line) !important;
 }
 
 body.dy-admin .components-panel__body.is-opened:not(:has(> .components-panel__body-content)) {
@@ -18206,7 +18351,7 @@ body.dy-admin .customize-control {
 body.dy-admin .customize-control-title {
   display: block;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -18258,7 +18403,7 @@ body.dy-admin .customize-panel-back {
   border-bottom: 1px solid var(--dya-line);
   padding: 14px 16px;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -18287,7 +18432,7 @@ body.dy-admin #customize-info .panel-title {
 
 body.dy-admin #customize-info .customize-action {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -18389,7 +18534,7 @@ body.dy-admin.dy-show-footer #wpfooter {
   margin: 56px auto 0;
   border-top: 1px solid var(--dya-line);
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-fade);
@@ -18492,7 +18637,7 @@ body.dy-admin .health-check-accordion .health-check-accordion-trigger .title {
 body.dy-admin .health-check-accordion .health-check-accordion-trigger .badge {
   flex: 0 0 auto;
   font-family: var(--dya-font-mono);
-  font-size: 9.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   padding: 3px 9px;
@@ -18543,7 +18688,7 @@ body.dy-admin .site-health-progress .progress-label {
 
 body.dy-admin .site-health-issue-count {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -18795,7 +18940,7 @@ body.dy-admin .wp-list-table.comments .author {
 body.dy-admin .wp-list-table.comments .comment-meta,
 body.dy-admin .wp-list-table.comments .submitted-on {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-mono);
   color: var(--dya-ink-fade);
@@ -18824,7 +18969,7 @@ body.dy-admin #menu-management .nav-tabs-wrapper {
 body.dy-admin #menu-name-label label,
 body.dy-admin .menu-name-label label {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -18916,7 +19061,7 @@ body.dy-admin .form-wrap .form-field {
 body.dy-admin .form-wrap .form-field label {
   display: block;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -18940,15 +19085,15 @@ body.dy-admin .form-wrap p.description {
 body.dy-admin.network-admin .wp-heading-inline::after {
   content: " · NETWORK";
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: var(--dya-tracking-label);
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   margin-left: 8px;
   vertical-align: 4px;
 }
 
 body.dy-admin.network-admin .dy-page-sub {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 
 body.dy-admin #comment-status-radio {
@@ -19316,7 +19461,7 @@ body.dy-admin .comment-status-bullet.is-trash {
   body.dy-admin .wp-list-table tbody td[data-colname]::before {
     content: attr(data-colname);
     font-family: var(--dya-font-mono);
-    font-size: 9.5px;
+    font-size: 11px;
     text-transform: uppercase;
     letter-spacing: var(--dya-tracking-label);
     color: var(--dya-ink-fade);
@@ -19448,7 +19593,7 @@ body.dy-admin .comment-status-bullet.is-trash {
     width: calc(35% - 24px);
     white-space: normal;
     font-family: var(--dya-font-mono);
-    font-size: 10.5px;
+    font-size: 11px;
     line-height: 1.4;
     letter-spacing: var(--dya-tracking-mono);
     text-transform: uppercase;
@@ -20128,7 +20273,7 @@ body.dy-admin .acf-flexible-content > .acf-actions.acf-fc-top-actions .acf-btn-c
 body.dy-admin .acf-flexible-content .acf-fc-meta a:hover,
 body.dy-admin .acf-flexible-content .acf-actions > a:hover,
 body.dy-admin .acf-flexible-content .acf-hl > li > a:hover {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 
 body.dy-admin .acf-gallery,
@@ -20273,7 +20418,7 @@ body.dy-admin .acf-flexible-content .layout.-collapsed .acf-layout-collapse .acf
 }
 
 body.dy-admin .acf-flexible-content .acf-layout-collapse .acf-icon:hover {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
   background-color: transparent !important;
 }
 
@@ -20997,7 +21142,7 @@ body.dy-admin .acf-fc-layout-handle .acf-icon {
 body.dy-admin .acf-fc-layout-controls a:hover .acf-icon,
 body.dy-admin .acf-fc-layout-controls .acf-icon:hover {
   background-color: var(--dya-accent) !important;
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 
 body.dy-admin .acf-fc-layout-controls,
@@ -21054,7 +21199,7 @@ body.dy-admin .acf-taxonomy-field .select2-selection--multiple .select2-search--
   margin: 5px 4px 0 2px;
   border-radius: var(--dya-r-xs);
   background: color-mix(in srgb, var(--dya-accent) 16%, transparent);
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   font-weight: 700;
   font-size: 13px;
   line-height: 1;
@@ -21247,7 +21392,7 @@ body.dy-admin .bricks-message.success {
 
 body.dy-admin .message a,
 body.dy-admin .bricks-message a {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
   text-decoration: underline;
 }
 
@@ -21378,9 +21523,20 @@ body.dy-admin.plugins-php .toggle-auto-update {
   cursor: pointer;
 }
 
-body.dy-admin.plugins-php .toggle-auto-update .dashicons,
-body.dy-admin.plugins-php .toggle-auto-update .label {
+body.dy-admin.plugins-php .toggle-auto-update .dashicons {
   display: none;
+}
+
+body.dy-admin.plugins-php .toggle-auto-update .label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 body.dy-admin.plugins-php .toggle-auto-update::before {
@@ -21454,7 +21610,7 @@ body.dy-admin.options-privacy-php .privacy-text-section h3 {
 }
 
 body.dy-admin.options-privacy-php .privacy-text-section a {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 
 body.dy-admin.plugins-php .wp-list-table .column-auto-updates {
@@ -21526,13 +21682,13 @@ body.dy-admin.themes-php .theme.add-new-theme a:focus::after {
 body.dy-admin.themes-php .theme.add-new-theme a:hover span::after,
 body.dy-admin.themes-php .theme.add-new-theme a:focus span::after {
   background: var(--dya-paper) !important;
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
   box-shadow: 0 0 0 1px var(--dya-accent);
 }
 
 body.dy-admin.themes-php .theme.add-new-theme a:hover .theme-name,
 body.dy-admin.themes-php .theme.add-new-theme a:focus .theme-name {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 
 body.dy-admin.plugins-php .search-plugins .search-box > label,
@@ -21597,7 +21753,7 @@ body.dy-admin.widgets-php #access-off {
 body.dy-admin.widgets-php .widget-access-link a:hover,
 body.dy-admin.widgets-php #access-on:hover,
 body.dy-admin.widgets-php #access-off:hover {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 
 body.dy-admin.widgets-php #available-widgets #widget-list .widget {
@@ -21743,7 +21899,7 @@ body.dy-admin.nav-menus-php a.show-link {
   float: none;
   margin: 8px 0 16px 0;
   text-align: left;
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 
 body.dy-admin.nav-menus-php .menu-item-settings {
@@ -22096,7 +22252,7 @@ body.dy-admin.options-privacy-php .privacy-text-section h4 {
 }
 
 body.dy-admin.options-privacy-php .privacy-settings-accordion-panel a {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 
 body.dy-admin.options-privacy-php .privacy-settings-section-description,
@@ -22213,6 +22369,14 @@ body.dy-admin .font-library__font-card__name {
   color: var(--dya-ink) !important;
 }
 
+body.dy-admin:not(.dy-theme-light) .font-library__font-variant_demo-image {
+  filter: invert(1);
+}
+
+body.dy-admin:not(.dy-theme-light) .font-library__font-card:is(:hover, :focus-within) {
+  background: var(--dya-paper-2);
+}
+
 body.dy-admin .font-library__font-card__count {
   color: var(--dya-ink-mute) !important;
 }
@@ -22227,7 +22391,7 @@ body.dy-admin .font-library-page__tablist [role=tab] span {
 
 body.dy-admin .font-library-page__tablist [role=tab][aria-selected=true],
 body.dy-admin .font-library-page__tablist [role=tab][aria-selected=true] span {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 
 body.dy-admin #post-status-info {
@@ -22430,7 +22594,7 @@ body.dy-admin .attachment-info .copy-attachment-url {
 }
 
 body.dy-admin .attachment-info a {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 
 body.dy-admin .attachment-info a:hover {
@@ -22666,7 +22830,7 @@ body.dy-admin.upload-php #e-image-ai-media-library a:focus-visible {
 
 body.dy-admin.upload-php #e-image-ai-media-library a i,
 body.dy-admin.upload-php #e-image-ai-media-library a [class*=eicon] {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 
 body.dy-admin.upload-php .wrap > .page-title-action.dy-action-relocated {
@@ -22997,7 +23161,7 @@ body.dy-admin.plugin-install-php .plugin-card .thickbox {
 }
 
 body.dy-admin.plugin-install-php .plugin-card .thickbox:hover {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 
 body.dy-admin.plugin-install-php p.popular-tags,
@@ -23102,7 +23266,7 @@ body.dy-admin.dialog-body .fyi strong {
 }
 
 body.dy-admin.dialog-body .fyi a {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 
 body.dy-admin.dialog-body #plugin-information-footer {
@@ -23208,7 +23372,7 @@ body.dy-admin #ui-datepicker-div .ui-datepicker-calendar {
 body.dy-admin #ui-datepicker-div .ui-datepicker-calendar th {
   color: var(--dya-ink-mute) !important;
   font-weight: 500 !important;
-  font-size: 10.5px !important;
+  font-size: 11px !important;
   padding: 4px !important;
   border: 0 !important;
 }
@@ -23949,7 +24113,7 @@ body.dy-admin .woocommerce-table tbody tr:hover td {
 }
 
 body.dy-admin .woocommerce-table a:not(.button) {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 
 body.dy-admin .woocommerce-chart,
@@ -24306,7 +24470,7 @@ body.dy-admin .wc_emails tbody tr:hover td {
 
 body.dy-admin .wc_emails td a:not(.button),
 body.dy-admin .wc-shipping-zones td a:not(.button) {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 
 body.dy-admin .wc_emails .wc-email-settings-table-status .woocommerce-input-toggle {
@@ -24598,7 +24762,7 @@ body.dy-admin .wc-orders-list-table .column-order_number a.order-view:hover,
 body.dy-admin .wc-orders-list-table .column-order_number a.order-view:focus,
 body.dy-admin .wc-orders-list-table .column-order_number a.order-preview:hover,
 body.dy-admin .wc-orders-list-table .column-order_number a.order-preview:focus {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 
 body.dy-admin .wc-orders-list-table th.check-column,
@@ -24679,7 +24843,7 @@ body.dy-admin .wc-order-preview-note strong {
 }
 
 body.dy-admin .wc-order-preview-address a {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 
 body.dy-admin .wc-order-preview-table {
@@ -25165,7 +25329,7 @@ body.dy-admin .rank-math-tab-nav li a {
 body.dy-admin .rank-math-tab-nav a.active,
 body.dy-admin .rank-math-tab-nav li.active a {
   background: var(--dya-paper) !important;
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
   border-bottom-color: var(--dya-accent) !important;
 }
 
@@ -25202,6 +25366,79 @@ body.dy-admin .yoast-button--secondary {
   background: var(--dya-paper-2) !important;
   color: var(--dya-ink) !important;
   border: 1px solid var(--dya-edge) !important;
+}
+
+body.dy-admin .interface-pinned-items .rank-math-toolbar-score {
+  --dy-rm-state: var(--dya-ink-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid color-mix(in srgb, var(--dy-rm-state) 35%, transparent) !important;
+  border-radius: var(--dya-r-md);
+  background: color-mix(in srgb, var(--dy-rm-state) 12%, var(--dya-paper-2)) !important;
+  color: var(--dy-rm-state) !important;
+  fill: currentColor !important;
+  font-family: var(--dya-font-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: var(--dya-tracking-mono);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+body.dy-admin .interface-pinned-items .rank-math-toolbar-score.bad-fk {
+  --dy-rm-state: var(--dya-danger);
+}
+
+body.dy-admin .interface-pinned-items .rank-math-toolbar-score.ok-fk {
+  --dy-rm-state: var(--dya-warn);
+}
+
+body.dy-admin .interface-pinned-items .rank-math-toolbar-score.good-fk {
+  --dy-rm-state: var(--dya-success);
+}
+
+body.dy-admin .interface-pinned-items .rank-math-toolbar-score :is(.seo-score, .score-text, .content-ai-score) {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  background: none;
+}
+
+body.dy-admin .interface-pinned-items .rank-math-toolbar-score .rm-icon {
+  float: none;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1;
+  color: inherit;
+}
+
+body.dy-admin .interface-pinned-items .components-button:has(> .rank-math-toolbar-score) {
+  width: auto;
+  height: auto;
+  min-width: 0;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
+
+body.dy-admin .interface-pinned-items .components-button:has(> .rank-math-toolbar-score):is(:hover, :focus-visible) .rank-math-toolbar-score {
+  background: color-mix(in srgb, var(--dy-rm-state) 20%, var(--dya-paper-2)) !important;
+}
+
+body.dy-admin :is(.editor-post-publish-panel, .editor-sidebar, .interface-complementary-area) .yst-button--secondary {
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge) !important;
+  color: var(--dya-ink) !important;
+  box-shadow: none !important;
+}
+
+body.dy-admin :is(.editor-post-publish-panel, .editor-sidebar, .interface-complementary-area) .yst-button--secondary:is(:hover, :focus-visible) {
+  background: var(--dya-paper-3) !important;
 }
 
 body.dy-admin.toplevel_page_loco,
@@ -25273,7 +25510,7 @@ body.dy-admin[class*=loco-translate_page_] .panel label {
 }
 body.dy-admin.toplevel_page_loco .panel a,
 body.dy-admin[class*=loco-translate_page_] .panel a {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 body.dy-admin.toplevel_page_loco .wp-list-table, body.dy-admin.toplevel_page_loco .loco-listing,
 body.dy-admin[class*=loco-translate_page_] .wp-list-table,
@@ -25310,7 +25547,7 @@ body.dy-admin.toplevel_page_loco .wp-list-table td a:hover, body.dy-admin.toplev
 body.dy-admin[class*=loco-translate_page_] .wp-list-table td a:hover,
 body.dy-admin[class*=loco-translate_page_] .loco-listing td a:hover,
 body.dy-admin[class*=loco-translate_page_] td > a:hover {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 body.dy-admin.toplevel_page_loco .button-primary, body.dy-admin.toplevel_page_loco .loco-button-primary, body.dy-admin.toplevel_page_loco input[type=submit].button-primary,
 body.dy-admin[class*=loco-translate_page_] .button-primary,
@@ -25486,7 +25723,7 @@ body.dy-admin[class*=loco-translate_page_] .wg-content dd {
 }
 body.dy-admin.toplevel_page_loco .wg-content a,
 body.dy-admin[class*=loco-translate_page_] .wg-content a {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 body.dy-admin.toplevel_page_loco .icon-info, body.dy-admin.toplevel_page_loco .icon-warning, body.dy-admin.toplevel_page_loco .icon-file, body.dy-admin.toplevel_page_loco .has-icon::before,
 body.dy-admin[class*=loco-translate_page_] .icon-info,
@@ -26076,7 +26313,7 @@ body.dy-admin .CodeMirror-activeline-background {
 }
 
 body.dy-admin .CodeMirror-matchingbracket {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
   border-bottom: 1px solid var(--dya-accent);
   background: color-mix(in srgb, var(--dya-accent) 14%, transparent);
 }
@@ -26904,7 +27141,7 @@ body.dy-admin .plugins .row-actions a {
 }
 
 body.dy-admin .plugins .row-actions a:hover {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 
 body.dy-admin .plugins .column-auto-updates {
@@ -27083,7 +27320,7 @@ body.dy-admin:not(.block-editor-page):not(.site-editor-php):not(.dy-native-conte
 }
 
 body.dy-admin:not(.block-editor-page):not(.site-editor-php):not(.dy-native-content):not(.dy-builder-native) .components-button:hover:not(:disabled):not(.is-primary) {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 
 body.dy-admin:not(.block-editor-page):not(.site-editor-php):not(.dy-native-content):not(.dy-builder-native) .components-text-control__input,
@@ -27190,7 +27427,7 @@ body.dy-admin:not(.block-editor-page):not(.site-editor-php):not(.dy-native-conte
 }
 
 body.dy-admin:not(.block-editor-page):not(.site-editor-php):not(.dy-native-content):not(.dy-builder-native) .components-external-link {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 
 body.dy-admin:not(.dy-native-content):not(.dy-builder-native) .wc-settings-marketplace-link,
@@ -27626,7 +27863,7 @@ body.dy-admin .wp-tooltip.wp-is-tooltip .wp-tooltip__bubble {
   border-radius: var(--dya-r-sm);
   box-shadow: var(--dya-shadow-md);
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: var(--dya-tracking-mono);
   text-transform: uppercase;
   padding: 4px 8px;
@@ -27944,7 +28181,7 @@ body.dy-admin input[data-dy-adopt=field][type=radio] {
   height: 16px !important;
 }
 
-body.dy-admin .yoast-svg-icon {
+body.dy-admin .yoast-svg-icon:not([class*=-score-]):not([class*=score-icon]) {
   fill: currentColor !important;
 }
 
@@ -28067,7 +28304,7 @@ body.dy-admin .media-modal .attachment .filename {
   border: 0 !important;
   box-shadow: none !important;
   color: #ecedf2 !important;
-  font-size: 10.5px !important;
+  font-size: 11px !important;
   font-weight: 500 !important;
   line-height: 1.3 !important;
   text-align: left !important;
@@ -28393,7 +28630,7 @@ body.dy-admin .media-toolbar .view-switch a {
 
 body.dy-admin .media-toolbar .view-switch a.current {
   background: var(--dya-paper-2);
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 
 body.dy-admin .media-toolbar .view-switch a:before {

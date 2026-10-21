@@ -140,7 +140,7 @@ body.dy-admin #wpadminbar li > .ab-item:focus .ab-icon::before {
 body.dy-admin #wpadminbar:not(.mobile) > #wp-toolbar li#wp-admin-bar-comments:hover .ab-label,
 body.dy-admin #wpadminbar:not(.mobile) > #wp-toolbar li#wp-admin-bar-comments.hover .ab-label,
 body.dy-admin #wpadminbar:not(.mobile) > #wp-toolbar #wp-admin-bar-comments > .ab-item:focus .ab-label {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 
 @media (max-width: 782px) {
@@ -157,10 +157,10 @@ body.dy-admin #wpadminbar:not(.mobile) > #wp-toolbar #wp-admin-bar-comments > .a
   }
 }
 
-// Hide WP's default "AB" chevron submenus on root level — by default
-// the admin bar is a STATUS SURFACE, not a navigation hub. We nonetheless
-// expose the sub-menu for `new-content` and `my-account` (styled dropdown
-// below) because those two items are action destinations.
+// Sub-menus are hidden until hovered or focused. `new-content` and
+// `my-account` have their own animated dropdowns (below); every other one
+// (My Sites, the site menu, plugins' menus) opens in a plain panel, see
+// "Every other dropdown" further down (21/10/2026).
 //
 // For these two items we keep the DOM but make the surface invisible
 // (`visibility/opacity/pointer-events`) instead of `display: none`.
@@ -247,7 +247,7 @@ body.dy-admin #wp-admin-bar-site-name > a::before {
 // Updates pill (#wp-admin-bar-updates)
 body.dy-admin #wp-admin-bar-updates .ab-label {
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   background: var(--dya-line-soft);
   padding: 1px 6px;
   border-radius: var(--dya-r-pill);
@@ -262,7 +262,7 @@ body.dy-admin #wpadminbar > #wp-toolbar #wp-admin-bar-comments span.ab-label,
 body.dy-admin #wp-admin-bar-comments .ab-label,
 body.dy-admin #wp-admin-bar-comments .ab-label.awaiting-mod {
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   background: var(--dya-line-content-soft);
   color: var(--dya-line-content);
   padding: 1px 6px;
@@ -290,7 +290,7 @@ body.dy-admin #wpadminbar #wp-admin-bar-new-content > a {
   border: 1px solid var(--dya-edge);
   background: var(--dya-paper);
   font-family: var(--dya-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: var(--dya-tracking-label);
   text-transform: uppercase;
   color: var(--dya-ink-soft);
@@ -321,7 +321,7 @@ body.dy-admin #wpadminbar #wp-admin-bar-new-content.hover .ab-icon,
 body.dy-admin #wpadminbar #wp-admin-bar-new-content.hover .ab-icon::before,
 body.dy-admin #wpadminbar #wp-admin-bar-new-content:focus-within .ab-icon,
 body.dy-admin #wpadminbar #wp-admin-bar-new-content:focus-within .ab-icon::before {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 // Focus state — when the user targets the button with the keyboard, or
 // when the dropdown opens via `:focus-within`. Accent ring
@@ -436,7 +436,7 @@ body.dy-admin #wp-admin-bar-my-account .avatar:not(img) {
   color: #fff;
   display: grid;
   place-items: center;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   font-family: var(--dya-font-mono);
 }
@@ -766,7 +766,7 @@ body.dy-admin #wpadminbar #wp-admin-bar-user-info .display-name.edit-profile {
   align-self: start;
   display: block;
   font-family: var(--dya-font-mono);
-  font-size: 9.5px;
+  font-size: 11px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--dya-ink-mute);
@@ -776,7 +776,7 @@ body.dy-admin #wpadminbar #wp-admin-bar-user-info .display-name.edit-profile {
   transition: color var(--dya-t-fast, .12s) ease, letter-spacing var(--dya-t-fast, .12s) ease;
 }
 body.dy-admin #wpadminbar #wp-admin-bar-user-info > .ab-item:hover .display-name.edit-profile {
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
   letter-spacing: 0.20em;
 }
 
@@ -798,7 +798,7 @@ body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item {
   padding: 0 4px 0 14px;
   border-radius: 0;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--dya-ink-soft);
@@ -862,7 +862,7 @@ body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item:hover::after,
 body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item:focus-visible::after {
   opacity: 1;
   transform: translateX(2px);
-  color: var(--dya-accent);
+  color: var(--dya-accent-text);
 }
 
 // .ab-sub-secondary — secondary action block separated by a rule,
@@ -871,6 +871,108 @@ body.dy-admin #wpadminbar .ab-sub-wrapper .ab-sub-secondary {
   margin-top: 6px;
   padding-top: 6px;
   border-top: 1px solid var(--dya-line);
+}
+
+// ── Every other dropdown: My Sites, the site menu, plugins' menus ──────
+// Until 1.0.7 every sub-menu of the top bar stayed hidden except the two
+// above, so "My Sites" (multisite) opened nothing and the menus plugins
+// put in the bar (Solid Security, W3TC…) lost their entries. Raphaël,
+// 21/10/2026: they all open again, in the same panel as "+ New". Nested
+// menus (a site of "My Sites", then its actions) fly out to the side.
+// `.hover` is the class WordPress's own admin-bar script toggles on click,
+// touch and keyboard; `:focus-within` keeps it open while tabbing inside.
+$dy-ab-other: ":not(#wp-admin-bar-new-content):not(#wp-admin-bar-my-account)";
+
+body.dy-admin #wpadminbar .menupop#{$dy-ab-other} {
+  position: relative;
+}
+body.dy-admin #wpadminbar .menupop#{$dy-ab-other} > .ab-sub-wrapper {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: auto;
+  min-width: 220px;
+  margin: 0;
+  padding: 6px;
+  background: var(--dya-paper-3);
+  border: 1px solid var(--dya-edge-strong);
+  border-radius: var(--dya-r-md);
+  box-shadow: var(--dya-shadow-lg);
+  z-index: 99999;
+}
+body.dy-admin.dy-theme-light #wpadminbar .menupop#{$dy-ab-other} > .ab-sub-wrapper {
+  background: #fff;
+}
+body.dy-admin #wpadminbar .menupop#{$dy-ab-other}:is(:hover, .hover, :focus-within) > .ab-sub-wrapper {
+  display: block;
+}
+// Right-hand items open towards the left, to stay on screen.
+body.dy-admin #wpadminbar #wp-admin-bar-top-secondary .menupop#{$dy-ab-other} > .ab-sub-wrapper {
+  left: auto;
+  right: 0;
+}
+// Nested: beside its row, top-aligned with it (no gap, or hover breaks).
+body.dy-admin #wpadminbar .ab-sub-wrapper .menupop#{$dy-ab-other} > .ab-sub-wrapper {
+  top: -7px;
+  left: 100%;
+}
+// WordPress paints its inner lists (and the `.ab-sub-secondary` group of
+// My Sites) in its own dark greys: the panel above is the only surface.
+body.dy-admin #wpadminbar .menupop#{$dy-ab-other} .ab-sub-wrapper :is(.ab-submenu, .ab-sub-secondary) {
+  background: transparent;
+}
+body.dy-admin #wpadminbar .menupop#{$dy-ab-other} .ab-sub-wrapper .ab-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  height: auto;
+  padding: 6px 12px;
+  border-radius: var(--dya-r-sm);
+  font-family: var(--dya-font-body);
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--dya-ink-soft);
+  text-decoration: none;
+  text-shadow: none;
+  white-space: nowrap;
+  background: transparent;
+}
+body.dy-admin #wpadminbar .menupop#{$dy-ab-other} .ab-sub-wrapper li:is(:hover, .hover, :focus-within) > .ab-item {
+  color: var(--dya-ink);
+  background: var(--dya-paper-2);
+}
+// Count bubbles inside a row (W3TC's "Feature Showcase 4"): WordPress sizes
+// them for its 26px rows, their digit fell below the pill in ours.
+body.dy-admin #wpadminbar .menupop#{$dy-ab-other} .ab-sub-wrapper .ab-item :is(.awaiting-mod, .update-plugins) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 6px;
+  border-radius: 9px;
+  font-size: 11px;
+  line-height: 1;
+}
+body.dy-admin #wpadminbar .menupop#{$dy-ab-other} .ab-sub-wrapper .ab-item :is(.awaiting-mod, .update-plugins) * {
+  line-height: 1;
+}
+// Site icons of My Sites (WordPress draws them light grey for its dark bar).
+body.dy-admin #wpadminbar .menupop#{$dy-ab-other} .ab-sub-wrapper .blavatar,
+body.dy-admin #wpadminbar .menupop#{$dy-ab-other} .ab-sub-wrapper .blavatar::before {
+  color: inherit;
+}
+// Our own chevron for nested rows (WordPress's arrow is a dashicon tuned
+// for its 26px rows).
+body.dy-admin #wpadminbar .ab-sub-wrapper .menupop#{$dy-ab-other} > .ab-item .wp-admin-bar-arrow {
+  display: none;
+}
+body.dy-admin #wpadminbar .ab-sub-wrapper .menupop#{$dy-ab-other} > .ab-item::after {
+  content: "\203A";
+  margin-left: auto;
+  padding-left: 12px;
+  color: var(--dya-ink-mute);
 }
 
 // =============================================================
@@ -1017,7 +1119,7 @@ body.dy-admin #wpadminbar .ab-sub-wrapper .ab-sub-secondary {
   body.dy-admin #wp-admin-bar-my-account .avatar:not(img) {
     width: 24px !important;
     height: 24px !important;
-    font-size: 10px !important; // if avatar fallback initials are in a <span>
+    font-size: 11px !important; // if avatar fallback initials are in a <span>
   }
 
   // Theme toggle: keep the 28×28 square, not the 46×46 forced by WP
@@ -1035,16 +1137,16 @@ body.dy-admin #wpadminbar .ab-sub-wrapper .ab-sub-secondary {
   body.dy-admin #wpadminbar li#wp-admin-bar-doubleyoupi-static-mode > a {
     padding: 3px 8px !important;
     height: 22px !important;
-    font-size: 10px !important;
+    font-size: 11px !important;
     line-height: 1 !important;
   }
   body.dy-admin #wpadminbar li#wp-admin-bar-doubleyoupi-static-mode .ab-label {
-    font-size: 10px !important;
+    font-size: 11px !important;
   }
   body.dy-admin #wpadminbar li#wp-admin-bar-doubleyoupi-static-mode .ab-icon {
     width: 12px !important;
     height: 12px !important;
-    font-size: 10px !important;
+    font-size: 11px !important;
   }
 
   // Dropdowns: we do not change the pattern, just ensure they remain

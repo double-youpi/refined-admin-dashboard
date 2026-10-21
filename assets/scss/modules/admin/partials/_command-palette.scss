@@ -67,6 +67,17 @@ body.dy-admin #wpadminbar {
 				top: 0;
 				-webkit-font-smoothing: antialiased;
 			}
+
+			// WordPress 7.2 draws its own magnifier (an inline SVG in
+			// `.ab-icon.svg-icon`): ours would make two. Keep theirs, at the
+			// size of our glyph (seen by a tester on 7.2, 20/10/2026).
+			&.svg-icon::before,
+			&:has(svg)::before { content: none; }
+			svg {
+				display: block;
+				width: 18px;
+				height: 18px;
+			}
 		}
 
 		// ⌘K — bare text in brackets, NO block/container. Light weight.
@@ -110,7 +121,7 @@ body.dy-admin #wpadminbar {
 			background: var(--dya-bg-elev);
 			color: var(--dya-ink);
 
-			kbd { color: var(--dya-accent); }
+			kbd { color: var(--dya-accent-text); }
 		}
 	}
 
@@ -120,6 +131,7 @@ body.dy-admin #wpadminbar {
 			.ab-item { padding: 0 !important; width: 40px; gap: 0; }
 			.ab-label { display: none; }
 			.ab-icon::before { font-size: 22px; }
+			.ab-icon svg { width: 22px; height: 22px; }
 		}
 	}
 }
@@ -279,7 +291,7 @@ body.dy-admin {
 
 		&__item-category {
 			font-family: var(--dya-font-mono);
-			font-size: 10.5px;
+			font-size: 11px;
 			letter-spacing: .06em;
 			text-transform: uppercase;
 			color: var(--dya-ink-mute);

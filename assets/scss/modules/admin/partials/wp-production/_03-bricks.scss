@@ -45,7 +45,7 @@ body.dy-admin .bricks-message.success {
 // Links inside messages (Bricks sometimes injects <a> elements)
 body.dy-admin .message a,
 body.dy-admin .bricks-message a {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
   text-decoration: underline;
 }
 

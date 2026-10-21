@@ -706,7 +706,7 @@ body.dy-admin .plugins .second.plugin-version-author-uri {
 body.dy-admin .plugins .row-actions a {
   color: var(--dya-ink-soft) !important;
 }
-body.dy-admin .plugins .row-actions a:hover { color: var(--dya-accent) !important; }
+body.dy-admin .plugins .row-actions a:hover { color: var(--dya-accent-text) !important; }
 // Auto-update toggle column — transparent bg on the cell only.
 // The `.toggle-auto-update` itself is restyled as an iOS pill below
 // (see plugins.php pt 13); we avoid forcing its background to transparent

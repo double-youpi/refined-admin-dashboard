@@ -242,7 +242,7 @@ body.dy-admin-login.dy-theme-light .dy-login-theme-toggle__icon--sun  { opacity:
 	width: 72px;
 	height: 72px;
 	background: color-mix(in srgb, var(--dya-accent) 12%, var(--dy-login-paper));
-	color: var(--dya-accent);
+	color: var(--dya-accent-text);
 	border: 1px solid color-mix(in srgb, var(--dya-accent) 25%, transparent);
 	border-radius: 18px;
 	font-family: var(--dya-font-display, "Bricolage Grotesque");
@@ -318,7 +318,7 @@ body.dy-admin-login label[for="user_login"],
 body.dy-admin-login label[for="user_pass"],
 body.dy-admin-login label[for="user_email"] {
 	font-family: var(--dya-font-mono, ui-monospace);
-	font-size: 10.5px;
+	font-size: 11px;
 	text-transform: uppercase;
 	letter-spacing: var(--dya-tracking-label, .12em);
 	color: var(--dy-login-ink-mute);
@@ -564,7 +564,7 @@ body.dy-admin-login #backtoblog a:hover {
 // letter (which happens to be the "←" character) in accent via ::first-letter.
 // The rest of the text keeps its ink-mute / accent color on hover.
 body.dy-admin-login #backtoblog a::first-letter {
-	color: var(--dya-accent);
+	color: var(--dya-accent-text);
 	font-size: 1.15em;
 }
 
@@ -659,7 +659,7 @@ body.dy-admin-login #language-switcher button {
 body.dy-admin-login .language-switcher input[type="submit"]:hover,
 body.dy-admin-login #language-switcher button:hover {
 	border-color: var(--dya-accent);
-	color: var(--dya-accent);
+	color: var(--dya-accent-text);
 }
 
 // ── Signature footer mono --------------------------------------------
@@ -673,7 +673,7 @@ body.dy-admin-login #language-switcher button:hover {
 	z-index: 10;
 	text-align: center;
 	font-family: var(--dya-font-mono, ui-monospace);
-	font-size: 10.5px;
+	font-size: 11px;
 	text-transform: uppercase;
 	letter-spacing: var(--dya-tracking-label, .12em);
 	color: var(--dy-login-ink-mute);
@@ -699,7 +699,7 @@ body.dy-admin-login #language-switcher button:hover {
 	.dy-login-eyebrow {
 		top: 16px;
 		left: 20px;
-		font-size: 10px;
+		font-size: 11px;
 	}
 	.dy-login-theme-toggle {
 		top: 14px;
@@ -719,7 +719,7 @@ body.dy-admin-login #language-switcher button:hover {
 		padding: 24px 20px;
 	}
 	.dy-login-signature {
-		font-size: 9.5px;
+		font-size: 11px;
 	}
 }
 

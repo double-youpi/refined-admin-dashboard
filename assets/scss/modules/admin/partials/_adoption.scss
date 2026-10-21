@@ -276,7 +276,10 @@ body.dy-admin input[data-dy-adopt="field"][type="radio"] {
   height: 16px !important;
 }
 
-// Yoast SVG icons outside pills (tooltips, etc.).
-body.dy-admin .yoast-svg-icon {
+// Yoast SVG icons outside pills (tooltips, etc.). Score faces and bullets
+// are left out: their colour IS the result (red, orange, green), and the
+// pre-publish panel showed them white in dark mode, grey in light mode
+// (21/10/2026).
+body.dy-admin .yoast-svg-icon:not([class*="-score-"]):not([class*="score-icon"]) {
   fill: currentColor !important;
 }

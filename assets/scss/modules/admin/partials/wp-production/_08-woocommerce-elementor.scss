@@ -290,7 +290,7 @@ body.dy-admin .woocommerce-table tbody td {
 }
 body.dy-admin .woocommerce-table__row:hover .woocommerce-table__item,
 body.dy-admin .woocommerce-table tbody tr:hover td { background: var(--dya-paper-2) !important; }
-body.dy-admin .woocommerce-table a:not(.button) { color: var(--dya-accent) !important; }
+body.dy-admin .woocommerce-table a:not(.button) { color: var(--dya-accent-text) !important; }
 
 // — Graphs (.woocommerce-chart + d3: axes, grid, tooltip).
 body.dy-admin .woocommerce-chart,
@@ -579,7 +579,7 @@ body.dy-admin table.wc_gateways td {
 body.dy-admin .wc-shipping-zones tbody tr:hover td,
 body.dy-admin .wc_emails tbody tr:hover td { background: var(--dya-paper-2) !important; }
 body.dy-admin .wc_emails td a:not(.button),
-body.dy-admin .wc-shipping-zones td a:not(.button) { color: var(--dya-accent) !important; }
+body.dy-admin .wc-shipping-zones td a:not(.button) { color: var(--dya-accent-text) !important; }
 // E-mail on/off status (toggle pill) + type labels.
 body.dy-admin .wc_emails .wc-email-settings-table-status .woocommerce-input-toggle { border-color: var(--dya-edge) !important; }
 
@@ -830,7 +830,7 @@ body.dy-admin .wc-orders-list-table .column-order_number a.order-view:hover,
 body.dy-admin .wc-orders-list-table .column-order_number a.order-view:focus,
 body.dy-admin .wc-orders-list-table .column-order_number a.order-preview:hover,
 body.dy-admin .wc-orders-list-table .column-order_number a.order-preview:focus {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 
 // Check-column checkbox: the native padding (14px in td, 10.5px in th)
@@ -892,7 +892,7 @@ body.dy-admin .wc-order-preview-note { color: var(--dya-ink-soft) !important; }
 body.dy-admin .wc-order-preview h2,
 body.dy-admin .wc-order-preview-address strong,
 body.dy-admin .wc-order-preview-note strong { color: var(--dya-ink) !important; }
-body.dy-admin .wc-order-preview-address a { color: var(--dya-accent) !important; }
+body.dy-admin .wc-order-preview-address a { color: var(--dya-accent-text) !important; }
 // Product table (order line items).
 body.dy-admin .wc-order-preview-table { border-color: var(--dya-edge) !important; color: var(--dya-ink) !important; }
 body.dy-admin .wc-order-preview-table th { color: var(--dya-ink-mute) !important; border-bottom-color: var(--dya-line-soft) !important; }

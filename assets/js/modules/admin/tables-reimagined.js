@@ -213,6 +213,18 @@
   // ---------------------------------------------------------------------
   function el(html) { var d = document.createElement('div'); d.innerHTML = html.trim(); return d.firstChild; }
   function txt(node) { return node ? node.textContent.replace(/\s+/g, ' ').trim() : ''; }
+  // Accessible name of a row checkbox: WordPress's own hidden label
+  // ("Select Hello world!"), else the row title. Our clones had none
+  // (accessibility audit, 21/10/2026).
+  function checkName(nativeCb, title) {
+    var lab = nativeCb && nativeCb.id ? document.querySelector('label[for="' + nativeCb.id + '"]') : null;
+    return txt(lab) || title || '';
+  }
+  function nameCheck(cb, nativeCb, title) {
+    var n = checkName(nativeCb, title);
+    if (n) cb.setAttribute('aria-label', n);
+    return cb;
+  }
 
   function rowId(tr) {
     if (tr.id) {
@@ -464,7 +476,10 @@
   function gripCell(idx, total) {
     var g = el('<div class="dy-trow__grip"></div>');
     var up = el('<button type="button" class="dy-trow__grip-chev" data-dir="up" data-tip="' + escAttr(L.moveUp || 'Move up') + '">' + svg(ICON.chevUp) + '</button>');
-    var bar = el('<button type="button" class="dy-trow__grip-bar" data-tip="' + escAttr(L.reorder || 'Reorder') + '">' + svg(ICON.grip, '0 0 6 14') + '</button>');
+    // A mouse-only drag grip, not a button: the chevrons are the keyboard
+    // and screen-reader way to move a row, and now have the 24px targets
+    // (audit of 21/10/2026).
+    var bar = el('<span class="dy-trow__grip-bar" aria-hidden="true" data-tip="' + escAttr(L.reorder || 'Reorder') + '">' + svg(ICON.grip, '0 0 6 14') + '</span>');
     var dn = el('<button type="button" class="dy-trow__grip-chev" data-dir="down" data-tip="' + escAttr(L.moveDown || 'Move down') + '">' + svg(ICON.chevDown) + '</button>');
     g.appendChild(up); g.appendChild(bar); g.appendChild(dn);
     return g;
@@ -480,7 +495,7 @@
 
     // checkbox
     var ck = el('<div class="dy-trow__check"></div>');
-    var cb = el('<input type="checkbox">');
+    var cb = nameCheck(el('<input type="checkbox">'), r.checkbox, r.title);
     cb.value = r.id; if (r.checkbox && r.checkbox.checked) cb.checked = true;
     cb.addEventListener('change', function () { if (r.checkbox) { r.checkbox.checked = cb.checked; } row.classList.toggle('is-selected', cb.checked); refreshBulk(); });
     ck.appendChild(cb); row.appendChild(ck);
@@ -958,6 +973,32 @@
   var refreshBulk = function () {};
 
   var currentMode = CFG.mode || 'reimagined';
+  // Data rows of the native table (service rows left out, as in buildModel).
+  function nativeRowCount() {
+    var n = 0;
+    table.querySelectorAll('tbody > tr').forEach(function (tr) {
+      if (!tr.classList.contains('no-items') && !tr.classList.contains('inline-edit-row') && rowId(tr) > 0) n++;
+    });
+    return n;
+  }
+  // Native list for this page only: nothing is saved, the user's choice
+  // stays "redesigned" for the next page.
+  function fallbackToNative(reason) {
+    if (!document.body.classList.contains('dy-tables-reimagined')) return;
+    currentMode = 'native';
+    document.body.classList.remove('dy-tables-reimagined');
+    document.body.classList.add('dy-tables-native');
+    var btn = document.querySelector('.dy-treimg__toggle');
+    if (btn) {
+      var p = toggleParts(true);
+      var t = btn.querySelector('.dy-treimg__toggle-txt'), i = btn.querySelector('.dy-treimg__toggle-ico');
+      if (t) t.textContent = p.txt;
+      if (i) i.innerHTML = p.ico;
+      btn.setAttribute('data-tip', p.tip); btn.setAttribute('title', p.tip);
+    }
+    setTimeout(function () { try { guardNativeColumns(); } catch (e) {} }, 0);
+    if (window.console) console.warn('[Double Youpï] Native list shown on this page: ' + reason + '.');
+  }
   function setMode(mode, after) {
     currentMode = mode;
     document.body.classList.toggle('dy-tables-reimagined', mode === 'reimagined');
@@ -1482,24 +1523,31 @@
   }
 
   // ── AJAX filtering + View Transition (no hard reload) ─────────────────
-  var ajaxing = false;
+  // The latest click wins: a click during a request cancels it (it used to
+  // be ignored, so the pill showed one view and the list another; a tester
+  // saw "All" over the drafts' count, 20/10/2026).
+  var ajaxCtl = null;
   function absUrl(href) { return new URL(href, location.href).toString(); }
   function ajaxGo(href, push) {
     if (!href) return;
     var url = absUrl(href);
-    // Browser without fetch/DOMParser: the only case where we fall back to
-    // a hard navigation. A click during an ongoing AJAX is simply ignored (no
-    // reload) — AJAX is fast, the next request will start cleanly.
+    // Browser without fetch/DOMParser: hard navigation.
     if (!window.fetch || !window.DOMParser) { location.href = url; return; }
-    if (ajaxing) return;
-    ajaxing = true;
+    if (ajaxCtl) { try { ajaxCtl.abort(); } catch (e) {} }
+    var ctl = window.AbortController ? new AbortController() : {};
+    ajaxCtl = ctl;
     var view = document.querySelector('.dy-treimg');
     if (view) view.classList.add('is-loading');
-    fetch(url, { credentials: 'same-origin', headers: { 'X-Requested-With': 'XMLHttpRequest' } })
-      .then(function (r) { return r.text(); })
+    fetch(url, { credentials: 'same-origin', headers: { 'X-Requested-With': 'XMLHttpRequest' }, signal: ctl.signal })
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
       .then(function (html) {
+        if (ctl !== ajaxCtl) return;   // overtaken by a later click
+        ajaxCtl = null;
         var doc = new DOMParser().parseFromString(html, 'text/html');
-        if (!doc.querySelector('.wp-list-table')) { ajaxing = false; location.href = url; return; }
+        // A page cut short (a PHP error halfway through the table) has no
+        // footer: let the browser show it as it is rather than apply half
+        // of it.
+        if (!doc.querySelector('.wp-list-table tbody') || !doc.getElementById('wpfooter')) { location.href = url; return; }
         applyDomFrom(doc);
         // pushState BEFORE the rebuild: build() re-reads the URL (filters) and
         // the fresh DOM — the history must already reflect the new state.
@@ -1513,9 +1561,12 @@
           if (vt.ready) vt.ready.catch(function () {});
           vt.finished.catch(function () {}).finally(function () { document.body.classList.remove('dy-tf-animating'); });
         } else { run(); }
-        ajaxing = false;
       })
-      .catch(function () { ajaxing = false; location.href = url; });
+      .catch(function (err) {
+        if (err && err.name === 'AbortError') return;
+        if (ctl === ajaxCtl) ajaxCtl = null;
+        location.href = url;
+      });
   }
   // Re-sort of a hierarchical tree (client): instant rebuild, wrapped in a
   // View Transition for smooth reordering when available.
@@ -1907,7 +1958,7 @@
     row.__model = r;
     if (r.checkbox) {
       var ck = el('<div class="dy-trow__check"></div>');
-      var cb = el('<input type="checkbox">');
+      var cb = nameCheck(el('<input type="checkbox">'), r.checkbox, r.title);
       cb.checked = !!r.checkbox.checked;
       cb.addEventListener('change', function () {
         r.checkbox.checked = cb.checked;
@@ -2137,7 +2188,7 @@
     // would have no checkboxes (they would have migrated into the reimagined
     // view). Same approach as the generic renderRow.
     var checkWrap = el('<div class="dy-trow__check"></div>');
-    var cb = el('<input type="checkbox">');
+    var cb = nameCheck(el('<input type="checkbox">'), r.checkbox, r.title || r.number || '');
     if (r.checkbox && r.checkbox.checked) cb.checked = true;
     cb.addEventListener('change', function () {
       if (r.checkbox) { r.checkbox.checked = cb.checked; }
@@ -2709,7 +2760,13 @@
     var list = el('<div class="dy-treimg__list"></div>');
     var headEl = buildHead(isTree, list);
     list.appendChild(headEl);
-    rows.forEach(function (r, idx) { list.appendChild(renderRow(r, idx, rows.length, isTree)); });
+    // One row that fails to render (an unexpected cell from a plugin) must
+    // not empty the whole list: it is skipped and reported (audit, 21/10/2026).
+    var rendered = 0;
+    rows.forEach(function (r, idx) {
+      try { list.appendChild(renderRow(r, idx, rows.length, isTree)); rendered++; }
+      catch (e) { if (window.console) console.warn('[Double Youpï] Row ' + r.id + ' could not be redesigned:', e); }
+    });
     if (KIND === 'post') {
       list.__hiddenCols = {};
       META_COLS.forEach(function (c) { if (c.hidden) list.__hiddenCols[c.id] = true; });
@@ -2753,6 +2810,9 @@
     // gear, tooltip clipping), (b) keep the view clean.
     var anchor = table.closest('.dy-table-wrapper') || table;
     anchor.parentNode.insertBefore(view, anchor);
+    // Rows in the native table but none here: show the native list rather
+    // than an empty one (a tester saw an empty redesigned list, 20/10/2026).
+    if (!rendered && nativeRowCount() > 0) fallbackToNative('no row could be redesigned');
 
     // Single animated toggle bar (always visible, before the view) — same
     // button (and same animation) as generic screens. The gear is placed
@@ -2951,6 +3011,37 @@
     updateNativeNote();
   }
 
+  // Accessible names from our tooltips (accessibility audit, 21/10/2026).
+  // `data-tip` is drawn by CSS only, so screen readers never heard it: an
+  // icon button (switch, chevron, grip) read as an empty button, a status
+  // dot as nothing. An element with no text of its own takes its tooltip
+  // as `aria-label`, kept in step when the tooltip changes (Expand ↔
+  // Collapse). A status dot becomes an image with that name.
+  var INTERACTIVE = 'button, a[href], [role="button"], [role="switch"], [tabindex]';
+  function nameFromTip(node) {
+    var tip = node.getAttribute('data-tip');
+    if (!tip || node.textContent.trim() !== '' || node.getAttribute('aria-hidden') === 'true') return;
+    var own = node.hasAttribute('data-dy-tipname');
+    if (node.hasAttribute('aria-label') && !own) return;
+    node.setAttribute('aria-label', tip);
+    node.setAttribute('data-dy-tipname', '');
+    if (!node.matches(INTERACTIVE) && !node.hasAttribute('role')) node.setAttribute('role', 'img');
+  }
+  function nameTips(scope) {
+    if (!scope || scope.nodeType !== 1) return;
+    if (scope.hasAttribute('data-tip')) nameFromTip(scope);
+    scope.querySelectorAll('[data-tip]').forEach(nameFromTip);
+  }
+  if (window.MutationObserver) {
+    new MutationObserver(function (records) {
+      records.forEach(function (rec) {
+        if (rec.type === 'attributes') nameFromTip(rec.target);
+        else rec.addedNodes.forEach(nameTips);
+      });
+    }).observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ['data-tip'] });
+  }
+
   build();
   guardNativeColumns();
+  nameTips(document.body);
 })();

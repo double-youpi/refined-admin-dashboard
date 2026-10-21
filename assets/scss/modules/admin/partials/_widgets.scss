@@ -78,7 +78,7 @@ body.dy-admin #dashboard_activity .activity-block:last-child {
 body.dy-admin #dashboard_activity .activity-block h3 {
   margin: 0 0 10px;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -102,7 +102,7 @@ body.dy-admin #dashboard_activity ul li {
 body.dy-admin #dashboard_activity ul li > span:first-child,
 body.dy-admin #dashboard_activity ul li .row-date {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   color: var(--dya-ink-fade);
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-mono);
@@ -122,7 +122,7 @@ body.dy-admin #dashboard_activity #latest-comments .comment-author {
 }
 body.dy-admin #dashboard_activity #latest-comments .comment-meta {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   color: var(--dya-ink-fade);
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-mono);
@@ -190,7 +190,7 @@ body.dy-admin #dashboard_quick_press .submit .button-primary:hover { transform: 
 
 body.dy-admin #dashboard_quick_press .drafts {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -222,7 +222,7 @@ body.dy-admin #dashboard_quick_press .draft-list ul li a {
 body.dy-admin #dashboard_quick_press .draft-list ul li a:hover { color: var(--dya-line-content); }
 body.dy-admin #dashboard_quick_press .draft-list ul li > span {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-mono);
   color: var(--dya-ink-fade);
@@ -239,7 +239,7 @@ body.dy-admin #dashboard_primary .wordpress-news-list h3,
 body.dy-admin #dashboard_primary .rss-widget h2.widget-title {
   margin: 0 0 10px;
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-label);
   color: var(--dya-ink-mute);
@@ -263,16 +263,22 @@ body.dy-admin #dashboard_primary .rss-widget li {
   font-size: 12.5px;
   padding: 0;
   margin: 0;
+  // WordPress paints the events' places and "Want more events?" #2c3338:
+  // 1.35:1 on our dark card (audit of 21/10/2026).
+  color: var(--dya-ink-soft);
 }
 body.dy-admin #dashboard_primary ul li a {
   color: var(--dya-ink);
   border-bottom: 0;
+  // 24px tall targets (were 18px), WCAG 2.5.8.
+  display: inline-block;
+  padding-block: 3px;
 }
 body.dy-admin #dashboard_primary ul li a:hover { color: var(--dya-line-users); }
 body.dy-admin #dashboard_primary ul li span:last-child,
 body.dy-admin #dashboard_primary .rss-widget .rss-date {
   font-family: var(--dya-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--dya-tracking-mono);
   color: var(--dya-ink-fade);

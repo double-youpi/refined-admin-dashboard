@@ -112,7 +112,7 @@ body.dy-admin .dy-treimg__toggle {
   height: 30px; padding: 0 13px;
   border: 1px solid var(--dya-edge); border-radius: var(--dya-r-sm);
   background: transparent; color: var(--dya-ink-soft);
-  font-family: var(--dya-font-mono); font-size: 10.5px;
+  font-family: var(--dya-font-mono); font-size: 11px;
   letter-spacing: var(--dya-tracking-mono); text-transform: uppercase;
   white-space: nowrap; cursor: pointer;
   // FLUID width (JS sets a px width → transition) + colors (accent).
@@ -216,7 +216,9 @@ body.dy-admin .dy-treimg {
     background: var(--dya-bg-elev);
     border-bottom: 1px solid var(--dya-line);
     font-family: var(--dya-font-mono);
-    font-size: 10px;
+    // Column labels at 12px (were 10.5px): the smallest text of the list,
+    // read by a tester as too small (audit of 21/10/2026).
+    font-size: 12px;
     letter-spacing: var(--dya-tracking-label);
     text-transform: uppercase;
     color: var(--dya-ink-mute);
@@ -274,27 +276,31 @@ body.dy-admin .dy-treimg {
   &.dy-treimg--no-anim .dy-trow { animation: none !important; }
 
   // orderable types: room for the absolute drag handle
-  &.dy-treimg--orderable .dy-trow { padding-left: 24px; min-height: 60px; }
-  &.dy-treimg--orderable .dy-treimg__head { padding-left: 24px; }
+  // 32px: the 24px grip column plus room so the row checkbox's own 24px
+  // target does not touch the chevrons' (WCAG 2.5.8 spacing).
+  &.dy-treimg--orderable .dy-trow { padding-left: 32px; min-height: 60px; }
+  &.dy-treimg--orderable .dy-treimg__head { padding-left: 32px; }
 
   // ── Drag handle + chevrons (absolute, zero column) ──────────────
+  // Two 24px chevrons around a 12px grip fill the 60px row exactly: targets
+  // of at least 24px (WCAG 2.5.8), the row keeps its height (21/10/2026).
   .dy-trow__grip {
-    position: absolute; left: 3px; top: 0; bottom: 0; width: 17px;
+    position: absolute; left: 0; top: 0; bottom: 0; width: 24px;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 1px; opacity: 0; z-index: 2;
+    gap: 0; opacity: 0; z-index: 2;
     transition: opacity var(--dya-t-fast) var(--dya-ease);
   }
   .dy-trow:hover .dy-trow__grip,
   .dy-trow.is-dragging .dy-trow__grip { opacity: 1; }
   .dy-trow__grip-bar {
-    width: 17px; height: 18px; border: 0; background: transparent; padding: 0;
+    width: 24px; height: 12px; border: 0; background: transparent; padding: 0;
     color: var(--dya-ink-mute); cursor: grab; display: grid; place-items: center;
   }
   .dy-trow__grip-bar:hover { color: var(--dya-ink); }
   .dy-trow__grip-bar:active { cursor: grabbing; }
-  .dy-trow__grip-bar svg { width: 6px; height: 13px; fill: currentColor; stroke: none; }
+  .dy-trow__grip-bar svg { width: 5px; height: 11px; fill: currentColor; stroke: none; }
   .dy-trow__grip-chev {
-    width: 15px; height: 10px; border: 0; background: transparent; padding: 0;
+    width: 24px; height: 24px; border: 0; background: transparent; padding: 0;
     color: var(--dya-ink-fade); cursor: pointer; display: grid; place-items: center; border-radius: 3px;
   }
   .dy-trow__grip-chev:hover { color: var(--dya-ink); background: var(--dya-paper-3); }
@@ -312,7 +318,7 @@ body.dy-admin .dy-treimg {
   // ── Author / category / date / role / count ───────────────────────
   .dy-trow__author { font-size: var(--dya-fs-sm); color: var(--dya-ink-soft); min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .dy-trow__cat {
-    font-family: var(--dya-font-mono); font-size: 10.5px;
+    font-family: var(--dya-font-mono); font-size: 11px;
     letter-spacing: var(--dya-tracking-mono); text-transform: uppercase;
     color: var(--dya-ink-mute); padding-left: 12px; position: relative;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
@@ -333,7 +339,7 @@ body.dy-admin .dy-treimg {
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   .dy-trow__gcell a { color: var(--dya-ink-soft); border: 0; }
-  .dy-trow__gcell a:hover { color: var(--dya-accent); }
+  .dy-trow__gcell a:hover { color: var(--dya-accent-text); }
 
   // ── Colonnes de la liste d'articles, lues dans le <thead> natif (lot 19)
   // Chaque colonne native reçoit une cellule `.dy-trow__cell--<genre>` ; les
@@ -402,7 +408,7 @@ body.dy-admin .dy-treimg {
   .dy-trow__gcell .progress.done .t .bar { background: var(--dya-success); }   // 100% = success green
   .dy-trow__gcell .progress.warning .t .bar { background: var(--dya-warn); }
   .dy-trow__gcell .progress .l {           // right-aligned % label
-    flex: 0 0 auto; font-family: var(--dya-font-mono); font-size: 10.5px;
+    flex: 0 0 auto; font-family: var(--dya-font-mono); font-size: 11px;
     color: var(--dya-ink-soft); font-variant-numeric: tabular-nums;
     letter-spacing: var(--dya-tracking-mono); min-width: 34px; text-align: right;
   }
@@ -412,7 +418,7 @@ body.dy-admin .dy-treimg {
   &.dy-treimg--generic .dy-trow__title-text { display: inline-flex; align-items: center; gap: 8px; }
   &.dy-treimg--generic .dy-trow__title-text a { color: inherit; border: 0; text-decoration: none; }
   &.dy-treimg--generic .dy-trow:hover .dy-trow__title-text,
-  &.dy-treimg--generic .dy-trow:hover .dy-trow__title-text a { color: var(--dya-accent); }
+  &.dy-treimg--generic .dy-trow:hover .dy-trow__title-text a { color: var(--dya-accent-text); }
   &.dy-treimg--generic .dy-trow__title-text .lang { flex: 0 0 auto; }
   // The generic header aligns its labels like all other columns.
   &.dy-treimg--generic .dy-treimg__col--title { /* inherits from .dy-treimg__col */ }
@@ -426,7 +432,7 @@ body.dy-admin .dy-treimg {
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;
     transition: color var(--dya-t-fast) var(--dya-ease);
   }
-  .dy-trow:hover .dy-trow__title-text { color: var(--dya-accent); }
+  .dy-trow:hover .dy-trow__title-text { color: var(--dya-accent-text); }
 
   // ── Page (tree) ─────────────────────────────────────────────────────
   .dy-trow__page { display: flex; align-items: center; min-width: 0; gap: 0; }
@@ -435,7 +441,7 @@ body.dy-admin .dy-treimg {
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;
     transition: color var(--dya-t-fast) var(--dya-ease);
   }
-  .dy-trow:hover .dy-trow__page-text { color: var(--dya-accent); }
+  .dy-trow:hover .dy-trow__page-text { color: var(--dya-accent-text); }
   .dy-trow[data-depth="0"] .dy-trow__page-text { font-weight: 550; }
   .dy-trow[data-depth="1"] .dy-trow__page-text { color: var(--dya-ink); }
   .dy-trow[data-depth="2"] .dy-trow__page-text { color: var(--dya-ink-soft); }
@@ -444,7 +450,7 @@ body.dy-admin .dy-treimg {
   // hover accent is reinstated for each depth).
   .dy-trow[data-depth="0"]:hover .dy-trow__page-text,
   .dy-trow[data-depth="1"]:hover .dy-trow__page-text,
-  .dy-trow[data-depth="2"]:hover .dy-trow__page-text { color: var(--dya-accent); }
+  .dy-trow[data-depth="2"]:hover .dy-trow__page-text { color: var(--dya-accent-text); }
 
   // ── Quick Edit inline ───────────────────────────────────────────────
   // The open row "holds" its panel: the bottom border is removed, a left
@@ -503,7 +509,7 @@ body.dy-admin .dy-treimg {
   .dy-qe__field--wide { grid-column: 1 / -1; }            // tags, categories
   .dy-qe__field--sm   { max-width: 200px; }               // order, password
   .dy-qe__lab {
-    font-family: var(--dya-font-mono); font-size: 9.5px; letter-spacing: var(--dya-tracking-label);
+    font-family: var(--dya-font-mono); font-size: 11px; letter-spacing: var(--dya-tracking-label);
     text-transform: uppercase; color: var(--dya-ink-mute);
   }
   .dy-qe__input {
@@ -576,7 +582,7 @@ body.dy-admin .dy-treimg {
 
   .dy-trow__badge {
     display: inline-flex; align-items: center; gap: 4px;
-    font-family: var(--dya-font-mono); font-size: 9.5px;
+    font-family: var(--dya-font-mono); font-size: 11px;
     letter-spacing: var(--dya-tracking-mono); text-transform: uppercase;
     color: var(--dya-ink-mute); border: 1px solid var(--dya-edge);
     padding: 2px 7px; border-radius: var(--dya-r-xs); margin-left: 8px; flex: 0 0 auto;
@@ -638,7 +644,7 @@ body.dy-admin .dy-treimg {
   [data-tip]:hover::after {
     content: attr(data-tip); position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%);
     background: var(--dya-bg); border: 1px solid var(--dya-edge-strong); color: var(--dya-ink-soft);
-    font-family: var(--dya-font-mono); font-size: 10px; letter-spacing: var(--dya-tracking-mono); text-transform: uppercase;
+    font-family: var(--dya-font-mono); font-size: 11px; letter-spacing: var(--dya-tracking-mono); text-transform: uppercase;
     padding: 4px 8px; border-radius: var(--dya-r-sm); white-space: nowrap; z-index: 70; pointer-events: none;
     box-shadow: var(--dya-shadow-md); animation: dytr-tip-in 140ms var(--dya-ease) backwards;
   }
@@ -771,7 +777,7 @@ body.dy-admin .dy-treimg {
     }
     .dy-trow__grip-bar { display: grid; cursor: grab; }
     .dy-trow__grip-bar svg { width: 7px; height: 15px; }
-    .dy-trow__grip-chev { width: 20px; height: 20px; }
+    .dy-trow__grip-chev { width: 24px; height: 24px; }
     .dy-trow__grip-chev svg { width: 11px; height: 11px; }
 
     .dy-trow__author, .dy-trow__cat,
@@ -846,7 +852,7 @@ body.dy-admin .dy-treimg {
   // set by `body.dy-line-*`), not the global accent — consistent with the title
   // cursor and the eyebrow badge. Global fallback on pages without a section.
   .dy-tfseg button.is-active { background: var(--dya-line-color, var(--dya-accent)); color: var(--dya-line-color-on, var(--dya-accent-on)); }
-  .dy-tfseg button .n { font-family: var(--dya-font-mono); font-size: 10px; letter-spacing: var(--dya-tracking-mono); color: var(--dya-ink-mute); }
+  .dy-tfseg button .n { font-family: var(--dya-font-mono); font-size: 11px; letter-spacing: var(--dya-tracking-mono); color: var(--dya-ink-mute); }
   .dy-tfseg button.is-active .n { color: var(--dya-line-color-on, var(--dya-accent-on)); opacity: .8; }
 
   // Dropdown filter chip
@@ -899,9 +905,9 @@ body.dy-admin .dy-treimg {
   .dy-tfactive__pill .x { display: inline-grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; cursor: pointer; flex: 0 0 auto; }
   .dy-tfactive__pill .x:hover { background: var(--dya-paper-3); color: var(--dya-ink); }
   .dy-tfactive__pill .x svg { width: 9px; height: 9px; stroke: currentColor; fill: none; stroke-width: 2; }
-  .dy-tfactive__reset { color: var(--dya-ink-mute); cursor: pointer; font-family: var(--dya-font-mono); font-size: 10px; letter-spacing: var(--dya-tracking-mono); text-transform: uppercase; }
+  .dy-tfactive__reset { color: var(--dya-ink-mute); cursor: pointer; font-family: var(--dya-font-mono); font-size: 11px; letter-spacing: var(--dya-tracking-mono); text-transform: uppercase; }
   .dy-tfactive__reset:hover { color: var(--dya-line-color, var(--dya-accent)); }
-  .dy-tfactive__count { margin-left: auto; font-family: var(--dya-font-mono); font-size: 10px; letter-spacing: var(--dya-tracking-mono); }
+  .dy-tfactive__count { margin-left: auto; font-family: var(--dya-font-mono); font-size: 11px; letter-spacing: var(--dya-tracking-mono); }
 }
 
 // ── Responsive filters: tablet + mobile ───────────────────
@@ -1086,7 +1092,7 @@ body.dy-admin .dy-treimg--plugins {
   .dy-tgroup {
     display: flex; align-items: center; gap: 10px; padding: 9px 18px 7px;
     background: var(--dya-bg-elev); border-bottom: 1px solid var(--dya-line);
-    font-family: var(--dya-font-mono); font-size: 10px; letter-spacing: var(--dya-tracking-label);
+    font-family: var(--dya-font-mono); font-size: 11px; letter-spacing: var(--dya-tracking-label);
     text-transform: uppercase; color: var(--dya-ink-mute);
   }
   .dy-tgroup::after { content: ""; flex: 1; height: 1px; background: var(--dya-line); }
@@ -1121,7 +1127,7 @@ body.dy-admin .dy-treimg--plugins {
   .dy-trow--plugin.is-update-error .dy-tupd { color: var(--dya-danger); }
   .dy-trow--plugin.is-inactive .dy-trow__title-text { color: var(--dya-ink-soft); }
   .dy-trow--plugin.is-blocked .dy-trow__title-text { color: var(--dya-ink-mute); }
-  .dy-trow--plugin:hover .dy-trow__title-text { color: var(--dya-accent); }
+  .dy-trow--plugin:hover .dy-trow__title-text { color: var(--dya-accent-text); }
   .dy-tver {
     display: inline-flex; align-items: center; gap: 5px; height: 20px; padding: 0 7px;
     border: 1px solid var(--dya-edge); border-radius: var(--dya-r-sm); background: transparent;
@@ -1141,7 +1147,7 @@ body.dy-admin .dy-treimg--plugins {
   .dy-treq {
     display: inline-flex; align-items: center; height: 20px; padding: 0 7px; border-radius: var(--dya-r-sm);
     background: color-mix(in srgb, var(--dya-info) 12%, transparent); color: var(--dya-info);
-    font-family: var(--dya-font-mono); font-size: 10.5px; letter-spacing: .02em; white-space: nowrap; max-width: 220px; overflow: hidden; text-overflow: ellipsis;
+    font-family: var(--dya-font-mono); font-size: 11px; letter-spacing: .02em; white-space: nowrap; max-width: 220px; overflow: hidden; text-overflow: ellipsis;
   }
 
   // Description: one line at rest, the open row reveals the meta line.
@@ -1152,7 +1158,7 @@ body.dy-admin .dy-treimg--plugins {
   .dy-trow--plugin.is-open .dy-trow__desc-meta { display: flex; flex-direction: column; gap: 3px; align-items: flex-start; }
   .dy-trow__desc-line { display: inline; }
   .dy-trow__desc-meta a { color: var(--dya-ink-soft); border: 0; text-decoration: none; }
-  .dy-trow__desc-meta a:hover { color: var(--dya-accent); }
+  .dy-trow__desc-meta a:hover { color: var(--dya-accent-text); }
   .dy-trow__desc-sep { margin: 0 6px; color: var(--dya-ink-fade); }
   .dy-trow__note { display: inline-block; }
   .dy-trow__note--warn { color: var(--dya-warn); }
@@ -1204,7 +1210,7 @@ body.dy-admin .dy-treimg--plugins {
   .dy-tupdates__btn svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 1.8; }
 
   // "More" filter chip sits next to the segmented control.
-  .dy-tfchip--more .dy-tfchip__pop .n { margin-left: auto; font-family: var(--dya-font-mono); font-size: 10px; color: var(--dya-ink-mute); padding-left: 12px; }
+  .dy-tfchip--more .dy-tfchip__pop .n { margin-left: auto; font-family: var(--dya-font-mono); font-size: 11px; color: var(--dya-ink-mute); padding-left: 12px; }
 
   // Empty state of the instant search.
   .dy-tempty { padding: 36px 18px; text-align: center; color: var(--dya-ink-mute); font-size: var(--dya-fs-sm); }
@@ -1215,7 +1221,7 @@ body.dy-admin .dy-treimg--plugins {
 // --- Responsive plugins (same steps as the other tables) ---
 @media (max-width: 1199px) and (min-width: 768px) {
   body.dy-admin .dy-treimg--plugins .dy-treimg__list { --dya-grid: 26px 26px minmax(0, 1fr) minmax(0, 1.2fr) 60px 26px; }
-  body.dy-admin .dy-treimg--plugins .dy-treimg__col--auto-updates { font-size: 9px; }
+  body.dy-admin .dy-treimg--plugins .dy-treimg__col--auto-updates { font-size: 12px; }
 }
 @media (max-width: 1024px) and (min-width: 768px) {
   body.dy-admin .dy-treimg--plugins .dy-treimg__list { --dya-grid: 26px 26px minmax(0, 1fr) minmax(0, 1fr) 26px; }

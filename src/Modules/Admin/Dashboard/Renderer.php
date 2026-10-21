@@ -388,15 +388,15 @@ final class Renderer {
 			>
 				<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
 			</button>
-			<ul class="dy-dashboard__pagination" role="tablist">
+			<?php // A row of buttons, not tabs: the "+ screen" buttons sit between them (audit, 21/10/2026). ?>
+			<ul class="dy-dashboard__pagination" role="none">
 				<?php for ( $i = 0; $i < $total; $i++ ) : ?>
 					<li role="presentation">
 						<button
 							type="button"
 							class="dy-dashboard__nav-dot<?php echo $i === $active_index ? ' is-active' : ''; ?>"
 							data-screen-target="<?php echo esc_attr( (string) $i ); ?>"
-							role="tab"
-							aria-selected="<?php echo $i === $active_index ? 'true' : 'false'; ?>"
+							<?php echo $i === $active_index ? 'aria-current="true"' : ''; ?>
 							aria-label="<?php
 							/* translators: %d: screen number */
 							echo esc_attr( sprintf( __( 'Go to screen %d', 'doubleyoupi-refined-admin-dashboard' ), $i + 1 ) );

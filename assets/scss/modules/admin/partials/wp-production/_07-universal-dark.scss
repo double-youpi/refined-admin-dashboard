@@ -110,7 +110,7 @@ body.dy-admin .attachment-info .copy-attachment-url {
   border-color: var(--dya-edge) !important;
 }
 body.dy-admin .attachment-info a {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 body.dy-admin .attachment-info a:hover {
   color: var(--dya-ink) !important;
@@ -476,7 +476,7 @@ body.dy-admin.upload-php #e-image-ai-media-library a:focus-visible {
 // The AI icon uses the theme accent (not Elementor's brand purple).
 body.dy-admin.upload-php #e-image-ai-media-library a i,
 body.dy-admin.upload-php #e-image-ai-media-library a [class*="eicon"] {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 
 // When the button is relocated (cloned into the folder panel by
@@ -954,7 +954,7 @@ body.dy-admin.plugin-install-php .plugin-card .thickbox {
   text-decoration: none !important;
 }
 body.dy-admin.plugin-install-php .plugin-card .thickbox:hover {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 
 // `.popular-tags` (tag cloud on the sidebar) — WP-default is on a white
@@ -1055,7 +1055,7 @@ body.dy-admin.dialog-body .fyi strong {
   color: var(--dya-ink) !important;
 }
 body.dy-admin.dialog-body .fyi a {
-  color: var(--dya-accent) !important;
+  color: var(--dya-accent-text) !important;
 }
 // Popup footer with the "Install now" CTA
 body.dy-admin.dialog-body #plugin-information-footer {
@@ -1138,7 +1138,7 @@ body.dy-admin #ui-datepicker-div .ui-datepicker-calendar { border-collapse: coll
 body.dy-admin #ui-datepicker-div .ui-datepicker-calendar th {
   color: var(--dya-ink-mute) !important;
   font-weight: 500 !important;
-  font-size: 10.5px !important;
+  font-size: 11px !important;
   padding: 4px !important;
   border: 0 !important;
 }

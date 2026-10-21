@@ -291,6 +291,10 @@
       document.documentElement.style.setProperty('--dya-rail-w-current', w + 'px');
       const state = w >= expandedThreshold() ? 'expanded' : 'collapsed';
       body.dataset.railState = state;
+      // A focusable separator states its value (accessibility audit, 21/10/2026).
+      handle.setAttribute('aria-valuenow', String(Math.round(w)));
+      handle.setAttribute('aria-valuemin', String(Math.round(min)));
+      handle.setAttribute('aria-valuemax', String(railMaxWidth()));
       if (opts.persist) writeStoredState(state);
     }
 
@@ -461,7 +465,9 @@
   // ── 5. Rail tooltip (only when collapsed) ────────────
   const tip = document.createElement('div');
   tip.className = 'dy-rail-tip';
-  tip.setAttribute('role', 'tooltip');
+  // Visual only: it repeats a name the link already carries (an empty
+  // `role="tooltip"` was an unnamed element, audit of 21/10/2026).
+  tip.setAttribute('aria-hidden', 'true');
   body.appendChild(tip);
 
   function showTip(target, label) {
@@ -477,7 +483,7 @@
   // Brand row → Dashboard tooltip (collapsed only).
   const brandEl = document.querySelector('.dy-rail-brand');
   if (brandEl) {
-    const brandLabel = brandEl.getAttribute('aria-label') || 'Dashboard';
+    const brandLabel = brandEl.getAttribute('title') || brandEl.getAttribute('aria-label') || 'Dashboard';
     brandEl.addEventListener('mouseenter', () => showTip(brandEl, brandLabel));
     brandEl.addEventListener('mouseleave', hideTip);
     brandEl.addEventListener('focusout',  hideTip);

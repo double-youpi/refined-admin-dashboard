@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Youpï Refined Admin Dashboard 1.0.7\n"
+"Project-Id-Version: Double Youpï Refined Admin Dashboard 1.0.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-refined-admin-dashboard\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-19T11:56:41+00:00\n"
+"POT-Creation-Date: 2026-10-21T04:01:15+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: doubleyoupi-refined-admin-dashboard\n"
@@ -2201,7 +2201,7 @@ msgstr ""
 #. translators: %1$d is the number of available modules, %2$d the number enabled.
 #. translators: %1$d = available modules, %2$d = enabled modules
 #: src/Modules/Admin/Eyebrow.php:232
-#: src/Modules/Admin/Eyebrow.php:617
+#: src/Modules/Admin/Eyebrow.php:633
 #, php-format
 msgid "%1$d module available · %2$d enabled"
 msgid_plural "%1$d modules available · %2$d enabled"
@@ -2334,12 +2334,12 @@ msgid_plural "%d users"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Modules/Admin/Eyebrow.php:546
+#: src/Modules/Admin/Eyebrow.php:562
 msgid "No extension"
 msgstr ""
 
 #. translators: %1$d is the number of active plugins, %2$d the number installed.
-#: src/Modules/Admin/Eyebrow.php:551
+#: src/Modules/Admin/Eyebrow.php:567
 #, php-format
 msgid "%1$d active out of %2$d installed"
 msgid_plural "%1$d active out of %2$d installed"
@@ -2347,7 +2347,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %1$s is the active theme name, %2$d the total number of installed themes.
-#: src/Modules/Admin/Eyebrow.php:567
+#: src/Modules/Admin/Eyebrow.php:583
 #, php-format
 msgid "%1$s active · %2$d theme installed"
 msgid_plural "%1$s active · %2$d themes installed"
@@ -2355,13 +2355,13 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %1$s is the post status label, %2$s a human-readable time difference (e.g. "3 hours").
-#: src/Modules/Admin/Eyebrow.php:598
+#: src/Modules/Admin/Eyebrow.php:614
 #, php-format
 msgid "%1$s · Modified %2$s ago"
 msgstr ""
 
 #. translators: %1$d is the number of publications, %2$d the number of approved comments.
-#: src/Modules/Admin/Eyebrow.php:662
+#: src/Modules/Admin/Eyebrow.php:678
 #, php-format
 msgid "%1$d publication · %2$d approved comment"
 msgstr ""
@@ -2467,11 +2467,11 @@ msgstr ""
 msgid "Dashboard"
 msgstr ""
 
-#: src/Modules/Admin/Rail.php:685
+#: src/Modules/Admin/Rail.php:686
 msgid "Resize navigation"
 msgstr ""
 
-#: src/Modules/Admin/Rail.php:686
+#: src/Modules/Admin/Rail.php:687
 msgid "Toggle navigation width"
 msgstr ""
 
