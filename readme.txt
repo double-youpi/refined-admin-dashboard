@@ -1,20 +1,22 @@
-=== Double Youpï Refined Admin Dashboard - Complete Admin Redesign, Dark Mode & Media Folders ===
+=== Double Youpï Refined Admin Dashboard - Admin Theme with Dark Mode & Media Folders ===
 Contributors: doubleyoupi
-Tags: admin theme, dark mode, admin menu, dashboard, admin
+Tags: admin theme, dark mode, admin menu, dashboard, dark theme
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.9
+Stable tag: 1.0.10
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-A dark and light redesign of the WordPress admin: navigation, tables, editor, notices, dashboard and media library, with native components only.
+A free admin theme with dark mode for WordPress: every screen redrawn, a menu you can reorder, notices in one place, Refined Media Library built in.
 
 == Description ==
 
-The WordPress admin has looked the same since 2013, and it shows. Grey on grey, a sidebar that every plugin adds a line to, a dashboard full of widgets nobody reads. You spend your days in there. It might as well be pleasant.
+Double Youpï Refined Admin Dashboard redraws every screen of the WordPress admin, in dark or light, using only WordPress's own components. You get a menu you can reorder, every notice in one place, a dashboard per role and a media library with folders. It is free, with no Pro version, and deactivating it brings the admin back as it was.
 
-Double Youpï Refined Admin Dashboard redraws the whole thing, in dark or light, using only WordPress's own components. Nothing is reinvented: the markup stays native, so your plugins keep working and their screens get the same treatment.
+The admin is where you spend your days: a sidebar that every plugin adds a line to, a dashboard full of widgets nobody reads. It might as well be pleasant.
+
+The 4-minute film, shot on the real interface:
 
 https://www.youtube.com/watch?v=untjaB9-KSs
 
@@ -71,6 +73,42 @@ Some plugins manage their own interface. When one of them owns the screen, this 
 
 == Frequently Asked Questions ==
 
+= Do I also need Double Youpï Refined Media Library? =
+
+No. This plugin includes the whole media library: folders, collections, the detail panel, unused media, WebP and AVIF on upload. If both are installed, Refined Media Library steps aside on its own and your folders stay as they are; you can deactivate it.
+
+= I don't like the WordPress 7 admin. Does this change it? =
+
+Yes. It redraws every admin screen, in dark or light, and it is tested up to WordPress 7.1. Deactivate it and the admin is back as it was before.
+
+= Does it have a dark mode for the whole admin? =
+
+Yes, and it is the default. Light is one click away in the admin bar. Your choice is applied before the page is drawn, so the old interface never flashes past.
+
+= Can I get rid of admin notices and plugin banners? =
+
+They are collected rather than deleted. Every notice from WordPress and your plugins goes into a single counter at the top of the screen, opened when you want it. Feedback on something you just did still shows as a brief toast.
+
+= Can I reorder or hide admin menu items without code? =
+
+That is one of the main points. An editor lets you reorder entries, move them between themed lines, hide what you never use, and reset everything in one click if you change your mind. Menu entries from newly installed plugins go to the section that fits them best, and are listed in the Developer tab so you can move them.
+
+= I already use an admin theme or a menu editor plugin. Should I switch? =
+
+It covers some of the same ground: a menu editor, a dark mode, your logo and colour, a dashboard per role. Its approach is to restyle WordPress's own components rather than draw a new interface, so your plugins keep their screens. It is free, with no Pro version. Try it on its own, with the other plugin deactivated; if it is not for you, deactivating it brings the admin back as it was.
+
+= Is it really free? Will there be a Pro version? =
+
+It is free and it will stay free. There is no Pro version, nothing held back, no banner asking you to upgrade.
+
+= Does it work with my page builder and with WooCommerce? =
+
+It was built and run on real sites, mostly with Bricks, and works with Bricks, Elementor, the block editor, WooCommerce, Yoast SEO, Rank Math, ACF and WPForms. Page builders keep their own interface: they are detected and left alone. With WooCommerce active, the dashboard offers widgets for this month's revenue, orders to process, low stock, best sellers and the last 7 days of sales.
+
+= Is the interface translated? =
+
+Yes. It ships in English, French, Spanish, German, Italian, Brazilian Portuguese, Hindi and Russian, plus British English.
+
 = Does it break my other plugins? =
 
 It shouldn't. The redesign styles WordPress's native components rather than replacing them, so a plugin that uses standard markup is styled along with everything else. A plugin that ships its own full interface is detected and left alone.
@@ -82,14 +120,6 @@ Yes. By default it applies to everyone. You can switch on a mode where each acco
 = Does it slow the admin down? =
 
 No. The theme is CSS on native markup, the brand font is self-hosted, and the body text uses the fonts already on your machine. Nothing is fetched from a third party.
-
-= Can I reorganise the menu? =
-
-That is one of the main points. An editor lets you reorder entries, move them between themed lines, hide what you never use, and reset everything in one click if you change your mind.
-
-= What is the catch with "free"? =
-
-There isn't one. No Pro version, nothing held back, no banner asking you to upgrade.
 
 == External services ==
 
@@ -126,6 +156,10 @@ Privacy policy: https://doubleyoupi.com/privacy
 15. Coming from FileBird or another folder plugin? Preview its folders, then import them in one click. The source plugin is never modified.
 
 == Changelog ==
+
+= 1.0.10 =
+* New: WPGraphQL IDE follows your theme, dark or light, syntax colours included.
+* New: media folders, collections and the WebP/AVIF copies are available to headless fronts through WPGraphQL and the REST API. Folder names can be kept private with the doubleyoupi_filter_media_folders_public filter.
 
 = 1.0.9 =
 * New: Russian translation. It follows WordPress's own Russian vocabulary but has not yet been reviewed by a native speaker: corrections are welcome on translate.wordpress.org.
@@ -214,6 +248,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.10 =
+WPGraphQL IDE follows your theme, and media folders and WebP/AVIF copies reach headless fronts through WPGraphQL and the REST API.
 
 = 1.0.9 =
 A Russian translation of the interface.

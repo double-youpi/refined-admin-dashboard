@@ -3,7 +3,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-10-21T04:25:48+00:00\n"
+"POT-Creation-Date: 2026-10-22T15:08:41+00:00\n"
 "Language: pt_BR\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
@@ -60,7 +60,7 @@ msgstr ""
 #: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:119
 #: src/Modules/Admin/Editor/EditorReimagined.php:225
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:64
-#: src/Modules/MediaLibrary/MediaLibrary.php:206
+#: src/Modules/MediaLibrary/MediaLibrary.php:209
 msgid "Settings"
 msgstr "Configurações"
 
@@ -579,8 +579,8 @@ msgstr ""
 "navegação reformulada, tabelas de conteúdo redesenhadas, modo escuro e a sua "
 "marca."
 
-#: src/Core/ModuleCatalog.php:49 src/Modules/MediaLibrary/MediaLibrary.php:137
-#: src/Modules/MediaLibrary/MediaLibrary.php:218
+#: src/Core/ModuleCatalog.php:49 src/Modules/MediaLibrary/MediaLibrary.php:140
+#: src/Modules/MediaLibrary/MediaLibrary.php:221
 msgid "Refined Media Library"
 msgstr "Refined Media Library"
 
@@ -596,45 +596,45 @@ msgstr ""
 msgid "Admin"
 msgstr "Admin"
 
-#: src/Modules/Admin/Admin.php:307
+#: src/Modules/Admin/Admin.php:308
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:477
 #: src/Modules/Admin/Settings.php:655
 msgid "Accent color"
 msgstr "Cor de destaque"
 
-#: src/Modules/Admin/Admin.php:308
+#: src/Modules/Admin/Admin.php:309
 msgid "The Double Youpï Admin module manages the administration palette."
 msgstr "o módulo Admin do Double Youpï gerencia a paleta da administração."
 
-#: src/Modules/Admin/Admin.php:309
+#: src/Modules/Admin/Admin.php:310
 msgid "Configure →"
 msgstr "Configurar →"
 
-#: src/Modules/Admin/Admin.php:359
+#: src/Modules/Admin/Admin.php:360
 #: src/Modules/Admin/Tables/TablesReimagined.php:453
 msgid "Screen options"
 msgstr "Opções de tela"
 
-#: src/Modules/Admin/Admin.php:360
+#: src/Modules/Admin/Admin.php:361
 #: src/Modules/Admin/Tables/TablesReimagined.php:454
 msgid "Columns"
 msgstr "Colunas"
 
-#: src/Modules/Admin/Admin.php:361
+#: src/Modules/Admin/Admin.php:362
 #: src/Modules/Admin/Tables/TablesReimagined.php:459
 msgid "Pagination"
 msgstr "Paginação"
 
-#: src/Modules/Admin/Admin.php:362
+#: src/Modules/Admin/Admin.php:363
 #: src/Modules/Admin/Tables/TablesReimagined.php:460
 msgid "Items per page"
 msgstr "Itens por página"
 
-#: src/Modules/Admin/Admin.php:521
+#: src/Modules/Admin/Admin.php:522
 msgid "Session"
 msgstr "Sessão"
 
-#: src/Modules/Admin/Admin.php:523
+#: src/Modules/Admin/Admin.php:524
 msgid "Invert theme"
 msgstr "Inverter o tema"
 
@@ -840,7 +840,7 @@ msgstr "Exportar JSON"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:381
 #: src/Modules/Admin/Settings.php:885
-#: src/Modules/MediaLibrary/MediaLibrary.php:214
+#: src/Modules/MediaLibrary/MediaLibrary.php:217
 #: src/Modules/MediaLibrary/Migration/MigrationI18n.php:25
 msgid "Import"
 msgstr "Importar"
@@ -3875,6 +3875,10 @@ msgid ""
 msgstr ""
 "As coleções ficam separadas das pastas: esta alteração não é possível aqui."
 
+#: src/Modules/MediaLibrary/Integrations/HeadlessApi.php:178
+msgid "Media folders and collections are private on this site."
+msgstr "As pastas e coleções da biblioteca de mídia são privadas neste site."
+
 #: src/Modules/MediaLibrary/MediaLibrary.php:75
 msgid ""
 "Turning the media library off hands the Media screen back to WordPress. Your "
@@ -3892,11 +3896,11 @@ msgstr ""
 "Double Youpï Refined Media Library está instalado e recuado: ative-o "
 "novamente se quiser a biblioteca de mídia sem o resto."
 
-#: src/Modules/MediaLibrary/MediaLibrary.php:138
+#: src/Modules/MediaLibrary/MediaLibrary.php:141
 msgid "Media Library"
 msgstr "Biblioteca de mídia"
 
-#: src/Modules/MediaLibrary/MediaLibrary.php:209
+#: src/Modules/MediaLibrary/MediaLibrary.php:212
 msgid "Unused media"
 msgstr "Mídia não utilizada"
 

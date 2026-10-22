@@ -249,6 +249,7 @@ JS;
 		// `dy-builder-native` body class and theme sync are in place.
 		( new BuilderScreen() )->boot();
 		( new LiteSpeedTheme() )->boot();
+		( new WpGraphqlIde() )->boot();
 
 		// Plugin screens with self-sufficient UI (Rank Math, Yoast): we keep
 		// rail + chipbar but render content on a native WP canvas (see

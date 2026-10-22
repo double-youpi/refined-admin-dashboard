@@ -60,6 +60,10 @@ JS;
 	 */
 	private const SKINNED_APP_PREFIXES = [
 		'wc-admin',
+		// WPGraphQL IDE 5 (page=graphql-ide): built on @wordpress/components
+		// and driven by CSS variables, which _wpgraphql.scss maps onto our
+		// tokens (headless test of 21/10/2026).
+		'graphql-ide',
 	];
 
 	/**
@@ -98,6 +102,11 @@ JS;
 		'backup-migration', // Backup Migration
 		'boldgrid-backup',  // Total Upkeep
 		'xcloner_',         // XCloner
+		// The GraphiQL 1 IDE bundled with WPGraphQL (Ant Design shell): only
+		// its editors took our dark theme, its panels stayed white and their
+		// titles became unreadable. WPGraphQL IDE 5 replaces it and is skinned
+		// on purpose (SKINNED_APP_PREFIXES); this one keeps its own light look.
+		'graphiql-ide',
 
 		// ── Themes with their OWN admin design system (React/SPA dashboards) ──
 		// Manifesto §2 "detect and step back": for mainstream themes that ship a

@@ -17185,6 +17185,395 @@ body.dy-admin select#order_status {
   width: 100%;
 }
 
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) {
+  --wp-components-color-accent: var(--dya-accent-text, var(--dya-accent));
+  --wp-components-color-accent-darker-10: var(--dya-accent-darker-10, var(--dya-accent));
+  --wp-components-color-accent-darker-20: var(--dya-accent-darker-20, var(--dya-accent));
+  --wp-components-color-accent-inverted: var(--dya-accent-on);
+  --wp-components-color-background: var(--dya-paper);
+  --wp-components-color-foreground: var(--dya-ink);
+  --wp-components-color-gray-100: var(--dya-paper-2);
+  --wp-components-color-gray-200: var(--dya-line);
+  --wp-components-color-gray-300: var(--dya-line-strong);
+  --wp-components-color-gray-400: var(--dya-ink-fade);
+  --wp-components-color-gray-700: var(--dya-ink-mute);
+  --wp-admin-theme-color: var(--dya-accent);
+}
+
+body.dy-admin [data-vaul-drawer]:has(#wpgraphql-ide-app) {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink);
+}
+
+body.dy-admin {
+  --wpgraphql-ide-accent: var(--dya-accent-text, var(--dya-accent));
+  --wpgraphql-ide-text-strong: var(--dya-ink);
+  --wpgraphql-ide-text-muted: var(--dya-ink-mute);
+  --wpgraphql-ide-surface-soft: var(--dya-paper-2);
+  --wpgraphql-ide-border-subtle: var(--dya-line);
+  --wpgraphql-ide-color-success: var(--dya-success);
+  --wpgraphql-ide-color-warning: var(--dya-warning);
+  --wpgraphql-ide-color-error: var(--dya-danger);
+  --gql-color-keyword: #ff8fc4;
+  --gql-color-operation-name: #7fe0b8;
+  --gql-color-field: var(--dya-accent-text, var(--dya-accent));
+  --gql-color-argument: #f4bf75;
+  --gql-color-type: #74d5ea;
+  --gql-color-string: #7fe0b8;
+  --gql-color-number: #9cc2ff;
+  --gql-color-bool: #cfa6ff;
+  --gql-color-null: #cfa6ff;
+  --gql-color-enum: #f4bf75;
+  --gql-color-variable: #ffc982;
+  --gql-color-directive: #cfa6ff;
+  --gql-color-comment: var(--dya-ink-mute);
+  --gql-color-punctuation: var(--dya-ink-mute);
+  --json-color-property: var(--dya-accent-text, var(--dya-accent));
+  --json-color-string: #7fe0b8;
+  --json-color-number: #9cc2ff;
+  --json-color-bool: #cfa6ff;
+  --json-color-null: #cfa6ff;
+  --json-color-punctuation: var(--dya-ink-mute);
+}
+
+body.dy-admin.dy-theme-light {
+  --gql-color-keyword: #b0246c;
+  --gql-color-operation-name: #146c48;
+  --gql-color-argument: #8a5300;
+  --gql-color-type: #0b6878;
+  --gql-color-string: #146c48;
+  --gql-color-number: #1f55c0;
+  --gql-color-bool: #7a2fb5;
+  --gql-color-null: #7a2fb5;
+  --gql-color-enum: #8a5300;
+  --gql-color-variable: #8a5300;
+  --gql-color-directive: #7a2fb5;
+  --json-color-string: #146c48;
+  --json-color-number: #1f55c0;
+  --json-color-bool: #7a2fb5;
+  --json-color-null: #7a2fb5;
+}
+
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-editor.is-readonly {
+  --gql-color-punctuation: var(--dya-ink-mute);
+}
+
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .cm-editor {
+  background: var(--dya-paper);
+  color: var(--dya-ink);
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .cm-editor .cm-content {
+  caret-color: var(--dya-ink);
+  font-family: var(--dya-font-mono);
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .cm-editor .cm-cursor,
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .cm-editor .cm-dropCursor {
+  border-left-color: var(--dya-ink);
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .cm-editor .cm-selectionBackground, body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .cm-editor.cm-focused .cm-selectionBackground,
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .cm-editor .cm-content ::selection {
+  background: color-mix(in srgb, var(--dya-accent) 32%, transparent);
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .cm-editor .cm-activeLine {
+  background: color-mix(in srgb, var(--dya-ink) 4%, transparent);
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .cm-editor .cm-activeLineGutter {
+  background: color-mix(in srgb, var(--dya-ink) 6%, transparent);
+  color: var(--dya-ink-soft);
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .cm-editor .cm-matchingBracket, body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .cm-editor.cm-focused .cm-matchingBracket {
+  background: color-mix(in srgb, var(--dya-accent) 22%, transparent);
+  outline: 1px solid color-mix(in srgb, var(--dya-accent) 55%, transparent);
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .cm-editor .cm-nonmatchingBracket {
+  color: var(--dya-danger);
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .cm-editor .cm-placeholder {
+  color: var(--dya-ink-fade);
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .cm-editor .cm-gutters {
+  font-family: var(--dya-font-mono);
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .cm-editor .cm-foldPlaceholder {
+  background: var(--dya-paper-2);
+  border-color: var(--dya-line);
+  color: var(--dya-ink-mute);
+}
+
+body.dy-admin .cm-tooltip {
+  background: var(--dya-bg-elev, var(--dya-paper));
+  border: 1px solid var(--dya-line);
+  border-radius: var(--dya-r-md);
+  box-shadow: var(--dya-shadow-md);
+  color: var(--dya-ink);
+}
+body.dy-admin .cm-tooltip.cm-tooltip-autocomplete > ul > li {
+  color: var(--dya-ink-soft);
+}
+body.dy-admin .cm-tooltip.cm-tooltip-autocomplete > ul > li[aria-selected] {
+  background: color-mix(in srgb, var(--dya-accent) 28%, transparent);
+  color: var(--dya-ink);
+}
+body.dy-admin .cm-tooltip .cm-completionDetail {
+  color: var(--dya-ink-mute);
+}
+body.dy-admin .cm-tooltip.cm-completionInfo {
+  color: var(--dya-ink-soft);
+}
+body.dy-admin .cm-tooltip code {
+  background: var(--dya-paper-2);
+  color: var(--dya-ink);
+}
+body.dy-admin .cm-tooltip .cm-diagnostic-error {
+  border-left-color: var(--dya-danger);
+}
+body.dy-admin .cm-tooltip .cm-diagnostic-warning {
+  border-left-color: var(--dya-warning);
+}
+
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-execution-pill {
+  background: var(--dya-bg-elev, var(--dya-paper));
+  border-color: var(--dya-line);
+  box-shadow: var(--dya-shadow-md);
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-execution-pill-divider {
+  background: var(--dya-line);
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-empty-description {
+  color: var(--dya-ink-mute);
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-tab-close:hover {
+  background: color-mix(in srgb, var(--dya-ink) 10%, transparent);
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-header-row:nth-child(2n) {
+  background: var(--dya-paper-2);
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-query-composer-inline > .components-resizable-box__handle {
+  background: var(--dya-line);
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-response-status--success {
+  background: color-mix(in srgb, var(--dya-success) 10%, transparent);
+  color: var(--dya-success);
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-response-status--error {
+  background: color-mix(in srgb, var(--dya-danger) 10%, transparent);
+  color: var(--dya-danger);
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-debug-type {
+  background: color-mix(in srgb, var(--dya-warning) 16%, transparent);
+  color: var(--dya-ink);
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-plugin input[type=number],
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-plugin input[type=text],
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-doc-setting input[type=number],
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-doc-setting input[type=text] {
+  background: var(--dya-paper);
+  border-color: var(--dya-line-strong);
+  color: var(--dya-ink);
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-smart-cache-details-aside code,
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-smart-cache-network code {
+  background: color-mix(in srgb, var(--dya-ink) 7%, transparent);
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-smart-cache-status.is-hit {
+  background: color-mix(in srgb, var(--dya-success) 14%, transparent);
+  border-color: color-mix(in srgb, var(--dya-success) 40%, transparent);
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-smart-cache-session-stat.is-hit {
+  color: var(--dya-success);
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-share-collection-results {
+  border-color: var(--dya-line);
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-share-collection-results > li + li {
+  border-top-color: var(--dya-line-soft, var(--dya-line));
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-tracing-n1-table {
+  border-color: color-mix(in srgb, var(--dya-warning) 40%, transparent);
+}
+
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-topbar-btn.components-button.is-active,
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-topbar-btn.components-button.is-active:hover,
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-toolbar-composer-btn.components-button.is-active,
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-toolbar-composer-btn.components-button.is-active:hover,
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-toolbar-doc-settings-btn.components-button.is-active,
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-toolbar-doc-settings-btn.components-button.is-active:hover {
+  background: color-mix(in srgb, var(--dya-accent) 18%, transparent);
+  color: var(--dya-accent-text, var(--dya-accent));
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-setting-desc {
+  color: var(--dya-ink-mute);
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-setting-desc a {
+  color: var(--dya-accent-text, var(--dya-accent));
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-tab-close {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  min-height: 24px;
+  min-width: 24px;
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-query-composer-inline [data-field-name],
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-query-composer-inline .graphiql-explorer-arg-row-head > [role=button] {
+  align-items: center;
+  display: inline-flex;
+  min-height: 24px;
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-settings-nav {
+  background: var(--dya-paper-2);
+}
+body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app) .wpgraphql-ide-settings-nav-item.is-active {
+  background: var(--dya-paper);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline select {
+  background-color: var(--dya-paper);
+  border-color: var(--dya-line-strong);
+  color: var(--dya-ink);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-root {
+  color: var(--dya-ink);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-operation {
+  border-bottom: 1px solid var(--dya-line);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-operation-title-bar {
+  background: var(--dya-paper);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-operation-toggle {
+  color: var(--dya-ink-mute);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-operation-toggle:hover {
+  background: color-mix(in srgb, var(--dya-ink) 8%, transparent);
+  color: var(--dya-ink);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-operation-name:hover {
+  background: color-mix(in srgb, var(--dya-ink) 6%, transparent);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-operation-name:focus {
+  background: var(--dya-paper);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-operation-action {
+  color: var(--dya-ink-mute);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-operation-action:hover {
+  background: var(--dya-paper-2);
+  color: var(--dya-ink);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-row:hover {
+  background: var(--dya-paper-2);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-arrow {
+  color: var(--dya-ink-mute);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-checkbox {
+  color: var(--dya-ink-fade);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline select {
+  background: var(--dya-paper);
+  border: 1px solid var(--dya-line);
+  color: var(--dya-ink-mute);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline select:hover {
+  background-color: var(--dya-paper-2);
+  border-color: var(--dya-line-strong);
+  color: var(--dya-ink);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline select:focus {
+  color: var(--dya-ink);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-variablize {
+  background: var(--dya-paper);
+  border: 1px solid var(--dya-line);
+  color: var(--dya-ink-mute);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-variablize:hover {
+  background: var(--dya-paper-2);
+  border-color: var(--dya-line-strong);
+  color: var(--dya-ink);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-list-item {
+  background: color-mix(in srgb, var(--dya-accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--dya-accent) 40%, transparent);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-list-item:focus-within {
+  background: var(--dya-paper);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-list-item-remove {
+  color: var(--dya-ink-mute);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-list-item-remove:focus-visible,
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-list-item-remove:hover {
+  background: color-mix(in srgb, var(--dya-danger) 14%, transparent);
+  color: var(--dya-danger);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-list-add {
+  background: var(--dya-paper);
+  border: 1px dashed var(--dya-line-strong);
+  color: var(--dya-ink-mute);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-list-add:hover {
+  background: var(--dya-paper-2);
+  border-color: var(--dya-line-strong);
+  color: var(--dya-ink);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-list-object-item {
+  border-left: 2px solid var(--dya-line);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-list-object-index {
+  color: var(--dya-ink-mute);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-oneof-label {
+  color: var(--dya-ink-mute);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-actions {
+  border-top: 1px solid var(--dya-line);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-actions-label {
+  color: var(--dya-ink-mute);
+}
+
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-actions-add {
+  background: var(--dya-paper);
+  border: 1px solid var(--dya-line-strong);
+  color: var(--dya-ink);
+}
+
+body.dy-admin.graphql_page_graphql-ide .dy-feedback-dock {
+  display: none;
+}
+
 body.dy-admin.block-editor-page .dy-chipbar,
 body.dy-admin.site-editor-php .dy-chipbar,
 body.dy-admin.appearance_page_gutenberg-edit-site .dy-chipbar {

@@ -1,0 +1,432 @@
+// =============================================================
+// _wpgraphql.scss
+// WPGraphQL IDE 5 (page=graphql-ide, and the drawer it opens from the
+// admin bar on any screen). The IDE is built on @wordpress/components and
+// CodeMirror 6 and reads almost every colour from CSS variables: its own
+// (--wpgraphql-ide-*, --gql-color-*, --json-color-*) and those of
+// @wordpress/components. We map them onto our tokens, so the page and the
+// drawer follow the theme and the accent, syntax colours included. The few colours it writes in full are restated below.
+// Page detection: NativeContent::SKINNED_APP_PREFIXES ('graphql-ide').
+// Headless test of 21/10/2026: docs/strategy/TEST-HEADLESS-2026-10-21.md.
+// =============================================================
+
+// The page mounts the IDE in #wpgraphql-ide-root; the drawer mounts the same
+// #wpgraphql-ide-app inside a Radix portal at the end of <body>.
+$ide: "body.dy-admin :is(#wpgraphql-ide-root, #wpgraphql-ide-app)";
+
+// ── @wordpress/components tokens, on the IDE only ─────────
+// DS tokens flip with the theme, so one definition covers dark and light.
+// Restated here (and not only in _14-wp-components) because the drawer also
+// opens on screens where that layer stands aside (native content, builders).
+#{$ide} {
+  --wp-components-color-accent: var(--dya-accent-text, var(--dya-accent));
+  --wp-components-color-accent-darker-10: var(--dya-accent-darker-10, var(--dya-accent));
+  --wp-components-color-accent-darker-20: var(--dya-accent-darker-20, var(--dya-accent));
+  --wp-components-color-accent-inverted: var(--dya-accent-on);
+  --wp-components-color-background: var(--dya-paper);
+  --wp-components-color-foreground: var(--dya-ink);
+  --wp-components-color-gray-100: var(--dya-paper-2);
+  --wp-components-color-gray-200: var(--dya-line);
+  --wp-components-color-gray-300: var(--dya-line-strong);
+  --wp-components-color-gray-400: var(--dya-ink-fade);
+  --wp-components-color-gray-700: var(--dya-ink-mute);
+  --wp-admin-theme-color: var(--dya-accent);
+}
+
+// The drawer panel itself: a Vaul drawer (Radix dialog), whose library
+// sets its pale background with !important.
+body.dy-admin [data-vaul-drawer]:has(#wpgraphql-ide-app) {
+  background: var(--dya-paper) !important;
+  color: var(--dya-ink);
+}
+
+// ── IDE tokens, on <body> ─────────────────────────────────
+// Only the IDE reads these names. Set on <body> they also reach what it
+// mounts outside its root: the drawer portal and CodeMirror's tooltips.
+body.dy-admin {
+  --wpgraphql-ide-accent: var(--dya-accent-text, var(--dya-accent));
+  --wpgraphql-ide-text-strong: var(--dya-ink);
+  --wpgraphql-ide-text-muted: var(--dya-ink-mute);
+  --wpgraphql-ide-surface-soft: var(--dya-paper-2);
+  --wpgraphql-ide-border-subtle: var(--dya-line);
+  --wpgraphql-ide-color-success: var(--dya-success);
+  --wpgraphql-ide-color-warning: var(--dya-warning);
+  --wpgraphql-ide-color-error: var(--dya-danger);
+
+  // Syntax, dark (default theme). Field names carry the accent, so the
+  // query reads in the colour of the admin; the rest is a quiet palette
+  // tuned for 4.5:1 or more on --dya-paper and --dya-paper-2.
+  --gql-color-keyword: #ff8fc4;
+  --gql-color-operation-name: #7fe0b8;
+  --gql-color-field: var(--dya-accent-text, var(--dya-accent));
+  --gql-color-argument: #f4bf75;
+  --gql-color-type: #74d5ea;
+  --gql-color-string: #7fe0b8;
+  --gql-color-number: #9cc2ff;
+  --gql-color-bool: #cfa6ff;
+  --gql-color-null: #cfa6ff;
+  --gql-color-enum: #f4bf75;
+  --gql-color-variable: #ffc982;
+  --gql-color-directive: #cfa6ff;
+  --gql-color-comment: var(--dya-ink-mute);
+  --gql-color-punctuation: var(--dya-ink-mute);
+
+  --json-color-property: var(--dya-accent-text, var(--dya-accent));
+  --json-color-string: #7fe0b8;
+  --json-color-number: #9cc2ff;
+  --json-color-bool: #cfa6ff;
+  --json-color-null: #cfa6ff;
+  --json-color-punctuation: var(--dya-ink-mute);
+}
+
+// Syntax, light: same roles, darker inks (4.5:1 or more on light papers).
+body.dy-admin.dy-theme-light {
+  --gql-color-keyword: #b0246c;
+  --gql-color-operation-name: #146c48;
+  --gql-color-argument: #8a5300;
+  --gql-color-type: #0b6878;
+  --gql-color-string: #146c48;
+  --gql-color-number: #1f55c0;
+  --gql-color-bool: #7a2fb5;
+  --gql-color-null: #7a2fb5;
+  --gql-color-enum: #8a5300;
+  --gql-color-variable: #8a5300;
+  --gql-color-directive: #7a2fb5;
+
+  --json-color-string: #146c48;
+  --json-color-number: #1f55c0;
+  --json-color-bool: #7a2fb5;
+  --json-color-null: #7a2fb5;
+}
+
+// The read-only editors (docs, history) grey their syntax on purpose.
+#{$ide} .wpgraphql-ide-editor.is-readonly {
+  --gql-color-punctuation: var(--dya-ink-mute);
+}
+
+// ── CodeMirror 6: caret, selection, active line, tooltips ─
+// Its base theme hard-codes a black caret and a pale grey selection,
+// invisible or unreadable on a dark editor.
+#{$ide} .cm-editor {
+  background: var(--dya-paper);
+  color: var(--dya-ink);
+
+  .cm-content {
+    caret-color: var(--dya-ink);
+    font-family: var(--dya-font-mono);
+  }
+  .cm-cursor,
+  .cm-dropCursor {
+    border-left-color: var(--dya-ink);
+  }
+  .cm-selectionBackground,
+  &.cm-focused .cm-selectionBackground,
+  .cm-content ::selection {
+    background: color-mix(in srgb, var(--dya-accent) 32%, transparent);
+  }
+  .cm-activeLine {
+    background: color-mix(in srgb, var(--dya-ink) 4%, transparent);
+  }
+  .cm-activeLineGutter {
+    background: color-mix(in srgb, var(--dya-ink) 6%, transparent);
+    color: var(--dya-ink-soft);
+  }
+  .cm-matchingBracket,
+  &.cm-focused .cm-matchingBracket {
+    background: color-mix(in srgb, var(--dya-accent) 22%, transparent);
+    outline: 1px solid color-mix(in srgb, var(--dya-accent) 55%, transparent);
+  }
+  .cm-nonmatchingBracket {
+    color: var(--dya-danger);
+  }
+  .cm-placeholder {
+    color: var(--dya-ink-fade);
+  }
+  .cm-gutters {
+    font-family: var(--dya-font-mono);
+  }
+  .cm-foldPlaceholder {
+    background: var(--dya-paper-2);
+    border-color: var(--dya-line);
+    color: var(--dya-ink-mute);
+  }
+}
+
+// Autocomplete, hover docs and lint messages float over the editor and are
+// mounted at the end of <body>, outside the IDE root.
+body.dy-admin .cm-tooltip {
+  background: var(--dya-bg-elev, var(--dya-paper));
+  border: 1px solid var(--dya-line);
+  border-radius: var(--dya-r-md);
+  box-shadow: var(--dya-shadow-md);
+  color: var(--dya-ink);
+
+  &.cm-tooltip-autocomplete > ul > li {
+    color: var(--dya-ink-soft);
+  }
+  &.cm-tooltip-autocomplete > ul > li[aria-selected] {
+    background: color-mix(in srgb, var(--dya-accent) 28%, transparent);
+    color: var(--dya-ink);
+  }
+  .cm-completionDetail {
+    color: var(--dya-ink-mute);
+  }
+  &.cm-completionInfo {
+    color: var(--dya-ink-soft);
+  }
+  code {
+    background: var(--dya-paper-2);
+    color: var(--dya-ink);
+  }
+  .cm-diagnostic-error {
+    border-left-color: var(--dya-danger);
+  }
+  .cm-diagnostic-warning {
+    border-left-color: var(--dya-warning);
+  }
+}
+
+// ── Colours the IDE writes in full ────────────────────────
+#{$ide} {
+  // Floating run button, over the query.
+  .wpgraphql-ide-execution-pill {
+    background: var(--dya-bg-elev, var(--dya-paper));
+    border-color: var(--dya-line);
+    box-shadow: var(--dya-shadow-md);
+  }
+  .wpgraphql-ide-execution-pill-divider {
+    background: var(--dya-line);
+  }
+
+  .wpgraphql-ide-empty-description {
+    color: var(--dya-ink-mute);
+  }
+  .wpgraphql-ide-tab-close:hover {
+    background: color-mix(in srgb, var(--dya-ink) 10%, transparent);
+  }
+  .wpgraphql-ide-header-row:nth-child(2n) {
+    background: var(--dya-paper-2);
+  }
+  .wpgraphql-ide-query-composer-inline > .components-resizable-box__handle {
+    background: var(--dya-line);
+  }
+
+  // Status of the last response, and debug entries.
+  .wpgraphql-ide-response-status--success {
+    background: color-mix(in srgb, var(--dya-success) 10%, transparent);
+    color: var(--dya-success);
+  }
+  .wpgraphql-ide-response-status--error {
+    background: color-mix(in srgb, var(--dya-danger) 10%, transparent);
+    color: var(--dya-danger);
+  }
+  .wpgraphql-ide-debug-type {
+    background: color-mix(in srgb, var(--dya-warning) 16%, transparent);
+    color: var(--dya-ink);
+  }
+
+  // Number and text fields of the document settings and plugins.
+  .wpgraphql-ide-plugin input[type="number"],
+  .wpgraphql-ide-plugin input[type="text"],
+  .wpgraphql-ide-doc-setting input[type="number"],
+  .wpgraphql-ide-doc-setting input[type="text"] {
+    background: var(--dya-paper);
+    border-color: var(--dya-line-strong);
+    color: var(--dya-ink);
+  }
+
+  // Smart Cache panels (only when WPGraphQL Smart Cache is active).
+  .wpgraphql-ide-smart-cache-details-aside code,
+  .wpgraphql-ide-smart-cache-network code {
+    background: color-mix(in srgb, var(--dya-ink) 7%, transparent);
+  }
+  .wpgraphql-ide-smart-cache-status.is-hit {
+    background: color-mix(in srgb, var(--dya-success) 14%, transparent);
+    border-color: color-mix(in srgb, var(--dya-success) 40%, transparent);
+  }
+  .wpgraphql-ide-smart-cache-session-stat.is-hit {
+    color: var(--dya-success);
+  }
+  .wpgraphql-ide-share-collection-results {
+    border-color: var(--dya-line);
+  }
+  .wpgraphql-ide-share-collection-results > li + li {
+    border-top-color: var(--dya-line-soft, var(--dya-line));
+  }
+  .wpgraphql-ide-tracing-n1-table {
+    border-color: color-mix(in srgb, var(--dya-warning) 40%, transparent);
+  }
+}
+
+// Active toggles (panels, Query Composer, document settings): the IDE
+// inverts them, which made white blocks on the dark theme. Accent tint.
+#{$ide} {
+  .wpgraphql-ide-topbar-btn.components-button.is-active,
+  .wpgraphql-ide-topbar-btn.components-button.is-active:hover,
+  .wpgraphql-ide-toolbar-composer-btn.components-button.is-active,
+  .wpgraphql-ide-toolbar-composer-btn.components-button.is-active:hover,
+  .wpgraphql-ide-toolbar-doc-settings-btn.components-button.is-active,
+  .wpgraphql-ide-toolbar-doc-settings-btn.components-button.is-active:hover {
+    background: color-mix(in srgb, var(--dya-accent) 18%, transparent);
+    color: var(--dya-accent-text, var(--dya-accent));
+  }
+
+  // Setting descriptions: #757575 in full, 3.8:1 on our dark paper. Their
+  // links were told apart by colour only.
+  .wpgraphql-ide-setting-desc {
+    color: var(--dya-ink-mute);
+  }
+  .wpgraphql-ide-setting-desc a {
+    color: var(--dya-accent-text, var(--dya-accent));
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  // Targets of 24 px at least (WCAG 2.2): the tab close cross was 13 px,
+  // the Query Composer rows 22 px.
+  .wpgraphql-ide-tab-close {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    min-height: 24px;
+    min-width: 24px;
+  }
+  .wpgraphql-ide-query-composer-inline [data-field-name],
+  .wpgraphql-ide-query-composer-inline .graphiql-explorer-arg-row-head > [role="button"] {
+    align-items: center;
+    display: inline-flex;
+    min-height: 24px;
+  }
+
+  // Settings tab: side navigation.
+  .wpgraphql-ide-settings-nav {
+    background: var(--dya-paper-2);
+  }
+  .wpgraphql-ide-settings-nav-item.is-active {
+    background: var(--dya-paper);
+  }
+}
+
+// ── Query Composer ────────────────────────────────────────
+// Its stylesheet (plugins/query-composer-panel, IDE 5.6) writes every colour
+// in full on `#wpgraphql-ide-app .wpgraphql-ide-query-composer-inline …`.
+// Each such rule is restated below with our tokens, one prefix stronger.
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline select {
+  background-color: var(--dya-paper);
+  border-color: var(--dya-line-strong);
+  color: var(--dya-ink);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-root {
+  color: var(--dya-ink);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-operation {
+  border-bottom: 1px solid var(--dya-line);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-operation-title-bar {
+  background: var(--dya-paper);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-operation-toggle {
+  color: var(--dya-ink-mute);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-operation-toggle:hover {
+  background: color-mix(in srgb, var(--dya-ink) 8%, transparent);
+  color: var(--dya-ink);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-operation-name:hover {
+  background: color-mix(in srgb, var(--dya-ink) 6%, transparent);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-operation-name:focus {
+  background: var(--dya-paper);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-operation-action {
+  color: var(--dya-ink-mute);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-operation-action:hover {
+  background: var(--dya-paper-2);
+  color: var(--dya-ink);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-row:hover {
+  background: var(--dya-paper-2);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-arrow {
+  color: var(--dya-ink-mute);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-checkbox {
+  color: var(--dya-ink-fade);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline select {
+  background: var(--dya-paper);
+  border: 1px solid var(--dya-line);
+  color: var(--dya-ink-mute);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline select:hover {
+  background-color: var(--dya-paper-2);
+  border-color: var(--dya-line-strong);
+  color: var(--dya-ink);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline select:focus {
+  color: var(--dya-ink);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-variablize {
+  background: var(--dya-paper);
+  border: 1px solid var(--dya-line);
+  color: var(--dya-ink-mute);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-variablize:hover {
+  background: var(--dya-paper-2);
+  border-color: var(--dya-line-strong);
+  color: var(--dya-ink);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-list-item {
+  background: color-mix(in srgb, var(--dya-accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--dya-accent) 40%, transparent);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-list-item:focus-within {
+  background: var(--dya-paper);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-list-item-remove {
+  color: var(--dya-ink-mute);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-list-item-remove:focus-visible,
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-list-item-remove:hover {
+  background: color-mix(in srgb, var(--dya-danger) 14%, transparent);
+  color: var(--dya-danger);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-list-add {
+  background: var(--dya-paper);
+  border: 1px dashed var(--dya-line-strong);
+  color: var(--dya-ink-mute);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-list-add:hover {
+  background: var(--dya-paper-2);
+  border-color: var(--dya-line-strong);
+  color: var(--dya-ink);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-list-object-item {
+  border-left: 2px solid var(--dya-line);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-list-object-index {
+  color: var(--dya-ink-mute);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-oneof-label {
+  color: var(--dya-ink-mute);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-actions {
+  border-top: 1px solid var(--dya-line);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-actions-label {
+  color: var(--dya-ink-mute);
+}
+body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-explorer-actions-add {
+  background: var(--dya-paper);
+  border: 1px solid var(--dya-line-strong);
+  color: var(--dya-ink);
+}
+
+
+// ── The IDE page ──────────────────────────────────────────
+// A full-height work tool: the feedback and review buttons would sit on
+// top of the response panel, so they step aside on this screen only.
+body.dy-admin.graphql_page_graphql-ide .dy-feedback-dock {
+  display: none;
+}
