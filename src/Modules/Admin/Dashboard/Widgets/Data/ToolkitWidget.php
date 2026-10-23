@@ -4,6 +4,7 @@ namespace DoubleYoupi\Modules\Admin\Dashboard\Widgets\Data;
 use DoubleYoupi\Modules\Admin\Dashboard\Widgets\AbstractDataWidget;
 use DoubleYoupi\Modules\Toolkit\Settings as ToolkitSettings;
 use DoubleYoupi\Admin\Kses;
+use DoubleYoupi\Admin\Access;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -24,7 +25,7 @@ final class ToolkitWidget extends AbstractDataWidget {
 	}
 
 	public function required_cap(): string {
-		return 'manage_options';
+		return Access::CAP;
 	}
 
 	public function name(): string {

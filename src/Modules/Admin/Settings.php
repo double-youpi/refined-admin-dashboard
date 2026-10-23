@@ -4,7 +4,9 @@ namespace DoubleYoupi\Modules\Admin;
 use DoubleYoupi\Core\Build;
 
 use DoubleYoupi\Core\AbstractModule;
+use DoubleYoupi\Admin\Feedback;
 use DoubleYoupi\Admin\Kses;
+use DoubleYoupi\Admin\Access;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -54,6 +56,8 @@ class Settings extends AbstractModule {
 		'navigation_mode' => self::OPTION_NAVIGATION_MODE,
 		'rail_flyout'     => self::OPTION_RAIL_FLYOUT,
 		'per_user'        => UserCustomization::OPTION_PER_USER,
+		'hide_feedback'   => Feedback::OPTION_HIDE,
+		'settings_owner'  => Access::OPTION_OWNER,
 	];
 
 	public function boot(): void {
@@ -70,7 +74,7 @@ class Settings extends AbstractModule {
 	 */
 	public function ajax_save_setting(): void {
 		check_ajax_referer( self::AJAX_ACTION, 'nonce' );
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( Access::CAP ) ) {
 			wp_send_json_error( [ 'message' => 'forbidden' ], 403 );
 		}
 		$key = isset( $_POST['key'] ) ? sanitize_key( wp_unslash( (string) $_POST['key'] ) ) : '';
@@ -103,6 +107,9 @@ class Settings extends AbstractModule {
 				break;
 			case 'rail_flyout':
 				$value = self::sanitize_rail_flyout( $raw );
+				break;
+			case 'settings_owner':
+				$value = rest_sanitize_boolean( $raw ) ? get_current_user_id() : 0;
 				break;
 			default:
 				$value = rest_sanitize_boolean( $raw );
@@ -148,6 +155,29 @@ class Settings extends AbstractModule {
 			'sanitize_callback' => 'rest_sanitize_boolean',
 			'default'           => false,
 		] );
+		register_setting( 'doubleyoupi_admin', Feedback::OPTION_HIDE, [
+			'type'              => 'boolean',
+			'sanitize_callback' => 'rest_sanitize_boolean',
+			'default'           => false,
+		] );
+		register_setting( 'doubleyoupi_admin', Access::OPTION_OWNER, [
+			'type'              => 'integer',
+			'sanitize_callback' => [ self::class, 'sanitize_owner' ],
+			'default'           => 0,
+		] );
+	}
+
+	/**
+	 * The settings owner: a user id when stored by code, "1" or empty when
+	 * posted by the form's checkbox (then: the current user, or nobody).
+	 *
+	 * @param mixed $value
+	 */
+	public static function sanitize_owner( $value ): int {
+		if ( is_int( $value ) ) {
+			return max( 0, $value );
+		}
+		return rest_sanitize_boolean( $value ) ? get_current_user_id() : 0;
 	}
 
 	/**
@@ -538,7 +568,7 @@ class Settings extends AbstractModule {
 	// -------------------------------------------------------------------------
 
 	public function render_page(): void {
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( Access::CAP ) ) {
 			return;
 		}
 		$tab     = self::current_tab();
@@ -840,7 +870,7 @@ class Settings extends AbstractModule {
 				</section>
 
 				<section class="dy-mlset__group" id="dy-team">
-					<?php self::group_head( __( 'Team', 'doubleyoupi-refined-admin-dashboard' ), $locked( UserCustomization::OPTION_PER_USER ) ); ?>
+					<?php self::group_head( __( 'Team', 'doubleyoupi-refined-admin-dashboard' ), $locked( UserCustomization::OPTION_PER_USER, Feedback::OPTION_HIDE ) ); ?>
 					<div class="dy-mlset__cards">
 						<?php
 						self::toggle_card( [
@@ -851,6 +881,27 @@ class Settings extends AbstractModule {
 							'name'   => __( 'Per-user customization', 'doubleyoupi-refined-admin-dashboard' ),
 							'desc'   => __( 'Each person can turn the Double Youpï interface off for their own account, from their profile. Your settings stay the default.', 'doubleyoupi-refined-admin-dashboard' ),
 							'icon'   => 'team',
+						] );
+						self::toggle_card( [
+							'key'    => 'hide_feedback',
+							'option' => Feedback::OPTION_HIDE,
+							'on'     => Feedback::hidden(),
+							'locked' => $locked( Feedback::OPTION_HIDE ),
+							'name'   => __( 'Hide Feedback and review requests', 'doubleyoupi-refined-admin-dashboard' ),
+							'desc'   => __( 'No Feedback button, review link or review request, for anyone on this site.', 'doubleyoupi-refined-admin-dashboard' ),
+							'icon'   => 'feedback',
+						] );
+						self::toggle_card( [
+							'key'    => 'settings_owner',
+							'option' => Access::OPTION_OWNER,
+							'on'     => Access::owner_id() > 0 && Access::owner_id() === get_current_user_id(),
+							'locked' => defined( Access::UNLOCK ) && constant( Access::UNLOCK ),
+							'after'  => defined( Access::UNLOCK ) && constant( Access::UNLOCK )
+								? '<span class="dy-mlset__note">' . esc_html__( 'Unlocked in wp-config.php: every administrator can change these settings.', 'doubleyoupi-refined-admin-dashboard' ) . '</span>'
+								: '',
+							'name'   => __( 'Keep Double Youpï settings to myself', 'doubleyoupi-refined-admin-dashboard' ),
+							'desc'   => __( 'Other administrators keep the redesigned admin, without these settings, Feedback or review requests. Locked out? Add define( \'DOUBLEYOUPI_UNLOCK_SETTINGS\', true ); to wp-config.php.', 'doubleyoupi-refined-admin-dashboard' ),
+							'icon'   => 'lock',
 						] );
 						?>
 					</div>
@@ -989,6 +1040,8 @@ class Settings extends AbstractModule {
 			'lines'    => '<path d="M4 6h16M4 10h16M4 14h16M4 18h16"/>',
 			'tree'     => '<path d="M4 5h6M4 12h6M4 19h6M14 5h6M14 12h3M14 19h4"/>',
 			'flyout'   => '<rect x="3" y="4" width="6" height="16" rx="1.5"/><path d="M13 7h8M13 11h6M13 15h7"/>',
+			'lock'     => '<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+			'feedback' => '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',
 			'team'     => '<circle cx="9" cy="8" r="3.2"/><path d="M3 19c.8-3.2 3.2-5 6-5s5.2 1.8 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16.5 14.2c2.2.2 3.8 1.8 4.5 4.3"/>',
 			'download' => '<path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 20h14"/>',
 			'upload'   => '<path d="M12 15V4M7.5 8.5 12 4l4.5 4.5M5 20h14"/>',

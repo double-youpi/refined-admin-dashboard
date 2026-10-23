@@ -3,6 +3,7 @@ namespace DoubleYoupi\Modules\Admin\Dashboard\Widgets\Data;
 
 use DoubleYoupi\Core\ModuleRegistry;
 use DoubleYoupi\Modules\Admin\Dashboard\Widgets\AbstractDataWidget;
+use DoubleYoupi\Admin\Access;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -171,7 +172,7 @@ final class QuickActionsWidget extends AbstractDataWidget {
 			$catalog['cache_flush'] = [
 				'label' => __( 'Clear cache', 'doubleyoupi-refined-admin-dashboard' ),
 				'url'   => admin_url( 'admin.php?page=doubleyoupi-performance#cache' ),
-				'cap'   => 'manage_options',
+				'cap'   => Access::CAP,
 			];
 		}
 		return $catalog;

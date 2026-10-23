@@ -5,6 +5,7 @@ use DoubleYoupi\Core\ModuleCatalog;
 use DoubleYoupi\Core\ModuleSettings;
 use DoubleYoupi\Modules\Admin\Dashboard\Widgets\AbstractDataWidget;
 use DoubleYoupi\Admin\Kses;
+use DoubleYoupi\Admin\Access;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -21,7 +22,7 @@ final class ModulesWidget extends AbstractDataWidget {
 	}
 
 	public function required_cap(): string {
-		return 'manage_options';
+		return Access::CAP;
 	}
 
 	public function name(): string {

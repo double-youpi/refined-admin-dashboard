@@ -2,6 +2,7 @@
 namespace DoubleYoupi\Modules\Admin;
 
 use DoubleYoupi\Core\ModuleSettings;
+use DoubleYoupi\Admin\Access;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -104,7 +105,7 @@ JS;
 	}
 
 	public function handle_dismiss(): void {
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( Access::CAP ) ) {
 			wp_die( esc_html__( 'You are not allowed to do this.', 'doubleyoupi-refined-admin-dashboard' ), 403 );
 		}
 		check_admin_referer( self::NONCE );
@@ -120,7 +121,7 @@ JS;
 	/** Plugins screen only (where activation lands), until dismissed. */
 	public function render_notice(): void {
 		global $pagenow;
-		if ( 'plugins.php' !== $pagenow || ! self::is_pending() || ! current_user_can( 'manage_options' ) ) {
+		if ( 'plugins.php' !== $pagenow || ! self::is_pending() || ! current_user_can( Access::CAP ) ) {
 			return;
 		}
 		printf(
@@ -138,7 +139,7 @@ JS;
 	 * are anchors on the same page: the form it describes is right below.
 	 */
 	public static function render_card(): void {
-		if ( ! self::is_pending() || ! current_user_can( 'manage_options' ) ) {
+		if ( ! self::is_pending() || ! current_user_can( Access::CAP ) ) {
 			return;
 		}
 		// In the order of the groups below, with their icons: each card is a

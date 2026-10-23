@@ -7,6 +7,7 @@ use DoubleYoupi\Modules\Admin\Dashboard\Layout\LayoutValidator;
 use DoubleYoupi\Modules\Admin\Dashboard\Layout\Snapshot;
 use DoubleYoupi\Modules\Admin\Dashboard\Renderer;
 use DoubleYoupi\Modules\Admin\Dashboard\Widgets\WidgetRegistry;
+use DoubleYoupi\Admin\Access;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -181,7 +182,7 @@ final class RestController {
 	 */
 	public static function can_manage( \WP_REST_Request $request ): bool {
 		unset( $request );
-		return current_user_can( 'manage_options' );
+		return current_user_can( Access::CAP );
 	}
 
 	public static function get_snapshot( \WP_REST_Request $request ): \WP_REST_Response {

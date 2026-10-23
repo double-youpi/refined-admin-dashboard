@@ -128,12 +128,17 @@ final class ColumnModel {
 				if ( isset( $demoted[ $slug ] ) ) {
 					continue;
 				}
+				// What this user may not open stays out of the rail.
+				$open_url = self::top_url_for_user( $entry, $slug );
+				if ( null === $open_url ) {
+					continue;
+				}
 
 				// Satellite page of an active builder → chip in the builder column.
 				$owner = PluginMap::standalone_owner( $slug );
 				if ( null !== $owner && isset( $active_builders[ $owner ] ) ) {
 					self::ensure_standalone_col( $standalone_cols, $owner, $active_builders[ $owner ] );
-					$standalone_cols[ $owner ]['chips'][] = self::make_chip( $slug, $label, self::menu_url( $slug ) );
+					$standalone_cols[ $owner ]['chips'][] = self::make_chip( $slug, $label, $open_url );
 					continue;
 				}
 
@@ -171,7 +176,7 @@ final class ColumnModel {
 				if ( ! isset( $line_chips[ $classification ] ) ) {
 					$line_chips[ $classification ] = [];
 				}
-				$line_chips[ $classification ][] = self::make_chip( $slug, $label, self::menu_url( $slug ) );
+				$line_chips[ $classification ][] = self::make_chip( $slug, $label, $open_url );
 			}
 		}
 
@@ -450,6 +455,38 @@ final class ColumnModel {
 	/**
 	 * @return array<string,mixed>
 	 */
+	/**
+	 * Whether the current user may open a menu entry. The rail reads the menu
+	 * on `admin_menu`, before WordPress removes what the user cannot open, so
+	 * it applies the same rule itself (23/10/2026: authors saw Settings,
+	 * Plugins and other doors that answered "not allowed").
+	 *
+	 * @param array<int,mixed> $entry
+	 */
+	private static function user_can_open( array $entry ): bool {
+		$cap = (string) ( $entry[1] ?? '' );
+		return '' === $cap || current_user_can( $cap );
+	}
+
+	/**
+	 * Where a top-level entry leads for the current user: its own page when
+	 * allowed, else its first allowed sub-page (as WordPress does), else null.
+	 *
+	 * @param array<int,mixed> $entry
+	 */
+	private static function top_url_for_user( array $entry, string $slug ): ?string {
+		if ( self::user_can_open( $entry ) ) {
+			return self::menu_url( $slug );
+		}
+		global $submenu;
+		foreach ( (array) ( $submenu[ (string) $entry[2] ] ?? [] ) as $child ) {
+			if ( is_array( $child ) && ! empty( $child[2] ) && self::user_can_open( $child ) ) {
+				return self::submenu_url( PluginMap::normalize_slug( (string) $child[2] ), (string) $entry[2] );
+			}
+		}
+		return null;
+	}
+
 	private static function make_chip( string $slug, string $label, string $url ): array {
 		// "Native" column (classification WITHOUT user override) — used by the
 		// editor to store a classification only when the chip has actually been
@@ -491,7 +528,7 @@ final class ColumnModel {
 
 		if ( is_array( $submenu ) && ! empty( $submenu[ $parent_slug ] ) ) {
 			foreach ( $submenu[ $parent_slug ] as $entry ) {
-				if ( ! is_array( $entry ) || empty( $entry[2] ) ) {
+				if ( ! is_array( $entry ) || empty( $entry[2] ) || ! self::user_can_open( $entry ) ) {
 					continue;
 				}
 				$slug  = PluginMap::normalize_slug( (string) $entry[2] );
@@ -609,6 +646,9 @@ final class ColumnModel {
 		$out = [];
 		foreach ( $submenu[ $parent_slug ] as $entry ) {
 			if ( ! is_array( $entry ) || empty( $entry[2] ) ) {
+				continue;
+			}
+			if ( ! self::user_can_open( $entry ) ) {
 				continue;
 			}
 			$slug  = PluginMap::normalize_slug( (string) $entry[2] );

@@ -4,6 +4,7 @@ namespace DoubleYoupi\Modules\Admin\Dashboard;
 use DoubleYoupi\Modules\Admin\Dashboard\Compat\WpDashboardWidgetsAdapter;
 use DoubleYoupi\Modules\Admin\Dashboard\Layout\Snapshot;
 use DoubleYoupi\Modules\Admin\Dashboard\Tokens\TokenResolver;
+use DoubleYoupi\Admin\Access;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -219,7 +220,7 @@ CSS;
 			'caps'         => [
 				'can_customize' => current_user_can( 'doubleyoupi_customize_dashboard' )
 					|| current_user_can( 'manage_options' ),
-				'can_manage'    => current_user_can( 'manage_options' ),
+				'can_manage'    => current_user_can( Access::CAP ),
 			],
 			'breakpoints' => [
 				'customize_min_px' => 1300,

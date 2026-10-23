@@ -8,6 +8,7 @@ use DoubleYoupi\Modules\Admin\PluginMap;
 use DoubleYoupi\Modules\Admin\Rail;
 use DoubleYoupi\Modules\Admin\ScreenDisabler;
 use DoubleYoupi\Modules\Admin\Sprite;
+use DoubleYoupi\Admin\Access;
 // ScreenDisabler kept: used by save/reset_disabled_screens below.
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -92,7 +93,7 @@ final class RestController {
 
 	public static function can_manage( \WP_REST_Request $request ): bool {
 		unset( $request );
-		return current_user_can( 'manage_options' );
+		return current_user_can( Access::CAP );
 	}
 
 	// -------------------------------------------------------------------------

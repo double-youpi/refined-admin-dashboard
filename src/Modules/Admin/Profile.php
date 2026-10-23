@@ -1,6 +1,9 @@
 <?php declare(strict_types=1);
 namespace DoubleYoupi\Modules\Admin;
 
+use DoubleYoupi\Admin\Feedback;
+use DoubleYoupi\Admin\Access;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -11,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * or pin it in code so nobody changes it by hand.
  *
  * Scope (deliberately tight): the General settings (accent, logo, per-user
- * mode, navigation tree), the navigation overrides and disabled screens, and
+ * mode, navigation tree, Feedback and review requests hidden), the navigation overrides and disabled screens, and
  * the Toolkit toggles. Per-user choices (theme, rail width, table modes) and
  * the dashboard layouts stay out: they belong to people or to a site.
  *
@@ -42,6 +45,7 @@ final class Profile {
 			'per_user'        => 'doubleyoupi_admin_per_user',
 			'navigation_mode' => 'doubleyoupi_admin_navigation_mode',
 			'rail_flyout'     => 'doubleyoupi_admin_rail_flyout',
+			'hide_feedback'   => Feedback::OPTION_HIDE,
 		],
 		'navigation' => [
 			'overrides'        => NavigationOverrides::OPTION_KEY,
@@ -86,6 +90,7 @@ final class Profile {
 				'per_user'        => UserCustomization::is_per_user_mode(),
 				'navigation_mode' => $settings->navigation_mode(),
 				'rail_flyout'     => Settings::rail_flyout_mode(),
+				'hide_feedback'   => Feedback::hidden(),
 			],
 			'navigation' => [
 				'overrides'        => NavigationOverrides::get(),
@@ -96,7 +101,7 @@ final class Profile {
 	}
 
 	public function handle_export(): void {
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( Access::CAP ) ) {
 			wp_die( esc_html__( 'You are not allowed to export these settings.', 'doubleyoupi-refined-admin-dashboard' ), 403 );
 		}
 		check_admin_referer( self::NONCE );
@@ -116,7 +121,7 @@ final class Profile {
 	// -------------------------------------------------------------------------
 
 	public function handle_import(): void {
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( Access::CAP ) ) {
 			wp_die( esc_html__( 'You are not allowed to import these settings.', 'doubleyoupi-refined-admin-dashboard' ), 403 );
 		}
 		check_admin_referer( self::NONCE );
@@ -201,6 +206,10 @@ final class Profile {
 		if ( array_key_exists( 'rail_flyout', $s ) ) {
 			update_option( 'doubleyoupi_admin_rail_flyout', Settings::sanitize_rail_flyout( (string) $s['rail_flyout'] ) );
 			$applied[] = 'rail_flyout';
+		}
+		if ( array_key_exists( 'hide_feedback', $s ) ) {
+			update_option( Feedback::OPTION_HIDE, ! empty( $s['hide_feedback'] ) );
+			$applied[] = 'hide_feedback';
 		}
 
 		$nav = is_array( $payload['navigation'] ?? null ) ? $payload['navigation'] : [];
@@ -315,6 +324,9 @@ final class Profile {
 		if ( array_key_exists( 'rail_flyout', $s ) ) {
 			$cache['doubleyoupi_admin_rail_flyout'] = Settings::sanitize_rail_flyout( (string) $s['rail_flyout'] );
 		}
+		if ( array_key_exists( 'hide_feedback', $s ) ) {
+			$cache[ Feedback::OPTION_HIDE ] = ! empty( $s['hide_feedback'] ) ? '1' : '0';
+		}
 		$nav = is_array( $p['navigation'] ?? null ) ? $p['navigation'] : [];
 		if ( is_array( $nav['overrides'] ?? null ) ) {
 			$cache[ NavigationOverrides::OPTION_KEY ] = wp_json_encode( NavigationOverrides::sanitize( $nav['overrides'] ) );
@@ -359,6 +371,7 @@ final class Profile {
 		return [
 			__( 'Accent color and logo', 'doubleyoupi-refined-admin-dashboard' ),
 			__( 'Per-user customization', 'doubleyoupi-refined-admin-dashboard' ),
+			__( 'Hide Feedback and review requests', 'doubleyoupi-refined-admin-dashboard' ),
 			__( 'Navigation tree (reimagined or native), section pages on hover, and the Reorganize layout', 'doubleyoupi-refined-admin-dashboard' ),
 			__( 'Screens left in native styling', 'doubleyoupi-refined-admin-dashboard' ),
 			__( 'Toolkit toggles', 'doubleyoupi-refined-admin-dashboard' ),

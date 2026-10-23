@@ -3,6 +3,7 @@ namespace DoubleYoupi\Modules\Admin;
 
 use DoubleYoupi\Admin\Feedback;
 use DoubleYoupi\Admin\ScreenOwner;
+use DoubleYoupi\Admin\Access;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -26,6 +27,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  *   screens. Nothing is offered in exchange, nothing leaves the site.
  * - Only in builds that have a WordPress.org review page
  *   (Feedback::review_url()); the suite shows nothing and counts nothing.
+ * - Never when the site hides Feedback and review requests, or when the
+ *   `doubleyoupi_filter_review_ask_enabled` filter says no
+ *   (Feedback::review_ask_enabled(), 23/10/2026).
  *
  * One site option (not autoloaded), written at most once a day by the
  * tracking. The decision itself is pure (`decide()`), unit-tested.
@@ -204,7 +208,7 @@ JS;
 		if ( wp_doing_ajax() || wp_doing_cron() || is_network_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
 			return;
 		}
-		if ( ! current_user_can( 'manage_options' ) || '' === Feedback::review_url() ) {
+		if ( ! current_user_can( Access::CAP ) || '' === Feedback::review_url() || ! Feedback::review_ask_enabled() ) {
 			return;
 		}
 		$state = self::state();
@@ -233,7 +237,7 @@ JS;
 	}
 
 	public function render(): void {
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( Access::CAP ) || ! Feedback::review_ask_enabled() ) {
 			return;
 		}
 		$verdict = self::decide( self::state(), time(), self::context() );
@@ -259,7 +263,7 @@ JS;
 
 	/** admin-post.php: records the answer (JSON for fetch, redirect otherwise). */
 	public function handle(): void {
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( Access::CAP ) ) {
 			wp_die( esc_html__( 'You are not allowed to do this.', 'doubleyoupi-refined-admin-dashboard' ), 403 );
 		}
 		check_admin_referer( self::NONCE );

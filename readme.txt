@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, dark theme
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.11
+Stable tag: 1.0.13
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,13 +26,14 @@ https://www.youtube.com/watch?v=untjaB9-KSs
 * One design system across every screen. Tables, forms, metaboxes, notices, tabs, buttons and fields all speak the same language.
 * Your accent colour, picked once. Text contrast against it is computed for you, so it stays readable whatever you choose.
 * Your logo, in the admin and on the login screen.
+* Contrast meets WCAG AA in both themes, every control has a name for screen readers, and no text is smaller than 11px.
 
 **A sidebar you can finally organise**
 
 * Menu entries are grouped into themed lines rather than piled up in one long list.
 * The rail is resizable and collapsible, and remembers how you left it.
 * A second bar shows the sub-pages and the useful tabs of the current screen, so you stop going back and forth.
-* An editor lets you reorder, move, hide, promote or demote any entry, without touching code. Newly installed plugins are detected and offered to you rather than silently appended.
+* An editor lets you reorder, move, hide, promote or demote any entry, without touching code. Menu entries from newly installed plugins go to the section that fits them best, and are listed in the Developer tab so you can move them.
 
 **A dashboard you compose**
 
@@ -58,8 +59,15 @@ Redrawing the admin and leaving the Media screen alone would have been a strange
 * Where a file is used, before you delete it.
 * WebP and AVIF generated on upload, and alt text filled from the filename when it is missing.
 * Coming from FileBird, Real Media Library, HappyFiles or another folder plugin? Your folders are imported in one click, and nothing is deleted.
+* Folders, collections and WebP/AVIF copies are available to headless fronts through WPGraphQL and the REST API.
 
 This is the whole of [Double Youpï Refined Media Library](https://wordpress.org/plugins/doubleyoupi-refined-media-library/), a free plugin of ours that is also published on its own. Same folders, same collections, same settings: if you already run it, activate this one and everything is where you left it. If you only ever wanted the media library, that plugin on its own is the right choice.
+
+**Made for sites you hand over**
+
+* Keep Double Youpï settings to yourself: other administrators keep the redesigned admin, without its settings.
+* Hide the Feedback button and review requests in one click.
+* The rail only shows each account the pages it can open.
 
 **It steps aside when it should**
 
@@ -72,6 +80,10 @@ Some plugins manage their own interface. When one of them owns the screen, this 
 3. Open Double Youpï Refined Admin Dashboard > Settings. Pick your accent colour and your logo if you want them. The rest already works.
 
 == Frequently Asked Questions ==
+
+= I build sites for clients. Can I keep the settings to myself? =
+
+Yes. In Settings, Team, turn on "Keep Double Youpï settings to myself". Other administrators keep the redesigned admin, but not its settings, the Feedback button or review requests. The plugin stays listed in Plugins, like any other. To hide only the Feedback button and review requests, use the switch just above it.
 
 = Do I also need Double Youpï Refined Media Library? =
 
@@ -156,6 +168,15 @@ Privacy policy: https://doubleyoupi.com/privacy
 15. Coming from FileBird or another folder plugin? Preview its folders, then import them in one click. The source plugin is never modified.
 
 == Changelog ==
+
+= 1.0.13 =
+* New: keep Double Youpï settings to yourself (Settings, Team). Other administrators keep the redesigned admin, without its settings, the Feedback button or review requests. The plugin stays listed in Plugins. Locked out? Add define( 'DOUBLEYOUPI_UNLOCK_SETTINGS', true ); to wp-config.php. The doubleyoupi_filter_can_manage filter sets your own rule.
+* Change: creating, renaming, moving and deleting media folders and collections is now for editors and administrators. Anyone who can upload still files media into folders and collections. The doubleyoupi_filter_manage_folders_cap filter sets another capability.
+* Fix: the navigation rail no longer shows pages a user cannot open. Authors saw Settings, Plugins and other screens that answered "not allowed".
+
+= 1.0.12 =
+* New: hide the Feedback button and review requests in one click (Settings, Team). Handy on sites you hand over to clients. The setting travels with the settings profile and can be pinned in code.
+* New: the doubleyoupi_filter_review_ask_enabled filter turns the review request off in code.
 
 = 1.0.11 =
 * Fix: plugins that draw their screens on their own white panels now show them in light, clean and readable, instead of half dark (Limit Login Attempts, WP Go Maps, WP Fastest Cache, Independent Analytics, and others in the same case, recognised on their own). Their buttons keep their own colours.
@@ -256,6 +277,12 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.13 =
+Keep Double Youpï settings to yourself on sites you hand over. Media folders are now managed by editors and administrators.
+
+= 1.0.12 =
+One switch hides the Feedback button and review requests for the whole site.
 
 = 1.0.11 =
 Plugin screens on white panels shown in light, underlined links, menu fixes, and translations reviewed against each team's glossary.
