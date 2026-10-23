@@ -875,7 +875,7 @@ final class PluginMap {
 				}
 			}
 			$url = $registered
-				? ( str_contains( $menu_slug, '.php' ) ? admin_url( $menu_slug ) : admin_url( 'admin.php?page=' . rawurlencode( $menu_slug ) ) )
+				? ( str_contains( $menu_slug, '.php' ) ? ColumnModel::screen_url( $menu_slug ) : ColumnModel::page_url( $menu_slug ) )
 				: admin_url( 'themes.php?theme=' . rawurlencode( $slug ) );
 		} else {
 			$url = admin_url( 'themes.php?theme=' . rawurlencode( $slug ) );

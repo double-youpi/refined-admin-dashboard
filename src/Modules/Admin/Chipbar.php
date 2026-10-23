@@ -226,8 +226,8 @@ JS;
 			if ( $skip ) continue;
 
 			$url = str_contains( $slug, '.php' )
-				? admin_url( $slug )
-				: admin_url( 'admin.php?page=' . rawurlencode( $slug ) );
+				? ColumnModel::screen_url( $slug )
+				: ColumnModel::page_url( $slug );
 
 			$out[] = [ 'slug' => $slug, 'label' => $label, 'url' => $url ];
 		}

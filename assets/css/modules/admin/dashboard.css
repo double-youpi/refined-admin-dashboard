@@ -372,7 +372,7 @@ body.dy-admin:has(.dy-dashboard__sidebar.is-open) body.dy-admin.index-php .dy-da
   right: calc(clamp(320px, 26vw, 380px) + clamp(16px, 1.6vw, 32px) + 16px);
 }
 body.dy-admin.index-php #doubleyoupi_dashboard_root,
-body.dy-admin.index-php #doubleyoupi_dashboard_root .inside {
+body.dy-admin.index-php #doubleyoupi_dashboard_root > .inside {
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
@@ -1069,6 +1069,12 @@ body.dy-admin.index-php .dy-dashboard__native-item-body a, body.dy-admin.index-p
 }
 body.dy-admin.index-php .dy-dashboard__native-item-body a:hover, body.dy-admin.index-php .dy-dashboard__native-item-body a:visited:hover {
   opacity: 0.75;
+}
+body.dy-admin.index-php .dy-dashboard__native-item-body p a:not(.button) {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
 }
 body.dy-admin.index-php .dy-dashboard__native-item-body strong, body.dy-admin.index-php .dy-dashboard__native-item-body b {
   color: var(--dya-ink);

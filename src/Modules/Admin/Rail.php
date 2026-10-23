@@ -211,12 +211,12 @@ JS;
 				// URL resolution identical to Subchipbar.
 				$parent_str = (string) $parent;
 				if ( str_contains( $slug, '.php' ) || str_contains( $slug, '?' ) ) {
-					$url = admin_url( $slug );
+					$url = ColumnModel::screen_url( $slug );
 				} elseif ( str_contains( $parent_str, '.php' ) ) {
 					$glue = str_contains( $parent_str, '?' ) ? '&' : '?';
-					$url  = admin_url( $parent_str . $glue . 'page=' . rawurlencode( $slug ) );
+					$url  = ColumnModel::page_url( $slug, $parent_str . $glue );
 				} else {
-					$url = admin_url( 'admin.php?page=' . rawurlencode( $slug ) );
+					$url = ColumnModel::page_url( $slug );
 				}
 				return [
 					'label'  => '' !== $label ? $label : $slug,
@@ -265,9 +265,9 @@ JS;
 			return admin_url( $override );
 		}
 		if ( str_contains( $slug, '.php' ) ) {
-			return admin_url( $slug );
+			return ColumnModel::screen_url( $slug );
 		}
-		return admin_url( 'admin.php?page=' . rawurlencode( $slug ) );
+		return ColumnModel::page_url( $slug );
 	}
 
 	private function strip_label( string $raw ): string {

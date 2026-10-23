@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, dark theme
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.10
+Stable tag: 1.0.11
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -157,6 +157,14 @@ Privacy policy: https://doubleyoupi.com/privacy
 
 == Changelog ==
 
+= 1.0.11 =
+* Fix: plugins that draw their screens on their own white panels now show them in light, clean and readable, instead of half dark (Limit Login Attempts, WP Go Maps, WP Fastest Cache, Independent Analytics, and others in the same case, recognised on their own). Their buttons keep their own colours.
+* Fix: links in text are underlined and use your accent colour, in light and dark.
+* Fix: plugin sub-pages with tabs and external links in the menus open correctly, and a plugin's tab bar no longer appears twice.
+* Fix: Independent Analytics is no longer cut on the left, and its dashboard chart keeps its size.
+* Translations: Spanish, Brazilian Portuguese and Russian now follow the glossary and style guide of each WordPress translation team; French follows the versions validated by its team, with non-breaking spaces.
+* Thanks to the translator who reported these.
+
 = 1.0.10 =
 * New: WPGraphQL IDE follows your theme, dark or light, syntax colours included.
 * New: media folders, collections and the WebP/AVIF copies are available to headless fronts through WPGraphQL and the REST API. Folder names can be kept private with the doubleyoupi_filter_media_folders_public filter.
@@ -248,6 +256,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.11 =
+Plugin screens on white panels shown in light, underlined links, menu fixes, and translations reviewed against each team's glossary.
 
 = 1.0.10 =
 WPGraphQL IDE follows your theme, and media folders and WebP/AVIF copies reach headless fronts through WPGraphQL and the REST API.

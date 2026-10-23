@@ -200,8 +200,20 @@ final class Renderer {
 					</p>
 				<?php else : ?>
 					<?php foreach ( $visible_boxes as $box ) : ?>
+						<?php
+						// Plugin widgets get their own id and an `.inside` body, as in
+						// WordPress' postbox: plugins scope their styles to them
+						// (Independent Analytics fixes its chart height with
+						// `#iawp .chart-inner`; without it Chart.js grew the chart to
+						// thousands of pixels, translator feedback 23/10/2026). Not
+						// WordPress' own widgets: their ids wake up core and theme rules
+						// written for the classic dashboard. The native dashboard only
+						// keeps an empty container, so the id stays unique.
+						$is_plugin = 'wordpress' !== ( $box['origin'] ?? 'plugin' );
+						?>
 						<section
 							class="dy-dashboard__native-item"
+							<?php if ( $is_plugin ) : ?>id="<?php echo esc_attr( (string) ( $box['id'] ?? '' ) ); ?>"<?php endif; ?>
 							data-native-id="<?php echo esc_attr( (string) ( $box['id'] ?? '' ) ); ?>"
 							data-native-origin="<?php echo esc_attr( (string) ( $box['origin'] ?? 'plugin' ) ); ?>"
 						>
@@ -209,7 +221,7 @@ final class Renderer {
 								<span class="dy-dashboard__native-origin-dot" aria-hidden="true"></span>
 								<h3 class="dy-dashboard__native-item-title"><?php echo esc_html( (string) ( $box['title'] ?? '' ) ); ?></h3>
 							</header>
-							<div class="dy-dashboard__native-item-body">
+							<div class="dy-dashboard__native-item-body<?php echo $is_plugin ? ' inside' : ''; ?>">
 								<?php
 								$callback = $box['callback'] ?? null;
 								if ( is_callable( $callback ) ) {

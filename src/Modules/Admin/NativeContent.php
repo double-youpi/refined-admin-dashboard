@@ -50,6 +50,9 @@ final class NativeContent {
 })();
 JS;
 
+	/** Plugin pages learned as native content (see learned_pages()). */
+	public const OPTION_LEARNED = 'doubleyoupi_admin_native_screens';
+
 	/**
 	 * App screens we skin on purpose, kept out of the browser-side detection:
 	 * WooCommerce's admin (`page=wc-admin`, a React app mounted in an empty
@@ -102,6 +105,15 @@ JS;
 		'backup-migration', // Backup Migration
 		'boldgrid-backup',  // Total Upkeep
 		'xcloner_',         // XCloner
+		// Plugins drawing most of their screen on their own white panels: half
+		// dark, half white under our dark theme, their logos unreadable on our
+		// ground (translator feedback, 23/10/2026). Measured: 64 to 100 % of
+		// their text on white panels. Unknown plugins in the same case are
+		// learned (see learned_pages()).
+		'limit-login-attempts', // Limit Login Attempts Reloaded
+		'wp-google-maps',       // WP Go Maps (maps, settings, styling…)
+		'wpfastestcache',       // WP Fastest Cache
+		'independent-analytics', // Independent Analytics (all pages)
 		// The GraphiQL 1 IDE bundled with WPGraphQL (Ant Design shell): only
 		// its editors took our dark theme, its panels stayed white and their
 		// titles became unreadable. WPGraphQL IDE 5 replaces it and is skinned
@@ -153,12 +165,56 @@ JS;
 				return true;
 			}
 		}
-		return false;
+		return in_array( $page, self::learned_pages(), true );
+	}
+
+	/**
+	 * Plugin pages learned in the browser (LightIslands.php): when at least half
+	 * of a plugin page's text sits on its own white panels, the screen is shown
+	 * on the native light canvas, and remembered here so the next visits render
+	 * that way from the start, without the switch.
+	 *
+	 * @return string[] Lower-cased `page` values.
+	 */
+	public static function learned_pages(): array {
+		$pages = get_option( self::OPTION_LEARNED, [] );
+		return is_array( $pages ) ? array_values( array_filter( array_map( 'strval', $pages ) ) ) : [];
+	}
+
+	public function register_rest_routes(): void {
+		register_rest_route(
+			'doubleyoupi/v1',
+			'/admin/native-screens',
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'learn_page' ],
+				'permission_callback' => static fn(): bool => current_user_can( 'manage_options' ),
+				'args'                => [
+					'page' => [
+						'required'          => true,
+						'type'              => 'string',
+						'sanitize_callback' => static fn( $v ): string => strtolower( sanitize_text_field( (string) $v ) ),
+						'validate_callback' => static fn( $v ): bool => (bool) preg_match( '/^[a-z0-9._\-]{1,100}$/i', (string) $v ),
+					],
+				],
+			]
+		);
+	}
+
+	public function learn_page( \WP_REST_Request $request ): \WP_REST_Response {
+		$page  = (string) $request->get_param( 'page' );
+		$pages = self::learned_pages();
+		if ( ! str_starts_with( $page, 'doubleyoupi' ) && ! in_array( $page, $pages, true ) ) {
+			$pages[] = $page;
+			update_option( self::OPTION_LEARNED, array_slice( $pages, -100 ), true );
+		}
+		return new \WP_REST_Response( [ 'learned' => true ], 200 );
 	}
 
 	public function boot(): void {
 		add_filter( 'admin_body_class', [ $this, 'body_class' ] );
 		add_action( 'admin_footer', [ $this, 'print_app_detection' ], 1 );
+		add_action( 'rest_api_init', [ $this, 'register_rest_routes' ] );
 	}
 
 	/**

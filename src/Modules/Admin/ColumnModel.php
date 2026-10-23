@@ -782,20 +782,57 @@ final class ColumnModel {
 			}
 		}
 		if ( str_contains( $slug, '.php' ) ) {
-			return admin_url( $slug );
+			return self::screen_url( $slug );
 		}
-		return admin_url( 'admin.php?page=' . rawurlencode( $slug ) );
+		return self::page_url( $slug );
+	}
+
+	/**
+	 * `page=` argument of a plugin page, built the way WordPress builds it in
+	 * its own menu (menu-header.php): the slug as registered, not encoded. A
+	 * slug may carry arguments of its own: Limit Login Attempts registers
+	 * `limit-login-attempts&tab=settings`, and encoding it sent every tab of
+	 * the rail and the bars to the plugin's default one (translator feedback,
+	 * 23/10/2026). Callers output the URL through esc_url().
+	 */
+	public static function page_arg( string $slug ): string {
+		return 'page=' . $slug;
+	}
+
+	/**
+	 * URL of a menu entry registered as a plugin page. A slug that is already
+	 * a full address (Independent Analytics' « Support Forum » points to
+	 * wordpress.org) is used as is, as WordPress does; it used to become
+	 * `admin.php?page=https://…` and WordPress answered « Cannot load »
+	 * (translator feedback, 23/10/2026).
+	 *
+	 * @param string $prefix What comes before `page=`: `admin.php?` or a
+	 *                       parent screen with its glue (`edit.php?…&`).
+	 */
+	public static function page_url( string $slug, string $prefix = 'admin.php?' ): string {
+		if ( preg_match( '#^https?://#i', $slug ) ) {
+			return $slug;
+		}
+		return admin_url( $prefix . self::page_arg( $slug ) );
+	}
+
+	/**
+	 * URL of a menu entry whose slug is a screen (`tools.php`, `edit.php?…`),
+	 * or already a full address, kept as is (see page_url()).
+	 */
+	public static function screen_url( string $slug ): string {
+		return preg_match( '#^https?://#i', $slug ) ? $slug : admin_url( $slug );
 	}
 
 	private static function submenu_url( string $slug, string $parent_slug ): string {
 		if ( str_contains( $slug, '.php' ) || str_contains( $slug, '?' ) ) {
-			return admin_url( $slug );
+			return self::screen_url( $slug );
 		}
 		if ( str_contains( $parent_slug, '.php' ) ) {
 			$glue = str_contains( $parent_slug, '?' ) ? '&' : '?';
-			return admin_url( $parent_slug . $glue . 'page=' . rawurlencode( $slug ) );
+			return self::page_url( $slug, $parent_slug . $glue );
 		}
-		return admin_url( 'admin.php?page=' . rawurlencode( $slug ) );
+		return self::page_url( $slug );
 	}
 
 	/**

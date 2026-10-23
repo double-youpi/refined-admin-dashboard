@@ -309,6 +309,18 @@ a {
   text-decoration: none;
 }
 
+:where(body.dy-admin #wpbody-content :is(p, dd, blockquote, figcaption, .description, .howto, :is(ul, ol):not([class], [role], .dy-dashboard *, #dashboard-widgets *) > li)) a:where(:not(.button, [role=button], .page-title-action, [class*=dy-], :is(nav, [role=navigation], [role=menu], [role=tablist], .wp-list-table) a)) {
+  color: var(--dya-accent-text, var(--dya-accent));
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+}
+
+:where(body.dy-admin #wpbody-content :is(p, dd, blockquote, figcaption, .description, .howto, :is(ul, ol):not([class], [role], .dy-dashboard *, #dashboard-widgets *) > li)) a:where(:not(.button, [role=button], .page-title-action, [class*=dy-], :is(nav, [role=navigation], [role=menu], [role=tablist], .wp-list-table) a)):is(:hover, :focus-visible) {
+  text-decoration-color: currentColor;
+}
+
 a:focus-visible {
   outline: 2px solid var(--dya-accent);
   outline-offset: 2px;
@@ -8311,10 +8323,10 @@ body.dy-admin .nav-tab-active {
   background: transparent;
 }
 
-body.dy-admin .button,
-body.dy-admin .button-secondary,
-body.dy-admin input[type=submit].button,
-body.dy-admin input[type=button].button {
+body.dy-admin .button:where(:not(.dy-native-content #wpbody-content *)),
+body.dy-admin .button-secondary:where(:not(.dy-native-content #wpbody-content *)),
+body.dy-admin input[type=submit].button:where(:not(.dy-native-content #wpbody-content *)),
+body.dy-admin input[type=button].button:where(:not(.dy-native-content #wpbody-content *)) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -8340,29 +8352,29 @@ body.dy-admin input[type=button].button {
   white-space: nowrap;
 }
 
-body.dy-admin .button:hover,
-body.dy-admin .button-secondary:hover {
+body.dy-admin .button:where(:not(.dy-native-content #wpbody-content *)):hover,
+body.dy-admin .button-secondary:where(:not(.dy-native-content #wpbody-content *)):hover {
   background: var(--dya-paper-3);
   border-color: var(--dya-edge-strong);
   color: var(--dya-ink);
 }
 
-body.dy-admin .button:focus-visible {
+body.dy-admin .button:where(:not(.dy-native-content #wpbody-content *)):focus-visible {
   outline: 2px solid var(--dya-accent);
   outline-offset: 2px;
 }
 
-body.dy-admin .button:disabled,
-body.dy-admin .button.disabled,
-body.dy-admin .button[disabled] {
+body.dy-admin .button:where(:not(.dy-native-content #wpbody-content *)):disabled,
+body.dy-admin .button.disabled:where(:not(.dy-native-content #wpbody-content *)),
+body.dy-admin .button[disabled]:where(:not(.dy-native-content #wpbody-content *)) {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-body.dy-admin .button.button-primary,
-body.dy-admin .button-primary,
-body.dy-admin input[type=submit].button-primary,
-body.dy-admin input[type=submit]:not(.button) {
+body.dy-admin .button.button-primary:where(:not(.dy-native-content #wpbody-content *)),
+body.dy-admin .button-primary:where(:not(.dy-native-content #wpbody-content *)),
+body.dy-admin input[type=submit].button-primary:where(:not(.dy-native-content #wpbody-content *)),
+body.dy-admin input[type=submit]:where(:not(.dy-native-content #wpbody-content *)):not(.button) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -8383,38 +8395,38 @@ body.dy-admin input[type=submit]:not(.button) {
   box-shadow: none;
 }
 
-body.dy-admin .button.button-primary:hover,
-body.dy-admin .button-primary:hover {
+body.dy-admin .button.button-primary:where(:not(.dy-native-content #wpbody-content *)):hover,
+body.dy-admin .button-primary:where(:not(.dy-native-content #wpbody-content *)):hover {
   transform: translateY(-1px);
   background: var(--dya-ink);
   color: var(--dya-bg);
 }
 
-body.dy-admin .button.button-primary:focus-visible,
-body.dy-admin .button-primary:focus-visible {
+body.dy-admin .button.button-primary:where(:not(.dy-native-content #wpbody-content *)):focus-visible,
+body.dy-admin .button-primary:where(:not(.dy-native-content #wpbody-content *)):focus-visible {
   outline: 2px solid var(--dya-accent);
   outline-offset: 2px;
 }
 
-body.dy-admin .button.button-hero {
+body.dy-admin .button.button-hero:where(:not(.dy-native-content #wpbody-content *)) {
   padding: 10px 20px;
   font-size: 13.5px;
 }
 
-body.dy-admin .button.button-small,
-body.dy-admin .button-small {
+body.dy-admin .button.button-small:where(:not(.dy-native-content #wpbody-content *)),
+body.dy-admin .button-small:where(:not(.dy-native-content #wpbody-content *)) {
   padding: 5px 10px;
   font-size: 11.5px;
 }
 
-body.dy-admin .button.button-large,
-body.dy-admin .button-large {
+body.dy-admin .button.button-large:where(:not(.dy-native-content #wpbody-content *)),
+body.dy-admin .button-large:where(:not(.dy-native-content #wpbody-content *)) {
   padding: 9px 18px;
   font-size: 13px;
 }
 
-body.dy-admin .button.button-link,
-body.dy-admin .button-link {
+body.dy-admin .button.button-link:where(:not(.dy-native-content #wpbody-content *)),
+body.dy-admin .button-link:where(:not(.dy-native-content #wpbody-content *)) {
   background: transparent;
   border: 0;
   padding: 0;
@@ -8424,38 +8436,38 @@ body.dy-admin .button-link {
   font-size: 13px;
 }
 
-body.dy-admin .button.button-link:hover,
-body.dy-admin .button-link:hover {
+body.dy-admin .button.button-link:where(:not(.dy-native-content #wpbody-content *)):hover,
+body.dy-admin .button-link:where(:not(.dy-native-content #wpbody-content *)):hover {
   background: transparent;
   border-bottom-color: var(--dya-line-strong);
 }
 
-body.dy-admin .button.button-link-delete,
-body.dy-admin .button-link-delete,
-body.dy-admin .button.delete,
-body.dy-admin .submitdelete,
-body.dy-admin a.submitdelete {
+body.dy-admin .button.button-link-delete:where(:not(.dy-native-content #wpbody-content *)),
+body.dy-admin .button-link-delete:where(:not(.dy-native-content #wpbody-content *)),
+body.dy-admin .button.delete:where(:not(.dy-native-content #wpbody-content *)),
+body.dy-admin .submitdelete:where(:not(.dy-native-content #wpbody-content *)),
+body.dy-admin a.submitdelete:where(:not(.dy-native-content #wpbody-content *)) {
   color: var(--dya-danger);
   background: transparent;
   border-color: transparent;
 }
 
-body.dy-admin .button.button-link-delete:hover,
-body.dy-admin .submitdelete:hover {
+body.dy-admin .button.button-link-delete:where(:not(.dy-native-content #wpbody-content *)):hover,
+body.dy-admin .submitdelete:where(:not(.dy-native-content #wpbody-content *)):hover {
   background: rgba(240, 101, 87, 0.08);
   color: var(--dya-danger);
   border-color: rgba(240, 101, 87, 0.25);
 }
 
-body.dy-admin p.submit input[type=submit] {
+body.dy-admin p.submit:where(:not(.dy-native-content #wpbody-content *)) input[type=submit] {
   margin-right: 6px;
 }
 
-body.dy-admin .submit {
+body.dy-admin .submit:where(:not(.dy-native-content #wpbody-content *)) {
   margin: 16px 0 0;
 }
 
-body.dy-admin .spinner {
+body.dy-admin .spinner:where(:not(.dy-native-content #wpbody-content *)) {
   background: none;
   width: 14px;
   height: 14px;
@@ -8470,8 +8482,8 @@ body.dy-admin .spinner {
   float: none;
 }
 
-body.dy-admin .spinner.is-active,
-body.dy-admin .spinner.spinner-active {
+body.dy-admin .spinner.is-active:where(:not(.dy-native-content #wpbody-content *)),
+body.dy-admin .spinner.spinner-active:where(:not(.dy-native-content #wpbody-content *)) {
   visibility: visible;
 }
 
@@ -8480,8 +8492,8 @@ body.dy-admin .spinner.spinner-active {
     transform: rotate(360deg);
   }
 }
-body.dy-admin .wrap .tag-list a,
-body.dy-admin .wp-list-table .tag-list a {
+body.dy-admin .wrap:where(:not(.dy-native-content #wpbody-content *)) .tag-list a,
+body.dy-admin .wp-list-table:where(:not(.dy-native-content #wpbody-content *)) .tag-list a {
   display: inline-flex;
   align-items: center;
   padding: 2px 8px;
@@ -8493,10 +8505,10 @@ body.dy-admin .wp-list-table .tag-list a {
   color: var(--dya-ink-soft);
 }
 
-body.dy-admin .button:disabled,
-body.dy-admin .button.disabled,
-body.dy-admin .button-disabled,
-body.dy-admin input[type=submit]:disabled {
+body.dy-admin .button:where(:not(.dy-native-content #wpbody-content *)):disabled,
+body.dy-admin .button.disabled:where(:not(.dy-native-content #wpbody-content *)),
+body.dy-admin .button-disabled:where(:not(.dy-native-content #wpbody-content *)),
+body.dy-admin input[type=submit]:where(:not(.dy-native-content #wpbody-content *)):disabled {
   border-color: var(--dya-edge-strong) !important;
 }
 
@@ -11684,7 +11696,7 @@ body.dy-admin:has(.dy-dashboard__sidebar.is-open) body.dy-admin.index-php .dy-da
   right: calc(clamp(320px, 26vw, 380px) + clamp(16px, 1.6vw, 32px) + 16px);
 }
 body.dy-admin.index-php #doubleyoupi_dashboard_root,
-body.dy-admin.index-php #doubleyoupi_dashboard_root .inside {
+body.dy-admin.index-php #doubleyoupi_dashboard_root > .inside {
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
@@ -12381,6 +12393,12 @@ body.dy-admin.index-php .dy-dashboard__native-item-body a, body.dy-admin.index-p
 }
 body.dy-admin.index-php .dy-dashboard__native-item-body a:hover, body.dy-admin.index-php .dy-dashboard__native-item-body a:visited:hover {
   opacity: 0.75;
+}
+body.dy-admin.index-php .dy-dashboard__native-item-body p a:not(.button) {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
 }
 body.dy-admin.index-php .dy-dashboard__native-item-body strong, body.dy-admin.index-php .dy-dashboard__native-item-body b {
   color: var(--dya-ink);
@@ -15797,8 +15815,6 @@ body.dy-admin.dy-native-content .rank-math-breadcrumbs-wrap {
   margin-left: 16px !important;
 }
 
-body.dy-admin.dy-native-content #wpbody-content .button:not(.button-link):not(.is-link):not(.primary),
-body.dy-admin.dy-native-content #wpbody-content .button-secondary:not(.button-link):not(.is-link),
 body.dy-admin.dy-native-content #wpbody-content .module-settings {
   background: #f6f7f7 !important;
   border: 1px solid #c3c4c7 !important;
@@ -17572,6 +17588,61 @@ body.dy-admin #wpgraphql-ide-app .wpgraphql-ide-query-composer-inline .graphiql-
 
 body.dy-admin.graphql_page_graphql-ide .dy-feedback-dock {
   display: none;
+}
+
+body.dy-admin:not(.dy-theme-light) .dy-light-island {
+  color-scheme: light;
+  color: #1d2327;
+  --dya-ink: #1d2327;
+  --dya-ink-soft: #3c434a;
+  --dya-ink-mute: #50575e;
+  --dya-ink-fade: #646970;
+  --dya-ink-faint: #646970;
+  --dya-bg: #fff;
+  --dya-bg-elev: #fff;
+  --dya-paper: #fff;
+  --dya-paper-2: #f6f7f7;
+  --dya-paper-3: #f0f0f1;
+  --dya-bg-card: #fff;
+  --dya-bg-hi: #f0f0f1;
+  --dya-bg-soft: #f6f7f7;
+  --dya-edge: #c3c4c7;
+  --dya-edge-strong: #8c8f94;
+  --dya-line: #dcdcde;
+  --dya-line-soft: #f0f0f1;
+  --dya-line-strong: #c3c4c7;
+  --dya-line-hi: #c3c4c7;
+  --dya-success: #147245;
+  --dya-warn: #995900;
+  --dya-warning: #995900;
+  --dya-danger: #c22f20;
+  --dya-info: #1d6cad;
+  --dya-accent-text: oklch(from var(--dya-accent) min(l, 0.5) c h);
+  --wp-admin-theme-color: var(--dya-accent-text);
+  --wp-components-color-background: #fff;
+  --wp-components-color-foreground: #1d2327;
+  --wp-components-color-foreground-inverted: #fff;
+  --wp-components-color-foreground-secondary: #3c434a;
+  --wp-components-color-foreground-tertiary: #50575e;
+  --wp-components-color-accent: var(--dya-accent-text);
+  --wp-components-color-gray-100: #f6f7f7;
+  --wp-components-color-gray-200: #f0f0f1;
+  --wp-components-color-gray-300: #dcdcde;
+  --wp-components-color-gray-400: #c3c4c7;
+  --wp-components-color-gray-600: #50575e;
+  --wp-components-color-gray-700: #3c434a;
+  --wp-components-color-gray-800: #3c434a;
+  --wp-components-color-gray-900: #1d2327;
+}
+
+body.dy-admin .dy-bleed {
+  margin-left: 0 !important;
+  width: auto !important;
+  max-width: 100% !important;
+}
+
+body.dy-admin:not(.dy-theme-light) .dy-ink-lift {
+  color: var(--dya-ink-soft) !important;
 }
 
 body.dy-admin.block-editor-page .dy-chipbar,

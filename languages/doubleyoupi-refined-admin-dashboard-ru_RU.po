@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-10-22T15:08:41+00:00\n"
+"POT-Creation-Date: 2026-10-23T01:47:11+00:00\n"
 "Language: ru_RU\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
@@ -601,51 +601,51 @@ msgstr ""
 msgid "Admin"
 msgstr "Admin"
 
-#: src/Modules/Admin/Admin.php:308
+#: src/Modules/Admin/Admin.php:312
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:477
 #: src/Modules/Admin/Settings.php:655
 msgid "Accent color"
 msgstr "Акцентный цвет"
 
-#: src/Modules/Admin/Admin.php:309
+#: src/Modules/Admin/Admin.php:313
 msgid "The Double Youpï Admin module manages the administration palette."
-msgstr "модуль Admin от Double Youpï управляет палитрой админ-панели."
+msgstr "Модуль Admin от Double Youpï управляет палитрой админ-панели."
 
-#: src/Modules/Admin/Admin.php:310
+#: src/Modules/Admin/Admin.php:314
 msgid "Configure →"
 msgstr "Настроить →"
 
-#: src/Modules/Admin/Admin.php:360
+#: src/Modules/Admin/Admin.php:364
 #: src/Modules/Admin/Tables/TablesReimagined.php:453
 msgid "Screen options"
 msgstr "Настройки экрана"
 
-#: src/Modules/Admin/Admin.php:361
+#: src/Modules/Admin/Admin.php:365
 #: src/Modules/Admin/Tables/TablesReimagined.php:454
 msgid "Columns"
 msgstr "Столбцы"
 
-#: src/Modules/Admin/Admin.php:362
+#: src/Modules/Admin/Admin.php:366
 #: src/Modules/Admin/Tables/TablesReimagined.php:459
 msgid "Pagination"
 msgstr "Разделение на страницы"
 
-#: src/Modules/Admin/Admin.php:363
+#: src/Modules/Admin/Admin.php:367
 #: src/Modules/Admin/Tables/TablesReimagined.php:460
 msgid "Items per page"
 msgstr "Элементов на страницу"
 
-#: src/Modules/Admin/Admin.php:522
+#: src/Modules/Admin/Admin.php:526
 msgid "Session"
 msgstr "Сеанс"
 
-#: src/Modules/Admin/Admin.php:524
+#: src/Modules/Admin/Admin.php:528
 msgid "Invert theme"
-msgstr "Сменить тему"
+msgstr "Переключить светлую или тёмную тему"
 
 #: src/Modules/Admin/Adminbar.php:131
 msgid "Toggle theme"
-msgstr "Сменить тему"
+msgstr "Переключить светлую или тёмную тему"
 
 #: src/Modules/Admin/Adminbar.php:149
 msgid "View site"
@@ -665,7 +665,7 @@ msgid ""
 "those lists to it and keeps their native layout. Deactivate Admin Columns if "
 "you prefer the redesigned view."
 msgstr ""
-"Он управляет колонками ваших списков, поэтому Refined Admin Dashboard "
+"Он управляет столбцами ваших списков, поэтому Refined Admin Dashboard "
 "оставляет эти списки ему и сохраняет их стандартный вид. Деактивируйте Admin "
 "Columns, если предпочитаете обновлённый вид."
 
@@ -703,33 +703,33 @@ msgstr "Здоровье сайта"
 msgid "Updates"
 msgstr "Обновления"
 
-#: src/Modules/Admin/ColumnModel.php:885
+#: src/Modules/Admin/ColumnModel.php:922
 msgid "Content"
 msgstr "Содержимое"
 
-#: src/Modules/Admin/ColumnModel.php:886
+#: src/Modules/Admin/ColumnModel.php:923
 msgid "Commerce"
 msgstr "Магазин"
 
-#: src/Modules/Admin/ColumnModel.php:887
+#: src/Modules/Admin/ColumnModel.php:924
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:63
 msgid "Users"
 msgstr "Пользователи"
 
-#: src/Modules/Admin/ColumnModel.php:888
+#: src/Modules/Admin/ColumnModel.php:925
 msgid "Community"
 msgstr "Сообщество"
 
-#: src/Modules/Admin/ColumnModel.php:889
+#: src/Modules/Admin/ColumnModel.php:926
 #: src/Modules/MediaLibrary/Settings.php:331
 msgid "Appearance"
 msgstr "Внешний вид"
 
-#: src/Modules/Admin/ColumnModel.php:890
+#: src/Modules/Admin/ColumnModel.php:927
 msgid "System"
 msgstr "Система"
 
-#: src/Modules/Admin/ColumnModel.php:891
+#: src/Modules/Admin/ColumnModel.php:928
 msgid "Developer"
 msgstr "Разработчик"
 
@@ -747,7 +747,7 @@ msgid "Double Youpï Dashboard"
 msgstr "Консоль Double Youpï"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:357
-#: src/Modules/Admin/Dashboard/Renderer.php:441
+#: src/Modules/Admin/Dashboard/Renderer.php:453
 msgid "Customize"
 msgstr "Настроить"
 
@@ -813,7 +813,7 @@ msgstr "Заголовок заметки"
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:373
 #: src/Modules/Admin/Dashboard/Widgets/Data/NoteWidget.php:72
 msgid "Click to write your note…"
-msgstr "Нажмите, чтобы написать заметку…"
+msgstr "Щёлкните, чтобы написать заметку…"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:374
 msgid "Backup started."
@@ -825,7 +825,8 @@ msgstr "Не удалось запустить резервное копиров
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:376
 msgid "Drag a tile onto the current screen, or click it to add it."
-msgstr "Перетащите плитку на текущий экран или нажмите на неё, чтобы добавить."
+msgstr ""
+"Перетащите плитку на текущий экран или щёлкните по ней, чтобы добавить."
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:377
 msgid "Assign to role"
@@ -1277,7 +1278,7 @@ msgstr "Редактор"
 
 #: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:321
 msgid "Focus on content creation"
-msgstr "Упор на создание контента"
+msgstr "Упор на создание содержимого"
 
 #: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:322
 msgid "Administrator"
@@ -1346,34 +1347,34 @@ msgstr ""
 "На этом сайте не зарегистрировано ни одного встроенного виджета или виджета "
 "плагина."
 
-#: src/Modules/Admin/Dashboard/Renderer.php:219
+#: src/Modules/Admin/Dashboard/Renderer.php:231
 msgid "This widget could not be rendered (callback missing)."
 msgstr ""
 "Не удалось отобразить этот виджет (отсутствует функция обратного вызова)."
 
-#: src/Modules/Admin/Dashboard/Renderer.php:382
+#: src/Modules/Admin/Dashboard/Renderer.php:394
 msgid "Dashboard screens navigation"
 msgstr "Навигация по экранам консоли"
 
-#: src/Modules/Admin/Dashboard/Renderer.php:387
+#: src/Modules/Admin/Dashboard/Renderer.php:399
 msgid "Previous screen"
 msgstr "Предыдущий экран"
 
 #. translators: %d: screen number
-#: src/Modules/Admin/Dashboard/Renderer.php:402
+#: src/Modules/Admin/Dashboard/Renderer.php:414
 #, php-format
 msgid "Go to screen %d"
 msgstr "Перейти к экрану %d"
 
-#: src/Modules/Admin/Dashboard/Renderer.php:412
+#: src/Modules/Admin/Dashboard/Renderer.php:424
 msgid "Next screen"
 msgstr "Следующий экран"
 
-#: src/Modules/Admin/Dashboard/Renderer.php:449
+#: src/Modules/Admin/Dashboard/Renderer.php:461
 msgid "No screen configured."
 msgstr "Нет настроенных экранов."
 
-#: src/Modules/Admin/Dashboard/Renderer.php:589
+#: src/Modules/Admin/Dashboard/Renderer.php:601
 #: src/Modules/Admin/Dashboard/RestController.php:405
 msgid "This widget could not load."
 msgstr "Не удалось загрузить этот виджет."
@@ -1491,16 +1492,16 @@ msgstr "%d дн. назад"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/AdminLinkWidget.php:24
 msgid "Admin link"
-msgstr "Ссылка в админке"
+msgstr "Ссылка на страницу админ-панели"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/AdminLinkWidget.php:28
 msgid "Single shortcut button to an admin page."
-msgstr "Одна кнопка быстрого перехода на страницу админки."
+msgstr "Одна кнопка быстрого перехода на страницу админ-панели."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/AdminLinkWidget.php:53
 msgid "A shortcut button to a specific admin (or external) page."
 msgstr ""
-"Кнопка быстрого перехода на определённую страницу админки (или внешнюю)."
+"Кнопка быстрого перехода на определённую страницу админ-панели (или внешнюю)."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/AdminLinkWidget.php:54
 msgid "Label"
@@ -1719,16 +1720,16 @@ msgid ""
 "Configurable buttons for frequent admin actions. Multiple instances possible "
 "for distinct workflows."
 msgstr ""
-"Настраиваемые кнопки для частых действий в админке. Можно добавить несколько "
-"для разных рабочих процессов."
+"Настраиваемые кнопки для частых действий в админ-панели. Можно добавить "
+"несколько для разных рабочих процессов."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:67
 msgid ""
 "Quick-access buttons for the admin actions you run most often. Add one from "
 "the dropdown."
 msgstr ""
-"Кнопки быстрого доступа к действиям в админке, которые вы выполняете чаще "
-"всего. Добавьте кнопку из списка."
+"Кнопки быстрого доступа к действиям в админ-панели, которые вы выполняете "
+"чаще всего. Добавьте кнопку из списка."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:71
 #: src/Modules/Admin/Tables/TablesReimagined.php:468
@@ -1798,15 +1799,15 @@ msgstr "Нет действий. Измените настройки видже�
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:82
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:129
 msgid "Shortcuts"
-msgstr "Ярлыки"
+msgstr "Быстрые ссылки"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:28
 msgid ""
 "Configurable bookmarks to frequently used admin pages. Multiple instances "
 "possible to categorize."
 msgstr ""
-"Настраиваемые закладки на часто используемые страницы админки. Можно "
-"добавить несколько экземпляров, чтобы разложить их по темам."
+"Настраиваемые закладки на часто используемые страницы админ-панели. Можно "
+"добавить несколько экземпляров, чтобы разложить их по группам."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:55
 msgid "Posts"
@@ -1832,16 +1833,16 @@ msgstr "Инструменты"
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:78
 msgid "Bookmarks to the admin pages you visit most. Add one from the dropdown."
 msgstr ""
-"Закладки на страницы админки, которые вы открываете чаще всего. Добавьте "
-"закладку из выпадающего списка."
+"Закладки на страницы админ-панели, которые вы открываете чаще всего. "
+"Добавьте закладку из выпадающего списка."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:84
 msgid "Add a shortcut"
-msgstr "Добавить ярлык"
+msgstr "Добавить быструю ссылку"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:133
 msgid "No shortcut configured."
-msgstr "Ярлыки не настроены."
+msgstr "Быстрые ссылки не настроены."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteHealthWidget.php:29
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteHealthWidget.php:139
@@ -1963,7 +1964,7 @@ msgstr "Модуль «Статический сайт» не активен."
 msgid "%d page generated"
 msgid_plural "%d pages generated"
 msgstr[0] "%d страница создана"
-msgstr[1] "%d страницы создано"
+msgstr[1] "%d страницы созданы"
 msgstr[2] "%d страниц создано"
 
 #. translators: %s: human-readable time diff
@@ -2006,7 +2007,7 @@ msgstr "Набор инструментов"
 #: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:37
 msgid "State of the quick toggles (Disable Comments, Classic Editor, etc.)."
 msgstr ""
-"Состояние быстрых переключателей (отключение комментариев, Классический "
+"Состояние быстрых переключателей (отключение комментариев, классический "
 "редактор и т. д.)."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:105
@@ -2234,7 +2235,7 @@ msgid ""
 "items, promote sub-pages to top-level, and toggle Double Youpï styling per "
 "sub-page."
 msgstr ""
-"Перестройте навигацию админки наглядно: перетаскивайте вкладки между "
+"Перестройте навигацию админ-панели наглядно: перетаскивайте вкладки между "
 "разделами, скрывайте элементы, выносите подстраницы на верхний уровень и "
 "включайте или отключайте оформление Double Youpï для каждой подстраницы."
 
@@ -2413,7 +2414,7 @@ msgstr[2] "%d медиафайлов"
 
 #: src/Modules/Admin/Eyebrow.php:480
 msgid "No term"
-msgstr "Нет терминов"
+msgstr "Нет элементов таксономии"
 
 #. translators: %d is the number of terms.
 #: src/Modules/Admin/Eyebrow.php:484
@@ -2429,9 +2430,9 @@ msgstr[2] "%d элементов таксономии"
 #, php-format
 msgid "%1$d pending · %2$d approved"
 msgid_plural "%1$d pending · %2$d approved"
-msgstr[0] "%1$d на утверждении · %2$d одобрен"
-msgstr[1] "%1$d на утверждении · %2$d одобрено"
-msgstr[2] "%1$d на утверждении · %2$d одобрено"
+msgstr[0] "на утверждении: %1$d · одобрено: %2$d"
+msgstr[1] "на утверждении: %1$d · одобрено: %2$d"
+msgstr[2] "на утверждении: %1$d · одобрено: %2$d"
 
 #. translators: %d is the number of approved comments.
 #: src/Modules/Admin/Eyebrow.php:503
@@ -2621,9 +2622,9 @@ msgid ""
 "little better, a review on WordPress.org is how other people find it. (One "
 "sentence is plenty.)"
 msgstr ""
-"Неделя с Refined Admin Dashboard. Если с ним работа в админке стала чуть "
-"приятнее, оставьте отзыв на WordPress.org: так его находят другие. (Одного "
-"предложения достаточно.)"
+"Неделя с Refined Admin Dashboard. Если с ним работа в админ-панели стала "
+"чуть приятнее, оставьте отзыв на WordPress.org: так его находят другие. "
+"(Одного предложения достаточно.)"
 
 #: src/Modules/Admin/ReviewAsk.php:251
 msgctxt "review request"
@@ -2703,7 +2704,7 @@ msgstr "Переименовать"
 
 #: src/Modules/Admin/Settings.php:297
 msgid "Change icon"
-msgstr "Сменить иконку"
+msgstr "Сменить значок"
 
 #: src/Modules/Admin/Settings.php:298
 msgid "Delete group"
@@ -2772,7 +2773,7 @@ msgstr "Удалить этот элемент? Его страницы верн
 
 #: src/Modules/Admin/Settings.php:318
 msgid "Choose an icon"
-msgstr "Выберите иконку"
+msgstr "Выберите значок"
 
 #: src/Modules/Admin/Settings.php:321
 msgid "Unsaved changes"
@@ -2811,7 +2812,7 @@ msgstr "Упорядочить"
 msgid ""
 "Customize the look of your WordPress admin. Everything else is automatic."
 msgstr ""
-"Настройте внешний вид админки WordPress. Всё остальное происходит "
+"Настройте внешний вид админ-панели WordPress. Всё остальное происходит "
 "автоматически."
 
 #: src/Modules/Admin/Settings.php:610
@@ -2897,7 +2898,7 @@ msgstr "Рекомендуется"
 
 #: src/Modules/Admin/Settings.php:790
 msgid "Seven sections, content first."
-msgstr "Семь разделов, сначала контент."
+msgstr "Семь разделов, сначала содержимое."
 
 #: src/Modules/Admin/Settings.php:797
 msgid "Native WordPress"
@@ -3035,7 +3036,7 @@ msgstr "Этот файл не является профилем админис�
 msgid "This profile was written by a newer version. Update the plugin first."
 msgstr "Этот профиль создан более новой версией. Сначала обновите плагин."
 
-#: src/Modules/Admin/Subchipbar.php:66
+#: src/Modules/Admin/Subchipbar.php:67
 msgid "Sub-section navigation"
 msgstr "Навигация по подразделам"
 
@@ -3425,7 +3426,7 @@ msgstr "Все медиафайлы"
 
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:49
 msgid "Media without folder"
-msgstr "Без папки"
+msgstr "Медиафайлы без папки"
 
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:54
 msgid "Rename collection"
@@ -4329,7 +4330,7 @@ msgid ""
 "redraws the rest of the admin the same way. It is free too."
 msgstr ""
 "Double Youpï Refined Admin Dashboard включает эту библиотеку файлов и так же "
-"перерисовывает остальную часть админки. Он тоже бесплатный."
+"перерисовывает остальную часть админ-панели. Он тоже бесплатный."
 
 #: src/Modules/MediaLibrary/Settings.php:386
 msgid "Read about it"
@@ -4426,7 +4427,7 @@ msgstr "Дублирование записей"
 
 #: src/Modules/Toolkit/Features/DuplicatePosts.php:32
 msgid "Enable a « Duplicate » link in the admin lists"
-msgstr "Включить ссылку «Дублировать» в списках админки"
+msgstr "Включить ссылку «Дублировать» в списках админ-панели"
 
 #: src/Modules/Toolkit/Features/DuplicatePosts.php:36
 msgid ""
@@ -4440,7 +4441,7 @@ msgstr ""
 #: src/Modules/Toolkit/Features/DuplicatePosts.php:101
 msgctxt "post row action: copy this post as a draft"
 msgid "Duplicate"
-msgstr "Дубликат"
+msgstr "Дублировать"
 
 #: src/Modules/Toolkit/Features/DuplicatePosts.php:102
 msgid "Duplicate this content as a draft"
@@ -4472,9 +4473,9 @@ msgid ""
 "content. Replaces Really Simple SSL. (The WordPress « Site Address » setting "
 "is not modified: do it manually.)"
 msgstr ""
-"Редирект 301 на сайте и в админке, замена адресов http→https в содержимом. "
-"Заменяет Really Simple SSL. (Настройка WordPress «Адрес сайта» не меняется: "
-"измените её вручную.)"
+"Перенаправление 301 на сайте и в админ-панели, замена адресов http→https в "
+"содержимом. Заменяет Really Simple SSL. (Настройка WordPress «Адрес сайта» "
+"не меняется: измените её вручную.)"
 
 #: src/Modules/Toolkit/Features/ForceHttps.php:70
 msgid ""
@@ -4602,10 +4603,10 @@ msgid ""
 "Editor), Cmd+S triggers the primary button. Gutenberg is untouched (it "
 "already has its native shortcut). Behavior similar to Bricks."
 msgstr ""
-"На страницах админки с формой для сохранения (настройки, профиль, изменение "
-"термина, классический редактор) Cmd+S нажимает основную кнопку. Редактор "
-"блоков не затрагивается (у него уже есть своё сочетание клавиш). Поведение "
-"как в Bricks."
+"На страницах админ-панели с формой для сохранения (настройки, профиль, "
+"изменение элемента таксономии, классический редактор) Cmd+S нажимает "
+"основную кнопку. Редактор блоков не затрагивается (у него уже есть своё "
+"сочетание клавиш). Поведение как в Bricks."
 
 #: src/Modules/Toolkit/Features/LocalAvatars.php:67
 msgid "Local avatars"

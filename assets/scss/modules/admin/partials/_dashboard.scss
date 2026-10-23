@@ -144,8 +144,10 @@ body.dy-admin.index-php {
 	// position with `position: fixed` directly so it fills the viewport minus
 	// topbar minus rail. No flex/100% chain to maintain, no containing-block
 	// ancestor issues.
+	// `> .inside` only: the widgets of the native screen carry `.inside` too
+	// (WordPress markup, for plugin styles) and keep their own padding.
 	#doubleyoupi_dashboard_root,
-	#doubleyoupi_dashboard_root .inside {
+	#doubleyoupi_dashboard_root > .inside {
 		background: transparent !important;
 		border: 0 !important;
 		box-shadow: none !important;
@@ -1038,6 +1040,17 @@ body.dy-admin.index-php {
 			color: var(--dya-accent-text, var(--dya-accent)) !important;  // readable in light mode (G6)
 			text-decoration: none;
 			&:hover { opacity: 0.75; }
+		}
+		// Links inside a sentence also get an underline: in the light theme
+		// the accent sits too close to the dark text to tell them apart by
+		// colour alone (« Site Health screen », « Twenty Twenty-Five »;
+		// compatibility lab and translator feedback, 23/10/2026, WCAG 1.4.1).
+		// Lists of titles keep their plain look.
+		p a:not(.button) {
+			text-decoration: underline;
+			text-decoration-thickness: 1px;
+			text-underline-offset: 2px;
+			text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
 		}
 		strong, b { color: var(--dya-ink); }
 		p, span, li, td, th, div { color: inherit; }

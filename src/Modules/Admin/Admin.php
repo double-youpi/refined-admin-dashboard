@@ -255,6 +255,10 @@ JS;
 		// rail + chipbar but render content on a native WP canvas (see
 		// body class `dy-native-content` + _builder-native.scss).
 		( new NativeContent() )->boot();
+		// Plugin panels left light in the dark theme keep a readable ink.
+		( new LightIslands() )->boot();
+		// Plugin blocks stretched under the rail by a negative margin come back.
+		( new EdgeBleed() )->boot();
 
 		( new Eyebrow() )->boot();
 		( new PostOrdering() )->boot();

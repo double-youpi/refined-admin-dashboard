@@ -1,0 +1,83 @@
+// =============================================================
+// _light-islands.scss
+// Light islands in the dark theme.
+//
+// Many plugins draw part of their screen on their own white or pale panels
+// (WP Fastest Cache's options, Limit Login Attempts' cards, WP Go Maps'
+// notices, Independent Analytics' updates, Redirection's welcome card). In the
+// dark theme our ink went on top of them: light text on white, unreadable.
+// LightIslands.php finds those panels in the page and marks them; inside, we
+// restate the light palette, so text, fields and buttons take the colours
+// they have in the light theme, where these screens read well.
+// Translator feedback and compatibility lab, 23/10/2026.
+//
+// Custom properties that reference other ones resolve where they are
+// declared (body), so every alias is restated here, not only the base tokens.
+// =============================================================
+
+body.dy-admin:not(.dy-theme-light) .dy-light-island {
+  color-scheme: light;
+  color: #1d2327;
+
+  --dya-ink:        #1d2327;
+  --dya-ink-soft:   #3c434a;
+  --dya-ink-mute:   #50575e;
+  --dya-ink-fade:   #646970;
+  --dya-ink-faint:  #646970;
+
+  --dya-bg:         #fff;
+  --dya-bg-elev:    #fff;
+  --dya-paper:      #fff;
+  --dya-paper-2:    #f6f7f7;
+  --dya-paper-3:    #f0f0f1;
+  --dya-bg-card:    #fff;
+  --dya-bg-hi:      #f0f0f1;
+  --dya-bg-soft:    #f6f7f7;
+
+  --dya-edge:        #c3c4c7;
+  --dya-edge-strong: #8c8f94;
+  --dya-line:        #dcdcde;
+  --dya-line-soft:   #f0f0f1;
+  --dya-line-strong: #c3c4c7;
+  --dya-line-hi:     #c3c4c7;
+
+  --dya-success: #147245;
+  --dya-warn:    #995900;
+  --dya-warning: #995900;
+  --dya-danger:  #c22f20;
+  --dya-info:    #1d6cad;
+
+  // The accent as text, capped as in the light theme (readable on white).
+  --dya-accent-text: oklch(from var(--dya-accent) min(l, 0.5) c h);
+  --wp-admin-theme-color: var(--dya-accent-text);
+
+  --wp-components-color-background: #fff;
+  --wp-components-color-foreground: #1d2327;
+  --wp-components-color-foreground-inverted: #fff;
+  --wp-components-color-foreground-secondary: #3c434a;
+  --wp-components-color-foreground-tertiary: #50575e;
+  --wp-components-color-accent: var(--dya-accent-text);
+  --wp-components-color-gray-100: #f6f7f7;
+  --wp-components-color-gray-200: #f0f0f1;
+  --wp-components-color-gray-300: #dcdcde;
+  --wp-components-color-gray-400: #c3c4c7;
+  --wp-components-color-gray-600: #50575e;
+  --wp-components-color-gray-700: #3c434a;
+  --wp-components-color-gray-800: #3c434a;
+  --wp-components-color-gray-900: #1d2327;
+}
+
+// ── Blocks stretched under the rail (EdgeBleed.php) ─────────
+// `margin-left: -20px` (and a width of 100% + 20px) was meant for WordPress'
+// 20 px of padding left of the content, which our layout does not have.
+body.dy-admin .dy-bleed {
+  margin-left: 0 !important;
+  width: auto !important;
+  max-width: 100% !important;
+}
+
+// ── Plugin text too dark for our dark ground (LightIslands.php) ──
+// Only text measured under the AA contrast on a dark background gets here.
+body.dy-admin:not(.dy-theme-light) .dy-ink-lift {
+  color: var(--dya-ink-soft) !important;
+}

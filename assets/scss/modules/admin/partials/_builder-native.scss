@@ -326,13 +326,11 @@ body.dy-admin.dy-native-content .rank-math-header {
 body.dy-admin.dy-native-content .rank-math-breadcrumbs-wrap {
   margin-left: 16px !important;
 }
-// Solid buttons (BUY, Settings…): DS mint background → native WP grey. We spare
-// "link" buttons (Easy/Advanced mode selector, intentionally transparent)
-// via `:not(.button-link):not(.is-link)`.
-// Duplicator marks its own orange buttons `.button.primary` (not WordPress's
-// `.button-primary`, which our skin paints): they keep their colour (19/10/2026).
-body.dy-admin.dy-native-content #wpbody-content .button:not(.button-link):not(.is-link):not(.primary),
-body.dy-admin.dy-native-content #wpbody-content .button-secondary:not(.button-link):not(.is-link),
+// Rank Math's module settings: DS mint background → native WP grey. Buttons no
+// longer need this: our button skin stays out of native content altogether
+// (`:where(:not(.dy-native-content #wpbody-content *))` in _buttons.scss), so
+// WordPress' and the plugins' own buttons keep their look (Limit Login
+// Attempts' orange « Get Started » turned grey, 23/10/2026).
 body.dy-admin.dy-native-content #wpbody-content .module-settings {
   background: #f6f7f7 !important;
   border: 1px solid #c3c4c7 !important;

@@ -27,6 +27,7 @@ final class Subchipbar {
 
 	public function boot(): void {
 		add_action( 'in_admin_header', [ $this, 'render' ], 7 );
+		add_action( 'admin_footer', [ $this, 'print_redundancy_check' ], 1 );
 	}
 
 	public function render(): void {
@@ -74,6 +75,47 @@ final class Subchipbar {
 
 		echo '</div></nav>';
 	}
+
+	/**
+	 * Steps the sub-bar aside when the page already shows the same links.
+	 *
+	 * Many plugins draw their own tabs and also register each tab as a
+	 * sub-page (Limit Login Attempts): the sub-bar then repeated the plugin's
+	 * navigation right above it (translator feedback, 23/10/2026). The plugin's
+	 * own tabs are part of its interface and stay; ours hides once most of its
+	 * links are already on the page.
+	 */
+	public function print_redundancy_check(): void {
+		wp_print_inline_script_tag( self::REDUNDANCY_JS, [ 'id' => 'doubleyoupi-subchipbar-redundancy' ] );
+	}
+
+	private const REDUNDANCY_JS = <<<'JS'
+(function () {
+	var nav = document.getElementById('dy-admin-subchipbar');
+	var body = document.getElementById('wpbody-content');
+	if (!nav || nav.hidden || !body) { return; }
+	function key(href) {
+		try {
+			var u = new URL(href, location.href), p = [];
+			u.searchParams.forEach(function (v, k) { p.push(k + '=' + v); });
+			return u.pathname + '?' + p.sort().join('&');
+		} catch (e) { return href; }
+	}
+	var ours = [].map.call(nav.querySelectorAll('a.dy-subchip'), function (a) { return key(a.href); });
+	var uniq = ours.filter(function (k, i) { return ours.indexOf(k) === i; });
+	if (uniq.length < 2) { return; }
+	var theirs = {};
+	[].forEach.call(body.querySelectorAll('a[href]'), function (a) {
+		if (!a.closest('.notice, .error, .updated, [id^="dy-"], [class^="dy-"]')) { theirs[key(a.href)] = 1; }
+	});
+	var hits = uniq.filter(function (k) { return theirs[k]; }).length;
+	if (hits >= Math.max(2, Math.ceil(uniq.length * 0.7))) {
+		nav.hidden = true;
+		nav.setAttribute('aria-hidden', 'true');
+		document.body.classList.add('dy-subchipbar-redundant');
+	}
+})();
+JS;
 
 	private function current_parent_slug(): string {
 		return Rail::resolve_top_level_slug() ?? '';
@@ -225,8 +267,8 @@ final class Subchipbar {
 			}
 			$label = $this->strip_label( (string) ( $entry[0] ?? '' ) );
 			$url   = str_contains( $slug, '.php' )
-				? admin_url( $slug )
-				: admin_url( 'admin.php?page=' . rawurlencode( $slug ) );
+				? ColumnModel::screen_url( $slug )
+				: ColumnModel::page_url( $slug );
 			return [
 				'label' => '' !== $label ? $label : $slug,
 				'url'   => $url,
@@ -243,7 +285,7 @@ final class Subchipbar {
 		$slug = str_replace( '&amp;', '&', $slug );
 		// If the slug contains .php or a query string, it is a standalone URL.
 		if ( str_contains( $slug, '.php' ) || str_contains( $slug, '?' ) ) {
-			return admin_url( $slug );
+			return ColumnModel::screen_url( $slug );
 		}
 		// Otherwise it is a sub-slug ?page=…&parent=…
 		// WP routes automatically via parent_slug for .php parents.
@@ -254,9 +296,9 @@ final class Subchipbar {
 		// which breaks with "Invalid post type" on the WP side.
 		if ( str_contains( $parent_slug, '.php' ) ) {
 			$glue = str_contains( $parent_slug, '?' ) ? '&' : '?';
-			return admin_url( $parent_slug . $glue . 'page=' . rawurlencode( $slug ) );
+			return ColumnModel::page_url( $slug, $parent_slug . $glue );
 		}
-		return admin_url( 'admin.php?page=' . rawurlencode( $slug ) );
+		return ColumnModel::page_url( $slug );
 	}
 
 	private function strip_label( string $raw ): string {
@@ -275,7 +317,20 @@ final class Subchipbar {
 		$current_page = $this->extract_page_param( $current_url );
 
 		if ( $item_page !== null ) {
-			return $item_page === $current_page;
+			if ( $item_page !== $current_page ) {
+				return false;
+			}
+			// Same page: the item's own arguments must match too. Limit Login
+			// Attempts registers one sub-page per tab (`…&tab=settings`), all on
+			// the same `page`, which would otherwise all be current at once.
+			parse_str( (string) wp_parse_url( $item['url'], PHP_URL_QUERY ), $item_qs );
+			parse_str( (string) wp_parse_url( $current_url, PHP_URL_QUERY ), $current_qs );
+			foreach ( $item_qs as $key => $value ) {
+				if ( 'page' !== $key && (string) ( $current_qs[ $key ] ?? '' ) !== (string) $value ) {
+					return false;
+				}
+			}
+			return true;
 		}
 
 		// The current URL is on `admin.php?page=…` but the sub-item is a

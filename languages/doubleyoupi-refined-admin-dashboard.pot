@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Youpï Refined Admin Dashboard 1.0.10\n"
+"Project-Id-Version: Double Youpï Refined Admin Dashboard 1.0.11\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-refined-admin-dashboard\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-22T15:08:41+00:00\n"
+"POT-Creation-Date: 2026-10-23T01:47:11+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: doubleyoupi-refined-admin-dashboard\n"
@@ -559,45 +559,45 @@ msgstr ""
 msgid "Admin"
 msgstr ""
 
-#: src/Modules/Admin/Admin.php:308
+#: src/Modules/Admin/Admin.php:312
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:477
 #: src/Modules/Admin/Settings.php:655
 msgid "Accent color"
 msgstr ""
 
-#: src/Modules/Admin/Admin.php:309
+#: src/Modules/Admin/Admin.php:313
 msgid "The Double Youpï Admin module manages the administration palette."
 msgstr ""
 
-#: src/Modules/Admin/Admin.php:310
+#: src/Modules/Admin/Admin.php:314
 msgid "Configure →"
 msgstr ""
 
-#: src/Modules/Admin/Admin.php:360
+#: src/Modules/Admin/Admin.php:364
 #: src/Modules/Admin/Tables/TablesReimagined.php:453
 msgid "Screen options"
 msgstr ""
 
-#: src/Modules/Admin/Admin.php:361
+#: src/Modules/Admin/Admin.php:365
 #: src/Modules/Admin/Tables/TablesReimagined.php:454
 msgid "Columns"
 msgstr ""
 
-#: src/Modules/Admin/Admin.php:362
+#: src/Modules/Admin/Admin.php:366
 #: src/Modules/Admin/Tables/TablesReimagined.php:459
 msgid "Pagination"
 msgstr ""
 
-#: src/Modules/Admin/Admin.php:363
+#: src/Modules/Admin/Admin.php:367
 #: src/Modules/Admin/Tables/TablesReimagined.php:460
 msgid "Items per page"
 msgstr ""
 
-#: src/Modules/Admin/Admin.php:522
+#: src/Modules/Admin/Admin.php:526
 msgid "Session"
 msgstr ""
 
-#: src/Modules/Admin/Admin.php:524
+#: src/Modules/Admin/Admin.php:528
 msgid "Invert theme"
 msgstr ""
 
@@ -656,33 +656,33 @@ msgstr ""
 msgid "Updates"
 msgstr ""
 
-#: src/Modules/Admin/ColumnModel.php:885
+#: src/Modules/Admin/ColumnModel.php:922
 msgid "Content"
 msgstr ""
 
-#: src/Modules/Admin/ColumnModel.php:886
+#: src/Modules/Admin/ColumnModel.php:923
 msgid "Commerce"
 msgstr ""
 
-#: src/Modules/Admin/ColumnModel.php:887
+#: src/Modules/Admin/ColumnModel.php:924
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:63
 msgid "Users"
 msgstr ""
 
-#: src/Modules/Admin/ColumnModel.php:888
+#: src/Modules/Admin/ColumnModel.php:925
 msgid "Community"
 msgstr ""
 
-#: src/Modules/Admin/ColumnModel.php:889
+#: src/Modules/Admin/ColumnModel.php:926
 #: src/Modules/MediaLibrary/Settings.php:331
 msgid "Appearance"
 msgstr ""
 
-#: src/Modules/Admin/ColumnModel.php:890
+#: src/Modules/Admin/ColumnModel.php:927
 msgid "System"
 msgstr ""
 
-#: src/Modules/Admin/ColumnModel.php:891
+#: src/Modules/Admin/ColumnModel.php:928
 msgid "Developer"
 msgstr ""
 
@@ -700,7 +700,7 @@ msgid "Double Youpï Dashboard"
 msgstr ""
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:357
-#: src/Modules/Admin/Dashboard/Renderer.php:441
+#: src/Modules/Admin/Dashboard/Renderer.php:453
 msgid "Customize"
 msgstr ""
 
@@ -1294,33 +1294,33 @@ msgstr ""
 msgid "No native or plugin widget is registered on this site."
 msgstr ""
 
-#: src/Modules/Admin/Dashboard/Renderer.php:219
+#: src/Modules/Admin/Dashboard/Renderer.php:231
 msgid "This widget could not be rendered (callback missing)."
 msgstr ""
 
-#: src/Modules/Admin/Dashboard/Renderer.php:382
+#: src/Modules/Admin/Dashboard/Renderer.php:394
 msgid "Dashboard screens navigation"
 msgstr ""
 
-#: src/Modules/Admin/Dashboard/Renderer.php:387
+#: src/Modules/Admin/Dashboard/Renderer.php:399
 msgid "Previous screen"
 msgstr ""
 
 #. translators: %d: screen number
-#: src/Modules/Admin/Dashboard/Renderer.php:402
+#: src/Modules/Admin/Dashboard/Renderer.php:414
 #, php-format
 msgid "Go to screen %d"
 msgstr ""
 
-#: src/Modules/Admin/Dashboard/Renderer.php:412
+#: src/Modules/Admin/Dashboard/Renderer.php:424
 msgid "Next screen"
 msgstr ""
 
-#: src/Modules/Admin/Dashboard/Renderer.php:449
+#: src/Modules/Admin/Dashboard/Renderer.php:461
 msgid "No screen configured."
 msgstr ""
 
-#: src/Modules/Admin/Dashboard/Renderer.php:589
+#: src/Modules/Admin/Dashboard/Renderer.php:601
 #: src/Modules/Admin/Dashboard/RestController.php:405
 msgid "This widget could not load."
 msgstr ""
@@ -2866,7 +2866,7 @@ msgstr ""
 msgid "This profile was written by a newer version. Update the plugin first."
 msgstr ""
 
-#: src/Modules/Admin/Subchipbar.php:66
+#: src/Modules/Admin/Subchipbar.php:67
 msgid "Sub-section navigation"
 msgstr ""
 
