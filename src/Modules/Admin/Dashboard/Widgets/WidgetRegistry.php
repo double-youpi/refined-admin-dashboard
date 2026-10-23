@@ -25,6 +25,9 @@ final class WidgetRegistry {
 	/** @var array<string, WidgetInterface> */
 	private array $widgets = [];
 
+	/** True once the native widgets are in: later registrations come from other plugins. */
+	private bool $natives_done = false;
+
 	private function __construct() {}
 
 	public static function instance(): self {
@@ -95,12 +98,42 @@ final class WidgetRegistry {
 		 *   add_action( 'doubleyoupi_dashboard_widgets_registered', function ( $registry ) {
 		 *       $registry->register( new MyCustomWidget() );
 		 *   } );
+		 *
+		 * Public, beta since 1.0.14: documented in docs/public/rad-dashboard-widget-api.md.
 		 */
+		$this->natives_done = true;
 		do_action( 'doubleyoupi_dashboard_widgets_registered', $this );
 	}
 
+	/**
+	 * Adds a widget. Once the native widgets are in, an id already taken is
+	 * refused: another plugin can add widgets, never replace one.
+	 */
 	public function register( WidgetInterface $widget ): void {
-		$this->widgets[ $widget->id() ] = $widget;
+		$id = $widget->id();
+		if ( $this->natives_done && isset( $this->widgets[ $id ] ) ) {
+			_doing_it_wrong(
+				__METHOD__,
+				esc_html( sprintf( 'The dashboard widget id "%s" is already registered. Prefix your widget ids with your plugin slug.', $id ) ),
+				'1.0.14'
+			);
+			return;
+		}
+		$this->widgets[ $id ] = $widget;
+	}
+
+	/**
+	 * Whether a widget comes from another plugin: its class is declared in a
+	 * file outside this build's src/ folder. Read from the file, not the class
+	 * name: an anonymous class is named after its parent, ours.
+	 */
+	public static function is_external( WidgetInterface $widget ): bool {
+		$file = ( new \ReflectionClass( $widget ) )->getFileName();
+		if ( false === $file ) {
+			return true;
+		}
+		$src = wp_normalize_path( dirname( __DIR__, 4 ) ) . '/';
+		return ! str_starts_with( wp_normalize_path( $file ), $src );
 	}
 
 	public function get( string $id ): ?WidgetInterface {
@@ -158,13 +191,18 @@ final class WidgetRegistry {
 				continue;
 			}
 			$id = $widget->id();
+			if ( self::is_external( $widget ) ) {
+				$group = 'extensions';
+			} else {
+				$group = str_starts_with( $id, $wc_prefix ) ? 'woocommerce' : 'doubleyoupi';
+			}
 			$tiles[] = [
 				'id'               => $id,
-				'name'             => $widget->palette_name(),
+				'name'             => method_exists( $widget, 'palette_name' ) ? (string) $widget->palette_name() : $widget->name(),
 				'description'      => $widget->description(),
 				'icon_svg'         => $widget->icon_svg(),
 				'category'         => $widget->category(),
-				'group'            => str_starts_with( $id, $wc_prefix ) ? 'woocommerce' : 'doubleyoupi',
+				'group'            => $group,
 				'is_instanceable'  => $widget->is_instanceable(),
 				'recommended_slots' => $widget->recommended_slots(),
 				'config_schema'    => $widget->config_schema(),

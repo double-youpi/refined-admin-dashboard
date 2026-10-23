@@ -2709,10 +2709,12 @@
 			});
 		},
 		refreshCatalog() {
-			const catalog = state.snapshot.catalog || { doubleyoupi: [], woocommerce: [], wordpress: [], plugins: [] };
+			const catalog = state.snapshot.catalog || { doubleyoupi: [], woocommerce: [], extensions: [], wordpress: [], plugins: [] };
 			const groups = [
 				{ key: 'doubleyoupi', label: 'Double Youpï', tiles: catalog.doubleyoupi || [] },
 				{ key: 'woocommerce', label: 'WooCommerce',  tiles: catalog.woocommerce || [] },
+				// Widgets added by other plugins through doubleyoupi_dashboard_widgets_registered.
+				{ key: 'extensions',  label: t('catalog_extensions'), tiles: catalog.extensions || [] },
 				{ key: 'wordpress',   label: 'WordPress',   tiles: catalog.wordpress   || [] },
 				{ key: 'plugins',     label: 'Plugins',     tiles: catalog.plugins     || [] }
 			];
@@ -2824,8 +2826,10 @@
 		// ── Contextual widget configuration ───────────────────
 		// Double Youpi tile registry (schema + name) indexed by id.
 		_tileFor(id) {
-			const dy = (state.snapshot.catalog && state.snapshot.catalog.doubleyoupi) || [];
-			return dy.find(tile => tile.id === id) || null;
+			// Every registered widget can carry settings, whatever its section.
+			const c = state.snapshot.catalog || {};
+			const all = [].concat(c.doubleyoupi || [], c.woocommerce || [], c.extensions || []);
+			return all.find(tile => tile.id === id) || null;
 		},
 		// Returns whether a widget (by id) is configurable via the panel.
 		isConfigurable(id) {

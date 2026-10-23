@@ -402,6 +402,7 @@ CSS;
 			'disposition_updated' => __( 'Disposition updated.', 'doubleyoupi-refined-admin-dashboard' ),
 			'disposition_deleted' => __( 'Disposition deleted.', 'doubleyoupi-refined-admin-dashboard' ),
 			'not_styled_yet'     => __( 'Not styled yet', 'doubleyoupi-refined-admin-dashboard' ),
+			'catalog_extensions' => __( 'From your plugins', 'doubleyoupi-refined-admin-dashboard' ),
 			/* translators: %s: disposition name */
 			'confirm_delete_disposition' => __( 'Delete the disposition « %s »?', 'doubleyoupi-refined-admin-dashboard' ),
 			/* translators: %s: disposition name */

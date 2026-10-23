@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, dark theme
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.13
+Stable tag: 1.0.14
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -169,6 +169,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 
 == Changelog ==
 
+= 1.0.14 =
+* New for developers (beta): add your plugin's own cards to the dashboard with the doubleyoupi_dashboard_widgets_registered action. They get their own section in the palette, "From your plugins". A card can add to the palette, never replace one of ours.
+
 = 1.0.13 =
 * New: keep Double Youpï settings to yourself (Settings, Team). Other administrators keep the redesigned admin, without its settings, the Feedback button or review requests. The plugin stays listed in Plugins. Locked out? Add define( 'DOUBLEYOUPI_UNLOCK_SETTINGS', true ); to wp-config.php. The doubleyoupi_filter_can_manage filter sets your own rule.
 * Change: creating, renaming, moving and deleting media folders and collections is now for editors and administrators. Anyone who can upload still files media into folders and collections. The doubleyoupi_filter_manage_folders_cap filter sets another capability.
@@ -277,6 +280,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.14 =
+Plugins can now add their own cards to the dashboard (developer API, beta).
 
 = 1.0.13 =
 Keep Double Youpï settings to yourself on sites you hand over. Media folders are now managed by editors and administrators.

@@ -81,12 +81,18 @@ final class Snapshot {
 
 		// Split WooCommerce tiles (group=woocommerce) into their own palette
 		// section, distinct from Double Youpi widgets.
-		$all_dy = $registry->to_panel_tiles();
+		// Widgets of other plugins (doubleyoupi_dashboard_widgets_registered)
+		// get a section of their own, after WooCommerce.
+		$all_dy   = $registry->to_panel_tiles();
 		$dy_tiles = [];
 		$wc_tiles = [];
+		$ext_tiles = [];
 		foreach ( $all_dy as $tile ) {
-			if ( ( $tile['group'] ?? 'doubleyoupi' ) === 'woocommerce' ) {
+			$group = (string) ( $tile['group'] ?? 'doubleyoupi' );
+			if ( 'woocommerce' === $group ) {
 				$wc_tiles[] = $tile;
+			} elseif ( 'extensions' === $group ) {
+				$ext_tiles[] = $tile;
 			} else {
 				$dy_tiles[] = $tile;
 			}
@@ -95,6 +101,7 @@ final class Snapshot {
 		$catalog = [
 			'doubleyoupi' => $dy_tiles,
 			'woocommerce' => $wc_tiles,
+			'extensions'  => $ext_tiles,
 			'wordpress'   => $expose_external ? WpDashboardWidgetsAdapter::for_panel_wordpress() : [],
 			'plugins'     => $expose_external ? WpDashboardWidgetsAdapter::for_panel_plugins() : [],
 		];
@@ -166,7 +173,9 @@ final class Snapshot {
 		foreach ( $catalog as $group => $tiles ) {
 			foreach ( $tiles as $i => $tile ) {
 				$id = (string) ( $tile['id'] ?? '' );
-				$catalog[ $group ][ $i ]['validated'] = in_array( $id, $validated, true );
+				// The allowlist is our own design checklist; another plugin's
+				// widget is its author's responsibility, never greyed out.
+				$catalog[ $group ][ $i ]['validated'] = 'extensions' === $group || in_array( $id, $validated, true );
 			}
 		}
 		return $catalog;

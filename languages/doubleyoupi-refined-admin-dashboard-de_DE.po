@@ -3,7 +3,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-10-23T17:19:46+00:00\n"
+"POT-Creation-Date: 2026-10-23T19:43:54+00:00\n"
 "Language: de_DE\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
@@ -609,7 +609,7 @@ msgid "Admin"
 msgstr "Admin"
 
 #: src/Modules/Admin/Admin.php:312
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:478
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:479
 #: src/Modules/Admin/Settings.php:685
 msgid "Accent color"
 msgstr "Akzentfarbe"
@@ -937,14 +937,18 @@ msgstr "Layout gelöscht."
 msgid "Not styled yet"
 msgstr "Noch ungestylt"
 
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:405
+msgid "From your plugins"
+msgstr "Aus deinen Plugins"
+
 #. translators: %s: disposition name
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:406
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:407
 #, php-format
 msgid "Delete the disposition « %s »?"
 msgstr "Das Layout „%s“ löschen?"
 
 #. translators: %s: disposition name
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:408
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:409
 #, php-format
 msgid "Replace the current layout with « %s »? Unsaved changes will be lost."
 msgstr ""
@@ -952,106 +956,106 @@ msgstr ""
 "verloren."
 
 #. translators: %s: disposition name
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:410
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:411
 #, php-format
 msgid "Update « %s » with the current settings?"
 msgstr "„%s“ mit den aktuellen Einstellungen aktualisieren?"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:411
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:412
 msgid "Clear everything and start from a single blank screen?"
 msgstr "Alles leeren und mit einem einzigen leeren Bildschirm beginnen?"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:412
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:413
 msgid "This file is not a valid disposition export."
 msgstr "Diese Datei ist kein gültiger Layout-Export."
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:413
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:414
 msgid "Imported disposition"
 msgstr "Importiertes Layout"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:415
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:416
 #: src/Modules/Admin/Tables/TablesReimagined.php:466
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:40
 msgid "More actions"
 msgstr "Weitere Aktionen"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:416
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:417
 #: src/Modules/Admin/Settings.php:730
 #: src/Modules/Admin/Tables/TablesReimagined.php:472
 msgid "Apply"
 msgstr "Anwenden"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:417
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:418
 msgid "Update with current settings"
 msgstr "Mit aktuellen Einstellungen aktualisieren"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:418
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:419
 #: src/Modules/Admin/Settings.php:924
 msgid "Export"
 msgstr "Exportieren"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:419
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:420
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:78
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:169
 msgid "Delete"
 msgstr "Löschen"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:420
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:421
 msgid "Clear everything"
 msgstr "Alles leeren"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:421
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:422
 msgid "Save as new disposition"
 msgstr "Als neues Layout speichern"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:422
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:423
 msgid "Import a disposition"
 msgstr "Layout importieren"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:423
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:424
 msgid "Assign to role(s)…"
 msgstr "Rolle(n) zuweisen…"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:424
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:425
 msgid "Lock"
 msgstr "Sperren"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:425
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:426
 msgid "Unlock"
 msgstr "Entsperren"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:426
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:427
 msgid "Layout locked."
 msgstr "Layout gesperrt."
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:427
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:428
 msgid "Layout unlocked."
 msgstr "Layout entsperrt."
 
 #. translators: %s: disposition name
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:430
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:431
 #, php-format
 msgid "Assign « %s » to roles"
 msgstr "« %s » Rollen zuweisen"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:431
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:432
 msgid "Users with these roles will see this disposition (read-only)."
 msgstr "Benutzer mit diesen Rollen sehen diese Disposition (schreibgeschützt)."
 
 #. translators: %s: another disposition name
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:433
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:434
 #, php-format
 msgid "already on %s"
 msgstr "bereits auf %s"
 
 #. translators: %s: disposition name used by default for this role
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:435
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:436
 #, php-format
 msgid "default: %s"
 msgstr "Standard: %s"
 
 #. translators: %s: list of roles and their current disposition
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:437
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:438
 #, php-format
 msgid ""
 "These roles are already assigned to another disposition: %s. Switch them to "
@@ -1060,141 +1064,141 @@ msgstr ""
 "Diese Rollen sind bereits einer anderen Disposition zugewiesen: %s. Auf "
 "diese umstellen?"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:438
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:439
 msgid "Roles assigned."
 msgstr "Rollen zugewiesen."
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:441
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:442
 msgid "Remove this widget"
 msgstr "Dieses Widget entfernen"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:442
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:443
 msgid "Delete this screen"
 msgstr "Diesen Bildschirm löschen"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:443
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:444
 msgid "Widget added."
 msgstr "Widget hinzugefügt."
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:444
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:445
 msgid "Widget removed."
 msgstr "Widget entfernt."
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:445
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:446
 msgid "Position updated."
 msgstr "Position aktualisiert."
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:446
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:447
 msgid "Cannot drop on this screen."
 msgstr "Ablegen auf diesem Bildschirm nicht möglich."
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:447
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:448
 msgid "No room left on the target screen."
 msgstr "Kein Platz mehr auf dem Zielbildschirm."
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:448
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:449
 msgid "No room left on this screen (6 slots max)."
 msgstr "Kein Platz mehr auf diesem Bildschirm (max. 6 Slots)."
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:449
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:450
 msgid "Render error"
 msgstr "Render-Fehler"
 
 #. translators: %d: screen number
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:453
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:454
 #, php-format
 msgid "Screen %d"
 msgstr "Screen %d"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:454
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:455
 msgid "Insert a screen here"
 msgstr "Hier einen Bildschirm einfügen"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:455
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:456
 msgid "Add a screen"
 msgstr "Bildschirm hinzufügen"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:456
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:457
 msgid "Back to square one"
 msgstr "Zurück auf Anfang"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:458
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:459
 msgid "A fresh canvas"
 msgstr "Ein leeres Blatt"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:459
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:460
 msgid "Room to breathe"
 msgstr "Raum zum Atmen"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:460
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:461
 msgid "The next chapter"
 msgstr "Das nächste Kapitel"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:461
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:462
 msgid "Terra incognita"
 msgstr "Terra incognita"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:462
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:463
 msgid "Something new"
 msgstr "Etwas Neues"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:463
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:464
 msgid "At least one user screen is required."
 msgstr "Mindestens ein Benutzerbildschirm ist erforderlich."
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:464
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:465
 msgid "Delete this screen?"
 msgstr "Diesen Bildschirm löschen?"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:465
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:466
 msgid "Reset to the standard layout? All customizations will be lost."
 msgstr "Auf das Standard-Layout zurücksetzen? Alle Anpassungen gehen verloren."
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:466
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:467
 msgid "Layout exported"
 msgstr "Layout exportiert"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:467
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:468
 msgid "Invalid JSON"
 msgstr "Ungültiges JSON"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:468
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:469
 msgid "Save failed"
 msgstr "Speichern fehlgeschlagen"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:469
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:470
 msgid "Error"
 msgstr "Fehler"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:471
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:472
 msgid "History"
 msgstr "Verlauf"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:472
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:473
 msgid "Undo"
 msgstr "Rückgängig"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:473
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:474
 msgid "Redo"
 msgstr "Wiederholen"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:475
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:476
 msgid "Screen title"
 msgstr "Bildschirmtitel"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:476
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:477
 msgid "Add a paragraph…"
 msgstr "Absatz hinzufügen…"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:479
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:480
 msgid "Background color"
 msgstr "Hintergrundfarbe"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:480
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:481
 msgid "Global"
 msgstr "Global"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:481
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:482
 msgid "Reset to global color"
 msgstr "Auf globale Farbe zurücksetzen"
 

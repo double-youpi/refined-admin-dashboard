@@ -3,7 +3,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-10-23T17:19:46+00:00\n"
+"POT-Creation-Date: 2026-10-23T19:43:54+00:00\n"
 "Language: hi_IN\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
@@ -590,7 +590,7 @@ msgid "Admin"
 msgstr "एडमिन"
 
 #: src/Modules/Admin/Admin.php:312
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:478
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:479
 #: src/Modules/Admin/Settings.php:685
 msgid "Accent color"
 msgstr "एक्सेंट रंग"
@@ -915,260 +915,264 @@ msgstr "डिस्पोज़िशन हटाया गया।"
 msgid "Not styled yet"
 msgstr "अभी स्टाइल नहीं"
 
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:405
+msgid "From your plugins"
+msgstr "आपके प्लगइन्स से"
+
 #. translators: %s: disposition name
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:406
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:407
 #, php-format
 msgid "Delete the disposition « %s »?"
 msgstr "डिस्पोज़िशन « %s » हटाएं?"
 
 #. translators: %s: disposition name
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:408
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:409
 #, php-format
 msgid "Replace the current layout with « %s »? Unsaved changes will be lost."
 msgstr "वर्तमान डिस्पोज़िशन को « %s » से बदलें? असहेजे गए बदलाव खो जाएंगे।"
 
 #. translators: %s: disposition name
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:410
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:411
 #, php-format
 msgid "Update « %s » with the current settings?"
 msgstr "« %s » को वर्तमान सेटिंग्स से अपडेट करें?"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:411
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:412
 msgid "Clear everything and start from a single blank screen?"
 msgstr "सब कुछ साफ़ करें और एक खाली स्क्रीन से शुरू करें?"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:412
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:413
 msgid "This file is not a valid disposition export."
 msgstr "यह फ़ाइल मान्य डिस्पोज़िशन निर्यात नहीं है।"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:413
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:414
 msgid "Imported disposition"
 msgstr "आयातित डिस्पोज़िशन"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:415
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:416
 #: src/Modules/Admin/Tables/TablesReimagined.php:466
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:40
 msgid "More actions"
 msgstr "अधिक क्रियाएँ"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:416
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:417
 #: src/Modules/Admin/Settings.php:730
 #: src/Modules/Admin/Tables/TablesReimagined.php:472
 msgid "Apply"
 msgstr "लागू करें"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:417
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:418
 msgid "Update with current settings"
 msgstr "वर्तमान सेटिंग्स से अपडेट करें"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:418
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:419
 #: src/Modules/Admin/Settings.php:924
 msgid "Export"
 msgstr "निर्यात"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:419
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:420
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:78
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:169
 msgid "Delete"
 msgstr "हटाएँ"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:420
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:421
 msgid "Clear everything"
 msgstr "सब कुछ साफ़ करें"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:421
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:422
 msgid "Save as new disposition"
 msgstr "नई डिस्पोज़िशन के रूप में सहेजें"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:422
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:423
 msgid "Import a disposition"
 msgstr "डिस्पोज़िशन आयात करें"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:423
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:424
 msgid "Assign to role(s)…"
 msgstr "भूमिका(ओं) को असाइन करें…"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:424
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:425
 msgid "Lock"
 msgstr "लॉक करें"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:425
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:426
 msgid "Unlock"
 msgstr "अनलॉक करें"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:426
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:427
 msgid "Layout locked."
 msgstr "लेआउट लॉक किया गया।"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:427
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:428
 msgid "Layout unlocked."
 msgstr "लेआउट अनलॉक किया गया।"
 
 #. translators: %s: disposition name
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:430
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:431
 #, php-format
 msgid "Assign « %s » to roles"
 msgstr "« %s » को भूमिकाओं को असाइन करें"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:431
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:432
 msgid "Users with these roles will see this disposition (read-only)."
 msgstr "इन भूमिकाओं वाले उपयोगकर्ता यह डिस्पोज़िशन देखेंगे (केवल पढ़ने योग्य)।"
 
 #. translators: %s: another disposition name
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:433
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:434
 #, php-format
 msgid "already on %s"
 msgstr "पहले से %s पर"
 
 #. translators: %s: disposition name used by default for this role
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:435
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:436
 #, php-format
 msgid "default: %s"
 msgstr "डिफ़ॉल्ट: %s"
 
 #. translators: %s: list of roles and their current disposition
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:437
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:438
 #, php-format
 msgid ""
 "These roles are already assigned to another disposition: %s. Switch them to "
 "this one?"
 msgstr "ये भूमिकाएँ पहले से किसी अन्य डिस्पोज़िशन को असाइन हैं: %s। इन्हें इसमें बदलें?"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:438
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:439
 msgid "Roles assigned."
 msgstr "भूमिकाएँ असाइन की गईं।"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:441
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:442
 msgid "Remove this widget"
 msgstr "इस विजेट को हटाएं"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:442
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:443
 msgid "Delete this screen"
 msgstr "इस स्क्रीन को हटाएं"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:443
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:444
 msgid "Widget added."
 msgstr "विजेट जोड़ा गया।"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:444
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:445
 msgid "Widget removed."
 msgstr "विजेट हटाया गया।"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:445
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:446
 msgid "Position updated."
 msgstr "स्थिति अपडेट की गई।"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:446
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:447
 msgid "Cannot drop on this screen."
 msgstr "इस स्क्रीन पर ड्रॉप नहीं किया जा सकता।"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:447
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:448
 msgid "No room left on the target screen."
 msgstr "लक्ष्य स्क्रीन पर कोई जगह नहीं बची।"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:448
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:449
 msgid "No room left on this screen (6 slots max)."
 msgstr "इस स्क्रीन पर कोई जगह नहीं बची (अधिकतम 6 स्लॉट)।"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:449
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:450
 msgid "Render error"
 msgstr "रेंडर त्रुटि"
 
 #. translators: %d: screen number
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:453
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:454
 #, php-format
 msgid "Screen %d"
 msgstr "स्क्रीन %d"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:454
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:455
 msgid "Insert a screen here"
 msgstr "यहाँ एक स्क्रीन डालें"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:455
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:456
 msgid "Add a screen"
 msgstr "एक स्क्रीन जोड़ें"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:456
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:457
 msgid "Back to square one"
 msgstr "फिर से शुरुआत"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:458
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:459
 msgid "A fresh canvas"
 msgstr "एक नया कैनवास"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:459
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:460
 msgid "Room to breathe"
 msgstr "साँस लेने की जगह"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:460
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:461
 msgid "The next chapter"
 msgstr "अगला अध्याय"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:461
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:462
 msgid "Terra incognita"
 msgstr "अनजान धरती"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:462
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:463
 msgid "Something new"
 msgstr "कुछ नया"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:463
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:464
 msgid "At least one user screen is required."
 msgstr "कम से कम एक उपयोगकर्ता स्क्रीन आवश्यक है।"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:464
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:465
 msgid "Delete this screen?"
 msgstr "इस स्क्रीन को हटाएं?"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:465
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:466
 msgid "Reset to the standard layout? All customizations will be lost."
 msgstr "मानक लेआउट पर रीसेट करें? सभी अनुकूलन खो जाएंगे।"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:466
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:467
 msgid "Layout exported"
 msgstr "लेआउट निर्यात किया गया"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:467
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:468
 msgid "Invalid JSON"
 msgstr "अमान्य JSON"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:468
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:469
 msgid "Save failed"
 msgstr "सहेजना विफल"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:469
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:470
 msgid "Error"
 msgstr "त्रुटि"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:471
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:472
 msgid "History"
 msgstr "इतिहास"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:472
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:473
 msgid "Undo"
 msgstr "पूर्ववत करें"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:473
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:474
 msgid "Redo"
 msgstr "फिर से करें"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:475
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:476
 msgid "Screen title"
 msgstr "स्क्रीन शीर्षक"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:476
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:477
 msgid "Add a paragraph…"
 msgstr "एक पैराग्राफ़ जोड़ें…"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:479
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:480
 msgid "Background color"
 msgstr "पृष्ठभूमि रंग"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:480
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:481
 msgid "Global"
 msgstr "वैश्विक"
 
-#: src/Modules/Admin/Dashboard/DashboardOverride.php:481
+#: src/Modules/Admin/Dashboard/DashboardOverride.php:482
 msgid "Reset to global color"
 msgstr "वैश्विक रंग पर रीसेट करें"
 
