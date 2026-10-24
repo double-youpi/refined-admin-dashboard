@@ -96,8 +96,12 @@ JS;
 	 */
 	private ?array $columns = null;
 
+	/** @var array<string,true> Sub-page slugs present when the rail was collected. */
+	private array $sub_slugs_at_collect = [];
+
 	public function boot(): void {
 		add_action( 'admin_menu', [ $this, 'collect' ], 99999 );
+		add_action( 'admin_init', [ $this, 'prune_late_removals' ], PHP_INT_MAX );
 		add_action( 'admin_head', [ $this, 'output_rail_template' ], 999 );
 		add_action( 'admin_footer', [ $this, 'output_drag_aids' ], 1 );
 		add_filter( 'admin_body_class', [ $this, 'body_class' ] );
@@ -182,9 +186,101 @@ JS;
 			}
 		}
 		$this->collected = compact( 'builders', 'lines' );
+		$this->sub_slugs_at_collect = self::flat_sub_slugs();
 
 		// Persists the accumulated detections (single write per page load).
 		NavigationDetector::flush();
+	}
+
+	/**
+	 * Every sub-page slug of the live menu, flattened (WordPress re-keys
+	 * `$submenu` after `admin_menu`, slugs survive the move).
+	 *
+	 * @return array<string,true>
+	 */
+	private static function flat_sub_slugs(): array {
+		global $submenu;
+		$out = [];
+		foreach ( (array) $submenu as $items ) {
+			foreach ( (array) $items as $entry ) {
+				if ( is_array( $entry ) && ! empty( $entry[2] ) ) {
+					$out[ PluginMap::normalize_slug( (string) $entry[2] ) ] = true;
+				}
+			}
+		}
+		return $out;
+	}
+
+	/**
+	 * Drops what disappeared from the menu after the rail was collected.
+	 *
+	 * The rail collects on `admin_menu`, but plugins may still remove pages
+	 * afterwards, typically on `admin_init`: Ninja Forms removes its
+	 * « Welcome » page once onboarding is done, and the rail kept linking to
+	 * it (« Cannot load nf-welcome », translator's report, 24/10/2026).
+	 * WordPress's own capability pruning lands here too. Removed sub-pages
+	 * leave the rail and the bars, and any link that pointed to one moves
+	 * to the next page still there.
+	 */
+	public function prune_late_removals(): void {
+		if ( null === $this->columns || ! $this->sub_slugs_at_collect ) {
+			return;
+		}
+		$now     = self::flat_sub_slugs();
+		$removed = array_diff_key( $this->sub_slugs_at_collect, $now );
+		if ( ! $removed ) {
+			return;
+		}
+		$prune_chips = static function ( array $chips ) use ( $removed ): array {
+			$out = [];
+			foreach ( $chips as $chip ) {
+				$slug = (string) ( $chip['slug'] ?? '' );
+				$subs = array_values( array_filter(
+					(array) ( $chip['subitems'] ?? [] ),
+					static fn( $si ): bool => ! isset( $removed[ (string) ( $si['slug'] ?? '' ) ] )
+				) );
+				if ( isset( $removed[ $slug ] ) && ! $subs ) {
+					continue; // a promoted sub-page that no longer exists
+				}
+				$chip['subitems'] = $subs;
+				if ( self::url_targets( (string) ( $chip['url'] ?? '' ), $removed ) ) {
+					$chip['url'] = $subs ? (string) ( $subs[0]['url'] ?? '' ) : ColumnModel::page_url( $slug );
+				}
+				$out[] = $chip;
+			}
+			return $out;
+		};
+		foreach ( $this->columns as $i => $col ) {
+			$chips = $prune_chips( (array) ( $col['chips'] ?? [] ) );
+			$this->columns[ $i ]['chips'] = $chips;
+			if ( self::url_targets( (string) ( $col['url'] ?? '' ), $removed ) && $chips ) {
+				$this->columns[ $i ]['url'] = (string) $chips[0]['url'];
+			}
+		}
+		if ( isset( $this->collected['lines'] ) ) {
+			foreach ( $this->collected['lines'] as $id => $chips ) {
+				$this->collected['lines'][ $id ] = $prune_chips( (array) $chips );
+			}
+		}
+	}
+
+	/**
+	 * Whether an admin URL opens one of the given page slugs.
+	 *
+	 * @param array<string,true> $slugs
+	 */
+	private static function url_targets( string $url, array $slugs ): bool {
+		if ( '' === $url ) {
+			return false;
+		}
+		$query = (string) wp_parse_url( html_entity_decode( $url ), PHP_URL_QUERY );
+		parse_str( $query, $args );
+		if ( isset( $args['page'] ) && is_string( $args['page'] ) && isset( $slugs[ PluginMap::normalize_slug( $args['page'] ) ] ) ) {
+			return true;
+		}
+		$path = basename( (string) wp_parse_url( $url, PHP_URL_PATH ) );
+		$file = '' !== $query ? $path . '?' . $query : $path;
+		return isset( $slugs[ PluginMap::normalize_slug( $file ) ] );
 	}
 
 	/**
@@ -551,17 +647,9 @@ JS;
 		// (standalone builder/theme, custom group, or Developer) so that
 		// content/commerce/users/… stay at the top and tools anchor at the
 		// bottom — without breaking the order chosen by the user.
-		$spacer_before = null;
-		$native_tree   = Settings::is_native_navigation();
-		foreach ( $columns as $col ) {
-			if ( $native_tree ) {
-				break; // the native order is the order: no bottom zone
-			}
-			if ( 'standalone' === $col['kind'] || 'custom' === $col['kind'] || 'developer' === $col['id'] ) {
-				$spacer_before = (string) $col['id'];
-				break;
-			}
-		}
+		// The editor can move it (ColumnModel::divider_before); the native
+		// order is the order: no bottom zone there.
+		$spacer_before = Settings::is_native_navigation() ? null : ColumnModel::divider_before( $columns );
 
 		$spacer_emitted = false;
 		foreach ( $columns as $col ) {

@@ -969,11 +969,13 @@ body.dy-admin .popular-tags {
   padding: 16px !important;
 }
 
-// Plugin information iframe ("More details" popup) — body in `dialog-body`
-// + `dialog-container`. WP minimal layout imposes a white bg; override it.
+// Plugin information iframe ("More details" popup): body in `dialog-body`
+// + `dialog-container` before WordPress 7, `iframe` + `plugin-install-php`
+// since (24/10/2026: our dark rules no longer matched, white page with light
+// text). WP minimal layout imposes a white bg; override it.
 // Our DY CSS is loaded inside the iframe (admin_enqueue_scripts fires there);
 // sufficient to cover the bg + WP-default components that populate the popup.
-body.dy-admin.dialog-body {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) {
   background: var(--dya-bg) !important;
   color: var(--dya-ink) !important;
 }
@@ -983,23 +985,23 @@ body.dy-admin.dialog-body {
 // was overriding it → image lost. Solution: do NOT touch the background
 // here, only color + border. For the case where there is NO banner image
 // (.with-banner absent), set a paper bg as fallback.
-body.dy-admin.dialog-body #plugin-information-title {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #plugin-information-title {
   color: var(--dya-ink) !important;
   border-bottom: 1px solid var(--dya-line) !important;
 }
-body.dy-admin.dialog-body #plugin-information-title:not(.with-banner) {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #plugin-information-title:not(.with-banner) {
   background: var(--dya-paper) !important;
 }
-body.dy-admin.dialog-body #plugin-information-title.with-banner h2 {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #plugin-information-title.with-banner h2 {
   text-shadow: 0 1px 3px rgba(0,0,0,.6) !important;
   color: #fff !important;
 }
-body.dy-admin.dialog-body #plugin-information-tabs {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #plugin-information-tabs {
   background: var(--dya-paper-2) !important;
   border-bottom: 1px solid var(--dya-line) !important;
   padding: 0 16px !important;
 }
-body.dy-admin.dialog-body #plugin-information-tabs a {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #plugin-information-tabs a {
   color: var(--dya-ink-soft) !important;
   background: transparent !important;
   border: 0 !important;
@@ -1010,70 +1012,70 @@ body.dy-admin.dialog-body #plugin-information-tabs a {
   font-size: 12.5px !important;
   font-weight: 500 !important;
 }
-body.dy-admin.dialog-body #plugin-information-tabs a.current {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #plugin-information-tabs a.current {
   color: var(--dya-ink) !important;
   border-bottom-color: var(--dya-accent) !important;
 }
-body.dy-admin.dialog-body #plugin-information-content {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #plugin-information-content {
   background: var(--dya-bg) !important;
   color: var(--dya-ink) !important;
 }
-body.dy-admin.dialog-body #section-holder {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #section-holder {
   background: transparent !important;
   color: var(--dya-ink) !important;
 }
-body.dy-admin.dialog-body #section-holder h2,
-body.dy-admin.dialog-body #section-holder h3,
-body.dy-admin.dialog-body #section-holder h4 {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #section-holder h2,
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #section-holder h3,
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #section-holder h4 {
   color: var(--dya-ink) !important;
 }
-body.dy-admin.dialog-body #section-holder p,
-body.dy-admin.dialog-body #section-holder li {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #section-holder p,
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #section-holder li {
   color: var(--dya-ink-soft) !important;
 }
-body.dy-admin.dialog-body #section-holder code {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #section-holder code {
   background: var(--dya-paper-2) !important;
   color: var(--dya-ink) !important;
   border: 1px solid var(--dya-edge) !important;
 }
-body.dy-admin.dialog-body .fyi {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) .fyi {
   background: var(--dya-paper) !important;
   border: 1px solid var(--dya-edge) !important;
   border-radius: var(--dya-r-md) !important;
   color: var(--dya-ink-soft) !important;
 }
-body.dy-admin.dialog-body .fyi h3 {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) .fyi h3 {
   color: var(--dya-ink) !important;
   border-bottom: 1px solid var(--dya-line) !important;
   padding-bottom: 8px !important;
 }
-body.dy-admin.dialog-body .fyi ul li,
-body.dy-admin.dialog-body .fyi p {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) .fyi ul li,
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) .fyi p {
   color: var(--dya-ink-soft) !important;
 }
-body.dy-admin.dialog-body .fyi strong {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) .fyi strong {
   color: var(--dya-ink) !important;
 }
-body.dy-admin.dialog-body .fyi a {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) .fyi a {
   color: var(--dya-accent-text) !important;
 }
 // Popup footer with the "Install now" CTA
-body.dy-admin.dialog-body #plugin-information-footer {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #plugin-information-footer {
   background: var(--dya-paper-2) !important;
   border-top: 1px solid var(--dya-line) !important;
 }
-body.dy-admin.dialog-body #plugin-information-footer .button-primary,
-body.dy-admin.dialog-body #plugin-information-footer .install-now {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #plugin-information-footer .button-primary,
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #plugin-information-footer .install-now {
   background: var(--dya-accent) !important;
   color: var(--dya-accent-on, var(--dya-ink)) !important;
   border-color: var(--dya-accent) !important;
 }
 // Rating stars in the sidebar
-body.dy-admin.dialog-body .counter-container .counter-back,
-body.dy-admin.dialog-body .counter-container .counter-bar {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) .counter-container .counter-back,
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) .counter-container .counter-bar {
   background: var(--dya-paper-2) !important;
 }
-body.dy-admin.dialog-body .counter-container .counter-bar {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) .counter-container .counter-bar {
   background: var(--dya-accent) !important;
 }
 

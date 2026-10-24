@@ -172,6 +172,9 @@ final class RestController {
 			'line_labels'       => ColumnModel::line_labels(),
 			'hidden'            => [ 'chips' => $hidden_chips, 'subitems' => $hidden_subs ],
 			'detected'          => $detected,
+			// The rail separator: where it sits now, and whether the editor chose it.
+			'divider_before'    => ColumnModel::divider_before( $columns ) ?? 'end',
+			'divider_override'  => NavigationOverrides::divider_before(),
 			'disabled_screens'  => ScreenDisabler::get_disabled(),
 			'overrides'         => $overrides,
 			'available_lines'   => PluginMap::line_order(),

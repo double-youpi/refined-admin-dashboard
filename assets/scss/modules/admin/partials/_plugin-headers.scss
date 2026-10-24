@@ -1,0 +1,56 @@
+// ── Plugin headers pinned to WordPress's own geometry (24/10/2026) ───────
+//
+// Some plugins pin their page header with `position: fixed` at the place
+// WordPress's admin bar and menu leave free (top 32px, left 160px). Under the
+// redesign the bar is taller and the rail wider: the header landed on top
+// of our bars and next to the rail. Put back in the page flow, it sits
+// under our bars and scrolls with the page, as every other screen header.
+
+// SEOPress (`seopress-promotions.css`).
+body.dy-admin.seopress-styles #seopress-header-wrapper {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  z-index: 1;
+}
+// The room SEOPress keeps under its fixed header is no longer needed.
+body.dy-admin.seopress-styles #seopress-header-wrapper ~ .seopress-option {
+  padding-top: 24px !important;
+}
+
+// FluentCart (its admin app's top menu).
+body.dy-admin .fct_admin_menu_wrap {
+  position: relative !important;
+  top: auto !important;
+  inset-inline-end: auto !important;
+  width: auto !important;
+  z-index: 1 !important;
+}
+// The room FluentCart keeps under its fixed menu is no longer needed.
+body.dy-admin #fluent_cart_plugin_app.fconnector_app {
+  padding-top: 20px !important;
+}
+
+// HappyFiles, when it owns the media library (MediaManagerConflict): its
+// folder column is fixed and the list is pushed by a width computed for
+// WordPress's 160px menu, so the list slid under the column next to our rail
+// (Add Media out of reach, user report of 23/10/2026). Back in the flex flow,
+// sticky, the column keeps the width the user gave it and the list takes the
+// rest.
+body.dy-admin #hf-wrapper > #hf-sidebar-wrapper {
+  position: sticky !important;
+  top: 0;
+  height: auto !important;
+  max-height: 100vh;
+  flex: 0 0 auto;
+  align-self: flex-start;
+  overflow: auto;
+  margin-right: 0 !important;
+}
+body.dy-admin #hf-wrapper > #hf-sidebar-wrapper + .wrap {
+  flex: 1 1 auto !important;
+  width: auto !important;
+  min-width: 0;
+  margin-left: 0 !important;
+}

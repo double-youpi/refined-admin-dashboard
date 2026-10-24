@@ -236,6 +236,8 @@ JS;
 		// redesign, and so the centre, applies.
 		( new ReviewAsk() )->boot();
 		( new MimeIcons() )->boot();
+		// Small compatibility gestures for named plugins (MailPoet, FluentCart).
+		( new PluginCompat() )->boot();
 		// Capability markers (dy-core-tooltips, dy-core-icons, dy-core-wpds…):
 		// what this WordPress can do, detected by function/handle, not version.
 		( new CoreCapabilities() )->boot();

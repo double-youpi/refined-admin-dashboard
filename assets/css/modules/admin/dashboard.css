@@ -1015,15 +1015,19 @@ body.dy-admin.index-php .dy-dashboard__native-item-body {
   color: var(--dya-ink-soft);
   line-height: var(--dya-lh-base);
 }
-body.dy-admin.index-php .dy-dashboard__native-item-body img, body.dy-admin.index-php .dy-dashboard__native-item-body svg, body.dy-admin.index-php .dy-dashboard__native-item-body canvas, body.dy-admin.index-php .dy-dashboard__native-item-body video, body.dy-admin.index-php .dy-dashboard__native-item-body iframe {
+body.dy-admin.index-php .dy-dashboard__native-item-body img:not(.avatar), body.dy-admin.index-php .dy-dashboard__native-item-body svg, body.dy-admin.index-php .dy-dashboard__native-item-body canvas, body.dy-admin.index-php .dy-dashboard__native-item-body video, body.dy-admin.index-php .dy-dashboard__native-item-body iframe {
   max-width: 100% !important;
   height: auto;
 }
-body.dy-admin.index-php .dy-dashboard__native-item-body img {
+body.dy-admin.index-php .dy-dashboard__native-item-body img:not(.avatar) {
   border-radius: var(--dya-r-md);
   max-height: 150px;
   width: auto;
   object-fit: contain;
+}
+body.dy-admin.index-php .dy-dashboard__native-item-body img.avatar {
+  max-width: none;
+  object-fit: cover;
 }
 body.dy-admin.index-php .dy-dashboard__native-item-body input[type=text], body.dy-admin.index-php .dy-dashboard__native-item-body input[type=search], body.dy-admin.index-php .dy-dashboard__native-item-body input[type=url],
 body.dy-admin.index-php .dy-dashboard__native-item-body input[type=email], body.dy-admin.index-php .dy-dashboard__native-item-body input[type=number], body.dy-admin.index-php .dy-dashboard__native-item-body input[type=password],

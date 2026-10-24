@@ -509,6 +509,7 @@ final class TablesReimagined {
 				'noMatch'           => __( 'No plugin matches your search.', 'doubleyoupi-refined-admin-dashboard' ),
 				'activeGroup'       => _x( 'Active', 'plugins list group', 'doubleyoupi-refined-admin-dashboard' ),
 				'inactiveGroup'     => _x( 'Inactive', 'plugins list group', 'doubleyoupi-refined-admin-dashboard' ),
+				'inactiveOne'       => _x( 'Inactive', 'one plugin', 'doubleyoupi-refined-admin-dashboard' ),
 			],
 		];
 	}

@@ -67,6 +67,10 @@ JS;
 		// and driven by CSS variables, which _wpgraphql.scss maps onto our
 		// tokens (headless test of 21/10/2026).
 		'graphql-ide',
+		// FluentCart: its own dark mode follows ours (PluginCompat). Learned
+		// as "light" while it still followed the system, it must not be
+		// forced onto the light canvas any more (24/10/2026).
+		'fluent-cart',
 	];
 
 	/**
@@ -178,7 +182,20 @@ JS;
 	 */
 	public static function learned_pages(): array {
 		$pages = get_option( self::OPTION_LEARNED, [] );
-		return is_array( $pages ) ? array_values( array_filter( array_map( 'strval', $pages ) ) ) : [];
+		$pages = is_array( $pages ) ? array_values( array_filter( array_map( 'strval', $pages ) ) ) : [];
+		// A skinned app learned before it was skinned stays ignored.
+		return array_values( array_filter( $pages, static fn( string $p ): bool => ! self::is_skinned_app( $p ) ) );
+	}
+
+	/** Whether a `page` value belongs to an app screen we skin on purpose. */
+	public static function is_skinned_app( string $page ): bool {
+		$prefixes = (array) apply_filters( 'doubleyoupi_native_app_skinned_prefixes', self::SKINNED_APP_PREFIXES );
+		foreach ( $prefixes as $prefix ) {
+			if ( '' !== (string) $prefix && str_starts_with( strtolower( $page ), strtolower( (string) $prefix ) ) ) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public function register_rest_routes(): void {
@@ -204,7 +221,7 @@ JS;
 	public function learn_page( \WP_REST_Request $request ): \WP_REST_Response {
 		$page  = (string) $request->get_param( 'page' );
 		$pages = self::learned_pages();
-		if ( ! str_starts_with( $page, 'doubleyoupi' ) && ! in_array( $page, $pages, true ) ) {
+		if ( ! str_starts_with( $page, 'doubleyoupi' ) && ! self::is_skinned_app( $page ) && ! in_array( $page, $pages, true ) ) {
 			$pages[] = $page;
 			update_option( self::OPTION_LEARNED, array_slice( $pages, -100 ), true );
 		}

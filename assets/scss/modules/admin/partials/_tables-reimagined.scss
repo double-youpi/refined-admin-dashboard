@@ -1083,7 +1083,9 @@ body.dy-admin .dy-treimg--plugins {
   &.dy-treimg--plugins-noauto .dy-treimg__list { --dya-grid: 26px 26px minmax(220px, 1fr) minmax(0, 1.7fr) 0 26px; }
   &.dy-treimg--plugins-noauto .dy-treimg__col--auto-updates,
   &.dy-treimg--plugins-noauto .dy-trow__auto { display: none; }
-  .dy-treimg__col--auto-updates { text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  // Whole rather than cut (« MISES À JOUR AUTO » does not fit 76px): on one
+  // line, right-aligned, spilling over the empty end of the Description header.
+  .dy-treimg__col--auto-updates { text-align: right; white-space: nowrap; overflow: visible; text-overflow: clip; direction: rtl; }
 
   // Rows hidden by the instant search (the grid display would beat [hidden]).
   .dy-trow[hidden], .dy-tgroup[hidden] { display: none; }
@@ -1126,6 +1128,12 @@ body.dy-admin .dy-treimg--plugins {
   .dy-trow--plugin.is-updated .dy-tupd { color: var(--dya-success); }
   .dy-trow--plugin.is-update-error .dy-tupd { color: var(--dya-danger); }
   .dy-trow--plugin.is-inactive .dy-trow__title-text { color: var(--dya-ink-soft); }
+  .dy-trow--plugin.is-inactive .dy-trow__desc { opacity: .62; }
+  .dy-tinactive {
+    display: inline-flex; align-items: center; height: 20px; padding: 0 7px;
+    border: 1px dashed var(--dya-ink-fade); border-radius: var(--dya-r-sm);
+    font-size: 11px; color: var(--dya-ink-mute); white-space: nowrap; line-height: 1;
+  }
   .dy-trow--plugin.is-blocked .dy-trow__title-text { color: var(--dya-ink-mute); }
   .dy-trow--plugin:hover .dy-trow__title-text { color: var(--dya-accent-text); }
   .dy-tver {

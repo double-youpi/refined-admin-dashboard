@@ -330,7 +330,9 @@ class Settings extends AbstractModule {
 			'hide'               => __( 'Hide', 'doubleyoupi-refined-admin-dashboard' ),
 			// Drawers.
 			'detected'           => __( 'Plugin pages', 'doubleyoupi-refined-admin-dashboard' ),
-			'detectedHelp'       => __( 'These pages aren’t sorted yet. Assign them to a group or hide them.', 'doubleyoupi-refined-admin-dashboard' ),
+			'detectedHelp'       => __( 'Pages of plugins Double Youpï does not recognize yet. Assign each one to a group in one click. Plugins it recognizes are already in a group: drag them on the board.', 'doubleyoupi-refined-admin-dashboard' ),
+			'railDivider'        => __( 'Bottom of the rail', 'doubleyoupi-refined-admin-dashboard' ),
+			'railDividerHelp'    => __( 'Groups after this line sit at the bottom of the rail. Drag it, or use the arrow keys.', 'doubleyoupi-refined-admin-dashboard' ),
 			'noDetected'         => __( 'No unsorted plugin pages.', 'doubleyoupi-refined-admin-dashboard' ),
 			'assign'             => __( 'Assign', 'doubleyoupi-refined-admin-dashboard' ),
 			'hidden'             => __( 'Hidden', 'doubleyoupi-refined-admin-dashboard' ),

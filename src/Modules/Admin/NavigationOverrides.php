@@ -79,7 +79,16 @@ final class NavigationOverrides {
 			// one chip to another (a case that promoted/demoted do not handle:
 			// the item is not top-level in $menu).
 			'subitem_reparent' => [],
+			// Where the rail's separator sits (24/10/2026): the id of the
+			// first column below it, 'end' for no bottom zone, '' for the
+			// automatic rule (before the first tool column).
+			'divider_before'   => '',
 		];
+	}
+
+	/** The rail separator chosen in the editor: a column id, 'end', or '' (automatic). */
+	public static function divider_before(): string {
+		return (string) ( self::get()['divider_before'] ?? '' );
 	}
 
 	/**
@@ -458,6 +467,11 @@ final class NavigationOverrides {
 					$seen[ $cid ]          = true;
 				}
 			}
+		}
+
+		if ( isset( $payload['divider_before'] ) && is_string( $payload['divider_before'] ) ) {
+			$div                   = trim( $payload['divider_before'] );
+			$out['divider_before'] = 'end' === $div ? 'end' : self::sanitize_slug( $div );
 		}
 
 		// line_order: valid lines only, deduplicated.

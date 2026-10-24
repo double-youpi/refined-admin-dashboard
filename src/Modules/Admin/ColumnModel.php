@@ -957,6 +957,35 @@ final class ColumnModel {
 	/**
 	 * @return array<string,string>
 	 */
+	/**
+	 * Where the rail's separator goes: the id of the first column of the
+	 * bottom zone, or null for none. The editor's choice wins when its column
+	 * still exists; otherwise the automatic rule: before the first tool
+	 * column (a builder or theme, a custom group, or Developer), so content,
+	 * commerce, users… stay at the top and tools anchor at the bottom.
+	 *
+	 * @param array<int,array<string,mixed>> $columns
+	 */
+	public static function divider_before( array $columns ): ?string {
+		$chosen = NavigationOverrides::divider_before();
+		if ( 'end' === $chosen ) {
+			return null;
+		}
+		if ( '' !== $chosen ) {
+			foreach ( $columns as $col ) {
+				if ( (string) $col['id'] === $chosen ) {
+					return $chosen;
+				}
+			}
+		}
+		foreach ( $columns as $col ) {
+			if ( 'standalone' === $col['kind'] || 'custom' === $col['kind'] || 'developer' === $col['id'] ) {
+				return (string) $col['id'];
+			}
+		}
+		return null;
+	}
+
 	public static function line_labels(): array {
 		return [
 			'content'   => __( 'Content',   'doubleyoupi-refined-admin-dashboard' ),

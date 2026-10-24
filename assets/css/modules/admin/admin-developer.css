@@ -34,6 +34,55 @@
    on la remplace par .dy-dev-sbar, toujours visible). */
 .dy-dev-board::-webkit-scrollbar { height: 0; width: 0; display: none; }
 
+/* ── Séparateur du rail (24/10/2026) : trait vertical entre deux colonnes,
+   déplaçable. Les groupes à sa droite vont en bas du rail. ──────────── */
+.dy-dev-divider {
+	flex: 0 0 auto;
+	align-self: stretch;
+	position: relative;
+	width: 22px;
+	min-height: 120px;
+	margin: 0 -4px;
+	cursor: ew-resize;
+	touch-action: none;
+	border-radius: 8px;
+	outline-offset: 2px;
+}
+.dy-dev-divider::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 50%;
+	width: 2px;
+	transform: translateX(-50%);
+	border-radius: 2px;
+	background: repeating-linear-gradient(to bottom, var(--dya-accent, #5b3efe) 0 6px, transparent 6px 11px);
+}
+.dy-dev-divider:hover::before,
+.dy-dev-divider:focus-visible::before,
+.dy-dev-dragging .dy-dev-divider::before { background: var(--dya-accent, #5b3efe); }
+.dy-dev-divider__label {
+	position: absolute;
+	top: 8px;
+	left: 50%;
+	transform: translateX(-50%) rotate(180deg);
+	writing-mode: vertical-rl;
+	padding: 8px 3px;
+	border-radius: 6px;
+	background: var(--dya-paper, #161a23);
+	color: var(--dya-accent-text, var(--dya-accent, #5b3efe));
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: .02em;
+	white-space: nowrap;
+}
+@media (max-width: 782px) {
+	.dy-dev-divider { width: 100%; min-height: 0; height: 22px; margin: -4px 0; cursor: ns-resize; }
+	.dy-dev-divider::before { top: 50%; bottom: auto; left: 0; right: 0; width: auto; height: 2px; transform: translateY(-50%); background: repeating-linear-gradient(to right, var(--dya-accent, #5b3efe) 0 6px, transparent 6px 11px); }
+	.dy-dev-divider__label { top: 50%; left: 12px; transform: translateY(-50%); writing-mode: horizontal-tb; }
+}
+
 /* ── Scrollbars custom (toujours visibles, espacées, track discret) ──── */
 .dy-dev-sbar {
 	position: relative;

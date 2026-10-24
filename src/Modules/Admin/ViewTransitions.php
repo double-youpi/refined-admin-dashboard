@@ -52,6 +52,55 @@ final class ViewTransitions {
 		wp_add_inline_style( 'doubleyoupi-admin-view-transitions', '@view-transition{navigation:auto}' );
 		wp_print_styles( 'doubleyoupi-admin-view-transitions' );
 		wp_print_inline_script_tag( $this->prepaint_script(), [ 'id' => 'doubleyoupi-admin-vt-prepaint' ] );
+		$this->print_prefetch_rules();
+	}
+
+	/**
+	 * Prefetch on hover (23/10/2026): the browser fetches an admin screen as
+	 * soon as the pointer rests on a navigation link (`moderate` eagerness),
+	 * so the page is often there before the click. Speculation rules:
+	 * browsers that do not know them ignore the block.
+	 *
+	 * Prefetch only, never prerender (a prerendered admin page would run its
+	 * scripts), and only the navigation links of the redesign. A prefetch is
+	 * a real GET request: every link that could DO something is left out
+	 * (actions, nonces, post-new.php which creates an auto-draft, logout,
+	 * downloads, new tabs), and update-core.php, whose visit asks
+	 * WordPress.org for updates as often as once a minute. Filter `doubleyoupi_filter_admin_prefetch` to
+	 * turn it off.
+	 */
+	private function print_prefetch_rules(): void {
+		/**
+		 * Filter: doubleyoupi_filter_admin_prefetch
+		 *
+		 * @param bool $enabled Whether admin navigation links are prefetched on hover.
+		 */
+		if ( ! apply_filters( 'doubleyoupi_filter_admin_prefetch', true ) ) {
+			return;
+		}
+		$admin_path = (string) wp_parse_url( admin_url(), PHP_URL_PATH );
+		$rules      = [
+			'prefetch' => [
+				[
+					'source'    => 'document',
+					'where'     => [
+						'and' => [
+							[ 'href_matches' => rtrim( $admin_path, '/' ) . '/*' ],
+							[ 'selector_matches' => '#adminmenu a, .dy-rail-fly__item, .dy-chip, .dy-subchip, .subsubsub a, .nav-tab, .tablenav-pages a, .row-title' ],
+							[ 'not' => [ 'selector_matches' => '[href*="action="], [href*="nonce"], [href*="post-new.php"], [href*="media-new.php"], [href*="admin-post.php"], [href*="admin-ajax.php"], [href*="wp-login.php"], [href*="customize.php"], [href*="update-core.php"], [download], [target="_blank"]' ] ],
+						],
+					],
+					'eagerness' => 'moderate',
+				],
+			],
+		];
+		wp_print_inline_script_tag(
+			(string) wp_json_encode( $rules, JSON_UNESCAPED_SLASHES ),
+			[
+				'type' => 'speculationrules',
+				'id'   => 'doubleyoupi-admin-prefetch',
+			]
+		);
 	}
 
 	/**
@@ -95,11 +144,16 @@ final class ViewTransitions {
 		//   - the H1 arrives with its covering eraser (invisible title)
 		//   - the bar arrives at the left
 		//   - the content arrives pre-blurred
-		// Then the `dy-cursor-wipe-in` animation (CSS, 300ms) plays on
-		// its own to reveal the title + content. After 300+50ms we switch
-		// to "reveal" (150ms transition so the bar fades back to opacity 0.5),
+		// Then the `dy-cursor-wipe-in` animation (CSS, 200ms) plays on
+		// its own to reveal the title + content. After 200+10ms we switch
+		// to "reveal" (100ms transition so the bar fades back to opacity 0.5),
 		// then clean up the attribute so the blinking resumes naturally.
 		var cursorArrivalRaw = sessionStorage.getItem('dy-cursor-arrival');
+		var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		if (cursorArrivalRaw && reduceMotion) {
+			sessionStorage.removeItem('dy-cursor-arrival');
+			cursorArrivalRaw = null;
+		}
 		if (cursorArrivalRaw) {
 			var cursorArrival = JSON.parse(cursorArrivalRaw);
 			if (cursorArrival && (Date.now() - cursorArrival.t) < 2000) {
@@ -111,8 +165,8 @@ final class ViewTransitions {
 					document.documentElement.dataset.dyCursor = 'reveal';
 					setTimeout(function () {
 						delete document.documentElement.dataset.dyCursor;
-					}, 150);
-				}, 320);
+					}, 100);
+				}, 210);
 			}
 			sessionStorage.removeItem('dy-cursor-arrival');
 		}

@@ -1057,17 +1057,16 @@
   // bar, see _view-transitions.scss). When the user clicks an admin nav
   // link, we orchestrate a wipe:
   //
-  //   Phase 1 (150ms) lock     — the bar stops blinking (opacity 1)
-  //   Phase 2 (300ms) wipe-out — the bar slides to the left of the title,
+  //   Phase 2 (180ms) wipe-out: while the next page loads, the bar slides to the left of the title,
   //                              erasing it via a ::before eraser element;
   //                              the page content fades+blurs out in
   //                              parallel
   //   Phase 3 (cross-doc)      — navigation (the cross-doc VT plays for
   //                              the rail/chipbar chrome)
-  //   Phase 4 (300ms) wipe-in  — arrival handoff: the bar starts at the
+  //   Phase 4 (200ms) wipe-in : arrival handoff: the bar starts at the
   //                              left of the new title and slides right,
   //                              revealing it; the content fades+blurs in
-  //   Phase 5 (150ms) reveal   — the bar resumes blinking at 0.5 opacity
+  //   Phase 5 (100ms) reveal  : the bar resumes blinking at 0.5 opacity
   var wipeInflight = false;
 
   function wait(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
@@ -1085,32 +1084,28 @@
     return a.matches('.dy-chip, .dy-subchip, #adminmenu .menu-top a, .subsubsub a, .nav-tab, .tablenav-pages a, .row-title');
   }
 
-  async function runWipeNav(href, dir) {
+  // The navigation starts on the click: the wipe-out plays while the next
+  // page loads, never before (23/10/2026: waiting 450ms for it made every
+  // screen change feel slow).
+  function runWipeNav(href, dir) {
     if (wipeInflight) return;
     wipeInflight = true;
 
-    var html = document.documentElement;
-
-    // Phase 1: lock (150ms) — the bar stops blinking at opacity 1.
-    html.dataset.dyCursor = 'lock';
-    await wait(150);
-
-    // Phase 2: wipe-out (300ms) — the bar slides left, the eraser covers
-    // the title, content fades+blurs out.
-    html.dataset.dyCursor = 'wipe-out';
-    await wait(300);
-
-    // Phase 3: handoff + navigation. The cross-doc VT plays for the chrome.
     sessionStorage.setItem('dy-cursor-arrival', JSON.stringify({ t: Date.now() }));
     vtWriteDir(dir);
+    document.documentElement.dataset.dyCursor = 'wipe-out';
     window.location.href = href;
   }
+
+  var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
 
   // Hooked on the same capture phase as the direction sniffer. Registration
   // order = execution order → the sniffer writes dy-nav-dir first, then
   // this handler decides whether to intercept.
   document.addEventListener('click', function (e) {
     if (e.defaultPrevented) return;
+    // Reduced motion: no wipe at all, the browser navigates as usual.
+    if (reducedMotion && reducedMotion.matches) return;
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     if (e.button !== undefined && e.button !== 0) return;
 

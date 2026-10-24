@@ -2430,6 +2430,8 @@
     var name = el('<div class="dy-trow__plugin"></div>');
     name.appendChild(el('<span class="dy-trow__title-text">' + escHtml(r.title) + '</span>'));
     var sub = el('<span class="dy-trow__plugin-sub"></span>');
+    // Inactive, said in words too: the ring alone was too quiet (translator, 24/10/2026).
+    if (!r.active && !r.blocked) sub.appendChild(el('<span class="dy-tinactive">' + escHtml(L.inactiveOne || 'Inactive') + '</span>'));
     if (r.upLink) {
       var upd = el('<span class="dy-tupd">' + escHtml(L.updateAvailable || 'Update available') + '</span>');
       sub.appendChild(upd);

@@ -981,15 +981,22 @@ body.dy-admin.index-php {
 		line-height: var(--dya-lh-base);
 
 		// Media (WC/Yoast/Elementor promo illustrations, screenshots): constrained.
-		img, svg, canvas, video, iframe {
+		// Avatars keep the size WordPress gives them: freed by `width: auto`,
+		// a default avatar served at a larger natural size covered the
+		// "Recent comments" list (24/10/2026, translator's report).
+		img:not(.avatar), svg, canvas, video, iframe {
 			max-width: 100% !important;
 			height: auto;
 		}
-		img {
+		img:not(.avatar) {
 			border-radius: var(--dya-r-md);
 			max-height: 150px;
 			width: auto;
 			object-fit: contain;
+		}
+		img.avatar {
+			max-width: none;
+			object-fit: cover;
 		}
 
 		// Input fields (Quick Draft, plugin searches…): themed dark —

@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, dark theme
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.14
+Stable tag: 1.0.16
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -169,6 +169,25 @@ Privacy policy: https://doubleyoupi.com/privacy
 
 == Changelog ==
 
+= 1.0.16 =
+* Fix: in Reorganize, "Assign" under Plugin pages now saves: the plugin moves to the group you chose.
+* New: the line that splits the rail shows in Reorganize as "Bottom of the rail". Drag it, or move it with the arrow keys, to choose what sits at the bottom. A new group is created above it.
+* Fix: dragging in Reorganize scrolls the board and the page when you reach their edge, so a group off screen can be reached.
+* Fix: a plugin's "View details" window is readable again in dark mode.
+* Fix: avatars in "Recent comments" keep their size on the dashboard's WordPress screen.
+* Fix: MailPoet screens keep the redesigned admin.
+* Fix: Ninja Forms opens its dashboard instead of "Cannot load nf-welcome". More broadly, the rail no longer links to a page that a plugin removes after building its menu.
+* Fix: FluentCart follows your dark or light theme. Its header, and SEOPress's, now sit under the bars instead of over them.
+* Fix: with HappyFiles in charge of the media library, its folder column no longer covers the list, and Add Media File is reachable again.
+* Fix: the Plugins screen says "Inactive" next to inactive plugins, and its auto-updates header is no longer cut.
+* Fix: the rail's section dot no longer grows into a large disc on some plugin pages (Events Manager bookings).
+* Thanks to the translator and to the users who sent these reports.
+
+= 1.0.15 =
+* Faster: moving between admin screens no longer waits for the page transition. The next screen is requested on the click, and the transitions are shorter.
+* Faster: admin screens linked from the navigation are fetched as soon as you hover the link, in browsers that support it. Links that do something (delete, create, log out) are never fetched in advance.
+* Fix: with "reduce motion" turned on in your system, admin screens change without any animation.
+
 = 1.0.14 =
 * New for developers (beta): add your plugin's own cards to the dashboard with the doubleyoupi_dashboard_widgets_registered action. They get their own section in the palette, "From your plugins". A card can add to the palette, never replace one of ours.
 
@@ -280,6 +299,12 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.16 =
+Reorganize saves plugin assignments and lets you place the rail's bottom line; fixes for MailPoet, Ninja Forms, FluentCart, SEOPress, HappyFiles and plugin details in dark mode.
+
+= 1.0.15 =
+Faster navigation between admin screens.
 
 = 1.0.14 =
 Plugins can now add their own cards to the dashboard (developer API, beta).

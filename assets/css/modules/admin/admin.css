@@ -1836,6 +1836,7 @@ body.dy-admin #adminmenu li.menu-top > a::after {
   width: 5px;
   height: 5px;
   border-radius: 50%;
+  border: 0 !important;
   background: var(--dya-line-color, var(--dya-line-content));
   opacity: 0.55;
   transition: top var(--dya-rail-snap-dur) var(--dya-rail-snap-easing);
@@ -7436,10 +7437,11 @@ body.dy-admin .dy-treimg--plugins.dy-treimg--plugins-noauto .dy-treimg__col--aut
   display: none;
 }
 body.dy-admin .dy-treimg--plugins .dy-treimg__col--auto-updates {
-  text-align: center;
+  text-align: right;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow: visible;
+  text-overflow: clip;
+  direction: rtl;
 }
 body.dy-admin .dy-treimg--plugins .dy-trow[hidden], body.dy-admin .dy-treimg--plugins .dy-tgroup[hidden] {
   display: none;
@@ -7534,6 +7536,21 @@ body.dy-admin .dy-treimg--plugins .dy-trow--plugin.is-update-error .dy-tupd {
 }
 body.dy-admin .dy-treimg--plugins .dy-trow--plugin.is-inactive .dy-trow__title-text {
   color: var(--dya-ink-soft);
+}
+body.dy-admin .dy-treimg--plugins .dy-trow--plugin.is-inactive .dy-trow__desc {
+  opacity: 0.62;
+}
+body.dy-admin .dy-treimg--plugins .dy-tinactive {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 7px;
+  border: 1px dashed var(--dya-ink-fade);
+  border-radius: var(--dya-r-sm);
+  font-size: 11px;
+  color: var(--dya-ink-mute);
+  white-space: nowrap;
+  line-height: 1;
 }
 body.dy-admin .dy-treimg--plugins .dy-trow--plugin.is-blocked .dy-trow__title-text {
   color: var(--dya-ink-mute);
@@ -12339,15 +12356,19 @@ body.dy-admin.index-php .dy-dashboard__native-item-body {
   color: var(--dya-ink-soft);
   line-height: var(--dya-lh-base);
 }
-body.dy-admin.index-php .dy-dashboard__native-item-body img, body.dy-admin.index-php .dy-dashboard__native-item-body svg, body.dy-admin.index-php .dy-dashboard__native-item-body canvas, body.dy-admin.index-php .dy-dashboard__native-item-body video, body.dy-admin.index-php .dy-dashboard__native-item-body iframe {
+body.dy-admin.index-php .dy-dashboard__native-item-body img:not(.avatar), body.dy-admin.index-php .dy-dashboard__native-item-body svg, body.dy-admin.index-php .dy-dashboard__native-item-body canvas, body.dy-admin.index-php .dy-dashboard__native-item-body video, body.dy-admin.index-php .dy-dashboard__native-item-body iframe {
   max-width: 100% !important;
   height: auto;
 }
-body.dy-admin.index-php .dy-dashboard__native-item-body img {
+body.dy-admin.index-php .dy-dashboard__native-item-body img:not(.avatar) {
   border-radius: var(--dya-r-md);
   max-height: 150px;
   width: auto;
   object-fit: contain;
+}
+body.dy-admin.index-php .dy-dashboard__native-item-body img.avatar {
+  max-width: none;
+  object-fit: cover;
 }
 body.dy-admin.index-php .dy-dashboard__native-item-body input[type=text], body.dy-admin.index-php .dy-dashboard__native-item-body input[type=search], body.dy-admin.index-php .dy-dashboard__native-item-body input[type=url],
 body.dy-admin.index-php .dy-dashboard__native-item-body input[type=email], body.dy-admin.index-php .dy-dashboard__native-item-body input[type=number], body.dy-admin.index-php .dy-dashboard__native-item-body input[type=password],
@@ -20109,16 +20130,16 @@ body.dy-admin::after {
 ::view-transition-group(dy-vt-chipbar),
 ::view-transition-group(dy-vt-subchipbar),
 ::view-transition-group(dy-vt-chip-track) {
-  animation-duration: 320ms;
+  animation-duration: 220ms;
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 ::view-transition-old(root) {
-  animation: dy-vt-fade-out 220ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: dy-vt-fade-out 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 ::view-transition-new(root) {
-  animation: dy-vt-fade-in 360ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: dy-vt-fade-in 220ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes dy-vt-fade-out {
@@ -20138,11 +20159,11 @@ body.dy-admin::after {
   }
 }
 html[data-nav-dir=forward] ::view-transition-old(root) {
-  animation: dy-vt-drill-out-up 240ms cubic-bezier(0.4, 0, 0.6, 1) forwards;
+  animation: dy-vt-drill-out-up 160ms cubic-bezier(0.4, 0, 0.6, 1) forwards;
 }
 
 html[data-nav-dir=forward] ::view-transition-new(root) {
-  animation: dy-vt-drill-in 380ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: dy-vt-drill-in 240ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes dy-vt-drill-out-up {
@@ -20166,11 +20187,11 @@ html[data-nav-dir=forward] ::view-transition-new(root) {
   }
 }
 html[data-nav-dir=backward] ::view-transition-old(root) {
-  animation: dy-vt-drill-out-down 240ms cubic-bezier(0.4, 0, 0.6, 1) forwards;
+  animation: dy-vt-drill-out-down 160ms cubic-bezier(0.4, 0, 0.6, 1) forwards;
 }
 
 html[data-nav-dir=backward] ::view-transition-new(root) {
-  animation: dy-vt-drill-out 380ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: dy-vt-drill-out 240ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes dy-vt-drill-out-down {
@@ -20194,11 +20215,11 @@ html[data-nav-dir=backward] ::view-transition-new(root) {
   }
 }
 html[data-nav-dir=sibling] ::view-transition-old(root) {
-  animation: dy-vt-sibling-out 200ms cubic-bezier(0.4, 0, 0.6, 1) forwards;
+  animation: dy-vt-sibling-out 140ms cubic-bezier(0.4, 0, 0.6, 1) forwards;
 }
 
 html[data-nav-dir=sibling] ::view-transition-new(root) {
-  animation: dy-vt-sibling-in 320ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: dy-vt-sibling-in 220ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes dy-vt-sibling-out {
@@ -20231,7 +20252,7 @@ body.dy-admin .wrap > h1 {
 }
 
 ::view-transition-group(dy-vt-page-title) {
-  animation-duration: 320ms;
+  animation-duration: 220ms;
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -20280,11 +20301,11 @@ html[data-dy-cursor=lock] body.dy-admin .wrap > h1::after {
 }
 
 html[data-dy-cursor=wipe-out] body.dy-admin .wrap > h1::before {
-  animation: dy-cursor-wipe-out 300ms cubic-bezier(0.4, 0, 0.6, 1) forwards;
+  animation: dy-cursor-wipe-out 180ms cubic-bezier(0.4, 0, 0.6, 1) forwards;
 }
 
 html[data-dy-cursor=wipe-out] body.dy-admin .wrap > h1::after {
-  animation: dy-cursor-slide-left 300ms cubic-bezier(0.4, 0, 0.6, 1) forwards;
+  animation: dy-cursor-slide-left 180ms cubic-bezier(0.4, 0, 0.6, 1) forwards;
   opacity: 1;
 }
 
@@ -20305,7 +20326,7 @@ html[data-dy-cursor=wipe-out] body.dy-admin .wrap > h1::after {
   }
 }
 html[data-dy-cursor=wipe-out] body.dy-admin .wrap > :not(h1):not(.dy-page-sub) {
-  transition: opacity 300ms ease, filter 300ms ease;
+  transition: opacity 180ms ease, filter 180ms ease;
   opacity: 0;
   filter: blur(12px);
   pointer-events: none;
@@ -20313,12 +20334,12 @@ html[data-dy-cursor=wipe-out] body.dy-admin .wrap > :not(h1):not(.dy-page-sub) {
 
 html[data-dy-cursor=wipe-in] body.dy-admin .wrap > h1::before {
   width: calc(100% - 1em - 4px);
-  animation: dy-cursor-wipe-in 300ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: dy-cursor-wipe-in 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 html[data-dy-cursor=wipe-in] body.dy-admin .wrap > h1::after {
   right: calc(100% - 3px);
-  animation: dy-cursor-slide-right 300ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: dy-cursor-slide-right 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
   opacity: 1;
 }
 
@@ -20341,7 +20362,7 @@ html[data-dy-cursor=wipe-in] body.dy-admin .wrap > h1::after {
 html[data-dy-cursor=wipe-in] body.dy-admin .wrap > :not(h1):not(.dy-page-sub) {
   opacity: 0;
   filter: blur(12px);
-  animation: dy-cursor-content-reveal 300ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: dy-cursor-content-reveal 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
   pointer-events: none;
 }
 
@@ -20352,7 +20373,7 @@ html[data-dy-cursor=wipe-in] body.dy-admin .wrap > :not(h1):not(.dy-page-sub) {
   }
 }
 html[data-dy-cursor=reveal] body.dy-admin .wrap > h1::after {
-  transition: opacity 150ms ease;
+  transition: opacity 100ms ease;
 }
 
 html[data-dy-cursor=wipe-in] ::view-transition-old(root),
@@ -23634,32 +23655,32 @@ body.dy-admin .popular-tags {
   padding: 16px !important;
 }
 
-body.dy-admin.dialog-body {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) {
   background: var(--dya-bg) !important;
   color: var(--dya-ink) !important;
 }
 
-body.dy-admin.dialog-body #plugin-information-title {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #plugin-information-title {
   color: var(--dya-ink) !important;
   border-bottom: 1px solid var(--dya-line) !important;
 }
 
-body.dy-admin.dialog-body #plugin-information-title:not(.with-banner) {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #plugin-information-title:not(.with-banner) {
   background: var(--dya-paper) !important;
 }
 
-body.dy-admin.dialog-body #plugin-information-title.with-banner h2 {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #plugin-information-title.with-banner h2 {
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6) !important;
   color: #fff !important;
 }
 
-body.dy-admin.dialog-body #plugin-information-tabs {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #plugin-information-tabs {
   background: var(--dya-paper-2) !important;
   border-bottom: 1px solid var(--dya-line) !important;
   padding: 0 16px !important;
 }
 
-body.dy-admin.dialog-body #plugin-information-tabs a {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #plugin-information-tabs a {
   color: var(--dya-ink-soft) !important;
   background: transparent !important;
   border: 0 !important;
@@ -23671,82 +23692,82 @@ body.dy-admin.dialog-body #plugin-information-tabs a {
   font-weight: 500 !important;
 }
 
-body.dy-admin.dialog-body #plugin-information-tabs a.current {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #plugin-information-tabs a.current {
   color: var(--dya-ink) !important;
   border-bottom-color: var(--dya-accent) !important;
 }
 
-body.dy-admin.dialog-body #plugin-information-content {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #plugin-information-content {
   background: var(--dya-bg) !important;
   color: var(--dya-ink) !important;
 }
 
-body.dy-admin.dialog-body #section-holder {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #section-holder {
   background: transparent !important;
   color: var(--dya-ink) !important;
 }
 
-body.dy-admin.dialog-body #section-holder h2,
-body.dy-admin.dialog-body #section-holder h3,
-body.dy-admin.dialog-body #section-holder h4 {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #section-holder h2,
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #section-holder h3,
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #section-holder h4 {
   color: var(--dya-ink) !important;
 }
 
-body.dy-admin.dialog-body #section-holder p,
-body.dy-admin.dialog-body #section-holder li {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #section-holder p,
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #section-holder li {
   color: var(--dya-ink-soft) !important;
 }
 
-body.dy-admin.dialog-body #section-holder code {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #section-holder code {
   background: var(--dya-paper-2) !important;
   color: var(--dya-ink) !important;
   border: 1px solid var(--dya-edge) !important;
 }
 
-body.dy-admin.dialog-body .fyi {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) .fyi {
   background: var(--dya-paper) !important;
   border: 1px solid var(--dya-edge) !important;
   border-radius: var(--dya-r-md) !important;
   color: var(--dya-ink-soft) !important;
 }
 
-body.dy-admin.dialog-body .fyi h3 {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) .fyi h3 {
   color: var(--dya-ink) !important;
   border-bottom: 1px solid var(--dya-line) !important;
   padding-bottom: 8px !important;
 }
 
-body.dy-admin.dialog-body .fyi ul li,
-body.dy-admin.dialog-body .fyi p {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) .fyi ul li,
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) .fyi p {
   color: var(--dya-ink-soft) !important;
 }
 
-body.dy-admin.dialog-body .fyi strong {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) .fyi strong {
   color: var(--dya-ink) !important;
 }
 
-body.dy-admin.dialog-body .fyi a {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) .fyi a {
   color: var(--dya-accent-text) !important;
 }
 
-body.dy-admin.dialog-body #plugin-information-footer {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #plugin-information-footer {
   background: var(--dya-paper-2) !important;
   border-top: 1px solid var(--dya-line) !important;
 }
 
-body.dy-admin.dialog-body #plugin-information-footer .button-primary,
-body.dy-admin.dialog-body #plugin-information-footer .install-now {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #plugin-information-footer .button-primary,
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) #plugin-information-footer .install-now {
   background: var(--dya-accent) !important;
   color: var(--dya-accent-on, var(--dya-ink)) !important;
   border-color: var(--dya-accent) !important;
 }
 
-body.dy-admin.dialog-body .counter-container .counter-back,
-body.dy-admin.dialog-body .counter-container .counter-bar {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) .counter-container .counter-back,
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) .counter-container .counter-bar {
   background: var(--dya-paper-2) !important;
 }
 
-body.dy-admin.dialog-body .counter-container .counter-bar {
+:is(body.dy-admin.dialog-body, body.dy-admin.iframe.plugin-install-php) .counter-container .counter-bar {
   background: var(--dya-accent) !important;
 }
 
@@ -29103,4 +29124,46 @@ body.dy-admin .media-frame:not(.mode-select) .delete-selected-button {
 
 body.dy-admin .media-toolbar .media-button.rank-math-bulk-generate-button {
   display: none !important;
+}
+
+body.dy-admin.seopress-styles #seopress-header-wrapper {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  z-index: 1;
+}
+
+body.dy-admin.seopress-styles #seopress-header-wrapper ~ .seopress-option {
+  padding-top: 24px !important;
+}
+
+body.dy-admin .fct_admin_menu_wrap {
+  position: relative !important;
+  top: auto !important;
+  inset-inline-end: auto !important;
+  width: auto !important;
+  z-index: 1 !important;
+}
+
+body.dy-admin #fluent_cart_plugin_app.fconnector_app {
+  padding-top: 20px !important;
+}
+
+body.dy-admin #hf-wrapper > #hf-sidebar-wrapper {
+  position: sticky !important;
+  top: 0;
+  height: auto !important;
+  max-height: 100vh;
+  flex: 0 0 auto;
+  align-self: flex-start;
+  overflow: auto;
+  margin-right: 0 !important;
+}
+
+body.dy-admin #hf-wrapper > #hf-sidebar-wrapper + .wrap {
+  flex: 1 1 auto !important;
+  width: auto !important;
+  min-width: 0;
+  margin-left: 0 !important;
 }

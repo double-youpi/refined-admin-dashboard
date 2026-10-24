@@ -3,7 +3,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-10-23T19:43:54+00:00\n"
+"POT-Creation-Date: 2026-10-24T01:49:52+00:00\n"
 "Language: hi_IN\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
@@ -182,7 +182,7 @@ msgstr "या यहाँ एक छवि पेस्ट करें (Ctrl/
 
 #: src/Admin/Feedback.php:379
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:370
-#: src/Modules/Admin/Settings.php:766
+#: src/Modules/Admin/Settings.php:768
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:165
 #: src/Modules/Toolkit/Features/LocalAvatars.php:374
 msgid "Remove"
@@ -216,7 +216,7 @@ msgstr "%s के साथ देखा गया"
 
 #: src/Admin/Feedback.php:404
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:399
-#: src/Modules/Admin/Settings.php:349
+#: src/Modules/Admin/Settings.php:351
 #: src/Modules/Admin/Tables/TablesReimagined.php:490
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:74
 #: src/Modules/MediaLibrary/Migration/MigrationI18n.php:32
@@ -452,7 +452,8 @@ msgstr "जल्द ही"
 
 #: src/Admin/OverviewPage.php:573
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:387
-#: src/Modules/Admin/Settings.php:999 src/Modules/MediaLibrary/Settings.php:482
+#: src/Modules/Admin/Settings.php:1001
+#: src/Modules/MediaLibrary/Settings.php:482
 #: src/Modules/MediaLibrary/Settings.php:509
 msgid "Saved"
 msgstr "सहेजा गया"
@@ -560,7 +561,7 @@ msgid "Found a bug or got an idea to make it better? Let me know."
 msgstr "कोई बग मिला या इसे बेहतर बनाने का सुझाव है? मुझे बताएँ।"
 
 #: src/Core/ModuleCatalog.php:37 src/Modules/Admin/Admin.php:128
-#: src/Modules/Admin/Settings.php:578
+#: src/Modules/Admin/Settings.php:580
 msgid "Refined Admin Dashboard"
 msgstr "Refined Admin Dashboard"
 
@@ -585,49 +586,49 @@ msgstr ""
 "फ़ोल्डर और संग्रह, ड्रैग एंड ड्रॉप, त्वरित पूर्वावलोकन, डुप्लिकेट और अनाथ फ़ाइलों की सफ़ाई, "
 "और अपलोड पर WebP/AVIF रूपांतरण।"
 
-#: src/Modules/Admin/Admin.php:129 src/Modules/Admin/Rail.php:502
+#: src/Modules/Admin/Admin.php:129 src/Modules/Admin/Rail.php:598
 msgid "Admin"
 msgstr "एडमिन"
 
-#: src/Modules/Admin/Admin.php:312
+#: src/Modules/Admin/Admin.php:314
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:479
-#: src/Modules/Admin/Settings.php:685
+#: src/Modules/Admin/Settings.php:687
 msgid "Accent color"
 msgstr "एक्सेंट रंग"
 
-#: src/Modules/Admin/Admin.php:313
+#: src/Modules/Admin/Admin.php:315
 msgid "The Double Youpï Admin module manages the administration palette."
 msgstr "Double Youpï का एडमिन मॉड्यूल प्रशासन की पैलेट को संभालता है।"
 
-#: src/Modules/Admin/Admin.php:314
+#: src/Modules/Admin/Admin.php:316
 msgid "Configure →"
 msgstr "कॉन्फ़िगर करें →"
 
-#: src/Modules/Admin/Admin.php:364
+#: src/Modules/Admin/Admin.php:366
 #: src/Modules/Admin/Tables/TablesReimagined.php:453
 msgid "Screen options"
 msgstr "स्क्रीन विकल्प"
 
-#: src/Modules/Admin/Admin.php:365
+#: src/Modules/Admin/Admin.php:367
 #: src/Modules/Admin/Tables/TablesReimagined.php:454
 msgid "Columns"
 msgstr "कॉलम"
 
-#: src/Modules/Admin/Admin.php:366
+#: src/Modules/Admin/Admin.php:368
 #: src/Modules/Admin/Tables/TablesReimagined.php:459
 msgid "Pagination"
 msgstr "पेजिनेशन"
 
-#: src/Modules/Admin/Admin.php:367
+#: src/Modules/Admin/Admin.php:369
 #: src/Modules/Admin/Tables/TablesReimagined.php:460
 msgid "Items per page"
 msgstr "प्रति पृष्ठ आइटम"
 
-#: src/Modules/Admin/Admin.php:526
+#: src/Modules/Admin/Admin.php:528
 msgid "Session"
 msgstr "सत्र"
 
-#: src/Modules/Admin/Admin.php:528
+#: src/Modules/Admin/Admin.php:530
 msgid "Invert theme"
 msgstr "थीम पलटें"
 
@@ -691,33 +692,33 @@ msgstr "साइट स्वास्थ्य"
 msgid "Updates"
 msgstr "अपडेट"
 
-#: src/Modules/Admin/ColumnModel.php:962
+#: src/Modules/Admin/ColumnModel.php:991
 msgid "Content"
 msgstr "कंटेंट"
 
-#: src/Modules/Admin/ColumnModel.php:963
+#: src/Modules/Admin/ColumnModel.php:992
 msgid "Commerce"
 msgstr "कॉमर्स"
 
-#: src/Modules/Admin/ColumnModel.php:964
+#: src/Modules/Admin/ColumnModel.php:993
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:63
 msgid "Users"
 msgstr "उपयोगकर्ता"
 
-#: src/Modules/Admin/ColumnModel.php:965
+#: src/Modules/Admin/ColumnModel.php:994
 msgid "Community"
 msgstr "समुदाय"
 
-#: src/Modules/Admin/ColumnModel.php:966
+#: src/Modules/Admin/ColumnModel.php:995
 #: src/Modules/MediaLibrary/Settings.php:362
 msgid "Appearance"
 msgstr "दिखावट"
 
-#: src/Modules/Admin/ColumnModel.php:967
+#: src/Modules/Admin/ColumnModel.php:996
 msgid "System"
 msgstr "सिस्टम"
 
-#: src/Modules/Admin/ColumnModel.php:968
+#: src/Modules/Admin/ColumnModel.php:997
 msgid "Developer"
 msgstr "डेवलपर"
 
@@ -832,7 +833,7 @@ msgid "Export JSON"
 msgstr "JSON निर्यात करें"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:382
-#: src/Modules/Admin/Settings.php:936
+#: src/Modules/Admin/Settings.php:938
 #: src/Modules/MediaLibrary/MediaLibrary.php:218
 #: src/Modules/MediaLibrary/Migration/MigrationI18n.php:25
 msgid "Import"
@@ -889,7 +890,7 @@ msgid "New disposition"
 msgstr "नया डिस्पोज़िशन"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:398
-#: src/Modules/Admin/Settings.php:354
+#: src/Modules/Admin/Settings.php:356
 #: src/Modules/Admin/Tables/TablesReimagined.php:491
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:167
 msgid "Save"
@@ -956,7 +957,7 @@ msgid "More actions"
 msgstr "अधिक क्रियाएँ"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:417
-#: src/Modules/Admin/Settings.php:730
+#: src/Modules/Admin/Settings.php:732
 #: src/Modules/Admin/Tables/TablesReimagined.php:472
 msgid "Apply"
 msgstr "लागू करें"
@@ -966,7 +967,7 @@ msgid "Update with current settings"
 msgstr "वर्तमान सेटिंग्स से अपडेट करें"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:419
-#: src/Modules/Admin/Settings.php:924
+#: src/Modules/Admin/Settings.php:926
 msgid "Export"
 msgstr "निर्यात"
 
@@ -1667,7 +1668,7 @@ msgid "%1$d / %2$d"
 msgstr "%1$d / %2$d"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/ModulesWidget.php:102
-#: src/Modules/Admin/Settings.php:857
+#: src/Modules/Admin/Settings.php:859
 msgid "Off"
 msgstr "बंद"
 
@@ -2193,7 +2194,19 @@ msgstr ""
 "छिपाएँ, उप-पृष्ठों को शीर्ष स्तर पर प्रमोट करें, और प्रति उप-पृष्ठ Double Youpï स्टाइलिंग "
 "टॉगल करें।"
 
-#: src/Modules/Admin/Developer/Renderer.php:35
+#: src/Modules/Admin/Developer/Renderer.php:32
+msgid ""
+"The “Bottom of the rail” line splits the rail in two: drag it between groups "
+"to choose what sits at the bottom."
+msgstr ""
+"“नेविगेशन का निचला भाग” रेखा नेविगेशन को दो हिस्सों में बाँटती है: नीचे क्या रहे, यह चुनने के "
+"लिए इसे समूहों के बीच खींचें।"
+
+#: src/Modules/Admin/Developer/Renderer.php:33
+msgid "Plugin pages not sorted yet are listed below the board."
+msgstr "जिन प्लगइन पेजों को अभी व्यवस्थित नहीं किया गया है, वे बोर्ड के नीचे दिखते हैं।"
+
+#: src/Modules/Admin/Developer/Renderer.php:39
 msgid ""
 "The navigation editor requires JavaScript. Please enable it in your browser "
 "to use this tab."
@@ -2201,15 +2214,15 @@ msgstr ""
 "नेविगेशन संपादक के लिए JavaScript आवश्यक है। इस टैब का उपयोग करने के लिए कृपया इसे अपने "
 "ब्राउज़र में सक्षम करें।"
 
-#: src/Modules/Admin/Developer/Renderer.php:43
+#: src/Modules/Admin/Developer/Renderer.php:47
 msgid "Loading editor…"
 msgstr "संपादक लोड हो रहा है…"
 
-#: src/Modules/Admin/Developer/RestController.php:212
+#: src/Modules/Admin/Developer/RestController.php:215
 msgid "The overrides must be an object."
 msgstr "ओवरराइड्स एक ऑब्जेक्ट होने चाहिए।"
 
-#: src/Modules/Admin/Developer/RestController.php:246
+#: src/Modules/Admin/Developer/RestController.php:249
 msgid "Signatures must be an array."
 msgstr "हस्ताक्षर एक ऐरे होने चाहिए।"
 
@@ -2522,11 +2535,11 @@ msgstr "आपको ये सेटिंग्स आयात करने �
 msgid "Accent color and logo"
 msgstr "एक्सेंट रंग और लोगो"
 
-#: src/Modules/Admin/Profile.php:373 src/Modules/Admin/Settings.php:881
+#: src/Modules/Admin/Profile.php:373 src/Modules/Admin/Settings.php:883
 msgid "Per-user customization"
 msgstr "प्रति-उपयोगकर्ता अनुकूलन"
 
-#: src/Modules/Admin/Profile.php:374 src/Modules/Admin/Settings.php:890
+#: src/Modules/Admin/Profile.php:374 src/Modules/Admin/Settings.php:892
 #: src/Modules/MediaLibrary/Settings.php:386
 msgid "Hide Feedback and review requests"
 msgstr "फ़ीडबैक बटन और समीक्षा अनुरोध छिपाएँ"
@@ -2545,15 +2558,15 @@ msgstr "मूल शैली में छोड़ी गई स्क्र�
 msgid "Toolkit toggles"
 msgstr "टूलकिट स्विच"
 
-#: src/Modules/Admin/Rail.php:501
+#: src/Modules/Admin/Rail.php:597
 msgid "Dashboard"
 msgstr "डैशबोर्ड"
 
-#: src/Modules/Admin/Rail.php:686
+#: src/Modules/Admin/Rail.php:774
 msgid "Resize navigation"
 msgstr "नेविगेशन का आकार बदलें"
 
-#: src/Modules/Admin/Rail.php:687
+#: src/Modules/Admin/Rail.php:775
 msgid "Toggle navigation width"
 msgstr "नेविगेशन चौड़ाई बदलें"
 
@@ -2582,7 +2595,7 @@ msgid "You are not allowed to do this."
 msgstr "आपको ऐसा करने की अनुमति नहीं है।"
 
 #: src/Modules/Admin/Settings.php:93 src/Modules/Admin/Settings.php:242
-#: src/Modules/Admin/Settings.php:424
+#: src/Modules/Admin/Settings.php:426
 msgid "Invalid accent color (expected format: #rrggbb)."
 msgstr "अमान्य एक्सेंट रंग (अपेक्षित प्रारूप: #rrggbb)।"
 
@@ -2594,33 +2607,33 @@ msgstr "लोगो चुनें"
 msgid "Use this image"
 msgstr "इस छवि का उपयोग करें"
 
-#: src/Modules/Admin/Settings.php:240 src/Modules/Admin/Settings.php:761
+#: src/Modules/Admin/Settings.php:240 src/Modules/Admin/Settings.php:763
 msgid "Change image"
 msgstr "छवि बदलें"
 
-#: src/Modules/Admin/Settings.php:241 src/Modules/Admin/Settings.php:762
+#: src/Modules/Admin/Settings.php:241 src/Modules/Admin/Settings.php:764
 #: src/Modules/Toolkit/Features/LocalAvatars.php:371
 msgid "Choose image"
 msgstr "छवि चुनें"
 
-#: src/Modules/Admin/Settings.php:243 src/Modules/Admin/Settings.php:452
+#: src/Modules/Admin/Settings.php:243 src/Modules/Admin/Settings.php:454
 msgid "Color too dark: even strong saturation cannot recover identity here."
 msgstr "रंग बहुत गहरा: यहाँ तीव्र संतृप्ति भी पहचान को पुनर्प्राप्त नहीं कर सकती।"
 
-#: src/Modules/Admin/Settings.php:244 src/Modules/Admin/Settings.php:455
+#: src/Modules/Admin/Settings.php:244 src/Modules/Admin/Settings.php:457
 msgid "Color too light: even strong saturation cannot recover identity here."
 msgstr "रंग बहुत हल्का: यहाँ तीव्र संतृप्ति भी पहचान को पुनर्प्राप्त नहीं कर सकती।"
 
-#: src/Modules/Admin/Settings.php:245 src/Modules/Admin/Settings.php:461
+#: src/Modules/Admin/Settings.php:245 src/Modules/Admin/Settings.php:463
 msgid "Gray too dark: without saturation, tinted surfaces will turn muddy."
 msgstr "ग्रे बहुत गहरा: संतृप्ति के बिना, रंगीन सतहें गंदली दिखेंगी।"
 
-#: src/Modules/Admin/Settings.php:246 src/Modules/Admin/Settings.php:464
+#: src/Modules/Admin/Settings.php:246 src/Modules/Admin/Settings.php:466
 msgid ""
 "Gray too light: without saturation, the accent fades on white backgrounds."
 msgstr "ग्रे बहुत हल्का: संतृप्ति के बिना, सफ़ेद पृष्ठभूमि पर एक्सेंट रंग फीका पड़ जाता है।"
 
-#: src/Modules/Admin/Settings.php:247 src/Modules/Admin/Settings.php:357
+#: src/Modules/Admin/Settings.php:247 src/Modules/Admin/Settings.php:359
 msgid "Something went wrong. Please retry."
 msgstr "कुछ गलत हुआ। कृपया पुनः प्रयास करें।"
 
@@ -2660,101 +2673,117 @@ msgid "Plugin pages"
 msgstr "प्लगइन पृष्ठ"
 
 #: src/Modules/Admin/Settings.php:333
-msgid "These pages aren’t sorted yet. Assign them to a group or hide them."
-msgstr "ये पृष्ठ अभी तक व्यवस्थित नहीं हैं। इन्हें किसी समूह में डालें या छिपाएं।"
+msgid ""
+"Pages of plugins Double Youpï does not recognize yet. Assign each one to a "
+"group in one click. Plugins it recognizes are already in a group: drag them "
+"on the board."
+msgstr ""
+"ऐसे प्लगइन्स के पेज जिन्हें Double Youpï अभी नहीं पहचानता। हर एक को एक क्लिक में किसी "
+"समूह को सौंपें। पहचाने गए प्लगइन्स पहले से किसी समूह में हैं: उन्हें बोर्ड पर खींचें।"
 
 #: src/Modules/Admin/Settings.php:334
+msgid "Bottom of the rail"
+msgstr "नेविगेशन का निचला भाग"
+
+#: src/Modules/Admin/Settings.php:335
+msgid ""
+"Groups after this line sit at the bottom of the rail. Drag it, or use the "
+"arrow keys."
+msgstr ""
+"इस रेखा के बाद के समूह नेविगेशन में नीचे रहते हैं। इसे खींचें, या तीर कुंजियों का उपयोग करें।"
+
+#: src/Modules/Admin/Settings.php:336
 msgid "No unsorted plugin pages."
 msgstr "कोई अव्यवस्थित प्लगइन पृष्ठ नहीं।"
 
-#: src/Modules/Admin/Settings.php:335
+#: src/Modules/Admin/Settings.php:337
 msgid "Assign"
 msgstr "असाइन करें"
 
-#: src/Modules/Admin/Settings.php:336
+#: src/Modules/Admin/Settings.php:338
 msgid "Hidden"
 msgstr "छिपे हुए"
 
-#: src/Modules/Admin/Settings.php:337
+#: src/Modules/Admin/Settings.php:339
 msgid "Nothing hidden."
 msgstr "कुछ भी छिपा नहीं है।"
 
-#: src/Modules/Admin/Settings.php:338
+#: src/Modules/Admin/Settings.php:340
 #: src/Modules/MediaLibrary/OrphanAdminPage.php:260
 msgid "Restore"
 msgstr "बहाल करें"
 
-#: src/Modules/Admin/Settings.php:340
+#: src/Modules/Admin/Settings.php:342
 msgid "Double Youpï styling is ON for this page"
 msgstr "इस पृष्ठ के लिए Double Youpï स्टाइलिंग चालू है"
 
-#: src/Modules/Admin/Settings.php:341
+#: src/Modules/Admin/Settings.php:343
 msgid "Double Youpï styling is OFF for this page"
 msgstr "इस पृष्ठ के लिए Double Youpï स्टाइलिंग बंद है"
 
-#: src/Modules/Admin/Settings.php:343 src/Modules/Admin/Settings.php:345
+#: src/Modules/Admin/Settings.php:345 src/Modules/Admin/Settings.php:347
 msgid "New item"
 msgstr "नया आइटम"
 
-#: src/Modules/Admin/Settings.php:344
+#: src/Modules/Admin/Settings.php:346
 msgid "Name of the new item:"
 msgstr "नए आइटम का नाम:"
 
-#: src/Modules/Admin/Settings.php:346
+#: src/Modules/Admin/Settings.php:348
 msgid "New name:"
 msgstr "नया नाम:"
 
-#: src/Modules/Admin/Settings.php:347
+#: src/Modules/Admin/Settings.php:349
 msgid "Delete this item? Its pages return to their original group."
 msgstr "इस आइटम को हटाएं? इसके पृष्ठ मूल समूह में लौट जाएंगे।"
 
-#: src/Modules/Admin/Settings.php:348
+#: src/Modules/Admin/Settings.php:350
 msgid "Choose an icon"
 msgstr "एक आइकन चुनें"
 
-#: src/Modules/Admin/Settings.php:351
+#: src/Modules/Admin/Settings.php:353
 msgid "Unsaved changes"
 msgstr "असहेजे गए परिवर्तन"
 
-#: src/Modules/Admin/Settings.php:352
+#: src/Modules/Admin/Settings.php:354
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:79
 msgid "Discard"
 msgstr "त्यागें"
 
-#: src/Modules/Admin/Settings.php:353
+#: src/Modules/Admin/Settings.php:355
 msgid "Reset to defaults"
 msgstr "डिफ़ॉल्ट पर रीसेट करें"
 
-#: src/Modules/Admin/Settings.php:355
+#: src/Modules/Admin/Settings.php:357
 msgid "Navigation saved."
 msgstr "नेविगेशन सहेजा गया।"
 
-#: src/Modules/Admin/Settings.php:356
+#: src/Modules/Admin/Settings.php:358
 msgid "Reset to defaults."
 msgstr "डिफ़ॉल्ट पर रीसेट।"
 
-#: src/Modules/Admin/Settings.php:358
+#: src/Modules/Admin/Settings.php:360
 msgid "This will restore the default navigation. Continue?"
 msgstr "यह डिफ़ॉल्ट नेविगेशन पुनर्स्थापित करेगा। जारी रखें?"
 
-#: src/Modules/Admin/Settings.php:582
+#: src/Modules/Admin/Settings.php:584
 msgid "General"
 msgstr "सामान्य"
 
-#: src/Modules/Admin/Settings.php:587
+#: src/Modules/Admin/Settings.php:589
 msgid "Reorganize"
 msgstr "पुनर्व्यवस्थित करें"
 
-#: src/Modules/Admin/Settings.php:634
+#: src/Modules/Admin/Settings.php:636
 msgid ""
 "Customize the look of your WordPress admin. Everything else is automatic."
 msgstr "अपने WordPress एडमिन का स्वरूप अनुकूलित करें। बाक़ी सब स्वचालित है।"
 
-#: src/Modules/Admin/Settings.php:640
+#: src/Modules/Admin/Settings.php:642
 msgid "Some settings are pinned in code."
 msgstr "कुछ सेटिंग्स कोड में तय हैं।"
 
-#: src/Modules/Admin/Settings.php:641
+#: src/Modules/Admin/Settings.php:643
 msgid ""
 "A profile is set through DOUBLEYOUPI_ADMIN_PROFILE (or the "
 "doubleyoupi_filter_admin_profile filter): the fields it covers are locked "
@@ -2763,89 +2792,89 @@ msgstr ""
 "एक प्रोफ़ाइल DOUBLEYOUPI_ADMIN_PROFILE (या doubleyoupi_filter_admin_profile "
 "फ़िल्टर) से तय है: इसके फ़ील्ड नीचे लॉक हैं और इस पेज से बदले नहीं जा सकते।"
 
-#: src/Modules/Admin/Settings.php:679
+#: src/Modules/Admin/Settings.php:681
 msgid "Brand"
 msgstr "ब्रांड"
 
-#: src/Modules/Admin/Settings.php:686
+#: src/Modules/Admin/Settings.php:688
 msgid "Primary buttons, links and active states."
 msgstr "मुख्य बटन, लिंक और सक्रिय स्थितियाँ।"
 
-#: src/Modules/Admin/Settings.php:689
+#: src/Modules/Admin/Settings.php:691
 msgid "Recommended colors"
 msgstr "अनुशंसित रंग"
 
-#: src/Modules/Admin/Settings.php:705
+#: src/Modules/Admin/Settings.php:707
 msgid "Custom color"
 msgstr "कस्टम रंग"
 
-#: src/Modules/Admin/Settings.php:721
+#: src/Modules/Admin/Settings.php:723
 msgid "This color is not accepted"
 msgstr "यह रंग स्वीकार नहीं है"
 
-#: src/Modules/Admin/Settings.php:723
+#: src/Modules/Admin/Settings.php:725
 msgid "Apply recommended color"
 msgstr "अनुशंसित रंग लागू करें"
 
-#: src/Modules/Admin/Settings.php:726
+#: src/Modules/Admin/Settings.php:728
 msgid "Closest recommended color"
 msgstr "निकटतम अनुशंसित रंग"
 
-#: src/Modules/Admin/Settings.php:745
+#: src/Modules/Admin/Settings.php:747
 msgid "Logo"
 msgstr "लोगो"
 
-#: src/Modules/Admin/Settings.php:746
+#: src/Modules/Admin/Settings.php:748
 msgid "Above the rail and on the login screen."
 msgstr "रेल के ऊपर और लॉगिन स्क्रीन पर।"
 
-#: src/Modules/Admin/Settings.php:769
+#: src/Modules/Admin/Settings.php:771
 msgid "Without an image, the Double Youpï logo."
 msgstr "छवि के बिना, Double Youpï लोगो।"
 
-#: src/Modules/Admin/Settings.php:791
+#: src/Modules/Admin/Settings.php:793
 msgid "Accent on every menu line"
 msgstr "मेन्यू की हर पंक्ति पर एक्सेंट"
 
-#: src/Modules/Admin/Settings.php:792
+#: src/Modules/Admin/Settings.php:794
 msgid ""
 "The seven sections of the rail take the accent instead of their own color."
 msgstr "रेल के सातों अनुभाग अपने रंग की जगह एक्सेंट रंग लेते हैं।"
 
-#: src/Modules/Admin/Settings.php:801
+#: src/Modules/Admin/Settings.php:803
 msgid "Navigation"
 msgstr "नेविगेशन"
 
-#: src/Modules/Admin/Settings.php:806 src/Modules/Admin/Settings.php:809
+#: src/Modules/Admin/Settings.php:808 src/Modules/Admin/Settings.php:811
 #: src/Modules/Admin/Welcome.php:156
 msgid "Navigation tree"
 msgstr "नेविगेशन ट्री"
 
-#: src/Modules/Admin/Settings.php:819
+#: src/Modules/Admin/Settings.php:821
 msgid "Reimagined"
 msgstr "नए सिरे से सोचा गया"
 
-#: src/Modules/Admin/Settings.php:819
+#: src/Modules/Admin/Settings.php:821
 msgid "Recommended"
 msgstr "अनुशंसित"
 
-#: src/Modules/Admin/Settings.php:820
+#: src/Modules/Admin/Settings.php:822
 msgid "Seven sections, content first."
 msgstr "सात अनुभाग, पहले सामग्री।"
 
-#: src/Modules/Admin/Settings.php:827
+#: src/Modules/Admin/Settings.php:829
 msgid "Native WordPress"
 msgstr "मूल WordPress"
 
-#: src/Modules/Admin/Settings.php:828
+#: src/Modules/Admin/Settings.php:830
 msgid "The menu in WordPress order, for a team used to it."
 msgstr "WordPress के क्रम में मेन्यू, उसकी आदी टीम के लिए।"
 
-#: src/Modules/Admin/Settings.php:835
+#: src/Modules/Admin/Settings.php:837
 msgid "Reorganize the tree"
 msgstr "ट्री पुनर्व्यवस्थित करें"
 
-#: src/Modules/Admin/Settings.php:838
+#: src/Modules/Admin/Settings.php:840
 msgid ""
 "The Reorganize tab is hidden in native mode. Your layout is kept for when "
 "you switch back."
@@ -2853,11 +2882,11 @@ msgstr ""
 "मूल मोड में पुनर्व्यवस्थित करें टैब छिपा रहता है। आपकी व्यवस्था वापस लौटने के लिए सुरक्षित "
 "रहती है।"
 
-#: src/Modules/Admin/Settings.php:848 src/Modules/Admin/Settings.php:852
+#: src/Modules/Admin/Settings.php:850 src/Modules/Admin/Settings.php:854
 msgid "Section pages on hover"
 msgstr "होवर पर अनुभाग के पृष्ठ"
 
-#: src/Modules/Admin/Settings.php:849
+#: src/Modules/Admin/Settings.php:851
 msgid ""
 "Hover a section of the rail to open its pages next to it. Keyboard: the "
 "right arrow opens, Escape closes."
@@ -2865,19 +2894,19 @@ msgstr ""
 "रेल के किसी अनुभाग पर होवर करें, उसके पृष्ठ बगल में खुल जाएँगे। कीबोर्ड: दायाँ तीर खोलता है, "
 "Escape बंद करता है।"
 
-#: src/Modules/Admin/Settings.php:855
+#: src/Modules/Admin/Settings.php:857
 msgid "One level"
 msgstr "एक स्तर"
 
-#: src/Modules/Admin/Settings.php:856
+#: src/Modules/Admin/Settings.php:858
 msgid "Two levels"
 msgstr "दो स्तर"
 
-#: src/Modules/Admin/Settings.php:873 src/Modules/MediaLibrary/Settings.php:379
+#: src/Modules/Admin/Settings.php:875 src/Modules/MediaLibrary/Settings.php:379
 msgid "Team"
 msgstr "टीम"
 
-#: src/Modules/Admin/Settings.php:882
+#: src/Modules/Admin/Settings.php:884
 msgid ""
 "Each person can turn the Double Youpï interface off for their own account, "
 "from their profile. Your settings stay the default."
@@ -2885,21 +2914,21 @@ msgstr ""
 "हर व्यक्ति अपनी प्रोफ़ाइल से अपने खाते के लिए Double Youpï इंटरफ़ेस बंद कर सकता है। आपकी "
 "सेटिंग्स डिफ़ॉल्ट बनी रहती हैं।"
 
-#: src/Modules/Admin/Settings.php:891 src/Modules/MediaLibrary/Settings.php:387
+#: src/Modules/Admin/Settings.php:893 src/Modules/MediaLibrary/Settings.php:387
 msgid ""
 "No Feedback button, review link or review request, for anyone on this site."
 msgstr "इस साइट पर किसी के लिए भी फ़ीडबैक बटन, समीक्षा लिंक या समीक्षा अनुरोध नहीं।"
 
-#: src/Modules/Admin/Settings.php:900 src/Modules/MediaLibrary/Settings.php:399
+#: src/Modules/Admin/Settings.php:902 src/Modules/MediaLibrary/Settings.php:399
 msgid ""
 "Unlocked in wp-config.php: every administrator can change these settings."
 msgstr "wp-config.php में अनलॉक: हर व्यवस्थापक ये सेटिंग्स बदल सकता है।"
 
-#: src/Modules/Admin/Settings.php:902 src/Modules/MediaLibrary/Settings.php:395
+#: src/Modules/Admin/Settings.php:904 src/Modules/MediaLibrary/Settings.php:395
 msgid "Keep Double Youpï settings to myself"
 msgstr "Double Youpï की सेटिंग्स केवल मेरे लिए रखें"
 
-#: src/Modules/Admin/Settings.php:903
+#: src/Modules/Admin/Settings.php:905
 msgid ""
 "Other administrators keep the redesigned admin, without these settings, "
 "Feedback or review requests. Locked out? Add "
@@ -2909,81 +2938,81 @@ msgstr ""
 "अनुरोधों के बिना। पहुँच खो गई? wp-config.php में "
 "define( 'DOUBLEYOUPI_UNLOCK_SETTINGS', true ); जोड़ें।"
 
-#: src/Modules/Admin/Settings.php:912 src/Modules/MediaLibrary/Settings.php:408
+#: src/Modules/Admin/Settings.php:914 src/Modules/MediaLibrary/Settings.php:408
 msgid "Save changes"
 msgstr "परिवर्तन सहेजें"
 
-#: src/Modules/Admin/Settings.php:918 src/Modules/Admin/Welcome.php:163
+#: src/Modules/Admin/Settings.php:920 src/Modules/Admin/Welcome.php:163
 msgid "Settings profile"
 msgstr "सेटिंग्स प्रोफ़ाइल"
 
-#: src/Modules/Admin/Settings.php:925
+#: src/Modules/Admin/Settings.php:927
 msgid "This site’s configuration as one JSON file, to import on the next one."
 msgstr "इस साइट का कॉन्फ़िगरेशन एक JSON फ़ाइल में, अगली साइट पर इम्पोर्ट करने के लिए।"
 
-#: src/Modules/Admin/Settings.php:929
+#: src/Modules/Admin/Settings.php:931
 msgid "Download the profile"
 msgstr "प्रोफ़ाइल डाउनलोड करें"
 
-#: src/Modules/Admin/Settings.php:937
+#: src/Modules/Admin/Settings.php:939
 msgid ""
 "Same checks as this form. The logo keeps its address; the image is not "
 "copied."
 msgstr "इसी फ़ॉर्म जैसी जाँचें। लोगो अपना पता रखता है; छवि कॉपी नहीं होती।"
 
-#: src/Modules/Admin/Settings.php:942 src/Modules/Admin/Settings.php:943
+#: src/Modules/Admin/Settings.php:944 src/Modules/Admin/Settings.php:945
 msgid "Import the profile"
 msgstr "प्रोफ़ाइल आयात करें"
 
-#: src/Modules/Admin/Settings.php:950
+#: src/Modules/Admin/Settings.php:952
 msgid "The profile carries"
 msgstr "प्रोफ़ाइल में शामिल है"
 
-#: src/Modules/Admin/Settings.php:958
+#: src/Modules/Admin/Settings.php:960
 msgid "Stays with each site"
 msgstr "हर साइट के साथ रहता है"
 
-#: src/Modules/Admin/Settings.php:960
+#: src/Modules/Admin/Settings.php:962
 msgid "Personal choices: theme, rail width"
 msgstr "व्यक्तिगत विकल्प: थीम, रेल की चौड़ाई"
 
-#: src/Modules/Admin/Settings.php:961
+#: src/Modules/Admin/Settings.php:963
 msgid "Dashboard layouts"
 msgstr "डैशबोर्ड की व्यवस्थाएँ"
 
-#: src/Modules/Admin/Settings.php:968
+#: src/Modules/Admin/Settings.php:970
 msgid "Pin the profile in code, on every site"
 msgstr "प्रोफ़ाइल को कोड में पिन करें, हर साइट पर"
 
-#: src/Modules/Admin/Settings.php:970
+#: src/Modules/Admin/Settings.php:972
 msgid "Add to wp-config.php. The settings it covers lock on this page."
 msgstr "wp-config.php में जोड़ें। इसमें शामिल सेटिंग्स इस पृष्ठ पर लॉक हो जाती हैं।"
 
-#: src/Modules/Admin/Settings.php:987
+#: src/Modules/Admin/Settings.php:989
 msgid "Pinned in code"
 msgstr "कोड में पिन किया गया"
 
 #. translators: %d = number of settings applied
-#: src/Modules/Admin/Settings.php:1064
+#: src/Modules/Admin/Settings.php:1066
 #, php-format
 msgid "Profile imported: %d setting applied."
 msgid_plural "Profile imported: %d settings applied."
 msgstr[0] "प्रोफ़ाइल आयात हुई: %d सेटिंग लागू।"
 msgstr[1] "प्रोफ़ाइल आयात हुई: %d सेटिंग्स लागू।"
 
-#: src/Modules/Admin/Settings.php:1065
+#: src/Modules/Admin/Settings.php:1067
 msgid "No file received."
 msgstr "कोई फ़ाइल नहीं मिली।"
 
-#: src/Modules/Admin/Settings.php:1066
+#: src/Modules/Admin/Settings.php:1068
 msgid "This file is too large to be a profile."
 msgstr "यह फ़ाइल प्रोफ़ाइल होने के लिए बहुत बड़ी है।"
 
-#: src/Modules/Admin/Settings.php:1067
+#: src/Modules/Admin/Settings.php:1069
 msgid "This file is not a Double Youpï admin profile."
 msgstr "यह फ़ाइल Double Youpï एडमिन प्रोफ़ाइल नहीं है।"
 
-#: src/Modules/Admin/Settings.php:1068
+#: src/Modules/Admin/Settings.php:1070
 msgid "This profile was written by a newer version. Update the plugin first."
 msgstr "यह प्रोफ़ाइल नए संस्करण से लिखी गई है। पहले प्लगइन अपडेट करें।"
 
@@ -3160,6 +3189,11 @@ msgstr "सक्रिय"
 
 #: src/Modules/Admin/Tables/TablesReimagined.php:511
 msgctxt "plugins list group"
+msgid "Inactive"
+msgstr "निष्क्रिय"
+
+#: src/Modules/Admin/Tables/TablesReimagined.php:512
+msgctxt "one plugin"
 msgid "Inactive"
 msgstr "निष्क्रिय"
 
@@ -3879,32 +3913,32 @@ msgid "Unused media"
 msgstr "अप्रयुक्त मीडिया"
 
 #. translators: %s: name of the competing media-library plugin (e.g. FileBird).
-#: src/Modules/MediaLibrary/MediaManagerConflict.php:259
+#: src/Modules/MediaLibrary/MediaManagerConflict.php:260
 #, php-format
 msgid "Refined Media Library is managing the media library. %s is also active."
 msgstr ""
 "Refined Media Library मीडिया लाइब्रेरी को manage कर रहा है। %s भी active है।"
 
 #. translators: %s: name of the competing media-library plugin.
-#: src/Modules/MediaLibrary/MediaManagerConflict.php:261
+#: src/Modules/MediaLibrary/MediaManagerConflict.php:262
 #, php-format
 msgid "Let %s manage it"
 msgstr "%s को manage करने दें"
 
 #. translators: %s: name of the competing media-library plugin currently managing the page.
-#: src/Modules/MediaLibrary/MediaManagerConflict.php:266
+#: src/Modules/MediaLibrary/MediaManagerConflict.php:267
 #, php-format
 msgid ""
 "%s is managing the media library. Refined Media Library has stepped aside."
 msgstr ""
 "%s मीडिया लाइब्रेरी को manage कर रहा है। Refined Media Library पीछे हट गया है।"
 
-#: src/Modules/MediaLibrary/MediaManagerConflict.php:267
+#: src/Modules/MediaLibrary/MediaManagerConflict.php:268
 msgid "Use Refined Media Library"
 msgstr "Refined Media Library इस्तेमाल करें"
 
 #. translators: %s: name of the competing media-library plugin (e.g. FileBird).
-#: src/Modules/MediaLibrary/MediaManagerConflict.php:288
+#: src/Modules/MediaLibrary/MediaManagerConflict.php:289
 #, php-format
 msgid "Import folders from %s"
 msgstr "%s से फ़ोल्डर आयात करें"

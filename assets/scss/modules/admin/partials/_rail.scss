@@ -477,6 +477,11 @@ body.dy-admin #adminmenu li.menu-top > a::after {
   width: 5px;
   height: 5px;
   border-radius: 50%;
+  // WordPress draws its "current sub-menu" arrow on this same ::after with an
+  // 8px border: on pages where the link carries wp-has-current-submenu (a
+  // plugin page under a post type, Events Manager bookings), the dot grew
+  // into a 21px disc (translator's report, 24/10/2026).
+  border: 0 !important;
   background: var(--dya-line-color, var(--dya-line-content));
   opacity: .55;
   transition: top var(--dya-rail-snap-dur) var(--dya-rail-snap-easing);

@@ -28,6 +28,10 @@ final class Renderer {
 		<p class="description" style="margin-top:14px;">
 			<?php esc_html_e( 'Visually reorganize your admin navigation: drag chips between lines, hide items, promote sub-pages to top-level, and toggle Double Youpï styling per sub-page.', 'doubleyoupi-refined-admin-dashboard' ); ?>
 		</p>
+		<p class="description">
+			<?php esc_html_e( 'The “Bottom of the rail” line splits the rail in two: drag it between groups to choose what sits at the bottom.', 'doubleyoupi-refined-admin-dashboard' ); ?>
+			<a href="#dy-dev-detected"><?php esc_html_e( 'Plugin pages not sorted yet are listed below the board.', 'doubleyoupi-refined-admin-dashboard' ); ?></a>
+		</p>
 
 		<noscript>
 			<div class="notice notice-warning inline">

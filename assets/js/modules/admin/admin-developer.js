@@ -45,6 +45,11 @@
 
 	function init() {
 		board = buildBoard( snapshot.columns || [] );
+		// The rail separator (24/10/2026): id of the first column below it,
+		// or 'end'. `dividerTouched` keeps the automatic rule until the user
+		// actually moves it.
+		board.dividerBefore  = snapshot.divider_before || 'end';
+		board.dividerTouched = !! snapshot.divider_override;
 		( snapshot.disabled_screens || [] ).forEach( function ( s ) { disabled[ s ] = true; } );
 		savedSignature = signature();
 		render();
@@ -119,6 +124,7 @@
 			demoted:          {},
 			subitem_order:    {},
 			subitem_reparent: {},
+			divider_before:   board.dividerTouched ? board.dividerBefore : '',
 		};
 
 		board.columns.forEach( function ( col ) {
@@ -147,7 +153,7 @@
 					if ( 'sub' === chip.origKind ) {
 						// Sub-page promoted to a top-level chip.
 						ov.promoted[ chip.slug ] = col.id;
-					} else if ( chip.nativeCol && chip.nativeCol !== col.id ) {
+					} else if ( chip.assigned || ( chip.nativeCol && chip.nativeCol !== col.id ) ) {
 						ov.classifications[ chip.slug ] = col.id;
 					}
 					ov.weights[ chip.slug ] = ( idx + 1 ) * 10;
@@ -246,7 +252,12 @@
 		html +=   '<button type="button" class="dy-dev-overflow dy-dev-overflow--left" data-scroll="left" aria-hidden="true"><span class="dy-dev-overflow__chev">‹</span><span class="dy-dev-overflow__n"></span></button>';
 		html +=   '<button type="button" class="dy-dev-overflow dy-dev-overflow--right" data-scroll="right" aria-hidden="true"><span class="dy-dev-overflow__n"></span><span class="dy-dev-overflow__chev">›</span></button>';
 		html +=   '<div class="dy-dev-board">';
-		board.columns.forEach( function ( col ) { html += renderColumn( col ); } );
+		var dividerShown = false;
+		board.columns.forEach( function ( col ) {
+			if ( ! dividerShown && col.id === board.dividerBefore ) { html += renderDivider(); dividerShown = true; }
+			html += renderColumn( col );
+		} );
+		if ( ! dividerShown ) { html += renderDivider(); }
 		html +=     renderNewGroupColumn();
 		html +=   '</div>';
 		html +=   '<div class="dy-dev-sbar dy-dev-sbar--bottom" aria-hidden="true"><div class="dy-dev-sbar__thumb"></div></div>';
@@ -520,6 +531,14 @@
 			'</div>';
 	}
 
+	// The rail separator, drawn between the columns it splits. Groups to its
+	// right sit at the bottom of the rail.
+	function renderDivider() {
+		return '<div class="dy-dev-divider" data-divider-grip tabindex="0" role="separator" aria-label="' + esc( t( 'railDivider' ) ) + '" title="' + esc( t( 'railDividerHelp' ) ) + '">' +
+			'<span class="dy-dev-divider__label">' + esc( t( 'railDivider' ) ) + '</span>' +
+		'</div>';
+	}
+
 	function renderNewGroupColumn() {
 		return '<section class="dy-dev-col dy-dev-col--new"><button type="button" class="dy-dev-newgroup" data-action="new-group"><span class="dy-dev-newgroup__plus"><svg width="20" height="20"><use href="#i-plus"/></svg></span><span>' + esc( t( 'newGroup' ) ) + '</span></button></section>';
 	}
@@ -541,7 +560,7 @@
 				'<button type="button" class="button button-small" data-action="assign-detected" data-slug="' + esc( d.slug ) + '">' + esc( t( 'assign' ) ) + '</button>' +
 			'</li>';
 		} ).join( '' );
-		return '<section class="dy-dev-drawer"><div class="dy-dev-drawer__inner">' + head + '<p class="dy-dev-drawer__hint">' + esc( t( 'detectedHelp' ) ) + '</p><ul class="dy-dev-flatlist">' + rows + '</ul></div></section>';
+		return '<section class="dy-dev-drawer" id="dy-dev-detected"><div class="dy-dev-drawer__inner">' + head + '<p class="dy-dev-drawer__hint">' + esc( t( 'detectedHelp' ) ) + '</p><ul class="dy-dev-flatlist">' + rows + '</ul></div></section>';
 	}
 
 	function renderHidden() {
@@ -654,13 +673,28 @@
 		render();
 	}
 
+	// A detected page is already on the board, in the column its heuristic
+	// guessed. Assigning MOVES that chip (it used to push a duplicate with an
+	// empty nativeCol, which the save ignored: the assignment was lost,
+	// 24/10/2026) and marks it `assigned`, so the classification is saved
+	// even when the chosen group is the guessed one.
 	function assignDetected( slug ) {
 		var sel = root.querySelector( '[data-assign-slug="' + cssEsc( slug ) + '"]' );
 		if ( ! sel ) return;
 		var target = findColumn( sel.value ) || board.columns[0];
-		var d = ( snapshot.detected || [] ).filter( function ( x ) { return x.slug === slug; } )[0];
-		var label = d ? d.label : slug;
-		target.chips.push( { slug: slug, label: label, url: '', icon: null, nativeCol: '', origKind: 'chip', origParent: null, subitems: [] } );
+		var chip = null;
+		board.columns.forEach( function ( col ) {
+			col.chips = col.chips.filter( function ( c ) {
+				if ( ! chip && c.slug === slug ) { chip = c; return false; }
+				return true;
+			} );
+		} );
+		if ( ! chip ) {
+			var d = ( snapshot.detected || [] ).filter( function ( x ) { return x.slug === slug; } )[0];
+			chip = { slug: slug, label: d ? d.label : slug, url: '', icon: null, nativeCol: '', origKind: 'chip', origParent: null, subitems: [] };
+		}
+		chip.assigned = true;
+		target.chips.push( chip );
 		// Remove from the detected drawer (visual only; server clears it on save).
 		snapshot.detected = ( snapshot.detected || [] ).filter( function ( x ) { return x.slug !== slug; } );
 		render();
@@ -671,7 +705,11 @@
 		if ( ! label ) return;
 		customSeq++;
 		var id = 'dyg_' + Date.now().toString( 36 ) + customSeq;
-		board.columns.push( { id: id, kind: 'custom', label: label, icon: 'i-pick-folder', removable: true, chips: [] } );
+		// A new group lands ABOVE the rail separator (it used to land at the
+		// very bottom, under it). Moving the separator decides otherwise.
+		var group = { id: id, kind: 'custom', label: label, icon: 'i-pick-folder', removable: true, chips: [] };
+		var at = board.columns.findIndex( function ( c ) { return c.id === board.dividerBefore; } );
+		if ( at < 0 ) { board.columns.push( group ); } else { board.columns.splice( at, 0, group ); }
 		render();
 	}
 
@@ -693,6 +731,12 @@
 			var target = findColumn( chip.nativeCol ) || board.columns[0];
 			if ( target && target.id !== id ) target.chips.push( chip );
 		} );
+		// The separator sat before this group: it now sits before the next one.
+		if ( board.dividerBefore === id ) {
+			var at = board.columns.findIndex( function ( c ) { return c.id === id; } );
+			var next = board.columns[ at + 1 ];
+			board.dividerBefore = next ? next.id : 'end';
+		}
 		board.columns = board.columns.filter( function ( c ) { return c.id !== id; } );
 		render();
 	}
@@ -726,7 +770,70 @@
 
 	// --- Drag & drop (pointer) -------------------------------------------
 
+	// ---- Rail separator drag ----
+	// Pointer drag along the board: the separator snaps between the two
+	// columns nearest to the pointer. Keyboard: arrows move it by one column.
+	function onDividerDown( e ) {
+		if ( e.button !== 0 ) return;
+		e.preventDefault();
+		drag = { divider: true, startX: e.clientX, startY: e.clientY, active: false };
+		window.addEventListener( 'pointermove', onDividerMove );
+		window.addEventListener( 'pointerup', onDividerUp );
+	}
+	function dividerSlotAt( x ) {
+		var cols = Array.prototype.slice.call( root.querySelectorAll( '.dy-dev-col[data-col]' ) );
+		for ( var i = 0; i < cols.length; i++ ) {
+			var r = cols[ i ].getBoundingClientRect();
+			if ( x < r.left + r.width / 2 ) return cols[ i ].getAttribute( 'data-col' );
+		}
+		return 'end';
+	}
+	function onDividerMove( e ) {
+		if ( ! drag || ! drag.divider ) return;
+		if ( ! drag.active ) {
+			if ( Math.abs( e.clientX - drag.startX ) < 5 ) return;
+			drag.active = true;
+			root.classList.add( 'dy-dev-dragging' );
+		}
+		var slot = dividerSlotAt( e.clientX );
+		if ( slot !== board.dividerBefore ) {
+			var boardEl = root.querySelector( '.dy-dev-board' );
+			var keep = boardEl ? boardEl.scrollLeft : 0;
+			board.dividerBefore  = slot;
+			board.dividerTouched = true;
+			render();
+			var b2 = root.querySelector( '.dy-dev-board' );
+			if ( b2 ) b2.scrollLeft = keep;
+		}
+		edgeScroll( e.clientX, e.clientY, onDividerMove );
+	}
+	function onDividerUp() {
+		window.removeEventListener( 'pointermove', onDividerMove );
+		window.removeEventListener( 'pointerup', onDividerUp );
+		stopEdgeScroll();
+		root.classList.remove( 'dy-dev-dragging' );
+		drag = null;
+		render();
+	}
+	function onDividerKey( e ) {
+		if ( e.key !== 'ArrowLeft' && e.key !== 'ArrowRight' ) return;
+		e.preventDefault();
+		var ids = board.columns.map( function ( c ) { return c.id; } ).concat( [ 'end' ] );
+		var i = ids.indexOf( board.dividerBefore );
+		if ( i < 0 ) i = ids.length - 1;
+		i = e.key === 'ArrowLeft' ? Math.max( 0, i - 1 ) : Math.min( ids.length - 1, i + 1 );
+		board.dividerBefore  = ids[ i ];
+		board.dividerTouched = true;
+		render();
+		var d = root.querySelector( '[data-divider-grip]' );
+		if ( d ) d.focus();
+	}
+
 	function bindDrag() {
+		root.querySelectorAll( '[data-divider-grip]' ).forEach( function ( g ) {
+			g.addEventListener( 'pointerdown', onDividerDown );
+			g.addEventListener( 'keydown', onDividerKey );
+		} );
 		root.querySelectorAll( '[data-grip]' ).forEach( function ( g ) {
 			g.addEventListener( 'pointerdown', onRowGripDown );
 		} );
@@ -775,11 +882,13 @@
 		drag.target = target;
 		paintIndicator( target );
 		handleSpring( e.clientX, e.clientY );
+		edgeScroll( e.clientX, e.clientY, onRowMove );
 	}
 
 	function onRowUp() {
 		window.removeEventListener( 'pointermove', onRowMove );
 		window.removeEventListener( 'pointerup', onRowUp );
+		stopEdgeScroll();
 		clearSpring();
 		root.classList.remove( 'dy-dev-dragging' );
 		removeIndicator();
@@ -996,6 +1105,7 @@
 		}
 		// Move the ghost.
 		drag.ghost.style.transform = 'translate(' + ( e.clientX - drag.startX ) + 'px,' + ( e.clientY - drag.startY ) + 'px)';
+		edgeScroll( e.clientX, e.clientY, onColMove );
 
 		// "Enter-slot" detection (not at midpoint): we look for the column
 		// whose FULL BOUNDS contain the cursor.
@@ -1039,6 +1149,7 @@
 	function onColUp() {
 		window.removeEventListener( 'pointermove', onColMove );
 		window.removeEventListener( 'pointerup', onColUp );
+		stopEdgeScroll();
 		root.classList.remove( 'dy-dev-col-dragging' );
 		var d = drag; drag = null;
 		if ( d && d.ghost && d.ghost.parentNode ) d.ghost.parentNode.removeChild( d.ghost );
@@ -1093,6 +1204,52 @@
 	}
 
 	// ---- Spring-load ----
+	// ---- Edge scroll while dragging (24/10/2026) ----
+	// Near the left/right edge of the board, the board scrolls sideways;
+	// near the top/bottom of the window, the page scrolls. Each frame
+	// replays the last move so the drop target follows what slides under
+	// a still pointer: a column off screen can now be reached.
+	var edgeRaf = null, edgeLast = null;
+	var EDGE = 70, EDGE_SPEED = 18;
+	function edgeScroll( x, y, replay ) {
+		edgeLast = { x: x, y: y, replay: replay };
+		if ( edgeRaf ) return;
+		var step = function () {
+			edgeRaf = null;
+			if ( ! drag || ! edgeLast ) return;
+			var boardEl = root.querySelector( '.dy-dev-board' );
+			var moved = false;
+			if ( boardEl ) {
+				var r = boardEl.getBoundingClientRect();
+				var dx = 0;
+				if ( edgeLast.x < r.left + EDGE ) dx = -EDGE_SPEED * ( 1 - Math.max( 0, edgeLast.x - r.left ) / EDGE );
+				else if ( edgeLast.x > r.right - EDGE ) dx = EDGE_SPEED * ( 1 - Math.max( 0, r.right - edgeLast.x ) / EDGE );
+				if ( dx ) {
+					var before = boardEl.scrollLeft;
+					boardEl.scrollLeft += dx;
+					moved = moved || boardEl.scrollLeft !== before;
+				}
+			}
+			var dy = 0;
+			if ( edgeLast.y < EDGE ) dy = -EDGE_SPEED * ( 1 - Math.max( 0, edgeLast.y ) / EDGE );
+			else if ( edgeLast.y > window.innerHeight - EDGE ) dy = EDGE_SPEED * ( 1 - Math.max( 0, window.innerHeight - edgeLast.y ) / EDGE );
+			if ( dy ) {
+				var y0 = window.scrollY;
+				window.scrollBy( 0, dy );
+				moved = moved || window.scrollY !== y0;
+			}
+			if ( moved ) {
+				edgeLast.replay( { clientX: edgeLast.x, clientY: edgeLast.y, edgeReplay: true } );
+				edgeRaf = window.requestAnimationFrame( step );
+			}
+		};
+		edgeRaf = window.requestAnimationFrame( step );
+	}
+	function stopEdgeScroll() {
+		if ( edgeRaf ) { window.cancelAnimationFrame( edgeRaf ); edgeRaf = null; }
+		edgeLast = null;
+	}
+
 	function handleSpring( x, y ) {
 		var colEl = elementColumnAt( x, y );
 		var id = colEl ? colEl.getAttribute( 'data-col' ) : null;

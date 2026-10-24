@@ -87,3 +87,5 @@
 //     to override its generic media styling (toolbar paper-2, etc.).
 @use "partials/media-modal";
 @use "partials/media-filters";
+// Plugin headers pinned to WordPress's geometry (SEOPress, FluentCart…).
+@use "partials/plugin-headers";
