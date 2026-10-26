@@ -54,7 +54,9 @@
 @use "partials/cards";
 @use "partials/editor";
 @use "partials/editor-reimagined";
-@use "partials/dashboard";
+// partials/dashboard is NOT here: it is compiled into dashboard.css (dashboard.scss),
+// loaded on the dashboard only. It used to be in both, which sent its 15 KB
+// (compressed) to every admin screen for nothing (measured 26/10/2026).
 
 // 6. Specialized contexts.
 @use "partials/builder-native";

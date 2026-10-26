@@ -198,8 +198,9 @@ body.dy-admin .postbox .inside p {
 // a faint rule they passed for plain text (TablePress, The Events Calendar's
 // event editor, Loginizer… compatibility lab, 26/10/2026). Not inside our
 // own dashboard, which lives in a postbox and draws its links itself, nor in
-// tabs and menus (WooCommerce's product data tabs).
-body.dy-admin .postbox:not(#doubleyoupi_dashboard_root) .inside a:not(.button, [role="tab"], .nav-tab):not(:is(nav, [role="navigation"], [role="tablist"], [role="menu"], ul[class], ol[class]) a) {
+// tabs and menus (WooCommerce's product data tabs), nor links drawn as
+// buttons (TablePress' green « Find out more », lab 27/10/2026).
+body.dy-admin .postbox:not(#doubleyoupi_dashboard_root) .inside a:not(.button, [class*="button"], [class*="btn"], [role="button"], [role="tab"], .nav-tab):not(:is(nav, [role="navigation"], [role="tablist"], [role="menu"], ul[class], ol[class]) a) {
   color: var(--dya-accent-text, var(--dya-accent));
   text-decoration: underline;
   text-decoration-thickness: 1px;
@@ -207,7 +208,7 @@ body.dy-admin .postbox:not(#doubleyoupi_dashboard_root) .inside a:not(.button, [
   text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
   transition: text-decoration-color var(--dya-t-fast);
 }
-body.dy-admin .postbox:not(#doubleyoupi_dashboard_root) .inside a:not(.button, [role="tab"], .nav-tab):not(:is(nav, [role="navigation"], [role="tablist"], [role="menu"], ul[class], ol[class]) a):hover {
+body.dy-admin .postbox:not(#doubleyoupi_dashboard_root) .inside a:not(.button, [class*="button"], [class*="btn"], [role="button"], [role="tab"], .nav-tab):not(:is(nav, [role="navigation"], [role="tablist"], [role="menu"], ul[class], ol[class]) a):hover {
   text-decoration-color: currentColor;
 }
 

@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, dark theme
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.18
+Stable tag: 1.0.20
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -169,6 +169,17 @@ Privacy policy: https://doubleyoupi.com/privacy
 
 == Changelog ==
 
+= 1.0.20 =
+* Fix: on plugin screens shown on WordPress's light canvas, headings, links and checkboxes look as they do without the redesign (WP Super Cache, Fluent Forms).
+* Fix: the WooCommerce cards on the dashboard's last screen keep their inner margin, and the lines of the "Status" grid are discreet in dark mode.
+* Fix: a link that comes with a dashboard widget's title (Independent Analytics' "Open Dashboard") is shown as a link, next to the title.
+* Fix: a link drawn as a button inside a box keeps its own colours (TablePress).
+* Fix: the arrows of WooCommerce's articles carousel on the Coupons screen are visible in dark mode.
+
+= 1.0.19 =
+* Faster: the stylesheet loaded on every admin screen is 15 KB lighter (compressed): the dashboard's styles are no longer sent to the other screens.
+* Faster: the plugin's settings are read with WordPress's own settings in one database query, instead of up to 16 separate queries per screen (9 on the public site).
+
 = 1.0.18 =
 * Change: on the dashboard, notices are gathered in a "Notifications" button, as on the other screens. They unfold above it on click, and no longer cover the widgets.
 * Fix: plugin panels filled after the page has loaded (Independent Analytics and Limit Login Attempts widgets) keep dark text on their white ground in dark mode.
@@ -324,6 +335,12 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.20 =
+Plugin screens on WordPress's light canvas look as they do without the redesign; fixes for WooCommerce and Independent Analytics widgets.
+
+= 1.0.19 =
+Lighter: fewer database queries on every page, and a smaller stylesheet on admin screens.
 
 = 1.0.18 =
 Dashboard notices in a Notifications button; readable plugin panels and windows in dark mode; links read as links.

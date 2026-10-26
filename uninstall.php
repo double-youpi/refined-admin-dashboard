@@ -28,8 +28,21 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 		8 => 'doubleyoupi_admin_native_screens',
 		9 => 'doubleyoupi_hide_feedback',
 		10 => 'doubleyoupi_settings_owner',
-		11 => 'doubleyoupi_refined_admin_dashboard_installed_version',
-		12 => 'doubleyoupi_purge_on_uninstall',
+		11 => 'doubleyoupi_admin_per_user',
+		12 => 'doubleyoupi_admin_logo_url',
+		13 => 'doubleyoupi_admin_rail_flyout',
+		14 => 'doubleyoupi_toolkit_classic_editor',
+		15 => 'doubleyoupi_toolkit_disable_comments',
+		16 => 'doubleyoupi_toolkit_duplicate_posts',
+		17 => 'doubleyoupi_toolkit_force_https',
+		18 => 'doubleyoupi_toolkit_disable_update_emails',
+		19 => 'doubleyoupi_toolkit_disable_email_verification',
+		20 => 'doubleyoupi_toolkit_hide_login',
+		21 => 'doubleyoupi_toolkit_local_avatars',
+		22 => 'doubleyoupi_toolkit_safe_svg',
+		23 => 'doubleyoupi_toolkit_intuitive_save',
+		24 => 'doubleyoupi_refined_admin_dashboard_installed_version',
+		25 => 'doubleyoupi_purge_on_uninstall',
 );
 	foreach ( $options as $option ) {
 		delete_option( $option );

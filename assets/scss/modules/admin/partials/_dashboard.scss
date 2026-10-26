@@ -1018,6 +1018,18 @@ body.dy-admin.index-php {
 		letter-spacing: -0.01em;
 		line-height: 1.25;
 	}
+	// A link that came with the widget's title (Independent Analytics' « Open
+	// Dashboard »), kept apart at the end of the header.
+	.dy-dashboard__native-item-link {
+		margin-left: auto;
+		flex: 0 0 auto;
+		font-size: var(--dya-fs-sm, 12.5px);
+		color: var(--dya-accent-text, var(--dya-accent));
+		text-decoration: underline;
+		text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+		text-underline-offset: 2px;
+		&:is(:hover, :focus-visible) { text-decoration-color: currentColor; }
+	}
 	.dy-dashboard__native-item-body {
 		padding: clamp(15px, 1.3vw, 21px) clamp(16px, 1.3vw, 22px) clamp(16px, 1.3vw, 22px);
 		font-size: var(--dya-fs-base, 13.5px);
@@ -1029,6 +1041,20 @@ body.dy-admin.index-php {
 		:is(#published-posts, #future-posts) li,
 		.activity-block .subsubsub li {
 			color: var(--dya-ink-soft);
+		}
+
+		// Plugin widgets carry their id and `.inside` (Renderer.php), so their
+		// own rules apply; WooCommerce's `#woocommerce_dashboard_status .inside
+		// { padding: 0 }` took our card's inner margin with it (Setup, Status,
+		// Reviews; compatibility lab, 27/10/2026). The card keeps its margin.
+		&.inside {
+			padding: clamp(15px, 1.3vw, 21px) clamp(16px, 1.3vw, 22px) clamp(16px, 1.3vw, 22px) !important;
+			margin: 0 !important;
+		}
+		// WooCommerce's « Status » grid draws its lines in #ececec, bright on
+		// our dark card: our line colour instead.
+		.wc_status_list li {
+			border-color: var(--dya-line) !important;
 		}
 
 		// Media (WC/Yoast/Elementor promo illustrations, screenshots): constrained.

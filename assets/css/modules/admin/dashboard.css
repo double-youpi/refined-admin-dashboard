@@ -1046,6 +1046,18 @@ body.dy-admin.index-php .dy-dashboard__native-item-title {
   letter-spacing: -0.01em;
   line-height: 1.25;
 }
+body.dy-admin.index-php .dy-dashboard__native-item-link {
+  margin-left: auto;
+  flex: 0 0 auto;
+  font-size: var(--dya-fs-sm, 12.5px);
+  color: var(--dya-accent-text, var(--dya-accent));
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+  text-underline-offset: 2px;
+}
+body.dy-admin.index-php .dy-dashboard__native-item-link:is(:hover, :focus-visible) {
+  text-decoration-color: currentColor;
+}
 body.dy-admin.index-php .dy-dashboard__native-item-body {
   padding: clamp(15px, 1.3vw, 21px) clamp(16px, 1.3vw, 22px) clamp(16px, 1.3vw, 22px);
   font-size: var(--dya-fs-base, 13.5px);
@@ -1055,6 +1067,13 @@ body.dy-admin.index-php .dy-dashboard__native-item-body {
 body.dy-admin.index-php .dy-dashboard__native-item-body :is(#published-posts, #future-posts) li,
 body.dy-admin.index-php .dy-dashboard__native-item-body .activity-block .subsubsub li {
   color: var(--dya-ink-soft);
+}
+body.dy-admin.index-php .dy-dashboard__native-item-body.inside {
+  padding: clamp(15px, 1.3vw, 21px) clamp(16px, 1.3vw, 22px) clamp(16px, 1.3vw, 22px) !important;
+  margin: 0 !important;
+}
+body.dy-admin.index-php .dy-dashboard__native-item-body .wc_status_list li {
+  border-color: var(--dya-line) !important;
 }
 body.dy-admin.index-php .dy-dashboard__native-item-body img:not(.avatar), body.dy-admin.index-php .dy-dashboard__native-item-body svg, body.dy-admin.index-php .dy-dashboard__native-item-body canvas, body.dy-admin.index-php .dy-dashboard__native-item-body video, body.dy-admin.index-php .dy-dashboard__native-item-body iframe {
   max-width: 100% !important;

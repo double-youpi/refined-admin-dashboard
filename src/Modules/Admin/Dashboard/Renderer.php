@@ -220,6 +220,9 @@ final class Renderer {
 							<header class="dy-dashboard__native-item-header">
 								<span class="dy-dashboard__native-origin-dot" aria-hidden="true"></span>
 								<h3 class="dy-dashboard__native-item-title"><?php echo esc_html( (string) ( $box['title'] ?? '' ) ); ?></h3>
+								<?php foreach ( (array) ( $box['links'] ?? [] ) as $link ) : ?>
+									<a class="dy-dashboard__native-item-link" href="<?php echo esc_url( (string) ( $link['href'] ?? '' ) ); ?>"><?php echo esc_html( (string) ( $link['text'] ?? '' ) ); ?></a>
+								<?php endforeach; ?>
 							</header>
 							<div class="dy-dashboard__native-item-body<?php echo $is_plugin ? ' inside' : ''; ?>">
 								<?php

@@ -75,7 +75,7 @@ final class ScreenDisabler {
 				$clean[] = $sig;
 			}
 		}
-		update_option( self::OPTION_KEY, wp_json_encode( $clean ), false );
+		update_option( self::OPTION_KEY, wp_json_encode( $clean ), true ); // read on every admin screen
 		self::$current_evaluated = null;
 		return $clean;
 	}

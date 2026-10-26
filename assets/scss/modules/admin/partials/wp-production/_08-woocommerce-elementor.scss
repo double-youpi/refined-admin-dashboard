@@ -464,6 +464,21 @@ body.dy-admin .woocommerce-marketing-recommended-extensions-item p,
 body.dy-admin .woocommerce-marketing-knowledgebase-card__post-meta {
   color: var(--dya-ink-soft) !important;
 }
+// Its carousel arrows: a white box with arrows drawn in our light ink,
+// invisible in dark mode (lab, 27/10/2026). Our surface and ink.
+body.dy-admin .woocommerce-pagination__page-arrows-buttons {
+  background: var(--dya-paper-2) !important;
+  border: 1px solid var(--dya-edge-strong) !important;
+  border-radius: var(--dya-r-sm);
+}
+body.dy-admin .woocommerce-pagination__page-arrows-buttons .components-button {
+  background: transparent !important;
+  color: var(--dya-ink) !important;
+  border-color: var(--dya-line) !important;
+}
+body.dy-admin .woocommerce-pagination__page-arrows-buttons .components-button:is(:disabled, [aria-disabled="true"]) {
+  color: var(--dya-ink-fade) !important;
+}
 body.dy-admin .woocommerce-table .yes,
 body.dy-admin .wc_status_table .yes,
 body.dy-admin .wc-shipping-zone-worldwide .yes,

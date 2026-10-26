@@ -66,7 +66,8 @@ final class WpDashboardWidgetsAdapter {
 					$id = (string) $box_id;
 					self::$captured[ $id ] = [
 						'id'       => $id,
-						'title'    => isset( $box['title'] ) ? wp_strip_all_tags( (string) $box['title'] ) : $id,
+						'title'    => isset( $box['title'] ) ? self::split_title( (string) $box['title'] )['title'] : $id,
+						'links'    => isset( $box['title'] ) ? self::split_title( (string) $box['title'] )['links'] : [],
 						'origin'   => self::detect_origin( $box['callback'] ?? null, $id ),
 						'callback' => $box['callback'] ?? null,
 						'args'     => isset( $box['args'] ) && is_array( $box['args'] ) ? $box['args'] : [],
@@ -113,6 +114,35 @@ final class WpDashboardWidgetsAdapter {
 	}
 
 	/**
+	 * A widget title may carry links next to its text (Independent Analytics:
+	 * « Statistics » then « Open Dashboard »). Stripped whole, the link text
+	 * ran into the title and could not be clicked (compatibility lab,
+	 * 27/10/2026). The text stays the title, the links are kept apart.
+	 *
+	 * @return array{title: string, links: list<array{href: string, text: string}>}
+	 */
+	public static function split_title( string $raw ): array {
+		$links = [];
+		$rest  = (string) preg_replace_callback(
+			'#<a\s[^>]*href=(["\'])(.*?)\1[^>]*>(.*?)</a>#is',
+			static function ( array $m ) use ( &$links ): string {
+				$text = trim( wp_strip_all_tags( $m[3] ) );
+				if ( '' !== $text && '' !== trim( $m[2] ) ) {
+					$links[] = [ 'href' => html_entity_decode( $m[2], ENT_QUOTES ), 'text' => $text ];
+				}
+				return ' ';
+			},
+			$raw
+		);
+		$title = trim( (string) preg_replace( '/\s+/', ' ', wp_strip_all_tags( $rest ) ) );
+		if ( '' === $title ) {
+			// The whole title was a link: it stays the title.
+			return [ 'title' => trim( wp_strip_all_tags( $raw ) ), 'links' => [] ];
+		}
+		return [ 'title' => $title, 'links' => $links ];
+	}
+
+	/**
 	 * Integrates a widget discovered AFTER the initial snapshot (e.g. a plugin
 	 * that registers via `add_meta_boxes` or late hooks). Called by
 	 * DashboardOverride::late_purge() to ensure the native WP screen lists
@@ -126,7 +156,8 @@ final class WpDashboardWidgetsAdapter {
 		}
 		self::$captured[ $id ] = [
 			'id'       => $id,
-			'title'    => isset( $box['title'] ) ? wp_strip_all_tags( (string) $box['title'] ) : $id,
+			'title'    => isset( $box['title'] ) ? self::split_title( (string) $box['title'] )['title'] : $id,
+			'links'    => isset( $box['title'] ) ? self::split_title( (string) $box['title'] )['links'] : [],
 			'origin'   => self::detect_origin( $box['callback'] ?? null, $id ),
 			'callback' => $box['callback'] ?? null,
 			'args'     => isset( $box['args'] ) && is_array( $box['args'] ) ? $box['args'] : [],

@@ -200,7 +200,7 @@ JS;
 	}
 
 	private static function save( array $state ): void {
-		update_option( self::OPTION, $state, false );
+		update_option( self::OPTION, $state, true ); // read on every admin screen
 	}
 
 	/** Counts the day: administrators, real admin page loads only, one write a day at most. */

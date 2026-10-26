@@ -160,7 +160,7 @@ final class NavigationOverrides {
 	 */
 	public static function set( array $payload ) {
 		$sanitized = self::sanitize( $payload );
-		update_option( self::OPTION_KEY, wp_json_encode( $sanitized ), false );
+		update_option( self::OPTION_KEY, wp_json_encode( $sanitized ), true ); // read on every admin screen
 		self::$cache = $sanitized;
 		return $sanitized;
 	}

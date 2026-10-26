@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Youpï Refined Admin Dashboard 1.0.18\n"
+"Project-Id-Version: Double Youpï Refined Admin Dashboard 1.0.20\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-refined-admin-dashboard\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-26T13:55:33+00:00\n"
+"POT-Creation-Date: 2026-10-26T17:02:23+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: doubleyoupi-refined-admin-dashboard\n"
@@ -686,11 +686,11 @@ msgstr ""
 msgid "Developer"
 msgstr ""
 
-#: src/Modules/Admin/Dashboard/Compat/WpDashboardWidgetsAdapter.php:205
+#: src/Modules/Admin/Dashboard/Compat/WpDashboardWidgetsAdapter.php:236
 msgid "Native WordPress widget"
 msgstr ""
 
-#: src/Modules/Admin/Dashboard/Compat/WpDashboardWidgetsAdapter.php:207
+#: src/Modules/Admin/Dashboard/Compat/WpDashboardWidgetsAdapter.php:238
 msgid "Widget provided by a third-party plugin"
 msgstr ""
 
@@ -700,7 +700,7 @@ msgid "Double Youpï Dashboard"
 msgstr ""
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:358
-#: src/Modules/Admin/Dashboard/Renderer.php:453
+#: src/Modules/Admin/Dashboard/Renderer.php:456
 msgid "Customize"
 msgstr ""
 
@@ -1306,33 +1306,33 @@ msgstr ""
 msgid "No native or plugin widget is registered on this site."
 msgstr ""
 
-#: src/Modules/Admin/Dashboard/Renderer.php:231
+#: src/Modules/Admin/Dashboard/Renderer.php:234
 msgid "This widget could not be rendered (callback missing)."
 msgstr ""
 
-#: src/Modules/Admin/Dashboard/Renderer.php:394
+#: src/Modules/Admin/Dashboard/Renderer.php:397
 msgid "Dashboard screens navigation"
 msgstr ""
 
-#: src/Modules/Admin/Dashboard/Renderer.php:399
+#: src/Modules/Admin/Dashboard/Renderer.php:402
 msgid "Previous screen"
 msgstr ""
 
 #. translators: %d: screen number
-#: src/Modules/Admin/Dashboard/Renderer.php:414
+#: src/Modules/Admin/Dashboard/Renderer.php:417
 #, php-format
 msgid "Go to screen %d"
 msgstr ""
 
-#: src/Modules/Admin/Dashboard/Renderer.php:424
+#: src/Modules/Admin/Dashboard/Renderer.php:427
 msgid "Next screen"
 msgstr ""
 
-#: src/Modules/Admin/Dashboard/Renderer.php:461
+#: src/Modules/Admin/Dashboard/Renderer.php:464
 msgid "No screen configured."
 msgstr ""
 
-#: src/Modules/Admin/Dashboard/Renderer.php:601
+#: src/Modules/Admin/Dashboard/Renderer.php:604
 #: src/Modules/Admin/Dashboard/RestController.php:406
 msgid "This widget could not load."
 msgstr ""

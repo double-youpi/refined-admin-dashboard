@@ -3,7 +3,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-10-26T13:55:33+00:00\n"
+"POT-Creation-Date: 2026-10-26T17:02:23+00:00\n"
 "Language: pt_BR\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
@@ -732,11 +732,11 @@ msgstr "Sistema"
 msgid "Developer"
 msgstr "Desenvolvedor"
 
-#: src/Modules/Admin/Dashboard/Compat/WpDashboardWidgetsAdapter.php:205
+#: src/Modules/Admin/Dashboard/Compat/WpDashboardWidgetsAdapter.php:236
 msgid "Native WordPress widget"
 msgstr "Widget nativo do WordPress"
 
-#: src/Modules/Admin/Dashboard/Compat/WpDashboardWidgetsAdapter.php:207
+#: src/Modules/Admin/Dashboard/Compat/WpDashboardWidgetsAdapter.php:238
 msgid "Widget provided by a third-party plugin"
 msgstr "Widget fornecido por um plugin de terceiros"
 
@@ -746,7 +746,7 @@ msgid "Double Youpï Dashboard"
 msgstr "Painel Double Youpï"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:358
-#: src/Modules/Admin/Dashboard/Renderer.php:453
+#: src/Modules/Admin/Dashboard/Renderer.php:456
 msgid "Customize"
 msgstr "Personalizar"
 
@@ -1356,33 +1356,33 @@ msgstr "WordPress"
 msgid "No native or plugin widget is registered on this site."
 msgstr "Nenhum widget nativo ou de plugin está registrado neste site."
 
-#: src/Modules/Admin/Dashboard/Renderer.php:231
+#: src/Modules/Admin/Dashboard/Renderer.php:234
 msgid "This widget could not be rendered (callback missing)."
 msgstr "Não foi possível renderizar este widget (callback ausente)."
 
-#: src/Modules/Admin/Dashboard/Renderer.php:394
+#: src/Modules/Admin/Dashboard/Renderer.php:397
 msgid "Dashboard screens navigation"
 msgstr "Navegação entre as telas do painel"
 
-#: src/Modules/Admin/Dashboard/Renderer.php:399
+#: src/Modules/Admin/Dashboard/Renderer.php:402
 msgid "Previous screen"
 msgstr "Tela anterior"
 
 #. translators: %d: screen number
-#: src/Modules/Admin/Dashboard/Renderer.php:414
+#: src/Modules/Admin/Dashboard/Renderer.php:417
 #, php-format
 msgid "Go to screen %d"
 msgstr "Ir para a tela %d"
 
-#: src/Modules/Admin/Dashboard/Renderer.php:424
+#: src/Modules/Admin/Dashboard/Renderer.php:427
 msgid "Next screen"
 msgstr "Próxima tela"
 
-#: src/Modules/Admin/Dashboard/Renderer.php:461
+#: src/Modules/Admin/Dashboard/Renderer.php:464
 msgid "No screen configured."
 msgstr "Nenhuma tela configurada."
 
-#: src/Modules/Admin/Dashboard/Renderer.php:601
+#: src/Modules/Admin/Dashboard/Renderer.php:604
 #: src/Modules/Admin/Dashboard/RestController.php:406
 msgid "This widget could not load."
 msgstr "Este widget não pôde ser carregado."

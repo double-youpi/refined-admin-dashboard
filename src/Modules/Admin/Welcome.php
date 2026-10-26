@@ -109,7 +109,7 @@ JS;
 			wp_die( esc_html__( 'You are not allowed to do this.', 'doubleyoupi-refined-admin-dashboard' ), 403 );
 		}
 		check_admin_referer( self::NONCE );
-		update_option( self::OPTION_SEEN, gmdate( 'c' ), false );
+		update_option( self::OPTION_SEEN, gmdate( 'c' ), true ); // read on every admin screen
 		if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) || ( isset( $_GET['ajax'] ) && '1' === sanitize_text_field( wp_unslash( $_GET['ajax'] ) ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- nonce checked above.
 			wp_send_json_success();
 		}
