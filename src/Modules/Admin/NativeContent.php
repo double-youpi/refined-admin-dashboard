@@ -71,6 +71,16 @@ JS;
 		// as "light" while it still followed the system, it must not be
 		// forced onto the light canvas any more (24/10/2026).
 		'fluent-cart',
+		// Antispam Bee: one plain settings form that reads well skinned; on
+		// the native canvas its links kept our dark-theme lavender on white
+		// (compatibility lab, 24/10/2026).
+		'antispam_bee',
+		// Plain WordPress forms and tables that the lab found moved to the
+		// native canvas although they read well skinned (24/10/2026).
+		'menu_editor',        // Admin Menu Editor
+		'moove-gdpr_help',    // GDPR Cookie Compliance, help
+		'moove-gdpr_licence', // GDPR Cookie Compliance, licence
+		'nf-submissions',     // Ninja Forms, submissions list
 	];
 
 	/**
@@ -123,6 +133,30 @@ JS;
 		// titles became unreadable. WPGraphQL IDE 5 replaces it and is skinned
 		// on purpose (SKINNED_APP_PREFIXES); this one keeps its own light look.
 		'graphiql-ide',
+		// Compatibility lab, 23-24/10/2026: screens drawn on the plugin's own
+		// cards, banners and colours, unreadable once skinned. The lab's
+		// "skin or step aside" review agreed with RAD everywhere else.
+		'boldgrid-connect', // Total Upkeep, key card (boldgrid-backup did not cover it)
+		'coupons-moved',    // WooCommerce, coupons showcase
+		'wpcode',           // WPCode (insert-headers-and-footers)
+		'loginizer',        // Loginizer
+		'click-to-chat',    // Click to Chat
+		'backuply',         // Backuply
+		'optin-monster',    // OptinMonster (templates, integrations, TrustPulse)
+		'seedprod',         // SeedProd (coming-soon)
+		'cfdb7',            // Contact Form CFDB7
+		'smart-slider3',    // Smart Slider 3
+		'updraftplus',      // UpdraftPlus
+		'cloudsecurewp',    // CloudSecure WP Security
+		'mpsum',            // Easy Updates Manager (its own toggles)
+		'cyr-to-lat',       // Cyr To Lat
+		'members',          // Members (members, members-about, members-settings)
+		'copy-delete-posts', // Copy Delete Posts
+		'wps_overview',     // WP Statistics overview
+		'formidable-views', // Formidable Views
+		'otter_form_record', // Otter Blocks, form records
+		'popularfx',        // PopularFX theme options
+		'mailpoet',         // MailPoet (its home page, where every page leads until it is set up)
 
 		// ── Themes with their OWN admin design system (React/SPA dashboards) ──
 		// Manifesto §2 "detect and step back": for mainstream themes that ship a

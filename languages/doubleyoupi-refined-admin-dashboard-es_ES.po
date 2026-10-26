@@ -3,7 +3,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-10-24T01:49:52+00:00\n"
+"POT-Creation-Date: 2026-10-26T11:00:22+00:00\n"
 "Language: es_ES\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
@@ -644,11 +644,11 @@ msgstr "Sesión"
 msgid "Invert theme"
 msgstr "Invertir el tema"
 
-#: src/Modules/Admin/Adminbar.php:131
+#: src/Modules/Admin/Adminbar.php:132
 msgid "Toggle theme"
 msgstr "Cambiar tema"
 
-#: src/Modules/Admin/Adminbar.php:149
+#: src/Modules/Admin/Adminbar.php:150
 msgid "View site"
 msgstr "Ver el sitio"
 

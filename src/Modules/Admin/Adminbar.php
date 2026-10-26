@@ -38,7 +38,8 @@ final class Adminbar {
 	 */
 	private const PLUGIN_CLUTTER_NODES = [
 		'updates',                              // WP core: update counter badge
-		'woocommerce-site-visibility-badge',    // WooCommerce: catalog/coming-soon mode badge
+		// Not WooCommerce's « Coming soon » badge: it is the only sign on screen
+		// that the shop is not public yet (compatibility lab, 24/10/2026).
 		'wpseo-menu',                           // Yoast SEO
 		'rank-math',                            // Rank Math SEO
 		'updraft_admin_node',                   // UpdraftPlus backups

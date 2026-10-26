@@ -377,7 +377,8 @@ body.dy-admin .woocommerce-profile-wizard__step-loader {
 // — LIGHT: `--wp-admin-theme-color` = var(--dya-accent) (vivid green) colours ALL
 // @wordpress/components text/links → unreadable on white in light mode. We
 // reset these texts to dark ink ONLY in light mode (in dark mode, accent on a
-// dark surface remains readable and looks fine).
+// dark surface remains readable and looks fine). Not « Move to Trash », which
+// keeps the danger colour (it went plain ink on products, 24/10/2026).
 body.dy-admin.dy-theme-light .woocommerce-task-list__item-title,
 body.dy-admin.dy-theme-light .woocommerce-list__item-title,
 body.dy-admin.dy-theme-light .woocommerce-layout__activity-panel-tab,
@@ -386,7 +387,7 @@ body.dy-admin.dy-theme-light .woocommerce-experimental-list__item .components-tr
 body.dy-admin.dy-theme-light .woocommerce-inbox-message,
 body.dy-admin.dy-theme-light .woocommerce-inbox-message *,
 body.dy-admin.dy-theme-light .woocommerce-table a:not(.button),
-body.dy-admin.dy-theme-light.woocommerce-admin-page a:not(.button):not(.components-button):not(.is-primary):not(.is-secondary):not(.is-link):not(.page-title-action) {
+body.dy-admin.dy-theme-light.woocommerce-admin-page a:not(.button):not(.components-button):not(.is-primary):not(.is-secondary):not(.is-link):not(.page-title-action):not(.submitdelete) {
   color: var(--dya-ink) !important;
 }
 

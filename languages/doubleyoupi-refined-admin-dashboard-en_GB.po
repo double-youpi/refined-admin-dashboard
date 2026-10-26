@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Double Youpi 0.9.40-dev\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-10-24T01:49:52+00:00\n"
+"POT-Creation-Date: 2026-10-26T11:00:22+00:00\n"
 "PO-Revision-Date: 2026-05-20 22:34+0000\n"
 "Last-Translator: Double Youpï\n"
 "Language-Team: Double Youpï (English (United Kingdom))\n"
@@ -619,11 +619,11 @@ msgstr "Session"
 msgid "Invert theme"
 msgstr "Invert theme"
 
-#: src/Modules/Admin/Adminbar.php:131
+#: src/Modules/Admin/Adminbar.php:132
 msgid "Toggle theme"
 msgstr "Toggle theme"
 
-#: src/Modules/Admin/Adminbar.php:149
+#: src/Modules/Admin/Adminbar.php:150
 msgid "View site"
 msgstr "View site"
 

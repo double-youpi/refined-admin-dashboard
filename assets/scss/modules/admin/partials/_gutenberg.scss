@@ -1027,3 +1027,10 @@ body.dy-admin .block-editor-block-inspector__no-blocks {
 body.dy-admin .components-tools-panel {
   border-top-color: var(--dya-line);
 }
+
+// "15 words, 1 minute read time." under the post summary: WordPress greys it
+// with a fixed #757575, 3.8:1 on our dark panel and 4.3:1 on our light one
+// (compatibility lab, R001, 24/10/2026). Our muted ink reads in both themes.
+body.dy-admin .editor-post-content-information {
+  color: var(--dya-ink-mute);
+}

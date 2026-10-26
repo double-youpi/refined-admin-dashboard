@@ -150,7 +150,8 @@ final class LightIslands {
 	// the next ones render that way from the start (NativeContent).
 	var decided = false;
 	function decide() {
-		if (decided || !pluginPage || !dark()) { return; }
+		// Screens we skin on purpose keep their islands but never move.
+		if (decided || !pluginPage || !dark() || CFG.skinned) { return; }
 		var all = 0, isl = 0, w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
 		while (w.nextNode()) {
 			var t = w.currentNode.nodeValue.trim(), e = w.currentNode.parentElement;
@@ -182,11 +183,18 @@ JS;
 		add_action( 'admin_footer', [ $this, 'print_script' ], 2 );
 	}
 
+	/** The `page` query value of the current admin screen, lower-cased. */
+	private static function current_page(): string {
+		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( (string) $_GET['page'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only display state.
+		return strtolower( $page );
+	}
+
 	public function print_script(): void {
 		$config = [
 			'rest'    => esc_url_raw( rest_url( 'doubleyoupi/v1/admin/native-screens' ) ),
 			'nonce'   => wp_create_nonce( 'wp_rest' ),
 			'canSave' => current_user_can( 'manage_options' ),
+			'skinned' => NativeContent::is_skinned_app( self::current_page() ),
 		];
 		wp_print_inline_script_tag( 'window.doubleyoupiLightIslands = ' . wp_json_encode( $config ) . ";\n" . self::JS, [ 'id' => 'doubleyoupi-light-islands' ] );
 	}

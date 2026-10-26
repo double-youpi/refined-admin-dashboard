@@ -162,6 +162,45 @@
     refresh();
   }
 
+  /**
+   * A notice that is the whole page stays on the page. Some plugin screens
+   * hold nothing but a notice (Header Footer Elementor without Elementor,
+   * ElementsKit, WP Super Cache's preload): once it went to the counter, the
+   * page looked empty (compatibility lab, 24/10/2026). Checked after the page
+   * has settled, since screens built by script render late: if the content,
+   * notices and headings left out, has almost no text and no control, the
+   * captured notices go back where the page content starts.
+   */
+  function releaseIfAlone() {
+    var content = document.getElementById('wpbody-content');
+    if (!content || !list || !list.children.length) return;
+    // Notices and the page title do not count; the rest does, including what
+    // we draw in the content (a redesigned list is content).
+    var OWN = '[data-dy-captured], ' + NOTICE_SELECTOR + ', .dy-notice-dock, .dy-notices-modal, .dy-notice-toast-host, h1, .wp-header-end, script, style, noscript, template';
+    var chars = 0;
+    var w = document.createTreeWalker(content, NodeFilter.SHOW_TEXT);
+    while (w.nextNode() && chars < 40) {
+      var e = w.currentNode.parentElement;
+      if (!e || e.closest(OWN) || !e.getClientRects().length) continue;
+      chars += w.currentNode.nodeValue.trim().length;
+    }
+    if (chars >= 40) return;
+    var controls = [].filter.call(content.querySelectorAll('input:not([type=hidden]), select, textarea, button, a[href], iframe, canvas'), function (c) {
+      return !c.closest(OWN) && c.getClientRects().length;
+    });
+    if (controls.length > 2) return;
+    var anchor = content.querySelector('.wp-header-end') || content.querySelector('.wrap > h1') || null;
+    var host = anchor ? anchor.parentNode : (content.querySelector('.wrap') || content);
+    var after = anchor ? anchor.nextSibling : host.firstChild;
+    [].slice.call(list.children).forEach(function (el) {
+      if (!el.matches(NOTICE_SELECTOR)) return;
+      el.dataset.dyCaptured = 'alone';
+      el.classList.add('dy-notice-alone');
+      host.insertBefore(el, after);
+    });
+    refresh();
+  }
+
   // ── Toast (retours d'action) ───────────────────────────────────────
   var ACTION_PARAMS = [
     'settings-updated', 'updated', 'message', 'saved', 'activated',
@@ -538,6 +577,7 @@
     // into `.wrap` via JS that runs after our initial capture.
     window.setTimeout(reclaimEscaped, 350);
     window.setTimeout(reclaimEscaped, 1200);
+    window.setTimeout(releaseIfAlone, 1500);
     refresh();
   }
 

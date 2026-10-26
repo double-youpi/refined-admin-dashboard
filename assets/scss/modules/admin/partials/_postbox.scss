@@ -144,9 +144,27 @@ body.dy-admin .postbox > h3.hndle::before {
   margin-left: auto;
 }
 
-// Header handle/handlediv (the drag affordance) — hidden.
-body.dy-admin .postbox .handlediv,
-body.dy-admin .postbox .handle-actions { display: none; }
+// WordPress's header buttons (move up, move down, collapse): out of sight,
+// since the title collapses the box and the mouse drags it, but still
+// reachable from the keyboard. Hidden with `display: none` on the whole
+// `.handle-actions`, they took the only keyboard way to reorder the boxes,
+// and the buttons plugins add there (WP Statistics' reload) went with them
+// (compatibility lab, 24/10/2026). Each one comes back into view while it
+// has the focus.
+body.dy-admin .postbox :is(.handle-order-higher, .handle-order-lower, .handlediv):not(:focus) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+body.dy-admin .postbox .handle-actions {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
 
 // Per-line tint of the header dot.
 body.dy-admin .postbox.postbox--line-content   .hndle::before { background: var(--dya-line-content); }

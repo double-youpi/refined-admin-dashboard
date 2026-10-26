@@ -15,7 +15,13 @@
 // declared (body), so every alias is restated here, not only the base tokens.
 // =============================================================
 
-body.dy-admin:not(.dy-theme-light) .dy-light-island {
+// Islands by nature, not found by the script because they live outside the
+// page content (compatibility lab, 24/10/2026):
+// - WordPress's own help bubbles (`wp-pointer`, white with a blue title);
+// - TeamUpdraft's setup assistant (UpdraftPlus, AIOS, WP-Optimize), a light
+//   full-screen layer mounted beside #wpcontent: its title and « Exit setup »,
+//   the only way out to the settings, took our pale ink on its light ground.
+body.dy-admin:not(.dy-theme-light) :is(.dy-light-island, .wp-pointer-content, #teamupdraft-onboarding) {
   color-scheme: light;
   color: #1d2327;
 
@@ -65,6 +71,12 @@ body.dy-admin:not(.dy-theme-light) .dy-light-island {
   --wp-components-color-gray-700: #3c434a;
   --wp-components-color-gray-800: #3c434a;
   --wp-components-color-gray-900: #1d2327;
+}
+
+// The bubble's title sits on WordPress's blue band: white, as in WordPress,
+// in both themes (our heading ink reached it).
+body.dy-admin .wp-pointer-content h3 {
+  color: #fff !important;
 }
 
 // ── Blocks stretched under the rail (EdgeBleed.php) ─────────

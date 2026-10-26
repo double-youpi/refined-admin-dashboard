@@ -180,6 +180,21 @@ body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpcontent {
   --dya-line-soft: #f0f0f1;
   --dya-line-strong: #c3c4c7;
 }
+// Links of the native canvas: WordPress's own blue and underline. Our reset
+// (`a { color: inherit; text-decoration: none }`, _base.scss) and the dark
+// theme's lavender reached them, lavender on white or plain text (compatibility
+// lab, 24/10/2026). A bare `a` specificity, as in WordPress: a plugin that
+// colours its own links, tabs or buttons keeps its colour.
+body.dy-admin.dy-native-content #wpbody-content {
+  --dya-accent-text: #2271b1;
+}
+:where(body.dy-admin.dy-native-content #wpbody-content) a {
+  color: #2271b1;
+  text-decoration: underline;
+}
+:where(body.dy-admin.dy-native-content #wpbody-content) a:is(:hover, :active) {
+  color: #135e96;
+}
 // Its footer is moved by its script after #wpfooter and pinned with an inline
 // `bottom: -<its height>px`, meant for the core layout where that lands below
 // the whole page. Here #wpfooter sits in #wpcontent, our scrolling column, so

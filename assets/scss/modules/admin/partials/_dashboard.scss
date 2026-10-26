@@ -980,6 +980,13 @@ body.dy-admin.index-php {
 		color: var(--dya-ink-soft);
 		line-height: var(--dya-lh-base);
 
+		// "Activity": WordPress greys the dates with a fixed #646970, 3.5:1 on
+		// our dark card (compatibility lab, 24/10/2026). Our soft ink instead.
+		:is(#published-posts, #future-posts) li,
+		.activity-block .subsubsub li {
+			color: var(--dya-ink-soft);
+		}
+
 		// Media (WC/Yoast/Elementor promo illustrations, screenshots): constrained.
 		// Avatars keep the size WordPress gives them: freed by `width: auto`,
 		// a default avatar served at a larger natural size covered the

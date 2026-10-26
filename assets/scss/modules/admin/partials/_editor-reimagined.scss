@@ -172,9 +172,13 @@ body.dy-admin.dy-editor-reimagined.dy-theme-light #postbox-container-2 { color-s
 body.js.dy-admin.dy-editor-reimagined {
   // Native #titlediv (emptied: #title has moved to the bar) is hidden.
   #titlediv { display:none; }
-  // Native publish box actions have moved to the bar → hide the action
-  // footer, keep the info area (status / visibility / date).
-  #major-publishing-actions { display:none; }
+  // Native publish box actions have moved to the bar → hide what they left
+  // empty, keep the info area (status / visibility / date). "Move to Trash"
+  // does not move: it stays at the foot of the box, where WordPress puts it
+  // (the whole footer was hidden, and the link with it: compatibility lab,
+  // 23/10/2026).
+  #major-publishing-actions #publishing-action { display:none; }
+  #major-publishing-actions:not(:has(#delete-action a)) { display:none; }
   #minor-publishing-actions { display:none; }
   // Any residual native preview action left in the box.
   #submitdiv #preview-action { display:none; }

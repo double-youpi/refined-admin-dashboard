@@ -1164,3 +1164,32 @@ body.dy-admin #wpadminbar .ab-sub-wrapper .menupop#{$dy-ab-other} > .ab-item::af
     padding: 0 6px 0 8px;
   }
 }
+
+// WooCommerce's « Coming soon » badge: kept, it is the only sign on screen
+// that the shop is not public yet (compatibility lab, 24/10/2026). WooCommerce
+// paints it light grey for WordPress's black bar; here it is one of our pills,
+// in the warning colour (green once the shop is live).
+body.dy-admin #wpadminbar .quicklinks #wp-admin-bar-woocommerce-site-visibility-badge {
+  padding: 0;
+}
+body.dy-admin #wpadminbar .quicklinks #wp-admin-bar-woocommerce-site-visibility-badge a.ab-item {
+  height: 24px;
+  padding: 0 10px;
+  border-radius: var(--dya-r-pill);
+  background: color-mix(in srgb, var(--dya-warn) 16%, transparent);
+  color: var(--dya-warn);
+  font-size: 11.5px;
+  font-weight: 500;
+}
+body.dy-admin #wpadminbar .quicklinks #wp-admin-bar-woocommerce-site-visibility-badge a.ab-item:is(:hover, :focus) {
+  background: color-mix(in srgb, var(--dya-warn) 26%, transparent);
+  color: var(--dya-warn) !important;
+}
+body.dy-admin #wpadminbar .quicklinks #wp-admin-bar-woocommerce-site-visibility-badge.woocommerce-site-status-badge-live a.ab-item {
+  background: color-mix(in srgb, var(--dya-success) 16%, transparent);
+  color: var(--dya-success);
+}
+body.dy-admin #wpadminbar .quicklinks #wp-admin-bar-woocommerce-site-visibility-badge.woocommerce-site-status-badge-live a.ab-item:is(:hover, :focus) {
+  background: color-mix(in srgb, var(--dya-success) 26%, transparent);
+  color: var(--dya-success) !important;
+}

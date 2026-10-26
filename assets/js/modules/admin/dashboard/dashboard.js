@@ -204,6 +204,10 @@
 				node.classList.add('dy-dashboard__notice-suppressed');
 				return;
 			}
+			// `below-h2` keeps WordPress (common.js, on jQuery ready) from moving
+			// it back under the page header, that is under the carousel, where
+			// no notice could be seen (compatibility lab, R003, 24/10/2026).
+			node.classList.add('below-h2');
 			this._ensureStack().appendChild(node);
 		},
 		// Heuristic for "promotional notice" (multi-vendor, without a fragile blocklist).
@@ -4462,9 +4466,34 @@
 		};
 	}
 
+	// WordPress Events and News, on the native screen. WordPress starts it
+	// only when `#dashboard_primary` is visible (wp-admin/js/dashboard.js),
+	// an id our card does not carry on purpose (see Renderer.php): the events
+	// never came and the news stayed on "Loading…" (compatibility lab,
+	// 24/10/2026). Started here, after WordPress's own ready handler.
+	function wakeWordPressNews() {
+		const box = document.querySelector('.dy-dashboard__native-item[data-native-id="dashboard_primary"]');
+		const $ = window.jQuery;
+		if (!box || !$) return;
+		$(function () {
+			setTimeout(function () {
+				const events = window.wp && window.wp.communityEvents;
+				if (events && !events.initialized && typeof events.init === 'function') {
+					try { events.init(); } catch (e) { /* WordPress's widget keeps its own error message */ }
+				}
+				const loading = box.querySelector('.widget-loading');
+				if (loading && loading.parentElement && window.ajaxurl) {
+					$(loading.parentElement).load(window.ajaxurl + '?action=dashboard-widgets&widget=dashboard_primary&pagenow=' + encodeURIComponent(window.pagenow || 'dashboard'));
+				}
+			}, 0);
+		});
+	}
+
 	if (document.readyState === 'loading') {
 		document.addEventListener('DOMContentLoaded', init);
+		document.addEventListener('DOMContentLoaded', wakeWordPressNews);
 	} else {
 		init();
+		wakeWordPressNews();
 	}
 }());

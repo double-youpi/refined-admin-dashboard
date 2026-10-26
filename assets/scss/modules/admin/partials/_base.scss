@@ -57,18 +57,19 @@ a { color: inherit; text-decoration: none; }
 // until hovered (translator feedback, 23/10/2026; WCAG 1.4.1). In paragraphs,
 // descriptions and quotes they take the readable accent and a light
 // underline; plain lists of the content too (no class, no role; not the
-// dashboard's lists of titles), never inside navigation or tables.
+// dashboard's lists of titles), settings cells and form labels (lab,
+// 24/10/2026), never inside navigation or list tables.
 // Specificity of a bare `a` on
 // purpose: a plugin that colours its own links keeps its colour, and menus,
 // tabs and buttons are untouched.
-:where(body.dy-admin #wpbody-content :is(p, dd, blockquote, figcaption, .description, .howto, :is(ul, ol):not([class], [role], .dy-dashboard *, #dashboard-widgets *) > li)) a:where(:not(.button, [role="button"], .page-title-action, [class*="dy-"], :is(nav, [role="navigation"], [role="menu"], [role="tablist"], .wp-list-table) a)) {
+:where(body.dy-admin #wpbody-content :is(p, dd, blockquote, figcaption, .description, .howto, .form-table td, label, :is(ul, ol):not([class], [role], .dy-dashboard *, #dashboard-widgets *) > li)) a:where(:not(.button, [role="button"], .page-title-action, [class*="dy-"], :is(nav, [role="navigation"], [role="menu"], [role="tablist"], .wp-list-table) a)) {
   color: var(--dya-accent-text, var(--dya-accent));
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
   text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
 }
-:where(body.dy-admin #wpbody-content :is(p, dd, blockquote, figcaption, .description, .howto, :is(ul, ol):not([class], [role], .dy-dashboard *, #dashboard-widgets *) > li)) a:where(:not(.button, [role="button"], .page-title-action, [class*="dy-"], :is(nav, [role="navigation"], [role="menu"], [role="tablist"], .wp-list-table) a)):is(:hover, :focus-visible) {
+:where(body.dy-admin #wpbody-content :is(p, dd, blockquote, figcaption, .description, .howto, .form-table td, label, :is(ul, ol):not([class], [role], .dy-dashboard *, #dashboard-widgets *) > li)) a:where(:not(.button, [role="button"], .page-title-action, [class*="dy-"], :is(nav, [role="navigation"], [role="menu"], [role="tablist"], .wp-list-table) a)):is(:hover, :focus-visible) {
   text-decoration-color: currentColor;
 }
 

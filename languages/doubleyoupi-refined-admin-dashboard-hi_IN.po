@@ -3,7 +3,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-10-24T01:49:52+00:00\n"
+"POT-Creation-Date: 2026-10-26T11:00:22+00:00\n"
 "Language: hi_IN\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
@@ -632,11 +632,11 @@ msgstr "सत्र"
 msgid "Invert theme"
 msgstr "थीम पलटें"
 
-#: src/Modules/Admin/Adminbar.php:131
+#: src/Modules/Admin/Adminbar.php:132
 msgid "Toggle theme"
 msgstr "थीम बदलें"
 
-#: src/Modules/Admin/Adminbar.php:149
+#: src/Modules/Admin/Adminbar.php:150
 msgid "View site"
 msgstr "साइट देखें"
 

@@ -1224,6 +1224,9 @@ body.dy-admin .dy-treimg--plugins {
   .dy-tempty { padding: 36px 18px; text-align: center; color: var(--dya-ink-mute); font-size: var(--dya-fs-sm); }
   .dy-tempty[hidden] { display: none; }
 }
+
+// Empty list (posts, users, terms): WordPress's sentence under the header.
+body.dy-admin .dy-treimg__list > .dy-tempty { padding: 36px 18px; text-align: center; color: var(--dya-ink-mute); font-size: var(--dya-fs-sm); }
 @keyframes dytr-spin { to { transform: rotate(360deg); } }
 
 // --- Responsive plugins (same steps as the other tables) ---

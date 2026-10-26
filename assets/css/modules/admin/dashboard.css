@@ -1015,6 +1015,10 @@ body.dy-admin.index-php .dy-dashboard__native-item-body {
   color: var(--dya-ink-soft);
   line-height: var(--dya-lh-base);
 }
+body.dy-admin.index-php .dy-dashboard__native-item-body :is(#published-posts, #future-posts) li,
+body.dy-admin.index-php .dy-dashboard__native-item-body .activity-block .subsubsub li {
+  color: var(--dya-ink-soft);
+}
 body.dy-admin.index-php .dy-dashboard__native-item-body img:not(.avatar), body.dy-admin.index-php .dy-dashboard__native-item-body svg, body.dy-admin.index-php .dy-dashboard__native-item-body canvas, body.dy-admin.index-php .dy-dashboard__native-item-body video, body.dy-admin.index-php .dy-dashboard__native-item-body iframe {
   max-width: 100% !important;
   height: auto;

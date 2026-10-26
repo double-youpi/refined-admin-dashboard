@@ -2769,6 +2769,14 @@
       try { list.appendChild(renderRow(r, idx, rows.length, isTree)); rendered++; }
       catch (e) { if (window.console) console.warn('[Double Youpï] Row ' + r.id + ' could not be redesigned:', e); }
     });
+    // Nothing to list: say so with WordPress's own sentence ("No posts
+    // found.", "No users found."…), which the native table carries in its
+    // service row (the list ended at its header: compatibility lab, 24/10/2026).
+    if (!rows.length) {
+      var none = table.querySelector('tbody > tr.no-items td');
+      var noneText = none ? txt(none).trim() : '';
+      if (noneText) list.appendChild(el('<div class="dy-tempty" role="status">' + escHtml(noneText) + '</div>'));
+    }
     if (KIND === 'post') {
       list.__hiddenCols = {};
       META_COLS.forEach(function (c) { if (c.hidden) list.__hiddenCols[c.id] = true; });

@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, dark theme
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.16
+Stable tag: 1.0.17
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -169,6 +169,20 @@ Privacy policy: https://doubleyoupi.com/privacy
 
 == Changelog ==
 
+= 1.0.17 =
+* Fix: in the media list, every file shows its own thumbnail again (WordPress 7.1 changed the table's markup and they piled up in one place).
+* Fix: "Move to Trash" is back in the classic editor, at the foot of the publish box.
+* Fix: boxes can be moved up and down from the keyboard again. Buttons that plugins put in a box's header show again.
+* Fix: an empty list says so ("No posts found.") instead of ending at its header.
+* Fix: "WordPress Events and News" loads its events and news on the dashboard.
+* Fix: notices on the dashboard show in their stack again. WordPress moved them back under the carousel, where they could not be seen.
+* Fix: a plugin page that holds nothing but a notice keeps it on the page, instead of looking empty once the notice went to the counter.
+* Fix: the setup assistant of UpdraftPlus, All-In-One Security and WP-Optimize is readable in dark mode, "Exit setup" included.
+* Fix: WooCommerce's "Coming soon" badge stays in the top bar: it is the only sign that the shop is not public yet.
+* Fix: links read as links. On plugin screens shown on WordPress's light canvas they take WordPress's blue, and in settings tables and form labels they are underlined.
+* Fix: WordPress's help bubbles are readable in dark mode, and so are the dates of the dashboard's "Activity" and the block editor's reading time.
+* Fix: the "Attach" link of the media list looks like a link.
+* Compatibility: 21 more plugins with their own design keep it on WordPress's light canvas (MailPoet, UpdraftPlus, WPCode, Loginizer, Backuply, OptinMonster, SeedProd, Members, Easy Updates Manager, WP Statistics and others), and Antispam Bee, Admin Menu Editor and a few others take the redesign.
 = 1.0.16 =
 * Fix: in Reorganize, "Assign" under Plugin pages now saves: the plugin moves to the group you chose.
 * New: the line that splits the rail shows in Reorganize as "Bottom of the rail". Drag it, or move it with the arrow keys, to choose what sits at the bottom. A new group is created above it.
@@ -299,6 +313,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.17 =
+Media thumbnails, Move to Trash and keyboard reordering are back; readable links, help bubbles and dashboard notices; better compatibility with two dozen plugins.
 
 = 1.0.16 =
 Reorganize saves plugin assignments and lets you place the rail's bottom line; fixes for MailPoet, Ninja Forms, FluentCart, SEOPress, HappyFiles and plugin details in dark mode.

@@ -309,7 +309,7 @@ a {
   text-decoration: none;
 }
 
-:where(body.dy-admin #wpbody-content :is(p, dd, blockquote, figcaption, .description, .howto, :is(ul, ol):not([class], [role], .dy-dashboard *, #dashboard-widgets *) > li)) a:where(:not(.button, [role=button], .page-title-action, [class*=dy-], :is(nav, [role=navigation], [role=menu], [role=tablist], .wp-list-table) a)) {
+:where(body.dy-admin #wpbody-content :is(p, dd, blockquote, figcaption, .description, .howto, .form-table td, label, :is(ul, ol):not([class], [role], .dy-dashboard *, #dashboard-widgets *) > li)) a:where(:not(.button, [role=button], .page-title-action, [class*=dy-], :is(nav, [role=navigation], [role=menu], [role=tablist], .wp-list-table) a)) {
   color: var(--dya-accent-text, var(--dya-accent));
   text-decoration: underline;
   text-decoration-thickness: 1px;
@@ -317,7 +317,7 @@ a {
   text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
 }
 
-:where(body.dy-admin #wpbody-content :is(p, dd, blockquote, figcaption, .description, .howto, :is(ul, ol):not([class], [role], .dy-dashboard *, #dashboard-widgets *) > li)) a:where(:not(.button, [role=button], .page-title-action, [class*=dy-], :is(nav, [role=navigation], [role=menu], [role=tablist], .wp-list-table) a)):is(:hover, :focus-visible) {
+:where(body.dy-admin #wpbody-content :is(p, dd, blockquote, figcaption, .description, .howto, .form-table td, label, :is(ul, ol):not([class], [role], .dy-dashboard *, #dashboard-widgets *) > li)) a:where(:not(.button, [role=button], .page-title-action, [class*=dy-], :is(nav, [role=navigation], [role=menu], [role=tablist], .wp-list-table) a)):is(:hover, :focus-visible) {
   text-decoration-color: currentColor;
 }
 
@@ -1500,6 +1500,35 @@ body.dy-admin #wpadminbar .ab-sub-wrapper .menupop:not(#wp-admin-bar-new-content
     padding: 0 6px 0 8px;
   }
 }
+body.dy-admin #wpadminbar .quicklinks #wp-admin-bar-woocommerce-site-visibility-badge {
+  padding: 0;
+}
+
+body.dy-admin #wpadminbar .quicklinks #wp-admin-bar-woocommerce-site-visibility-badge a.ab-item {
+  height: 24px;
+  padding: 0 10px;
+  border-radius: var(--dya-r-pill);
+  background: color-mix(in srgb, var(--dya-warn) 16%, transparent);
+  color: var(--dya-warn);
+  font-size: 11.5px;
+  font-weight: 500;
+}
+
+body.dy-admin #wpadminbar .quicklinks #wp-admin-bar-woocommerce-site-visibility-badge a.ab-item:is(:hover, :focus) {
+  background: color-mix(in srgb, var(--dya-warn) 26%, transparent);
+  color: var(--dya-warn) !important;
+}
+
+body.dy-admin #wpadminbar .quicklinks #wp-admin-bar-woocommerce-site-visibility-badge.woocommerce-site-status-badge-live a.ab-item {
+  background: color-mix(in srgb, var(--dya-success) 16%, transparent);
+  color: var(--dya-success);
+}
+
+body.dy-admin #wpadminbar .quicklinks #wp-admin-bar-woocommerce-site-visibility-badge.woocommerce-site-status-badge-live a.ab-item:is(:hover, :focus) {
+  background: color-mix(in srgb, var(--dya-success) 26%, transparent);
+  color: var(--dya-success) !important;
+}
+
 body.dy-admin #adminmenuwrap {
   position: relative;
   --dya-rail-ground: var(--dya-bg);
@@ -3559,9 +3588,20 @@ body.dy-admin .postbox > h3.hndle::before {
   margin-left: auto;
 }
 
-body.dy-admin .postbox .handlediv,
+body.dy-admin .postbox :is(.handle-order-higher, .handle-order-lower, .handlediv):not(:focus) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 body.dy-admin .postbox .handle-actions {
-  display: none;
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
 }
 
 body.dy-admin .postbox.postbox--line-content .hndle::before {
@@ -7834,6 +7874,13 @@ body.dy-admin .dy-treimg--plugins .dy-tempty[hidden] {
   display: none;
 }
 
+body.dy-admin .dy-treimg__list > .dy-tempty {
+  padding: 36px 18px;
+  text-align: center;
+  color: var(--dya-ink-mute);
+  font-size: var(--dya-fs-sm);
+}
+
 @keyframes dytr-spin {
   to {
     transform: rotate(360deg);
@@ -10355,7 +10402,10 @@ body.dy-admin.dy-editor-reimagined.dy-theme-light #postbox-container-2 {
 body.js.dy-admin.dy-editor-reimagined #titlediv {
   display: none;
 }
-body.js.dy-admin.dy-editor-reimagined #major-publishing-actions {
+body.js.dy-admin.dy-editor-reimagined #major-publishing-actions #publishing-action {
+  display: none;
+}
+body.js.dy-admin.dy-editor-reimagined #major-publishing-actions:not(:has(#delete-action a)) {
   display: none;
 }
 body.js.dy-admin.dy-editor-reimagined #minor-publishing-actions {
@@ -12355,6 +12405,10 @@ body.dy-admin.index-php .dy-dashboard__native-item-body {
   font-size: var(--dya-fs-base, 13.5px);
   color: var(--dya-ink-soft);
   line-height: var(--dya-lh-base);
+}
+body.dy-admin.index-php .dy-dashboard__native-item-body :is(#published-posts, #future-posts) li,
+body.dy-admin.index-php .dy-dashboard__native-item-body .activity-block .subsubsub li {
+  color: var(--dya-ink-soft);
 }
 body.dy-admin.index-php .dy-dashboard__native-item-body img:not(.avatar), body.dy-admin.index-php .dy-dashboard__native-item-body svg, body.dy-admin.index-php .dy-dashboard__native-item-body canvas, body.dy-admin.index-php .dy-dashboard__native-item-body video, body.dy-admin.index-php .dy-dashboard__native-item-body iframe {
   max-width: 100% !important;
@@ -15684,6 +15738,19 @@ body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpcontent {
   --dya-line-strong: #c3c4c7;
 }
 
+body.dy-admin.dy-native-content #wpbody-content {
+  --dya-accent-text: #2271b1;
+}
+
+:where(body.dy-admin.dy-native-content #wpbody-content) a {
+  color: #2271b1;
+  text-decoration: underline;
+}
+
+:where(body.dy-admin.dy-native-content #wpbody-content) a:is(:hover, :active) {
+  color: #135e96;
+}
+
 body.dy-admin.dy-native-content[class*=page_w3tc] #w3tc-footer {
   position: relative !important;
   bottom: auto !important;
@@ -17611,7 +17678,7 @@ body.dy-admin.graphql_page_graphql-ide .dy-feedback-dock {
   display: none;
 }
 
-body.dy-admin:not(.dy-theme-light) .dy-light-island {
+body.dy-admin:not(.dy-theme-light) :is(.dy-light-island, .wp-pointer-content, #teamupdraft-onboarding) {
   color-scheme: light;
   color: #1d2327;
   --dya-ink: #1d2327;
@@ -17654,6 +17721,10 @@ body.dy-admin:not(.dy-theme-light) .dy-light-island {
   --wp-components-color-gray-700: #3c434a;
   --wp-components-color-gray-800: #3c434a;
   --wp-components-color-gray-900: #1d2327;
+}
+
+body.dy-admin .wp-pointer-content h3 {
+  color: #fff !important;
 }
 
 body.dy-admin .dy-bleed {
@@ -18682,6 +18753,10 @@ body.dy-admin .block-editor-block-inspector__no-blocks {
 
 body.dy-admin .components-tools-panel {
   border-top-color: var(--dya-line);
+}
+
+body.dy-admin .editor-post-content-information {
+  color: var(--dya-ink-mute);
 }
 
 body.dy-admin.wp-customizer #wpwrap {
@@ -24711,7 +24786,7 @@ body.dy-admin.dy-theme-light .woocommerce-experimental-list__item .components-tr
 body.dy-admin.dy-theme-light .woocommerce-inbox-message,
 body.dy-admin.dy-theme-light .woocommerce-inbox-message *,
 body.dy-admin.dy-theme-light .woocommerce-table a:not(.button),
-body.dy-admin.dy-theme-light.woocommerce-admin-page a:not(.button):not(.components-button):not(.is-primary):not(.is-secondary):not(.is-link):not(.page-title-action) {
+body.dy-admin.dy-theme-light.woocommerce-admin-page a:not(.button):not(.components-button):not(.is-primary):not(.is-secondary):not(.is-link):not(.page-title-action):not(.submitdelete) {
   color: var(--dya-ink) !important;
 }
 
