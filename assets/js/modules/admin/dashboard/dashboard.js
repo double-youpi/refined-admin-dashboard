@@ -199,6 +199,11 @@
 		// genuine actionable notice → relocated into the stack.
 		_handle(node) {
 			if (node.dataset.dyNoticeHandled === '1') return;
+			// Kept by its plugin inside a hidden parent: a template, not a
+			// message (Backuply, compatibility lab, 26/10/2026).
+			for (let a = node.parentElement; a && a !== document.body; a = a.parentElement) {
+				if (a.hidden || getComputedStyle(a).display === 'none') return;
+			}
 			node.dataset.dyNoticeHandled = '1';
 			if (this._isPromo(node)) {
 				node.classList.add('dy-dashboard__notice-suppressed');
@@ -208,7 +213,9 @@
 			// it back under the page header, that is under the carousel, where
 			// no notice could be seen (compatibility lab, R003, 24/10/2026).
 			node.classList.add('below-h2');
-			this._ensureStack().appendChild(node);
+			this._ensureStack();
+			this.list.appendChild(node);
+			this._refresh();
 		},
 		// Heuristic for "promotional notice" (multi-vendor, without a fragile blocklist).
 		// A legitimate WP notice (settings saved, update available,
@@ -236,13 +243,49 @@
 				&& node.getBoundingClientRect().height > 220) return true;
 			return false;
 		},
+		// Collapsed into the « Notifications » pill of the other screens, which
+		// unfolds the notices above it on click: spread out, the stack covered
+		// half of the widgets on every screen (Raphaël, 26/10/2026, option A).
 		_ensureStack() {
 			if (!this.stack) {
+				const label = t('notifications') === 'notifications' ? 'Notifications' : t('notifications');
 				this.stack = document.createElement('div');
 				this.stack.className = 'dy-dashboard__notices-stack';
+				this.list = document.createElement('div');
+				this.list.className = 'dy-dashboard__notices-list';
+				this.list.id = 'dy-dashboard-notices';
+				this.list.hidden = true;
+				this.toggle = document.createElement('button');
+				this.toggle.type = 'button';
+				this.toggle.className = 'dy-notice-trigger dy-dashboard__notices-toggle';
+				this.toggle.setAttribute('aria-expanded', 'false');
+				this.toggle.setAttribute('aria-controls', this.list.id);
+				this.toggle.innerHTML = '<svg class="dy-notice-trigger__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>'
+					+ '<span class="dy-notice-trigger__label"></span><span class="dy-notice-trigger__count">0</span>';
+				this.toggle.querySelector('.dy-notice-trigger__label').textContent = label;
+				this.toggle.addEventListener('click', () => this._open(this.list.hidden));
+				this.stack.addEventListener('keydown', (e) => {
+					if (e.key === 'Escape' && !this.list.hidden) { this._open(false); this.toggle.focus(); }
+				});
+				this.stack.appendChild(this.list);
+				this.stack.appendChild(this.toggle);
 				document.body.appendChild(this.stack);
+				// A dismissed notice leaves the list: recount, and go away at zero.
+				new MutationObserver(() => this._refresh()).observe(this.list, { childList: true });
 			}
 			return this.stack;
+		},
+		_open(open) {
+			this.list.hidden = !open;
+			this.toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+			this.stack.classList.toggle('is-open', open);
+			// The notices are visible now: let the light islands read them.
+			if (open) { try { document.dispatchEvent(new CustomEvent('doubleyoupi:rescan')); } catch (e) { /* old browsers */ } }
+		},
+		_refresh() {
+			const n = this.list.children.length;
+			this.toggle.querySelector('.dy-notice-trigger__count').textContent = String(n);
+			this.stack.hidden = n === 0;
 		}
 	};
 

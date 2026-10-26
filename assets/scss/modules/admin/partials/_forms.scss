@@ -187,6 +187,11 @@ body.dy-admin label {
   font-size: 13px;
   color: var(--dya-ink);
 }
+// A label inside a button takes the button's colour (WP Super Cache's black
+// « Install Jetpack Boost » button: dark label on black, lab, 26/10/2026).
+body.dy-admin :is(.button, button) label {
+  color: inherit;
+}
 
 // ── .form-table — Settings pages ──────────────────────
 body.dy-admin .form-table {
@@ -218,6 +223,13 @@ body.dy-admin .form-table table tr {
   display: table-row;
   padding: 0;
   border-top: 0;
+}
+// Rows a plugin hides stay hidden: our `display` above beat WordPress's
+// `.hidden` (Autoptimize's settings that do not apply came back, lab,
+// 26/10/2026).
+body.dy-admin .form-table tr:is(.hidden, [hidden]),
+body.dy-admin.js .form-table tr.hide-if-js {
+  display: none;
 }
 
 body.dy-admin .form-table th,

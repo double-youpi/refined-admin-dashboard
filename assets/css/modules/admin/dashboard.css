@@ -361,12 +361,49 @@ body.dy-admin.index-php .dy-dashboard__notices-stack .notice,
 body.dy-admin.index-php .dy-dashboard__notices-stack .updated,
 body.dy-admin.index-php .dy-dashboard__notices-stack .error {
   pointer-events: auto;
-  position: static !important;
+  position: relative !important;
+  inset: auto !important;
   margin: 0 !important;
   max-width: 100% !important;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
   border-radius: var(--dya-r-md, 8px);
   padding: 12px 16px 12px 36px !important;
+}
+body.dy-admin.index-php .dy-dashboard__notices-stack .is-dismissible {
+  padding-right: 44px !important;
+}
+body.dy-admin.index-php .dy-dashboard__notices-stack .image-optimizer__notice {
+  padding-left: 64px !important;
+}
+body.dy-admin.index-php .dy-dashboard__notices-stack {
+  align-items: flex-end;
+}
+body.dy-admin.index-php .dy-dashboard__notices-stack[hidden] {
+  display: none;
+}
+body.dy-admin.index-php .dy-dashboard__notices-stack.is-open {
+  width: clamp(380px, 36vw, 600px);
+}
+body.dy-admin.index-php .dy-dashboard__notices-list {
+  align-self: stretch;
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: min(60vh, 560px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+body.dy-admin.index-php .dy-dashboard__notices-list[hidden] {
+  display: none;
+}
+body.dy-admin.index-php .dy-dashboard__notices-toggle {
+  pointer-events: auto;
+  margin: 0;
+}
+body.dy-admin.index-php .dy-dashboard__notices-stack.is-open .dy-dashboard__notices-toggle {
+  border-color: var(--dya-ink-fade);
+  background: var(--dya-paper-2);
 }
 body.dy-admin:has(.dy-dashboard__sidebar.is-open) body.dy-admin.index-php .dy-dashboard__notices-stack, body.dy-admin.index-php:has(.dy-dashboard__sidebar.is-open) .dy-dashboard__notices-stack {
   right: calc(clamp(320px, 26vw, 380px) + clamp(16px, 1.6vw, 32px) + 16px);

@@ -356,6 +356,7 @@ CSS;
 		return [
 			// Panel / sections.
 			'customize'          => __( 'Customize', 'doubleyoupi-refined-admin-dashboard' ),
+			'notifications'      => __( 'Notifications', 'doubleyoupi-refined-admin-dashboard' ),
 			'close_panel'        => __( 'Close customize panel', 'doubleyoupi-refined-admin-dashboard' ),
 			'screen_current'     => __( 'Current screen', 'doubleyoupi-refined-admin-dashboard' ),
 			'field_title'        => __( 'Title', 'doubleyoupi-refined-admin-dashboard' ),

@@ -83,7 +83,18 @@
     // Exclude notices nested inside another already-managed notice.
     if (el.parentElement && el.parentElement.closest && el.parentElement.closest('[data-dy-captured]')) return false;
     if (el.closest(SKIP_ANCESTORS)) return false;
+    // A notice its plugin keeps inside a hidden parent is a template, not a
+    // message: Backuply's four, two of them red errors, came out in the
+    // counter (compatibility lab, 26/10/2026).
+    if (hasHiddenAncestor(el)) return false;
     return true;
+  }
+
+  function hasHiddenAncestor(el) {
+    for (var a = el.parentElement; a && a !== document.body; a = a.parentElement) {
+      if (a.hidden || getComputedStyle(a).display === 'none') return true;
+    }
+    return false;
   }
 
   // ── DOM references (shell rendered server-side by PHP) ─────────────
@@ -413,6 +424,8 @@
     body.classList.add('dy-notices-open');
     refresh();
     staggerNotices();
+    // The notices are visible now: let the light islands read them.
+    try { document.dispatchEvent(new CustomEvent('doubleyoupi:rescan')); } catch (e) {}
   }
   function applyClose() {
     trigger.setAttribute('aria-expanded', 'false');

@@ -194,14 +194,21 @@ body.dy-admin .postbox .inside p {
 // this exclusion, the specificity (0,3,3) of this rule beats that of
 // .button-primary (0,3,1) → invisible text when a primary button is
 // rendered inside a postbox (typical case: custom dashboard widget).
-body.dy-admin .postbox .inside a:not(.button) {
-  color: var(--dya-ink);
-  border-bottom: 1px solid var(--dya-line);
-  text-decoration: none;
-  transition: border-color var(--dya-t-fast);
+// Links read as links: the accent as text and an underline. In our ink with
+// a faint rule they passed for plain text (TablePress, The Events Calendar's
+// event editor, Loginizer… compatibility lab, 26/10/2026). Not inside our
+// own dashboard, which lives in a postbox and draws its links itself, nor in
+// tabs and menus (WooCommerce's product data tabs).
+body.dy-admin .postbox:not(#doubleyoupi_dashboard_root) .inside a:not(.button, [role="tab"], .nav-tab):not(:is(nav, [role="navigation"], [role="tablist"], [role="menu"], ul[class], ol[class]) a) {
+  color: var(--dya-accent-text, var(--dya-accent));
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+  transition: text-decoration-color var(--dya-t-fast);
 }
-body.dy-admin .postbox .inside a:not(.button):hover {
-  border-bottom-color: var(--dya-line-strong);
+body.dy-admin .postbox:not(#doubleyoupi_dashboard_root) .inside a:not(.button, [role="tab"], .nav-tab):not(:is(nav, [role="navigation"], [role="tablist"], [role="menu"], ul[class], ol[class]) a):hover {
+  text-decoration-color: currentColor;
 }
 
 // Collapsed state (.closed) — WP toggles this on click on .handlediv (and our

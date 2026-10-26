@@ -1180,6 +1180,10 @@ body.dy-admin #wpadminbar .quicklinks #wp-admin-bar-woocommerce-site-visibility-
   color: var(--dya-warn);
   font-size: 11.5px;
   font-weight: 500;
+  white-space: nowrap;
+}
+body.dy-admin #wpadminbar .quicklinks #wp-admin-bar-woocommerce-site-visibility-badge {
+  flex-shrink: 0;
 }
 body.dy-admin #wpadminbar .quicklinks #wp-admin-bar-woocommerce-site-visibility-badge a.ab-item:is(:hover, :focus) {
   background: color-mix(in srgb, var(--dya-warn) 26%, transparent);

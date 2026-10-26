@@ -122,13 +122,57 @@ body.dy-admin.index-php {
 		.updated,
 		.error {
 			pointer-events: auto;
-			position: static !important;
+			// Relative, not static: a plugin's absolute parts (Image
+			// Optimization's icon column, Independent Analytics' label) stay in
+			// their notice instead of spreading over the whole list (lab,
+			// 26/10/2026).
+			position: relative !important;
+			inset: auto !important;
 			margin: 0 !important;
 			max-width: 100% !important;
 			box-shadow: 0 12px 40px rgba(0, 0, 0, .25);
 			border-radius: var(--dya-r-md, 8px);
 			padding: 12px 16px 12px 36px !important; // left room for the notice dot
 		}
+		// Room for the dismiss cross, which covered the end of the text (lab,
+		// 26/10/2026).
+		.is-dismissible {
+			padding-right: 44px !important;
+		}
+		// Image Optimization draws a 48px icon column at the start of its
+		// notice: the text starts after it.
+		.image-optimizer__notice {
+			padding-left: 64px !important;
+		}
+	}
+
+	// The stack is folded into the « Notifications » pill (dashboard.js): the
+	// notices unfold above it on click, and only then take pointer events.
+	.dy-dashboard__notices-stack {
+		align-items: flex-end;
+	}
+	.dy-dashboard__notices-stack[hidden] { display: none; }
+	.dy-dashboard__notices-stack.is-open {
+		width: clamp(380px, 36vw, 600px);
+	}
+	.dy-dashboard__notices-list {
+		align-self: stretch;
+		pointer-events: auto;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		max-height: min(60vh, 560px);
+		overflow-y: auto;
+		overscroll-behavior: contain;
+	}
+	.dy-dashboard__notices-list[hidden] { display: none; }
+	.dy-dashboard__notices-toggle {
+		pointer-events: auto;
+		margin: 0;
+	}
+	.dy-dashboard__notices-stack.is-open .dy-dashboard__notices-toggle {
+		border-color: var(--dya-ink-fade);
+		background: var(--dya-paper-2);
 	}
 
 	// While the Customize panel is open, slide the notices stack left of it

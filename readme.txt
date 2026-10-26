@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, dark theme
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.17
+Stable tag: 1.0.18
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -169,6 +169,17 @@ Privacy policy: https://doubleyoupi.com/privacy
 
 == Changelog ==
 
+= 1.0.18 =
+* Change: on the dashboard, notices are gathered in a "Notifications" button, as on the other screens. They unfold above it on click, and no longer cover the widgets.
+* Fix: plugin panels filled after the page has loaded (Independent Analytics and Limit Login Attempts widgets) keep dark text on their white ground in dark mode.
+* Fix: plugin panels and windows shown next to the page are readable in dark mode (The Events Calendar's notifications, Image Optimization's connection window, Otter's banner).
+* Fix: notices that a plugin keeps hidden no longer show up in the notifications, and settings rows a plugin hides stay hidden (Backuply, Autoptimize).
+* Fix: links in boxes read as links. On plugin screens shown on WordPress's light canvas, menus, tabs and buttons are no longer underlined.
+* Fix: WooCommerce's coupon recommendations and articles are readable in dark mode.
+* Fix: in Reorganize, the link to the plugin pages section still leads there when the section is empty.
+* Fix: the label of WP Super Cache's "Install Jetpack Boost" button is readable, and WooCommerce's "Coming soon" badge stays on one line.
+* Compatibility: the Contact Form CFDB7 list and the Members settings take the redesign.
+
 = 1.0.17 =
 * Fix: in the media list, every file shows its own thumbnail again (WordPress 7.1 changed the table's markup and they piled up in one place).
 * Fix: "Move to Trash" is back in the classic editor, at the foot of the publish box.
@@ -313,6 +324,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.18 =
+Dashboard notices in a Notifications button; readable plugin panels and windows in dark mode; links read as links.
 
 = 1.0.17 =
 Media thumbnails, Move to Trash and keyboard reordering are back; readable links, help bubbles and dashboard notices; better compatibility with two dozen plugins.

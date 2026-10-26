@@ -35,8 +35,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * NativeContent (route doubleyoupi/v1/admin/native-screens), so the next
  * visits render that way from the start (Raphaël, 23/10/2026).
  *
- * Not on screens already left on a light canvas (native content, builders)
- * nor in the block editor.
+ * Not on builder screens nor in the block editor. On a screen already left
+ * on the light canvas (native content), only the plugin layers beside the
+ * content are made islands (nativeLayers).
  */
 final class LightIslands {
 
@@ -44,9 +45,12 @@ final class LightIslands {
 (function () {
 	var body = document.body, root = document.getElementById('wpbody-content');
 	if (!root || !body.classList.contains('dy-admin')) { return; }
-	if (/(^| )(dy-native-content|dy-builder-native|block-editor-page)( |$)/.test(body.className)) { return; }
+	if (/(^| )(dy-builder-native|block-editor-page)( |$)/.test(body.className)) { return; }
 	var CLS = 'dy-light-island', LIFT = 'dy-ink-lift';
-	var SKIP = 'img,svg,video,canvas,iframe,picture,input,select,textarea,button,option,code,pre,.button,.components-button,.page-title-action,[class^="dy-"],[class*=" dy-"],[id^="dy-"]';
+	// Our components are left out, not plugin blocks we only tag
+	// (`dy-bleed`, EdgeBleed.php: Otter's white banner kept our pale ink, lab,
+	// 26/10/2026).
+	var SKIP = 'img,svg,video,canvas,iframe,picture,input,select,textarea,button,option,code,pre,.button,.components-button,.page-title-action,[class^="dy-"]:not(.dy-bleed),[class*=" dy-"]:not(.dy-bleed),[id^="dy-"]';
 	var CFG = window.doubleyoupiLightIslands || {};
 	// Dark theme, and not already moved to the native canvas.
 	function dark() { return !body.classList.contains('dy-theme-light') && !body.classList.contains('dy-native-content'); }
@@ -91,7 +95,10 @@ final class LightIslands {
 	var params = new URLSearchParams(location.search);
 	var pluginPage = !!params.get('page') && !/^doubleyoupi/.test(params.get('page'));
 	function lift(el) {
-		if (!pluginPage && !el.closest('.dy-dashboard__native-item[data-native-origin="plugin"]')) { return; }
+		// Plugin pages, plugin dashboard widgets, and plugin notices gathered
+		// in our notice lists (Image Optimization's grey notice on the
+		// dashboard, lab, 26/10/2026).
+		if (!pluginPage && !el.closest('.dy-dashboard__native-item[data-native-origin="plugin"], .dy-dashboard__notices-list, #dy-notices-list')) { return; }
 		if (el.closest('.' + CLS + ', .' + LIFT) || el.matches(SKIP)) { return; }
 		var own = false;
 		for (var n = el.firstChild; n; n = n.nextSibling) { if (n.nodeType === 3 && n.nodeValue.trim()) { own = true; break; } }
@@ -107,7 +114,17 @@ final class LightIslands {
 	}
 	function scan(scope) {
 		if (!dark() || !scope || scope.nodeType !== 1) { return; }
-		if (scope !== root) { mark(scope); }
+		// Content that arrives later (a widget filled by AJAX, Limit Login
+		// Attempts and Independent Analytics on the dashboard) lands in a panel
+		// that was still empty at the first pass, so never marked: its
+		// containers are looked at again, outermost first (translator,
+		// 26/10/2026).
+		if (scope !== root) {
+			var up = [];
+			for (var a = scope.parentElement; a && a !== root && a !== body; a = a.parentElement) { up.unshift(a); }
+			up.forEach(mark);
+			mark(scope);
+		}
 		var all = scope.getElementsByTagName('*');
 		for (var i = 0; i < all.length; i++) { mark(all[i]); }
 		if (scope !== root) { lift(scope); }
@@ -126,23 +143,53 @@ final class LightIslands {
 	}
 	// Plugin dialogs are often appended to <body>, outside the content: they
 	// are scanned too, but never WordPress' or our own frame.
-	var FRAME = /^(wpwrap|wpadminbar|adminmenumain|screen-meta|dy-)/;
+	// Same for layers mounted beside the content, in #wpwrap (The Events
+	// Calendar's notifications panel, TeamUpdraft's setup assistant), and for
+	// our notice lists, which hold plugin notices (lab, 26/10/2026).
+	var FRAME = /^(wpwrap|wpadminbar|adminmenumain|wpcontent|wpfooter|screen-meta|dy-)/;
 	function outside() {
-		return [].filter.call(body.children, function (n) {
+		var wrap = document.getElementById('wpwrap');
+		var kids = [].slice.call(body.children).concat(wrap ? [].slice.call(wrap.children) : []);
+		var out = kids.filter(function (n) {
 			return !/^(SCRIPT|STYLE|LINK|TEMPLATE|NOSCRIPT)$/.test(n.tagName) && !FRAME.test(n.id || '') && !/(^| )dy-/.test(n.className || '');
 		});
+		[].forEach.call(document.querySelectorAll('.dy-dashboard__notices-list, #dy-notices-list'), function (l) { out.push(l); });
+		return out;
 	}
-	function scanAll() { scan(root); outside().forEach(scan); }
+	// A screen on WordPress's light canvas only repaints its content: the
+	// plugin's layers beside it (The Events Calendar's notifications panel,
+	// Image Optimization's Thickbox window) kept our dark ground or our pale
+	// ink (lab, 26/10/2026). They belong to that light screen: islands.
+	function nativeLayers() {
+		if (!body.classList.contains('dy-native-content') || body.classList.contains('dy-theme-light')) { return; }
+		outside().forEach(function (n) {
+			if (!n.matches('.dy-dashboard__notices-list, #dy-notices-list')) { n.classList.add(CLS); }
+		});
+	}
+	function scanAll() { scan(root); outside().forEach(scan); nativeLayers(); }
 	var watch = new MutationObserver(function (records) {
 		records.forEach(function (rec) {
 			[].forEach.call(rec.addedNodes, function (n) {
-				if (n.nodeType === 1 && (root.contains(n) || outside().indexOf(n) > -1 || outside().some(function (o) { return o.contains(n); }))) { queue.push(n); }
+				// Text set in place (`textContent = …`) arrives as a text node.
+				if (n.nodeType === 3) { n = n.parentElement; }
+				if (n && n.nodeType === 1 && (root.contains(n) || outside().indexOf(n) > -1 || outside().some(function (o) { return o.contains(n); }))) { queue.push(n); }
 			});
 		});
 		if (queue.length && !queued) { queued = true; window.requestAnimationFrame(flush); }
+		nativeLayers();
+		// A layer added to the page often arrives empty and is filled after
+		// (Image Optimization's Thickbox window): follow what happens inside.
+		records.forEach(function (rec) {
+			[].forEach.call(rec.addedNodes, function (n) {
+				if (n.nodeType === 1 && (n.parentNode === body || n.parentNode === document.getElementById('wpwrap')) && outside().indexOf(n) > -1) {
+					watch.observe(n, { childList: true, subtree: true });
+				}
+			});
+		});
 	});
 	watch.observe(root, { childList: true, subtree: true });
 	watch.observe(body, { childList: true });
+	if (document.getElementById('wpwrap')) { watch.observe(document.getElementById('wpwrap'), { childList: true }); }
 	outside().forEach(function (o) { watch.observe(o, { childList: true, subtree: true }); });
 	// When most of a plugin page sits on its own white panels, a half-dark
 	// screen is worse than a light one: the page moves to the native canvas
@@ -163,6 +210,7 @@ final class LightIslands {
 		decided = true;
 		clear();
 		body.classList.add('dy-native-content');
+		nativeLayers();
 		if (CFG.canSave && CFG.rest && window.fetch) {
 			fetch(CFG.rest, {
 				method: 'POST',
@@ -173,6 +221,8 @@ final class LightIslands {
 		}
 	}
 	document.addEventListener('doubleyoupi:theme', function () { clear(); scanAll(); decide(); });
+	// Content that was hidden and has just been shown (our notice lists).
+	document.addEventListener('doubleyoupi:rescan', function () { window.requestAnimationFrame(scanAll); });
 	scanAll();
 	decide();
 	window.addEventListener('load', function () { scanAll(); decide(); setTimeout(function () { scanAll(); decide(); }, 1500); });

@@ -546,8 +546,10 @@
 	function renderDetected() {
 		var items = ( snapshot.detected || [] );
 		var head = '<h3 class="dy-dev-drawer__title">' + esc( t( 'detected' ) ) + ' <span class="dy-dev-pill">' + items.length + '</span></h3>';
+		// Empty, the section keeps its id: the link of the introduction still
+		// leads to it (translator, 26/10/2026, once everything was assigned).
 		if ( ! items.length ) {
-			return '<section class="dy-dev-drawer"><div class="dy-dev-drawer__inner">' + head + '<p class="dy-dev-empty">' + esc( t( 'noDetected' ) ) + '</p></div></section>';
+			return '<section class="dy-dev-drawer" id="dy-dev-detected"><div class="dy-dev-drawer__inner">' + head + '<p class="dy-dev-empty">' + esc( t( 'noDetected' ) ) + '</p></div></section>';
 		}
 		var targets = snapshot.targets || [];
 		var rows = items.map( function ( d ) {

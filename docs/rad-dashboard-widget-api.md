@@ -25,7 +25,8 @@ elsewhere.
 
 A plugin that adds a "Drafts waiting" card: the current user's latest drafts, with a setting for
 how many to show. Tested with Refined Admin Dashboard 1.0.14. The two files are also in the
-repository, ready to install: `docs/public/examples/acme-drafts-widget/`.
+plugin's GitHub repository, ready to install:
+[`examples/acme-drafts-widget/`](https://github.com/double-youpi/refined-admin-dashboard/tree/main/examples/acme-drafts-widget).
 
 **`acme-drafts-widget/acme-drafts-widget.php`**
 

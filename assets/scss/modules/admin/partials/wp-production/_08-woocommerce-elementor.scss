@@ -449,6 +449,21 @@ body.dy-admin .components-country-select-control__label,
 body.dy-admin .woocommerce-woopayments-payment-methods-logos-count {
   color: var(--dya-ink-soft) !important;
 }
+// Coupons screen (reached from « coupons-moved »): the recommended extensions
+// and knowledge base cards under the list, titles #1e1e1e and texts #757575
+// on our dark cards (compatibility lab, B3, 26/10/2026).
+body.dy-admin .woocommerce-marketing-recommended-extensions-item h4,
+body.dy-admin .woocommerce-marketing-knowledgebase-card__post h3 {
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .woocommerce-marketing-recommended-extensions-item:is(:hover, :focus) h4,
+body.dy-admin .woocommerce-marketing-knowledgebase-card__post:hover h3 {
+  color: var(--dya-accent-text) !important;
+}
+body.dy-admin .woocommerce-marketing-recommended-extensions-item p,
+body.dy-admin .woocommerce-marketing-knowledgebase-card__post-meta {
+  color: var(--dya-ink-soft) !important;
+}
 body.dy-admin .woocommerce-table .yes,
 body.dy-admin .wc_status_table .yes,
 body.dy-admin .wc-shipping-zone-worldwide .yes,

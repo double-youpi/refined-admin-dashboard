@@ -81,6 +81,7 @@ JS;
 		'moove-gdpr_help',    // GDPR Cookie Compliance, help
 		'moove-gdpr_licence', // GDPR Cookie Compliance, licence
 		'nf-submissions',     // Ninja Forms, submissions list
+		'members-settings',   // Members, Settings and Add-Ons tabs (lab, 26/10/2026)
 	];
 
 	/**
@@ -144,13 +145,13 @@ JS;
 		'backuply',         // Backuply
 		'optin-monster',    // OptinMonster (templates, integrations, TrustPulse)
 		'seedprod',         // SeedProd (coming-soon)
-		'cfdb7',            // Contact Form CFDB7
+		'cfdb7-extensions', // Contact Form CFDB7, extensions showcase (its list reads well skinned)
 		'smart-slider3',    // Smart Slider 3
 		'updraftplus',      // UpdraftPlus
 		'cloudsecurewp',    // CloudSecure WP Security
 		'mpsum',            // Easy Updates Manager (its own toggles)
 		'cyr-to-lat',       // Cyr To Lat
-		'members',          // Members (members, members-about, members-settings)
+		'members',          // Members (roles, About…; not its Settings, see SKINNED_APP_PREFIXES)
 		'copy-delete-posts', // Copy Delete Posts
 		'wps_overview',     // WP Statistics overview
 		'formidable-views', // Formidable Views
@@ -194,6 +195,11 @@ JS;
 		// Case-insensitive: some plugins register mixed-case slugs
 		// (Wordfence: page=Wordfence, WordfenceScan, WFLS…).
 		$page = strtolower( $page );
+		// A screen skinned on purpose wins over a broader prefix
+		// (`members` / `members-settings`).
+		if ( self::is_skinned_app( $page ) ) {
+			return false;
+		}
 
 		/** @var string[] $prefixes */
 		$prefixes = (array) apply_filters( 'doubleyoupi_native_content_prefixes', self::PAGE_PREFIXES );
