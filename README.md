@@ -4,9 +4,9 @@
 
 Double Youpï Refined Admin Dashboard (RAD) is a free WordPress plugin, with no Pro version, that redraws the whole admin in dark or light using WordPress's own components, so your other plugins keep working. It includes Refined Media Library (RML), which adds folders and collections to the media library.
 
-**Install it from WordPress.org:** [wordpress.org/plugins/doubleyoupi-refined-admin-dashboard](https://wordpress.org/plugins/doubleyoupi-refined-admin-dashboard/)
+[![Try it live (no install)](https://img.shields.io/badge/Try_it_live-no_install-5b3efe?style=for-the-badge&logo=wordpress&logoColor=white)](https://wordpress.org/plugins/doubleyoupi-refined-admin-dashboard/?preview=1) [![Install from WordPress.org](https://img.shields.io/badge/Install_from-WordPress.org-3858e9?style=for-the-badge&logo=wordpress&logoColor=white)](https://wordpress.org/plugins/doubleyoupi-refined-admin-dashboard/)
 
-**Try it without installing:** [Live Preview on WordPress.org](https://wordpress.org/plugins/doubleyoupi-refined-admin-dashboard/?preview=1)
+The live preview opens the plugin in WordPress Playground, in your browser: nothing to install, nothing kept.
 
 [Watch the tour on YouTube](https://www.youtube.com/watch?v=untjaB9-KSs)
 
