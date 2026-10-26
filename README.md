@@ -2,7 +2,7 @@
 
 # Double Youpï Refined Admin Dashboard
 
-A dark and light redesign of the whole WordPress admin: navigation, list tables, editor, notices, dashboard and media library, built on WordPress's own components only.
+Double Youpï Refined Admin Dashboard (RAD) is a free WordPress plugin, with no Pro version, that redraws the whole admin in dark or light using WordPress's own components, so your other plugins keep working. It includes Refined Media Library (RML), which adds folders and collections to the media library.
 
 **Install it from WordPress.org:** [wordpress.org/plugins/doubleyoupi-refined-admin-dashboard](https://wordpress.org/plugins/doubleyoupi-refined-admin-dashboard/)
 
@@ -38,7 +38,7 @@ Plugins that ship a widget for Refined Admin Dashboard: none listed yet. Yours? 
 
 This repository mirrors **every release published on WordPress.org**. Each commit is one release, tagged with its version number, and the files are exactly those of the WordPress.org package. The SCSS sources of the stylesheets are added under `assets/scss/`.
 
-Development happens in a private repository that also holds other projects. This one starts with the first release published on WordPress.org: each commit is a release, dated the day it went out. For the earliest releases, the SCSS sources are no longer available.
+Development happens in a private repository that also holds other projects. This one starts with the first release published on WordPress.org: each release is a tagged commit, dated the day it went out (the README may be updated in between). For the earliest releases, the SCSS sources are no longer available.
 
 ## Getting help, reporting a bug
 
@@ -53,3 +53,5 @@ Development happens in a private repository that also holds other projects. This
 GPLv2 or later, see [LICENSE](LICENSE).
 
 Made by [Double Youpï](https://doubleyoupi.com).
+
+If it saves you time, a star helps other people find it.
