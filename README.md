@@ -1,4 +1,4 @@
-![Double Youpï Refined Admin Dashboard](https://ps.w.org/doubleyoupi-refined-admin-dashboard/assets/banner-1544x500.png)
+![Double Youpï Refined Admin Dashboard](https://ps.w.org/doubleyoupi-refined-admin-dashboard/assets/banner-1544x500.png?rev=3766884)
 
 # Double Youpï Refined Admin Dashboard
 
@@ -10,7 +10,7 @@ Double Youpï Refined Admin Dashboard (RAD) is a free WordPress plugin, with no 
 
 [Watch the tour on YouTube](https://www.youtube.com/watch?v=untjaB9-KSs)
 
-![The redesigned admin](https://ps.w.org/doubleyoupi-refined-admin-dashboard/assets/screenshot-1.png)
+![The redesigned admin](https://ps.w.org/doubleyoupi-refined-admin-dashboard/assets/screenshot-1.png?rev=3747304)
 
 ## What it does
 
