@@ -114,12 +114,19 @@ body.dy-admin .postbox .hndle span:where(:not(.dy-native-content #wpbody-content
 
 // Screen reader text — already shipped by WP but redefined for
 // safety in self-contained mockups.
+// Clipped in place, as WordPress does, never pushed to `left: -10000px`: in a
+// right-to-left language that offset is on the scrollable side and gave the
+// content a 10,000px horizontal scroll (compatibility lab, 27/10/2026).
 body.dy-admin .screen-reader-text {
   position: absolute;
-  left: -10000px;
   width: 1px;
   height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
   overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 // ── Scrollbars ─────────────────────────────────────────────
@@ -134,6 +141,9 @@ body.dy-admin ::-webkit-scrollbar-thumb:hover { background: var(--dya-ink-fade);
 
 // ── Reduced motion ─────────────────────────────────────────
 @media (prefers-reduced-motion: reduce) {
+  // The body itself too: its colour transition (theme switch) was left at
+  // 0.26s (WCAG 2.3.3, compatibility lab, 27/10/2026).
+  body.dy-admin,
   body.dy-admin *,
   body.dy-admin *::before,
   body.dy-admin *::after {

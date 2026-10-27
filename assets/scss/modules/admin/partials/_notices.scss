@@ -13,9 +13,10 @@
 body.dy-admin .notice.hidden,
 body.dy-admin .notice[hidden] { display: none !important; }
 
-body.dy-admin:not(.dy-builder-native) .notice,
-body.dy-admin:not(.dy-builder-native) div.updated,
-body.dy-admin:not(.dy-builder-native) div.error {
+// Not on a form its plugin keeps in its page (`.dy-notice-form`, see the end).
+body.dy-admin:not(.dy-builder-native) .notice:not(.dy-notice-form),
+body.dy-admin:not(.dy-builder-native) div.updated:not(.dy-notice-form),
+body.dy-admin:not(.dy-builder-native) div.error:not(.dy-notice-form) {
   background: var(--dya-paper);
   border: 1px solid var(--dya-edge);
   // Border-left explicitly neutralized: WP-native declares
@@ -119,9 +120,9 @@ body.dy-admin:not(.dy-builder-native) { interpolate-size: allow-keywords; }
   }
 }
 
-body.dy-admin:not(.dy-builder-native) .notice p,
-body.dy-admin:not(.dy-builder-native) div.updated p,
-body.dy-admin:not(.dy-builder-native) div.error p {
+body.dy-admin:not(.dy-builder-native) .notice:not(.dy-notice-form) p,
+body.dy-admin:not(.dy-builder-native) div.updated:not(.dy-notice-form) p,
+body.dy-admin:not(.dy-builder-native) div.error:not(.dy-notice-form) p {
   margin: 0 !important;
   padding: 0;
   color: inherit;
@@ -269,4 +270,13 @@ body.dy-admin:not(.dy-builder-native) .update-nag {
   font-size: 13px;
   font-weight: 400;
   box-shadow: var(--dya-shadow-sm);
+}
+
+// A form left in its notice, where its plugin places it (notices.js,
+// isFormNotice: BoldGrid Connect's key prompt): it is page content, not a
+// message, so it keeps its plugin's look, without our dot (lab, 27/10/2026).
+body.dy-admin .notice.dy-notice-form::before,
+body.dy-admin div.error.dy-notice-form::before,
+body.dy-admin div.updated.dy-notice-form::before {
+  content: none;
 }

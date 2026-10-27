@@ -3,7 +3,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-10-26T17:02:23+00:00\n"
+"POT-Creation-Date: 2026-10-26T23:57:45+00:00\n"
 "Language: es_ES\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
@@ -597,7 +597,7 @@ msgstr ""
 "Carpetas y colecciones, arrastrar y soltar, vista previa rápida, limpieza de "
 "duplicados y archivos huérfanos, y conversión WebP/AVIF al subir."
 
-#: src/Modules/Admin/Admin.php:129 src/Modules/Admin/Rail.php:598
+#: src/Modules/Admin/Admin.php:129 src/Modules/Admin/Rail.php:608
 msgid "Admin"
 msgstr "Admin"
 
@@ -644,11 +644,11 @@ msgstr "Sesión"
 msgid "Invert theme"
 msgstr "Invertir el tema"
 
-#: src/Modules/Admin/Adminbar.php:132
+#: src/Modules/Admin/Adminbar.php:202
 msgid "Toggle theme"
 msgstr "Cambiar tema"
 
-#: src/Modules/Admin/Adminbar.php:150
+#: src/Modules/Admin/Adminbar.php:220
 msgid "View site"
 msgstr "Ver el sitio"
 
@@ -2602,15 +2602,15 @@ msgstr "Pantallas dejadas con el estilo nativo"
 msgid "Toolkit toggles"
 msgstr "Conmutadores de la caja de herramientas"
 
-#: src/Modules/Admin/Rail.php:597
+#: src/Modules/Admin/Rail.php:607
 msgid "Dashboard"
 msgstr "Escritorio"
 
-#: src/Modules/Admin/Rail.php:774
+#: src/Modules/Admin/Rail.php:784
 msgid "Resize navigation"
 msgstr "Redimensionar navegación"
 
-#: src/Modules/Admin/Rail.php:775
+#: src/Modules/Admin/Rail.php:785
 msgid "Toggle navigation width"
 msgstr "Cambiar ancho de navegación"
 

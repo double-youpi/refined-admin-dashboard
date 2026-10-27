@@ -267,9 +267,15 @@
 				this.stack.addEventListener('keydown', (e) => {
 					if (e.key === 'Escape' && !this.list.hidden) { this._open(false); this.toggle.focus(); }
 				});
-				this.stack.appendChild(this.list);
+				// Pill first, the list unfolds below it (top right since 27/10/2026).
 				this.stack.appendChild(this.toggle);
+				this.stack.appendChild(this.list);
 				document.body.appendChild(this.stack);
+				// « Customize » sits just before the pill, on its line: it needs
+				// the pill's width, which depends on the language and the count.
+				if (window.ResizeObserver) {
+					new ResizeObserver(() => this._publishWidth()).observe(this.toggle);
+				}
 				// A dismissed notice leaves the list: recount, and go away at zero.
 				new MutationObserver(() => this._refresh()).observe(this.list, { childList: true });
 			}
@@ -286,6 +292,11 @@
 			const n = this.list.children.length;
 			this.toggle.querySelector('.dy-notice-trigger__count').textContent = String(n);
 			this.stack.hidden = n === 0;
+			this._publishWidth();
+		},
+		_publishWidth() {
+			const w = this.stack.hidden ? 0 : this.toggle.getBoundingClientRect().width + 10;
+			document.body.style.setProperty('--dy-notices-w', Math.round(w) + 'px');
 		}
 	};
 

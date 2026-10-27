@@ -344,3 +344,35 @@ body.dy-admin:not(.dy-editor-reimagined) {
   .acf-row-handle .acf-icon,
   .acf-row-handle.order > span { color: var(--dya-ink-mute); }
 }
+
+// Jetpack : ses écrans applicatifs (Jetpack AI, Backup, Newsletter, Search,
+// VideoPress, My Jetpack) fixent `#wpbody-content` à 32 px du haut et 160 px
+// du bord, la place de la barre et du menu de WordPress. Sous nos barres et
+// notre rail, leur en-tête et leur premier onglet disparaissaient (labo,
+// 27/10/2026). On les rend au flux de la page.
+body.dy-admin:is([class*="jetpack_page_"], .toplevel_page_jetpack-network-sites, .jp-network_page_jetpack-network-settings) #wpbody-content {
+  position: relative !important;
+  inset: auto !important;
+  width: 100% !important;
+  overflow: visible !important;
+}
+
+// Hello Elementor : sa barre « Hello » (MUI AppBar) se pose en absolu en haut de
+// #wpcontent, à 160 px du bord, la place du menu de WordPress. Chez nous elle
+// recouvrait la barre d'onglets (labo, 27/10/2026) : on la laisse dans son
+// conteneur, sous nos barres, sur toute la largeur.
+body.dy-admin #ehe-admin-top-bar-root .MuiAppBar-root {
+  position: relative !important;
+  inset: auto !important;
+  width: auto !important;
+}
+
+// Astra et Neve, éditeur en sombre : leur encart de la barre latérale garde une
+// encre sombre écrite en dur (#1e1e1e) sur notre panneau sombre (labo,
+// 27/10/2026). En clair, le panneau est clair : rien à changer.
+body.dy-admin:not(.dy-theme-light) .ast-pro-upgrade-cta-wrapper p.ast-upgrade-description {
+  color: var(--dya-ink-soft);
+}
+body.dy-admin:not(.dy-theme-light) .nv-meta-notice-wrapper h4 {
+  color: var(--dya-ink);
+}

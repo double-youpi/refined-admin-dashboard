@@ -106,6 +106,10 @@ body.dy-admin .media-toolbar .attachment-filters:focus {
   border-color: var(--dya-edge-strong) !important;
   background-color: var(--dya-paper-2) !important;
 }
+// Keyboard focus keeps a visible ring (accessibility, lab 27/10/2026).
+body.dy-admin .media-toolbar .attachment-filters:focus-visible {
+  box-shadow: 0 0 0 2px var(--dya-accent) !important;
+}
 
 // ── Recherche = .dy-tfsearch ──────────────────────────────────────────
 body.dy-admin .media-toolbar input.search,
@@ -126,7 +130,9 @@ body.dy-admin .media-toolbar #media-search-input {
 body.dy-admin .media-toolbar input.search:focus,
 body.dy-admin .media-toolbar #media-search-input:focus {
   border-color: var(--dya-edge-strong) !important;
-  box-shadow: none !important;
+  // The focus must stay visible: a ring, not a barely darker border
+  // (accessibility, lab 27/10/2026).
+  box-shadow: 0 0 0 2px var(--dya-accent) !important;
 }
 // Native clear button (×) on the search field: blue and inconsistent by default.
 // We redraw it as a neutral × (colored mask) that switches to accent on hover.

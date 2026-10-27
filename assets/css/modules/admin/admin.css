@@ -353,10 +353,14 @@ body.dy-admin .postbox .hndle span:where(:not(.dy-native-content #wpbody-content
 
 body.dy-admin .screen-reader-text {
   position: absolute;
-  left: -10000px;
   width: 1px;
   height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
   overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 body.dy-admin ::-webkit-scrollbar {
@@ -379,6 +383,7 @@ body.dy-admin ::-webkit-scrollbar-thumb:hover {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  body.dy-admin,
   body.dy-admin *,
   body.dy-admin *::before,
   body.dy-admin *::after {
@@ -1134,8 +1139,29 @@ body.dy-admin #wpadminbar #wp-admin-bar-user-info {
   margin-bottom: 0 !important;
 }
 
-body.dy-admin #wpadminbar #wp-admin-bar-logout {
+body.dy-admin #wpadminbar #wp-admin-bar-logout,
+body.dy-admin #wpadminbar #wp-admin-bar-user-actions > li.dy-wp-link,
+body.dy-admin #wpadminbar #wp-admin-bar-user-actions > li.dy-wp-label {
   margin-left: 16px !important;
+}
+
+body.dy-admin #wpadminbar #wp-admin-bar-user-actions > li.dy-wp-label > .ab-item {
+  display: block;
+  min-height: 0;
+  padding: 0 4px 6px 14px;
+  font-family: var(--dya-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dya-ink-mute);
+  background: transparent;
+  cursor: default;
+}
+
+body.dy-admin #wpadminbar #wp-admin-bar-user-actions > li.dy-wp-link ~ #wp-admin-bar-logout {
+  margin-top: 10px !important;
+  padding-top: 10px !important;
+  border-top: 1px solid var(--dya-line);
 }
 
 body.dy-admin #wpadminbar #wp-admin-bar-user-info > .ab-item:hover {
@@ -1190,6 +1216,7 @@ body.dy-admin #wpadminbar #wp-admin-bar-user-info > .ab-item:hover .display-name
   letter-spacing: 0.2em;
 }
 
+body.dy-admin #wpadminbar #wp-admin-bar-user-actions > li.dy-wp-link > .ab-item,
 body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item,
 body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item {
   display: flex;
@@ -1211,6 +1238,7 @@ body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item {
   transition: color var(--dya-t-fast, 0.12s) ease, padding-left var(--dya-t-fast, 0.12s) ease;
 }
 
+body.dy-admin #wpadminbar #wp-admin-bar-user-actions > li.dy-wp-link > .ab-item::before,
 body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item::before,
 body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item::before {
   content: "";
@@ -1225,6 +1253,7 @@ body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item::before {
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+body.dy-admin #wpadminbar #wp-admin-bar-user-actions > li.dy-wp-link > .ab-item::after,
 body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item::after,
 body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item::after {
   content: "→";
@@ -1237,7 +1266,9 @@ body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item::after {
   transition: opacity var(--dya-t-fast, 0.12s) ease, transform var(--dya-t-fast, 0.12s) cubic-bezier(0.16, 1, 0.3, 1), color var(--dya-t-fast, 0.12s) ease;
 }
 
+body.dy-admin #wpadminbar #wp-admin-bar-user-actions > li.dy-wp-link > .ab-item:hover,
 body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item:hover,
+body.dy-admin #wpadminbar #wp-admin-bar-user-actions > li.dy-wp-link > .ab-item:focus-visible,
 body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item:focus-visible,
 body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item:hover,
 body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item:focus-visible {
@@ -1246,14 +1277,18 @@ body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item:focus-visible {
   background: transparent;
 }
 
+body.dy-admin #wpadminbar #wp-admin-bar-user-actions > li.dy-wp-link > .ab-item:hover::before,
 body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item:hover::before,
+body.dy-admin #wpadminbar #wp-admin-bar-user-actions > li.dy-wp-link > .ab-item:focus-visible::before,
 body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item:focus-visible::before,
 body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item:hover::before,
 body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item:focus-visible::before {
   transform: translateY(-50%) scaleY(1);
 }
 
+body.dy-admin #wpadminbar #wp-admin-bar-user-actions > li.dy-wp-link > .ab-item:hover::after,
 body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item:hover::after,
+body.dy-admin #wpadminbar #wp-admin-bar-user-actions > li.dy-wp-link > .ab-item:focus-visible::after,
 body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item:focus-visible::after,
 body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item:hover::after,
 body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item:focus-visible::after {
@@ -4787,7 +4822,7 @@ body.dy-admin .wp-list-table tbody .row-actions a {
   cursor: pointer;
 }
 
-body.dy-admin .wp-list-table .row-actions {
+body.dy-admin:not(.dy-native-content) .wp-list-table .row-actions {
   position: relative;
   left: 0;
   margin-top: 4px;
@@ -4798,9 +4833,9 @@ body.dy-admin .wp-list-table .row-actions {
   transition: opacity var(--dya-t-fast), visibility 0s linear var(--dya-t-fast);
 }
 
-body.dy-admin .wp-list-table tr:hover .row-actions,
-body.dy-admin .wp-list-table tr:focus-within .row-actions,
-body.dy-admin .wp-list-table tr.is-expanded .row-actions {
+body.dy-admin:not(.dy-native-content) .wp-list-table tr:hover .row-actions,
+body.dy-admin:not(.dy-native-content) .wp-list-table tr:focus-within .row-actions,
+body.dy-admin:not(.dy-native-content) .wp-list-table tr.is-expanded .row-actions {
   visibility: visible;
   opacity: 1;
   transition: opacity var(--dya-t-fast), visibility 0s;
@@ -7584,8 +7619,9 @@ body.dy-admin .dy-treimg--plugins .dy-trow--plugin.is-update-error .dy-tupd {
 body.dy-admin .dy-treimg--plugins .dy-trow--plugin.is-inactive .dy-trow__title-text {
   color: var(--dya-ink-soft);
 }
-body.dy-admin .dy-treimg--plugins .dy-trow--plugin.is-inactive .dy-trow__desc {
-  opacity: 0.62;
+body.dy-admin .dy-treimg--plugins .dy-trow--plugin.is-inactive .dy-trow__desc,
+body.dy-admin .dy-treimg--plugins .dy-trow--plugin.is-inactive .dy-trow__desc-text {
+  color: var(--dya-ink-mute);
 }
 body.dy-admin .dy-treimg--plugins .dy-tinactive {
   display: inline-flex;
@@ -8597,9 +8633,9 @@ body.dy-admin .notice[hidden] {
   display: none !important;
 }
 
-body.dy-admin:not(.dy-builder-native) .notice,
-body.dy-admin:not(.dy-builder-native) div.updated,
-body.dy-admin:not(.dy-builder-native) div.error {
+body.dy-admin:not(.dy-builder-native) .notice:not(.dy-notice-form),
+body.dy-admin:not(.dy-builder-native) div.updated:not(.dy-notice-form),
+body.dy-admin:not(.dy-builder-native) div.error:not(.dy-notice-form) {
   background: var(--dya-paper);
   border: 1px solid var(--dya-edge);
   border-left: 1px solid var(--dya-line) !important;
@@ -8661,9 +8697,9 @@ body.dy-admin:not(.dy-builder-native) {
     transition-duration: 1ms;
   }
 }
-body.dy-admin:not(.dy-builder-native) .notice p,
-body.dy-admin:not(.dy-builder-native) div.updated p,
-body.dy-admin:not(.dy-builder-native) div.error p {
+body.dy-admin:not(.dy-builder-native) .notice:not(.dy-notice-form) p,
+body.dy-admin:not(.dy-builder-native) div.updated:not(.dy-notice-form) p,
+body.dy-admin:not(.dy-builder-native) div.error:not(.dy-notice-form) p {
   margin: 0 !important;
   padding: 0;
   color: inherit;
@@ -8803,6 +8839,12 @@ body.dy-admin:not(.dy-builder-native) .update-nag {
   font-size: 13px;
   font-weight: 400;
   box-shadow: var(--dya-shadow-sm);
+}
+
+body.dy-admin .notice.dy-notice-form::before,
+body.dy-admin div.error.dy-notice-form::before,
+body.dy-admin div.updated.dy-notice-form::before {
+  content: none;
 }
 
 body.dy-admin .dy-notice-dock {
@@ -9198,7 +9240,7 @@ body.dy-admin .dy-notices-modal__empty-sub {
 body.dy-admin .dy-notice-toast-host {
   position: fixed;
   bottom: 24px;
-  right: 24px;
+  inset-inline-end: 24px;
   z-index: 100000;
   display: flex;
   flex-direction: column-reverse;
@@ -9620,6 +9662,20 @@ body.dy-admin .theme-browser {
 
 body.dy-admin .theme-browser .themes {
   display: contents;
+}
+
+body.dy-admin .theme-browser .themes.single-theme {
+  display: block;
+  grid-column: 1/-1;
+}
+
+body.dy-admin .themes.single-theme .theme-overlay .theme-wrap {
+  left: auto;
+  right: auto;
+}
+
+body.dy-admin:has(.themes.single-theme) .theme-overlay:focus {
+  outline: none !important;
 }
 
 body.dy-admin .theme-browser .theme {
@@ -11788,6 +11844,13 @@ body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpcontent {
   --dya-line-strong: #c3c4c7;
 }
 
+body.dy-admin.dy-native-content #wpcontent > :not(#wpbody, #wpadminbar, #screen-meta, #screen-meta-links, [id^=dy-], [id^=doubleyoupi-], [class*=dy-]) {
+  color: #3c434a;
+  --dya-ink: #3c434a;
+  --dya-ink-soft: #50575e;
+  --dya-ink-mute: #646970;
+}
+
 body.dy-admin.dy-native-content #wpbody-content {
   --dya-accent-text: #2271b1;
 }
@@ -13863,6 +13926,10 @@ body.dy-admin .edit-site-header {
   gap: 8px;
   position: relative;
   z-index: 5;
+}
+
+body.dy-admin .edit-post-header.editor-header {
+  display: grid;
 }
 
 body.dy-admin .edit-post-header__toolbar,
@@ -16564,10 +16631,36 @@ body.dy-admin #wpwrap > a.screen-reader-shortcut {
 body.dy-admin #wpwrap a.screen-reader-shortcut,
 body.dy-admin #wpwrap > .skip-link {
   position: absolute;
-  left: -10000px;
+  top: 0;
+  left: 0;
   width: 1px;
   height: 1px;
+  margin: -1px;
   overflow: hidden;
+  clip-path: inset(50%);
+}
+
+body.dy-admin #wpwrap a.screen-reader-shortcut:focus,
+body.dy-admin #wpwrap > .skip-link:focus {
+  position: fixed;
+  top: 8px;
+  left: auto;
+  inset-inline-start: 8px;
+  z-index: 100000;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip-path: none;
+  padding: 10px 16px;
+  border-radius: var(--dya-r-md);
+  background: var(--dya-paper);
+  color: var(--dya-ink);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: underline;
+  box-shadow: var(--dya-shadow-md), 0 0 0 2px var(--dya-accent);
+  outline: none;
 }
 
 body.dy-admin #wpcontent {
@@ -16723,6 +16816,33 @@ body.dy-admin[class*=post-type-acf-] .wp-list-table tbody tr th:first-child,
 body.dy-admin[class*=post-type-acf-] .wp-list-table tbody tr td.check-column,
 body.dy-admin[class*=post-type-acf-] .wp-list-table tbody tr :is(td, th).column-title {
   background-color: transparent !important;
+}
+
+body.rtl.dy-admin #wpadminbar {
+  left: 0;
+  right: var(--dya-rail-w-current);
+}
+
+body.rtl.dy-admin #wpcontent,
+body.rtl.dy-admin #wpfooter {
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+}
+
+body.rtl.dy-admin .interface-interface-skeleton:has(> .interface-interface-skeleton__editor) {
+  left: 0 !important;
+  right: var(--dya-rail-w-current, var(--dya-rail-w)) !important;
+}
+
+body.rtl.js.dy-admin.block-editor-page:is(.dy-be-loading, .dy-be-ready) #editor::before,
+body.rtl.js.dy-admin.block-editor-page:is(.dy-be-loading, .dy-be-ready) #editor::after {
+  left: 0;
+  right: var(--dya-rail-w-current, var(--dya-rail-w));
+}
+
+body.rtl.dy-admin .theme-overlay .theme-wrap {
+  left: 24px;
+  right: calc(var(--dya-rail-w-current, 240px) + 24px);
 }
 
 body.dy-admin .acf-field {
@@ -19340,6 +19460,41 @@ body.dy-admin.upload-php:has(#dy-folder-panel) .wrap > .search-box {
   margin-left: calc(min(var(--dy-fw, 220px), 35vw, 360px) + var(--dy-gutter, 20px)) !important;
 }
 
+body.rtl.dy-admin.upload-php #dy-folder-panel,
+body.rtl.dy-admin.upload-php.folded #dy-folder-panel,
+body.rtl.dy-admin.upload-php.auto-fold #dy-folder-panel {
+  left: auto !important;
+  right: calc(var(--dya-rail-w-current, var(--dya-rail-w)) + var(--dy-gutter, 20px)) !important;
+}
+
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel) .wrap {
+  margin-left: 0 !important;
+  margin-right: var(--dy-gutter, 20px) !important;
+}
+
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel) .wrap > .media-frame,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel) .wrap > .notice,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel) .wrap > .updated,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel) .wrap > .error,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel) .wrap > .wp-filter,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel) .wrap > .subsubsub,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel) .wrap > #posts-filter,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel) .wrap > .search-box {
+  margin-left: 0 !important;
+  margin-right: calc(min(var(--dy-fw, 220px), 35vw, 360px) + var(--dy-gutter, 20px)) !important;
+}
+
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel):has(.dy-detail-open) .wrap > .media-frame,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel):has(.dy-detail-open) .wrap > .notice,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel):has(.dy-detail-open) .wrap > .updated,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel):has(.dy-detail-open) .wrap > .error,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel):has(.dy-detail-open) .wrap > .wp-filter,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel):has(.dy-detail-open) .wrap > .subsubsub,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel):has(.dy-detail-open) .wrap > #posts-filter,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel):has(.dy-detail-open) .wrap > .search-box {
+  margin-left: calc(var(--dy-dw, 340px) + var(--dy-gutter, 20px)) !important;
+}
+
 body.dy-admin.upload-php .wp-filter {
   margin-top: 0 !important;
 }
@@ -19688,7 +19843,7 @@ body.dy-admin .theme-browser .theme.active .theme-id-container {
 }
 
 body.dy-admin .theme-browser .theme.active .theme-name {
-  color: var(--dya-bg) !important;
+  color: var(--dya-accent-on, var(--dya-bg)) !important;
   font-weight: 600 !important;
   text-shadow: none !important;
   box-shadow: none !important;
@@ -20441,6 +20596,15 @@ body.dy-admin #the-comment-list .row-actions .spam a,
 body.dy-admin #the-comment-list .row-actions .trash a,
 body.dy-admin #the-comment-list .row-actions .delete a {
   color: var(--dya-danger);
+}
+
+body.dy-admin .wp-list-table .column-date .submitted-on {
+  color: var(--dya-ink-soft);
+}
+
+body.dy-admin .theme-overlay .theme-tags,
+body.dy-admin .theme-tags > span {
+  color: var(--dya-ink-soft) !important;
 }
 
 body.dy-admin.woocommerce-admin-full-screen,
@@ -24332,6 +24496,27 @@ body.dy-admin:not(.dy-editor-reimagined) .acf-row-handle.order > span {
   color: var(--dya-ink-mute);
 }
 
+body.dy-admin:is([class*=jetpack_page_], .toplevel_page_jetpack-network-sites, .jp-network_page_jetpack-network-settings) #wpbody-content {
+  position: relative !important;
+  inset: auto !important;
+  width: 100% !important;
+  overflow: visible !important;
+}
+
+body.dy-admin #ehe-admin-top-bar-root .MuiAppBar-root {
+  position: relative !important;
+  inset: auto !important;
+  width: auto !important;
+}
+
+body.dy-admin:not(.dy-theme-light) .ast-pro-upgrade-cta-wrapper p.ast-upgrade-description {
+  color: var(--dya-ink-soft);
+}
+
+body.dy-admin:not(.dy-theme-light) .nv-meta-notice-wrapper h4 {
+  color: var(--dya-ink);
+}
+
 body.dy-admin,
 body.dy-admin [data-wpds-root-provider],
 body.dy-admin [data-wpds-root-provider] * {
@@ -24359,9 +24544,9 @@ body.dy-admin [data-wpds-root-provider] * {
   --wpds-color-stroke-surface-brand-strong: var(--dya-accent) !important;
 }
 
-body.dy-admin:not(.dy-theme-light),
-body.dy-admin:not(.dy-theme-light) [data-wpds-root-provider],
-body.dy-admin:not(.dy-theme-light) [data-wpds-root-provider] * {
+body.dy-admin:not(.dy-theme-light):not(.dy-native-content),
+body.dy-admin:not(.dy-theme-light):not(.dy-native-content) [data-wpds-root-provider],
+body.dy-admin:not(.dy-theme-light):not(.dy-native-content) [data-wpds-root-provider] * {
   --wpds-color-background-interactive-error: var(--dya-danger) !important;
   --wpds-color-background-interactive-error-active: color-mix(in srgb, var(--dya-danger) 82%, black) !important;
   --wpds-color-background-interactive-error-disabled: color-mix(in srgb, var(--dya-danger) 38%, var(--dya-paper)) !important;
@@ -25171,6 +25356,10 @@ body.dy-admin .media-toolbar .attachment-filters:focus {
   background-color: var(--dya-paper-2) !important;
 }
 
+body.dy-admin .media-toolbar .attachment-filters:focus-visible {
+  box-shadow: 0 0 0 2px var(--dya-accent) !important;
+}
+
 body.dy-admin .media-toolbar input.search,
 body.dy-admin .media-toolbar input[type=search],
 body.dy-admin .media-toolbar #media-search-input {
@@ -25190,7 +25379,7 @@ body.dy-admin .media-toolbar #media-search-input {
 body.dy-admin .media-toolbar input.search:focus,
 body.dy-admin .media-toolbar #media-search-input:focus {
   border-color: var(--dya-edge-strong) !important;
-  box-shadow: none !important;
+  box-shadow: 0 0 0 2px var(--dya-accent) !important;
 }
 
 body.dy-admin .media-toolbar input[type=search]::-webkit-search-cancel-button {

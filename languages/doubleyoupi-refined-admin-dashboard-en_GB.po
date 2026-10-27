@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Double Youpi 0.9.40-dev\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-10-26T17:02:23+00:00\n"
+"POT-Creation-Date: 2026-10-26T23:57:45+00:00\n"
 "PO-Revision-Date: 2026-05-20 22:34+0000\n"
 "Last-Translator: Double Youpï\n"
 "Language-Team: Double Youpï (English (United Kingdom))\n"
@@ -573,7 +573,7 @@ msgid ""
 "cleanup, plus WebP/AVIF conversion on upload."
 msgstr ""
 
-#: src/Modules/Admin/Admin.php:129 src/Modules/Admin/Rail.php:598
+#: src/Modules/Admin/Admin.php:129 src/Modules/Admin/Rail.php:608
 msgid "Admin"
 msgstr "Admin"
 
@@ -619,11 +619,11 @@ msgstr "Session"
 msgid "Invert theme"
 msgstr "Invert theme"
 
-#: src/Modules/Admin/Adminbar.php:132
+#: src/Modules/Admin/Adminbar.php:202
 msgid "Toggle theme"
 msgstr "Toggle theme"
 
-#: src/Modules/Admin/Adminbar.php:150
+#: src/Modules/Admin/Adminbar.php:220
 msgid "View site"
 msgstr "View site"
 
@@ -2552,15 +2552,15 @@ msgstr "Screens left in native styling"
 msgid "Toolkit toggles"
 msgstr "Toolkit toggles"
 
-#: src/Modules/Admin/Rail.php:597
+#: src/Modules/Admin/Rail.php:607
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#: src/Modules/Admin/Rail.php:774
+#: src/Modules/Admin/Rail.php:784
 msgid "Resize navigation"
 msgstr "Resize navigation"
 
-#: src/Modules/Admin/Rail.php:775
+#: src/Modules/Admin/Rail.php:785
 msgid "Toggle navigation width"
 msgstr "Toggle navigation width"
 

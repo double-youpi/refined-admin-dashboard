@@ -1128,7 +1128,10 @@ body.dy-admin .dy-treimg--plugins {
   .dy-trow--plugin.is-updated .dy-tupd { color: var(--dya-success); }
   .dy-trow--plugin.is-update-error .dy-tupd { color: var(--dya-danger); }
   .dy-trow--plugin.is-inactive .dy-trow__title-text { color: var(--dya-ink-soft); }
-  .dy-trow--plugin.is-inactive .dy-trow__desc { opacity: .62; }
+  // Muted ink rather than opacity: at .62 the 11.5px text fell to 2.6:1 in the
+  // light theme (WCAG 1.4.3, compatibility lab, 27/10/2026).
+  .dy-trow--plugin.is-inactive .dy-trow__desc,
+  .dy-trow--plugin.is-inactive .dy-trow__desc-text { color: var(--dya-ink-mute); }
   .dy-tinactive {
     display: inline-flex; align-items: center; height: 20px; padding: 0 7px;
     border: 1px dashed var(--dya-ink-fade); border-radius: var(--dya-r-sm);

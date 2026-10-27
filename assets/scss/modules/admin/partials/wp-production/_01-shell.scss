@@ -108,10 +108,39 @@ body.dy-admin #wpwrap > a.screen-reader-shortcut {
 body.dy-admin #wpwrap a.screen-reader-shortcut,
 body.dy-admin #wpwrap > .skip-link {
   position: absolute;
-  left: -10000px;
+  top: 0;
+  left: 0;
   width: 1px;
   height: 1px;
+  margin: -1px;
   overflow: hidden;
+  clip-path: inset(50%); // clipped in place: no 10,000px overflow in RTL
+}
+// … and shown when they get the keyboard focus, as WordPress does: they are
+// the first Tab stop of every screen (« Skip to main content », « Skip to
+// toolbar »; WCAG 2.4.1, compatibility lab, 27/10/2026). Fixed, so they land
+// on top of the bar whatever the layout, at the start of the line in RTL too.
+body.dy-admin #wpwrap a.screen-reader-shortcut:focus,
+body.dy-admin #wpwrap > .skip-link:focus {
+  position: fixed;
+  top: 8px;
+  left: auto;
+  inset-inline-start: 8px;
+  z-index: 100000;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip-path: none;
+  padding: 10px 16px;
+  border-radius: var(--dya-r-md);
+  background: var(--dya-paper);
+  color: var(--dya-ink);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: underline;
+  box-shadow: var(--dya-shadow-md), 0 0 0 2px var(--dya-accent);
+  outline: none;
 }
 
 // 6. WP's grid row should explicitly reserve the bar row height since
@@ -374,3 +403,34 @@ body.dy-admin[class*="post-type-acf-"] .wp-list-table tbody tr :is(td, th).colum
   background-color: transparent !important;
 }
 
+
+// ── RTL (Arabic, Hebrew, Persian…) ────────────────────────────────────────
+// The #wpwrap grid already puts the rail on the right in a right-to-left
+// language. What we placed with `left` on the rail's width is mirrored here:
+// the top bar started 240px from the left and covered the rail's logo, the
+// content stopped at 1040px (our zero left margin plus WordPress's own RTL
+// right margin), the dashboard went under the rail (compatibility lab,
+// 27/10/2026).
+body.rtl.dy-admin #wpadminbar {
+  left: 0;
+  right: var(--dya-rail-w-current);
+}
+body.rtl.dy-admin #wpcontent,
+body.rtl.dy-admin #wpfooter {
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+}
+// The dashboard's own root: in _dashboard.scss (dashboard.css).
+body.rtl.dy-admin .interface-interface-skeleton:has(> .interface-interface-skeleton__editor) {
+  left: 0 !important;
+  right: var(--dya-rail-w-current, var(--dya-rail-w)) !important;
+}
+body.rtl.js.dy-admin.block-editor-page:is(.dy-be-loading, .dy-be-ready) #editor::before,
+body.rtl.js.dy-admin.block-editor-page:is(.dy-be-loading, .dy-be-ready) #editor::after {
+  left: 0;
+  right: var(--dya-rail-w-current, var(--dya-rail-w));
+}
+body.rtl.dy-admin .theme-overlay .theme-wrap {
+  left: 24px;
+  right: calc(var(--dya-rail-w-current, 240px) + 24px);
+}

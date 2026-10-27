@@ -3,7 +3,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-10-26T17:02:23+00:00\n"
+"POT-Creation-Date: 2026-10-26T23:57:45+00:00\n"
 "Language: it_IT\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
@@ -596,7 +596,7 @@ msgstr ""
 "Cartelle e raccolte, drag & drop, anteprima rapida, pulizia di duplicati e "
 "file orfani, più conversione WebP/AVIF al caricamento."
 
-#: src/Modules/Admin/Admin.php:129 src/Modules/Admin/Rail.php:598
+#: src/Modules/Admin/Admin.php:129 src/Modules/Admin/Rail.php:608
 msgid "Admin"
 msgstr "Admin"
 
@@ -643,11 +643,11 @@ msgstr "Sessione"
 msgid "Invert theme"
 msgstr "Inverti il tema"
 
-#: src/Modules/Admin/Adminbar.php:132
+#: src/Modules/Admin/Adminbar.php:202
 msgid "Toggle theme"
 msgstr "Cambia tema"
 
-#: src/Modules/Admin/Adminbar.php:150
+#: src/Modules/Admin/Adminbar.php:220
 msgid "View site"
 msgstr "Vai al sito"
 
@@ -2599,15 +2599,15 @@ msgstr "Schermate lasciate nello stile nativo"
 msgid "Toolkit toggles"
 msgstr "Interruttori del Toolkit"
 
-#: src/Modules/Admin/Rail.php:597
+#: src/Modules/Admin/Rail.php:607
 msgid "Dashboard"
 msgstr "Bacheca"
 
-#: src/Modules/Admin/Rail.php:774
+#: src/Modules/Admin/Rail.php:784
 msgid "Resize navigation"
 msgstr "Ridimensiona la navigazione"
 
-#: src/Modules/Admin/Rail.php:775
+#: src/Modules/Admin/Rail.php:785
 msgid "Toggle navigation width"
 msgstr "Cambia larghezza della navigazione"
 

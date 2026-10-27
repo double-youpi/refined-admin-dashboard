@@ -105,12 +105,13 @@ body.dy-admin.index-php {
 	// affects neither the height nor any potential reflow.
 	.dy-dashboard__notice-suppressed { display: none !important; }
 
-	// WP notices: stacked bottom-right, wider so long messages display without
-	// breaking the internal layout.
+	// WP notices, folded into the « Notifications » pill at the top right,
+	// where the pill sits on every other screen (Raphaël, 27/10/2026); wide
+	// enough when open for long messages to keep their layout.
 	.dy-dashboard__notices-stack {
 		position: fixed;
-		bottom: clamp(90px, 8vw, 130px);
-		right: clamp(16px, 1.6vw, 32px);
+		top: calc(var(--dya-topbar-h, 54px) + 16px);
+		inset-inline-end: clamp(16px, 1.6vw, 32px); // end side: away from the rail in RTL too
 		display: flex;
 		flex-direction: column;
 		gap: 10px;
@@ -147,7 +148,7 @@ body.dy-admin.index-php {
 	}
 
 	// The stack is folded into the « Notifications » pill (dashboard.js): the
-	// notices unfold above it on click, and only then take pointer events.
+	// notices unfold below it on click, and only then take pointer events.
 	.dy-dashboard__notices-stack {
 		align-items: flex-end;
 	}
@@ -169,6 +170,7 @@ body.dy-admin.index-php {
 	.dy-dashboard__notices-toggle {
 		pointer-events: auto;
 		margin: 0;
+		min-height: 40px; // the height of « Customize », on the same line
 	}
 	.dy-dashboard__notices-stack.is-open .dy-dashboard__notices-toggle {
 		border-color: var(--dya-ink-fade);
@@ -179,7 +181,7 @@ body.dy-admin.index-php {
 	// so a notice never hides behind (or covers) the panel.
 	body.dy-admin:has(.dy-dashboard__sidebar.is-open) & .dy-dashboard__notices-stack,
 	&:has(.dy-dashboard__sidebar.is-open) .dy-dashboard__notices-stack {
-		right: calc(clamp(320px, 26vw, 380px) + clamp(16px, 1.6vw, 32px) + 16px);
+		inset-inline-end: calc(clamp(320px, 26vw, 380px) + clamp(16px, 1.6vw, 32px) + 16px);
 	}
 
 	// We leave the WP postbox `#doubleyoupi_dashboard_root` in normal flow
@@ -211,7 +213,16 @@ body.dy-admin.index-php {
 		transition: left 380ms var(--dya-rail-snap-easing, var(--dya-ease, cubic-bezier(.22,.7,.2,1)));
 
 		*, *::before, *::after { box-sizing: border-box; }
+	}	// Right-to-left languages: the rail is on the right (lab, 27/10/2026).
+	&.rtl #dy-dashboard-root.dy-dashboard {
+		left: 0;
+		right: var(--dya-rail-w-current, 96px);
 	}
+	// The customize panel slides in from its own side, and the carousel
+	// arrows point the way the screens go.
+	&.rtl .dy-dashboard__sidebar:not(.is-open) { transform: translateX(calc(-100% - 40px)); }
+	&.rtl .dy-dashboard__nav-arrow svg { transform: scaleX(-1); }
+
 
 	// ── Multi-screen viewport ─────────────────────────────────────
 	.dy-dashboard__viewport {
@@ -1386,6 +1397,22 @@ body.dy-admin.index-php {
 		&.no-anim { transition: none; }
 	}
 
+	// Forced colours (Windows high contrast): the dots are drawn by their
+	// background only, which the system replaced; they vanished, leaving the
+	// arrows alone (WCAG 1.4.11, compatibility lab, 27/10/2026).
+	@media (forced-colors: active) {
+		.dy-dashboard__nav-dot {
+			forced-color-adjust: none;
+			background: CanvasText;
+			&.is-active { background: Highlight; }
+		}
+		.dy-dashboard__nav-worm {
+			forced-color-adjust: none;
+			background: Highlight;
+			box-shadow: none;
+		}
+	}
+
 	// ── Screen title tooltip on dot hover (#6) ───────────────────
 	.dy-dashboard__nav-tip {
 		position: absolute;
@@ -1466,10 +1493,12 @@ body.dy-admin.index-php {
 	}
 
 	// ── Bouton Personnaliser (flottant) ──────────────────────────
+	// Just before the « Notifications » pill, on its line: dashboard.js
+	// publishes the pill's width (`--dy-notices-w`, 0 without notices).
 	.dy-dashboard__customize-btn {
 		position: fixed;
 		top: calc(var(--dya-topbar-h, 54px) + 16px);
-		right: clamp(16px, 1.6vw, 32px);
+		inset-inline-end: calc(clamp(16px, 1.6vw, 32px) + var(--dy-notices-w, 0px));
 		display: inline-flex;
 		align-items: center;
 		gap: 8px;
@@ -1519,7 +1548,7 @@ body.dy-admin.index-php {
 	.dy-dashboard__sidebar {
 		position: fixed;
 		top: calc(var(--dya-topbar-h, 54px) + 16px);
-		right: clamp(16px, 1.6vw, 32px);
+		inset-inline-end: clamp(16px, 1.6vw, 32px);
 		bottom: clamp(16px, 1.6vw, 32px);
 		width: clamp(320px, 26vw, 380px);
 		background: var(--dya-paper);

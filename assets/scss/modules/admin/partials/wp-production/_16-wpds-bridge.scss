@@ -48,9 +48,12 @@ body.dy-admin [data-wpds-root-provider] * {
   --wpds-color-stroke-surface-brand-strong: var(--dya-accent) !important;
 }
 
-body.dy-admin:not(.dy-theme-light),
-body.dy-admin:not(.dy-theme-light) [data-wpds-root-provider],
-body.dy-admin:not(.dy-theme-light) [data-wpds-root-provider] * {
+// Not on screens left to WordPress's light canvas (native content): their
+// plugin cards stayed white but took our dark inks through these tokens
+// (Jetpack's modules, lab, 27/10/2026).
+body.dy-admin:not(.dy-theme-light):not(.dy-native-content),
+body.dy-admin:not(.dy-theme-light):not(.dy-native-content) [data-wpds-root-provider],
+body.dy-admin:not(.dy-theme-light):not(.dy-native-content) [data-wpds-root-provider] * {
   --wpds-color-background-interactive-error: var(--dya-danger) !important;
   --wpds-color-background-interactive-error-active: color-mix(in srgb, var(--dya-danger) 82%, black) !important;
   --wpds-color-background-interactive-error-disabled: color-mix(in srgb, var(--dya-danger) 38%, var(--dya-paper)) !important;

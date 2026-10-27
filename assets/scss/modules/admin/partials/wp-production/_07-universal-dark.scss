@@ -343,6 +343,41 @@ body.dy-admin.upload-php:has(#dy-folder-panel) .wrap > .search-box {
   margin-left: calc(min(var(--dy-fw, 220px), 35vw, 360px) + var(--dy-gutter, 20px)) !important;
 }
 
+// Right-to-left languages: the rail is on the right, the folder panel runs
+// along it and the grid keeps its room on that side (lab, 27/10/2026).
+body.rtl.dy-admin.upload-php #dy-folder-panel,
+body.rtl.dy-admin.upload-php.folded #dy-folder-panel,
+body.rtl.dy-admin.upload-php.auto-fold #dy-folder-panel {
+  left: auto !important;
+  right: calc(var(--dya-rail-w-current, var(--dya-rail-w)) + var(--dy-gutter, 20px)) !important;
+}
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel) .wrap {
+  margin-left: 0 !important;
+  margin-right: var(--dy-gutter, 20px) !important;
+}
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel) .wrap > .media-frame,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel) .wrap > .notice,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel) .wrap > .updated,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel) .wrap > .error,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel) .wrap > .wp-filter,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel) .wrap > .subsubsub,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel) .wrap > #posts-filter,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel) .wrap > .search-box {
+  margin-left: 0 !important;
+  margin-right: calc(min(var(--dy-fw, 220px), 35vw, 360px) + var(--dy-gutter, 20px)) !important;
+}
+// The details panel opens on the left: the grid keeps its room there.
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel):has(.dy-detail-open) .wrap > .media-frame,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel):has(.dy-detail-open) .wrap > .notice,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel):has(.dy-detail-open) .wrap > .updated,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel):has(.dy-detail-open) .wrap > .error,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel):has(.dy-detail-open) .wrap > .wp-filter,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel):has(.dy-detail-open) .wrap > .subsubsub,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel):has(.dy-detail-open) .wrap > #posts-filter,
+body.rtl.dy-admin.upload-php:has(#dy-folder-panel):has(.dy-detail-open) .wrap > .search-box {
+  margin-left: calc(var(--dy-dw, 340px) + var(--dy-gutter, 20px)) !important;
+}
+
 // Native WP `.wp-filter` carries a `margin: 25px 0 5px` that creates a
 // vertical gap between the search bar and the top of the page. In admin
 // mode the spacing already comes from the folder panel `top` + `.wrap`
@@ -870,8 +905,9 @@ body.dy-admin .theme-browser .theme.active .theme-id-container {
   background: var(--dya-accent) !important;
   padding: 14px !important;
 }
+// The text colour computed for the accent (--dya-bg gave 4.2:1, lab 27/10/2026).
 body.dy-admin .theme-browser .theme.active .theme-name {
-  color: var(--dya-bg) !important;
+  color: var(--dya-accent-on, var(--dya-bg)) !important;
   font-weight: 600 !important;
   text-shadow: none !important;
   box-shadow: none !important;
@@ -1588,4 +1624,17 @@ body.dy-admin #the-comment-list .row-actions .spam a,
 body.dy-admin #the-comment-list .row-actions .trash a,
 body.dy-admin #the-comment-list .row-actions .delete a {
   color: var(--dya-danger);
+}
+
+// ── Contrasts measured by the compatibility lab (27/10/2026, WCAG 1.4.3) ──
+// Comment dates: our muted ink on the tinted row of a pending comment gave
+// 4.45:1 at 11px.
+body.dy-admin .wp-list-table .column-date .submitted-on {
+  color: var(--dya-ink-soft);
+}
+// Theme details: WordPress greys the tags with a fixed #3c434a, 1.73:1 on our
+// dark overlay.
+body.dy-admin .theme-overlay .theme-tags,
+body.dy-admin .theme-tags > span {
+  color: var(--dya-ink-soft) !important;
 }

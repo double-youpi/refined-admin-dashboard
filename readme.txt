@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, dark theme
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.20
+Stable tag: 1.0.23
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,9 @@ A free admin theme with dark mode for WordPress: every screen redrawn, a menu yo
 
 == Description ==
 
-Double Youpï Refined Admin Dashboard redraws every screen of the WordPress admin, in dark or light, using only WordPress's own components. You get a menu you can reorder, every notice in one place, a dashboard per role and a media library with folders. It is free, with no Pro version, and deactivating it brings the admin back as it was.
+Double Youpï Refined Admin Dashboard (RAD) is a free WordPress plugin, with no Pro version, that redraws the whole admin in dark or light using WordPress's own components, so your other plugins keep working. It includes Refined Media Library (RML), which adds folders and collections to the media library.
+
+You get a menu you can reorder, every notice in one place, a dashboard per role and a media library with folders. Deactivating it brings the admin back as it was.
 
 The admin is where you spend your days: a sidebar that every plugin adds a line to, a dashboard full of widgets nobody reads. It might as well be pleasant.
 
@@ -73,6 +75,14 @@ This is the whole of [Double Youpï Refined Media Library](https://wordpress.org
 
 Some plugins manage their own interface. When one of them owns the screen, this plugin stops theming it rather than fighting for control. Page builders, and anything that ships a full admin of its own, are left alone.
 
+**Learn more**
+
+Documentation and news: [doubleyoupi.com/plugins/refined-admin-dashboard](https://doubleyoupi.com/plugins/refined-admin-dashboard).
+
+**Contributing**
+
+The code of every release is on GitHub: [github.com/double-youpi/refined-admin-dashboard](https://github.com/double-youpi/refined-admin-dashboard). Found a bug? Open an issue there. Questions and help requests stay on the support forum here.
+
 == Installation ==
 
 1. Install it from the Plugins screen, or upload it to `/wp-content/plugins/doubleyoupi-refined-admin-dashboard` by hand if that's your thing.
@@ -105,6 +115,10 @@ They are collected rather than deleted. Every notice from WordPress and your plu
 
 That is one of the main points. An editor lets you reorder entries, move them between themed lines, hide what you never use, and reset everything in one click if you change your mind. Menu entries from newly installed plugins go to the section that fits them best, and are listed in the Developer tab so you can move them.
 
+= What is the difference with other admin themes? =
+
+It restyles WordPress's own screens and components instead of drawing a new interface on top of them, so your plugins keep their pages, and deactivating it brings the admin back as it was. It is not a white-label tool: it stays listed in Plugins, where it can be deactivated like any other. It is also young: version 1.0 came out on October 14, 2026.
+
 = I already use an admin theme or a menu editor plugin. Should I switch? =
 
 It covers some of the same ground: a menu editor, a dark mode, your logo and colour, a dashboard per role. Its approach is to restyle WordPress's own components rather than draw a new interface, so your plugins keep their screens. It is free, with no Pro version. Try it on its own, with the other plugin deactivated; if it is not for you, deactivating it brings the admin back as it was.
@@ -132,6 +146,10 @@ Yes. By default it applies to everyone. You can switch on a mode where each acco
 = Does it slow the admin down? =
 
 No. The theme is CSS on native markup, the brand font is self-hosted, and the body text uses the fonts already on your machine. Nothing is fetched from a third party.
+
+= Is the code open source? =
+
+Yes. It is released under the GPL (version 2 or later), and the code of every release is published on GitHub: [github.com/double-youpi/refined-admin-dashboard](https://github.com/double-youpi/refined-admin-dashboard). Bug reports are welcome there as issues; for help, use the support forum here.
 
 == External services ==
 
@@ -168,6 +186,28 @@ Privacy policy: https://doubleyoupi.com/privacy
 15. Coming from FileBird or another folder plugin? Preview its folders, then import them in one click. The source plugin is never modified.
 
 == Changelog ==
+
+= 1.0.23 =
+* Change: About WordPress, Documentation, Support and Get Involved are back, in the account menu at the top right.
+* Change: on the dashboard, the Notifications button sits at the top right, where it is on every other screen, with Customize just before it.
+
+= 1.0.22 =
+* Fix: plugin screens left on WordPress's light canvas no longer take the dark theme's colours through WordPress's design tokens (Jetpack's modules), and their switches are visible again.
+* Fix: Jetpack's app screens (Jetpack AI, Backup, Search…) start below the navigation instead of under it.
+* Fix: LiteSpeed Cache's CDN and Image Optimization screens are drawn like its other screens, and read well in dark mode.
+* Fix: a plugin's own empty list keeps its picture and its "Add" button (Secure Custom Fields).
+* Fix: a form a plugin places in its page stays where it is instead of going to the notifications (BoldGrid Connect in Total Upkeep).
+* Fix: with a single theme installed, the Themes screen shows its sheet on the full width.
+* Fix: Hello Elementor's bar no longer covers the tabs, and its welcome notice goes to the notifications; GeneratePress's header, Astra's and Neve's editor panels read well in dark mode.
+* Fix: the block editor's title uses the room it has, and the media list's "Attach" link reads as a link.
+
+= 1.0.21 =
+* Fix: right-to-left languages (Arabic, Hebrew, Persian): the top bar, the content, the dashboard and the media library run along the menu on the right, without covering it or leaving a strip.
+* Fix: the "Skip to main content" links appear when they receive keyboard focus.
+* Fix: keyboard focus is visible on the settings cards and in the media library's search and filters; the hidden "Add Media File" button no longer takes the focus.
+* Fix: better contrast for inactive plugins' descriptions, comment dates and theme tags.
+* Fix: Editors, Authors and Contributors find Tools and their Profile in the menu again.
+* Fix: the dashboard's slide dots stay visible in high contrast mode, and screens no longer fade in when the system asks for less motion.
 
 = 1.0.20 =
 * Fix: on plugin screens shown on WordPress's light canvas, headings, links and checkboxes look as they do without the redesign (WP Super Cache, Fluent Forms).
@@ -335,6 +375,15 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.23 =
+WordPress links in the account menu; dashboard notifications at the top right.
+
+= 1.0.22 =
+Fixes for Jetpack, LiteSpeed Cache, Secure Custom Fields, Total Upkeep and the Hello Elementor, GeneratePress, Astra and Neve themes.
+
+= 1.0.21 =
+Right-to-left languages, visible keyboard focus and better contrast; Tools back in the menu for Editors and Authors.
 
 = 1.0.20 =
 Plugin screens on WordPress's light canvas look as they do without the redesign; fixes for WooCommerce and Independent Analytics widgets.

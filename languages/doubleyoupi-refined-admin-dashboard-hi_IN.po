@@ -3,7 +3,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-10-26T17:02:23+00:00\n"
+"POT-Creation-Date: 2026-10-26T23:57:45+00:00\n"
 "Language: hi_IN\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
@@ -586,7 +586,7 @@ msgstr ""
 "फ़ोल्डर और संग्रह, ड्रैग एंड ड्रॉप, त्वरित पूर्वावलोकन, डुप्लिकेट और अनाथ फ़ाइलों की सफ़ाई, "
 "और अपलोड पर WebP/AVIF रूपांतरण।"
 
-#: src/Modules/Admin/Admin.php:129 src/Modules/Admin/Rail.php:598
+#: src/Modules/Admin/Admin.php:129 src/Modules/Admin/Rail.php:608
 msgid "Admin"
 msgstr "एडमिन"
 
@@ -632,11 +632,11 @@ msgstr "सत्र"
 msgid "Invert theme"
 msgstr "थीम पलटें"
 
-#: src/Modules/Admin/Adminbar.php:132
+#: src/Modules/Admin/Adminbar.php:202
 msgid "Toggle theme"
 msgstr "थीम बदलें"
 
-#: src/Modules/Admin/Adminbar.php:150
+#: src/Modules/Admin/Adminbar.php:220
 msgid "View site"
 msgstr "साइट देखें"
 
@@ -2559,15 +2559,15 @@ msgstr "मूल शैली में छोड़ी गई स्क्र�
 msgid "Toolkit toggles"
 msgstr "टूलकिट स्विच"
 
-#: src/Modules/Admin/Rail.php:597
+#: src/Modules/Admin/Rail.php:607
 msgid "Dashboard"
 msgstr "डैशबोर्ड"
 
-#: src/Modules/Admin/Rail.php:774
+#: src/Modules/Admin/Rail.php:784
 msgid "Resize navigation"
 msgstr "नेविगेशन का आकार बदलें"
 
-#: src/Modules/Admin/Rail.php:775
+#: src/Modules/Admin/Rail.php:785
 msgid "Toggle navigation width"
 msgstr "नेविगेशन चौड़ाई बदलें"
 

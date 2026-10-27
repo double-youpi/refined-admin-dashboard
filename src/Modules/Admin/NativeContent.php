@@ -82,6 +82,10 @@ JS;
 		'moove-gdpr_licence', // GDPR Cookie Compliance, licence
 		'nf-submissions',     // Ninja Forms, submissions list
 		'members-settings',   // Members, Settings and Add-Ons tabs (lab, 26/10/2026)
+		// LiteSpeed Cache: every screen is skinned; CDN and Image Optimization,
+		// learned as light for their white cards, kept LiteSpeed's own dark
+		// skin on the native canvas, pale ink on white (lab, 27/10/2026).
+		'litespeed',
 	];
 
 	/**

@@ -238,6 +238,24 @@ body.dy-admin .theme-browser {
 body.dy-admin .theme-browser .themes {
   display: contents;
 }
+// With a single theme installed, WordPress shows that theme's detail sheet
+// in the page instead of the tiles (`.single-theme`): it must span the whole
+// grid, not sit in one 260px cell, nor take the offset of the floating sheet
+// (lab, 27/10/2026).
+body.dy-admin .theme-browser .themes.single-theme {
+  display: block;
+  grid-column: 1 / -1;
+}
+body.dy-admin .themes.single-theme .theme-overlay .theme-wrap {
+  left: auto;
+  right: auto;
+}
+// WordPress focuses its empty overlay shell (`.theme-overlay[tabindex]`,
+// below the sheet) on load: 0px high, its ring was a stray line under the
+// sheet. WordPress draws none there either.
+body.dy-admin:has(.themes.single-theme) .theme-overlay:focus {
+  outline: none !important; // beats the shared [tabindex] ring
+}
 // WP applies inline `width: …px` and `margin: …` on each .theme tile
 // (via wp-admin/js/theme.js for responsive sizing). Override so our
 // grid auto-fill works as intended.

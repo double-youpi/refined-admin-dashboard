@@ -37,7 +37,9 @@
   // not a `.notice`) injected site-wide → we capture it in the center too.
   // `.bmi-banner`: Backup Migration's promo banner, same case, shown on the
   // plugins screen and its own page (compatibility pass, 19/10/2026).
-  var NOTICE_SELECTOR = '.notice, div.updated, div.error, .update-nag, #wf-onboarding-banner, .bmi-banner';
+  // `#ehe-admin-cb`: Hello Elementor's welcome notice, a React root without
+  // the notice classes (compatibility lab, 27/10/2026).
+  var NOTICE_SELECTOR = '.notice, div.updated, div.error, .update-nag, #wf-onboarding-banner, .bmi-banner, #ehe-admin-cb';
 
   // Containers where a "notice" is actually a functional screen element
   // (meta box, table, media frame, options screen, our own chrome) —
@@ -83,11 +85,27 @@
     // Exclude notices nested inside another already-managed notice.
     if (el.parentElement && el.parentElement.closest && el.parentElement.closest('[data-dy-captured]')) return false;
     if (el.closest(SKIP_ANCESTORS)) return false;
+    // A form its plugin has placed inside its own page (BoldGrid Connect's
+    // key prompt, moved into Total Upkeep's settings column): taken away,
+    // the page lost its layout (lab, 27/10/2026). At the top of a screen,
+    // the same prompt is a notice like any other.
+    if (isPlacedForm(el)) {
+      el.classList.add('dy-notice-form');
+      return false;
+    }
     // A notice its plugin keeps inside a hidden parent is a template, not a
     // message: Backuply's four, two of them red errors, came out in the
     // counter (compatibility lab, 26/10/2026).
     if (hasHiddenAncestor(el)) return false;
     return true;
+  }
+
+  function isPlacedForm(el) {
+    var p = el.parentElement;
+    if (!p || p.id === 'wpbody-content' || p === list) return false;
+    if (p.classList.contains('wrap') && p.parentElement && p.parentElement.id === 'wpbody-content') return false;
+    if (!p.closest('#wpbody-content')) return false;
+    return !!el.querySelector('input:not([type=hidden]):not([type=checkbox]):not([type=radio]):not([type=submit]):not([type=button]), select, textarea');
   }
 
   function hasHiddenAncestor(el) {
@@ -166,9 +184,19 @@
    */
   function reclaimEscaped() {
     if (!list) return;
+    var placed = false;
     var escaped = [].slice.call(root.querySelectorAll('[data-dy-captured="1"]'))
-      .filter(function (el) { return !list.contains(el); });
-    if (!escaped.length) return;
+      .filter(function (el) { return !list.contains(el); })
+      .filter(function (el) {
+        // Moved by its plugin into its page as a form (isPlacedForm): it
+        // stays there, as page content.
+        if (!isPlacedForm(el)) return true;
+        el.dataset.dyCaptured = 'placed';
+        el.classList.add('dy-notice-form');
+        placed = true;
+        return false;
+      });
+    if (!escaped.length) { if (placed) refresh(); return; }
     escaped.forEach(function (el) { list.appendChild(el); });
     refresh();
   }
@@ -187,7 +215,8 @@
     if (!content || !list || !list.children.length) return;
     // Notices and the page title do not count; the rest does, including what
     // we draw in the content (a redesigned list is content).
-    var OWN = '[data-dy-captured], ' + NOTICE_SELECTOR + ', .dy-notice-dock, .dy-notices-modal, .dy-notice-toast-host, h1, .wp-header-end, script, style, noscript, template';
+    // A form left in its notice (isFormNotice) is page content.
+    var OWN = '[data-dy-captured]:not(.dy-notice-form), ' + NOTICE_SELECTOR.split(', ').map(function (s) { return s + ':not(.dy-notice-form)'; }).join(', ') + ', .dy-notice-dock, .dy-notices-modal, .dy-notice-toast-host, h1, .wp-header-end, script, style, noscript, template';
     var chars = 0;
     var w = document.createTreeWalker(content, NodeFilter.SHOW_TEXT);
     while (w.nextNode() && chars < 40) {

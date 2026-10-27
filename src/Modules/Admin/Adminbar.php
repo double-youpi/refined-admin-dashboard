@@ -74,8 +74,78 @@ final class Adminbar {
 	 * other plugins measure the bar.
 	 */
 	public function cleanup_native_nodes( \WP_Admin_Bar $bar ): void {
+		$this->move_wordpress_links( $bar );
 		$bar->remove_node( 'wp-logo' );
 		$bar->remove_node( 'menu-toggle' );
+	}
+
+	/**
+	 * WordPress links the logo menu carried, kept in the account menu.
+	 *
+	 * Removing the logo took « About WordPress » and « Get Involved » away
+	 * with it (compatibility lab, 27/10/2026). Four of its entries go to the
+	 * account menu, under a « WordPress » label and before « Log Out »: the
+	 * core nodes themselves, so their labels come translated by WordPress.
+	 * WordPress.org, Learn and Feedback stay one click away from those pages
+	 * (Raphaël, 27/10/2026). A link another plugin added to the logo menu
+	 * comes along.
+	 */
+	private function move_wordpress_links( \WP_Admin_Bar $bar ): void {
+		// The menu's group exists from priority 0; its « my-account » parent
+		// only arrives at 9991, after this pass.
+		if ( ! $bar->get_node( 'user-actions' ) ) {
+			return;
+		}
+		$keep  = [ 'about', 'documentation', 'support-forums', 'contribute' ];
+		$core  = [ 'about', 'contribute', 'wp-logo-external', 'wporg', 'documentation', 'learn', 'support-forums', 'feedback' ];
+		$links = [];
+		foreach ( $keep as $id ) {
+			$node = $bar->get_node( $id );
+			if ( $node ) {
+				$links[] = $node;
+			}
+		}
+		foreach ( (array) $bar->get_nodes() as $node ) {
+			if ( in_array( $node->parent, [ 'wp-logo', 'wp-logo-external' ], true ) && ! in_array( $node->id, $core, true ) && ! $node->group ) {
+				$links[] = $node;
+			}
+		}
+		foreach ( [ 'wp-logo-external', 'wporg', 'learn', 'feedback' ] as $id ) {
+			$bar->remove_node( $id );
+		}
+		if ( ! $links ) {
+			return;
+		}
+		// « Log Out » stays last: taken out, then put back after the links.
+		$logout = $bar->get_node( 'logout' );
+		if ( $logout ) {
+			$bar->remove_node( 'logout' );
+		}
+		$bar->add_node(
+			[
+				'parent' => 'user-actions',
+				'id'     => 'dy-wordpress-label',
+				'title'  => 'WordPress',
+				'meta'   => [ 'class' => 'dy-wp-label' ],
+			]
+		);
+		foreach ( $links as $node ) {
+			$meta          = (array) $node->meta;
+			$meta['class'] = trim( ( $meta['class'] ?? '' ) . ' dy-wp-link' );
+			$bar->remove_node( $node->id );
+			$bar->add_node(
+				[
+					'parent' => 'user-actions',
+					'id'     => $node->id,
+					'title'  => $node->title,
+					'href'   => $node->href,
+					'meta'   => $meta,
+				]
+			);
+		}
+		if ( $logout ) {
+			$bar->add_node( (array) $logout );
+		}
 	}
 
 	/**

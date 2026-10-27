@@ -375,7 +375,7 @@ body.dy-admin .dy-notices-modal__empty-sub {
 body.dy-admin .dy-notice-toast-host {
   position: fixed;
   bottom: 24px;
-  right: 24px;
+  inset-inline-end: 24px; // away from the rail in RTL too
   z-index: 100000;
   display: flex;
   flex-direction: column-reverse;

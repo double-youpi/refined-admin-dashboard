@@ -717,8 +717,30 @@ body.dy-admin #wpadminbar #wp-admin-bar-user-info{
   margin-left:16px !important;
   margin-bottom: 0 !important;
 }
-body.dy-admin #wpadminbar #wp-admin-bar-logout{
+body.dy-admin #wpadminbar #wp-admin-bar-logout,
+body.dy-admin #wpadminbar #wp-admin-bar-user-actions > li.dy-wp-link,
+body.dy-admin #wpadminbar #wp-admin-bar-user-actions > li.dy-wp-label {
   margin-left:16px !important;
+}
+// WordPress links (About, Documentation…), moved here from the logo menu
+// (Adminbar::move_wordpress_links): a quiet label, the same rows as « Log
+// Out », and a rule before « Log Out », which stays last.
+body.dy-admin #wpadminbar #wp-admin-bar-user-actions > li.dy-wp-label > .ab-item {
+  display: block;
+  min-height: 0;
+  padding: 0 4px 6px 14px;
+  font-family: var(--dya-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dya-ink-mute);
+  background: transparent;
+  cursor: default;
+}
+body.dy-admin #wpadminbar #wp-admin-bar-user-actions > li.dy-wp-link ~ #wp-admin-bar-logout {
+  margin-top: 10px !important;
+  padding-top: 10px !important;
+  border-top: 1px solid var(--dya-line);
 }
 body.dy-admin #wpadminbar #wp-admin-bar-user-info > .ab-item:hover {
   opacity: .92;
@@ -788,6 +810,7 @@ body.dy-admin #wpadminbar #wp-admin-bar-user-info > .ab-item:hover .display-name
 // Dense mono caps rows. No full-row bg on hover: we use a 2px accent
 // ribbon that appears on the left (scaleY 0 → 1) + a 4px rightward
 // text shift. More subtle, more designed than a plain hover background.
+body.dy-admin #wpadminbar #wp-admin-bar-user-actions > li.dy-wp-link > .ab-item,
 body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item,
 body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item {
   display: flex;
@@ -812,6 +835,7 @@ body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item {
 }
 
 // 2px accent ribbon that pushes out from the vertical center.
+body.dy-admin #wpadminbar #wp-admin-bar-user-actions > li.dy-wp-link > .ab-item::before,
 body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item::before,
 body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item::before {
   content: "";
@@ -827,6 +851,7 @@ body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item::before {
 }
 
 // Right-side mono glyph chevron that slides and colors on hover.
+body.dy-admin #wpadminbar #wp-admin-bar-user-actions > li.dy-wp-link > .ab-item::after,
 body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item::after,
 body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item::after {
   content: "→";
@@ -842,7 +867,9 @@ body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item::after {
     color     var(--dya-t-fast, .12s) ease;
 }
 
+body.dy-admin #wpadminbar #wp-admin-bar-user-actions > li.dy-wp-link > .ab-item:hover,
 body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item:hover,
+body.dy-admin #wpadminbar #wp-admin-bar-user-actions > li.dy-wp-link > .ab-item:focus-visible,
 body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item:focus-visible,
 body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item:hover,
 body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item:focus-visible {
@@ -850,13 +877,17 @@ body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item:focus-visible {
   padding-left: 18px;
   background: transparent;
 }
+body.dy-admin #wpadminbar #wp-admin-bar-user-actions > li.dy-wp-link > .ab-item:hover::before,
 body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item:hover::before,
+body.dy-admin #wpadminbar #wp-admin-bar-user-actions > li.dy-wp-link > .ab-item:focus-visible::before,
 body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item:focus-visible::before,
 body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item:hover::before,
 body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item:focus-visible::before {
   transform: translateY(-50%) scaleY(1);
 }
+body.dy-admin #wpadminbar #wp-admin-bar-user-actions > li.dy-wp-link > .ab-item:hover::after,
 body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item:hover::after,
+body.dy-admin #wpadminbar #wp-admin-bar-user-actions > li.dy-wp-link > .ab-item:focus-visible::after,
 body.dy-admin #wpadminbar #wp-admin-bar-logout > .ab-item:focus-visible::after,
 body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item:hover::after,
 body.dy-admin #wpadminbar #wp-admin-bar-edit-profile > .ab-item:focus-visible::after {

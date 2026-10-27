@@ -2774,8 +2774,19 @@
     // service row (the list ended at its header: compatibility lab, 24/10/2026).
     if (!rows.length) {
       var none = table.querySelector('tbody > tr.no-items td');
-      var noneText = none ? txt(none).trim() : '';
-      if (noneText) list.appendChild(el('<div class="dy-tempty" role="status">' + escHtml(noneText) + '</div>'));
+      // A plugin's own empty state (Secure Custom Fields: picture, heading,
+      // "Add" button) is kept whole, without its inline script: as text it
+      // showed the script's source and lost the button (lab, 27/10/2026).
+      if (none && none.querySelector('img, svg, a, button, h1, h2, h3, p')) {
+        var rich = el('<div class="dy-tempty dy-tempty--rich" role="status"></div>');
+        [].forEach.call(none.childNodes, function (n) {
+          if (n.nodeName !== 'SCRIPT') rich.appendChild(n.cloneNode(true));
+        });
+        list.appendChild(rich);
+      } else {
+        var noneText = none ? txt(none).trim() : '';
+        if (noneText) list.appendChild(el('<div class="dy-tempty" role="status">' + escHtml(noneText) + '</div>'));
+      }
     }
     if (KIND === 'post') {
       list.__hiddenCols = {};

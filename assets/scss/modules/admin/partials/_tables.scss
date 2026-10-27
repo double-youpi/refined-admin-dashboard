@@ -708,7 +708,10 @@ body.dy-admin .wp-list-table tbody .row-actions a {
 // Worked around by enforcing `left: 0` within our `body.dy-admin` scope:
 // the offset is neutralized, show/hide is handled via `visibility +
 // opacity` in normal flow — no risk of compounding positions.
-body.dy-admin .wp-list-table .row-actions {
+// Not on screens left to WordPress's light canvas (native content): a plugin
+// that shows its row actions for good overrides WordPress's offset, never our
+// visibility, and Jetpack's module switches stayed hidden (lab, 27/10/2026).
+body.dy-admin:not(.dy-native-content) .wp-list-table .row-actions {
   position: relative;
   left: 0;               // beat WP's `left: -9999em`
   margin-top: 4px;
@@ -718,9 +721,9 @@ body.dy-admin .wp-list-table .row-actions {
   opacity: 0;
   transition: opacity var(--dya-t-fast), visibility 0s linear var(--dya-t-fast);
 }
-body.dy-admin .wp-list-table tr:hover .row-actions,
-body.dy-admin .wp-list-table tr:focus-within .row-actions,
-body.dy-admin .wp-list-table tr.is-expanded .row-actions {
+body.dy-admin:not(.dy-native-content) .wp-list-table tr:hover .row-actions,
+body.dy-admin:not(.dy-native-content) .wp-list-table tr:focus-within .row-actions,
+body.dy-admin:not(.dy-native-content) .wp-list-table tr.is-expanded .row-actions {
   visibility: visible;
   opacity: 1;
   transition: opacity var(--dya-t-fast), visibility 0s;

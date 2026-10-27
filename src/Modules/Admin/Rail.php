@@ -228,6 +228,16 @@ JS;
 		}
 		$now     = self::flat_sub_slugs();
 		$removed = array_diff_key( $this->sub_slugs_at_collect, $now );
+		// WordPress itself drops a submenu that holds a single page identical to
+		// its top-level entry (Tools and Profile for an author): the page is
+		// still there, as the top-level entry. Not a removal (editors, authors
+		// and contributors lost Tools from the rail, lab 27/10/2026).
+		global $menu;
+		foreach ( (array) $menu as $entry ) {
+			if ( is_array( $entry ) && ! empty( $entry[2] ) ) {
+				unset( $removed[ PluginMap::normalize_slug( (string) $entry[2] ) ] );
+			}
+		}
 		if ( ! $removed ) {
 			return;
 		}

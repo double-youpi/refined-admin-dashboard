@@ -187,6 +187,15 @@ body.dy-admin.dy-builder-native:not(.dy-editor-reimagined) #wpcontent {
 // colours its own links, tabs or buttons keeps its colour. No underline here:
 // it reached plugin menus, tabs and buttons (Fluent Forms, lab, 26/10/2026);
 // links in running text get theirs from _base.scss.
+// A plugin header mounted beside the content, straight in #wpcontent
+// (GeneratePress's dashboard header): same native ink, or its title kept our
+// pale one on its white band (lab, 27/10/2026). Our own bars are left out.
+body.dy-admin.dy-native-content #wpcontent > :not(#wpbody, #wpadminbar, #screen-meta, #screen-meta-links, [id^="dy-"], [id^="doubleyoupi-"], [class*="dy-"]) {
+  color: #3c434a;
+  --dya-ink: #3c434a;
+  --dya-ink-soft: #50575e;
+  --dya-ink-mute: #646970;
+}
 body.dy-admin.dy-native-content #wpbody-content {
   --dya-accent-text: #2271b1;
 }

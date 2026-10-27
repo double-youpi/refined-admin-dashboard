@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-10-26T17:02:23+00:00\n"
+"POT-Creation-Date: 2026-10-26T23:57:45+00:00\n"
 "Language: ru_RU\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
@@ -598,7 +598,7 @@ msgstr ""
 "Папки и коллекции, перетаскивание, быстрый просмотр, очистка дубликатов и "
 "неиспользуемых медиафайлов, а также конвертация в WebP/AVIF при загрузке."
 
-#: src/Modules/Admin/Admin.php:129 src/Modules/Admin/Rail.php:598
+#: src/Modules/Admin/Admin.php:129 src/Modules/Admin/Rail.php:608
 msgid "Admin"
 msgstr "Admin"
 
@@ -644,11 +644,11 @@ msgstr "Сеанс"
 msgid "Invert theme"
 msgstr "Переключить светлую или тёмную тему"
 
-#: src/Modules/Admin/Adminbar.php:132
+#: src/Modules/Admin/Adminbar.php:202
 msgid "Toggle theme"
 msgstr "Переключить светлую или тёмную тему"
 
-#: src/Modules/Admin/Adminbar.php:150
+#: src/Modules/Admin/Adminbar.php:220
 msgid "View site"
 msgstr "Посмотреть сайт"
 
@@ -2627,15 +2627,15 @@ msgstr "Экраны в стандартном оформлении"
 msgid "Toolkit toggles"
 msgstr "Переключатели набора инструментов"
 
-#: src/Modules/Admin/Rail.php:597
+#: src/Modules/Admin/Rail.php:607
 msgid "Dashboard"
 msgstr "Консоль"
 
-#: src/Modules/Admin/Rail.php:774
+#: src/Modules/Admin/Rail.php:784
 msgid "Resize navigation"
 msgstr "Изменить ширину навигации"
 
-#: src/Modules/Admin/Rail.php:775
+#: src/Modules/Admin/Rail.php:785
 msgid "Toggle navigation width"
 msgstr "Переключить ширину навигации"
 

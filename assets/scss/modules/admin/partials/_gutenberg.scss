@@ -94,6 +94,13 @@ body.dy-admin .edit-site-header {
   position: relative;
   z-index: 5;
 }
+// The current header (`.editor-header`, which still carries
+// `.edit-post-header`) is laid out by WordPress as a grid that gives the
+// document title its own column. As a flex row, the title shrank first and
+// read « Hell… · Post » with room to spare (lab, 27/10/2026).
+body.dy-admin .edit-post-header.editor-header {
+  display: grid;
+}
 
 body.dy-admin .edit-post-header__toolbar,
 body.dy-admin .edit-site-header__toolbar,
