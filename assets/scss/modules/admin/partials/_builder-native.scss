@@ -305,8 +305,15 @@ body.dy-admin #wpbody-content .wpseo-metabox-content{
 body.dy-admin #wpbody-content .wpseo-metabox-content .yoast{
   background: #fff !important;
 }
-body.dy-admin #wpbody-content .rank-math-tab-content-general *{
-  color: #3c434a !important;
+// No blanket `.rank-math-tab-content-general * { color: … !important }` any
+// more: it greyed out every text, the label of Rank Math's blue button
+// included (Raphaël, 27/10/2026). The island's ink tokens above suffice, and
+// our heading, link, checkbox and button rules leave the island alone (their
+// `:where(:not(…))` exclusions, as on the native canvas).
+// Rank Math's and WordPress's own primary button, not our accent.
+body.dy-admin #wpbody-content :is(#rank_math_metabox, #wpseo_meta) > .inside .components-button.is-primary {
+  background: var(--wp-components-color-accent, #3858e9) !important;
+  color: #fff !important;
 }
 body.dy-admin #wpbody-content #wpseo_meta>.postbox-header{
   color: var(--dya-ink) !important;
@@ -353,7 +360,7 @@ body.dy-admin.dy-native-content .rank-math-breadcrumbs-wrap {
 }
 // Rank Math's module settings: DS mint background → native WP grey. Buttons no
 // longer need this: our button skin stays out of native content altogether
-// (`:where(:not(.dy-native-content #wpbody-content *))` in _buttons.scss), so
+// (`:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *))` in _buttons.scss), so
 // WordPress' and the plugins' own buttons keep their look (Limit Login
 // Attempts' orange « Get Started » turned grey, 23/10/2026).
 body.dy-admin.dy-native-content #wpbody-content .module-settings {

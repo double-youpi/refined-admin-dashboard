@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, dark theme
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.23
+Stable tag: 1.0.24
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -186,6 +186,11 @@ Privacy policy: https://doubleyoupi.com/privacy
 15. Coming from FileBird or another folder plugin? Preview its folders, then import them in one click. The source plugin is never modified.
 
 == Changelog ==
+
+= 1.0.24 =
+* Fix: in the classic editor, the Rank Math and Yoast SEO boxes have the same card ground as the other boxes, and their content looks as it does without the redesign (button, links, help icons, headings).
+* Fix: Advanced Custom Fields fields take the full width again (options pages, editor, terms, profile, field group editor), and stand out from their card so they read as editable.
+* Fix: ACF buttons read as buttons (Add Row, Add Image, Close Field, Add Field), button groups and the true / false switch are readable in dark mode, and the field type selector and settings tabs no longer show a stray frame.
 
 = 1.0.23 =
 * Change: About WordPress, Documentation, Support and Get Involved are back, in the account menu at the top right.
@@ -375,6 +380,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.24 =
+Advanced Custom Fields: full-width, visible fields and readable buttons; Rank Math and Yoast SEO boxes in the classic editor.
 
 = 1.0.23 =
 WordPress links in the account menu; dashboard notifications at the top right.

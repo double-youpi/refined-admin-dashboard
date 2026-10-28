@@ -54,7 +54,7 @@ button {
 // Not in the content of a screen left on WordPress's light canvas: there links
 // look as they do without the redesign (WP Super Cache's « Learn More » lost
 // its underline, lab 27/10/2026), menus and buttons included.
-a:where(:not(.dy-native-content #wpbody-content *)) { color: inherit; text-decoration: none; }
+a:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)) { color: inherit; text-decoration: none; }
 
 // Links inside running text. With `color: inherit` they read as plain text
 // until hovered (translator feedback, 23/10/2026; WCAG 1.4.1). In paragraphs,
@@ -100,13 +100,13 @@ input, textarea, select {
 // Not in the content of a screen left on WordPress's light canvas: there the
 // plugin's own headings keep their font and colour (Fluent Forms' white title
 // on its blue banner came out dark grey, lab 27/10/2026), as buttons do.
-body.dy-admin h1:where(:not(.dy-native-content #wpbody-content *)),
-body.dy-admin h2:where(:not(.dy-native-content #wpbody-content *)),
-body.dy-admin h3:where(:not(.dy-native-content #wpbody-content *)),
-body.dy-admin .wp-heading-inline:where(:not(.dy-native-content #wpbody-content *)),
+body.dy-admin h1:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)),
+body.dy-admin h2:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)),
+body.dy-admin h3:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)),
+body.dy-admin .wp-heading-inline:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)),
 body.dy-admin .welcome-panel-header h2,
-body.dy-admin .postbox .hndle:where(:not(.dy-native-content #wpbody-content *)),
-body.dy-admin .postbox .hndle span:where(:not(.dy-native-content #wpbody-content *)) {
+body.dy-admin .postbox .hndle:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)),
+body.dy-admin .postbox .hndle span:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)) {
   font-family: var(--dya-font-display);
   letter-spacing: var(--dya-tracking-tight);
   color: var(--dya-ink);

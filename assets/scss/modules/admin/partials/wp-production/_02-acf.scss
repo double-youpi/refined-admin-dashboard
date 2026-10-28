@@ -323,10 +323,11 @@ body.dy-admin .acf-flexible-content .layout .acf-fc-layout-handle {
 }
 
 // Relationship / taxonomy / post-object — scrollable lists with checkboxes.
+// Checkbox and radio lists stay transparent (T7): painted with the card's
+// ground here, they showed as a darker band in the open field of the field
+// group editor (Raphaël, 28/10/2026).
 body.dy-admin .acf-relationship,
-body.dy-admin .acf-taxonomy-field .categorychecklist,
-body.dy-admin .acf-field-checkbox ul.acf-checkbox-list,
-body.dy-admin .acf-field-radio ul.acf-radio-list {
+body.dy-admin .acf-taxonomy-field .categorychecklist {
   background: var(--dya-paper) !important;
   border-color: var(--dya-edge) !important;
 }
@@ -1109,3 +1110,288 @@ body.dy-admin.acf-admin-page .acf-field-object .handle .acf-tbody li .field-type
 body.dy-admin.acf-admin-page .acf-field-object .handle .acf-tbody li .acf-selection {
   color: var(--dya-ink-soft);
 }
+
+// =============================================================
+// Visual pass of 28/10/2026 (Chris Green's report, Raphaël's field group
+// editor): fields at full width and visible, buttons that read as buttons,
+// focus that stays in the field. Last in the file: wins the rules above.
+// =============================================================
+
+// ── Fields: full width. ACF wraps text-like inputs in `.acf-input-wrap`,
+// which the `> .acf-input > input` rule (T11) never reached: our global
+// `width: auto` left them at ~170px (options pages, editor, terms, profile,
+// field group editor). Pickers (date, time, colour) keep their natural size.
+body.dy-admin .acf-field .acf-input-wrap > :is(input[type="text"], input[type="url"], input[type="email"], input[type="password"], input[type="search"], input[type="tel"], input[type="number"]),
+body.dy-admin .acf-field .acf-url > input[type="url"],
+body.dy-admin .acf-field-oembed .acf-oembed .title input {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+// ── Fields: a ground of their own. On the card's ground with a 7% hairline,
+// a field could not be told from the card (« does not look editable »).
+// Fields sit one step deeper than their card, with the strong hairline.
+body.dy-admin :is(.acf-field, .acf-postbox, .acf-field-object, .acf-box, .rule-groups) :is(input[type="text"], input[type="url"], input[type="email"], input[type="password"], input[type="number"], input[type="search"], input[type="tel"], input[type="date"], input[type="datetime-local"], input[type="time"], textarea, select),
+body.dy-admin :is(.acf-field, .acf-postbox, .acf-field-object, .rule-groups) .select2-container.select2-container .select2-selection.select2-selection, // doubled: beats the generic multiple-select rule
+body.dy-admin.acf-admin-page .acf-field-setting-type .select2-container--default .select2-selection--single,
+body.dy-admin.acf-admin-page .rule-groups .select2-container--default .select2-selection--single {
+  background: var(--dya-bg) !important;
+  border: 1px solid var(--dya-line-strong) !important;
+  color: var(--dya-ink) !important;
+  box-shadow: none !important;
+}
+body.dy-admin .acf-field :is(input[type="text"], input[type="url"], input[type="email"], input[type="password"], input[type="number"], input[type="search"], input[type="tel"], textarea, select):hover,
+body.dy-admin :is(.acf-field, .acf-field-object, .rule-groups) .select2-container .select2-selection:hover {
+  border-color: color-mix(in srgb, var(--dya-ink) 24%, transparent) !important;
+}
+
+// Number field prefix and suffix (« € », « kg »): joined to the field.
+body.dy-admin .acf-field :is(.acf-input-prepend, .acf-input-append) {
+  background: var(--dya-paper-3) !important;
+  border: 1px solid var(--dya-line-strong) !important;
+  color: var(--dya-ink-soft) !important;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px !important;
+}
+body.dy-admin .acf-field .acf-input-prepend { border-radius: var(--dya-r-sm) 0 0 var(--dya-r-sm) !important; border-right: 0 !important; }
+body.dy-admin .acf-field .acf-input-append { border-radius: 0 var(--dya-r-sm) var(--dya-r-sm) 0 !important; border-left: 0 !important; }
+body.dy-admin .acf-field input.acf-is-prepended { border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important; }
+body.dy-admin .acf-field input.acf-is-appended { border-top-right-radius: 0 !important; border-bottom-right-radius: 0 !important; }
+
+// ── Focus stays in the field: the accent border and a soft ring, like the
+// inputs above. Our generic ring (2px, the section line's colour, 2px out)
+// drew a pale frame around the field type selector and, clipped by the tab
+// bar, two « brackets » around the active settings tab (Raphaël, 28/10/2026).
+body.dy-admin :is(.acf-field, .acf-postbox, .acf-field-object, .rule-groups) .select2-container .select2-selection:focus-visible,
+body.dy-admin :is(.acf-field, .acf-postbox, .acf-field-object, .rule-groups) .select2-container--focus .select2-selection,
+body.dy-admin :is(.acf-field, .acf-postbox, .acf-field-object, .rule-groups) .select2-container--open .select2-selection {
+  outline: none !important;
+  border-color: var(--dya-accent) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--dya-accent) 25%, transparent) !important;
+}
+body.dy-admin :is(.acf-tab-group, .acf-field-settings-tab-bar) a:focus-visible {
+  outline: 2px solid var(--dya-accent) !important;
+  outline-offset: -2px !important;
+  border-radius: var(--dya-r-sm) !important;
+}
+body.dy-admin :is(.acf-tab-group, .acf-field-settings-tab-bar) a:focus:not(:focus-visible) {
+  outline: none !important;
+}
+
+// ── Buttons read as buttons. Secondary buttons had the ground of the panel
+// they sit on (« Fermer le champ », « Ajouter un champ », « Add Row »,
+// « Ajouter image »): one step lighter, and the accent for primaries.
+body.dy-admin :is(.acf-field, .acf-postbox, .acf-field-object, .acf-field-list-wrap, .rule-groups) :is(.button, .acf-button, .acf-btn):not(.button-primary, .acf-btn-primary, .button-link, .acf-icon),
+body.dy-admin.acf-admin-page :is(.acf-btn-secondary, .acf-btn-tertiary) {
+  background: var(--dya-paper-3) !important;
+  color: var(--dya-ink) !important;
+  border: 1px solid transparent !important;
+  text-decoration: none !important;
+}
+body.dy-admin :is(.acf-field, .acf-postbox, .acf-field-object, .acf-field-list-wrap, .rule-groups) :is(.button, .acf-button, .acf-btn):not(.button-primary, .acf-btn-primary, .button-link, .acf-icon):hover,
+body.dy-admin.acf-admin-page :is(.acf-btn-secondary, .acf-btn-tertiary):hover {
+  background: color-mix(in srgb, var(--dya-accent) 14%, var(--dya-paper-3)) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin :is(.acf-field, .acf-postbox) :is(.button-primary, .acf-btn-primary) {
+  background: var(--dya-accent) !important;
+  border-color: var(--dya-accent) !important;
+  color: var(--dya-accent-on, #fff) !important;
+  text-decoration: none !important;
+}
+
+
+// ACF 6 also outlines the inner `.select2-selection__rendered` of its own
+// selectors (field type, location rules) in #d0d5dd, and in blue when open or
+// focused: a pale frame inside ours (Raphaël's « white border », 28/10/2026).
+// One outline, ours, on `.select2-selection`.
+body.dy-admin.acf-admin-page :is(.acf-input, .rule-groups, .acf-field-meta-box) .select2-container .select2-selection__rendered,
+body.dy-admin.acf-admin-page :is(.acf-input, .rule-groups, .acf-field-meta-box) .select2-container:is(.select2-container--focus, .select2-container--open) .select2-selection__rendered {
+  border: 0 !important;
+  box-shadow: none !important;
+}
+body.dy-admin.acf-admin-page :is(.acf-input, .rule-groups) .select2-container--focus {
+  outline: none !important;
+}
+
+// True / false switch (T8): its track had the ground of the open field's
+// panel, leaving a lone grey knob. The track takes the field ground and line.
+body.dy-admin .acf-field-true-false .acf-switch {
+  background: var(--dya-bg) !important;
+  border: 1px solid var(--dya-line-strong) !important;
+}
+
+// Date formats (« d/m/Y ») in the field group editor: ACF's light chips.
+body.dy-admin .acf-field-object :is(.acf-field-setting-display_format, .acf-field-setting-return_format) .acf-radio-list li label code {
+  background: var(--dya-paper-3) !important;
+  color: var(--dya-ink-soft) !important;
+}
+
+// Stylised selects (select2) at full width, like the other fields.
+body.dy-admin .acf-field > .acf-input > .select2-container,
+body.dy-admin .acf-field .acf-input > select + .select2-container {
+  width: 100% !important;
+}
+
+// Button group: the unselected buttons kept ACF's white in the dark theme,
+// their text nearly invisible. Field ground and line, the accent when chosen.
+body.dy-admin .acf-field .acf-button-group label {
+  background: var(--dya-bg) !important;
+  border-color: var(--dya-line-strong) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .acf-field .acf-button-group label:hover {
+  background: var(--dya-paper-3) !important;
+}
+body.dy-admin .acf-field .acf-button-group label.selected {
+  background: var(--dya-accent) !important;
+  border-color: var(--dya-accent) !important;
+  color: var(--dya-accent-on, #fff) !important;
+}
+
+// Range: a track that shows on the light theme too.
+body.dy-admin .acf-field-range input[type="range"]::-webkit-slider-runnable-track {
+  background: var(--dya-line-strong) !important;
+}
+body.dy-admin .acf-field-range input[type="range"]::-moz-range-track {
+  background: var(--dya-line-strong) !important;
+}
+
+// The search box inside a multiple select2 belongs to the select's frame:
+// drawn as a field of its own, it looked like a narrow box (28/10/2026).
+body.dy-admin .select2-container .select2-selection--multiple .select2-search__field {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  min-height: 0 !important;
+  margin-top: 0 !important;
+}
+body.dy-admin .acf-field .select2-container .select2-selection--multiple .select2-selection__rendered.select2-selection__rendered {
+  background: transparent !important;
+}
+
+// Range: drawn by us everywhere. Left to the browser (the classic editor),
+// its track came out bright white on the dark theme's cards.
+body.dy-admin .acf-range-wrap input[type="range"] {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  background: transparent !important;
+  border: 0 !important;
+  height: 28px;
+}
+body.dy-admin .acf-range-wrap input[type="range"]::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--dya-line-strong) !important;
+}
+body.dy-admin .acf-range-wrap input[type="range"]::-moz-range-track {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--dya-line-strong) !important;
+}
+body.dy-admin .acf-range-wrap input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-top: -6px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--dya-accent) !important;
+}
+body.dy-admin .acf-range-wrap input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--dya-accent) !important;
+}
+
+// ── Second round (Raphaël, 28/10/2026) ──────────────────────────────────
+
+// Checkbox and radio lists: the box sat 5px below its label (our controls
+// keep `vertical-align: -3px`, ACF's labels are inline). Centred on the text.
+body.dy-admin .acf-field :is(.acf-checkbox-list, .acf-radio-list, .categorychecklist) li > label,
+body.dy-admin .acf-field .acf-true-false > label {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+}
+body.dy-admin .acf-field :is(.acf-checkbox-list, .acf-radio-list, .categorychecklist) li > label > input:is([type="checkbox"], [type="radio"]) {
+  vertical-align: middle !important;
+  margin: 0 !important;
+  flex: none;
+}
+
+// ACF screens repaint checked boxes and radios with their blue (light blue
+// ground, blue dot): ours, the accent, as on every other screen.
+body.dy-admin.acf-admin-page input:is([type="radio"], [type="checkbox"]):not(.acf-switch-input):checked {
+  background: var(--dya-accent) !important;
+  border-color: var(--dya-accent) !important;
+}
+body.dy-admin.acf-admin-page input[type="radio"]:checked::before {
+  background: var(--dya-bg) !important;
+  background-image: none !important;
+}
+body.dy-admin.acf-admin-page input[type="checkbox"]:not(.acf-switch-input):checked::before {
+  background: none !important;
+}
+
+// Relationship: two panes side by side (what can be picked, what is picked),
+// both on the field ground. On the card's ground, the empty right pane did
+// not show and the list looked half as wide as the field.
+body.dy-admin .acf-field .acf-relationship .selection :is(.choices, .values) {
+  background: var(--dya-bg) !important;
+  border: 1px solid var(--dya-line-strong) !important;
+}
+body.dy-admin .acf-field .acf-relationship .selection .values {
+  border-left: 0 !important;
+}
+body.dy-admin .acf-relationship .filters {
+  border: 1px solid var(--dya-line-strong) !important;
+  border-bottom: 0 !important;
+}
+
+// Open dropdowns (select2) float over the card: one step lighter, a line
+// and a shadow, instead of the card's own ground.
+body.dy-admin .select2-container .select2-dropdown {
+  background: var(--dya-paper-3) !important;
+  border: 1px solid var(--dya-line-strong) !important;
+  box-shadow: var(--dya-shadow-md) !important;
+}
+
+// Repeater row icons (+ / −): never underlined, and inside their column.
+// ACF hangs them over the right edge of a 16px column, where a card's
+// rounded clip cut them (classic editor).
+body.dy-admin .acf-repeater .acf-row-handle .acf-icon,
+body.dy-admin .acf-flexible-content .acf-fc-layout-controls .acf-icon {
+  text-decoration: none !important;
+}
+body.dy-admin .acf-repeater .acf-row-handle.remove {
+  width: 32px !important;
+  position: relative;
+}
+body.dy-admin .acf-repeater .acf-row-handle.remove .acf-icon {
+  left: 50% !important;
+  margin-left: -10px !important;
+}
+// « + » sits at the top of the row, not 8px above it (clipped there).
+body.dy-admin .acf-repeater .acf-row-handle.remove .acf-icon.-plus {
+  top: 6px !important;
+  margin-top: 0 !important;
+}
+
+// The dropdown's search field spans the dropdown.
+body.dy-admin .select2-container .select2-search--dropdown .select2-search__field {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+// ACF paints a hovered or focused, unchecked box or radio light blue: it
+// stays ours.
+body.dy-admin.acf-admin-page input:is([type="radio"], [type="checkbox"]):not(.acf-switch-input):not(:checked):is(:hover, :focus, :focus-visible) {
+  background: var(--dya-paper) !important;
+  border-color: var(--dya-accent) !important;
+}
+

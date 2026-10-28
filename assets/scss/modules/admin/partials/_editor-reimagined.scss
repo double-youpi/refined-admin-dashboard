@@ -634,10 +634,13 @@ body.dy-admin.dy-editor-reimagined {
   // is rendered on a native WHITE ISLAND (same principle as Content AI below,
   // and _builder-native for profile.php) → readable in dark, slug input and plugin
   // panels in native white, no more hybrid dark paper background.
+  // The card keeps the ground of every other card: transparent, it only
+  // showed as long as cards had an outline. Since borders went transparent
+  // (15/09/2026), the header and the white island floated on the page, with
+  // the page showing in the 16px margins (Raphaël, 27/10/2026).
   #rank_math_metabox,
   #wpseo_meta {
     padding:0 16px 16px 16px;
-    background:transparent !important; border-color:var(--dya-edge) !important;
   }
   #rank_math_metabox > .inside,
   #wpseo_meta > .inside {

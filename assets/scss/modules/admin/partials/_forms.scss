@@ -113,8 +113,8 @@ body.dy-admin .code          {
 // ── Checkboxes / radios ───────────────────────────────
 // Not on a screen left on WordPress's light canvas: WordPress draws its own
 // (WP Super Cache's boxes came out with a pale edge, lab 27/10/2026).
-body.dy-admin input[type="checkbox"]:not(.components-form-toggle__input):not(.components-checkbox-control__input):where(:not(.dy-native-content #wpbody-content *)),
-body.dy-admin input[type="radio"]:where(:not(.dy-native-content #wpbody-content *)) {
+body.dy-admin input[type="checkbox"]:not(.components-form-toggle__input):not(.components-checkbox-control__input):where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)),
+body.dy-admin input[type="radio"]:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)) {
   appearance: none;
   -webkit-appearance: none;
   width: 16px; height: 16px;
@@ -128,15 +128,15 @@ body.dy-admin input[type="radio"]:where(:not(.dy-native-content #wpbody-content 
   box-shadow: none;
   transition: background var(--dya-t-fast), border-color var(--dya-t-fast);
 }
-body.dy-admin input[type="radio"]:where(:not(.dy-native-content #wpbody-content *)) { border-radius: 50%; }
+body.dy-admin input[type="radio"]:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)) { border-radius: 50%; }
 // `display` at WordPress's own weight (0,1,1; ours loads later, so it still
 // wins over core): a plugin that hides its input to draw its own control
 // keeps it hidden. All-in-One WP Migration's `.ai1wm-flat-radio-button` got
 // a second, small circle next to its own (19/10/2026).
-:where(body.dy-admin) input[type="checkbox"]:where(:not(.components-form-toggle__input):not(.components-checkbox-control__input)):where(:not(.dy-native-content #wpbody-content *)),
-:where(body.dy-admin) input[type="radio"]:where(:not(.dy-native-content #wpbody-content *)) { display: inline-grid; }
+:where(body.dy-admin) input[type="checkbox"]:where(:not(.components-form-toggle__input):not(.components-checkbox-control__input)):where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)),
+:where(body.dy-admin) input[type="radio"]:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)) { display: inline-grid; }
 
-body.dy-admin input[type="checkbox"]:not(.components-form-toggle__input):not(.components-checkbox-control__input):where(:not(.dy-native-content #wpbody-content *))::before {
+body.dy-admin input[type="checkbox"]:not(.components-form-toggle__input):not(.components-checkbox-control__input):where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *))::before {
   content: "";
   width: 9px; height: 5px;
   border-left: 1.6px solid var(--dya-bg);
@@ -144,13 +144,13 @@ body.dy-admin input[type="checkbox"]:not(.components-form-toggle__input):not(.co
   transform: rotate(-45deg) scale(0);
   transition: transform var(--dya-t-fast) var(--dya-ease);
 }
-body.dy-admin input[type="checkbox"]:not(.components-form-toggle__input):not(.components-checkbox-control__input):where(:not(.dy-native-content #wpbody-content *)):checked {
+body.dy-admin input[type="checkbox"]:not(.components-form-toggle__input):not(.components-checkbox-control__input):where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)):checked {
   background: var(--dya-accent);
   border-color: var(--dya-accent);
 }
-body.dy-admin input[type="checkbox"]:not(.components-form-toggle__input):not(.components-checkbox-control__input):where(:not(.dy-native-content #wpbody-content *)):checked::before { transform: rotate(-45deg) scale(1); }
+body.dy-admin input[type="checkbox"]:not(.components-form-toggle__input):not(.components-checkbox-control__input):where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)):checked::before { transform: rotate(-45deg) scale(1); }
 
-body.dy-admin input[type="radio"]:where(:not(.dy-native-content #wpbody-content *))::before {
+body.dy-admin input[type="radio"]:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *))::before {
   content: "";
   width: 6px; height: 6px;
   border-radius: 50%;
@@ -158,14 +158,14 @@ body.dy-admin input[type="radio"]:where(:not(.dy-native-content #wpbody-content 
   transform: scale(0);
   transition: transform var(--dya-t-fast) var(--dya-ease);
 }
-body.dy-admin input[type="radio"]:where(:not(.dy-native-content #wpbody-content *)):checked {
+body.dy-admin input[type="radio"]:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)):checked {
   background: var(--dya-accent);
   border-color: var(--dya-accent);
 }
-body.dy-admin input[type="radio"]:where(:not(.dy-native-content #wpbody-content *)):checked::before { transform: scale(1); }
+body.dy-admin input[type="radio"]:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)):checked::before { transform: scale(1); }
 
-body.dy-admin input[type="checkbox"]:not(.components-form-toggle__input):not(.components-checkbox-control__input):where(:not(.dy-native-content #wpbody-content *)):focus-visible,
-body.dy-admin input[type="radio"]:where(:not(.dy-native-content #wpbody-content *)):focus-visible {
+body.dy-admin input[type="checkbox"]:not(.components-form-toggle__input):not(.components-checkbox-control__input):where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)):focus-visible,
+body.dy-admin input[type="radio"]:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)):focus-visible {
   outline: 2px solid var(--dya-accent);
   outline-offset: 2px;
 }
@@ -314,20 +314,20 @@ body.dy-admin p.submit {
 // Plugin Settings/sections (h2/h3) inside .wrap. Not on a screen left on
 // WordPress's light canvas: the plugin's own sizes come back (WP Super Cache's
 // card titles shrank to 15px, lab 27/10/2026).
-body.dy-admin .wrap h2:where(:not(.dy-native-content #wpbody-content *)),
-body.dy-admin .wrap h3:where(:not(.dy-native-content #wpbody-content *)) {
+body.dy-admin .wrap h2:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)),
+body.dy-admin .wrap h3:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)) {
   font-family: var(--dya-font-display);
   font-weight: 500;
   letter-spacing: var(--dya-tracking-tight);
   color: var(--dya-ink);
   margin: 28px 0 12px;
 }
-body.dy-admin .wrap h2:where(:not(.dy-native-content #wpbody-content *)) {
+body.dy-admin .wrap h2:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)) {
   font-size: var(--dya-fs-lg);
   letter-spacing: normal;   // no tight tracking on h2
   text-shadow: none;        // WooCommerce adds a text-shadow on some h2 → remove it
 }
-body.dy-admin .wrap h3:where(:not(.dy-native-content #wpbody-content *)) { font-size: 15px; }
+body.dy-admin .wrap h3:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)) { font-size: 15px; }
 
 // Generic <hr> divider inside the wrap.
 body.dy-admin .wrap hr {
