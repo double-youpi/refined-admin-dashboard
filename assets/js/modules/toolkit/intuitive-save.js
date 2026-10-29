@@ -32,41 +32,39 @@
 	}
 
 	/**
-	 * The block editor has its own native shortcut. Three possible signals —
-	 * we return true as soon as any one of them matches.
+	 * The block editor has its own native shortcut: recognised by the classes
+	 * WordPress puts on its pages. Not by the `core/editor` data store: the
+	 * classic editor loads it too since WordPress 7.1, and the shortcut then
+	 * did nothing there (review of 29/10/2026).
 	 */
 	function isInBlockEditor() {
-		if ( document.body && document.body.classList ) {
-			if ( document.body.classList.contains( 'block-editor-page' ) ) return true;
-			if ( document.body.classList.contains( 'wp-admin-block-editor' ) ) return true;
-		}
-		if ( window.wp && window.wp.data && typeof window.wp.data.select === 'function' ) {
-			try {
-				if ( window.wp.data.select( 'core/editor' ) ) return true;
-			} catch ( e ) {
-				// wp.data may throw if the store is not registered — ignored.
-			}
-		}
-		return false;
+		var c = document.body && document.body.classList;
+		return !! c && ( c.contains( 'block-editor-page' ) || c.contains( 'wp-admin-block-editor' ) || c.contains( 'site-editor-php' ) );
 	}
 
 	/**
-	 * Finds the button to click. Priority order:
-	 *  1. #publish (Classic Editor — "Publish"/"Update" button)
-	 *  2. #save-post (Classic Editor — "Save Draft" button)
-	 *  3. The first visible .button-primary[type=submit] (Settings pages, etc.)
-	 *  4. The first button[type=submit] inside a form (broad fallback)
+	 * Finds the button to click. It saves, it never publishes (security
+	 * review of 29/10/2026: « Publish » came first, so Cmd+S on a draft
+	 * published it). Priority order:
+	 *  1. #save-post (Classic Editor: « Save Draft », « Save as Pending »),
+	 *     present while the post is not published;
+	 *  2. #publish only when it is « Update » (WordPress names it `save`
+	 *     then; `publish` when it would publish, schedule or submit);
+	 *  3. The first visible .button-primary[type=submit] outside the post
+	 *     editor (Settings pages, profile, terms).
 	 */
 	function findSubmitButton() {
-		var selectors = [
-			'#publish:not(:disabled)',
+		var editor = document.getElementById( 'post' ) && document.getElementById( 'submitdiv' );
+		var selectors = editor ? [
 			'#save-post:not(:disabled)',
+			'#publish[name="save"]:not(:disabled)'
+		] : [
 			'form input[type="submit"].button-primary:not(:disabled)',
 			'form button[type="submit"].button-primary:not(:disabled)'
 		];
 		for ( var i = 0; i < selectors.length; i++ ) {
 			var el = document.querySelector( selectors[ i ] );
-			if ( el ) return el;
+			if ( el && el.offsetParent !== null ) return el;
 		}
 		return null;
 	}

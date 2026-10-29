@@ -12,18 +12,19 @@ if ( ! defined( 'ABSPATH' ) ) {
  * bundling enshrined/svg-sanitize: sufficient for the toolkit scope (simple
  * toggle), with zero added Composer dependencies.
  *
- * Sanitization strategy:
- *   - Strip all dangerous elements: script, foreignObject, iframe,
- *     embed, object, link, meta, style (external style), handler,
- *     <set>, <animate*> (can carry onload equivalents)
- *   - Strip all `on*` attributes (onclick, onmouseover, etc.)
- *   - Strip `href`/`xlink:href` attributes that start with `javascript:`,
- *     `data:` (except `data:image/*`), or are not clean absolute/relative URLs
- *   - Strip processing instructions and DOCTYPE to prevent XXE
- *
- * Known limitation: does not cover 100% of hostile SVG vectors as
- * exhaustively as a dedicated library. This is a utility toggle, not a
- * "zero-trust" security layer. Documented as such in the description.
+ * Sanitization strategy (allow-list since RAD 1.0.25, security report of
+ * 29/10/2026: `<s:script>` with a namespace prefix and a `javascript:` link
+ * split by a tab went through the former deny-list):
+ *   - elements are kept by local name, in the SVG namespace only; anything
+ *     else (script, foreignObject, style, animation, an XHTML element) goes
+ *     with its content, as do comments and processing instructions;
+ *   - attributes are kept from a list (plus `aria-*`, `data-*`, `xlink:href`,
+ *     `xml:space`, `xml:lang`), never an `on*` handler nor another namespace;
+ *   - links are judged once whitespace and control characters are removed:
+ *     internal `#id` references, http(s)/mailto/relative for `<a>`, raster
+ *     `data:` images for `<image>`; `url()` values internal only;
+ *   - DOCTYPE and processing instructions are stripped before parsing (XXE).
+ * Uploading SVG is limited to administrators by default (can_upload_svg).
  */
 final class SafeSvg extends AbstractFeature {
 
@@ -62,6 +63,70 @@ final class SafeSvg extends AbstractFeature {
 		add_filter( 'upload_mimes',                [ self::class, 'allow_svg_mime' ] );
 		add_filter( 'wp_check_filetype_and_ext',   [ self::class, 'fix_svg_mime_check' ], 10, 4 );
 		add_filter( 'wp_handle_upload_prefilter',  [ self::class, 'sanitize_on_upload' ] );
+		add_action( 'admin_init',                  [ self::class, 'recheck_existing' ] );
+	}
+
+	/** Option recording that the SVGs already in the library were re-checked. */
+	public const OPTION_RECHECKED = 'doubleyoupi_toolkit_safe_svg_rechecked';
+
+	/**
+	 * Who may upload SVG files. An SVG is a document, not a picture: only
+	 * trusted accounts, administrators by default (security report of
+	 * 29/10/2026). Filterable: `doubleyoupi_filter_svg_upload_capability`
+	 * (for example `upload_files` to open it to every account that uploads).
+	 */
+	public static function can_upload_svg(): bool {
+		$cap = (string) apply_filters( 'doubleyoupi_filter_svg_upload_capability', 'manage_options' );
+		return '' !== $cap && current_user_can( $cap );
+	}
+
+	/**
+	 * Re-checks, once, the SVGs uploaded before the allow-list sanitizer
+	 * (RAD 1.0.25): a file carrying a dangerous construct is rewritten with
+	 * its sanitized version; a clean file is left as it is. By batches of
+	 * 200 on administrators' visits, until done.
+	 */
+	public static function recheck_existing(): void {
+		if ( get_option( self::OPTION_RECHECKED ) || ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+		$done  = (int) get_transient( 'doubleyoupi_safe_svg_recheck_offset' );
+		$posts = get_posts(
+			[
+				'post_type'      => 'attachment',
+				'post_mime_type' => 'image/svg+xml',
+				'post_status'    => 'any',
+				'posts_per_page' => 200,
+				'offset'         => $done,
+				'orderby'        => 'ID',
+				'order'          => 'ASC',
+				'fields'         => 'ids',
+			]
+		);
+		global $wp_filesystem;
+		if ( ! $wp_filesystem ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+			WP_Filesystem();
+		}
+		foreach ( $posts as $id ) {
+			$path = get_attached_file( (int) $id );
+			if ( ! $path || ! $wp_filesystem || ! $wp_filesystem->exists( $path ) ) {
+				continue;
+			}
+			$raw = (string) $wp_filesystem->get_contents( $path );
+			if ( self::is_dangerous( $raw ) ) {
+				$clean = self::sanitize( $raw );
+				if ( null !== $clean ) {
+					$wp_filesystem->put_contents( $path, $clean, FS_CHMOD_FILE );
+				}
+			}
+		}
+		if ( count( $posts ) < 200 ) {
+			update_option( self::OPTION_RECHECKED, gmdate( 'c' ), false );
+			delete_transient( 'doubleyoupi_safe_svg_recheck_offset' );
+			return;
+		}
+		set_transient( 'doubleyoupi_safe_svg_recheck_offset', $done + 200, DAY_IN_SECONDS );
 	}
 
 	/**
@@ -69,10 +134,11 @@ final class SafeSvg extends AbstractFeature {
 	 * @return array<string, string>
 	 */
 	public static function allow_svg_mime( array $mimes ): array {
-		// Restriction: only users with upload_files can upload.
-		// WP already applies this capability on upload_mimes — no need to re-check here.
-		// .svg only: a compressed .svgz could not go through the sanitizer.
-		$mimes['svg'] = 'image/svg+xml';
+		// Trusted accounts only (can_upload_svg). .svg only: a compressed .svgz
+		// could not go through the sanitizer.
+		if ( self::can_upload_svg() ) {
+			$mimes['svg'] = 'image/svg+xml';
+		}
 		return $mimes;
 	}
 
@@ -87,7 +153,9 @@ final class SafeSvg extends AbstractFeature {
 	public static function fix_svg_mime_check( array $data, string $file, string $filename, $mimes ): array {
 		unset( $file, $mimes );
 		$ext = strtolower( pathinfo( $filename, PATHINFO_EXTENSION ) );
-		if ( $ext === 'svg' ) {
+		// Never for an account that may not upload SVG: forcing the type would
+		// let the file through although the type is not allowed for it.
+		if ( $ext === 'svg' && self::can_upload_svg() ) {
 			$data['ext']  = 'svg';
 			$data['type'] = 'image/svg+xml';
 		}
@@ -170,85 +238,186 @@ final class SafeSvg extends AbstractFeature {
 		if ( ! $loaded || ! $dom->documentElement ) {
 			return null;
 		}
-		if ( strtolower( $dom->documentElement->nodeName ) !== 'svg' ) {
+		$root = $dom->documentElement;
+		if ( 'svg' !== strtolower( (string) $root->localName ) || ( null !== $root->namespaceURI && self::NS_SVG !== $root->namespaceURI ) ) {
 			return null;
 		}
 
-		self::clean_node( $dom->documentElement );
+		self::clean_node( $root );
 
-		$out = $dom->saveXML( $dom->documentElement );
+		$out = $dom->saveXML( $root );
 		return is_string( $out ) ? $out : null;
 	}
 
 	/**
-	 * Recursive cleanup: sanitizes attributes on the current node, removes
-	 * dangerous children, recurses into remaining children.
+	 * Whether an SVG carries anything the sanitizer would strip as dangerous
+	 * (script-like elements in any namespace, event handlers, unsafe links).
+	 * Used to re-check files uploaded before 1.0.25 without touching clean ones.
+	 */
+	public static function is_dangerous( string $svg ): bool {
+		$clean = self::sanitize( $svg );
+		if ( null === $clean ) {
+			return false; // not an SVG WordPress would display as one
+		}
+		$text = strtolower( html_entity_decode( $svg, ENT_QUOTES | ENT_HTML5, 'UTF-8' ) );
+		return (bool) preg_match( '/<(?:[\w-]+:)?(?:script|foreignobject|iframe|embed|object|handler|set|animate)\b|[\s:]on[a-z]+\s*=|@import/', $text )
+			|| (bool) preg_match( '/(?:java|vb)script:|data:text/', self::normalize( $svg ) );
+	}
+
+	private const NS_SVG   = 'http://www.w3.org/2000/svg';
+	private const NS_XLINK = 'http://www.w3.org/1999/xlink';
+	private const NS_XML   = 'http://www.w3.org/XML/1998/namespace';
+
+	/**
+	 * Elements kept, by local name, in the SVG namespace only. Anything else
+	 * (script, foreignObject, style, animation, an element of another
+	 * namespace such as XHTML) is removed with its content.
+	 */
+	private const ALLOWED_ELEMENTS = [
+		'svg', 'g', 'defs', 'desc', 'title', 'symbol', 'use', 'switch', 'view',
+		'a', 'image', 'path', 'rect', 'circle', 'ellipse', 'line', 'polyline', 'polygon',
+		'text', 'tspan', 'textpath',
+		'lineargradient', 'radialgradient', 'stop', 'pattern', 'clippath', 'mask', 'marker',
+		'filter', 'feblend', 'fecolormatrix', 'fecomponenttransfer', 'fecomposite', 'feconvolvematrix',
+		'fediffuselighting', 'fedisplacementmap', 'fedistantlight', 'fedropshadow', 'feflood',
+		'fefunca', 'fefuncb', 'fefuncg', 'fefuncr', 'fegaussianblur', 'feimage', 'femerge',
+		'femergenode', 'femorphology', 'feoffset', 'fepointlight', 'fespecularlighting',
+		'fespotlight', 'fetile', 'feturbulence',
+	];
+
+	/**
+	 * Attributes kept (no namespace), lower-cased. `xlink:href`, `xml:space`
+	 * and `xml:lang` are added by namespace; `aria-*` and `data-*` by prefix.
+	 * Every `on*` handler, and any attribute of another namespace, goes.
+	 */
+	private const ALLOWED_ATTRIBUTES = [
+		'id', 'class', 'style', 'lang', 'role', 'tabindex', 'href', 'target', 'title',
+		'x', 'y', 'x1', 'y1', 'x2', 'y2', 'cx', 'cy', 'r', 'rx', 'ry', 'fx', 'fy', 'fr', 'dx', 'dy',
+		'width', 'height', 'd', 'points', 'pathlength', 'transform', 'viewbox', 'preserveaspectratio',
+		'version', 'baseprofile', 'xmlns',
+		'fill', 'fill-opacity', 'fill-rule', 'stroke', 'stroke-width', 'stroke-opacity', 'stroke-linecap',
+		'stroke-linejoin', 'stroke-miterlimit', 'stroke-dasharray', 'stroke-dashoffset', 'opacity',
+		'color', 'display', 'visibility', 'overflow', 'clip', 'clip-path', 'clip-rule', 'clippathunits',
+		'mask', 'maskunits', 'maskcontentunits', 'filter', 'filterunits', 'primitiveunits',
+		'marker-start', 'marker-mid', 'marker-end', 'markerwidth', 'markerheight', 'markerunits',
+		'refx', 'refy', 'orient', 'vector-effect', 'shape-rendering', 'color-interpolation',
+		'color-interpolation-filters', 'image-rendering', 'text-rendering', 'paint-order', 'mix-blend-mode',
+		'isolation',
+		'font-family', 'font-size', 'font-size-adjust', 'font-stretch', 'font-style', 'font-variant',
+		'font-weight', 'text-anchor', 'dominant-baseline', 'alignment-baseline', 'baseline-shift',
+		'letter-spacing', 'word-spacing', 'text-decoration', 'writing-mode', 'direction', 'unicode-bidi',
+		'lengthadjust', 'textlength', 'rotate', 'startoffset', 'method', 'spacing', 'side',
+		'offset', 'stop-color', 'stop-opacity', 'gradientunits', 'gradienttransform', 'spreadmethod',
+		'patternunits', 'patterncontentunits', 'patterntransform',
+		'in', 'in2', 'result', 'mode', 'operator', 'k1', 'k2', 'k3', 'k4', 'type', 'values',
+		'tablevalues', 'slope', 'intercept', 'amplitude', 'exponent', 'stddeviation', 'edgemode',
+		'order', 'kernelmatrix', 'divisor', 'bias', 'targetx', 'targety', 'preservealpha',
+		'surfacescale', 'diffuseconstant', 'specularconstant', 'specularexponent', 'kernelunitlength',
+		'scale', 'xchannelselector', 'ychannelselector', 'azimuth', 'elevation', 'z', 'pointsatx',
+		'pointsaty', 'pointsatz', 'limitingconeangle', 'flood-color', 'flood-opacity', 'lighting-color',
+		'radius', 'basefrequency', 'numoctaves', 'seed', 'stitchtiles', 'requiredfeatures',
+		'requiredextensions', 'systemlanguage', 'externalresourcesrequired', 'enable-background',
+	];
+
+	/**
+	 * Lower-cased value with whitespace and control characters removed, the
+	 * form browsers resolve a URL scheme from (`jav&#x09;ascript:` is
+	 * `javascript:` once the tab is ignored).
+	 */
+	private static function normalize( string $value ): string {
+		return strtolower( (string) preg_replace( '/[\x00-\x20\x7f]+/', '', html_entity_decode( $value, ENT_QUOTES | ENT_HTML5, 'UTF-8' ) ) );
+	}
+
+	/**
+	 * A link is kept when it points inside the file (`#id`), and for `<a>`
+	 * also to an http(s), mailto or relative address. Images (`<image>`,
+	 * `<feImage>`) may also embed a raster `data:` image.
+	 */
+	private static function is_safe_link( string $value, string $element ): bool {
+		$v = self::normalize( $value );
+		if ( '' === $v || str_starts_with( $v, '#' ) ) {
+			return true;
+		}
+		if ( in_array( $element, [ 'image', 'feimage' ], true ) ) {
+			return (bool) preg_match( '#^data:image/(png|jpe?g|gif|webp);#', $v );
+		}
+		if ( 'a' === $element ) {
+			// A scheme is what comes before the first « : » if no « / ? # » precedes it.
+			if ( ! preg_match( '#^([a-z][a-z0-9+.-]*):#', $v, $m ) ) {
+				return true; // relative address
+			}
+			return in_array( $m[1], [ 'http', 'https', 'mailto' ], true );
+		}
+		return false; // <use> and the rest: internal references only
+	}
+
+	/**
+	 * Recursive cleanup: sanitizes the node's attributes, removes children
+	 * that are not allowed (with their content), recurses into the others.
+	 * Comments and processing instructions go too.
 	 */
 	private static function clean_node( \DOMElement $node ): void {
-		// 1. Clean own attributes (the root <svg> element benefits from this too).
 		self::clean_attributes( $node );
 
-		static $forbidden_elements = [
-			'script', 'foreignobject', 'iframe', 'embed', 'object', 'link', 'meta',
-			'style', 'handler', 'set', 'animate', 'animatemotion', 'animatetransform',
-			'animatecolor', 'audio', 'video', 'use', // <use> can reference external http resources via xlink:href
-		];
-
-		// 2. Iterate over a frozen snapshot of children (some are removed during iteration).
 		$children = [];
 		foreach ( $node->childNodes as $child ) {
 			$children[] = $child;
 		}
 		foreach ( $children as $child ) {
 			if ( $child instanceof \DOMElement ) {
-				$tag = strtolower( $child->nodeName );
-				if ( in_array( $tag, $forbidden_elements, true ) ) {
+				$local = strtolower( (string) $child->localName );
+				$ns    = $child->namespaceURI;
+				if ( ( null !== $ns && self::NS_SVG !== $ns ) || ! in_array( $local, self::ALLOWED_ELEMENTS, true ) ) {
 					$node->removeChild( $child );
 					continue;
 				}
 				self::clean_node( $child );
+				continue;
+			}
+			if ( $child instanceof \DOMComment || $child instanceof \DOMProcessingInstruction ) {
+				$node->removeChild( $child );
 			}
 		}
 	}
 
 	private static function clean_attributes( \DOMElement $node ): void {
-		// Snapshot before modification.
-		$attrs = [];
+		$element = strtolower( (string) $node->localName );
+		$attrs   = [];
 		if ( $node->hasAttributes() ) {
 			foreach ( $node->attributes as $attr ) {
-				$attrs[] = $attr->nodeName;
+				$attrs[] = $attr;
 			}
 		}
 
-		foreach ( $attrs as $name ) {
-			$lower = strtolower( $name );
+		foreach ( $attrs as $attr ) {
+			$local = strtolower( (string) $attr->localName );
+			$ns    = $attr->namespaceURI;
 
-			// Event attributes: on* + SMIL handlers.
-			if ( str_starts_with( $lower, 'on' ) ) {
-				$node->removeAttribute( $name );
+			$allowed = false;
+			if ( null === $ns || '' === $ns ) {
+				$allowed = in_array( $local, self::ALLOWED_ATTRIBUTES, true )
+					|| str_starts_with( $local, 'aria-' ) || str_starts_with( $local, 'data-' );
+			} elseif ( self::NS_XLINK === $ns ) {
+				$allowed = in_array( $local, [ 'href', 'title' ], true );
+			} elseif ( self::NS_XML === $ns ) {
+				$allowed = in_array( $local, [ 'space', 'lang' ], true );
+			}
+			if ( ! $allowed || str_starts_with( $local, 'on' ) ) {
+				$node->removeAttributeNode( $attr );
 				continue;
 			}
 
-			// href / xlink:href with dangerous scheme.
-			if ( $lower === 'href' || $lower === 'xlink:href' ) {
-				$value = trim( strtolower( (string) $node->getAttribute( $name ) ) );
-				if ( str_starts_with( $value, 'javascript:' ) ) {
-					$node->removeAttribute( $name );
-					continue;
-				}
-				// data: allowed only for image/*.
-				if ( str_starts_with( $value, 'data:' ) && ! str_starts_with( $value, 'data:image/' ) ) {
-					$node->removeAttribute( $name );
-					continue;
-				}
+			if ( 'href' === $local && ! self::is_safe_link( (string) $attr->value, $element ) ) {
+				$node->removeAttributeNode( $attr );
+				continue;
 			}
 
-			// `style` can contain url(javascript:…) — strip it.
-			if ( $lower === 'style' ) {
-				$value = (string) $node->getAttribute( $name );
-				if ( preg_match( '/(javascript|expression|behaviou?r)\s*:/i', $value ) ) {
-					$node->removeAttribute( $name );
-				}
+			// Inline styles and presentation values may hold url(): internal
+			// references only, and nothing script-like.
+			$value = self::normalize( (string) $attr->value );
+			if ( preg_match( '/(?:java|vb)script:|expression\(|behaviou?r:|@import|-moz-binding/', $value )
+				|| ( str_contains( $value, 'url(' ) && preg_match( '/url\((?![\'"]?#)/', $value ) ) ) {
+				$node->removeAttributeNode( $attr );
 			}
 		}
 	}

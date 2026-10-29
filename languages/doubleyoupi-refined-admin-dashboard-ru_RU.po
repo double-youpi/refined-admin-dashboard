@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-10-28T19:52:34+00:00\n"
+"POT-Creation-Date: 2026-10-29T12:36:54+00:00\n"
 "Language: ru_RU\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
@@ -4738,15 +4738,15 @@ msgstr "Выберите аватар"
 msgid "Use as avatar"
 msgstr "Использовать как аватар"
 
-#: src/Modules/Toolkit/Features/SafeSvg.php:35
+#: src/Modules/Toolkit/Features/SafeSvg.php:36
 msgid "SVG upload (sanitized)"
 msgstr "Загрузка SVG (с очисткой)"
 
-#: src/Modules/Toolkit/Features/SafeSvg.php:39
+#: src/Modules/Toolkit/Features/SafeSvg.php:40
 msgid "Allow uploading SVG files, with sanitization"
 msgstr "Разрешить загрузку файлов SVG с очисткой"
 
-#: src/Modules/Toolkit/Features/SafeSvg.php:43
+#: src/Modules/Toolkit/Features/SafeSvg.php:44
 msgid ""
 "Enables SVG upload in the media library and passes every file through a "
 "DOMDocument sanitizer (strips <script>, on* attributes, href javascript:). "
@@ -4756,15 +4756,15 @@ msgstr ""
 "DOMDocument (удаляет <script>, атрибуты on* и ссылки javascript:). Заменяет "
 "Safe SVG."
 
-#: src/Modules/Toolkit/Features/SafeSvg.php:111
+#: src/Modules/Toolkit/Features/SafeSvg.php:179
 msgid "SVG: temporary file unreadable."
 msgstr "SVG: временный файл не читается."
 
-#: src/Modules/Toolkit/Features/SafeSvg.php:120
+#: src/Modules/Toolkit/Features/SafeSvg.php:188
 msgid "SVG: file rejected (non-SVG content or malformed)."
 msgstr "SVG: файл отклонён (содержимое не SVG или повреждено)."
 
-#: src/Modules/Toolkit/Features/SafeSvg.php:128
+#: src/Modules/Toolkit/Features/SafeSvg.php:196
 msgid "SVG: unable to write the sanitized file."
 msgstr "SVG: не удалось записать очищенный файл."
 

@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Double Youpi 0.9.40-dev\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-10-28T19:52:34+00:00\n"
+"POT-Creation-Date: 2026-10-29T12:36:54+00:00\n"
 "PO-Revision-Date: 2026-05-20 22:31+0000\n"
 "Last-Translator: Double Youpï\n"
 "Language-Team: Double Youpï (English (United States))\n"
@@ -4604,15 +4604,15 @@ msgstr "Select an avatar"
 msgid "Use as avatar"
 msgstr "Use as avatar"
 
-#: src/Modules/Toolkit/Features/SafeSvg.php:35
+#: src/Modules/Toolkit/Features/SafeSvg.php:36
 msgid "SVG upload (sanitized)"
 msgstr "SVG upload (sanitized)"
 
-#: src/Modules/Toolkit/Features/SafeSvg.php:39
+#: src/Modules/Toolkit/Features/SafeSvg.php:40
 msgid "Allow uploading SVG files, with sanitization"
 msgstr "Allow uploading SVG files, with sanitization"
 
-#: src/Modules/Toolkit/Features/SafeSvg.php:43
+#: src/Modules/Toolkit/Features/SafeSvg.php:44
 msgid ""
 "Enables SVG upload in the media library and passes every file through a "
 "DOMDocument sanitizer (strips <script>, on* attributes, href javascript:). "
@@ -4622,15 +4622,15 @@ msgstr ""
 "DOMDocument sanitizer (strips <script>, on* attributes, href javascript:). "
 "Replaces Safe SVG."
 
-#: src/Modules/Toolkit/Features/SafeSvg.php:111
+#: src/Modules/Toolkit/Features/SafeSvg.php:179
 msgid "SVG: temporary file unreadable."
 msgstr "SVG: temporary file unreadable."
 
-#: src/Modules/Toolkit/Features/SafeSvg.php:120
+#: src/Modules/Toolkit/Features/SafeSvg.php:188
 msgid "SVG: file rejected (non-SVG content or malformed)."
 msgstr "SVG: file rejected (non-SVG content or malformed)."
 
-#: src/Modules/Toolkit/Features/SafeSvg.php:128
+#: src/Modules/Toolkit/Features/SafeSvg.php:196
 msgid "SVG: unable to write the sanitized file."
 msgstr "SVG: unable to write the sanitized file."
 

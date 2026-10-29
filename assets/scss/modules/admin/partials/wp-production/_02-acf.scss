@@ -138,7 +138,7 @@ body.dy-admin .acf-field-range .acf-range-wrap input[type="number"] {
 // (`.acf-flexible-content > .acf-actions.acf-fc-top-actions .acf-btn-clear !important`).
 body.dy-admin .acf-flexible-content > .acf-actions.acf-fc-top-actions .acf-btn-clear,
 body.dy-admin .acf-flexible-content .acf-fc-meta a,
-body.dy-admin .acf-flexible-content .acf-actions > a,
+body.dy-admin .acf-flexible-content .acf-actions > a:not(.button-primary), // not « Add Row », drawn as the primary button (29/10/2026)
 body.dy-admin .acf-flexible-content .acf-hl > li > a {
   color: var(--dya-ink-soft) !important;
   text-decoration: none !important;
@@ -146,7 +146,7 @@ body.dy-admin .acf-flexible-content .acf-hl > li > a {
 }
 body.dy-admin .acf-flexible-content > .acf-actions.acf-fc-top-actions .acf-btn-clear:hover,
 body.dy-admin .acf-flexible-content .acf-fc-meta a:hover,
-body.dy-admin .acf-flexible-content .acf-actions > a:hover,
+body.dy-admin .acf-flexible-content .acf-actions > a:not(.button-primary):hover,
 body.dy-admin .acf-flexible-content .acf-hl > li > a:hover { color: var(--dya-accent-text) !important; }
 
 // ── T9 — Complex ACF fields in dark mode ────────────────────────────────────
@@ -1395,3 +1395,77 @@ body.dy-admin.acf-admin-page input:is([type="radio"], [type="checkbox"]):not(.ac
   border-color: var(--dya-accent) !important;
 }
 
+
+// « Labels on the left »: container fields (flexible content, repeater,
+// group, clone) put their label above, as a section heading, and take the
+// full width. In a 20% label column they left one word over an empty band
+// as tall as their content, and lost a fifth of the room (Raphaël,
+// 29/10/2026, on Chris Green's Service fields). Simple fields keep their
+// label on the left. Redesigned editor only: the native view keeps ACF's own
+// layout (Raphaël, 29/10/2026).
+body.dy-admin.dy-editor-reimagined .acf-fields.-left > .acf-field:is(.acf-field-flexible-content, .acf-field-repeater, .acf-field-group, .acf-field-clone) {
+  &::before { display: none !important; }
+  padding-inline: 18px !important; // aligned with the card's title
+  > .acf-label {
+    float: none !important;
+    width: auto !important;
+    margin: 0 0 10px !important;
+    padding: 0 !important;
+  }
+  > .acf-input {
+    float: none !important;
+    width: auto !important;
+    padding: 0 !important;
+  }
+}
+
+// ── Location rules (field group settings) and conditional logic ─────────
+// The selects kept their natural width (160-226px) in columns of 220-400px:
+// small fields with wide gaps (Raphaël, 29/10/2026). Each select fills its
+// column, 10px apart; each rule group sits in a light panel, the « or »
+// between groups as its separator.
+body.dy-admin.acf-admin-page .rule-groups .rule-group {
+  background: var(--dya-paper-2);
+  border-radius: var(--dya-r-md);
+  padding: 12px 14px;
+  margin: 0 0 6px;
+}
+body.dy-admin.acf-admin-page .rule-groups .rule-group h4 {
+  margin: 0 0 10px !important;
+  font-size: 12px;
+  color: var(--dya-ink-soft) !important;
+}
+body.dy-admin.acf-admin-page .rule-groups .rule-group > h4 + .acf-table,
+body.dy-admin.acf-admin-page .rule-groups .rule-group .acf-table {
+  border: 0 !important;
+  background: transparent !important;
+}
+body.dy-admin.acf-admin-page .rule-groups .rule-group .acf-table tr > td {
+  padding: 4px 10px 4px 0 !important;
+  vertical-align: middle;
+  border: 0 !important;
+  background: transparent !important;
+}
+body.dy-admin.acf-admin-page .rule-groups .rule-group .acf-table tr > td:is(.param, .operator, .value) :is(select, .select2-container, input[type="text"]) {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+body.dy-admin.acf-admin-page .rule-groups .rule-group .acf-table tr > td.add .button {
+  width: 100%;
+  justify-content: center;
+}
+body.dy-admin.acf-admin-page .rule-groups > h4 {
+  margin: 8px 0 8px 14px !important;
+  font-size: 12px;
+  color: var(--dya-ink-soft) !important;
+}
+// Focus on ACF's screens: ACF draws a near-white 3px outline (#ebf5fa)
+// around a focused button, even after a click, a pale frame on the dark
+// theme. None after a click; at the keyboard, our ring in the accent.
+body.dy-admin.acf-admin-page :is(.button, .acf-btn):focus:not(:focus-visible) {
+  outline: none !important;
+  box-shadow: none !important;
+}
+body.dy-admin.acf-admin-page :is(.button, .acf-btn, a, button):focus-visible {
+  outline-color: var(--dya-accent) !important;
+}

@@ -36,10 +36,24 @@ body.dy-admin #poststuff #post-body.columns-2 {
 // visuel attendu. L'éditeur repensé pose sa propre grille et n'est pas concerné.
 body.dy-admin:not(.dy-editor-reimagined) #poststuff #post-body.columns-2 > #postbox-container-1 { order: 2; }
 body.dy-admin:not(.dy-editor-reimagined) #poststuff #post-body.columns-2 > #postbox-container-2 { order: 1; }
+// The edit screen also has the title block first (`#post-body-content`): it
+// took the first cell, the main boxes the second (304px, the side column)
+// and the side column went below (Chris Green, ACF flexible content on a
+// post type without editor, native view, 29/10/2026). Placed explicitly:
+// title and main boxes on the left, the side column on the right over both.
+body.dy-admin:not(.dy-editor-reimagined) #poststuff #post-body.columns-2:has(> #post-body-content) {
+  grid-template-rows: auto 1fr;
+  > #post-body-content { grid-column: 1; grid-row: 1; }
+  > #postbox-container-2 { grid-column: 1; grid-row: 2; }
+  > #postbox-container-1 { grid-column: 2; grid-row: 1 / span 2; }
+}
 // Le cœur tire la colonne latérale hors du flux avec `margin-right: -300px`,
 // une astuce de flottant. Dans une grille, cette marge négative élargit la
 // colonne de 300 px et la fait déborder : on la remet à zéro.
 body.dy-admin:not(.dy-editor-reimagined) #poststuff #post-body.columns-2 > .postbox-container { margin-inline: 0; }
+// Same trick on the holder: `#post-body.columns-2 { margin-right: 300px }`
+// kept room for the floated column, now a grid track: an empty 300px band.
+body.dy-admin:not(.dy-editor-reimagined) #poststuff #post-body.columns-2 { margin-right: 0; }
 // Une colonne latérale sans boîte ne doit pas réserver 304 px : c'est le cas
 // des pages d'options d'extensions, où tout le formulaire tient à gauche.
 body.dy-admin:not(.dy-editor-reimagined) #poststuff #post-body.columns-2:has(> #postbox-container-1:not(:has(.postbox))) {

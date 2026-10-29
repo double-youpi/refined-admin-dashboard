@@ -3530,8 +3530,28 @@ body.dy-admin:not(.dy-editor-reimagined) #poststuff #post-body.columns-2 > #post
   order: 1;
 }
 
+body.dy-admin:not(.dy-editor-reimagined) #poststuff #post-body.columns-2:has(> #post-body-content) {
+  grid-template-rows: auto 1fr;
+}
+body.dy-admin:not(.dy-editor-reimagined) #poststuff #post-body.columns-2:has(> #post-body-content) > #post-body-content {
+  grid-column: 1;
+  grid-row: 1;
+}
+body.dy-admin:not(.dy-editor-reimagined) #poststuff #post-body.columns-2:has(> #post-body-content) > #postbox-container-2 {
+  grid-column: 1;
+  grid-row: 2;
+}
+body.dy-admin:not(.dy-editor-reimagined) #poststuff #post-body.columns-2:has(> #post-body-content) > #postbox-container-1 {
+  grid-column: 2;
+  grid-row: 1/span 2;
+}
+
 body.dy-admin:not(.dy-editor-reimagined) #poststuff #post-body.columns-2 > .postbox-container {
   margin-inline: 0;
+}
+
+body.dy-admin:not(.dy-editor-reimagined) #poststuff #post-body.columns-2 {
+  margin-right: 0;
 }
 
 body.dy-admin:not(.dy-editor-reimagined) #poststuff #post-body.columns-2:has(> #postbox-container-1:not(:has(.postbox))) {
@@ -16986,7 +17006,7 @@ body.dy-admin .acf-field-range .acf-range-wrap input[type=number] {
 
 body.dy-admin .acf-flexible-content > .acf-actions.acf-fc-top-actions .acf-btn-clear,
 body.dy-admin .acf-flexible-content .acf-fc-meta a,
-body.dy-admin .acf-flexible-content .acf-actions > a,
+body.dy-admin .acf-flexible-content .acf-actions > a:not(.button-primary),
 body.dy-admin .acf-flexible-content .acf-hl > li > a {
   color: var(--dya-ink-soft) !important;
   text-decoration: none !important;
@@ -16995,7 +17015,7 @@ body.dy-admin .acf-flexible-content .acf-hl > li > a {
 
 body.dy-admin .acf-flexible-content > .acf-actions.acf-fc-top-actions .acf-btn-clear:hover,
 body.dy-admin .acf-flexible-content .acf-fc-meta a:hover,
-body.dy-admin .acf-flexible-content .acf-actions > a:hover,
+body.dy-admin .acf-flexible-content .acf-actions > a:not(.button-primary):hover,
 body.dy-admin .acf-flexible-content .acf-hl > li > a:hover {
   color: var(--dya-accent-text) !important;
 }
@@ -18339,6 +18359,75 @@ body.dy-admin .select2-container .select2-search--dropdown .select2-search__fiel
 body.dy-admin.acf-admin-page input:is([type=radio], [type=checkbox]):not(.acf-switch-input):not(:checked):is(:hover, :focus, :focus-visible) {
   background: var(--dya-paper) !important;
   border-color: var(--dya-accent) !important;
+}
+
+body.dy-admin.dy-editor-reimagined .acf-fields.-left > .acf-field:is(.acf-field-flexible-content, .acf-field-repeater, .acf-field-group, .acf-field-clone) {
+  padding-inline: 18px !important;
+}
+body.dy-admin.dy-editor-reimagined .acf-fields.-left > .acf-field:is(.acf-field-flexible-content, .acf-field-repeater, .acf-field-group, .acf-field-clone)::before {
+  display: none !important;
+}
+body.dy-admin.dy-editor-reimagined .acf-fields.-left > .acf-field:is(.acf-field-flexible-content, .acf-field-repeater, .acf-field-group, .acf-field-clone) > .acf-label {
+  float: none !important;
+  width: auto !important;
+  margin: 0 0 10px !important;
+  padding: 0 !important;
+}
+body.dy-admin.dy-editor-reimagined .acf-fields.-left > .acf-field:is(.acf-field-flexible-content, .acf-field-repeater, .acf-field-group, .acf-field-clone) > .acf-input {
+  float: none !important;
+  width: auto !important;
+  padding: 0 !important;
+}
+
+body.dy-admin.acf-admin-page .rule-groups .rule-group {
+  background: var(--dya-paper-2);
+  border-radius: var(--dya-r-md);
+  padding: 12px 14px;
+  margin: 0 0 6px;
+}
+
+body.dy-admin.acf-admin-page .rule-groups .rule-group h4 {
+  margin: 0 0 10px !important;
+  font-size: 12px;
+  color: var(--dya-ink-soft) !important;
+}
+
+body.dy-admin.acf-admin-page .rule-groups .rule-group > h4 + .acf-table,
+body.dy-admin.acf-admin-page .rule-groups .rule-group .acf-table {
+  border: 0 !important;
+  background: transparent !important;
+}
+
+body.dy-admin.acf-admin-page .rule-groups .rule-group .acf-table tr > td {
+  padding: 4px 10px 4px 0 !important;
+  vertical-align: middle;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+body.dy-admin.acf-admin-page .rule-groups .rule-group .acf-table tr > td:is(.param, .operator, .value) :is(select, .select2-container, input[type=text]) {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+body.dy-admin.acf-admin-page .rule-groups .rule-group .acf-table tr > td.add .button {
+  width: 100%;
+  justify-content: center;
+}
+
+body.dy-admin.acf-admin-page .rule-groups > h4 {
+  margin: 8px 0 8px 14px !important;
+  font-size: 12px;
+  color: var(--dya-ink-soft) !important;
+}
+
+body.dy-admin.acf-admin-page :is(.button, .acf-btn):focus:not(:focus-visible) {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+body.dy-admin.acf-admin-page :is(.button, .acf-btn, a, button):focus-visible {
+  outline-color: var(--dya-accent) !important;
 }
 
 body.dy-admin .message,

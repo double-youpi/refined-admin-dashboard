@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, dark theme
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.24
+Stable tag: 1.0.25
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -186,6 +186,15 @@ Privacy policy: https://doubleyoupi.com/privacy
 15. Coming from FileBird or another folder plugin? Preview its folders, then import them in one click. The source plugin is never modified.
 
 == Changelog ==
+
+= 1.0.25 =
+* Security: the SVG upload tool now keeps only known SVG elements and attributes, checked after namespaces and control characters are resolved, and is limited to administrators by default (filter `doubleyoupi_filter_svg_upload_capability`). SVG files already in the media library are checked once and cleaned if needed.
+* Fix: Cmd+S / Ctrl+S in the classic editor works again, and on a draft it saves the draft instead of publishing it.
+* Fix: duplicating a page keeps Elementor and Bricks data intact.
+* Fix: ACF location rules: each field fills its column, and each rule group sits in its own panel.
+* Fix: in the native view of the post editor, the boxes stay in the main column and the side column on the right, also on post types without a content editor (ACF flexible content).
+* Fix: the "Add Row" button of ACF flexible content keeps a readable label.
+* Change: in the redesigned editor, with ACF labels on the left, flexible content, repeater and group fields put their label above and use the full width, instead of a label column left empty down their whole height.
 
 = 1.0.24 =
 * Fix: in the classic editor, the Rank Math and Yoast SEO boxes have the same card ground as the other boxes, and their content looks as it does without the redesign (button, links, help icons, headings).
@@ -380,6 +389,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.25 =
+Security fix for the SVG upload tool, please update. Also: Cmd+S never publishes a draft, duplication keeps builder data, native editor layout.
 
 = 1.0.24 =
 Advanced Custom Fields: full-width, visible fields and readable buttons; Rank Math and Yoast SEO boxes in the classic editor.

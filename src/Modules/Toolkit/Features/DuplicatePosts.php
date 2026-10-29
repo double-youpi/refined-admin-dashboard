@@ -169,7 +169,10 @@ final class DuplicatePosts extends AbstractFeature {
 				continue;
 			}
 			foreach ( (array) $values as $value ) {
-				add_post_meta( $new_id, $key, maybe_unserialize( $value ) );
+				// add_post_meta() unslashes what it gets: slashed first, or the
+				// JSON of Elementor and Bricks lost its backslashes (« \/ »,
+				// « \" ») and the copy broke (review of 29/10/2026).
+				add_post_meta( $new_id, $key, wp_slash( maybe_unserialize( $value ) ) );
 			}
 		}
 
