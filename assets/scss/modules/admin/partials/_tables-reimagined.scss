@@ -678,6 +678,8 @@ body.dy-admin .dy-treimg {
     color: var(--dya-ink-soft); font-size: var(--dya-fs-sm); font-family: inherit; cursor: pointer;
     transition: all var(--dya-t-fast) var(--dya-ease); white-space: nowrap; flex: 0 0 auto;
   }
+  a.dy-tchip, a.dy-tchip:is(:hover, :focus, :visited) { text-decoration: none; } // actions as real links (29/10/2026)
+  a:is(.dy-trow__title-text, .dy-trow__page-text) { color: inherit; text-decoration: none; } // row titles as real links (29/10/2026)
   .dy-tchip:hover { background: var(--dya-paper); border-color: var(--dya-edge); color: var(--dya-ink); }
   .dy-tchip svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 1.7; flex: 0 0 auto; }
   .dy-tchip--primary { background: var(--dya-accent); border-color: var(--dya-accent); color: var(--dya-accent-on); }

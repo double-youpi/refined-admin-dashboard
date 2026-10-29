@@ -3,7 +3,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-10-29T12:36:54+00:00\n"
+"POT-Creation-Date: 2026-10-29T21:13:34+00:00\n"
 "Language: hi_IN\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
@@ -57,7 +57,7 @@ msgstr ""
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:159
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:65
 #: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:120
-#: src/Modules/Admin/Editor/EditorReimagined.php:225
+#: src/Modules/Admin/Editor/EditorReimagined.php:226
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:64
 #: src/Modules/MediaLibrary/MediaLibrary.php:210
 msgid "Settings"
@@ -217,7 +217,7 @@ msgstr "%s के साथ देखा गया"
 #: src/Admin/Feedback.php:404
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:400
 #: src/Modules/Admin/Settings.php:351
-#: src/Modules/Admin/Tables/TablesReimagined.php:490
+#: src/Modules/Admin/Tables/TablesReimagined.php:491
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:74
 #: src/Modules/MediaLibrary/Migration/MigrationI18n.php:32
 msgid "Cancel"
@@ -467,7 +467,7 @@ msgid "In preparation"
 msgstr "तैयारी में"
 
 #: src/Admin/OverviewPage.php:654
-#: src/Modules/Admin/Tables/TablesReimagined.php:479
+#: src/Modules/Admin/Tables/TablesReimagined.php:480
 #: src/Modules/MediaLibrary/Migration/MigrationI18n.php:24
 #: src/Modules/MediaLibrary/OrphanAdminPage.php:158
 #: src/Modules/MediaLibrary/OrphanAdminPage.php:207
@@ -605,22 +605,22 @@ msgid "Configure →"
 msgstr "कॉन्फ़िगर करें →"
 
 #: src/Modules/Admin/Admin.php:366
-#: src/Modules/Admin/Tables/TablesReimagined.php:453
+#: src/Modules/Admin/Tables/TablesReimagined.php:454
 msgid "Screen options"
 msgstr "स्क्रीन विकल्प"
 
 #: src/Modules/Admin/Admin.php:367
-#: src/Modules/Admin/Tables/TablesReimagined.php:454
+#: src/Modules/Admin/Tables/TablesReimagined.php:455
 msgid "Columns"
 msgstr "कॉलम"
 
 #: src/Modules/Admin/Admin.php:368
-#: src/Modules/Admin/Tables/TablesReimagined.php:459
+#: src/Modules/Admin/Tables/TablesReimagined.php:460
 msgid "Pagination"
 msgstr "पेजिनेशन"
 
 #: src/Modules/Admin/Admin.php:369
-#: src/Modules/Admin/Tables/TablesReimagined.php:460
+#: src/Modules/Admin/Tables/TablesReimagined.php:461
 msgid "Items per page"
 msgstr "प्रति पृष्ठ आइटम"
 
@@ -755,7 +755,7 @@ msgid "Current screen"
 msgstr "वर्तमान स्क्रीन"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:362
-#: src/Modules/Admin/Tables/TablesReimagined.php:482
+#: src/Modules/Admin/Tables/TablesReimagined.php:483
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:148
 msgid "Title"
 msgstr "शीर्षक"
@@ -897,7 +897,7 @@ msgstr "नया डिस्पोज़िशन"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:399
 #: src/Modules/Admin/Settings.php:356
-#: src/Modules/Admin/Tables/TablesReimagined.php:491
+#: src/Modules/Admin/Tables/TablesReimagined.php:492
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:167
 msgid "Save"
 msgstr "सहेजें"
@@ -957,14 +957,14 @@ msgid "Imported disposition"
 msgstr "आयातित डिस्पोज़िशन"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:417
-#: src/Modules/Admin/Tables/TablesReimagined.php:466
+#: src/Modules/Admin/Tables/TablesReimagined.php:467
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:40
 msgid "More actions"
 msgstr "अधिक क्रियाएँ"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:418
 #: src/Modules/Admin/Settings.php:732
-#: src/Modules/Admin/Tables/TablesReimagined.php:472
+#: src/Modules/Admin/Tables/TablesReimagined.php:473
 msgid "Apply"
 msgstr "लागू करें"
 
@@ -1716,7 +1716,7 @@ msgstr ""
 "सबसे ज़्यादा इस्तेमाल होने वाली एडमिन क्रियाओं के लिए त्वरित बटन। ड्रॉपडाउन से जोड़ें।"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:72
-#: src/Modules/Admin/Tables/TablesReimagined.php:468
+#: src/Modules/Admin/Tables/TablesReimagined.php:469
 #: src/Modules/MediaLibrary/OrphanAdminPage.php:210
 msgid "Actions"
 msgstr "क्रियाएँ"
@@ -1752,7 +1752,7 @@ msgstr "+ उपयोगकर्ता"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:134
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:58
-#: src/Modules/Admin/Tables/TablesReimagined.php:487
+#: src/Modules/Admin/Tables/TablesReimagined.php:488
 msgid "Comments"
 msgstr "टिप्पणियाँ"
 
@@ -1894,7 +1894,7 @@ msgid "up to date"
 msgstr "अद्यतन"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:84
-#: src/Modules/Admin/Tables/TablesReimagined.php:502
+#: src/Modules/Admin/Tables/TablesReimagined.php:503
 msgid "Update available"
 msgstr "अपडेट उपलब्ध"
 
@@ -1964,8 +1964,8 @@ msgid "Drafts"
 msgstr "ड्राफ्ट"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/TodoWidget.php:67
-#: src/Modules/Admin/Editor/EditorReimagined.php:235
-#: src/Modules/Admin/Tables/TablesReimagined.php:441
+#: src/Modules/Admin/Editor/EditorReimagined.php:236
+#: src/Modules/Admin/Tables/TablesReimagined.php:442
 msgid "Scheduled"
 msgstr "अनुसूचित"
 
@@ -2232,65 +2232,65 @@ msgstr "ओवरराइड्स एक ऑब्जेक्ट होने
 msgid "Signatures must be an array."
 msgstr "हस्ताक्षर एक ऐरे होने चाहिए।"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:223
-#: src/Modules/Admin/Tables/TablesReimagined.php:448
+#: src/Modules/Admin/Editor/EditorReimagined.php:224
+#: src/Modules/Admin/Tables/TablesReimagined.php:449
 msgid "Native view"
 msgstr "मूल दृश्य"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:224
-#: src/Modules/Admin/Tables/TablesReimagined.php:449
+#: src/Modules/Admin/Editor/EditorReimagined.php:225
+#: src/Modules/Admin/Tables/TablesReimagined.php:450
 msgid "Redesigned view"
 msgstr "पुनः डिज़ाइन किया गया दृश्य"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:226
-#: src/Modules/Admin/Editor/EditorReimagined.php:243
+#: src/Modules/Admin/Editor/EditorReimagined.php:227
+#: src/Modules/Admin/Editor/EditorReimagined.php:244
 msgid "Publishing options"
 msgstr "प्रकाशन विकल्प"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:227
+#: src/Modules/Admin/Editor/EditorReimagined.php:228
 msgid "Collapse panel"
 msgstr "पैनल संक्षिप्त करें"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:228
+#: src/Modules/Admin/Editor/EditorReimagined.php:229
 msgid "Expand panel"
 msgstr "पैनल विस्तृत करें"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:229
+#: src/Modules/Admin/Editor/EditorReimagined.php:230
 msgid "Permalink"
 msgstr "स्थायी लिंक"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:230
+#: src/Modules/Admin/Editor/EditorReimagined.php:231
 msgid "Add a title"
 msgstr "शीर्षक जोड़ें"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:231
-#: src/Modules/Admin/Tables/TablesReimagined.php:451
+#: src/Modules/Admin/Editor/EditorReimagined.php:232
+#: src/Modules/Admin/Tables/TablesReimagined.php:452
 msgid "Switch to native view"
 msgstr "मूल दृश्य पर स्विच करें"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:232
-#: src/Modules/Admin/Tables/TablesReimagined.php:452
+#: src/Modules/Admin/Editor/EditorReimagined.php:233
+#: src/Modules/Admin/Tables/TablesReimagined.php:453
 msgid "Switch to redesigned view"
 msgstr "पुनः डिज़ाइन किए गए दृश्य पर स्विच करें"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:234
-#: src/Modules/Admin/Tables/TablesReimagined.php:440
+#: src/Modules/Admin/Editor/EditorReimagined.php:235
+#: src/Modules/Admin/Tables/TablesReimagined.php:441
 msgid "Published"
 msgstr "प्रकाशित"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:236
-#: src/Modules/Admin/Editor/EditorReimagined.php:239
-#: src/Modules/Admin/Tables/TablesReimagined.php:442
+#: src/Modules/Admin/Editor/EditorReimagined.php:237
+#: src/Modules/Admin/Editor/EditorReimagined.php:240
+#: src/Modules/Admin/Tables/TablesReimagined.php:443
 msgid "Draft"
 msgstr "ड्राफ़्ट"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:237
-#: src/Modules/Admin/Tables/TablesReimagined.php:443
+#: src/Modules/Admin/Editor/EditorReimagined.php:238
+#: src/Modules/Admin/Tables/TablesReimagined.php:444
 msgid "Pending"
 msgstr "लंबित"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:238
-#: src/Modules/Admin/Tables/TablesReimagined.php:444
+#: src/Modules/Admin/Editor/EditorReimagined.php:239
+#: src/Modules/Admin/Tables/TablesReimagined.php:445
 msgid "Private"
 msgstr "निजी"
 
@@ -2503,12 +2503,12 @@ msgid "Reorder"
 msgstr "पुनः व्यवस्थित करें"
 
 #: src/Modules/Admin/PostOrdering.php:217 src/Modules/Admin/Settings.php:325
-#: src/Modules/Admin/Tables/TablesReimagined.php:465
+#: src/Modules/Admin/Tables/TablesReimagined.php:466
 msgid "Drag to reorder"
 msgstr "पुनः व्यवस्थित करने के लिए खींचें"
 
 #: src/Modules/Admin/PostOrdering.php:264
-#: src/Modules/Admin/Tables/TablesReimagined.php:476
+#: src/Modules/Admin/Tables/TablesReimagined.php:477
 msgid "Reorder failed. Please refresh."
 msgstr "पुनःक्रम विफल. कृपया रिफ़्रेश करें।"
 
@@ -3037,163 +3037,163 @@ msgstr "एक एक्सटेंशन ने नए कॉलम जोड�
 msgid "Hide the ones you do not need from the table gear."
 msgstr "जो नहीं चाहिए उन्हें तालिका के गियर से छिपाएँ।"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:445
+#: src/Modules/Admin/Tables/TablesReimagined.php:446
 msgid "Trash"
 msgstr "ट्रैश"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:450
+#: src/Modules/Admin/Tables/TablesReimagined.php:451
 msgid "Select all"
 msgstr "सभी चुनें"
 
 #. translators: %d = number of columns shown
-#: src/Modules/Admin/Tables/TablesReimagined.php:456
+#: src/Modules/Admin/Tables/TablesReimagined.php:457
 #, php-format
 msgid "%d columns"
 msgstr "%d कॉलम"
 
 #. translators: %d = recommended maximum number of columns
-#: src/Modules/Admin/Tables/TablesReimagined.php:458
+#: src/Modules/Admin/Tables/TablesReimagined.php:459
 #, php-format
 msgid "%d recommended max for readability"
 msgstr "%d पठनीयता के लिए अधिकतम अनुशंसित"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:461
+#: src/Modules/Admin/Tables/TablesReimagined.php:462
 msgid "Expand"
 msgstr "विस्तृत करें"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:462
+#: src/Modules/Admin/Tables/TablesReimagined.php:463
 msgid "Collapse"
 msgstr "संक्षिप्त करें"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:463
+#: src/Modules/Admin/Tables/TablesReimagined.php:464
 msgid "Move up"
 msgstr "ऊपर ले जाएँ"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:464
+#: src/Modules/Admin/Tables/TablesReimagined.php:465
 msgid "Move down"
 msgstr "नीचे ले जाएँ"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:467
+#: src/Modules/Admin/Tables/TablesReimagined.php:468
 msgid "Plugin action"
 msgstr "प्लगइन क्रिया"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:469
+#: src/Modules/Admin/Tables/TablesReimagined.php:470
 msgid "Filters"
 msgstr "फ़िल्टर"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:470
+#: src/Modules/Admin/Tables/TablesReimagined.php:471
 msgid "Reset all"
 msgstr "सभी रीसेट करें"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:471
+#: src/Modules/Admin/Tables/TablesReimagined.php:472
 msgid "selected"
 msgstr "चयनित"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:473
+#: src/Modules/Admin/Tables/TablesReimagined.php:474
 msgid "Add New"
 msgstr "नया जोड़ें"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:474
+#: src/Modules/Admin/Tables/TablesReimagined.php:475
 msgid "Search…"
 msgstr "खोजें…"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:475
+#: src/Modules/Admin/Tables/TablesReimagined.php:476
 msgid "All"
 msgstr "सभी"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:477
+#: src/Modules/Admin/Tables/TablesReimagined.php:478
 msgid "Home"
 msgstr "होम"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:480
+#: src/Modules/Admin/Tables/TablesReimagined.php:481
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:168
 msgid "Edit"
 msgstr "संपादित करें"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:483
+#: src/Modules/Admin/Tables/TablesReimagined.php:484
 msgid "Slug"
 msgstr "स्लग"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:484
+#: src/Modules/Admin/Tables/TablesReimagined.php:485
 msgid "Status"
 msgstr "स्थिति"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:485
+#: src/Modules/Admin/Tables/TablesReimagined.php:486
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:142
 msgid "Date"
 msgstr "तारीख़"
 
 #. translators: %s = column names added since the last visit
-#: src/Modules/Admin/Tables/TablesReimagined.php:489
+#: src/Modules/Admin/Tables/TablesReimagined.php:490
 #, php-format
 msgid "New columns: %s"
 msgstr "नए कॉलम: %s"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:493
+#: src/Modules/Admin/Tables/TablesReimagined.php:494
 msgid "Sort"
 msgstr "क्रमबद्ध करें"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:494
+#: src/Modules/Admin/Tables/TablesReimagined.php:495
 msgid "Sorted ascending"
 msgstr "आरोही क्रम"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:495
+#: src/Modules/Admin/Tables/TablesReimagined.php:496
 msgid "Sorted descending"
 msgstr "अवरोही क्रम"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:498
+#: src/Modules/Admin/Tables/TablesReimagined.php:499
 msgid "Update"
 msgstr "अपडेट करें"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:499
+#: src/Modules/Admin/Tables/TablesReimagined.php:500
 msgid "Updating…"
 msgstr "अपडेट हो रहा है…"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:500
+#: src/Modules/Admin/Tables/TablesReimagined.php:501
 msgid "Updated"
 msgstr "अपडेट हो गया"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:501
+#: src/Modules/Admin/Tables/TablesReimagined.php:502
 msgid "Update failed"
 msgstr "अपडेट विफल"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:503
+#: src/Modules/Admin/Tables/TablesReimagined.php:504
 msgid "1 update available"
 msgstr "1 अपडेट उपलब्ध"
 
 #. translators: %d = number of plugins with an update available
-#: src/Modules/Admin/Tables/TablesReimagined.php:505
+#: src/Modules/Admin/Tables/TablesReimagined.php:506
 #, php-format
 msgid "%d updates available"
 msgstr "%d अपडेट उपलब्ध"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:506
+#: src/Modules/Admin/Tables/TablesReimagined.php:507
 msgid "Update all"
 msgstr "सभी अपडेट करें"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:507
+#: src/Modules/Admin/Tables/TablesReimagined.php:508
 msgid "Auto-updates"
 msgstr "ऑटो-अपडेट"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:508
+#: src/Modules/Admin/Tables/TablesReimagined.php:509
 msgid "More"
 msgstr "अधिक"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:509
+#: src/Modules/Admin/Tables/TablesReimagined.php:510
 msgid "No plugin matches your search."
 msgstr "आपकी खोज से कोई प्लगइन मेल नहीं खाता।"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:510
+#: src/Modules/Admin/Tables/TablesReimagined.php:511
 msgctxt "plugins list group"
 msgid "Active"
 msgstr "सक्रिय"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:511
+#: src/Modules/Admin/Tables/TablesReimagined.php:512
 msgctxt "plugins list group"
 msgid "Inactive"
 msgstr "निष्क्रिय"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:512
+#: src/Modules/Admin/Tables/TablesReimagined.php:513
 msgctxt "one plugin"
 msgid "Inactive"
 msgstr "निष्क्रिय"
@@ -4389,13 +4389,13 @@ msgstr "प्लगइन और थीम के लिए स्वतः-अ
 
 #: src/Modules/Toolkit/Features/DisableUpdateEmails.php:40
 msgid ""
-"Stops the inbox spam from successful plugin/theme auto-updates. Failure and "
-"critical emails are kept, and core update emails are untouched. Replaces "
-"Companion Auto Update / Easy Updates Manager."
+"Stops the inbox spam from successful plugin/theme auto-updates. Failure "
+"emails are kept, and core update emails are untouched. Replaces Companion "
+"Auto Update / Easy Updates Manager."
 msgstr ""
-"सफल प्लगइन/थीम स्वतः-अपडेट से इनबॉक्स स्पैम को रोकता है। विफलता और गंभीर ईमेल रखे जाते "
-"हैं, और कोर अपडेट ईमेल अछूते रहते हैं। Companion Auto Update / Easy Updates Manager "
-"का स्थान लेता है।"
+"सफल प्लगइन/थीम स्वतः-अपडेट से इनबॉक्स स्पैम को रोकता है। विफलता के ईमेल रखे जाते हैं, और "
+"कोर अपडेट ईमेल अछूते रहते हैं। Companion Auto Update / Easy Updates Manager का स्थान "
+"लेता है।"
 
 #: src/Modules/Toolkit/Features/DuplicatePosts.php:28
 msgid "Duplicate a post/page"
@@ -4630,13 +4630,13 @@ msgstr "SVG फ़ाइलों के अपलोड की अनुमत�
 
 #: src/Modules/Toolkit/Features/SafeSvg.php:44
 msgid ""
-"Enables SVG upload in the media library and passes every file through a "
-"DOMDocument sanitizer (strips <script>, on* attributes, href javascript:). "
-"Replaces Safe SVG."
+"Enables SVG upload in the media library. Each file keeps only known SVG "
+"elements and attributes; scripts and dangerous links are removed. By "
+"default, only administrators can upload SVG files. Replaces Safe SVG."
 msgstr ""
-"मीडिया लाइब्रेरी में SVG अपलोड सक्रिय करता है और प्रत्येक फ़ाइल को DOMDocument "
-"sanitizer से गुज़ारता है (<script>, on* विशेषताएँ, href javascript: हटाता है)। Safe "
-"SVG को प्रतिस्थापित करता है।"
+"मीडिया लाइब्रेरी में SVG फ़ाइलें अपलोड करने की अनुमति देता है। हर फ़ाइल में केवल ज्ञात SVG "
+"तत्व और विशेषताएँ रहती हैं; स्क्रिप्ट और खतरनाक लिंक हटा दिए जाते हैं। डिफ़ॉल्ट रूप से केवल "
+"व्यवस्थापक SVG फ़ाइलें अपलोड कर सकते हैं। Safe SVG की जगह लेता है।"
 
 #: src/Modules/Toolkit/Features/SafeSvg.php:179
 msgid "SVG: temporary file unreadable."

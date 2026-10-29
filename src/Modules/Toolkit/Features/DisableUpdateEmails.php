@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * with zero actionable information.
  *
  * Opinionated choice (manifesto §2 "editor decisions"): only SUCCESS emails
- * are suppressed. Failure, critical, and mixed emails always pass through —
+ * are suppressed. Failure and mixed emails always pass through:
  * the admin must be informed when an update breaks something.
  *
  * Core emails (`auto_core_update_send_email`) are NOT touched: a WordPress
@@ -37,7 +37,7 @@ final class DisableUpdateEmails extends AbstractFeature {
 	}
 
 	public function description(): string {
-		return __( 'Stops the inbox spam from successful plugin/theme auto-updates. Failure and critical emails are kept, and core update emails are untouched. Replaces Companion Auto Update / Easy Updates Manager.', 'doubleyoupi-refined-admin-dashboard' );
+		return __( 'Stops the inbox spam from successful plugin/theme auto-updates. Failure emails are kept, and core update emails are untouched. Replaces Companion Auto Update / Easy Updates Manager.', 'doubleyoupi-refined-admin-dashboard' );
 	}
 
 	public function icon_svg(): string {
@@ -64,14 +64,25 @@ final class DisableUpdateEmails extends AbstractFeature {
 	/**
 	 * Decides whether the auto-update result email should be sent.
 	 *
-	 * Only results of type 'success' are suppressed. For any other type
-	 * ('fail', 'critical', 'mixed', or unknown) the original value is passed
-	 * through: the admin must see problems.
+	 * WordPress passes the list of update results (objects with `->result`),
+	 * not a type string: the former `string $type` signature threw a
+	 * TypeError at the end of every automatic plugin or theme update, so no
+	 * email left at all, failures included (review of 29/10/2026). The email
+	 * is muted only when every result is a success; a failure, an empty or
+	 * unexpected value keeps WordPress's decision.
 	 *
-	 * @param bool   $send Current value (true by default on the WP side).
-	 * @param string $type Result type: 'success'|'fail'|'critical'|'mixed'.
+	 * @param bool  $send           Current value (true by default on the WP side).
+	 * @param mixed $update_results The results of the plugin or theme updates.
 	 */
-	public static function maybe_suppress( bool $send, string $type ): bool {
-		return 'success' === $type ? false : $send;
+	public static function maybe_suppress( $send, $update_results = null ): bool {
+		if ( ! is_array( $update_results ) || array() === $update_results ) {
+			return (bool) $send;
+		}
+		foreach ( $update_results as $result ) {
+			if ( ! is_object( $result ) || ! isset( $result->result ) || true !== $result->result ) {
+				return (bool) $send;
+			}
+		}
+		return false;
 	}
 }

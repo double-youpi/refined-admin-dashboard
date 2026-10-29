@@ -170,7 +170,8 @@ JS;
 	 * print (`--line-*`) had not been read by anything since the tokens took
 	 * the `--dya-` prefix, so the option did nothing.
 	 */
-	public function body_class( string $classes ): string {
+	public function body_class( $classes ): string {
+		$classes = is_string( $classes ) ? $classes : ''; // another filter may hand back null
 		return $this->settings->accent_applies_to_lines() ? $classes . ' dy-lines-accent' : $classes;
 	}
 

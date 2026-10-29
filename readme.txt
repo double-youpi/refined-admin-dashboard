@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, dark theme
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.25
+Stable tag: 1.0.26
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -186,6 +186,14 @@ Privacy policy: https://doubleyoupi.com/privacy
 15. Coming from FileBird or another folder plugin? Preview its folders, then import them in one click. The source plugin is never modified.
 
 == Changelog ==
+
+= 1.0.26 =
+* Fix: "Disable update emails" now reads the update results WordPress sends: successful plugin and theme updates send no email, failures still do.
+* Change: in the redesigned lists, row titles and row actions (Edit, View, Trash, plugins' links) are real links: right-click "Open in new tab", middle click and Cmd/Ctrl-click work.
+* Change: ACF rich text (WYSIWYG) fields have the same ground as the other ACF fields, white in the light theme.
+* Fix: the descriptions of the SVG upload and update email tools match what they do.
+* Fix: the redesign keeps working when another plugin hands back an unexpected value to a WordPress filter it also uses (admin body classes, post content, image metadata).
+* Fix: in the media library settings, a setting the server cannot use (AVIF) no longer shows a stray checkbox next to its switch.
 
 = 1.0.25 =
 * Security: the SVG upload tool now keeps only known SVG elements and attributes, checked after namespaces and control characters are resolved, and is limited to administrators by default (filter `doubleyoupi_filter_svg_upload_capability`). SVG files already in the media library are checked once and cleaned if needed.
@@ -389,6 +397,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.26 =
+The "Disable update emails" tool reads WordPress's update results correctly; sturdier filters.
 
 = 1.0.25 =
 Security fix for the SVG upload tool, please update. Also: Cmd+S never publishes a draft, duplication keeps builder data, native editor layout.

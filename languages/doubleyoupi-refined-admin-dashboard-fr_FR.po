@@ -5,7 +5,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-10-29T12:36:54+00:00\n"
+"POT-Creation-Date: 2026-10-29T21:13:34+00:00\n"
 "Language: fr_FR\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
@@ -62,7 +62,7 @@ msgstr ""
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:159
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:65
 #: src/Modules/Admin/Dashboard/Widgets/Data/ToolkitWidget.php:120
-#: src/Modules/Admin/Editor/EditorReimagined.php:225
+#: src/Modules/Admin/Editor/EditorReimagined.php:226
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:64
 #: src/Modules/MediaLibrary/MediaLibrary.php:210
 msgid "Settings"
@@ -225,7 +225,7 @@ msgstr "Vu avec %s"
 #: src/Admin/Feedback.php:404
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:400
 #: src/Modules/Admin/Settings.php:351
-#: src/Modules/Admin/Tables/TablesReimagined.php:490
+#: src/Modules/Admin/Tables/TablesReimagined.php:491
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:74
 #: src/Modules/MediaLibrary/Migration/MigrationI18n.php:32
 msgid "Cancel"
@@ -479,7 +479,7 @@ msgid "In preparation"
 msgstr "En préparation"
 
 #: src/Admin/OverviewPage.php:654
-#: src/Modules/Admin/Tables/TablesReimagined.php:479
+#: src/Modules/Admin/Tables/TablesReimagined.php:480
 #: src/Modules/MediaLibrary/Migration/MigrationI18n.php:24
 #: src/Modules/MediaLibrary/OrphanAdminPage.php:158
 #: src/Modules/MediaLibrary/OrphanAdminPage.php:207
@@ -621,22 +621,22 @@ msgid "Configure →"
 msgstr "Configurer →"
 
 #: src/Modules/Admin/Admin.php:366
-#: src/Modules/Admin/Tables/TablesReimagined.php:453
+#: src/Modules/Admin/Tables/TablesReimagined.php:454
 msgid "Screen options"
 msgstr "Options d’écran"
 
 #: src/Modules/Admin/Admin.php:367
-#: src/Modules/Admin/Tables/TablesReimagined.php:454
+#: src/Modules/Admin/Tables/TablesReimagined.php:455
 msgid "Columns"
 msgstr "Colonnes"
 
 #: src/Modules/Admin/Admin.php:368
-#: src/Modules/Admin/Tables/TablesReimagined.php:459
+#: src/Modules/Admin/Tables/TablesReimagined.php:460
 msgid "Pagination"
 msgstr "Pagination"
 
 #: src/Modules/Admin/Admin.php:369
-#: src/Modules/Admin/Tables/TablesReimagined.php:460
+#: src/Modules/Admin/Tables/TablesReimagined.php:461
 msgid "Items per page"
 msgstr "Éléments par page"
 
@@ -771,7 +771,7 @@ msgid "Current screen"
 msgstr "Écran actuel"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:362
-#: src/Modules/Admin/Tables/TablesReimagined.php:482
+#: src/Modules/Admin/Tables/TablesReimagined.php:483
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:148
 msgid "Title"
 msgstr "Titre"
@@ -914,7 +914,7 @@ msgstr "Nouvelle mise en page"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:399
 #: src/Modules/Admin/Settings.php:356
-#: src/Modules/Admin/Tables/TablesReimagined.php:491
+#: src/Modules/Admin/Tables/TablesReimagined.php:492
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:167
 msgid "Save"
 msgstr "Enregistrer"
@@ -976,14 +976,14 @@ msgid "Imported disposition"
 msgstr "Mise en page importée"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:417
-#: src/Modules/Admin/Tables/TablesReimagined.php:466
+#: src/Modules/Admin/Tables/TablesReimagined.php:467
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:40
 msgid "More actions"
 msgstr "Plus d’actions"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:418
 #: src/Modules/Admin/Settings.php:732
-#: src/Modules/Admin/Tables/TablesReimagined.php:472
+#: src/Modules/Admin/Tables/TablesReimagined.php:473
 msgid "Apply"
 msgstr "Appliquer"
 
@@ -1751,7 +1751,7 @@ msgstr ""
 "Ajoutez-en une depuis le menu."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:72
-#: src/Modules/Admin/Tables/TablesReimagined.php:468
+#: src/Modules/Admin/Tables/TablesReimagined.php:469
 #: src/Modules/MediaLibrary/OrphanAdminPage.php:210
 msgid "Actions"
 msgstr "Actions"
@@ -1787,7 +1787,7 @@ msgstr "+ Compte"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:134
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:58
-#: src/Modules/Admin/Tables/TablesReimagined.php:487
+#: src/Modules/Admin/Tables/TablesReimagined.php:488
 msgid "Comments"
 msgstr "Commentaires"
 
@@ -1931,7 +1931,7 @@ msgid "up to date"
 msgstr "à jour"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:84
-#: src/Modules/Admin/Tables/TablesReimagined.php:502
+#: src/Modules/Admin/Tables/TablesReimagined.php:503
 msgid "Update available"
 msgstr "Mise à jour disponible"
 
@@ -2003,8 +2003,8 @@ msgid "Drafts"
 msgstr "Brouillons"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/TodoWidget.php:67
-#: src/Modules/Admin/Editor/EditorReimagined.php:235
-#: src/Modules/Admin/Tables/TablesReimagined.php:441
+#: src/Modules/Admin/Editor/EditorReimagined.php:236
+#: src/Modules/Admin/Tables/TablesReimagined.php:442
 msgid "Scheduled"
 msgstr "Planifiés"
 
@@ -2282,65 +2282,65 @@ msgstr "Les surcharges doivent être un objet."
 msgid "Signatures must be an array."
 msgstr "Les signatures doivent être un tableau."
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:223
-#: src/Modules/Admin/Tables/TablesReimagined.php:448
+#: src/Modules/Admin/Editor/EditorReimagined.php:224
+#: src/Modules/Admin/Tables/TablesReimagined.php:449
 msgid "Native view"
 msgstr "Vue native"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:224
-#: src/Modules/Admin/Tables/TablesReimagined.php:449
+#: src/Modules/Admin/Editor/EditorReimagined.php:225
+#: src/Modules/Admin/Tables/TablesReimagined.php:450
 msgid "Redesigned view"
 msgstr "Vue repensée"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:226
-#: src/Modules/Admin/Editor/EditorReimagined.php:243
+#: src/Modules/Admin/Editor/EditorReimagined.php:227
+#: src/Modules/Admin/Editor/EditorReimagined.php:244
 msgid "Publishing options"
 msgstr "Options de publication"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:227
+#: src/Modules/Admin/Editor/EditorReimagined.php:228
 msgid "Collapse panel"
 msgstr "Replier le panneau"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:228
+#: src/Modules/Admin/Editor/EditorReimagined.php:229
 msgid "Expand panel"
 msgstr "Déplier le panneau"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:229
+#: src/Modules/Admin/Editor/EditorReimagined.php:230
 msgid "Permalink"
 msgstr "Permalien"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:230
+#: src/Modules/Admin/Editor/EditorReimagined.php:231
 msgid "Add a title"
 msgstr "Ajouter un titre"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:231
-#: src/Modules/Admin/Tables/TablesReimagined.php:451
+#: src/Modules/Admin/Editor/EditorReimagined.php:232
+#: src/Modules/Admin/Tables/TablesReimagined.php:452
 msgid "Switch to native view"
 msgstr "Basculer vers la vue native"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:232
-#: src/Modules/Admin/Tables/TablesReimagined.php:452
+#: src/Modules/Admin/Editor/EditorReimagined.php:233
+#: src/Modules/Admin/Tables/TablesReimagined.php:453
 msgid "Switch to redesigned view"
 msgstr "Basculer vers la vue repensée"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:234
-#: src/Modules/Admin/Tables/TablesReimagined.php:440
+#: src/Modules/Admin/Editor/EditorReimagined.php:235
+#: src/Modules/Admin/Tables/TablesReimagined.php:441
 msgid "Published"
 msgstr "Publié"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:236
-#: src/Modules/Admin/Editor/EditorReimagined.php:239
-#: src/Modules/Admin/Tables/TablesReimagined.php:442
+#: src/Modules/Admin/Editor/EditorReimagined.php:237
+#: src/Modules/Admin/Editor/EditorReimagined.php:240
+#: src/Modules/Admin/Tables/TablesReimagined.php:443
 msgid "Draft"
 msgstr "Brouillon"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:237
-#: src/Modules/Admin/Tables/TablesReimagined.php:443
+#: src/Modules/Admin/Editor/EditorReimagined.php:238
+#: src/Modules/Admin/Tables/TablesReimagined.php:444
 msgid "Pending"
 msgstr "En attente"
 
-#: src/Modules/Admin/Editor/EditorReimagined.php:238
-#: src/Modules/Admin/Tables/TablesReimagined.php:444
+#: src/Modules/Admin/Editor/EditorReimagined.php:239
+#: src/Modules/Admin/Tables/TablesReimagined.php:445
 msgid "Private"
 msgstr "Privé"
 
@@ -2554,12 +2554,12 @@ msgid "Reorder"
 msgstr "Réorganiser"
 
 #: src/Modules/Admin/PostOrdering.php:217 src/Modules/Admin/Settings.php:325
-#: src/Modules/Admin/Tables/TablesReimagined.php:465
+#: src/Modules/Admin/Tables/TablesReimagined.php:466
 msgid "Drag to reorder"
 msgstr "Faites glisser pour réorganiser"
 
 #: src/Modules/Admin/PostOrdering.php:264
-#: src/Modules/Admin/Tables/TablesReimagined.php:476
+#: src/Modules/Admin/Tables/TablesReimagined.php:477
 msgid "Reorder failed. Please refresh."
 msgstr "Échec du réordonnancement. Veuillez actualiser la page."
 
@@ -3114,163 +3114,163 @@ msgstr "Nouvelles colonnes ajoutées par une extension : %s."
 msgid "Hide the ones you do not need from the table gear."
 msgstr "Masquez celles qui ne vous servent pas depuis l’engrenage du tableau."
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:445
+#: src/Modules/Admin/Tables/TablesReimagined.php:446
 msgid "Trash"
 msgstr "Corbeille"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:450
+#: src/Modules/Admin/Tables/TablesReimagined.php:451
 msgid "Select all"
 msgstr "Tout sélectionner"
 
 #. translators: %d = number of columns shown
-#: src/Modules/Admin/Tables/TablesReimagined.php:456
+#: src/Modules/Admin/Tables/TablesReimagined.php:457
 #, php-format
 msgid "%d columns"
 msgstr "%d colonnes"
 
 #. translators: %d = recommended maximum number of columns
-#: src/Modules/Admin/Tables/TablesReimagined.php:458
+#: src/Modules/Admin/Tables/TablesReimagined.php:459
 #, php-format
 msgid "%d recommended max for readability"
 msgstr "%d conseillées max pour la lisibilité"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:461
+#: src/Modules/Admin/Tables/TablesReimagined.php:462
 msgid "Expand"
 msgstr "Déplier"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:462
+#: src/Modules/Admin/Tables/TablesReimagined.php:463
 msgid "Collapse"
 msgstr "Replier"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:463
+#: src/Modules/Admin/Tables/TablesReimagined.php:464
 msgid "Move up"
 msgstr "Monter"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:464
+#: src/Modules/Admin/Tables/TablesReimagined.php:465
 msgid "Move down"
 msgstr "Descendre"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:467
+#: src/Modules/Admin/Tables/TablesReimagined.php:468
 msgid "Plugin action"
 msgstr "Action d’extension"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:469
+#: src/Modules/Admin/Tables/TablesReimagined.php:470
 msgid "Filters"
 msgstr "Filtres"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:470
+#: src/Modules/Admin/Tables/TablesReimagined.php:471
 msgid "Reset all"
 msgstr "Tout réinitialiser"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:471
+#: src/Modules/Admin/Tables/TablesReimagined.php:472
 msgid "selected"
 msgstr "sélectionné(s)"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:473
+#: src/Modules/Admin/Tables/TablesReimagined.php:474
 msgid "Add New"
 msgstr "Ajouter"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:474
+#: src/Modules/Admin/Tables/TablesReimagined.php:475
 msgid "Search…"
 msgstr "Rechercher…"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:475
+#: src/Modules/Admin/Tables/TablesReimagined.php:476
 msgid "All"
 msgstr "Tous"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:477
+#: src/Modules/Admin/Tables/TablesReimagined.php:478
 msgid "Home"
 msgstr "Accueil"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:480
+#: src/Modules/Admin/Tables/TablesReimagined.php:481
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:168
 msgid "Edit"
 msgstr "Modifier"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:483
+#: src/Modules/Admin/Tables/TablesReimagined.php:484
 msgid "Slug"
 msgstr "Slug"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:484
+#: src/Modules/Admin/Tables/TablesReimagined.php:485
 msgid "Status"
 msgstr "État"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:485
+#: src/Modules/Admin/Tables/TablesReimagined.php:486
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:142
 msgid "Date"
 msgstr "Date"
 
 #. translators: %s = column names added since the last visit
-#: src/Modules/Admin/Tables/TablesReimagined.php:489
+#: src/Modules/Admin/Tables/TablesReimagined.php:490
 #, php-format
 msgid "New columns: %s"
 msgstr "Nouvelles colonnes : %s"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:493
+#: src/Modules/Admin/Tables/TablesReimagined.php:494
 msgid "Sort"
 msgstr "Trier"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:494
+#: src/Modules/Admin/Tables/TablesReimagined.php:495
 msgid "Sorted ascending"
 msgstr "Tri croissant"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:495
+#: src/Modules/Admin/Tables/TablesReimagined.php:496
 msgid "Sorted descending"
 msgstr "Tri décroissant"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:498
+#: src/Modules/Admin/Tables/TablesReimagined.php:499
 msgid "Update"
 msgstr "Mettre à jour"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:499
+#: src/Modules/Admin/Tables/TablesReimagined.php:500
 msgid "Updating…"
 msgstr "Mise à jour…"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:500
+#: src/Modules/Admin/Tables/TablesReimagined.php:501
 msgid "Updated"
 msgstr "À jour"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:501
+#: src/Modules/Admin/Tables/TablesReimagined.php:502
 msgid "Update failed"
 msgstr "Échec de la mise à jour"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:503
+#: src/Modules/Admin/Tables/TablesReimagined.php:504
 msgid "1 update available"
 msgstr "1 mise à jour disponible"
 
 #. translators: %d = number of plugins with an update available
-#: src/Modules/Admin/Tables/TablesReimagined.php:505
+#: src/Modules/Admin/Tables/TablesReimagined.php:506
 #, php-format
 msgid "%d updates available"
 msgstr "%d mises à jour disponibles"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:506
+#: src/Modules/Admin/Tables/TablesReimagined.php:507
 msgid "Update all"
 msgstr "Tout mettre à jour"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:507
+#: src/Modules/Admin/Tables/TablesReimagined.php:508
 msgid "Auto-updates"
 msgstr "Mises à jour auto"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:508
+#: src/Modules/Admin/Tables/TablesReimagined.php:509
 msgid "More"
 msgstr "Plus"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:509
+#: src/Modules/Admin/Tables/TablesReimagined.php:510
 msgid "No plugin matches your search."
 msgstr "Aucune extension ne correspond à votre recherche."
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:510
+#: src/Modules/Admin/Tables/TablesReimagined.php:511
 msgctxt "plugins list group"
 msgid "Active"
 msgstr "Activées"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:511
+#: src/Modules/Admin/Tables/TablesReimagined.php:512
 msgctxt "plugins list group"
 msgid "Inactive"
 msgstr "Désactivées"
 
-#: src/Modules/Admin/Tables/TablesReimagined.php:512
+#: src/Modules/Admin/Tables/TablesReimagined.php:513
 msgctxt "one plugin"
 msgid "Inactive"
 msgstr "Désactivée"
@@ -4497,14 +4497,14 @@ msgstr ""
 
 #: src/Modules/Toolkit/Features/DisableUpdateEmails.php:40
 msgid ""
-"Stops the inbox spam from successful plugin/theme auto-updates. Failure and "
-"critical emails are kept, and core update emails are untouched. Replaces "
-"Companion Auto Update / Easy Updates Manager."
+"Stops the inbox spam from successful plugin/theme auto-updates. Failure "
+"emails are kept, and core update emails are untouched. Replaces Companion "
+"Auto Update / Easy Updates Manager."
 msgstr ""
 "Met fin aux e-mails indésirables envoyés après chaque mise à jour "
-"automatique réussie d’une extension ou d’un thème. Les e-mails d’échec et "
-"critiques sont conservés, et les e-mails de mise à jour du cœur ne sont pas "
-"touchés. Remplace Companion Auto Update / Easy Updates Manager."
+"automatique réussie d’une extension ou d’un thème. Les e-mails d’échec sont "
+"conservés, et les e-mails de mise à jour du cœur ne sont pas touchés. "
+"Remplace Companion Auto Update / Easy Updates Manager."
 
 #: src/Modules/Toolkit/Features/DuplicatePosts.php:28
 msgid "Duplicate a post/page"
@@ -4749,13 +4749,14 @@ msgstr "Autoriser le téléversement de fichiers SVG, après nettoyage"
 
 #: src/Modules/Toolkit/Features/SafeSvg.php:44
 msgid ""
-"Enables SVG upload in the media library and passes every file through a "
-"DOMDocument sanitizer (strips <script>, on* attributes, href javascript:). "
-"Replaces Safe SVG."
+"Enables SVG upload in the media library. Each file keeps only known SVG "
+"elements and attributes; scripts and dangerous links are removed. By "
+"default, only administrators can upload SVG files. Replaces Safe SVG."
 msgstr ""
-"Autorise le téléversement de SVG dans la médiathèque et nettoie chaque "
-"fichier avec DOMDocument (retire les balises <script>, les attributs on* et "
-"les liens javascript:). Remplace Safe SVG."
+"Autorise le téléversement de SVG dans la médiathèque. Chaque fichier ne "
+"garde que les éléments et attributs SVG connus ; les scripts et les liens "
+"dangereux sont retirés. Par défaut, seuls les comptes administrateurs "
+"peuvent envoyer des SVG. Remplace Safe SVG."
 
 #: src/Modules/Toolkit/Features/SafeSvg.php:179
 msgid "SVG: temporary file unreadable."

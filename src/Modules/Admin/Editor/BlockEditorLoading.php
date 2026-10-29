@@ -41,7 +41,8 @@ final class BlockEditorLoading {
 	 * sidebar, read from the persisted editor preferences, so the frame drawn
 	 * while loading matches the one React will mount).
 	 */
-	public function body_class( string $classes ): string {
+	public function body_class( $classes ): string {
+		$classes = is_string( $classes ) ? $classes : ''; // another filter may hand back null
 		if ( ! $this->is_block_editor_screen() ) {
 			return $classes;
 		}

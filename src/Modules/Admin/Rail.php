@@ -808,7 +808,8 @@ JS;
 		return null;
 	}
 
-	public function body_class( string $classes ): string {
+	public function body_class( $classes ): string {
+		$classes = is_string( $classes ) ? $classes : ''; // another filter may hand back null
 		$classes .= ' dy-admin';
 
 		// Native tree: no section colours; the accent drives the chrome.

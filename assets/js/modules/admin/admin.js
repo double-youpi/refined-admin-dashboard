@@ -101,13 +101,16 @@
   // inject the result, which keeps the canvas in step with the live theme
   // toggle and with editors created later (ACF repeaters, flexible rows).
   (function () {
-    const TOKENS = ['--dya-paper', '--dya-paper-2', '--dya-ink', '--dya-ink-mute', '--dya-line', '--dya-accent'];
-    function sheet() {
+    const TOKENS = ['--dya-bg', '--dya-paper', '--dya-paper-2', '--dya-ink', '--dya-ink-mute', '--dya-line', '--dya-accent'];
+    // An ACF WYSIWYG field takes the ground of the other ACF fields (white in
+    // the light theme), not the card's (Chris Green, 29/10/2026).
+    function sheet(field) {
       const cs = getComputedStyle(body);
       const v = {};
       TOKENS.forEach(function (t) { v[t] = (cs.getPropertyValue(t) || '').trim(); });
       if (!v['--dya-paper'] || !v['--dya-ink']) return '';
-      return 'html,body#tinymce{background:' + v['--dya-paper'] + ' !important;color:' + v['--dya-ink'] + ' !important;}'
+      const ground = field && v['--dya-bg'] ? v['--dya-bg'] : v['--dya-paper'];
+      return 'html,body#tinymce{background:' + ground + ' !important;color:' + v['--dya-ink'] + ' !important;}'
         + 'body#tinymce a{color:' + v['--dya-accent'] + ';}'
         + 'body#tinymce hr{border-color:' + v['--dya-line'] + ';}'
         + 'body#tinymce blockquote{border-left:3px solid ' + v['--dya-line'] + ';color:' + v['--dya-ink-mute'] + ';}'
@@ -115,15 +118,15 @@
         + 'body#tinymce table td,body#tinymce table th{border-color:' + v['--dya-line'] + ';}'
         + 'body#tinymce .mce-item-table,body#tinymce .mce-item-table td{border-color:' + v['--dya-line'] + ';}';
     }
-    function paint(doc) {
+    function paint(doc, field) {
       if (!doc || !doc.head) return;
       let st = doc.getElementById('dy-mce-theme');
       if (!st) { st = doc.createElement('style'); st.id = 'dy-mce-theme'; doc.head.appendChild(st); }
-      st.textContent = sheet();
+      st.textContent = sheet(field);
     }
     function syncAll() {
       document.querySelectorAll('iframe[id$="_ifr"]').forEach(function (f) {
-        try { paint(f.contentDocument); } catch (_) {}
+        try { paint(f.contentDocument, !!f.closest('.acf-field')); } catch (_) {}
       });
     }
     let hooked = false;
@@ -132,7 +135,12 @@
       hooked = true;
       window.tinymce.on('AddEditor', function (e) {
         if (!e.editor || typeof e.editor.on !== 'function') return;
-        e.editor.on('init', function () { try { paint(e.editor.getDoc()); } catch (_) {} });
+        e.editor.on('init', function () {
+          try {
+            const c = e.editor.getContainer && e.editor.getContainer();
+            paint(e.editor.getDoc(), !!(c && c.closest && c.closest('.acf-field')));
+          } catch (_) {}
+        });
       });
       syncAll();
       return true;

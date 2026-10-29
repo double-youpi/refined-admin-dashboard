@@ -41,7 +41,7 @@ final class SafeSvg extends AbstractFeature {
 	}
 
 	public function description(): string {
-		return __( 'Enables SVG upload in the media library and passes every file through a DOMDocument sanitizer (strips <script>, on* attributes, href javascript:). Replaces Safe SVG.', 'doubleyoupi-refined-admin-dashboard' );
+		return __( 'Enables SVG upload in the media library. Each file keeps only known SVG elements and attributes; scripts and dangerous links are removed. By default, only administrators can upload SVG files. Replaces Safe SVG.', 'doubleyoupi-refined-admin-dashboard' );
 	}
 
 	public function icon_svg(): string {

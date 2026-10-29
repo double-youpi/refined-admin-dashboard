@@ -138,7 +138,8 @@ final class EditorReimagined {
 	//  Body class + persistance
 	// =====================================================================
 
-	public function body_class( string $classes ): string {
+	public function body_class( $classes ): string {
+		$classes = is_string( $classes ) ? $classes : ''; // another filter may hand back null
 		$screen = $this->target_screen();
 		if ( null === $screen ) {
 			return $classes;

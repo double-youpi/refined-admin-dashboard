@@ -465,10 +465,25 @@
     var cls = 'dy-tchip' + (primary ? ' dy-tchip--primary' : '') + (danger ? ' dy-tchip--danger' : '');
     var src = act.core ? '' : '<span class="dy-tchip__src"></span>';
     var short = shortLabel(act.label);
-    var b = el('<button type="button" class="' + cls + '" data-key="' + escAttr(act.key || '') + '" data-tip="' + escAttr(act.tip || act.label) + '">' +
-      src + svg(act.icon || iconForAction(act.key, act.label)) + '<span class="dy-tchip__label">' + escHtml(short) + '</span></button>');
+    var inner = src + svg(act.icon || iconForAction(act.key, act.label)) + '<span class="dy-tchip__label">' + escHtml(short) + '</span>';
+    var attrs = ' class="' + cls + '" data-key="' + escAttr(act.key || '') + '" data-tip="' + escAttr(act.tip || act.label) + '"';
+    // A real link when the native action is one (Edit, View, Trash, plugins'
+    // links): right-click « Open in new tab », middle click and Cmd/Ctrl-click
+    // work (Chris Green, 29/10/2026). A plain click still goes through the
+    // native link (runAction), so its handlers and confirmations run.
+    var href = chipHref(act);
+    var b = href
+      ? el('<a href="' + escAttr(href) + '"' + attrs + '>' + inner + '</a>')
+      : el('<button type="button"' + attrs + '>' + inner + '</button>');
     b.__action = act;
     return b;
+  }
+  function chipHref(act) {
+    var n = act && act.node;
+    if (!n || n.tagName !== 'A' || isQuickEdit(act.key, act.label)) return '';
+    var h = n.getAttribute('href') || '';
+    if (!h || h.charAt(0) === '#' || /^\s*javascript:/i.test(h) || n.getAttribute('role') === 'button') return '';
+    return n.href;
   }
   function escHtml(s) { return (s || '').replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); }
   function escAttr(s) { return escHtml(s).replace(/'/g, '&#39;'); }
@@ -567,10 +582,7 @@
 
     // click navigation (title / row) → edit + view transition
     var titleEl = row.querySelector('.dy-trow__title-text, .dy-trow__page-text');
-    if (titleEl && r.editHref) {
-      titleEl.style.cursor = 'pointer';
-      titleEl.addEventListener('click', function (e) { e.stopPropagation(); navigateEdit(r, titleEl); });
-    }
+    if (titleEl && r.editHref) linkTitle(titleEl, r);
     return row;
   }
 
@@ -937,6 +949,25 @@
     } else {
       finalize();
     }
+  }
+
+  // The row title as a real link to its edit screen: right-click « Open in
+  // new tab », middle click and Cmd/Ctrl-click work (Chris Green,
+  // 29/10/2026). A plain click keeps the animated transition. Same class,
+  // so Quick Edit and the drawer find it as before.
+  function linkTitle(titleEl, r) {
+    var a = document.createElement('a');
+    a.className = titleEl.className;
+    a.href = r.editHref;
+    while (titleEl.firstChild) a.appendChild(titleEl.firstChild);
+    titleEl.parentNode.replaceChild(a, titleEl);
+    a.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault();
+      navigateEdit(r, a);
+    });
+    return a;
   }
 
   function navigateEdit(r, titleEl) {
@@ -2000,10 +2031,7 @@
     // (Loco's `.row-title`), we let it handle navigation natively;
     // otherwise we make the label clickable toward editHref.
     var titleEl = row.querySelector('.dy-trow__title-text');
-    if (titleEl && !titleEl.querySelector('a[href]') && r.editHref) {
-      titleEl.style.cursor = 'pointer';
-      titleEl.addEventListener('click', function (e) { e.stopPropagation(); navigateEdit(r, titleEl); });
-    }
+    if (titleEl && !titleEl.querySelector('a[href]') && r.editHref) linkTitle(titleEl, r);
     return row;
   }
 
@@ -2875,7 +2903,13 @@
 
       // chips → native action (Quick Edit = inline panel, see runAction)
       row.querySelectorAll('.dy-tchip').forEach(function (c) {
-        c.addEventListener('click', function (e) { e.stopPropagation(); runAction(c.__action, row); });
+        c.addEventListener('click', function (e) {
+          e.stopPropagation();
+          // A link opened in a new tab or window is the browser's business.
+          if (c.tagName === 'A' && (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0)) return;
+          e.preventDefault();
+          runAction(c.__action, row);
+        });
       });
       // expand/collapse children
       var ex = row.querySelector('.dy-trow__expand[data-state="expanded"], .dy-trow__expand[data-state="collapsed"]');

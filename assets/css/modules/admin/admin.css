@@ -6543,6 +6543,13 @@ body.dy-admin .dy-treimg .dy-tchip {
   white-space: nowrap;
   flex: 0 0 auto;
 }
+body.dy-admin .dy-treimg a.dy-tchip, body.dy-admin .dy-treimg a.dy-tchip:is(:hover, :focus, :visited) {
+  text-decoration: none;
+}
+body.dy-admin .dy-treimg a:is(.dy-trow__title-text, .dy-trow__page-text) {
+  color: inherit;
+  text-decoration: none;
+}
 body.dy-admin .dy-treimg .dy-tchip:hover {
   background: var(--dya-paper);
   border-color: var(--dya-edge);

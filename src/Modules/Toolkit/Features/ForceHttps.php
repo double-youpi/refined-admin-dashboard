@@ -150,7 +150,11 @@ final class ForceHttps extends AbstractFeature {
 	 * Strictly limited to the current host to avoid breaking external links that are
 	 * intentionally HTTP (rare but legitimate case: e.g. an archive citation).
 	 */
-	public static function rewrite_internal_http_urls( string $content ): string {
+	public static function rewrite_internal_http_urls( $content ) {
+		// Untyped: another `the_content` filter may hand back null; leave it as is.
+		if ( ! is_string( $content ) ) {
+			return $content;
+		}
 		$home_host = wp_parse_url( home_url(), PHP_URL_HOST );
 		// Only a well-formed host name is ever written into the content.
 		if ( ! is_string( $home_host ) || ! preg_match( '/^[A-Za-z0-9.-]+$/', $home_host ) ) {

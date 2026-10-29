@@ -70,7 +70,8 @@ final class CoreCapabilities {
 		return (bool) ( self::all()[ $key ] ?? false );
 	}
 
-	public function body_class( string $classes ): string {
+	public function body_class( $classes ): string {
+		$classes = is_string( $classes ) ? $classes : ''; // another filter may hand back null
 		foreach ( self::all() as $key => $on ) {
 			if ( $on ) {
 				$classes .= ' dy-core-' . $key;

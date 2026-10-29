@@ -120,7 +120,8 @@ JS;
 	 *
 	 * @param string $classes Space-separated WP class list.
 	 */
-	public function body_class( string $classes ): string {
+	public function body_class( $classes ): string {
+		$classes = is_string( $classes ) ? $classes : ''; // another filter may hand back null
 		$slug = self::current();
 		if ( null === $slug ) {
 			return $classes;
