@@ -165,9 +165,11 @@ body.dy-admin .components-button.is-tertiary { color: var(--dya-ink-soft); }
 body.dy-admin .components-button.is-destructive { color: var(--dya-danger); }
 body.dy-admin .components-button.is-busy { opacity: .7; }
 
-// Icon buttons (square, used for + / undo / redo / list view).
-body.dy-admin .components-button.has-icon,
-body.dy-admin .components-toolbar-button.has-icon {
+// Icon buttons (square, used for + / undo / redo / list view). Not a button
+// with an icon AND a label (`.has-text`): squeezed to 32px, Stripe's « Get
+// Stripe Tax » spilled over the next button (Raphaël, 02/11/2026).
+body.dy-admin .components-button.has-icon:not(.has-text),
+body.dy-admin .components-toolbar-button.has-icon:not(.has-text) {
   width: 32px;
   padding: 0;
 }

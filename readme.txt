@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, dark theme
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.26
+Stable tag: 1.0.27
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -186,6 +186,11 @@ Privacy policy: https://doubleyoupi.com/privacy
 15. Coming from FileBird or another folder plugin? Preview its folders, then import them in one click. The source plugin is never modified.
 
 == Changelog ==
+
+= 1.0.27 =
+* Fix: WooCommerce Stripe settings: the "Get Stripe Tax" button no longer overlaps the next one, the account name and the bank statement preview are readable in dark mode, and the layout choice shows its dot in the middle.
+* Fix: WordPress components with an icon and a label keep their width, and their radio buttons keep their centred dot, on every screen.
+* Fix: the admin email check and new password screens of the login page are drawn like the sign-in screen, with readable text and buttons, in the dark and light themes.
 
 = 1.0.26 =
 * Fix: "Disable update emails" now reads the update results WordPress sends: successful plugin and theme updates send no email, failures still do.
@@ -397,6 +402,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.27 =
+Readable login screens (admin email check, new password) and WooCommerce Stripe settings.
 
 = 1.0.26 =
 The "Disable update emails" tool reads WordPress's update results correctly; sturdier filters.

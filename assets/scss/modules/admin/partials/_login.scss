@@ -281,9 +281,14 @@ body.dy-admin-login #login h1 {
 	display: none;
 }
 
+// Every form wp-login.php draws, not only sign-in: the admin email check
+// (`.admin-email-confirm-form`) and the new password (`#resetpassform`) kept
+// WordPress's white card under our pale ink (diffusion, 29/10/2026).
 body.dy-admin-login #loginform,
 body.dy-admin-login #registerform,
-body.dy-admin-login #lostpasswordform {
+body.dy-admin-login #lostpasswordform,
+body.dy-admin-login #resetpassform,
+body.dy-admin-login .admin-email-confirm-form {
 	background: var(--dy-login-paper);
 	border: 1px solid var(--dy-login-line);
 	border-radius: 18px;
@@ -297,7 +302,9 @@ body.dy-admin-login #lostpasswordform {
 }
 body.dy-admin-login.dy-theme-light #loginform,
 body.dy-admin-login.dy-theme-light #registerform,
-body.dy-admin-login.dy-theme-light #lostpasswordform {
+body.dy-admin-login.dy-theme-light #lostpasswordform,
+body.dy-admin-login.dy-theme-light #resetpassform,
+body.dy-admin-login.dy-theme-light .admin-email-confirm-form {
 	box-shadow:
 		0 24px 60px rgba(0, 0, 0, .08),
 		0 2px 0 color-mix(in srgb, var(--dya-accent) 8%, transparent) inset;
@@ -532,6 +539,58 @@ body.dy-admin-login #wp-submit:focus-visible {
 	outline-offset: 3px;
 }
 
+// ── Admin email check (wp-login.php?action=confirm_admin_email) ──────
+// Its two actions stacked at full width, the confirmation first, the
+// secondary one in our quiet style (it kept WordPress's blue outline, 3.1:1
+// on the dark card), and its links (« Why is this important? », « Remind
+// me later ») read as links.
+body.dy-admin-login .admin-email-confirm-form .admin-email__actions-primary {
+	display: flex;
+	flex-direction: column-reverse;
+	gap: 10px;
+	margin-top: 8px;
+}
+body.dy-admin-login .admin-email-confirm-form .admin-email__actions-primary .button-primary {
+	width: 100%;
+	margin: 0;
+}
+body.dy-admin-login .admin-email-confirm-form .admin-email__actions-primary .button:not(.button-primary),
+body.dy-admin-login #login form .button.wp-generate-pw {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 40px;
+	width: 100%;
+	margin: 0;
+	padding: 0 16px;
+	background: transparent;
+	color: var(--dy-login-ink);
+	border: 1px solid var(--dy-login-line-hi);
+	border-radius: 10px;
+	font-size: 14px;
+	font-weight: 600;
+	text-decoration: none;
+	box-shadow: none;
+}
+body.dy-admin-login .admin-email-confirm-form .admin-email__actions-primary .button:not(.button-primary):hover,
+body.dy-admin-login #login form .button.wp-generate-pw:hover {
+	border-color: var(--dya-accent);
+	color: var(--dy-login-ink);
+}
+// New password screen: « Generate Password » in the same quiet style, and
+// the field's focus in the accent (WordPress's blue stayed).
+body.dy-admin-login #login form .button.wp-generate-pw { margin: 0 0 10px; }
+body.dy-admin-login #resetpassform #pass1:focus {
+	border-color: var(--dya-accent);
+	box-shadow: 0 0 0 2px color-mix(in srgb, var(--dya-accent) 30%, transparent);
+	outline: none;
+}
+body.dy-admin-login .admin-email-confirm-form :is(.admin-email__heading, .admin-email__details, .admin-email__actions-secondary) a:not(.button) {
+	color: var(--dya-accent-text, var(--dya-accent));
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
 // ── Bottom links (Lost your password, Go to site) -----------
 body.dy-admin-login #nav,
 body.dy-admin-login #backtoblog {
@@ -715,7 +774,9 @@ body.dy-admin-login #language-switcher button:hover {
 	}
 	body.dy-admin-login #loginform,
 	body.dy-admin-login #registerform,
-	body.dy-admin-login #lostpasswordform {
+	body.dy-admin-login #lostpasswordform,
+	body.dy-admin-login #resetpassform,
+	body.dy-admin-login .admin-email-confirm-form {
 		padding: 24px 20px;
 	}
 	.dy-login-signature {

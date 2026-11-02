@@ -150,7 +150,10 @@ body.dy-admin input[type="checkbox"]:not(.components-form-toggle__input):not(.co
 }
 body.dy-admin input[type="checkbox"]:not(.components-form-toggle__input):not(.components-checkbox-control__input):where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)):checked::before { transform: rotate(-45deg) scale(1); }
 
-body.dy-admin input[type="radio"]:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *))::before {
+// Not WordPress components' radios (`.components-radio-control__input`): they
+// draw their own dot, centred by a translate that our scale replaced, so it
+// sat in a corner (Stripe's layout choice, Raphaël, 02/11/2026).
+body.dy-admin input[type="radio"]:not(.components-radio-control__input):where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *))::before {
   content: "";
   width: 6px; height: 6px;
   border-radius: 50%;
@@ -162,7 +165,7 @@ body.dy-admin input[type="radio"]:where(:not(.dy-native-content #wpbody-content 
   background: var(--dya-accent);
   border-color: var(--dya-accent);
 }
-body.dy-admin input[type="radio"]:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)):checked::before { transform: scale(1); }
+body.dy-admin input[type="radio"]:not(.components-radio-control__input):where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)):checked::before { transform: scale(1); }
 
 body.dy-admin input[type="checkbox"]:not(.components-form-toggle__input):not(.components-checkbox-control__input):where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)):focus-visible,
 body.dy-admin input[type="radio"]:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)):focus-visible {

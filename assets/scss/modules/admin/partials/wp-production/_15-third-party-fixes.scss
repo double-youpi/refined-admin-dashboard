@@ -376,3 +376,33 @@ body.dy-admin:not(.dy-theme-light) .ast-pro-upgrade-cta-wrapper p.ast-upgrade-de
 body.dy-admin:not(.dy-theme-light) .nv-meta-notice-wrapper h4 {
   color: var(--dya-ink);
 }
+
+// WooCommerce Stripe Gateway, settings (Raphaël, 02/11/2026).
+// The bank statement preview is a paper slip: white, with a white scalloped
+// edge drawn by Stripe. On our dark card its title and bank icon (#1e1e1e)
+// vanished, and our ink lift turned the title pale on the white slip.
+body.dy-admin .statement-preview {
+  background: #fff;
+  color: #646970;
+  border-color: #dcdcde;
+}
+body.dy-admin .statement-preview .statement-icon-and-title,
+body.dy-admin .statement-preview .statement-icon-and-title .dy-ink-lift {
+  color: #1e1e1e !important;
+}
+body.dy-admin .statement-preview .transaction-detail:not(.description) {
+  color: #50575e;
+}
+// Account header: Stripe writes the account name in #1e1e1e and the id and
+// « Test Mode » pill in #757575, invisible on the dark card.
+body.dy-admin .account-details .components-card__header > div > span:first-child {
+  color: var(--dya-ink);
+}
+body.dy-admin .account-details .components-card__header > div > span + span {
+  color: var(--dya-ink-mute);
+}
+body.dy-admin .account-details .components-card__header > div > h4 + span {
+  color: var(--dya-ink-soft);
+  border-color: var(--dya-line-strong);
+  white-space: nowrap; // it broke onto two lines next to a long email
+}
