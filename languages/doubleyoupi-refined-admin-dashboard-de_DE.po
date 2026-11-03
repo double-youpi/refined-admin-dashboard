@@ -3,7 +3,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-11-02T21:27:01+00:00\n"
+"POT-Creation-Date: 2026-11-03T02:19:05+00:00\n"
 "Language: de_DE\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
@@ -417,8 +417,8 @@ msgstr "Suite"
 #: src/Modules/MediaLibrary/FolderService.php:252
 #: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:159
 #: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:187
-#: src/Modules/Toolkit/Features/DuplicatePosts.php:116
-#: src/Modules/Toolkit/Features/DuplicatePosts.php:127
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:131
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:142
 #: src/Modules/Toolkit/ToolsPage.php:212
 msgid "Access denied."
 msgstr "Zugriff verweigert."
@@ -4527,24 +4527,24 @@ msgstr ""
 "Fügt einen „Duplizieren“-Link in die Listen Beiträge/Seiten/CPT ein. Klont "
 "Inhalt, Meta und Taxonomien als Entwurf. Ersetzt Yoast Duplicate Post."
 
-#: src/Modules/Toolkit/Features/DuplicatePosts.php:101
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:116
 msgctxt "post row action: copy this post as a draft"
 msgid "Duplicate"
 msgstr "Duplizieren"
 
-#: src/Modules/Toolkit/Features/DuplicatePosts.php:102
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:117
 msgid "Duplicate this content as a draft"
 msgstr "Diesen Inhalt als Entwurf duplizieren"
 
-#: src/Modules/Toolkit/Features/DuplicatePosts.php:111
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:126
 msgid "Post ID missing."
 msgstr "Beitrags-ID fehlt."
 
-#: src/Modules/Toolkit/Features/DuplicatePosts.php:121
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:136
 msgid "Source post not found."
 msgstr "Quell-Beitrag nicht gefunden."
 
-#: src/Modules/Toolkit/Features/DuplicatePosts.php:151
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:166
 msgid "(Copy)"
 msgstr "(Kopie)"
 

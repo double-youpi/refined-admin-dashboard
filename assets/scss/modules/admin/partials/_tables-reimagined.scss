@@ -520,8 +520,12 @@ body.dy-admin .dy-treimg {
   }
   .dy-qe__input:focus { outline: none; border-color: var(--dya-accent); box-shadow: 0 0 0 3px var(--dya-accent-soft); }
   .dy-qe__select { cursor: pointer; }
-  .dy-qe__datetime { display: flex; gap: 8px; }
-  .dy-qe__datetime .dy-qe__time { max-width: 110px; }
+  // Date and time share one grid column (about 200px): they shrink, and
+  // the time goes under the date when both do not fit. Without it the time
+  // slid under the next field, « Password » (Jason Morrell's return, 03/11/2026).
+  .dy-qe__datetime { display: flex; flex-wrap: wrap; gap: 8px; }
+  .dy-qe__datetime > .dy-qe__input { flex: 1 1 130px; min-width: 0; width: auto; }
+  .dy-qe__datetime .dy-qe__time { flex: 0 1 110px; max-width: 110px; }
   // (#2) Native icons for date/time fields (calendar/clock + spinners):
   // color-scheme follows the theme → visible in dark, correct in light.
   .dy-qe input[type="date"], .dy-qe input[type="time"] { color-scheme: dark; }

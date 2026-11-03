@@ -25,8 +25,7 @@ final class SignatureRegistry {
 			self::elementor_signatures_if_active(),
 			self::rank_math_signatures_if_active(),
 			self::acf_signatures_if_active(),
-			self::yoast_signatures_if_active(),
-			self::bricks_signatures_if_active()
+			self::yoast_signatures_if_active()
 		);
 
 		foreach ( array_keys( $signatures ) as $role ) {
@@ -172,21 +171,6 @@ final class SignatureRegistry {
 				'.yoast-column-readability',
 				'.yoast-linked-to',
 			),
-		);
-	}
-
-	/**
-	 * Bricks — inline actions in edit.php / users.php.
-	 *
-	 * @return array<string, list<string>>
-	 */
-	private static function bricks_signatures_if_active(): array {
-		if ( ! defined( 'BRICKS_VERSION' ) && ! defined( 'BRICKS_DB_TEMPLATE_SLUG' ) ) {
-			return array();
-		}
-
-		return array(
-			'button' => array( '.bricks-duplicate' ),
 		);
 	}
 }

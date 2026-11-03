@@ -859,6 +859,31 @@ body.dy-admin .wp-list-table tr.inline-edit-row td {
   background: var(--dya-paper-2);
   white-space: normal;
 }
+// Label column: WordPress gives 6em (7em in German, 8em in Russian), sized
+// for its system font. Ours is wider: « Auteur/autrice » and « Mot de passe »
+// broke over two lines (Jason Morrell's return, 03/11/2026). One width for
+// every language, logical margin so right-to-left follows.
+body.dy-admin .inline-edit-row fieldset label span.title,
+body.dy-admin .inline-edit-row fieldset.inline-edit-date legend {
+  width: 8.5em;
+}
+body.dy-admin .inline-edit-row fieldset label span.input-text-wrap,
+body.dy-admin .inline-edit-row fieldset .timestamp-wrap {
+  margin-left: 0;
+  margin-right: 0;
+  margin-inline-start: 8.5em;
+}
+// Day, month, year, hour, minute on one line in the narrower column: our
+// 11px field padding is too wide for two digits.
+body.dy-admin .inline-edit-row .timestamp-wrap input {
+  padding-left: 6px;
+  padding-right: 6px;
+  text-align: center;
+}
+// The right column sizes its labels to their text (WordPress rule, kept).
+body.dy-admin .quick-edit-row-post fieldset.inline-edit-col-right label span.title {
+  width: auto;
+}
 
 // ── Screen options gear (per-table popover) ──────────
 // Auto-injected by admin.js as a child of a `.dy-table-wrapper`

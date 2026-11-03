@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-11-02T21:27:01+00:00\n"
+"POT-Creation-Date: 2026-11-03T02:19:05+00:00\n"
 "Language: ru_RU\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
@@ -409,8 +409,8 @@ msgstr "Пакет"
 #: src/Modules/MediaLibrary/FolderService.php:252
 #: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:159
 #: src/Modules/MediaLibrary/Integrations/BricksFolderProvider.php:187
-#: src/Modules/Toolkit/Features/DuplicatePosts.php:116
-#: src/Modules/Toolkit/Features/DuplicatePosts.php:127
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:131
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:142
 #: src/Modules/Toolkit/ToolsPage.php:212
 msgid "Access denied."
 msgstr "Доступ запрещён."
@@ -4522,24 +4522,24 @@ msgstr ""
 "типов записей. Копирует содержимое, метаданные и таксономии в черновик. "
 "Заменяет Yoast Duplicate Post."
 
-#: src/Modules/Toolkit/Features/DuplicatePosts.php:101
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:116
 msgctxt "post row action: copy this post as a draft"
 msgid "Duplicate"
 msgstr "Дублировать"
 
-#: src/Modules/Toolkit/Features/DuplicatePosts.php:102
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:117
 msgid "Duplicate this content as a draft"
 msgstr "Дублировать это содержимое как черновик"
 
-#: src/Modules/Toolkit/Features/DuplicatePosts.php:111
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:126
 msgid "Post ID missing."
 msgstr "Не указан ID записи."
 
-#: src/Modules/Toolkit/Features/DuplicatePosts.php:121
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:136
 msgid "Source post not found."
 msgstr "Исходная запись не найдена."
 
-#: src/Modules/Toolkit/Features/DuplicatePosts.php:151
+#: src/Modules/Toolkit/Features/DuplicatePosts.php:166
 msgid "(Copy)"
 msgstr "(Копия)"
 

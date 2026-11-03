@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, dark theme
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.27
+Stable tag: 1.0.28
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -186,6 +186,11 @@ Privacy policy: https://doubleyoupi.com/privacy
 15. Coming from FileBird or another folder plugin? Preview its folders, then import them in one click. The source plugin is never modified.
 
 == Changelog ==
+
+= 1.0.28 =
+* Fix: duplicating an Elementor page no longer copies Elementor's generated styles and caches, so the copy shows with its styles on the site.
+* Fix: with Bricks, the list rows show one "Duplicate" link instead of two.
+* Fix: Quick Edit: in the redesigned lists, the time no longer slides under the next field; in the native lists, labels such as "Author" and "Password" stay on one line in every language, and the date fits on one line.
 
 = 1.0.27 =
 * Fix: WooCommerce Stripe settings: the "Get Stripe Tax" button no longer overlaps the next one, the account name and the bank statement preview are readable in dark mode, and the layout choice shows its dot in the middle.
@@ -402,6 +407,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.28 =
+Duplicated Elementor pages keep their styles; one "Duplicate" link with Bricks; tidier Quick Edit.
 
 = 1.0.27 =
 Readable login screens (admin email check, new password) and WooCommerce Stripe settings.

@@ -54,7 +54,7 @@ final class DuplicatePosts extends AbstractFeature {
 	protected function apply(): void {
 		// Priority 999: ensures we run AFTER any plugin/theme that has already
 		// added a "Duplicate" link (notably Bricks, which injects the
-		// `bricks-duplicate-post` key at priority 10). add_row_action() then removes
+		// `brx_duplicate` key at priority 10). add_row_action() then removes
 		// it to avoid displaying two links side by side — our version is more
 		// comprehensive (all CPTs, meta, terms), so we intentionally take precedence.
 		add_filter( 'post_row_actions', [ self::class, 'add_row_action' ], 999, 2 );
@@ -67,11 +67,26 @@ final class DuplicatePosts extends AbstractFeature {
 	/**
 	 * Row-action keys for "Duplicate" from other tools, removed by add_row_action()
 	 * when we add our own. Bricks is the concrete case: its theme adds the
-	 * `bricks-duplicate-post` key. This list is extensible if other builders/themes
+	 * `brx_duplicate` key (« Duplicate (WordPress) », « Duplicate (Bricks) »),
+	 * `bricks-duplicate-post` in older versions. Both showed side by side with
+	 * ours until 03/11/2026. This list is extensible if other builders/themes
 	 * do the same in the future.
 	 */
 	private const SUPERSEDED_ACTION_KEYS = [
+		'brx_duplicate',
 		'bricks-duplicate-post',
+	];
+
+	/**
+	 * Meta that Elementor rebuilds on its own and must not carry over to a
+	 * copy (see duplicate()).
+	 */
+	private const REGENERATED_META = [
+		'_elementor_css',
+		'_elementor_element_cache',
+		'_elementor_page_assets',
+		'_elementor_controls_usage',
+		'_elementor_screenshot',
 	];
 
 	/**
@@ -166,6 +181,13 @@ final class DuplicatePosts extends AbstractFeature {
 		foreach ( $meta as $key => $values ) {
 			// Skip protected meta or meta tied to the WP lifecycle.
 			if ( in_array( $key, [ '_edit_lock', '_edit_last', '_wp_old_slug' ], true ) ) {
+				continue;
+			}
+			// Caches Elementor builds from the content: copied, they told
+			// Elementor the copy's stylesheet already existed, and the copy
+			// showed unstyled on the site (03/11/2026). Same list as the one
+			// Elementor hands Yoast Duplicate Post, plus its element cache.
+			if ( in_array( $key, self::REGENERATED_META, true ) ) {
 				continue;
 			}
 			foreach ( (array) $values as $value ) {

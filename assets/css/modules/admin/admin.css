@@ -4991,6 +4991,28 @@ body.dy-admin .wp-list-table tr.inline-edit-row td {
   white-space: normal;
 }
 
+body.dy-admin .inline-edit-row fieldset label span.title,
+body.dy-admin .inline-edit-row fieldset.inline-edit-date legend {
+  width: 8.5em;
+}
+
+body.dy-admin .inline-edit-row fieldset label span.input-text-wrap,
+body.dy-admin .inline-edit-row fieldset .timestamp-wrap {
+  margin-left: 0;
+  margin-right: 0;
+  margin-inline-start: 8.5em;
+}
+
+body.dy-admin .inline-edit-row .timestamp-wrap input {
+  padding-left: 6px;
+  padding-right: 6px;
+  text-align: center;
+}
+
+body.dy-admin .quick-edit-row-post fieldset.inline-edit-col-right label span.title {
+  width: auto;
+}
+
 body.dy-admin .dy-table-wrapper {
   position: relative;
 }
@@ -6199,9 +6221,16 @@ body.dy-admin .dy-treimg .dy-qe__select {
 }
 body.dy-admin .dy-treimg .dy-qe__datetime {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
 }
+body.dy-admin .dy-treimg .dy-qe__datetime > .dy-qe__input {
+  flex: 1 1 130px;
+  min-width: 0;
+  width: auto;
+}
 body.dy-admin .dy-treimg .dy-qe__datetime .dy-qe__time {
+  flex: 0 1 110px;
   max-width: 110px;
 }
 body.dy-admin .dy-treimg .dy-qe input[type=date], body.dy-admin .dy-treimg .dy-qe input[type=time] {
