@@ -1126,11 +1126,13 @@ body.dy-admin.index-php .dy-dashboard__native-item-body, body.dy-admin.index-php
   font-family: var(--dya-font-body) !important;
 }
 body.dy-admin.index-php .dy-dashboard__native-item-body h1, body.dy-admin.index-php .dy-dashboard__native-item-body h2, body.dy-admin.index-php .dy-dashboard__native-item-body h3, body.dy-admin.index-php .dy-dashboard__native-item-body h4, body.dy-admin.index-php .dy-dashboard__native-item-body h5, body.dy-admin.index-php .dy-dashboard__native-item-body h6,
-body.dy-admin.index-php .dy-dashboard__native-item-body .dashicons,
 body.dy-admin.index-php .dy-dashboard__native-item-body .button,
 body.dy-admin.index-php .dy-dashboard__native-item-body .button-primary,
 body.dy-admin.index-php .dy-dashboard__native-item-body .button-secondary {
   font-family: var(--dya-font-body) !important;
+}
+body.dy-admin.index-php .dy-dashboard__native-item-body .dashicons, body.dy-admin.index-php .dy-dashboard__native-item-body .dashicons-before::before {
+  font-family: dashicons !important;
 }
 body.dy-admin.index-php .dy-dashboard__native-item-body h2, body.dy-admin.index-php .dy-dashboard__native-item-body h3, body.dy-admin.index-php .dy-dashboard__native-item-body h4, body.dy-admin.index-php .dy-dashboard__native-item-body h5, body.dy-admin.index-php .dy-dashboard__native-item-body h6 {
   font-family: var(--dya-font-display) !important;

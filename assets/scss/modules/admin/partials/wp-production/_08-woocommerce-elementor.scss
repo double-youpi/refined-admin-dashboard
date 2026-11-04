@@ -350,7 +350,10 @@ body.dy-admin .woocommerce-summary__item-label,
 body.dy-admin .woocommerce-summary__item-value,
 body.dy-admin .woocommerce-chart__title,
 body.dy-admin .woocommerce-layout__header h1,
-body.dy-admin h1.components-truncate {
+// Scoped to WooCommerce's app: unscoped, it recoloured the component titles
+// of every plugin, MailerPress's white title on its dark panel included
+// (04/11/2026).
+body.dy-admin.woocommerce-admin-page h1.components-truncate {
   color: var(--dya-ink) !important; background: transparent !important;
 }
 // Table column headers (SPAN without class) → soft readable ink.

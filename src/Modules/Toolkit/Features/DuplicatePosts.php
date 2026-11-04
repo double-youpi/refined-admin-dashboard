@@ -75,6 +75,8 @@ final class DuplicatePosts extends AbstractFeature {
 	private const SUPERSEDED_ACTION_KEYS = [
 		'brx_duplicate',
 		'bricks-duplicate-post',
+		// Beaver Builder's « Duplicate Page » on its pages (04/11/2026).
+		'fl-builder-duplicate',
 	];
 
 	/**

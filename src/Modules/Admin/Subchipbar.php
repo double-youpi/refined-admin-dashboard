@@ -68,8 +68,9 @@ final class Subchipbar {
 		);
 		echo '<div class="dy-subchipbar-inner">';
 
-		foreach ( $subitems as $item ) {
-			$is_current = $this->is_current_subitem( $item, $current_url ) ? ' current' : '';
+		$current = $this->current_subitem_index( $subitems, $current_url );
+		foreach ( $subitems as $i => $item ) {
+			$is_current = $i === $current ? ' current' : '';
 			echo '<a class="' . esc_attr( 'dy-subchip' . $is_current ) . '" href="' . esc_url( $item['url'] ) . '"><span class="dot" aria-hidden="true"></span>' . esc_html( $item['label'] ) . '</a>';
 		}
 
@@ -94,11 +95,16 @@ final class Subchipbar {
 	var nav = document.getElementById('dy-admin-subchipbar');
 	var body = document.getElementById('wpbody-content');
 	if (!nav || nav.hidden || !body) { return; }
+	// Checked again once the page has loaded: apps drawn by script (Modern
+	// Fields) put their tabs on the page after this script runs (03/11/2026).
+	function check() {
+	if (nav.hidden) { return; }
 	function key(href) {
 		try {
 			var u = new URL(href, location.href), p = [];
 			u.searchParams.forEach(function (v, k) { p.push(k + '=' + v); });
-			return u.pathname + '?' + p.sort().join('&');
+			// The hash counts: app menus route by it (FluentCRM's `#/subscribers`).
+			return u.pathname + '?' + p.sort().join('&') + u.hash;
 		} catch (e) { return href; }
 	}
 	var ours = [].map.call(nav.querySelectorAll('a.dy-subchip'), function (a) { return key(a.href); });
@@ -114,6 +120,9 @@ final class Subchipbar {
 		nav.setAttribute('aria-hidden', 'true');
 		document.body.classList.add('dy-subchipbar-redundant');
 	}
+	}
+	check();
+	window.addEventListener('load', function () { check(); window.setTimeout(check, 1200); });
 })();
 JS;
 
@@ -303,6 +312,31 @@ JS;
 
 	private function strip_label( string $raw ): string {
 		return ColumnModel::strip_label( $raw );
+	}
+
+	/**
+	 * The one sub-item to mark current. Several can match: a plugin whose tabs
+	 * all share one `page` (Modern Fields: `page=modern-fields`, then
+	 * `&tab=settings`…) makes its first entry, which carries no tab, match on
+	 * every tab, and two entries showed current at once (03/11/2026). The most
+	 * specific match, the one with the most query arguments, wins.
+	 *
+	 * @param array<int, array{url: string, label: string}> $subitems
+	 */
+	private function current_subitem_index( array $subitems, string $current_url ): ?int {
+		$best       = null;
+		$best_count = -1;
+		foreach ( $subitems as $i => $item ) {
+			if ( ! $this->is_current_subitem( $item, $current_url ) ) {
+				continue;
+			}
+			parse_str( (string) wp_parse_url( $item['url'], PHP_URL_QUERY ), $qs );
+			if ( count( $qs ) > $best_count ) {
+				$best       = $i;
+				$best_count = count( $qs );
+			}
+		}
+		return $best;
 	}
 
 	private function is_current_subitem( array $item, string $current_url ): bool {

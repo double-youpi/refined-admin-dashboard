@@ -54,3 +54,23 @@ body.dy-admin #hf-wrapper > #hf-sidebar-wrapper + .wrap {
   min-width: 0;
   margin-left: 0 !important;
 }
+
+// FluentSMTP and FluentSnippets (same Fluent app shell, 04/11/2026): their
+// top bar is fixed across the whole width at the admin bar's height and
+// covered our navigation bar. Back in the flow, under our bars.
+body.dy-admin :is(.fsm_app_bar, .fsnip_app_bar) {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  width: auto !important;
+  z-index: 1 !important;
+}
+// The room their app keeps under the fixed bar is no longer needed.
+body.dy-admin :is(.fluent-mail-app.fsm_app, .fsnip_app) {
+  padding-top: 0 !important;
+}
+// FluentCRM's top bar is sticky at the admin bar's height: it slid under our
+// taller top bar when scrolling.
+body.dy-admin .fcrm_topbar {
+  top: var(--dya-topbar-h, 44px) !important;
+}

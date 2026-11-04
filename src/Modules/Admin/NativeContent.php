@@ -162,6 +162,10 @@ JS;
 		'otter_form_record', // Otter Blocks, form records
 		'popularfx',        // PopularFX theme options
 		'mailpoet',         // MailPoet (its home page, where every page leads until it is set up)
+		// MailerPress: a full-screen app with its own dark side panel and white
+		// cards; skinned, its menu came out dark on dark in the light theme and
+		// its panel light in the dark one (user feedback, 04/11/2026).
+		'mailerpress',
 
 		// ── Themes with their OWN admin design system (React/SPA dashboards) ──
 		// Manifesto §2 "detect and step back": for mainstream themes that ship a

@@ -1,0 +1,35 @@
+// =============================================================
+// Fluent plugins (FluentSMTP, FluentAuth, FluentSnippets, Fluent Forms,
+// FluentCRM), user feedback of 04/11/2026. Their top bars: _plugin-headers.
+// =============================================================
+
+// Element Plus, the interface library of the Fluent apps (and others), draws
+// the field on `.el-input__wrapper`; the inner input is bare. Our generic
+// field style (padding, border, `width: auto`) made it wider than its group:
+// FluentSnippets' search covered the « New Snippet » button. Doubled class:
+// it must also beat the native canvas's field rule (`dy-native-content`).
+// Element Plus only (`.el-input__wrapper`): in Element UI 2 (Fluent Forms)
+// the inner input is the field and keeps its border.
+body.dy-admin .el-input__wrapper > .el-input__inner,
+body.dy-admin #wpbody-content .el-input__wrapper > input.el-input__inner.el-input__inner {
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  width: 100% !important;
+  min-height: 0 !important;
+}
+
+// FluentCRM counts on WordPress's 20px content margin, which the redesign
+// removes: its top bar takes it back with `margin-left: -20px` and ran under
+// the rail's edge, and its content touched the rail.
+body.dy-admin .fluentcrm_app_wrapper {
+  padding-left: 20px;
+}
+
+// Both generations of Element draw the input at full width; our generic
+// `width: auto` left Fluent Forms' selects at about 170px, their arrow
+// outside the field.
+body.dy-admin #wpbody-content .el-input input.el-input__inner.el-input__inner {
+  width: 100% !important;
+}

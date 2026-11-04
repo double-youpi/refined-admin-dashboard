@@ -67,16 +67,18 @@ final class DashboardOverride {
 		margin: 0 !important;
 		padding: 0 !important;
 	}
-	#doubleyoupi_dashboard_root .postbox-header,
+	/* Child combinators only: plugin widgets are drawn inside the root and
+	   carry their own `.inside`; reached by these rules, they lost their inner
+	   margin and their ground (MailerPress Overview, 04/11/2026). */
 	#doubleyoupi_dashboard_root > .postbox-header { display: none !important; }
-	#doubleyoupi_dashboard_root .inside {
+	#doubleyoupi_dashboard_root > .inside {
 		padding: 0 !important;
 		margin: 0 !important;
 		min-height: 0 !important;
 		background-color: var(--dya-bg, #0c0e13) !important;
 	}
-	#doubleyoupi_dashboard_root .handle-actions,
-	#doubleyoupi_dashboard_root .handlediv { display: none !important; }
+	#doubleyoupi_dashboard_root > .postbox-header .handle-actions,
+	#doubleyoupi_dashboard_root > .handlediv { display: none !important; }
 	/* WP Welcome panel: hidden (we have our own title/paragraph). */
 	#welcome-panel { display: none !important; }
 	/* Force full width for the body content (in case another WP stylesheet

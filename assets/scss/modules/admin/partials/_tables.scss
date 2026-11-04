@@ -1310,3 +1310,9 @@ body.dy-admin .wp-list-table :is(td, th).column-primary > strong > a {
   display: inline-block;
   padding-block: 4px;
 }
+
+// Native view: the builder's action leads the row actions of content built
+// with it (BuilderRowActions.php), and reads as the primary one.
+body.dy-admin .row-actions a[data-dy-primary="1"] {
+  font-weight: 600;
+}

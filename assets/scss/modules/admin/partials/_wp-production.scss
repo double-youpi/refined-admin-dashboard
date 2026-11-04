@@ -38,3 +38,7 @@
 @use "wp-production/15-third-party-fixes" as *;
 @use "wp-production/16-wpds-bridge" as *;
 @use "wp-production/17-core-primitives" as *;
+@use "wp-production/18-modern-fields" as *;
+@use "wp-production/19-mailerpress" as *;
+@use "wp-production/20-fluent" as *;
+@use "wp-production/21-nav-menus" as *;

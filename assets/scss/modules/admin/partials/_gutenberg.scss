@@ -115,8 +115,10 @@ body.dy-admin .edit-post-header__settings,
 body.dy-admin .edit-site-header__actions { margin-left: auto; }
 
 // ── Generic WP component buttons inside the editor ──────
+// No `display` here: WordPress already sets `inline-flex`, and ours, weighing
+// more than a plugin's own class, showed buttons the plugin hides
+// (MailerPress's mobile menu toggle at full width, 04/11/2026).
 body.dy-admin .components-button {
-  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 4px;

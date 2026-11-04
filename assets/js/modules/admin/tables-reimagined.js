@@ -274,7 +274,11 @@
       var norm = normLabel(label);
       if (seen[norm]) continue;           // two actions with the same intent → keep one
       seen[norm] = true;
-      out.push({ key: key, label: label, node: a, core: isCore(key) });
+      var act = { key: key, label: label, node: a, core: isCore(key) };
+      // Built with a page builder (BuilderRowActions.php): the builder's
+      // action leads, « Edit in WordPress » does not.
+      if (a.hasAttribute('data-dy-primary')) act.primary = a.getAttribute('data-dy-primary') === '1';
+      out.push(act);
     }
     return out;
   }
@@ -573,17 +577,28 @@
 
     // action drawer
     var drawer = el('<div class="dy-trow__drawer"></div>');
-    var core = [], ext = [];
-    r.actions.forEach(function (a) { (a.core ? core : ext).push(a); });
-    core.forEach(function (a) { drawer.appendChild(chip(a)); });
-    if (core.length && ext.length) drawer.appendChild(el('<span class="dy-tchip__sep"></span>'));
-    ext.forEach(function (a) { drawer.appendChild(chip(a)); });
+    fillDrawer(drawer, r.actions);
     row.appendChild(drawer);
 
     // click navigation (title / row) → edit + view transition
     var titleEl = row.querySelector('.dy-trow__title-text, .dy-trow__page-text');
     if (titleEl && r.editHref) linkTitle(titleEl, r);
     return row;
+  }
+
+  // Fills an action drawer: WordPress's actions, then the plugins', after a
+  // separator. Content built with a page builder (BuilderRowActions.php):
+  // its action leads, « Edit in WordPress » comes last (04/11/2026).
+  function fillDrawer(drawer, actions) {
+    var lead = [], core = [], ext = [], tail = [];
+    actions.forEach(function (a) {
+      if (a.primary === true && !a.core) lead.push(a);
+      else if (a.primary === false && a.core) tail.push(a);
+      else (a.core ? core : ext).push(a);
+    });
+    lead.concat(core).forEach(function (a) { drawer.appendChild(chip(a)); });
+    if ((lead.length || core.length) && (ext.length || tail.length)) drawer.appendChild(el('<span class="dy-tchip__sep"></span>'));
+    ext.concat(tail).forEach(function (a) { drawer.appendChild(chip(a)); });
   }
 
   // ---------------------------------------------------------------------
@@ -2021,11 +2036,7 @@
     });
     // Action drawer (deduplicated chips, hover overlay — reused).
     var drawer = el('<div class="dy-trow__drawer"></div>');
-    var core = [], ext = [];
-    r.actions.forEach(function (a) { (a.core ? core : ext).push(a); });
-    core.forEach(function (a) { drawer.appendChild(chip(a)); });
-    if (core.length && ext.length) drawer.appendChild(el('<span class="dy-tchip__sep"></span>'));
-    ext.forEach(function (a) { drawer.appendChild(chip(a)); });
+    fillDrawer(drawer, r.actions);
     row.appendChild(drawer);
     // Title click → edit. If the title HTML already contains its own link
     // (Loco's `.row-title`), we let it handle navigation natively;
@@ -2250,11 +2261,7 @@
     // Total (right-aligned).
     var t = el('<div class="dy-trow__order-total"></div>'); t.innerHTML = r.totalHtml; row.appendChild(t);
     var drawer = el('<div class="dy-trow__drawer"></div>');
-    var core = [], ext = [];
-    r.actions.forEach(function (a) { (a.core ? core : ext).push(a); });
-    core.forEach(function (a) { drawer.appendChild(chip(a)); });
-    if (core.length && ext.length) drawer.appendChild(el('<span class="dy-tchip__sep"></span>'));
-    ext.forEach(function (a) { drawer.appendChild(chip(a)); });
+    fillDrawer(drawer, r.actions);
     row.appendChild(drawer);
     if (r.editHref) {
       custEl.style.cursor = 'pointer';
@@ -2517,11 +2524,7 @@
 
     // Action drawer: core actions, then plugin-provided ones after a separator.
     var drawer = el('<div class="dy-trow__drawer"></div>');
-    var core = [], ext = [];
-    r.actions.forEach(function (a) { (a.core ? core : ext).push(a); });
-    core.forEach(function (a) { drawer.appendChild(chip(a)); });
-    if (core.length && ext.length) drawer.appendChild(el('<span class="dy-tchip__sep"></span>'));
-    ext.forEach(function (a) { drawer.appendChild(chip(a)); });
+    fillDrawer(drawer, r.actions);
     if (!r.actions.length) drawer.classList.add('dy-trow__drawer--empty');
     row.appendChild(drawer);
 

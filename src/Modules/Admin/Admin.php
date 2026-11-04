@@ -265,6 +265,7 @@ JS;
 		( new Eyebrow() )->boot();
 		( new PostOrdering() )->boot();
 		( new Tables\TablesReimagined() )->boot();
+		( new Tables\BuilderRowActions() )->boot();
 		( new Editor\EditorReimagined() )->boot();
 		( new Editor\BlockEditorLoading() )->boot();
 		( new AcfBanner() )->boot();

@@ -42,6 +42,13 @@ body.dy-admin select {
   max-width: 100%;
   transition: border-color var(--dya-t-fast), box-shadow var(--dya-t-fast);
 }
+// WordPress components draw their text fields at full width. The reset above
+// weighs as much as their class and comes later, so their fields fell to
+// about 170px in plugin boxes and sidebars (Modern Fields, 03/11/2026).
+body.dy-admin input.components-text-control__input,
+body.dy-admin textarea.components-textarea-control__input {
+  width: 100%;
+}
 
 body.dy-admin:where(:not(.dy-native-content)) textarea {
   min-height: 110px;

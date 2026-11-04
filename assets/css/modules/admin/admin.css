@@ -5342,6 +5342,10 @@ body.dy-admin .wp-list-table :is(td, th).column-primary > strong > a {
   padding-block: 4px;
 }
 
+body.dy-admin .row-actions a[data-dy-primary="1"] {
+  font-weight: 600;
+}
+
 @keyframes dytr-row-in {
   from {
     opacity: 0;
@@ -8152,6 +8156,11 @@ body.dy-admin select {
   width: auto;
   max-width: 100%;
   transition: border-color var(--dya-t-fast), box-shadow var(--dya-t-fast);
+}
+
+body.dy-admin input.components-text-control__input,
+body.dy-admin textarea.components-textarea-control__input {
+  width: 100%;
 }
 
 body.dy-admin:where(:not(.dy-native-content)) textarea {
@@ -14061,7 +14070,6 @@ body.dy-admin .edit-site-header__actions {
 }
 
 body.dy-admin .components-button {
-  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 4px;
@@ -21408,7 +21416,7 @@ body.dy-admin .woocommerce-summary__item-label,
 body.dy-admin .woocommerce-summary__item-value,
 body.dy-admin .woocommerce-chart__title,
 body.dy-admin .woocommerce-layout__header h1,
-body.dy-admin h1.components-truncate {
+body.dy-admin.woocommerce-admin-page h1.components-truncate {
   color: var(--dya-ink) !important;
   background: transparent !important;
 }
@@ -25230,6 +25238,535 @@ body.dy-admin .dy-chip.current .dy-chip-icon--img {
   opacity: 1;
 }
 
+body.dy-admin .modern-fields-content-area {
+  background: transparent !important;
+  color: inherit !important;
+}
+
+body.dy-admin .modern-fields-content-area :is(.components-text-control__input, .components-textarea-control__input, .components-input-control__container) {
+  background: var(--dya-bg) !important;
+  border: 1px solid var(--dya-line-strong) !important;
+  color: var(--dya-ink) !important;
+  box-shadow: none !important;
+}
+
+body.dy-admin .modern-fields-content-area .components-input-control__backdrop {
+  border-color: transparent !important;
+}
+
+body.dy-admin .modern-fields-content-area :is(.components-text-control__input, .components-textarea-control__input, .components-input-control__container):hover {
+  border-color: color-mix(in srgb, var(--dya-ink) 24%, transparent) !important;
+}
+
+body.dy-admin .modern-fields-content-area .components-input-control__container .components-select-control__input {
+  border: 0 !important;
+  background: transparent !important;
+}
+
+body.dy-admin .modern-fields-content-area :is(.components-text-control__input, .components-textarea-control__input):focus,
+body.dy-admin .modern-fields-content-area .components-input-control__container:focus-within {
+  border-color: var(--dya-accent) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--dya-accent) 25%, transparent) !important;
+}
+
+body.dy-admin .mf-location-chip {
+  background: var(--dya-bg) !important;
+  border-color: var(--dya-line-strong) !important;
+  color: var(--dya-ink) !important;
+}
+
+body.dy-admin .mf-location-chip:hover {
+  border-color: color-mix(in srgb, var(--dya-ink) 24%, transparent) !important;
+}
+
+body.dy-admin .mf-location-chip svg {
+  fill: currentColor !important;
+}
+
+body.dy-admin.mailerpress-page.mailerpress-ui-full-screen #adminmenumain {
+  display: none !important;
+}
+
+body.dy-admin.mailerpress-page.mailerpress-ui-full-screen #wpadminbar {
+  left: 0 !important;
+  width: 100% !important;
+}
+
+@media (min-width: 782px) {
+  body.dy-admin.mailerpress-page.mailerpress-ui-full-screen #wpwrap {
+    grid-template-columns: 0 minmax(0, 1fr);
+  }
+}
+body.dy-admin .el-input__wrapper > .el-input__inner,
+body.dy-admin #wpbody-content .el-input__wrapper > input.el-input__inner.el-input__inner {
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  width: 100% !important;
+  min-height: 0 !important;
+}
+
+body.dy-admin .fluentcrm_app_wrapper {
+  padding-left: 20px;
+}
+
+body.dy-admin #wpbody-content .el-input input.el-input__inner.el-input__inner {
+  width: 100% !important;
+}
+
+body.dy-admin.nav-menus-php #nav-menus-frame {
+  display: grid !important;
+  grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+  gap: 0 40px;
+  align-items: start;
+  margin: 8px 0 0 !important;
+}
+
+body.dy-admin.nav-menus-php #nav-menus-frame::before,
+body.dy-admin.nav-menus-php #nav-menus-frame::after {
+  display: none !important;
+}
+
+body.dy-admin.nav-menus-php #menu-settings-column {
+  float: none !important;
+  width: auto !important;
+  margin: 0 !important;
+  position: sticky;
+  top: calc(var(--dya-topbar-h, 44px) + 16px);
+  max-height: calc(100vh - var(--dya-topbar-h, 44px) - 32px);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+body.dy-admin.nav-menus-php #menu-management-liquid {
+  float: none !important;
+  min-width: 0 !important;
+  width: auto !important;
+  margin: 0 !important;
+}
+
+body.dy-admin.nav-menus-php #menu-management {
+  margin: 0 !important;
+  min-width: 0 !important;
+}
+
+body.dy-admin.nav-menus-php[class*=menu-max-depth-] {
+  min-width: 0 !important;
+}
+
+@media (max-width: 960px) {
+  body.dy-admin.nav-menus-php #nav-menus-frame {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+  body.dy-admin.nav-menus-php #menu-settings-column {
+    position: static;
+    max-height: none;
+  }
+}
+body.dy-admin.nav-menus-php #menu-to-edit {
+  max-width: 760px;
+  margin-top: 12px;
+  padding-bottom: 8px;
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .menu-item {
+  margin-bottom: 6px;
+  position: relative;
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .menu-item-bar {
+  margin: 0;
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .menu-item-bar .menu-item-handle,
+body.dy-admin.nav-menus-php #menu-to-edit .menu-item-settings {
+  width: auto !important;
+  max-width: none !important;
+  box-sizing: border-box;
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .menu-item-handle {
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  min-height: 46px;
+  padding: 0 12px 0 34px !important;
+  border-radius: var(--dya-r-md);
+  background: var(--dya-paper) !important;
+  border: 1px solid var(--dya-line) !important;
+  cursor: grab;
+  position: relative;
+  transition: border-color var(--dya-t-fast), background var(--dya-t-fast);
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .menu-item-handle:hover {
+  border-color: var(--dya-edge-strong, var(--dya-line-strong)) !important;
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .menu-item-handle::before {
+  content: "";
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  width: 8px;
+  height: 14px;
+  transform: translateY(-50%);
+  background-image: radial-gradient(currentColor 1.2px, transparent 1.3px);
+  background-size: 4px 4px;
+  color: var(--dya-ink-mute);
+  opacity: 0.7;
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .menu-item-handle:hover::before {
+  opacity: 1;
+  color: var(--dya-ink-soft);
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .menu-item.menu-item-edit-active > .menu-item-bar .menu-item-handle {
+  border-color: var(--dya-accent) !important;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .item-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  margin: 0 !important;
+  padding: 0 !important;
+  float: none !important;
+  width: auto !important;
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .item-title .menu-item-title {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--dya-ink);
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .item-title .is-submenu {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .item-controls {
+  position: static !important;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 !important;
+  float: none !important;
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .item-type {
+  padding: 2px 8px;
+  border-radius: var(--dya-r-pill, 999px);
+  background: var(--dya-paper-2);
+  color: var(--dya-ink-mute);
+  font-family: var(--dya-font-mono);
+  font-size: 10.5px;
+  letter-spacing: var(--dya-tracking-mono, 0.04em);
+  text-transform: uppercase;
+  line-height: 1.6;
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .item-edit {
+  position: static !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 30px !important;
+  height: 30px !important;
+  margin: 0 !important;
+  border-radius: var(--dya-r-sm);
+  color: var(--dya-ink-soft) !important;
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .item-edit:hover {
+  background: var(--dya-paper-2);
+  color: var(--dya-ink) !important;
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .item-edit::before {
+  position: static !important;
+  margin: 0 !important;
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .menu-item:not(.menu-item-depth-0)::before {
+  content: "";
+  position: absolute;
+  left: -18px;
+  top: -6px;
+  width: 14px;
+  height: 29px;
+  border-left: 1px solid var(--dya-line-strong, var(--dya-line));
+  border-bottom: 1px solid var(--dya-line-strong, var(--dya-line));
+  border-bottom-left-radius: 6px;
+  pointer-events: none;
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .sortable-placeholder {
+  border: 1px dashed var(--dya-accent) !important;
+  border-radius: var(--dya-r-md);
+  background: color-mix(in srgb, var(--dya-accent) 8%, transparent) !important;
+  margin-bottom: 6px;
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .menu-item-settings {
+  display: none;
+  padding: 16px 16px 14px !important;
+  margin: 0 !important;
+  border: 1px solid var(--dya-accent) !important;
+  border-top: 0 !important;
+  border-radius: 0 0 var(--dya-r-md) var(--dya-r-md);
+  background: var(--dya-paper) !important;
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .menu-item-edit-active .menu-item-settings {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px 16px;
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .menu-item-settings > * {
+  float: none !important;
+  width: auto !important;
+  margin: 0 !important;
+  grid-column: 1/-1;
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .menu-item-settings > .description-thin {
+  grid-column: auto;
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .menu-item-settings label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--dya-ink-soft);
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .menu-item-settings :is(input[type=text], input[type=url], textarea, select) {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .menu-item-settings label:has(> input[type=checkbox]) {
+  flex-direction: row;
+  align-items: center;
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .menu-item-settings .menu-item-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  padding-top: 10px !important;
+  border-top: 1px solid var(--dya-line);
+}
+
+body.dy-admin.nav-menus-php #menu-to-edit .menu-item-settings .link-to-original {
+  padding: 8px 10px !important;
+  border: 0 !important;
+  border-radius: var(--dya-r-sm);
+  background: var(--dya-paper-2) !important;
+  font-style: normal;
+  overflow-wrap: anywhere;
+}
+
+body.dy-admin.nav-menus-php #side-sortables .accordion-section-title {
+  margin: 0 !important;
+  padding: 0 14px !important;
+}
+
+body.dy-admin.nav-menus-php #side-sortables .accordion-section-title .accordion-trigger {
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+}
+
+body.dy-admin.nav-menus-php #side-sortables .accordion-section-content > .inside {
+  margin-top: 0 !important;
+}
+
+body.dy-admin.nav-menus-php #menu-settings-column > h2 {
+  margin-bottom: 8px !important;
+}
+
+body.dy-admin.nav-menus-php #side-sortables .accordion-section-content {
+  padding: 4px 14px 14px !important;
+}
+
+body.dy-admin.nav-menus-php #side-sortables .posttype-tabs,
+body.dy-admin.nav-menus-php #side-sortables .taxonomy-tabs,
+body.dy-admin.nav-menus-php #side-sortables .add-menu-item-tabs {
+  margin: 0 0 10px !important;
+  padding: 0 !important;
+}
+
+body.dy-admin.nav-menus-php #side-sortables .tabs-panel {
+  padding: 6px 2px !important;
+  margin: 0 !important;
+}
+
+body.dy-admin.nav-menus-php #side-sortables .categorychecklist li {
+  margin: 0 !important;
+  padding: 0;
+}
+
+body.dy-admin.nav-menus-php #side-sortables .categorychecklist li > label.menu-item-title {
+  display: block !important;
+  position: relative;
+  padding: 5px 6px 5px 30px;
+  border-radius: var(--dya-r-sm);
+  line-height: 1.4;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+body.dy-admin.nav-menus-php #side-sortables .categorychecklist li > label.menu-item-title:hover {
+  background: var(--dya-paper-2);
+}
+
+body.dy-admin.nav-menus-php #side-sortables .categorychecklist li > label.menu-item-title > input[type=checkbox] {
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  margin: 0 !important;
+}
+
+body.dy-admin.nav-menus-php #side-sortables .categorychecklist ul.children {
+  margin: 0 0 0 15px !important;
+  padding-left: 8px;
+  border-left: 1px solid var(--dya-line);
+}
+
+body.dy-admin.nav-menus-php #side-sortables .button-controls {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 10px 0 0 !important;
+  padding: 10px 0 0 !important;
+  border-top: 1px solid var(--dya-line);
+}
+
+body.dy-admin.nav-menus-php #side-sortables .button-controls .list-controls {
+  float: none !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  font-size: 12.5px;
+}
+
+body.dy-admin.nav-menus-php #side-sortables .button-controls .add-to-menu {
+  float: none !important;
+  margin: 0 0 0 auto;
+}
+
+body.dy-admin.nav-menus-php #side-sortables .button-controls .add-to-menu .button {
+  float: none !important;
+}
+
+body.dy-admin.nav-menus-php .menu-settings {
+  max-width: 760px;
+}
+
+body.dy-admin.nav-menus-php .menu-settings .menu-settings-group {
+  display: block !important;
+  position: relative;
+  padding: 10px 0 10px 220px !important;
+  margin: 0 !important;
+  min-height: 1.5em;
+}
+
+body.dy-admin.nav-menus-php .menu-settings .menu-settings-group-name {
+  position: absolute !important;
+  left: 0;
+  top: 10px;
+  float: none !important;
+  width: 200px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  color: var(--dya-ink-soft) !important;
+  font-style: normal !important;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+body.dy-admin.nav-menus-php .menu-settings .menu-settings-input {
+  float: none !important;
+  margin: 0 0 6px !important;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.5;
+}
+
+body.dy-admin.nav-menus-php .menu-settings .menu-settings-input > input[type=checkbox] {
+  margin: 3px 0 0 !important;
+  flex: 0 0 auto;
+}
+
+body.dy-admin.nav-menus-php .menu-settings .menu-theme-locations:not(:has(.menu-settings-input)) {
+  display: none !important;
+}
+
+@media (max-width: 782px) {
+  body.dy-admin.nav-menus-php .menu-settings .menu-settings-group {
+    padding-left: 0 !important;
+  }
+  body.dy-admin.nav-menus-php .menu-settings .menu-settings-group-name {
+    position: static !important;
+    width: auto !important;
+    margin-bottom: 6px !important;
+  }
+}
+body.dy-admin.nav-menus-php #nav-menu-footer {
+  position: sticky !important;
+  bottom: 0;
+  z-index: 60;
+  margin-top: 16px;
+  padding: 12px 0 !important;
+  background: var(--dya-bg) !important;
+  border-top: 1px solid var(--dya-line) !important;
+  box-shadow: 0 -12px 16px -12px color-mix(in srgb, var(--dya-bg) 90%, transparent);
+}
+
+body.dy-admin.nav-menus-php #nav-menu-footer .major-publishing-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 !important;
+}
+
+body.dy-admin.nav-menus-php #nav-menu-footer .publishing-action {
+  float: none !important;
+  order: 1;
+}
+
+body.dy-admin.nav-menus-php #nav-menu-footer .delete-action {
+  float: none !important;
+  order: 2;
+  margin: 0 !important;
+}
+
 body.dy-admin [data-dy-adopt=toolbar-widget] {
   padding: 0 !important;
   margin: 0 0 12px !important;
@@ -25987,4 +26524,20 @@ body.dy-admin #hf-wrapper > #hf-sidebar-wrapper + .wrap {
   width: auto !important;
   min-width: 0;
   margin-left: 0 !important;
+}
+
+body.dy-admin :is(.fsm_app_bar, .fsnip_app_bar) {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  width: auto !important;
+  z-index: 1 !important;
+}
+
+body.dy-admin :is(.fluent-mail-app.fsm_app, .fsnip_app) {
+  padding-top: 0 !important;
+}
+
+body.dy-admin .fcrm_topbar {
+  top: var(--dya-topbar-h, 44px) !important;
 }

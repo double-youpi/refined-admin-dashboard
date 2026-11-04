@@ -1,0 +1,24 @@
+// =============================================================
+// MailerPress (retour d'un utilisateur, 04/11/2026, MailerPress 2.2)
+//
+// MailerPress draws its screens full screen (`mailerpress-ui-full-screen`,
+// a class it puts on EVERY admin page, hence `mailerpress-page` with it):
+// its app covers the admin menu, like the block editor's full screen mode.
+// Its content is left native (NativeContent, prefix `mailerpress`). Here,
+// the same treatment as the editors' full screen: no rail and no rail track,
+// our top bar across the width. The top of our rail showed in the corner
+// above MailerPress's side panel.
+// =============================================================
+
+body.dy-admin.mailerpress-page.mailerpress-ui-full-screen #adminmenumain {
+  display: none !important;
+}
+body.dy-admin.mailerpress-page.mailerpress-ui-full-screen #wpadminbar {
+  left: 0 !important;
+  width: 100% !important;
+}
+@media (min-width: 782px) {
+  body.dy-admin.mailerpress-page.mailerpress-ui-full-screen #wpwrap {
+    grid-template-columns: 0 minmax(0, 1fr);
+  }
+}

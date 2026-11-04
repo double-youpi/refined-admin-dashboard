@@ -1,0 +1,59 @@
+// =============================================================
+// Modern Fields (essai du 03/11/2026, Modern Fields 1.5.3)
+//
+// Modern Fields paints its field boxes with the theme's editor styles
+// (`.modern-fields-content-area`, white with black text on most themes) and
+// draws its fields with WordPress components. Under RAD the fields and the
+// text took our colours but the area kept the theme's white: in the dark
+// theme, dark fields on a white card and light labels on white. The area
+// takes the ground of its box instead, and the fields are drawn as fields,
+// like ACF's since 1.0.24 (ground one step deeper, strong hairline).
+// Report: docs/strategy/TEST-MODERN-FIELDS-2026-11-03.md.
+// =============================================================
+
+body.dy-admin .modern-fields-content-area {
+  background: transparent !important;
+  color: inherit !important;
+}
+
+// A select sits inside an input control container, which carries the line:
+// drawn on both, the select showed a double outline.
+$dy-mf-fields: ".components-text-control__input, .components-textarea-control__input, .components-input-control__container";
+
+body.dy-admin .modern-fields-content-area :is(#{$dy-mf-fields}) {
+  background: var(--dya-bg) !important;
+  border: 1px solid var(--dya-line-strong) !important;
+  color: var(--dya-ink) !important;
+  box-shadow: none !important;
+}
+// The input control draws its line on a backdrop: the container carries it now.
+body.dy-admin .modern-fields-content-area .components-input-control__backdrop {
+  border-color: transparent !important;
+}
+body.dy-admin .modern-fields-content-area :is(#{$dy-mf-fields}):hover {
+  border-color: color-mix(in srgb, var(--dya-ink) 24%, transparent) !important;
+}
+body.dy-admin .modern-fields-content-area .components-input-control__container .components-select-control__input {
+  border: 0 !important;
+  background: transparent !important;
+}
+body.dy-admin .modern-fields-content-area :is(.components-text-control__input, .components-textarea-control__input):focus,
+body.dy-admin .modern-fields-content-area .components-input-control__container:focus-within {
+  border-color: var(--dya-accent) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--dya-accent) 25%, transparent) !important;
+}
+
+// Location rule of the field group builder: white chips with inherited text,
+// so light text on white in the dark theme.
+body.dy-admin .mf-location-chip {
+  background: var(--dya-bg) !important;
+  border-color: var(--dya-line-strong) !important;
+  color: var(--dya-ink) !important;
+}
+body.dy-admin .mf-location-chip:hover {
+  border-color: color-mix(in srgb, var(--dya-ink) 24%, transparent) !important;
+}
+// Their icons were drawn black, lost on the dark ground.
+body.dy-admin .mf-location-chip svg {
+  fill: currentColor !important;
+}

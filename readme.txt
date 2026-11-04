@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, dark theme
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.28
+Stable tag: 1.0.31
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -186,6 +186,25 @@ Privacy policy: https://doubleyoupi.com/privacy
 15. Coming from FileBird or another folder plugin? Preview its folders, then import them in one click. The source plugin is never modified.
 
 == Changelog ==
+
+= 1.0.31 =
+* New: in the lists of posts, pages and custom post types, content built with Bricks, Elementor, Divi, Beaver Builder, Brizy or Visual Composer opens in its builder: "Edit with …" comes first and stands out, the row title opens the builder too, and "Edit in WordPress" moves to the end. Content without a builder is unchanged (filter `doubleyoupi_filter_builder_row_actions` for other builders).
+* Fix: with Beaver Builder, the list rows show one "Duplicate" link instead of two.
+* Change: the Menus screen is laid out again: menu items as full-width rows with a drag handle and one-line titles, sub-items joined to their parent, the open item's fields in a grid, a tidier "Add menu items" column, the menu settings in rows, and a save bar that no longer covers the list. The screen no longer scrolls sideways on narrow windows.
+
+= 1.0.30 =
+* Fix: MailerPress: its full-screen screens keep their own look in both themes (readable side menu and titles), without the menu toggle or the corner of the rail showing.
+* Fix: dashboard widgets from other plugins (MailerPress Overview, WooCommerce and others) keep their icons and their inner margin.
+* Fix: FluentSMTP and FluentSnippets: their top bar sits under the navigation bars instead of covering them.
+* Fix: FluentCRM: its content no longer touches the rail, its top bar stays under ours when scrolling, and the sub-navigation steps aside for its own menu.
+* Fix: fields of the Element interface library (Fluent plugins): FluentSnippets' search no longer covers its button, and Fluent Forms' selects keep their full width.
+* Fix: buttons and titles that a plugin hides or colours itself (WordPress components) are left as the plugin draws them.
+
+= 1.0.29 =
+* Fix: the Classic Editor tool keeps the block editor for content that only exists in blocks: Modern Fields field groups and WordPress patterns (filter `doubleyoupi_filter_classic_editor_block_only_post_types` to add others).
+* Fix: Modern Fields boxes: fields at full width, drawn as fields, on the ground of their box; readable labels in the dark theme; readable location rules in the field group builder.
+* Fix: text fields drawn with WordPress components (plugin boxes and sidebars) keep their full width.
+* Fix: on plugin screens that draw their own tabs after the page loads, the sub-navigation steps aside, and only one of its entries shows as current.
 
 = 1.0.28 =
 * Fix: duplicating an Elementor page no longer copies Elementor's generated styles and caches, so the copy shows with its styles on the site.
@@ -407,6 +426,15 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.31 =
+Pages built with Bricks, Elementor, Divi, Beaver Builder, Brizy or Visual Composer open in their builder from the lists; a clearer Menus screen.
+
+= 1.0.30 =
+Works with MailerPress and the Fluent plugins; plugin dashboard widgets keep their icons.
+
+= 1.0.29 =
+Works with Modern Fields: readable field boxes in both themes, and its field group builder stays in the block editor.
 
 = 1.0.28 =
 Duplicated Elementor pages keep their styles; one "Duplicate" link with Bricks; tidier Quick Edit.

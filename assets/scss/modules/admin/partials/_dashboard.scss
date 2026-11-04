@@ -1116,11 +1116,16 @@ body.dy-admin.index-php {
 			font-family: var(--dya-font-body) !important;
 		}
 		h1, h2, h3, h4, h5, h6,
-		.dashicons,
 		.button,
 		.button-primary,
 		.button-secondary {
 			font-family: var(--dya-font-body) !important;
+		}
+		// Dashicons is an icon font, not a plugin's text font: given ours, every
+		// icon of a plugin widget showed as a striped box (MailerPress
+		// Overview, 04/11/2026).
+		.dashicons, .dashicons-before::before {
+			font-family: dashicons !important;
 		}
 		h2, h3, h4, h5, h6 {
 			font-family: var(--dya-font-display) !important;

@@ -6,7 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Disables Gutenberg on all post types and on the widget editor.
+ * Disables Gutenberg on all post types and on the widget editor, except the
+ * post types that only exist in blocks (BLOCK_ONLY_POST_TYPES, filterable).
  *
  * Replaces the Classic Editor (official) and Disable Gutenberg plugins. We
  * simply filter the two WP gates: `use_block_editor_for_post` and
@@ -49,10 +50,53 @@ final class ClassicEditor extends AbstractFeature {
 		];
 	}
 
+	/**
+	 * Post types whose edit screen only exists in the block editor: their
+	 * content is blocks by definition. Forced into TinyMCE, Modern Fields'
+	 * field group builder opened as an empty post, and « Update » there could
+	 * wipe the fields (03/11/2026). `mf_block` comes with Modern Fields Pro.
+	 */
+	private const BLOCK_ONLY_POST_TYPES = [
+		'wp_block',
+		'mf_field_group',
+		'mf_block',
+	];
+
 	protected function apply(): void {
-		add_filter( 'use_block_editor_for_post',       '__return_false', 100 );
-		add_filter( 'use_block_editor_for_post_type',  '__return_false', 100 );
+		add_filter( 'use_block_editor_for_post',       [ self::class, 'filter_post' ], 100, 2 );
+		add_filter( 'use_block_editor_for_post_type',  [ self::class, 'filter_post_type' ], 100, 2 );
 		add_filter( 'use_widgets_block_editor',        '__return_false', 100 );
 		add_filter( 'gutenberg_use_widgets_block_editor', '__return_false', 100 );
+	}
+
+	/**
+	 * @param bool          $use  Whether WordPress would use the block editor.
+	 * @param \WP_Post|mixed $post The post being edited.
+	 */
+	public static function filter_post( $use, $post ): bool {
+		$type = $post instanceof \WP_Post ? $post->post_type : '';
+		return self::keeps_block_editor( $type ) ? (bool) $use : false;
+	}
+
+	/**
+	 * @param bool   $use       Whether WordPress would use the block editor.
+	 * @param string $post_type The post type.
+	 */
+	public static function filter_post_type( $use, $post_type ): bool {
+		return self::keeps_block_editor( (string) $post_type ) ? (bool) $use : false;
+	}
+
+	/**
+	 * Whether a post type keeps the block editor although the tool is on.
+	 */
+	public static function keeps_block_editor( string $post_type ): bool {
+		/**
+		 * Post types that only work in the block editor and keep it when the
+		 * Classic Editor tool is on.
+		 *
+		 * @param string[] $post_types Post type names.
+		 */
+		$types = (array) apply_filters( 'doubleyoupi_filter_classic_editor_block_only_post_types', self::BLOCK_ONLY_POST_TYPES );
+		return $post_type !== '' && in_array( $post_type, $types, true );
 	}
 }
