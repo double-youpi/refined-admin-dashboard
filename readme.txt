@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, dark theme
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.31
+Stable tag: 1.0.32
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -186,6 +186,12 @@ Privacy policy: https://doubleyoupi.com/privacy
 15. Coming from FileBird or another folder plugin? Preview its folders, then import them in one click. The source plugin is never modified.
 
 == Changelog ==
+
+= 1.0.32 =
+* Fix: FluentAuth, FluentSMTP and FluentSnippets follow the dark or light theme, like FluentCart, and FluentAuth's top bar sits under the navigation bars.
+* Fix: SEOPress follows the dark or light theme on all its screens.
+* Fix: Bricks' AI screen follows the dark or light theme, its switches included.
+* Fix: Bricksforge's screens no longer sit on a light page in the dark theme.
 
 = 1.0.31 =
 * New: in the lists of posts, pages and custom post types, content built with Bricks, Elementor, Divi, Beaver Builder, Brizy or Visual Composer opens in its builder: "Edit with …" comes first and stands out, the row title opens the builder too, and "Edit in WordPress" moves to the end. Content without a builder is unchanged (filter `doubleyoupi_filter_builder_row_actions` for other builders).
@@ -426,6 +432,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.32 =
+FluentAuth, FluentSMTP, SEOPress, Bricks AI and Bricksforge follow the dark theme.
 
 = 1.0.31 =
 Pages built with Bricks, Elementor, Divi, Beaver Builder, Brizy or Visual Composer open in their builder from the lists; a clearer Menus screen.

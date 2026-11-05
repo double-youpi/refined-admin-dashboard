@@ -1,0 +1,36 @@
+// =============================================================
+// Bricks 2.4 admin screens: its colour variables mapped onto ours
+// (user feedback of 05/11/2026, AI screen).
+//
+// Bricks 2.4 draws its newer admin screens (AI, and its admin components)
+// from CSS variables declared on `body` (`--brx-admin-*`, read through
+// `--bricks-admin-color-*`). Mapped onto our tokens, those screens follow
+// the light and dark themes without rewriting their rules. On `body.dy-admin`,
+// which outweighs Bricks' `body`, and declared on body so they follow the
+// theme switch (see the aliases note in _tokens.scss).
+// =============================================================
+
+body.dy-admin {
+  --brx-admin-accent:        var(--dya-accent);
+  --brx-admin-accent-hover:  var(--dya-accent-darker-10);
+  --brx-admin-fg:            var(--dya-ink);
+  --brx-admin-fg-muted:      var(--dya-ink-soft);
+  --brx-admin-fg-faint:      var(--dya-ink-mute);
+  --brx-admin-bg:            var(--dya-paper);
+  --brx-admin-bg-hover:      var(--dya-paper-2);
+  --brx-admin-bg-muted:      var(--dya-paper-2);
+  --brx-admin-bg-page:       var(--dya-bg);
+  --brx-admin-border:        var(--dya-line);
+  --brx-admin-border-muted:  var(--dya-line);
+  --brx-admin-border-input:  var(--dya-line-strong, var(--dya-edge-strong));
+  --brx-admin-info-bg:       color-mix(in srgb, var(--dya-accent) 12%, var(--dya-paper));
+  --brx-admin-info-text:     var(--dya-accent-text, var(--dya-accent));
+  --brx-admin-success-bg:    color-mix(in srgb, var(--dya-success) 14%, var(--dya-paper));
+  --brx-admin-success-text:  var(--dya-success);
+  --brx-admin-warning-bg:    color-mix(in srgb, var(--dya-warn) 14%, var(--dya-paper));
+  --brx-admin-warning-text:  var(--dya-warn);
+  --brx-admin-warning-fg:    var(--dya-ink);
+  --brx-admin-error-bg:      color-mix(in srgb, var(--dya-danger) 14%, var(--dya-paper));
+  --brx-admin-error-text:    var(--dya-danger);
+  --bricks-admin-color-primary-contrast: var(--dya-accent-on, #fff);
+}

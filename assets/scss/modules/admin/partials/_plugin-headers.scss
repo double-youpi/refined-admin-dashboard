@@ -74,3 +74,24 @@ body.dy-admin :is(.fluent-mail-app.fsm_app, .fsnip_app) {
 body.dy-admin .fcrm_topbar {
   top: var(--dya-topbar-h, 44px) !important;
 }
+
+// FluentAuth (05/11/2026): the same fixed top bar, plus a fixed sub-bar
+// (`top: 88px`) and a settings panel fixed from there to the bottom, all
+// placed for WordPress's admin bar and 160px menu: they covered our tabs.
+// Back in the flow; the settings panel keeps the window's height.
+body.dy-admin :is(.fls_app_bar, .fls_sub_bar) {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  z-index: 1 !important;
+}
+body.dy-admin .fframe_app {
+  padding-top: 0 !important;
+}
+body.dy-admin .fls_settings {
+  position: relative !important;
+  inset: auto !important;
+  height: calc(100vh - var(--dya-topbar-h, 44px) - 200px);
+  min-height: 480px;
+}

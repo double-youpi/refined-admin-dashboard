@@ -8239,8 +8239,8 @@ body.dy-admin .code {
   font-size: 12px;
 }
 
-body.dy-admin input[type=checkbox]:not(.components-form-toggle__input):not(.components-checkbox-control__input):where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)),
-body.dy-admin input[type=radio]:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)) {
+body.dy-admin input[type=checkbox]:not(.components-form-toggle__input):not(.components-checkbox-control__input):where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *, .bricks-ai-toggle)),
+body.dy-admin input[type=radio]:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *, .bricks-ai-toggle)) {
   appearance: none;
   -webkit-appearance: none;
   width: 16px;
@@ -8256,16 +8256,16 @@ body.dy-admin input[type=radio]:where(:not(.dy-native-content #wpbody-content *,
   transition: background var(--dya-t-fast), border-color var(--dya-t-fast);
 }
 
-body.dy-admin input[type=radio]:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)) {
+body.dy-admin input[type=radio]:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *, .bricks-ai-toggle)) {
   border-radius: 50%;
 }
 
-:where(body.dy-admin) input[type=checkbox]:where(:not(.components-form-toggle__input):not(.components-checkbox-control__input)):where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)),
-:where(body.dy-admin) input[type=radio]:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)) {
+:where(body.dy-admin) input[type=checkbox]:where(:not(.components-form-toggle__input):not(.components-checkbox-control__input)):where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *, .bricks-ai-toggle)),
+:where(body.dy-admin) input[type=radio]:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *, .bricks-ai-toggle)) {
   display: inline-grid;
 }
 
-body.dy-admin input[type=checkbox]:not(.components-form-toggle__input):not(.components-checkbox-control__input):where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *))::before {
+body.dy-admin input[type=checkbox]:not(.components-form-toggle__input):not(.components-checkbox-control__input):where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *, .bricks-ai-toggle))::before {
   content: "";
   width: 9px;
   height: 5px;
@@ -8275,16 +8275,16 @@ body.dy-admin input[type=checkbox]:not(.components-form-toggle__input):not(.comp
   transition: transform var(--dya-t-fast) var(--dya-ease);
 }
 
-body.dy-admin input[type=checkbox]:not(.components-form-toggle__input):not(.components-checkbox-control__input):where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)):checked {
+body.dy-admin input[type=checkbox]:not(.components-form-toggle__input):not(.components-checkbox-control__input):where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *, .bricks-ai-toggle)):checked {
   background: var(--dya-accent);
   border-color: var(--dya-accent);
 }
 
-body.dy-admin input[type=checkbox]:not(.components-form-toggle__input):not(.components-checkbox-control__input):where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)):checked::before {
+body.dy-admin input[type=checkbox]:not(.components-form-toggle__input):not(.components-checkbox-control__input):where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *, .bricks-ai-toggle)):checked::before {
   transform: rotate(-45deg) scale(1);
 }
 
-body.dy-admin input[type=radio]:not(.components-radio-control__input):where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *))::before {
+body.dy-admin input[type=radio]:not(.components-radio-control__input):where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *, .bricks-ai-toggle))::before {
   content: "";
   width: 6px;
   height: 6px;
@@ -8294,17 +8294,17 @@ body.dy-admin input[type=radio]:not(.components-radio-control__input):where(:not
   transition: transform var(--dya-t-fast) var(--dya-ease);
 }
 
-body.dy-admin input[type=radio]:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)):checked {
+body.dy-admin input[type=radio]:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *, .bricks-ai-toggle)):checked {
   background: var(--dya-accent);
   border-color: var(--dya-accent);
 }
 
-body.dy-admin input[type=radio]:not(.components-radio-control__input):where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)):checked::before {
+body.dy-admin input[type=radio]:not(.components-radio-control__input):where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *, .bricks-ai-toggle)):checked::before {
   transform: scale(1);
 }
 
-body.dy-admin input[type=checkbox]:not(.components-form-toggle__input):not(.components-checkbox-control__input):where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)):focus-visible,
-body.dy-admin input[type=radio]:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)):focus-visible {
+body.dy-admin input[type=checkbox]:not(.components-form-toggle__input):not(.components-checkbox-control__input):where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *, .bricks-ai-toggle)):focus-visible,
+body.dy-admin input[type=radio]:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *, .bricks-ai-toggle)):focus-visible {
   outline: 2px solid var(--dya-accent);
   outline-offset: 2px;
 }
@@ -8438,8 +8438,8 @@ body.dy-admin p.submit {
   align-items: center;
 }
 
-body.dy-admin .wrap h2:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)),
-body.dy-admin .wrap h3:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)) {
+body.dy-admin .wrap h2:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *, .bricks-ai-toggle)),
+body.dy-admin .wrap h3:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *, .bricks-ai-toggle)) {
   font-family: var(--dya-font-display);
   font-weight: 500;
   letter-spacing: var(--dya-tracking-tight);
@@ -8447,13 +8447,13 @@ body.dy-admin .wrap h3:where(:not(.dy-native-content #wpbody-content *, #rank_ma
   margin: 28px 0 12px;
 }
 
-body.dy-admin .wrap h2:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)) {
+body.dy-admin .wrap h2:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *, .bricks-ai-toggle)) {
   font-size: var(--dya-fs-lg);
   letter-spacing: normal;
   text-shadow: none;
 }
 
-body.dy-admin .wrap h3:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *)) {
+body.dy-admin .wrap h3:where(:not(.dy-native-content #wpbody-content *, #rank_math_metabox > .inside *, #wpseo_meta > .inside *, .bricks-ai-toggle)) {
   font-size: 15px;
 }
 
@@ -25767,6 +25767,160 @@ body.dy-admin.nav-menus-php #nav-menu-footer .delete-action {
   margin: 0 !important;
 }
 
+body.dy-admin {
+  --brx-admin-accent: var(--dya-accent);
+  --brx-admin-accent-hover: var(--dya-accent-darker-10);
+  --brx-admin-fg: var(--dya-ink);
+  --brx-admin-fg-muted: var(--dya-ink-soft);
+  --brx-admin-fg-faint: var(--dya-ink-mute);
+  --brx-admin-bg: var(--dya-paper);
+  --brx-admin-bg-hover: var(--dya-paper-2);
+  --brx-admin-bg-muted: var(--dya-paper-2);
+  --brx-admin-bg-page: var(--dya-bg);
+  --brx-admin-border: var(--dya-line);
+  --brx-admin-border-muted: var(--dya-line);
+  --brx-admin-border-input: var(--dya-line-strong, var(--dya-edge-strong));
+  --brx-admin-info-bg: color-mix(in srgb, var(--dya-accent) 12%, var(--dya-paper));
+  --brx-admin-info-text: var(--dya-accent-text, var(--dya-accent));
+  --brx-admin-success-bg: color-mix(in srgb, var(--dya-success) 14%, var(--dya-paper));
+  --brx-admin-success-text: var(--dya-success);
+  --brx-admin-warning-bg: color-mix(in srgb, var(--dya-warn) 14%, var(--dya-paper));
+  --brx-admin-warning-text: var(--dya-warn);
+  --brx-admin-warning-fg: var(--dya-ink);
+  --brx-admin-error-bg: color-mix(in srgb, var(--dya-danger) 14%, var(--dya-paper));
+  --brx-admin-error-text: var(--dya-danger);
+  --bricks-admin-color-primary-contrast: var(--dya-accent-on, #fff);
+}
+
+body.dy-admin #seopress-admin-header-root,
+body.dy-admin .seopress-admin-header-panel,
+body.dy-admin .seopress-btn-outline-neutral.components-button.is-secondary,
+body.dy-admin .seopress-col-pill.is-default,
+body.dy-admin .seopress-feature-badge.is-disabled,
+body.dy-admin .seopress-info-box,
+body.dy-admin .seopress-opening-hours-day,
+body.dy-admin .seopress-panel,
+body.dy-admin .seopress-settings-content,
+body.dy-admin .seopress-sitemap-test,
+body.dy-admin .seopress-token-editor,
+body.dy-admin .seopress-tools-export-tile {
+  background-color: var(--dya-paper) !important;
+}
+
+body.dy-admin .seopress-btn-outline-neutral.components-button.is-secondary:active:not(:disabled),
+body.dy-admin .seopress-btn-outline-neutral.components-button.is-secondary:hover:not(:disabled),
+body.dy-admin .seopress-columns-preview,
+body.dy-admin .seopress-indexing-log pre,
+body.dy-admin .seopress-mcp-location code,
+body.dy-admin .seopress-mcp-snippet,
+body.dy-admin .seopress-mcp-trouble__symptoms code,
+body.dy-admin .seopress-sitemap-test__pill,
+body.dy-admin .seopress-variable-chips .components-button.is-tertiary,
+body.dy-admin .seopress_wrap_single_cpt h3 code,
+body.dy-admin .seopress_wrap_single_tax h3 code {
+  background-color: var(--dya-paper-2) !important;
+}
+
+body.dy-admin .seopress-btn-outline-neutral.components-button.is-secondary,
+body.dy-admin .seopress-btn-outline-neutral.components-button.is-secondary:hover:not(:disabled),
+body.dy-admin .seopress-card-picker__label,
+body.dy-admin .seopress-export-exclusions__label,
+body.dy-admin .seopress-field-label,
+body.dy-admin .seopress-info-box,
+body.dy-admin .seopress-info-cards__title,
+body.dy-admin .seopress-mcp-client__section-title,
+body.dy-admin .seopress-opening-hours-day__title,
+body.dy-admin .seopress-section-title,
+body.dy-admin .seopress-sitemap-test__check-label,
+body.dy-admin .seopress-sitemap-test__pill,
+body.dy-admin .seopress-token-editor,
+body.dy-admin .seopress-tools-export-tile h4,
+body.dy-admin .seopress-tools-maintenance-text h4,
+body.dy-admin .seopress-url-counter-text,
+body.dy-admin .seopress-variable-chips .components-button.is-tertiary,
+body.dy-admin .seopress_wrap_single_cpt h3,
+body.dy-admin .seopress_wrap_single_tax h3 {
+  color: var(--dya-ink) !important;
+}
+
+body.dy-admin .seopress-cb-section > p,
+body.dy-admin .seopress-col-pill-empty,
+body.dy-admin .seopress-col-pill.is-default,
+body.dy-admin .seopress-color-picker-control .seopress-color-picker-clear,
+body.dy-admin .seopress-color-picker-wrapper .description,
+body.dy-admin .seopress-columns-group-title,
+body.dy-admin .seopress-columns-preview-label,
+body.dy-admin .seopress-feature-badge.is-disabled,
+body.dy-admin .seopress-indexing-history__count,
+body.dy-admin .seopress-indexing-history__message,
+body.dy-admin .seopress-info-cards p,
+body.dy-admin .seopress-mcp-check-detail,
+body.dy-admin .seopress-mcp-check-message,
+body.dy-admin .seopress-mcp-diagnostics-intro,
+body.dy-admin .seopress-mcp-diagnostics-summary,
+body.dy-admin .seopress-mcp-empty,
+body.dy-admin .seopress-mcp-step__summary,
+body.dy-admin .seopress-mcp-tool-description,
+body.dy-admin .seopress-opening-hours-day__range .range-sep,
+body.dy-admin .seopress-sitemap-test__check-message,
+body.dy-admin .seopress-sitemap-test__intro,
+body.dy-admin .seopress-sitemap-test__meta,
+body.dy-admin .seopress-tools-export-tile p,
+body.dy-admin .seopress-tools-maintenance-text p,
+body.dy-admin .seopress-tools-progress,
+body.dy-admin .seopress-variables-list li span,
+body.dy-admin .seopress-variables-list li.seopress-no-results,
+body.dy-admin .seopress-variables-list li::after,
+body.dy-admin .seopress_wrap_single_cpt h3 code,
+body.dy-admin .seopress_wrap_single_tax h3 code {
+  color: var(--dya-ink-soft) !important;
+}
+
+body.dy-admin .seopress-admin-header__breadcrumb li + li::before,
+body.dy-admin .seopress-mcp-create-help,
+body.dy-admin .seopress-panel-icon,
+body.dy-admin .seopress-token-clear-btn,
+body.dy-admin .seopress-token-editor:empty::before,
+body.dy-admin .seopress-token-preview,
+body.dy-admin .seopress-token-preview-label {
+  color: var(--dya-ink-mute) !important;
+}
+
+body.dy-admin #seopress-admin-header-root,
+body.dy-admin .seopress-cb-section hr,
+body.dy-admin .seopress-col-pill.is-default,
+body.dy-admin .seopress-columns-preview,
+body.dy-admin .seopress-feature-badge.is-disabled,
+body.dy-admin .seopress-indexing-log pre,
+body.dy-admin .seopress-mcp-check,
+body.dy-admin .seopress-mcp-client__extra,
+body.dy-admin .seopress-mcp-client__section,
+body.dy-admin .seopress-mcp-discovery,
+body.dy-admin .seopress-mcp-snippet,
+body.dy-admin .seopress-media-upload-preview img,
+body.dy-admin .seopress-opening-hours-day,
+body.dy-admin .seopress-panel,
+body.dy-admin .seopress-settings-content .seopress-notice,
+body.dy-admin .seopress-sitemap-test,
+body.dy-admin .seopress-sitemap-test__check,
+body.dy-admin .seopress-sitemap-test__result,
+body.dy-admin .seopress-sitemap-test__summary,
+body.dy-admin .seopress-tools-export-tile,
+body.dy-admin .seopress-tools-import-body .components-panel__body,
+body.dy-admin .seopress-tools-maintenance-row,
+body.dy-admin .seopress-variables-list .seopress-variables-search,
+body.dy-admin .seopress-variables-list li,
+body.dy-admin .seopress_wrap_single_cpt,
+body.dy-admin .seopress_wrap_single_tax {
+  border-color: var(--dya-line) !important;
+}
+
+body.dy-admin .seopress-color-picker-control .seopress-color-picker-clear,
+body.dy-admin .seopress-color-picker-control .seopress-color-picker-input,
+body.dy-admin .seopress-color-picker-swatch {
+  border-color: var(--dya-line-strong) !important;
+}
+
 body.dy-admin [data-dy-adopt=toolbar-widget] {
   padding: 0 !important;
   margin: 0 0 12px !important;
@@ -26540,4 +26694,23 @@ body.dy-admin :is(.fluent-mail-app.fsm_app, .fsnip_app) {
 
 body.dy-admin .fcrm_topbar {
   top: var(--dya-topbar-h, 44px) !important;
+}
+
+body.dy-admin :is(.fls_app_bar, .fls_sub_bar) {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  z-index: 1 !important;
+}
+
+body.dy-admin .fframe_app {
+  padding-top: 0 !important;
+}
+
+body.dy-admin .fls_settings {
+  position: relative !important;
+  inset: auto !important;
+  height: calc(100vh - var(--dya-topbar-h, 44px) - 200px);
+  min-height: 480px;
 }

@@ -15,10 +15,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  *   whose address is not on its allowlist, on its own pages. The redesign
  *   lost its CSS there (the rail and the bars came out as raw links).
  *   MailPoet offers a filter for exactly this: we add our build folder.
- * - FluentCart: it has its own dark mode (`html.fluent_theme_dark`), which
- *   follows the system by default. Dark FluentCart cards on the redesign's
- *   light canvas, or the reverse, made text unreadable. FluentCart now
- *   follows the Double Youpï theme, and its toggle with it.
+ * - Fluent apps (FluentCart, FluentSMTP, FluentAuth, FluentSnippets): they
+ *   share one dark mode (`html.fluent_theme_dark`, `data-fct-theme`,
+ *   `fluent_theme_mode`), which follows the system by default. Dark cards on
+ *   the redesign's light canvas, or the reverse, made text unreadable. They
+ *   now follow the Double Youpï theme (FluentCart since 1.0.16, the others
+ *   since 1.0.32, user feedback of 05/11/2026).
  *
  * Layout fixes (headers pinned to WordPress's geometry) live in the SCSS
  * partial `_plugin-headers.scss`.
@@ -56,10 +58,9 @@ JS;
 	public function boot(): void {
 		add_filter( 'mailpoet_conflict_resolver_whitelist_style', [ self::class, 'allow_our_assets' ] );
 		add_filter( 'mailpoet_conflict_resolver_whitelist_script', [ self::class, 'allow_our_assets' ] );
-		if ( defined( 'FLUENTCART_VERSION' ) ) {
-			// After FluentCart's own init script (admin_head, priority 10).
-			add_action( 'admin_head', [ self::class, 'print_fluentcart_theme_sync' ], 20 );
-		}
+		// After the Fluent apps' own init script (admin_head, priority 10). The
+		// script does nothing on a page without their `data-fct-theme`.
+		add_action( 'admin_head', [ self::class, 'print_fluentcart_theme_sync' ], 20 );
 	}
 
 	/**

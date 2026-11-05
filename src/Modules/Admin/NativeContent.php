@@ -71,6 +71,25 @@ JS;
 		// as "light" while it still followed the system, it must not be
 		// forced onto the light canvas any more (24/10/2026).
 		'fluent-cart',
+		// FluentSMTP, FluentAuth and FluentSnippets share FluentCart's dark mode,
+		// synced the same way (PluginCompat): learned as « light », they kept a
+		// light canvas around their dark cards (user feedback, 05/11/2026).
+		'fluent-mail',
+		'fluent-auth',
+		'fluent-snippets',
+		// Bricks' AI screen (Bricks 2.4): learned as « light » for its white
+		// cards, it stayed light in the dark theme; skinned like the other
+		// Bricks screens (_12-bricks-pages.scss), 05/11/2026.
+		'bricks-ai',
+		// SEOPress: no dark mode of its own, and screens learned one by one
+		// as « light » (Titles & Metas) while its dashboard stayed skinned:
+		// light here, dark there (user feedback, 05/11/2026). All skinned,
+		// its white panels in _plugin-headers.scss.
+		'seopress',
+		// Bricksforge: its own dark cards, learned as « light » and left on
+		// the light canvas (user feedback, 05/11/2026; not tried here, a
+		// paid plugin).
+		'bricksforge',
 		// Antispam Bee: one plain settings form that reads well skinned; on
 		// the native canvas its links kept our dark-theme lavender on white
 		// (compatibility lab, 24/10/2026).
