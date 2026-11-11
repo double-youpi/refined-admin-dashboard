@@ -27,7 +27,11 @@ final class Brand {
 	private const THEME_PRE_PAINT_JS = <<<'JS'
 (function () {
 	try {
-		var t = localStorage.getItem('dy-admin-theme');
+		// The account's choice first (ThemePreference.php), copied to the
+		// browser; the browser's alone on the sign-in screen.
+		var s = '__ACCOUNT_THEME__';
+		var t = s || localStorage.getItem('dy-admin-theme');
+		if (s) { localStorage.setItem('dy-admin-theme', s); }
 		if (t !== 'light' && t !== 'dark') return;
 		var apply = function () {
 			if (!document.body) return false;
@@ -119,7 +123,11 @@ JS;
 		$ready_class = $is_login ? 'login' : 'dy-admin';
 
 		wp_print_inline_script_tag(
-			str_replace( '__READY_CLASS__', $ready_class, self::THEME_PRE_PAINT_JS ),
+			str_replace(
+				[ '__READY_CLASS__', '__ACCOUNT_THEME__' ],
+				[ $ready_class, $is_login ? '' : ThemePreference::current() ],
+				self::THEME_PRE_PAINT_JS
+			),
 			[ 'id' => 'doubleyoupi-admin-theme-pre-paint' ]
 		);
 		wp_print_inline_script_tag( self::RAIL_PRE_PAINT_JS, [ 'id' => 'doubleyoupi-admin-rail-pre-paint' ] );

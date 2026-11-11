@@ -1,0 +1,32 @@
+// =============================================================
+// Bricksforge (user feedback of 05/11/2026; tried with Bricksforge 3.0.3,
+// the feedback came from 4.0.2)
+//
+// Bricksforge always draws its app dark, whatever the theme. In the dark
+// theme our canvas matches it. In the light theme our dark inks went into
+// its dark cards (headings dark on dark, its licence field white on white):
+// its app keeps our dark tokens there, a dark island. Its root in 3.0.3, and
+// its page's `.wrap` for 4.x, whose page is top-level (`toplevel_page_…`).
+// =============================================================
+
+body.dy-admin.dy-theme-light #bricksforge-admin-app,
+body.dy-admin.dy-theme-light:is(.toplevel_page_bricksforge, .bricks_page_bricksforge) #wpbody-content > .wrap {
+  --dya-bg:          #0c0e13;
+  --dya-bg-elev:     #161a23;
+  --dya-paper:       #161a23;
+  --dya-paper-2:     #1c2230;
+  --dya-paper-3:     #242b3a;
+  --dya-ink:         #ededee;
+  --dya-ink-soft:    #a8a9ad;
+  --dya-ink-mute:    #9a9ba2;
+  --dya-ink-fade:    #93949b;
+  --dya-line:        rgba(255, 255, 255, .07);
+  --dya-line-strong: rgba(255, 255, 255, .14);
+  --dya-line-soft:   rgba(255, 255, 255, .04);
+  --dya-bg-card:     var(--dya-paper);
+  --dya-bg-hi:       var(--dya-paper-3);
+  --dya-bg-soft:     var(--dya-bg-elev);
+  --dya-line-hi:     var(--dya-line-strong);
+  --dya-ink-faint:   var(--dya-ink-fade);
+  color-scheme: dark;
+}

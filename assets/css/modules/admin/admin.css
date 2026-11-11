@@ -683,6 +683,12 @@ body.dy-admin #wpadminbar .ab-item:focus {
   color: var(--dya-ink) !important;
 }
 
+body.dy-admin #wpadminbar:not(.mobile) .ab-top-menu > li > .ab-item:focus,
+body.dy-admin #wpadminbar:not(.mobile) .ab-top-menu > li.hover > .ab-item {
+  background: var(--dya-paper-2);
+  color: var(--dya-ink) !important;
+}
+
 body.dy-admin #wpadminbar .ab-icon {
   display: inline-grid;
   place-items: center;
@@ -25919,6 +25925,28 @@ body.dy-admin .seopress-color-picker-control .seopress-color-picker-clear,
 body.dy-admin .seopress-color-picker-control .seopress-color-picker-input,
 body.dy-admin .seopress-color-picker-swatch {
   border-color: var(--dya-line-strong) !important;
+}
+
+body.dy-admin.dy-theme-light #bricksforge-admin-app,
+body.dy-admin.dy-theme-light:is(.toplevel_page_bricksforge, .bricks_page_bricksforge) #wpbody-content > .wrap {
+  --dya-bg: #0c0e13;
+  --dya-bg-elev: #161a23;
+  --dya-paper: #161a23;
+  --dya-paper-2: #1c2230;
+  --dya-paper-3: #242b3a;
+  --dya-ink: #ededee;
+  --dya-ink-soft: #a8a9ad;
+  --dya-ink-mute: #9a9ba2;
+  --dya-ink-fade: #93949b;
+  --dya-line: rgba(255, 255, 255, .07);
+  --dya-line-strong: rgba(255, 255, 255, .14);
+  --dya-line-soft: rgba(255, 255, 255, .04);
+  --dya-bg-card: var(--dya-paper);
+  --dya-bg-hi: var(--dya-paper-3);
+  --dya-bg-soft: var(--dya-bg-elev);
+  --dya-line-hi: var(--dya-line-strong);
+  --dya-ink-faint: var(--dya-ink-fade);
+  color-scheme: dark;
 }
 
 body.dy-admin [data-dy-adopt=toolbar-widget] {

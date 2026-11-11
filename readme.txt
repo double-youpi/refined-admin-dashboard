@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, dark theme
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.32
+Stable tag: 1.0.34
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -186,6 +186,13 @@ Privacy policy: https://doubleyoupi.com/privacy
 15. Coming from FileBird or another folder plugin? Preview its folders, then import them in one click. The source plugin is never modified.
 
 == Changelog ==
+
+= 1.0.34 =
+* Change: your light or dark theme is kept on your account, not only in the browser: it follows you to another browser or computer, and after the browser's data is cleared.
+* Fix: in the light theme, a plugin's link in the top bar no longer turns black on black when clicked.
+
+= 1.0.33 =
+* Fix: Bricksforge stays readable in the light theme: its app, always dark, keeps light text.
 
 = 1.0.32 =
 * Fix: FluentAuth, FluentSMTP and FluentSnippets follow the dark or light theme, like FluentCart, and FluentAuth's top bar sits under the navigation bars.
@@ -432,6 +439,12 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.34 =
+Your light or dark theme follows your account; readable top bar links on click.
+
+= 1.0.33 =
+Bricksforge readable in the light theme.
 
 = 1.0.32 =
 FluentAuth, FluentSMTP, SEOPress, Bricks AI and Bricksforge follow the dark theme.

@@ -73,11 +73,36 @@
       document.dispatchEvent(new CustomEvent('doubleyoupi:theme', { detail: { theme: theme } }));
     } catch (_) {}
   }
+  // The account's choice first (ThemePreference.php), the browser's cache
+  // otherwise. A choice found only in the browser (made before 1.0.34) is
+  // saved to the account once.
+  const THEME_CFG = (window.doubleyoupiAdminI18n && window.doubleyoupiAdminI18n.theme) || {};
+  function saveTheme(theme) {
+    if (!THEME_CFG.url || !window.fetch) return;
+    try {
+      fetch(THEME_CFG.url, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json', 'X-WP-Nonce': THEME_CFG.nonce || '' },
+        body: JSON.stringify({ theme: theme }),
+        keepalive: true
+      }).catch(function () {});
+    } catch (_) {}
+  }
   function readTheme() {
+    if (THEME_CFG.theme === 'light' || THEME_CFG.theme === 'dark') return THEME_CFG.theme;
     try { return localStorage.getItem(STORAGE_THEME) || 'dark'; }
     catch (e) { return 'dark'; }
   }
-  applyTheme(readTheme());
+  let cachedTheme = null;
+  try { cachedTheme = localStorage.getItem(STORAGE_THEME); } catch (_) {}
+  const startTheme = readTheme();
+  applyTheme(startTheme);
+  if (THEME_CFG.theme) {
+    try { localStorage.setItem(STORAGE_THEME, startTheme); } catch (_) {}
+  } else if (cachedTheme === 'light' || cachedTheme === 'dark') {
+    saveTheme(cachedTheme);
+  }
 
   const themeBtn = document.querySelector('#wp-admin-bar-theme-toggle .ab-item');
   if (themeBtn) {
@@ -86,6 +111,7 @@
       const next = body.classList.contains('dy-theme-light') ? 'dark' : 'light';
       applyTheme(next);
       try { localStorage.setItem(STORAGE_THEME, next); } catch (_) {}
+      saveTheme(next);
     });
   }
 

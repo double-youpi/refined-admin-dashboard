@@ -3,7 +3,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-11-05T19:57:11+00:00\n"
+"POT-Creation-Date: 2026-11-11T17:24:29+00:00\n"
 "Language: it_IT\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
@@ -569,7 +569,7 @@ msgstr "Hai voglia di partecipare?"
 msgid "Found a bug or got an idea to make it better? Let me know."
 msgstr "Hai trovato un bug o un'idea per migliorarlo? Fammelo sapere."
 
-#: src/Core/ModuleCatalog.php:37 src/Modules/Admin/Admin.php:128
+#: src/Core/ModuleCatalog.php:37 src/Modules/Admin/Admin.php:129
 #: src/Modules/Admin/Settings.php:580
 msgid "Refined Admin Dashboard"
 msgstr "Refined Admin Dashboard"
@@ -596,50 +596,50 @@ msgstr ""
 "Cartelle e raccolte, drag & drop, anteprima rapida, pulizia di duplicati e "
 "file orfani, più conversione WebP/AVIF al caricamento."
 
-#: src/Modules/Admin/Admin.php:129 src/Modules/Admin/Rail.php:608
+#: src/Modules/Admin/Admin.php:130 src/Modules/Admin/Rail.php:608
 msgid "Admin"
 msgstr "Admin"
 
-#: src/Modules/Admin/Admin.php:315
+#: src/Modules/Admin/Admin.php:317
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:482
 #: src/Modules/Admin/Settings.php:687
 msgid "Accent color"
 msgstr "Colore di accento"
 
-#: src/Modules/Admin/Admin.php:316
+#: src/Modules/Admin/Admin.php:318
 msgid "The Double Youpï Admin module manages the administration palette."
 msgstr ""
 "il modulo Admin di Double Youpï gestisce la palette dell’amministrazione."
 
-#: src/Modules/Admin/Admin.php:317
+#: src/Modules/Admin/Admin.php:319
 msgid "Configure →"
 msgstr "Configura →"
 
-#: src/Modules/Admin/Admin.php:367
+#: src/Modules/Admin/Admin.php:370
 #: src/Modules/Admin/Tables/TablesReimagined.php:454
 msgid "Screen options"
 msgstr "Opzioni schermo"
 
-#: src/Modules/Admin/Admin.php:368
+#: src/Modules/Admin/Admin.php:371
 #: src/Modules/Admin/Tables/TablesReimagined.php:455
 msgid "Columns"
 msgstr "Colonne"
 
-#: src/Modules/Admin/Admin.php:369
+#: src/Modules/Admin/Admin.php:372
 #: src/Modules/Admin/Tables/TablesReimagined.php:460
 msgid "Pagination"
 msgstr "Impaginazione"
 
-#: src/Modules/Admin/Admin.php:370
+#: src/Modules/Admin/Admin.php:373
 #: src/Modules/Admin/Tables/TablesReimagined.php:461
 msgid "Items per page"
 msgstr "Elementi per pagina"
 
-#: src/Modules/Admin/Admin.php:529
+#: src/Modules/Admin/Admin.php:532
 msgid "Session"
 msgstr "Sessione"
 
-#: src/Modules/Admin/Admin.php:531
+#: src/Modules/Admin/Admin.php:534
 msgid "Invert theme"
 msgstr "Inverti il tema"
 

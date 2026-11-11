@@ -24,7 +24,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  *   - Plugin classification → lines via PluginMap (~100 curated entries
  *     + heuristic for unknown plugins)
  *   - View Transitions API for persistent chrome + directional content swap
- *   - Theme toggle (dark ↔ light) client-side via localStorage
+ *   - Theme toggle (dark ↔ light), kept on the account (ThemePreference) and
+ *     cached in localStorage
  *
  * Architecture: the Admin class simply orchestrates the specialized
  * renderers (Rail, Chipbar, Subchipbar, Sprite, Brand, Adminbar,
@@ -227,6 +228,7 @@ JS;
 
 		( new Sprite() )->boot();
 		( new Brand( $settings ) )->boot();
+		( new ThemePreference() )->boot();
 		( new Chipbar( $this->rail ) )->boot();
 		( new Subchipbar( $this->rail ) )->boot();
 		( new Adminbar() )->boot();
@@ -363,6 +365,7 @@ JS;
 				'doubleyoupi-admin',
 				'doubleyoupiAdminI18n',
 				[
+					'theme'        => ThemePreference::script_config(),
 					'tableOptions' => [
 						'screenOptions' => __( 'Screen options', 'doubleyoupi-refined-admin-dashboard' ),
 						'columns'       => __( 'Columns', 'doubleyoupi-refined-admin-dashboard' ),

@@ -77,6 +77,16 @@ body.dy-admin #wpadminbar .ab-top-menu > li > .ab-item:hover {
 body.dy-admin #wpadminbar .ab-item:focus {
   color: var(--dya-ink) !important;
 }
+// …and its ground. On click, core gives every top-level item its own dark
+// focus ground (`#wpadminbar:not(.mobile) .ab-top-menu>li>.ab-item:focus`,
+// #2c3338, 1,4,2) and the same on `li.hover`: with our dark ink in the light
+// theme, a plugin's link went black on black (« Launch Etch », Chris Green,
+// 08/11/2026). Our hover ground instead.
+body.dy-admin #wpadminbar:not(.mobile) .ab-top-menu > li > .ab-item:focus,
+body.dy-admin #wpadminbar:not(.mobile) .ab-top-menu > li.hover > .ab-item {
+  background: var(--dya-paper-2);
+  color: var(--dya-ink) !important;
+}
 
 // Icons (.ab-icon) — WP emits them as ::before pseudo on <span>.
 // We accept both ::before AND inline <svg> (our preferred form).
