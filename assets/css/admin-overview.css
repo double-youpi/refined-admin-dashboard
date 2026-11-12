@@ -2329,7 +2329,7 @@ body[class*=page_doubleyoupi]:not([class*=doubleyoupi-media-library]) .wrap .dy-
   gap: 8px;
   padding: 12px 22px;
   border-radius: var(--dya-r-pill);
-  background: linear-gradient(180deg, #6f54ff 0%, var(--dya-accent) 55%, #4c2fe6 100%);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--dya-accent) 84%, #fff) 0%, var(--dya-accent) 55%, color-mix(in srgb, var(--dya-accent) 84%, #000) 100%);
   color: #fff;
   text-decoration: none;
   white-space: nowrap;

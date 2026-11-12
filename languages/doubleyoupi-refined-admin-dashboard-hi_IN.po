@@ -3,7 +3,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-11-12T01:17:17+00:00\n"
+"POT-Creation-Date: 2026-11-12T01:59:54+00:00\n"
 "Language: hi_IN\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
@@ -452,7 +452,7 @@ msgstr "जल्द ही"
 
 #: src/Admin/OverviewPage.php:573
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:392
-#: src/Modules/Admin/Settings.php:1163
+#: src/Modules/Admin/Settings.php:1171
 #: src/Modules/MediaLibrary/Settings.php:482
 #: src/Modules/MediaLibrary/Settings.php:509
 msgid "Saved"
@@ -466,7 +466,7 @@ msgstr "लागू करने के लिए पुनः लोड कर
 msgid "In preparation"
 msgstr "तैयारी में"
 
-#: src/Admin/OverviewPage.php:654 src/Modules/Admin/Settings.php:1134
+#: src/Admin/OverviewPage.php:654 src/Modules/Admin/Settings.php:1142
 #: src/Modules/Admin/Tables/TablesReimagined.php:480
 #: src/Modules/MediaLibrary/Migration/MigrationI18n.php:24
 #: src/Modules/MediaLibrary/OrphanAdminPage.php:158
@@ -722,16 +722,16 @@ msgstr "सिस्टम"
 msgid "Developer"
 msgstr "डेवलपर"
 
-#: src/Modules/Admin/Configurations.php:135 src/Modules/Admin/Settings.php:1015
+#: src/Modules/Admin/Configurations.php:144 src/Modules/Admin/Settings.php:1016
 msgid "A configuration needs a name."
 msgstr "कॉन्फ़िगरेशन का एक नाम होना चाहिए।"
 
-#: src/Modules/Admin/Configurations.php:139 src/Modules/Admin/Settings.php:1016
+#: src/Modules/Admin/Configurations.php:148 src/Modules/Admin/Settings.php:1017
 msgid "Maximum number of configurations reached."
 msgstr "कॉन्फ़िगरेशन की अधिकतम संख्या पूरी हो गई।"
 
-#: src/Modules/Admin/Configurations.php:430
-#: src/Modules/Admin/Configurations.php:458 src/Modules/Admin/Preview.php:78
+#: src/Modules/Admin/Configurations.php:474
+#: src/Modules/Admin/Configurations.php:506 src/Modules/Admin/Preview.php:78
 msgid "You are not allowed to change these settings."
 msgstr "आपको ये सेटिंग्स बदलने की अनुमति नहीं है।"
 
@@ -910,7 +910,7 @@ msgid "New disposition"
 msgstr "नया डिस्पोज़िशन"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:403
-#: src/Modules/Admin/Settings.php:364 src/Modules/Admin/Settings.php:1079
+#: src/Modules/Admin/Settings.php:364 src/Modules/Admin/Settings.php:1082
 #: src/Modules/Admin/Tables/TablesReimagined.php:492
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:167
 msgid "Save"
@@ -992,7 +992,7 @@ msgid "Export"
 msgstr "निर्यात"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:425
-#: src/Modules/Admin/Settings.php:1089
+#: src/Modules/Admin/Settings.php:1094
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:78
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:169
 msgid "Delete"
@@ -1237,7 +1237,7 @@ msgid "Maximum number of saved dispositions reached."
 msgstr "सहेजे गए डिस्पोज़िशन की अधिकतम संख्या पूरी हो गई।"
 
 #: src/Modules/Admin/Dashboard/Layout/Dispositions.php:189
-#: src/Modules/Admin/Dashboard/RestController.php:327
+#: src/Modules/Admin/Dashboard/RestController.php:335
 msgid "Unknown disposition."
 msgstr "अज्ञात डिस्पोज़िशन।"
 
@@ -1416,27 +1416,27 @@ msgid "No screen configured."
 msgstr "कोई स्क्रीन कॉन्फ़िगर नहीं की गई।"
 
 #: src/Modules/Admin/Dashboard/Renderer.php:603
-#: src/Modules/Admin/Dashboard/RestController.php:416
+#: src/Modules/Admin/Dashboard/RestController.php:428
 msgid "This widget could not load."
 msgstr "यह विजेट लोड नहीं हो सका।"
 
 #: src/Modules/Admin/Dashboard/RestController.php:202
 #: src/Modules/Admin/Dashboard/RestController.php:246
-#: src/Modules/Admin/Dashboard/RestController.php:291
+#: src/Modules/Admin/Dashboard/RestController.php:295
 msgid "The layout must be an object."
 msgstr "लेआउट एक object होना चाहिए।"
 
-#: src/Modules/Admin/Dashboard/RestController.php:383
+#: src/Modules/Admin/Dashboard/RestController.php:395
 msgid "Widget ID required."
 msgstr "विजेट ID आवश्यक।"
 
 #. translators: %s is the widget identifier that could not be found.
-#: src/Modules/Admin/Dashboard/RestController.php:393
+#: src/Modules/Admin/Dashboard/RestController.php:405
 #, php-format
 msgid "Unknown widget “%s”."
 msgstr "विजेट « %s » अज्ञात।"
 
-#: src/Modules/Admin/Dashboard/RestController.php:403
+#: src/Modules/Admin/Dashboard/RestController.php:415
 msgid "You are not allowed to see this widget."
 msgstr "आपको यह विजेट देखने की अनुमति नहीं है।"
 
@@ -1546,7 +1546,7 @@ msgstr "लेबल"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/AdminLinkWidget.php:54
 #: src/Modules/Admin/Dashboard/Widgets/Data/AdminLinkWidget.php:74
-#: src/Modules/Admin/Developer/Renderer.php:82
+#: src/Modules/Admin/Developer/Renderer.php:93
 msgid "Open"
 msgstr "खोलें"
 
@@ -1639,7 +1639,7 @@ msgid "Shown to everyone who gets this dashboard. Empty fields are left out."
 msgstr "यह डैशबोर्ड पाने वाले सभी लोगों को दिखता है। खाली फ़ील्ड नहीं दिखाए जाते।"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/ContactWidget.php:51
-#: src/Modules/Admin/Settings.php:1039 src/Modules/Admin/Settings.php:1110
+#: src/Modules/Admin/Settings.php:1042 src/Modules/Admin/Settings.php:1117
 msgid "Name"
 msgstr "नाम"
 
@@ -1709,7 +1709,7 @@ msgstr "नया %s"
 #: src/Modules/Admin/Dashboard/Widgets/Data/CreateButtonWidget.php:152
 #: src/Modules/Admin/Dashboard/Widgets/Data/CreateHubWidget.php:32
 #: src/Modules/Admin/Dashboard/Widgets/Data/CreateHubWidget.php:137
-#: src/Modules/Admin/Settings.php:1117
+#: src/Modules/Admin/Settings.php:1124
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:77
 msgid "Create"
 msgstr "बनाएं"
@@ -2321,19 +2321,35 @@ msgstr ""
 msgid "Loading editor…"
 msgstr "संपादक लोड हो रहा है…"
 
-#: src/Modules/Admin/Developer/Renderer.php:75
+#: src/Modules/Admin/Developer/Renderer.php:70
+msgid ""
+"The configurations by role are pinned in code (DOUBLEYOUPI_ADMIN_PROFILE): "
+"they can be seen, not edited, here."
+msgstr ""
+"भूमिका के अनुसार कॉन्फ़िगरेशन कोड में तय हैं (DOUBLEYOUPI_ADMIN_PROFILE): इन्हें यहाँ देखा "
+"जा सकता है, बदला नहीं जा सकता।"
+
+#: src/Modules/Admin/Developer/Renderer.php:73
+msgid ""
+"The site’s menu is pinned in code (DOUBLEYOUPI_ADMIN_PROFILE): changes made "
+"here are not saved."
+msgstr ""
+"साइट का मेनू कोड में तय है (DOUBLEYOUPI_ADMIN_PROFILE): यहाँ किए गए बदलाव सहेजे नहीं "
+"जाते।"
+
+#: src/Modules/Admin/Developer/Renderer.php:86
 msgid "You are editing:"
 msgstr "आप संपादित कर रहे हैं:"
 
-#: src/Modules/Admin/Developer/Renderer.php:77
+#: src/Modules/Admin/Developer/Renderer.php:88
 msgid "The site’s menu (administrators and roles without a configuration)"
 msgstr "साइट का मेनू (एडमिनिस्ट्रेटर और बिना कॉन्फ़िगरेशन वाली भूमिकाएँ)"
 
-#: src/Modules/Admin/Developer/RestController.php:248
+#: src/Modules/Admin/Developer/RestController.php:256
 msgid "The overrides must be an object."
 msgstr "ओवरराइड्स एक ऑब्जेक्ट होने चाहिए।"
 
-#: src/Modules/Admin/Developer/RestController.php:282
+#: src/Modules/Admin/Developer/RestController.php:308
 msgid "Signatures must be an array."
 msgstr "हस्ताक्षर एक ऐरे होने चाहिए।"
 
@@ -2639,54 +2655,61 @@ msgstr "पूर्वावलोकन: एडमिन जैसा “%s”
 msgid "Leave the preview"
 msgstr "पूर्वावलोकन से बाहर निकलें"
 
-#: src/Modules/Admin/Profile.php:121
+#: src/Modules/Admin/Profile.php:146
 msgid "You are not allowed to export these settings."
 msgstr "आपको ये सेटिंग्स निर्यात करने की अनुमति नहीं है।"
 
-#: src/Modules/Admin/Profile.php:141
+#: src/Modules/Admin/Profile.php:166
 msgid "You are not allowed to import these settings."
 msgstr "आपको ये सेटिंग्स आयात करने की अनुमति नहीं है।"
 
-#: src/Modules/Admin/Profile.php:444
+#: src/Modules/Admin/Profile.php:416 src/Modules/Admin/Settings.php:1018
+msgid ""
+"This is pinned in code (DOUBLEYOUPI_ADMIN_PROFILE): change it in the pinned "
+"profile, not here."
+msgstr ""
+"यह कोड में तय है (DOUBLEYOUPI_ADMIN_PROFILE): इसे तय प्रोफ़ाइल में बदलें, यहाँ नहीं।"
+
+#: src/Modules/Admin/Profile.php:566
 msgid "Accent color and logo"
 msgstr "एक्सेंट रंग और लोगो"
 
-#: src/Modules/Admin/Profile.php:445 src/Modules/Admin/Settings.php:891
+#: src/Modules/Admin/Profile.php:567 src/Modules/Admin/Settings.php:891
 msgid "Per-user customization"
 msgstr "प्रति-उपयोगकर्ता अनुकूलन"
 
-#: src/Modules/Admin/Profile.php:446 src/Modules/Admin/Settings.php:900
+#: src/Modules/Admin/Profile.php:568 src/Modules/Admin/Settings.php:900
 #: src/Modules/MediaLibrary/Settings.php:386
 msgid "Hide Feedback and review requests"
 msgstr "फ़ीडबैक बटन और समीक्षा अनुरोध छिपाएँ"
 
-#: src/Modules/Admin/Profile.php:447 src/Modules/Admin/Settings.php:909
+#: src/Modules/Admin/Profile.php:569 src/Modules/Admin/Settings.php:909
 msgid "Plugin notices for administrators only"
 msgstr "प्लगइन सूचनाएँ केवल व्यवस्थापकों के लिए"
 
-#: src/Modules/Admin/Profile.php:448
+#: src/Modules/Admin/Profile.php:570
 msgid ""
 "Navigation tree (reimagined or native), section pages on hover, and the "
 "Reorganize layout"
 msgstr "नेविगेशन ट्री (नया रूप या मूल), होवर पर अनुभाग के पृष्ठ, और पुनर्व्यवस्थित लेआउट"
 
-#: src/Modules/Admin/Profile.php:449
+#: src/Modules/Admin/Profile.php:571
 msgid "Screens left in native styling"
 msgstr "मूल शैली में छोड़ी गई स्क्रीनें"
 
-#: src/Modules/Admin/Profile.php:450
+#: src/Modules/Admin/Profile.php:572
 msgid "Toolkit toggles"
 msgstr "टूलकिट स्विच"
 
-#: src/Modules/Admin/Profile.php:451
+#: src/Modules/Admin/Profile.php:573
 msgid "Shared dashboard dispositions and their roles"
 msgstr "डैशबोर्ड के साझा डिस्पोज़िशन और उनकी भूमिकाएँ"
 
-#: src/Modules/Admin/Profile.php:452 src/Modules/Admin/Settings.php:1020
+#: src/Modules/Admin/Profile.php:574 src/Modules/Admin/Settings.php:1022
 msgid "Configurations by role"
 msgstr "भूमिका के अनुसार कॉन्फ़िगरेशन"
 
-#: src/Modules/Admin/Rail.php:613 src/Modules/Admin/Settings.php:1070
+#: src/Modules/Admin/Rail.php:613 src/Modules/Admin/Settings.php:1073
 msgid "Dashboard"
 msgstr "डैशबोर्ड"
 
@@ -2969,7 +2992,7 @@ msgid ""
 "The seven sections of the rail take the accent instead of their own color."
 msgstr "रेल के सातों अनुभाग अपने रंग की जगह एक्सेंट रंग लेते हैं।"
 
-#: src/Modules/Admin/Settings.php:811 src/Modules/Admin/Settings.php:1063
+#: src/Modules/Admin/Settings.php:811 src/Modules/Admin/Settings.php:1066
 msgid "Navigation"
 msgstr "नेविगेशन"
 
@@ -2978,7 +3001,7 @@ msgstr "नेविगेशन"
 msgid "Navigation tree"
 msgstr "नेविगेशन ट्री"
 
-#: src/Modules/Admin/Settings.php:829 src/Modules/Admin/Settings.php:1065
+#: src/Modules/Admin/Settings.php:829 src/Modules/Admin/Settings.php:1068
 msgid "Reimagined"
 msgstr "नए सिरे से सोचा गया"
 
@@ -2990,7 +3013,7 @@ msgstr "अनुशंसित"
 msgid "Seven sections, content first."
 msgstr "सात अनुभाग, पहले सामग्री।"
 
-#: src/Modules/Admin/Settings.php:837 src/Modules/Admin/Settings.php:1066
+#: src/Modules/Admin/Settings.php:837 src/Modules/Admin/Settings.php:1069
 msgid "Native WordPress"
 msgstr "मूल WordPress"
 
@@ -3121,22 +3144,28 @@ msgid "Pin the profile in code, on every site"
 msgstr "प्रोफ़ाइल को कोड में पिन करें, हर साइट पर"
 
 #: src/Modules/Admin/Settings.php:989
-msgid "Add to wp-config.php. The settings it covers lock on this page."
-msgstr "wp-config.php में जोड़ें। इसमें शामिल सेटिंग्स इस पृष्ठ पर लॉक हो जाती हैं।"
+msgid ""
+"Add to wp-config.php. Everything the file carries locks on this page, the "
+"configurations by role and the shared dashboard included; the configurations "
+"still shape their roles over the pinned menu."
+msgstr ""
+"wp-config.php में जोड़ें। फ़ाइल में जो कुछ है वह इस पेज पर लॉक हो जाता है, भूमिका के अनुसार "
+"कॉन्फ़िगरेशन और साझा डैशबोर्ड सहित; कॉन्फ़िगरेशन तय मेनू के ऊपर अपनी भूमिकाओं को आकार देते "
+"रहते हैं।"
 
-#: src/Modules/Admin/Settings.php:1012
+#: src/Modules/Admin/Settings.php:1013
 msgid "Configuration created."
 msgstr "कॉन्फ़िगरेशन बनाया गया।"
 
-#: src/Modules/Admin/Settings.php:1013
+#: src/Modules/Admin/Settings.php:1014
 msgid "Configuration saved."
 msgstr "कॉन्फ़िगरेशन सहेजा गया।"
 
-#: src/Modules/Admin/Settings.php:1014
+#: src/Modules/Admin/Settings.php:1015
 msgid "Configuration deleted."
 msgstr "कॉन्फ़िगरेशन हटाया गया।"
 
-#: src/Modules/Admin/Settings.php:1027
+#: src/Modules/Admin/Settings.php:1029
 msgid ""
 "A configuration sets the menu, the screens left in native styling, the "
 "navigation and the dashboard for one or more roles. The brand and the "
@@ -3150,35 +3179,35 @@ msgstr ""
 "से कोई अधिकार नहीं हटता: हर व्यक्ति क्या खोल सकता है, यह WordPress की भूमिकाएँ ही तय "
 "करती हैं।"
 
-#: src/Modules/Admin/Settings.php:1043
+#: src/Modules/Admin/Settings.php:1046
 msgid "Roles"
 msgstr "भूमिकाएँ"
 
 #. translators: %s: name of the configuration that role has now.
-#: src/Modules/Admin/Settings.php:1054
+#: src/Modules/Admin/Settings.php:1057
 #, php-format
 msgid "(now: %s)"
 msgstr "(अभी: %s)"
 
-#: src/Modules/Admin/Settings.php:1072
+#: src/Modules/Admin/Settings.php:1075
 msgid "Keep the roles’ current dashboard"
 msgstr "भूमिकाओं का मौजूदा डैशबोर्ड रखें"
 
-#: src/Modules/Admin/Settings.php:1080
+#: src/Modules/Admin/Settings.php:1084
 msgid "Edit its menu"
 msgstr "इसका मेनू संपादित करें"
 
 #. translators: %s: role name.
-#: src/Modules/Admin/Settings.php:1085
+#: src/Modules/Admin/Settings.php:1090
 #, php-format
 msgid "View as %s"
 msgstr "%s के रूप में देखें"
 
-#: src/Modules/Admin/Settings.php:1104
+#: src/Modules/Admin/Settings.php:1111
 msgid "New configuration"
 msgstr "नया कॉन्फ़िगरेशन"
 
-#: src/Modules/Admin/Settings.php:1105
+#: src/Modules/Admin/Settings.php:1112
 msgid ""
 "Starts from the site’s current setup, or from a configuration you choose. "
 "Then give it roles and edit its menu."
@@ -3186,23 +3215,23 @@ msgstr ""
 "साइट के मौजूदा सेटअप से, या आपके चुने हुए कॉन्फ़िगरेशन से शुरू होता है। फिर इसे भूमिकाएँ दें और "
 "इसका मेनू संपादित करें।"
 
-#: src/Modules/Admin/Settings.php:1110
+#: src/Modules/Admin/Settings.php:1117
 msgid "Name, e.g. Client editor"
 msgstr "नाम, जैसे क्लाइंट संपादक"
 
-#: src/Modules/Admin/Settings.php:1111
+#: src/Modules/Admin/Settings.php:1118
 msgid "Start from"
 msgstr "यहाँ से शुरू करें"
 
-#: src/Modules/Admin/Settings.php:1112
+#: src/Modules/Admin/Settings.php:1119
 msgid "The site’s current setup"
 msgstr "साइट का मौजूदा सेटअप"
 
-#: src/Modules/Admin/Settings.php:1123
+#: src/Modules/Admin/Settings.php:1131
 msgid "View as…"
 msgstr "इस रूप में देखें…"
 
-#: src/Modules/Admin/Settings.php:1124
+#: src/Modules/Admin/Settings.php:1132
 msgid ""
 "See the admin as a role sees it: menu, screens, dashboard and notices. Your "
 "own rights do not change, and a banner lets you leave."
@@ -3210,35 +3239,35 @@ msgstr ""
 "एडमिन को वैसे देखें जैसे कोई भूमिका देखती है: मेनू, स्क्रीन, डैशबोर्ड और सूचनाएँ। आपके अपने "
 "अधिकार नहीं बदलते, और एक बैनर से आप बाहर निकल सकते हैं।"
 
-#: src/Modules/Admin/Settings.php:1129
+#: src/Modules/Admin/Settings.php:1137
 msgid "Role"
 msgstr "भूमिका"
 
-#: src/Modules/Admin/Settings.php:1151
+#: src/Modules/Admin/Settings.php:1159
 msgid "Pinned in code"
 msgstr "कोड में पिन किया गया"
 
 #. translators: %d = number of settings applied
-#: src/Modules/Admin/Settings.php:1229
+#: src/Modules/Admin/Settings.php:1237
 #, php-format
 msgid "Profile imported: %d setting applied."
 msgid_plural "Profile imported: %d settings applied."
 msgstr[0] "प्रोफ़ाइल आयात हुई: %d सेटिंग लागू।"
 msgstr[1] "प्रोफ़ाइल आयात हुई: %d सेटिंग्स लागू।"
 
-#: src/Modules/Admin/Settings.php:1230
+#: src/Modules/Admin/Settings.php:1238
 msgid "No file received."
 msgstr "कोई फ़ाइल नहीं मिली।"
 
-#: src/Modules/Admin/Settings.php:1231
+#: src/Modules/Admin/Settings.php:1239
 msgid "This file is too large to be a profile."
 msgstr "यह फ़ाइल प्रोफ़ाइल होने के लिए बहुत बड़ी है।"
 
-#: src/Modules/Admin/Settings.php:1232
+#: src/Modules/Admin/Settings.php:1240
 msgid "This file is not a Double Youpï admin profile."
 msgstr "यह फ़ाइल Double Youpï एडमिन प्रोफ़ाइल नहीं है।"
 
-#: src/Modules/Admin/Settings.php:1233
+#: src/Modules/Admin/Settings.php:1241
 msgid "This profile was written by a newer version. Update the plugin first."
 msgstr "यह प्रोफ़ाइल नए संस्करण से लिखी गई है। पहले प्लगइन अपडेट करें।"
 

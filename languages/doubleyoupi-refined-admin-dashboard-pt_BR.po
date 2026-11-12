@@ -3,7 +3,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-11-12T01:17:17+00:00\n"
+"POT-Creation-Date: 2026-11-12T01:59:54+00:00\n"
 "Language: pt_BR\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
@@ -459,7 +459,7 @@ msgstr "Em breve"
 
 #: src/Admin/OverviewPage.php:573
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:392
-#: src/Modules/Admin/Settings.php:1163
+#: src/Modules/Admin/Settings.php:1171
 #: src/Modules/MediaLibrary/Settings.php:482
 #: src/Modules/MediaLibrary/Settings.php:509
 msgid "Saved"
@@ -473,7 +473,7 @@ msgstr "Recarregar para aplicar"
 msgid "In preparation"
 msgstr "Em preparação"
 
-#: src/Admin/OverviewPage.php:654 src/Modules/Admin/Settings.php:1134
+#: src/Admin/OverviewPage.php:654 src/Modules/Admin/Settings.php:1142
 #: src/Modules/Admin/Tables/TablesReimagined.php:480
 #: src/Modules/MediaLibrary/Migration/MigrationI18n.php:24
 #: src/Modules/MediaLibrary/OrphanAdminPage.php:158
@@ -732,16 +732,16 @@ msgstr "Sistema"
 msgid "Developer"
 msgstr "Desenvolvedor"
 
-#: src/Modules/Admin/Configurations.php:135 src/Modules/Admin/Settings.php:1015
+#: src/Modules/Admin/Configurations.php:144 src/Modules/Admin/Settings.php:1016
 msgid "A configuration needs a name."
 msgstr "Uma configuração precisa de um nome."
 
-#: src/Modules/Admin/Configurations.php:139 src/Modules/Admin/Settings.php:1016
+#: src/Modules/Admin/Configurations.php:148 src/Modules/Admin/Settings.php:1017
 msgid "Maximum number of configurations reached."
 msgstr "Número máximo de configurações atingido."
 
-#: src/Modules/Admin/Configurations.php:430
-#: src/Modules/Admin/Configurations.php:458 src/Modules/Admin/Preview.php:78
+#: src/Modules/Admin/Configurations.php:474
+#: src/Modules/Admin/Configurations.php:506 src/Modules/Admin/Preview.php:78
 msgid "You are not allowed to change these settings."
 msgstr "Você não tem permissão para alterar estas configurações."
 
@@ -920,7 +920,7 @@ msgid "New disposition"
 msgstr "Nova disposição"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:403
-#: src/Modules/Admin/Settings.php:364 src/Modules/Admin/Settings.php:1079
+#: src/Modules/Admin/Settings.php:364 src/Modules/Admin/Settings.php:1082
 #: src/Modules/Admin/Tables/TablesReimagined.php:492
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:167
 msgid "Save"
@@ -1004,7 +1004,7 @@ msgid "Export"
 msgstr "Exportar"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:425
-#: src/Modules/Admin/Settings.php:1089
+#: src/Modules/Admin/Settings.php:1094
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:78
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:169
 msgid "Delete"
@@ -1251,7 +1251,7 @@ msgid "Maximum number of saved dispositions reached."
 msgstr "Número máximo de disposições salvas atingido."
 
 #: src/Modules/Admin/Dashboard/Layout/Dispositions.php:189
-#: src/Modules/Admin/Dashboard/RestController.php:327
+#: src/Modules/Admin/Dashboard/RestController.php:335
 msgid "Unknown disposition."
 msgstr "Disposição desconhecida."
 
@@ -1430,27 +1430,27 @@ msgid "No screen configured."
 msgstr "Nenhuma tela configurada."
 
 #: src/Modules/Admin/Dashboard/Renderer.php:603
-#: src/Modules/Admin/Dashboard/RestController.php:416
+#: src/Modules/Admin/Dashboard/RestController.php:428
 msgid "This widget could not load."
 msgstr "Este widget não pôde ser carregado."
 
 #: src/Modules/Admin/Dashboard/RestController.php:202
 #: src/Modules/Admin/Dashboard/RestController.php:246
-#: src/Modules/Admin/Dashboard/RestController.php:291
+#: src/Modules/Admin/Dashboard/RestController.php:295
 msgid "The layout must be an object."
 msgstr "O layout deve ser um objeto."
 
-#: src/Modules/Admin/Dashboard/RestController.php:383
+#: src/Modules/Admin/Dashboard/RestController.php:395
 msgid "Widget ID required."
 msgstr "ID do widget obrigatório."
 
 #. translators: %s is the widget identifier that could not be found.
-#: src/Modules/Admin/Dashboard/RestController.php:393
+#: src/Modules/Admin/Dashboard/RestController.php:405
 #, php-format
 msgid "Unknown widget “%s”."
 msgstr "Widget “%s” desconhecido."
 
-#: src/Modules/Admin/Dashboard/RestController.php:403
+#: src/Modules/Admin/Dashboard/RestController.php:415
 msgid "You are not allowed to see this widget."
 msgstr "Você não tem permissão para ver este widget."
 
@@ -1562,7 +1562,7 @@ msgstr "Rótulo"
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/AdminLinkWidget.php:54
 #: src/Modules/Admin/Dashboard/Widgets/Data/AdminLinkWidget.php:74
-#: src/Modules/Admin/Developer/Renderer.php:82
+#: src/Modules/Admin/Developer/Renderer.php:93
 msgid "Open"
 msgstr "Abrir"
 
@@ -1659,7 +1659,7 @@ msgstr ""
 "aparecem."
 
 #: src/Modules/Admin/Dashboard/Widgets/Data/ContactWidget.php:51
-#: src/Modules/Admin/Settings.php:1039 src/Modules/Admin/Settings.php:1110
+#: src/Modules/Admin/Settings.php:1042 src/Modules/Admin/Settings.php:1117
 msgid "Name"
 msgstr "Nome"
 
@@ -1729,7 +1729,7 @@ msgstr "Novo %s"
 #: src/Modules/Admin/Dashboard/Widgets/Data/CreateButtonWidget.php:152
 #: src/Modules/Admin/Dashboard/Widgets/Data/CreateHubWidget.php:32
 #: src/Modules/Admin/Dashboard/Widgets/Data/CreateHubWidget.php:137
-#: src/Modules/Admin/Settings.php:1117
+#: src/Modules/Admin/Settings.php:1124
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:77
 msgid "Create"
 msgstr "Criar"
@@ -2356,19 +2356,35 @@ msgstr ""
 msgid "Loading editor…"
 msgstr "Carregando editor…"
 
-#: src/Modules/Admin/Developer/Renderer.php:75
+#: src/Modules/Admin/Developer/Renderer.php:70
+msgid ""
+"The configurations by role are pinned in code (DOUBLEYOUPI_ADMIN_PROFILE): "
+"they can be seen, not edited, here."
+msgstr ""
+"As configurações por função estão fixadas no código "
+"(DOUBLEYOUPI_ADMIN_PROFILE): aqui podem ser vistas, não editadas."
+
+#: src/Modules/Admin/Developer/Renderer.php:73
+msgid ""
+"The site’s menu is pinned in code (DOUBLEYOUPI_ADMIN_PROFILE): changes made "
+"here are not saved."
+msgstr ""
+"O menu do site está fixado no código (DOUBLEYOUPI_ADMIN_PROFILE): as "
+"alterações feitas aqui não são salvas."
+
+#: src/Modules/Admin/Developer/Renderer.php:86
 msgid "You are editing:"
 msgstr "Você está editando:"
 
-#: src/Modules/Admin/Developer/Renderer.php:77
+#: src/Modules/Admin/Developer/Renderer.php:88
 msgid "The site’s menu (administrators and roles without a configuration)"
 msgstr "O menu do site (administradores e funções sem configuração)"
 
-#: src/Modules/Admin/Developer/RestController.php:248
+#: src/Modules/Admin/Developer/RestController.php:256
 msgid "The overrides must be an object."
 msgstr "As substituições devem ser um objeto."
 
-#: src/Modules/Admin/Developer/RestController.php:282
+#: src/Modules/Admin/Developer/RestController.php:308
 msgid "Signatures must be an array."
 msgstr "As assinaturas devem ser um array."
 
@@ -2675,32 +2691,40 @@ msgstr "Pré-visualização: o painel como “%s” o vê. Suas permissões não
 msgid "Leave the preview"
 msgstr "Sair da pré-visualização"
 
-#: src/Modules/Admin/Profile.php:121
+#: src/Modules/Admin/Profile.php:146
 msgid "You are not allowed to export these settings."
 msgstr "Você não tem permissão para exportar estas configurações."
 
-#: src/Modules/Admin/Profile.php:141
+#: src/Modules/Admin/Profile.php:166
 msgid "You are not allowed to import these settings."
 msgstr "Você não tem permissão para importar estas configurações."
 
-#: src/Modules/Admin/Profile.php:444
+#: src/Modules/Admin/Profile.php:416 src/Modules/Admin/Settings.php:1018
+msgid ""
+"This is pinned in code (DOUBLEYOUPI_ADMIN_PROFILE): change it in the pinned "
+"profile, not here."
+msgstr ""
+"Isso está fixado no código (DOUBLEYOUPI_ADMIN_PROFILE): altere no perfil "
+"fixado, não aqui."
+
+#: src/Modules/Admin/Profile.php:566
 msgid "Accent color and logo"
 msgstr "Cor de destaque e logo"
 
-#: src/Modules/Admin/Profile.php:445 src/Modules/Admin/Settings.php:891
+#: src/Modules/Admin/Profile.php:567 src/Modules/Admin/Settings.php:891
 msgid "Per-user customization"
 msgstr "Personalização por usuário"
 
-#: src/Modules/Admin/Profile.php:446 src/Modules/Admin/Settings.php:900
+#: src/Modules/Admin/Profile.php:568 src/Modules/Admin/Settings.php:900
 #: src/Modules/MediaLibrary/Settings.php:386
 msgid "Hide Feedback and review requests"
 msgstr "Ocultar o botão de comentários e os pedidos de avaliação"
 
-#: src/Modules/Admin/Profile.php:447 src/Modules/Admin/Settings.php:909
+#: src/Modules/Admin/Profile.php:569 src/Modules/Admin/Settings.php:909
 msgid "Plugin notices for administrators only"
 msgstr "Avisos de plugins só para administradores"
 
-#: src/Modules/Admin/Profile.php:448
+#: src/Modules/Admin/Profile.php:570
 msgid ""
 "Navigation tree (reimagined or native), section pages on hover, and the "
 "Reorganize layout"
@@ -2708,23 +2732,23 @@ msgstr ""
 "Árvore de navegação (repensada ou nativa), páginas da seção ao passar o "
 "mouse e disposição de Reorganizar"
 
-#: src/Modules/Admin/Profile.php:449
+#: src/Modules/Admin/Profile.php:571
 msgid "Screens left in native styling"
 msgstr "Telas mantidas no estilo nativo"
 
-#: src/Modules/Admin/Profile.php:450
+#: src/Modules/Admin/Profile.php:572
 msgid "Toolkit toggles"
 msgstr "Opções da caixa de ferramentas"
 
-#: src/Modules/Admin/Profile.php:451
+#: src/Modules/Admin/Profile.php:573
 msgid "Shared dashboard dispositions and their roles"
 msgstr "Disposições compartilhadas do painel e suas funções"
 
-#: src/Modules/Admin/Profile.php:452 src/Modules/Admin/Settings.php:1020
+#: src/Modules/Admin/Profile.php:574 src/Modules/Admin/Settings.php:1022
 msgid "Configurations by role"
 msgstr "Configurações por função"
 
-#: src/Modules/Admin/Rail.php:613 src/Modules/Admin/Settings.php:1070
+#: src/Modules/Admin/Rail.php:613 src/Modules/Admin/Settings.php:1073
 msgid "Dashboard"
 msgstr "Painel"
 
@@ -3017,7 +3041,7 @@ msgid ""
 "The seven sections of the rail take the accent instead of their own color."
 msgstr "As sete seções do trilho usam a cor de destaque em vez da própria cor."
 
-#: src/Modules/Admin/Settings.php:811 src/Modules/Admin/Settings.php:1063
+#: src/Modules/Admin/Settings.php:811 src/Modules/Admin/Settings.php:1066
 msgid "Navigation"
 msgstr "Navegação"
 
@@ -3026,7 +3050,7 @@ msgstr "Navegação"
 msgid "Navigation tree"
 msgstr "Árvore de navegação"
 
-#: src/Modules/Admin/Settings.php:829 src/Modules/Admin/Settings.php:1065
+#: src/Modules/Admin/Settings.php:829 src/Modules/Admin/Settings.php:1068
 msgid "Reimagined"
 msgstr "Reimaginada"
 
@@ -3038,7 +3062,7 @@ msgstr "Recomendada"
 msgid "Seven sections, content first."
 msgstr "Sete seções, o conteúdo primeiro."
 
-#: src/Modules/Admin/Settings.php:837 src/Modules/Admin/Settings.php:1066
+#: src/Modules/Admin/Settings.php:837 src/Modules/Admin/Settings.php:1069
 msgid "Native WordPress"
 msgstr "WordPress nativo"
 
@@ -3178,24 +3202,28 @@ msgid "Pin the profile in code, on every site"
 msgstr "Fixar o perfil no código, em cada site"
 
 #: src/Modules/Admin/Settings.php:989
-msgid "Add to wp-config.php. The settings it covers lock on this page."
+msgid ""
+"Add to wp-config.php. Everything the file carries locks on this page, the "
+"configurations by role and the shared dashboard included; the configurations "
+"still shape their roles over the pinned menu."
 msgstr ""
-"Adicione ao wp-config.php. As configurações cobertas ficam bloqueadas nesta "
-"página."
+"Adicione ao wp-config.php. Tudo o que o arquivo contém fica bloqueado nesta "
+"página, incluindo as configurações por função e o painel compartilhado; as "
+"configurações continuam moldando suas funções sobre o menu fixado."
 
-#: src/Modules/Admin/Settings.php:1012
+#: src/Modules/Admin/Settings.php:1013
 msgid "Configuration created."
 msgstr "Configuração criada."
 
-#: src/Modules/Admin/Settings.php:1013
+#: src/Modules/Admin/Settings.php:1014
 msgid "Configuration saved."
 msgstr "Configuração salva."
 
-#: src/Modules/Admin/Settings.php:1014
+#: src/Modules/Admin/Settings.php:1015
 msgid "Configuration deleted."
 msgstr "Configuração excluída."
 
-#: src/Modules/Admin/Settings.php:1027
+#: src/Modules/Admin/Settings.php:1029
 msgid ""
 "A configuration sets the menu, the screens left in native styling, the "
 "navigation and the dashboard for one or more roles. The brand and the "
@@ -3209,35 +3237,35 @@ msgstr ""
 "configuração do site. Ocultar um item do menu não remove nenhuma permissão: "
 "as funções do WordPress continuam decidindo o que cada pessoa pode abrir."
 
-#: src/Modules/Admin/Settings.php:1043
+#: src/Modules/Admin/Settings.php:1046
 msgid "Roles"
 msgstr "Funções"
 
 #. translators: %s: name of the configuration that role has now.
-#: src/Modules/Admin/Settings.php:1054
+#: src/Modules/Admin/Settings.php:1057
 #, php-format
 msgid "(now: %s)"
 msgstr "(agora: %s)"
 
-#: src/Modules/Admin/Settings.php:1072
+#: src/Modules/Admin/Settings.php:1075
 msgid "Keep the roles’ current dashboard"
 msgstr "Manter o painel atual das funções"
 
-#: src/Modules/Admin/Settings.php:1080
+#: src/Modules/Admin/Settings.php:1084
 msgid "Edit its menu"
 msgstr "Editar o menu"
 
 #. translators: %s: role name.
-#: src/Modules/Admin/Settings.php:1085
+#: src/Modules/Admin/Settings.php:1090
 #, php-format
 msgid "View as %s"
 msgstr "Ver como %s"
 
-#: src/Modules/Admin/Settings.php:1104
+#: src/Modules/Admin/Settings.php:1111
 msgid "New configuration"
 msgstr "Nova configuração"
 
-#: src/Modules/Admin/Settings.php:1105
+#: src/Modules/Admin/Settings.php:1112
 msgid ""
 "Starts from the site’s current setup, or from a configuration you choose. "
 "Then give it roles and edit its menu."
@@ -3245,23 +3273,23 @@ msgstr ""
 "Parte da configuração atual do site ou de uma configuração que você "
 "escolher. Depois atribua funções e edite o menu."
 
-#: src/Modules/Admin/Settings.php:1110
+#: src/Modules/Admin/Settings.php:1117
 msgid "Name, e.g. Client editor"
 msgstr "Nome, ex.: Cliente editor"
 
-#: src/Modules/Admin/Settings.php:1111
+#: src/Modules/Admin/Settings.php:1118
 msgid "Start from"
 msgstr "Partir de"
 
-#: src/Modules/Admin/Settings.php:1112
+#: src/Modules/Admin/Settings.php:1119
 msgid "The site’s current setup"
 msgstr "A configuração atual do site"
 
-#: src/Modules/Admin/Settings.php:1123
+#: src/Modules/Admin/Settings.php:1131
 msgid "View as…"
 msgstr "Ver como…"
 
-#: src/Modules/Admin/Settings.php:1124
+#: src/Modules/Admin/Settings.php:1132
 msgid ""
 "See the admin as a role sees it: menu, screens, dashboard and notices. Your "
 "own rights do not change, and a banner lets you leave."
@@ -3269,35 +3297,35 @@ msgstr ""
 "Veja o painel como uma função o vê: menu, telas, painel e avisos. Suas "
 "próprias permissões não mudam, e um aviso permite sair."
 
-#: src/Modules/Admin/Settings.php:1129
+#: src/Modules/Admin/Settings.php:1137
 msgid "Role"
 msgstr "Função"
 
-#: src/Modules/Admin/Settings.php:1151
+#: src/Modules/Admin/Settings.php:1159
 msgid "Pinned in code"
 msgstr "Fixado no código"
 
 #. translators: %d = number of settings applied
-#: src/Modules/Admin/Settings.php:1229
+#: src/Modules/Admin/Settings.php:1237
 #, php-format
 msgid "Profile imported: %d setting applied."
 msgid_plural "Profile imported: %d settings applied."
 msgstr[0] "Perfil importado: %d configuração aplicada."
 msgstr[1] "Perfil importado: %d configurações aplicadas."
 
-#: src/Modules/Admin/Settings.php:1230
+#: src/Modules/Admin/Settings.php:1238
 msgid "No file received."
 msgstr "Nenhum arquivo recebido."
 
-#: src/Modules/Admin/Settings.php:1231
+#: src/Modules/Admin/Settings.php:1239
 msgid "This file is too large to be a profile."
 msgstr "Este arquivo é grande demais para ser um perfil."
 
-#: src/Modules/Admin/Settings.php:1232
+#: src/Modules/Admin/Settings.php:1240
 msgid "This file is not a Double Youpï admin profile."
 msgstr "Este arquivo não é um perfil de administração do Double Youpï."
 
-#: src/Modules/Admin/Settings.php:1233
+#: src/Modules/Admin/Settings.php:1241
 msgid "This profile was written by a newer version. Update the plugin first."
 msgstr ""
 "Este perfil foi gravado por uma versão mais recente. Atualize o plugin "

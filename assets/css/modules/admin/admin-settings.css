@@ -697,6 +697,15 @@ body.dy-admin .dy-accent-picker .wp-picker-container input[type=text].iris-error
   gap: 12px;
 }
 
+.dy-adset__config-fields {
+  display: contents;
+}
+
+.dy-adset__config-fields[disabled] :is(input, .dy-adset__config-roles label) {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .dy-adset__config-row {
   display: grid;
   grid-template-columns: 140px minmax(0, 1fr);

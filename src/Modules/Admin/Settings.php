@@ -880,7 +880,7 @@ class Settings extends AbstractModule {
 				</section>
 
 				<section class="dy-mlset__group" id="dy-team">
-					<?php self::group_head( __( 'Team', 'doubleyoupi-refined-admin-dashboard' ), $locked( UserCustomization::OPTION_PER_USER, Feedback::OPTION_HIDE ) ); ?>
+					<?php self::group_head( __( 'Team', 'doubleyoupi-refined-admin-dashboard' ), $locked( UserCustomization::OPTION_PER_USER, Feedback::OPTION_HIDE, Notices::OPTION_MANAGERS_ONLY ) ); ?>
 					<div class="dy-mlset__cards">
 						<?php
 						self::toggle_card( [
@@ -986,7 +986,7 @@ class Settings extends AbstractModule {
 						<details class="dy-adset__pin">
 							<summary><?php esc_html_e( 'Pin the profile in code, on every site', 'doubleyoupi-refined-admin-dashboard' ); ?></summary>
 							<code class="dy-adset__code">define( 'DOUBLEYOUPI_ADMIN_PROFILE', __DIR__ . '/doubleyoupi-admin-profile.json' );</code>
-							<p class="description"><?php esc_html_e( 'Add to wp-config.php. The settings it covers lock on this page.', 'doubleyoupi-refined-admin-dashboard' ); ?></p>
+							<p class="description"><?php esc_html_e( 'Add to wp-config.php. Everything the file carries locks on this page, the configurations by role and the shared dashboard included; the configurations still shape their roles over the pinned menu.', 'doubleyoupi-refined-admin-dashboard' ); ?></p>
 						</details>
 					</div>
 				</div>
@@ -1003,6 +1003,7 @@ class Settings extends AbstractModule {
 	 */
 	private function render_configurations(): void {
 		$items  = Configurations::all();
+		$pinned = Configurations::pinned();
 		$roles  = wp_roles()->get_names();
 		$nonce  = wp_create_nonce( 'doubleyoupi_configuration' );
 		$post   = admin_url( 'admin-post.php' );
@@ -1014,12 +1015,13 @@ class Settings extends AbstractModule {
 			'deleted'      => __( 'Configuration deleted.', 'doubleyoupi-refined-admin-dashboard' ),
 			'invalid_name' => __( 'A configuration needs a name.', 'doubleyoupi-refined-admin-dashboard' ),
 			'too_many'     => __( 'Maximum number of configurations reached.', 'doubleyoupi-refined-admin-dashboard' ),
+			'pinned'       => __( 'This is pinned in code (DOUBLEYOUPI_ADMIN_PROFILE): change it in the pinned profile, not here.', 'doubleyoupi-refined-admin-dashboard' ),
 		];
 		?>
 		<section class="dy-mlset__group" id="dy-configurations">
-			<?php self::group_head( __( 'Configurations by role', 'doubleyoupi-refined-admin-dashboard' ), false ); ?>
+			<?php self::group_head( __( 'Configurations by role', 'doubleyoupi-refined-admin-dashboard' ), $pinned ); ?>
 			<?php if ( isset( $notes[ $state ] ) ) : ?>
-				<div class="notice <?php echo esc_attr( in_array( $state, [ 'invalid_name', 'too_many' ], true ) ? 'notice-error' : 'notice-success' ); ?> inline"><p><?php echo esc_html( $notes[ $state ] ); ?></p></div>
+				<div class="notice <?php echo esc_attr( in_array( $state, [ 'invalid_name', 'too_many', 'pinned' ], true ) ? 'notice-error' : 'notice-success' ); ?> inline"><p><?php echo esc_html( $notes[ $state ] ); ?></p></div>
 			<?php endif; ?>
 			<div class="dy-mlset__cards">
 				<div class="dy-adset__cell dy-adset__cell--plain">
@@ -1035,6 +1037,7 @@ class Settings extends AbstractModule {
 							<input type="hidden" name="action" value="doubleyoupi_configuration_save">
 							<input type="hidden" name="slug" value="<?php echo esc_attr( $slug ); ?>">
 							<input type="hidden" name="_wpnonce" value="<?php echo esc_attr( $nonce ); ?>">
+							<fieldset class="dy-adset__config-fields"<?php disabled( $pinned ); ?>>
 							<p class="dy-adset__config-row">
 								<label class="dy-adset__config-label" for="dyc-name-<?php echo esc_attr( $slug ); ?>"><?php esc_html_e( 'Name', 'doubleyoupi-refined-admin-dashboard' ); ?></label>
 								<input type="text" class="regular-text" id="dyc-name-<?php echo esc_attr( $slug ); ?>" name="name" value="<?php echo esc_attr( $item['name'] ); ?>" required>
@@ -1077,7 +1080,9 @@ class Settings extends AbstractModule {
 							</p>
 							<p class="dy-adset__config-actions">
 								<?php submit_button( __( 'Save', 'doubleyoupi-refined-admin-dashboard' ), 'primary', 'submit', false ); ?>
+								<?php if ( ! $pinned ) : ?>
 								<a class="button" href="<?php echo esc_url( add_query_arg( [ 'page' => 'doubleyoupi-admin', 'tab' => 'reorganize', Configurations::EDIT_PARAM => $slug ], admin_url( 'admin.php' ) ) ); ?>"><?php esc_html_e( 'Edit its menu', 'doubleyoupi-refined-admin-dashboard' ); ?></a>
+								<?php endif; ?>
 								<?php foreach ( $assigned as $role ) : ?>
 									<a class="button" href="<?php echo esc_url( Preview::start_url( (string) $role ) ); ?>">
 										<?php
@@ -1086,8 +1091,9 @@ class Settings extends AbstractModule {
 										?>
 									</a>
 								<?php endforeach; ?>
-								<button type="submit" class="button button-link-delete" form="dyc-delete-<?php echo esc_attr( $slug ); ?>"><?php esc_html_e( 'Delete', 'doubleyoupi-refined-admin-dashboard' ); ?></button>
+								<button type="submit" class="button button-link-delete" form="dyc-delete-<?php echo esc_attr( $slug ); ?>"<?php disabled( $pinned ); ?>><?php esc_html_e( 'Delete', 'doubleyoupi-refined-admin-dashboard' ); ?></button>
 							</p>
+							</fieldset>
 						</form>
 						<form id="dyc-delete-<?php echo esc_attr( $slug ); ?>" method="post" action="<?php echo esc_url( $post ); ?>">
 							<input type="hidden" name="action" value="doubleyoupi_configuration_delete">
@@ -1098,6 +1104,7 @@ class Settings extends AbstractModule {
 				<?php endforeach; ?>
 
 				<div class="dy-adset__panes">
+					<?php if ( ! $pinned ) : // pinned in code: nothing to create here ?>
 					<form class="dy-adset__cell" method="post" action="<?php echo esc_url( $post ); ?>">
 						<span class="dy-mlset__icon" aria-hidden="true"><?php self::icon( 'team' ); ?></span>
 						<span class="dy-mlset__body">
@@ -1117,6 +1124,7 @@ class Settings extends AbstractModule {
 							<?php submit_button( __( 'Create', 'doubleyoupi-refined-admin-dashboard' ), 'secondary', 'submit', false ); ?>
 						</span>
 					</form>
+					<?php endif; ?>
 					<form class="dy-adset__cell" method="get" action="<?php echo esc_url( $post ); ?>">
 						<span class="dy-mlset__icon" aria-hidden="true"><?php self::icon( 'lines' ); ?></span>
 						<span class="dy-mlset__body">

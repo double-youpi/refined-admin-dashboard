@@ -549,6 +549,9 @@ body.dy-admin .dy-accent-picker .wp-picker-container input[type="text"].iris-err
 
 // ── Configurations by role (RAD 1.1.0) ──────────────────────
 .dy-adset__config-form { display: grid; gap: 12px; }
+// Wraps the fields so a configuration pinned in code disables them in one go.
+.dy-adset__config-fields { display: contents; }
+.dy-adset__config-fields[disabled] :is(input, .dy-adset__config-roles label) { opacity: .6; cursor: not-allowed; }
 .dy-adset__config-row {
 	display: grid;
 	grid-template-columns: 140px minmax(0, 1fr);

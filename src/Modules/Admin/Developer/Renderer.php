@@ -63,11 +63,22 @@ final class Renderer {
 	 * RAD 1.1.0). A plain GET form: choosing reloads the editor on that target.
 	 */
 	private static function render_target(): void {
-		$items = \DoubleYoupi\Modules\Admin\Configurations::all();
+		$current = (string) \DoubleYoupi\Modules\Admin\Configurations::editing();
+		// What is pinned in code (DOUBLEYOUPI_ADMIN_PROFILE) cannot be saved here:
+		// say so before the editor, which would otherwise refuse each save.
+		$pinned = \DoubleYoupi\Modules\Admin\Configurations::pinned()
+			? __( 'The configurations by role are pinned in code (DOUBLEYOUPI_ADMIN_PROFILE): they can be seen, not edited, here.', 'doubleyoupi-refined-admin-dashboard' )
+			: '';
+		if ( '' === $current && \DoubleYoupi\Modules\Admin\Profile::is_locked( \DoubleYoupi\Modules\Admin\NavigationOverrides::OPTION_KEY ) ) {
+			$pinned = trim( __( 'The site’s menu is pinned in code (DOUBLEYOUPI_ADMIN_PROFILE): changes made here are not saved.', 'doubleyoupi-refined-admin-dashboard' ) . ' ' . $pinned );
+		}
+		if ( '' !== $pinned ) {
+			printf( '<div class="notice notice-info inline"><p>%s</p></div>', esc_html( $pinned ) );
+		}
+		$items = \DoubleYoupi\Modules\Admin\Configurations::pinned() ? [] : \DoubleYoupi\Modules\Admin\Configurations::all();
 		if ( ! $items ) {
 			return;
 		}
-		$current = (string) \DoubleYoupi\Modules\Admin\Configurations::editing();
 		?>
 		<form class="dy-dev-target" method="get" action="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>">
 			<input type="hidden" name="page" value="doubleyoupi-admin" />

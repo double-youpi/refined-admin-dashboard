@@ -9,7 +9,7 @@ body.dy-admin .welcome-panel,
 body.dy-admin .wpcf7-welcome-panel {
   position: relative;
   background:
-    radial-gradient(1100px 320px at 90% -10%, rgba(91, 62, 254, .18), transparent 55%),
+    radial-gradient(1100px 320px at 90% -10%, rgba(var(--dya-accent-rgb), .18), transparent 55%),
     radial-gradient(700px 320px at -10% 110%, rgba(70, 96, 245, .15), transparent 60%),
     var(--dya-paper);
   border: 1px solid var(--dya-edge);
@@ -25,7 +25,7 @@ body.dy-admin.dy-theme-light #welcome-panel.welcome-panel,
 body.dy-admin.dy-theme-light .welcome-panel,
 body.dy-admin.dy-theme-light .wpcf7-welcome-panel {
   background:
-    radial-gradient(1100px 320px at 90% -10%, rgba(91, 62, 254, .12), transparent 55%),
+    radial-gradient(1100px 320px at 90% -10%, rgba(var(--dya-accent-rgb), .12), transparent 55%),
     radial-gradient(700px 320px at -10% 110%, rgba(180, 136, 72, .10), transparent 60%),
     #ffffff;
 }

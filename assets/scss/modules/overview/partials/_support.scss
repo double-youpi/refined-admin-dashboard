@@ -386,7 +386,9 @@
 		gap: 8px;
 		padding: 12px 22px;
 		border-radius: var(--dya-r-pill);
-		background: linear-gradient(180deg, #6f54ff 0%, var(--dya-accent) 55%, #4c2fe6 100%);
+		// Both ends derive from the accent: they were the default violet, which
+		// showed above and below a custom accent (12/11/2026).
+		background: linear-gradient(180deg, color-mix(in srgb, var(--dya-accent) 84%, #fff) 0%, var(--dya-accent) 55%, color-mix(in srgb, var(--dya-accent) 84%, #000) 100%);
 		color: #fff;
 		text-decoration: none;
 		white-space: nowrap;

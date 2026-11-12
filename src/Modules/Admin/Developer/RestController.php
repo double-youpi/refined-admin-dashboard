@@ -241,6 +241,14 @@ final class RestController {
 	// -------------------------------------------------------------------------
 
 	public static function save_overrides( \WP_REST_Request $request ) {
+		// A configuration being edited saves into itself (Configurations); the
+		// site's menu pinned in code would swallow the save.
+		if ( null === \DoubleYoupi\Modules\Admin\Configurations::editing() ) {
+			$pinned = \DoubleYoupi\Modules\Admin\Profile::locked_error( NavigationOverrides::OPTION_KEY );
+			if ( null !== $pinned ) {
+				return $pinned;
+			}
+		}
 		$payload = $request->get_param( 'overrides' );
 		if ( ! is_array( $payload ) ) {
 			return new \WP_Error(
@@ -263,8 +271,20 @@ final class RestController {
 		] );
 	}
 
-	public static function reset_overrides( \WP_REST_Request $request ): \WP_REST_Response {
+	public static function reset_overrides( \WP_REST_Request $request ) {
+		if ( null === \DoubleYoupi\Modules\Admin\Configurations::editing() ) {
+			$pinned = \DoubleYoupi\Modules\Admin\Profile::locked_error( NavigationOverrides::OPTION_KEY );
+			if ( null !== $pinned ) {
+				return $pinned;
+			}
+		}
 		unset( $request );
+		if ( \DoubleYoupi\Modules\Admin\Configurations::reset_edited( 'navigation' ) ) {
+			// A configuration is being edited: only its menu starts over. Before
+			// 12/11/2026 the reset deleted the site's own menu (delete_option
+			// skips the filter that routes saves to the configuration).
+			return rest_ensure_response( [ 'reset' => true, 'snapshot' => self::build_snapshot() ] );
+		}
 		NavigationOverrides::reset();
 		// Also reset detected to start from a blank slate.
 		NavigationDetector::reset();
@@ -275,6 +295,12 @@ final class RestController {
 	}
 
 	public static function save_disabled_screens( \WP_REST_Request $request ) {
+		if ( null === \DoubleYoupi\Modules\Admin\Configurations::editing() ) {
+			$pinned = \DoubleYoupi\Modules\Admin\Profile::locked_error( ScreenDisabler::OPTION_KEY );
+			if ( null !== $pinned ) {
+				return $pinned;
+			}
+		}
 		$payload = $request->get_param( 'signatures' );
 		if ( ! is_array( $payload ) ) {
 			return new \WP_Error(
@@ -290,9 +316,17 @@ final class RestController {
 		] );
 	}
 
-	public static function reset_disabled_screens( \WP_REST_Request $request ): \WP_REST_Response {
+	public static function reset_disabled_screens( \WP_REST_Request $request ) {
+		if ( null === \DoubleYoupi\Modules\Admin\Configurations::editing() ) {
+			$pinned = \DoubleYoupi\Modules\Admin\Profile::locked_error( ScreenDisabler::OPTION_KEY );
+			if ( null !== $pinned ) {
+				return $pinned;
+			}
+		}
 		unset( $request );
-		ScreenDisabler::reset();
+		if ( ! \DoubleYoupi\Modules\Admin\Configurations::reset_edited( 'disabled_screens' ) ) {
+			ScreenDisabler::reset();
+		}
 		return rest_ensure_response( [ 'reset' => true ] );
 	}
 }

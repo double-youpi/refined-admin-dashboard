@@ -284,6 +284,10 @@ final class RestController {
 	 * The layout is validated before storage.
 	 */
 	public static function save_disposition( \WP_REST_Request $request ) {
+		$pinned = \DoubleYoupi\Modules\Admin\Profile::locked_error( Dispositions::OPTION_KEY );
+		if ( null !== $pinned ) {
+			return $pinned;
+		}
 		$name    = (string) $request->get_param( 'name' );
 		$slug    = sanitize_key( (string) $request->get_param( 'slug' ) );
 		$payload = $request->get_param( 'layout' );
@@ -320,6 +324,10 @@ final class RestController {
 	 * Response: { assignments: {role=>slug}, roles_for_slug: [...] }
 	 */
 	public static function assign_disposition( \WP_REST_Request $request ) {
+		$pinned = \DoubleYoupi\Modules\Admin\Profile::locked_error( \DoubleYoupi\Modules\Admin\Dashboard\Layout\RoleAssignments::OPTION_KEY, \DoubleYoupi\Modules\Admin\Dashboard\Layout\RoleAssignments::ENFORCED_KEY );
+		if ( null !== $pinned ) {
+			return $pinned;
+		}
 		$slug  = sanitize_key( (string) $request->get_param( 'slug' ) );
 		$roles = (array) $request->get_param( 'roles' );
 
@@ -346,8 +354,12 @@ final class RestController {
 	/**
 	 * Deletes a saved custom disposition.
 	 */
-	public static function delete_disposition( \WP_REST_Request $request ): \WP_REST_Response {
-		$slug = sanitize_key( (string) $request->get_param( 'slug' ) );
+	public static function delete_disposition( \WP_REST_Request $request ) {
+		$slug   = sanitize_key( (string) $request->get_param( 'slug' ) );
+		$pinned = \DoubleYoupi\Modules\Admin\Profile::locked_error( Dispositions::is_builtin( $slug ) ? Dispositions::HIDDEN_KEY : Dispositions::OPTION_KEY, \DoubleYoupi\Modules\Admin\Dashboard\Layout\RoleAssignments::OPTION_KEY );
+		if ( null !== $pinned ) {
+			return $pinned;
+		}
 		// Built-in disposition → hide it (no code deletion);
 		// user disposition → real deletion. See Dispositions::hide_builtin.
 		$ok = Dispositions::is_builtin( $slug )

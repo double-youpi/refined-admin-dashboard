@@ -61,8 +61,33 @@ final class Profile {
 		],
 	];
 
+	/** Shared dashboard: option name => key in the profile's `dashboard` section. */
+	private const DASHBOARD_KEYS = [
+		Dispositions::OPTION_KEY    => 'dispositions',
+		Dispositions::HIDDEN_KEY    => 'hidden_builtins',
+		RoleAssignments::OPTION_KEY => 'role_assignments',
+		RoleAssignments::ENFORCED_KEY => 'role_enforced',
+	];
+
 	/** @var array<string,mixed>|null|false false = not resolved yet */
 	private static $code = false;
+
+	/** @var array<string,mixed>|null Late pins once computed (dashboard, configurations). */
+	private static ?array $late = null;
+
+	/** Late pins being computed: reads made meanwhile fall through to the database. */
+	private static bool $late_busy = false;
+
+	/** @var array<string,mixed>|null Option => pinned value, once read. */
+	private static ?array $locked = null;
+
+	/** Forgets the pinned profile read so far (tests, or a filter added late). */
+	public static function flush_pins(): void {
+		self::$code      = false;
+		self::$locked    = null;
+		self::$late      = null;
+		self::$late_busy = false;
+	}
 
 	public function boot(): void {
 		add_action( 'admin_post_' . self::ACTION_EXPORT, [ $this, 'handle_export' ] );
@@ -260,47 +285,9 @@ final class Profile {
 		// Shared dashboard (version 2): each layout goes through the validator,
 		// assignments only to roles that exist here.
 		$dash = is_array( $payload['dashboard'] ?? null ) ? $payload['dashboard'] : [];
-		if ( is_array( $dash['dispositions'] ?? null ) ) {
-			$out = [];
-			foreach ( array_slice( $dash['dispositions'], 0, Dispositions::MAX_CUSTOM ) as $entry ) {
-				$slug = sanitize_key( (string) ( $entry['slug'] ?? '' ) );
-				if ( $slug === '' || ! is_array( $entry['layout'] ?? null ) ) {
-					continue;
-				}
-				$layout = LayoutValidator::validate( $entry['layout'] );
-				if ( is_wp_error( $layout ) ) {
-					$ignored[] = 'dashboard.disposition.' . $slug;
-					continue;
-				}
-				$out[ $slug ] = [
-					'slug'   => $slug,
-					'name'   => sanitize_text_field( (string) ( $entry['name'] ?? $slug ) ),
-					'layout' => $layout,
-				];
-			}
-			update_option( Dispositions::OPTION_KEY, (string) wp_json_encode( $out ), false );
-			$applied[] = 'dashboard.dispositions';
-		}
-		if ( is_array( $dash['hidden_builtins'] ?? null ) ) {
-			update_option( Dispositions::HIDDEN_KEY, array_values( array_filter( array_map( 'sanitize_key', array_map( 'strval', $dash['hidden_builtins'] ) ) ) ), false );
-			$applied[] = 'dashboard.hidden_builtins';
-		}
-		if ( is_array( $dash['role_assignments'] ?? null ) ) {
-			$roles = array_keys( wp_roles()->get_names() );
-			$map   = [];
-			foreach ( $dash['role_assignments'] as $role => $slug ) {
-				$role = sanitize_key( (string) $role );
-				$slug = sanitize_key( (string) $slug );
-				if ( in_array( $role, $roles, true ) && $slug !== '' && Dispositions::layout_for_slug( $slug ) !== null ) {
-					$map[ $role ] = $slug;
-				}
-			}
-			update_option( RoleAssignments::OPTION_KEY, (string) wp_json_encode( $map ), false );
-			$applied[] = 'dashboard.role_assignments';
-		}
-		if ( is_array( $dash['role_enforced'] ?? null ) ) {
-			update_option( RoleAssignments::ENFORCED_KEY, array_values( array_filter( array_map( 'sanitize_key', array_map( 'strval', $dash['role_enforced'] ) ) ) ), false );
-			$applied[] = 'dashboard.role_enforced';
+		foreach ( self::clean_dashboard( $dash, $ignored ) as $option => $value ) {
+			update_option( $option, $value, false );
+			$applied[] = 'dashboard.' . self::DASHBOARD_KEYS[ $option ];
 		}
 
 		// Configurations by role (version 3), after the dispositions they use.
@@ -318,6 +305,62 @@ final class Profile {
 		do_action( 'doubleyoupi_admin_profile_imported', $payload, $applied );
 
 		return [ 'applied' => $applied, 'ignored' => $ignored ];
+	}
+
+	/**
+	 * The shared dashboard of a profile, as stored options (option => value):
+	 * each layout through the validator, assignments only to roles that exist
+	 * here and to dispositions the profile or the code knows. Used by the
+	 * import and by the pin.
+	 *
+	 * @param array<string,mixed> $dash    The profile's `dashboard` section.
+	 * @param string[]            $ignored Collects what was left out.
+	 * @return array<string,mixed>
+	 */
+	private static function clean_dashboard( array $dash, array &$ignored ): array {
+		$out   = [];
+		$known = [];
+		if ( is_array( $dash['dispositions'] ?? null ) ) {
+			$list = [];
+			foreach ( array_slice( $dash['dispositions'], 0, Dispositions::MAX_CUSTOM ) as $entry ) {
+				$slug = sanitize_key( (string) ( $entry['slug'] ?? '' ) );
+				if ( $slug === '' || ! is_array( $entry['layout'] ?? null ) ) {
+					continue;
+				}
+				$layout = LayoutValidator::validate( $entry['layout'] );
+				if ( is_wp_error( $layout ) ) {
+					$ignored[] = 'dashboard.disposition.' . $slug;
+					continue;
+				}
+				$list[ $slug ] = [
+					'slug'   => $slug,
+					'name'   => sanitize_text_field( (string) ( $entry['name'] ?? $slug ) ),
+					'layout' => $layout,
+				];
+			}
+			$known                              = array_keys( $list );
+			$out[ Dispositions::OPTION_KEY ] = (string) wp_json_encode( $list );
+		}
+		if ( is_array( $dash['hidden_builtins'] ?? null ) ) {
+			$out[ Dispositions::HIDDEN_KEY ] = array_values( array_filter( array_map( 'sanitize_key', array_map( 'strval', $dash['hidden_builtins'] ) ) ) );
+		}
+		if ( is_array( $dash['role_assignments'] ?? null ) ) {
+			$roles = array_keys( wp_roles()->get_names() );
+			$map   = [];
+			foreach ( $dash['role_assignments'] as $role => $slug ) {
+				$role = sanitize_key( (string) $role );
+				$slug = sanitize_key( (string) $slug );
+				$ok   = in_array( $slug, $known, true ) || Dispositions::is_builtin( $slug ) || ( ! isset( $out[ Dispositions::OPTION_KEY ] ) && Dispositions::layout_for_slug( $slug ) !== null );
+				if ( in_array( $role, $roles, true ) && $slug !== '' && $ok ) {
+					$map[ $role ] = $slug;
+				}
+			}
+			$out[ RoleAssignments::OPTION_KEY ] = (string) wp_json_encode( $map );
+		}
+		if ( is_array( $dash['role_enforced'] ?? null ) ) {
+			$out[ RoleAssignments::ENFORCED_KEY ] = array_values( array_filter( array_map( 'sanitize_key', array_map( 'strval', $dash['role_enforced'] ) ) ) );
+		}
+		return $out;
 	}
 
 	// -------------------------------------------------------------------------
@@ -356,7 +399,78 @@ final class Profile {
 
 	/** Is this option served by the pinned profile? */
 	public static function is_locked( string $option ): bool {
-		return array_key_exists( $option, self::locked_values() );
+		return array_key_exists( $option, self::locked_values() ) || in_array( $option, self::late_options(), true );
+	}
+
+	/**
+	 * Refusal for a change to something pinned in code, or null when none of
+	 * these options is pinned. For the screens that save outside the settings
+	 * form (REST, admin-post): a pinned value is served over the database, so
+	 * a save would be lost without a word.
+	 */
+	public static function locked_error( string ...$options ): ?\WP_Error {
+		foreach ( $options as $option ) {
+			if ( self::is_locked( $option ) ) {
+				return new \WP_Error(
+					'doubleyoupi_pinned',
+					__( 'This is pinned in code (DOUBLEYOUPI_ADMIN_PROFILE): change it in the pinned profile, not here.', 'doubleyoupi-refined-admin-dashboard' ),
+					[ 'status' => 403 ]
+				);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Options pinned late (shared dashboard, configurations by role): their
+	 * values need roles, widgets and dispositions, so they are computed on
+	 * first read after `init`. Known from the profile's keys alone.
+	 *
+	 * @return string[]
+	 */
+	public static function late_options(): array {
+		$p = self::from_code();
+		if ( null === $p ) {
+			return [];
+		}
+		$out  = [];
+		$dash = is_array( $p['dashboard'] ?? null ) ? $p['dashboard'] : [];
+		foreach ( self::DASHBOARD_KEYS as $option => $key ) {
+			if ( is_array( $dash[ $key ] ?? null ) ) {
+				$out[] = $option;
+			}
+		}
+		if ( is_array( $p['configurations'] ?? null ) ) {
+			$out[] = Configurations::OPTION_ITEMS;
+			$out[] = Configurations::OPTION_ROLES;
+		}
+		return $out;
+	}
+
+	/**
+	 * Value of a late pin, or false (not ready: before `init`, or while being
+	 * computed), in which case WordPress reads the database.
+	 *
+	 * @return mixed
+	 */
+	private static function late_value( string $option ) {
+		if ( null === self::$late ) {
+			if ( self::$late_busy || ! did_action( 'init' ) ) {
+				return false;
+			}
+			self::$late_busy = true;
+			$p               = (array) self::from_code();
+			$ignored         = [];
+			$late            = self::clean_dashboard( is_array( $p['dashboard'] ?? null ) ? $p['dashboard'] : [], $ignored );
+			if ( is_array( $p['configurations'] ?? null ) ) {
+				$clean                                  = Configurations::clean( $p['configurations'] );
+				$late[ Configurations::OPTION_ITEMS ] = $clean['items'];
+				$late[ Configurations::OPTION_ROLES ] = $clean['roles'];
+			}
+			self::$late      = $late;
+			self::$late_busy = false;
+		}
+		return self::$late[ $option ] ?? false;
 	}
 
 	/**
@@ -365,14 +479,13 @@ final class Profile {
 	 * @return array<string,mixed>
 	 */
 	public static function locked_values(): array {
-		static $cache = null;
-		if ( null !== $cache ) {
-			return $cache;
+		if ( null !== self::$locked ) {
+			return self::$locked;
 		}
 		$cache = [];
 		$p     = self::from_code();
 		if ( null === $p ) {
-			return $cache;
+			return self::$locked = $cache;
 		}
 		$s = is_array( $p['settings'] ?? null ) ? $p['settings'] : [];
 		if ( array_key_exists( 'accent', $s ) ) {
@@ -399,6 +512,9 @@ final class Profile {
 		if ( array_key_exists( 'hide_feedback', $s ) ) {
 			$cache[ Feedback::OPTION_HIDE ] = ! empty( $s['hide_feedback'] ) ? '1' : '0';
 		}
+		if ( array_key_exists( 'notices_managers_only', $s ) ) {
+			$cache[ Notices::OPTION_MANAGERS_ONLY ] = ! empty( $s['notices_managers_only'] ) ? '1' : '0';
+		}
 		$nav = is_array( $p['navigation'] ?? null ) ? $p['navigation'] : [];
 		if ( is_array( $nav['overrides'] ?? null ) ) {
 			$cache[ NavigationOverrides::OPTION_KEY ] = wp_json_encode( NavigationOverrides::sanitize( $nav['overrides'] ) );
@@ -414,13 +530,19 @@ final class Profile {
 				$cache[ 'doubleyoupi_toolkit_' . $id ] = ! empty( $on ) ? '1' : '0';
 			}
 		}
+		self::$locked = $cache;
 		return $cache;
 	}
 
 	/** `pre_option_*` for each pinned key: the whole plugin reads the pin. */
 	private function register_locks(): void {
+		// A value already served before us wins: a configuration by role
+		// (Configurations, priority 1) shapes its roles over the pinned site setup.
 		foreach ( self::locked_values() as $option => $value ) {
-			add_filter( 'pre_option_' . $option, static fn() => $value, 5 );
+			add_filter( 'pre_option_' . $option, static fn( $pre ) => false !== $pre ? $pre : $value, 5 );
+		}
+		foreach ( self::late_options() as $option ) {
+			add_filter( 'pre_option_' . $option, static fn( $pre ) => false !== $pre ? $pre : self::late_value( $option ), 5 );
 		}
 	}
 

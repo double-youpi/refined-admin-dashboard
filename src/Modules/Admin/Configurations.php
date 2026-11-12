@@ -56,9 +56,18 @@ final class Configurations {
 	/** @var string|false|null Resolved slug for the current user (false = none). */
 	private static $active = null;
 
+	/** Hooked once: a second capture_edit would store the old value back. */
+	private static bool $booted = false;
+
 	public function boot(): void {
+		if ( self::$booted ) {
+			return;
+		}
+		self::$booted = true;
 		foreach ( self::SERVED as $key => $option ) {
-			add_filter( 'pre_option_' . $option, static fn( $pre ) => self::serve( $pre, $key ), 20 );
+			// Priority 1, before a profile pinned in code (5): the pin is the site's
+			// setup, a configuration shapes its own roles over it.
+			add_filter( 'pre_option_' . $option, static fn( $pre ) => self::serve( $pre, $key ), 1 );
 		}
 		// While Reorganize edits a configuration, its saves go to it.
 		foreach ( [ 'navigation', 'disabled_screens' ] as $key ) {
@@ -225,10 +234,24 @@ final class Configurations {
 	 * @param array<string,mixed> $data
 	 */
 	public static function import( array $data ): void {
+		$clean = self::clean( $data );
+		self::persist( $clean['items'] );
+		update_option( self::OPTION_ROLES, $clean['roles'], false );
+	}
+
+	/**
+	 * The configurations of a profile as stored options, each value through
+	 * the sanitizers of the options it stands for. Used by the import and by
+	 * a profile pinned in code (Profile::late_value).
+	 *
+	 * @param array<string,mixed> $data
+	 * @return array{items: array<string, array<string,mixed>>, roles: array<string,string>}
+	 */
+	public static function clean( array $data ): array {
 		$all = [];
 		foreach ( array_slice( is_array( $data['items'] ?? null ) ? $data['items'] : [], 0, self::MAX ) as $item ) {
-			$slug = sanitize_key( (string) ( $item['slug'] ?? '' ) );
-			if ( '' === $slug || ! is_array( $item ) ) {
+			$slug = is_array( $item ) ? sanitize_key( (string) ( $item['slug'] ?? '' ) ) : '';
+			if ( '' === $slug ) {
 				continue;
 			}
 			$item['navigation']       = NavigationOverrides::sanitize( is_array( $item['navigation'] ?? null ) ? $item['navigation'] : [] );
@@ -240,7 +263,6 @@ final class Configurations {
 			$item['disposition'] = ( '' !== $disposition && null !== Dispositions::layout_for_slug( $disposition ) ) ? $disposition : '';
 			$all[ $slug ]        = self::normalize( $slug, $item );
 		}
-		self::persist( $all );
 		$valid = array_keys( wp_roles()->get_names() );
 		$roles = [];
 		foreach ( is_array( $data['roles'] ?? null ) ? $data['roles'] : [] as $role => $slug ) {
@@ -250,7 +272,7 @@ final class Configurations {
 				$roles[ $role ] = $slug;
 			}
 		}
-		update_option( self::OPTION_ROLES, $roles, false );
+		return [ 'items' => $all, 'roles' => $roles ];
 	}
 
 	// -------------------------------------------------------------------------
@@ -308,8 +330,8 @@ final class Configurations {
 	 */
 	private static function sync_dashboard( string $slug ): void {
 		$item = self::get( $slug );
-		if ( null === $item || '' === $item['disposition'] ) {
-			return;
+		if ( null === $item || '' === $item['disposition'] || Profile::is_locked( RoleAssignments::OPTION_KEY ) ) {
+			return; // no disposition, or the assignments are pinned in code
 		}
 		$map = RoleAssignments::all();
 		foreach ( self::roles_for( $slug ) as $role ) {
@@ -403,7 +425,7 @@ final class Configurations {
 	/** Reads the configuration being edited from the request (managers only). */
 	public static function detect_editing(): void {
 		$slug = isset( $_GET[ self::EDIT_PARAM ] ) ? sanitize_key( wp_unslash( (string) $_GET[ self::EDIT_PARAM ] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- selects which configuration Reorganize shows; writes are nonce- and capability-checked by their own handlers.
-		if ( '' === $slug || ! current_user_can( Access::CAP ) || null === self::get( $slug ) ) {
+		if ( '' === $slug || ! current_user_can( Access::CAP ) || null === self::get( $slug ) || self::pinned() ) {
 			return;
 		}
 		self::$editing = $slug;
@@ -415,6 +437,28 @@ final class Configurations {
 	public static function flush(): void {
 		self::$active = null;
 		NavigationOverrides::flush_cache();
+	}
+
+	/**
+	 * Reorganize's reset while a configuration is edited: empties that part of
+	 * the configuration. False when no configuration is edited.
+	 */
+	public static function reset_edited( string $key ): bool {
+		if ( null === self::$editing || ! in_array( $key, [ 'navigation', 'disabled_screens' ], true ) ) {
+			return false;
+		}
+		$all = self::all();
+		if ( isset( $all[ self::$editing ] ) ) {
+			$all[ self::$editing ][ $key ] = [];
+			self::persist( $all );
+			NavigationOverrides::flush_cache();
+		}
+		return true;
+	}
+
+	/** Are the configurations pinned in code (DOUBLEYOUPI_ADMIN_PROFILE)? */
+	public static function pinned(): bool {
+		return Profile::is_locked( self::OPTION_ITEMS );
 	}
 
 	public static function editing(): ?string {
@@ -430,6 +474,10 @@ final class Configurations {
 			wp_die( esc_html__( 'You are not allowed to change these settings.', 'doubleyoupi-refined-admin-dashboard' ), 403 );
 		}
 		check_admin_referer( 'doubleyoupi_configuration' );
+		if ( self::pinned() ) {
+			wp_safe_redirect( add_query_arg( 'doubleyoupi_config', 'pinned', admin_url( 'admin.php?page=doubleyoupi-admin#dy-configurations' ) ) );
+			exit;
+		}
 		$back = admin_url( 'admin.php?page=doubleyoupi-admin#dy-configurations' );
 		$slug = isset( $_POST['slug'] ) ? sanitize_key( wp_unslash( (string) $_POST['slug'] ) ) : '';
 		$name = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( (string) $_POST['name'] ) ) : '';
@@ -458,6 +506,10 @@ final class Configurations {
 			wp_die( esc_html__( 'You are not allowed to change these settings.', 'doubleyoupi-refined-admin-dashboard' ), 403 );
 		}
 		check_admin_referer( 'doubleyoupi_configuration' );
+		if ( self::pinned() ) {
+			wp_safe_redirect( add_query_arg( 'doubleyoupi_config', 'pinned', admin_url( 'admin.php?page=doubleyoupi-admin#dy-configurations' ) ) );
+			exit;
+		}
 		$slug = isset( $_POST['slug'] ) ? sanitize_key( wp_unslash( (string) $_POST['slug'] ) ) : '';
 		self::delete( $slug );
 		wp_safe_redirect( add_query_arg( 'doubleyoupi_config', 'deleted', admin_url( 'admin.php?page=doubleyoupi-admin#dy-configurations' ) ) );

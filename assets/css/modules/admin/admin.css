@@ -3307,7 +3307,7 @@ body.dy-admin #welcome-panel.welcome-panel,
 body.dy-admin .welcome-panel,
 body.dy-admin .wpcf7-welcome-panel {
   position: relative;
-  background: radial-gradient(1100px 320px at 90% -10%, rgba(91, 62, 254, 0.18), transparent 55%), radial-gradient(700px 320px at -10% 110%, rgba(70, 96, 245, 0.15), transparent 60%), var(--dya-paper);
+  background: radial-gradient(1100px 320px at 90% -10%, rgba(var(--dya-accent-rgb), 0.18), transparent 55%), radial-gradient(700px 320px at -10% 110%, rgba(70, 96, 245, 0.15), transparent 60%), var(--dya-paper);
   border: 1px solid var(--dya-edge);
   border-radius: var(--dya-r-xl);
   padding: 28px 28px 24px;
@@ -3320,7 +3320,7 @@ body.dy-admin .wpcf7-welcome-panel {
 body.dy-admin.dy-theme-light #welcome-panel.welcome-panel,
 body.dy-admin.dy-theme-light .welcome-panel,
 body.dy-admin.dy-theme-light .wpcf7-welcome-panel {
-  background: radial-gradient(1100px 320px at 90% -10%, rgba(91, 62, 254, 0.12), transparent 55%), radial-gradient(700px 320px at -10% 110%, rgba(180, 136, 72, 0.1), transparent 60%), #ffffff;
+  background: radial-gradient(1100px 320px at 90% -10%, rgba(var(--dya-accent-rgb), 0.12), transparent 55%), radial-gradient(700px 320px at -10% 110%, rgba(180, 136, 72, 0.1), transparent 60%), #ffffff;
 }
 
 body.dy-admin #welcome-panel::before {

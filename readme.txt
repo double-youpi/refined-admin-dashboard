@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, dark theme
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -188,6 +188,13 @@ Privacy policy: https://doubleyoupi.com/privacy
 15. Coming from FileBird or another folder plugin? Preview its folders, then import them in one click. The source plugin is never modified.
 
 == Changelog ==
+
+= 1.1.2 =
+* New: a settings profile pinned in code (DOUBLEYOUPI_ADMIN_PROFILE) can carry the configurations by role, the shared dashboard (layouts, role assignments, impositions) and "Plugin notices for administrators only". They show locked in the settings.
+* Fix: with a profile pinned in code, the configurations by role shape their roles again: the pinned menu is the site's setup, and each configuration applies over it. Before, the pinned menu applied to everyone.
+* Fix: what is pinned in code can no longer be changed from Reorganize or the dashboard, where the change was lost without a word; the screen says it is pinned.
+* Fix: in Reorganize, "Reset" while editing a configuration resets that configuration only, no longer the site's menu.
+* Fix: with a custom accent colour, the "Report or suggest" button of the Overview and the glow of WordPress' welcome panel no longer keep traces of the default violet.
 
 = 1.1.1 =
 * Change: screens use the full width of the window, as WordPress itself now draws them (post lists, the editor, settings…), instead of a centred column. The bars above them follow.
@@ -465,6 +472,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.1.2 =
+A profile pinned in code carries the configurations by role and the shared dashboard.
 
 = 1.1.1 =
 Full-width screens, text fields at their intended width, plugin icons in the native tree, tall logos.
