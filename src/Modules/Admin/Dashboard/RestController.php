@@ -106,8 +106,11 @@ final class RestController {
 				'callback'            => [ self::class, 'assign_disposition' ],
 				'permission_callback' => [ self::class, 'can_manage' ],
 				'args'                => [
-					'slug'  => [ 'required' => true, 'type' => 'string' ],
-					'roles' => [ 'type' => 'array', 'default' => [] ],
+					'slug'    => [ 'required' => true, 'type' => 'string' ],
+					'roles'   => [ 'type' => 'array', 'default' => [] ],
+					// Impose on these roles; clear their customized dashboards.
+					'enforce' => [ 'type' => 'boolean', 'default' => false ],
+					'reset'   => [ 'type' => 'boolean', 'default' => false ],
 				],
 			]
 		);
@@ -173,8 +176,8 @@ final class RestController {
 	 */
 	public static function can_customize( \WP_REST_Request $request ): bool {
 		unset( $request );
-		return current_user_can( 'doubleyoupi_customize_dashboard' )
-			|| current_user_can( 'manage_options' );
+		// Refused too when a disposition is imposed on the user's role.
+		return \DoubleYoupi\Modules\Admin\Dashboard\Layout\RoleAssignments::current_user_can_customize();
 	}
 
 	/**
@@ -324,11 +327,18 @@ final class RestController {
 			return new \WP_Error( 'unknown_disposition', __( 'Unknown disposition.', 'doubleyoupi-refined-admin-dashboard' ), [ 'status' => 400 ] );
 		}
 
-		$map = \DoubleYoupi\Modules\Admin\Dashboard\Layout\RoleAssignments::assign( $slug, $roles );
+		$map   = \DoubleYoupi\Modules\Admin\Dashboard\Layout\RoleAssignments::assign( $slug, $roles );
+		$roles = \DoubleYoupi\Modules\Admin\Dashboard\Layout\RoleAssignments::roles_for( $slug );
+		\DoubleYoupi\Modules\Admin\Dashboard\Layout\RoleAssignments::set_enforced( $slug, $roles, (bool) $request->get_param( 'enforce' ) );
+		$cleared = $request->get_param( 'reset' )
+			? \DoubleYoupi\Modules\Admin\Dashboard\Layout\RoleAssignments::reset_personal( $roles )
+			: 0;
 
 		return rest_ensure_response( [
 			'assigned'       => true,
 			'assignments'    => $map,
+			'enforced'       => \DoubleYoupi\Modules\Admin\Dashboard\Layout\RoleAssignments::enforced_roles(),
+			'cleared'        => $cleared,
 			'roles_for_slug' => \DoubleYoupi\Modules\Admin\Dashboard\Layout\RoleAssignments::roles_for( $slug ),
 		] );
 	}

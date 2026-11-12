@@ -119,6 +119,8 @@ final class Snapshot {
 			// Heuristic defaults per role (role => slug) — displayed as the hint
 			// "(default: X)" in the assignment modal.
 			'role_defaults'    => RoleAssignments::defaults_map(),
+			// Roles whose disposition is imposed (« Impose on these roles »).
+			'role_enforced'    => RoleAssignments::enforced_roles(),
 		];
 	}
 

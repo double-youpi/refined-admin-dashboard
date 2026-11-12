@@ -21,6 +21,14 @@ final class RoleAssignments {
 	public const OPTION_KEY = 'doubleyoupi_dashboard_role_assignments';
 
 	/**
+	 * Roles whose assigned disposition is IMPOSED: it wins over the dashboards
+	 * people of that role customized, and they cannot change it (11/11/2026).
+	 * Only for an explicit assignment; the accounts that manage RAD
+	 * (`doubleyoupi_manage`) are never held by it.
+	 */
+	public const ENFORCED_KEY = 'doubleyoupi_dashboard_role_enforced';
+
+	/**
 	 * Full map of role_slug => disposition_slug (empty entries cleaned out).
 	 *
 	 * @return array<string, string>
@@ -95,6 +103,128 @@ final class RoleAssignments {
 	public static function effective_for_role( string $role_slug ): ?string {
 		$explicit = self::for_role( $role_slug );
 		return $explicit !== null ? $explicit : self::default_for_role( $role_slug );
+	}
+
+	/**
+	 * Disposition of a user's roles: an EXPLICIT assignment on any of the roles
+	 * wins over a heuristic default. Before 11/11/2026 the first role's default
+	 * won over an explicit assignment on the second role.
+	 *
+	 * @param string[] $roles
+	 */
+	public static function for_roles( array $roles ): ?string {
+		foreach ( $roles as $role ) {
+			$explicit = self::for_role( (string) $role );
+			if ( $explicit !== null && Dispositions::layout_for_slug( $explicit ) !== null ) {
+				return $explicit;
+			}
+		}
+		foreach ( $roles as $role ) {
+			$default = self::default_for_role( (string) $role );
+			if ( $default !== null && Dispositions::layout_for_slug( $default ) !== null ) {
+				return $default;
+			}
+		}
+		return null;
+	}
+
+	/** @return string[] Roles whose assignment is imposed. */
+	public static function enforced_roles(): array {
+		$raw = get_option( self::ENFORCED_KEY, [] );
+		$raw = is_array( $raw ) ? $raw : [];
+		$map = self::all();
+		// Imposition only stands on an explicit assignment.
+		return array_values( array_filter(
+			array_unique( array_map( static fn( $r ) => sanitize_key( (string) $r ), $raw ) ),
+			static fn( $r ) => $r !== '' && isset( $map[ $r ] )
+		) );
+	}
+
+	/**
+	 * The imposed disposition for a user, or null: the first of their roles
+	 * with an imposed assignment. Never for the accounts that manage RAD.
+	 */
+	public static function enforced_for_user( int $user_id ): ?string {
+		if ( ! $user_id || user_can( $user_id, \DoubleYoupi\Admin\Access::CAP ) ) {
+			return null;
+		}
+		$user = get_userdata( $user_id );
+		if ( ! $user ) {
+			return null;
+		}
+		$enforced = self::enforced_roles();
+		foreach ( (array) $user->roles as $role ) {
+			if ( in_array( $role, $enforced, true ) ) {
+				$slug = self::for_role( (string) $role );
+				if ( $slug !== null && Dispositions::layout_for_slug( $slug ) !== null ) {
+					return $slug;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Whether the current user may customize their dashboard: the capability,
+	 * and no disposition imposed on their role.
+	 */
+	public static function current_user_can_customize(): bool {
+		$can = current_user_can( 'doubleyoupi_customize_dashboard' ) || current_user_can( 'manage_options' );
+		return $can && self::enforced_for_user( get_current_user_id() ) === null;
+	}
+
+	/**
+	 * Sets or clears the imposition for the roles of one disposition.
+	 *
+	 * @param string[] $roles Roles now assigned to $disposition_slug.
+	 */
+	public static function set_enforced( string $disposition_slug, array $roles, bool $enforce ): void {
+		$disposition_slug = sanitize_key( $disposition_slug );
+		$map      = self::all();
+		$enforced = self::enforced_roles();
+		// Drop this disposition's roles, then add back the selected ones if asked.
+		$enforced = array_values( array_filter(
+			$enforced,
+			static fn( $r ) => ( $map[ $r ] ?? null ) !== $disposition_slug
+		) );
+		if ( $enforce ) {
+			foreach ( $roles as $role ) {
+				$role = sanitize_key( (string) $role );
+				if ( ( $map[ $role ] ?? null ) === $disposition_slug ) {
+					$enforced[] = $role;
+				}
+			}
+		}
+		update_option( self::ENFORCED_KEY, array_values( array_unique( $enforced ) ), false );
+	}
+
+	/**
+	 * Clears the dashboards customized by users of these roles: they get the
+	 * role's disposition again. Accounts that manage RAD are left alone.
+	 *
+	 * @param string[] $roles
+	 * @return int Number of dashboards cleared.
+	 */
+	public static function reset_personal( array $roles ): int {
+		$roles = array_values( array_filter( array_map( static fn( $r ) => sanitize_key( (string) $r ), $roles ) ) );
+		if ( ! $roles ) {
+			return 0;
+		}
+		$ids = get_users( [
+			'role__in' => $roles,
+			'fields'   => 'ID',
+			'meta_key' => LayoutStorage::USER_META_KEY, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- one-off admin action.
+		] );
+		$n = 0;
+		foreach ( $ids as $id ) {
+			if ( user_can( (int) $id, \DoubleYoupi\Admin\Access::CAP ) ) {
+				continue;
+			}
+			if ( LayoutStorage::delete_for_user( (int) $id ) ) {
+				++$n;
+			}
+		}
+		return $n;
 	}
 
 	/**

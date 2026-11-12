@@ -138,6 +138,16 @@
     // Decide the toast BEFORE moving (read the page context).
     var actionTone = actionResultTone(el);
 
+    // « Plugin notices for administrators only » (Notices.php): an account
+    // that does not manage the site keeps errors and the result of its own
+    // actions; promotions, licence reminders and review requests are hidden.
+    if (CFG.managersOnly && !actionTone && noticeTone(el) !== 'error') {
+      el.dataset.dyCaptured = 'filtered';
+      el.hidden = true;
+      el.style.setProperty('display', 'none', 'important');
+      return false;
+    }
+
     el.dataset.dyCaptured = '1';
     // Anti-relocation guard for WP core + "revealed" state inside the modal
     // (the _notices.scss CSS collapses notices by default).

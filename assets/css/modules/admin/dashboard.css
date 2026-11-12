@@ -2673,6 +2673,37 @@ body.dy-admin.index-php .dy-dashboard__role-default {
   opacity: 0.85;
   white-space: nowrap;
 }
+body.dy-admin.index-php .dy-dashboard__role-options {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 8px 20px 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--dya-line);
+}
+body.dy-admin.index-php .dy-dashboard__role-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 0;
+  cursor: pointer;
+}
+body.dy-admin.index-php .dy-dashboard__role-option > input {
+  margin-top: 2px;
+  flex: 0 0 auto;
+}
+body.dy-admin.index-php .dy-dashboard__role-option-name {
+  display: block;
+  color: var(--dya-ink);
+  font-size: var(--dya-fs-sm);
+}
+body.dy-admin.index-php .dy-dashboard__role-option-hint {
+  display: block;
+  margin-top: 2px;
+  color: var(--dya-ink-mute);
+  font-size: 12px;
+  line-height: 1.45;
+}
 body.dy-admin.index-php .dy-dashboard__modal-foot {
   display: flex;
   justify-content: flex-end;

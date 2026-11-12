@@ -36,6 +36,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class Notices {
 
 	/**
+	 * Plugin notices for the people who manage the site only (11/11/2026):
+	 * the others no longer see plugins' promotions, licence reminders and
+	 * review requests. Errors and the result of their own actions stay.
+	 * « Manage » = the Double Youpï capability (every administrator, or only
+	 * the owner when the settings are kept to one account).
+	 */
+	public const OPTION_MANAGERS_ONLY = 'doubleyoupi_admin_notices_managers_only';
+
+	/** Whether the current user only sees errors and action results. */
+	public static function filtered_for_current_user(): bool {
+		return (bool) get_option( self::OPTION_MANAGERS_ONLY, false )
+			&& ! current_user_can( \DoubleYoupi\Admin\Access::CAP );
+	}
+
+	/**
 	 * Screens where the notices centre must be suppressed entirely:
 	 *   - builders with externally managed UI (Elementor…) that handle their own admin;
 	 *   - the enhanced Dashboard, which relocates notices itself into its
@@ -160,7 +175,8 @@ final class Notices {
 			$handle,
 			'doubleyoupiNotices',
 			[
-				'i18n' => [
+				'managersOnly' => self::filtered_for_current_user(),
+				'i18n'         => [
 					'title'      => __( 'Notifications', 'doubleyoupi-refined-admin-dashboard' ),
 					/* translators: %d is the number of notifications. */
 					'countLabel' => __( '%d notifications', 'doubleyoupi-refined-admin-dashboard' ),

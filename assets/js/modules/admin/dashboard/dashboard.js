@@ -205,7 +205,13 @@
 				if (a.hidden || getComputedStyle(a).display === 'none') return;
 			}
 			node.dataset.dyNoticeHandled = '1';
-			if (this._isPromo(node)) {
+			// « Plugin notices for administrators only »: an account that does
+			// not manage the site keeps errors only here (no action results on
+			// the dashboard). Notices.php.
+			const managersOnly = !!(state.snapshot && state.snapshot.notices_managers_only)
+				|| !!(window.doubleyoupiDashboardData && window.doubleyoupiDashboardData.notices_managers_only);
+			const isError = node.classList.contains('notice-error') || node.classList.contains('error');
+			if (this._isPromo(node) || (managersOnly && !isError)) {
 				node.classList.add('dy-dashboard__notice-suppressed');
 				return;
 			}
@@ -562,12 +568,13 @@
 			if (!res.ok) throw new Error((json && json.message) || 'Save failed');
 			return json;
 		},
-		async assignDisposition(slug, roles) {
+		async assignDisposition(slug, roles, opts) {
+			opts = opts || {};
 			const res = await fetch(state.snapshot.rest_url + '/disposition/assign', {
 				method: 'POST',
 				credentials: 'same-origin',
 				headers: this._headers(),
-				body: JSON.stringify({ slug: slug, roles: roles })
+				body: JSON.stringify({ slug: slug, roles: roles, enforce: !!opts.enforce, reset: !!opts.reset })
 			});
 			const json = await res.json();
 			if (!res.ok) throw new Error((json && json.message) || 'Assign failed');
@@ -2300,6 +2307,9 @@
 			const roles = state.snapshot.roles || {};
 			const assignments = state.snapshot.role_assignments || {};
 			const defaults = state.snapshot.role_defaults || {};
+			const enforcedRoles = state.snapshot.role_enforced || [];
+			// Imposed if one of the roles already on this disposition is imposed.
+			const isEnforced = Object.keys(assignments).some(r => assignments[r] === slug && enforcedRoles.indexOf(r) !== -1);
 			const esc = Util.escapeHtml;
 			const nameOf = (s) => { const d = (state.snapshot.dispositions || []).find(x => x.slug === s); return d ? d.name : s; };
 
@@ -2332,6 +2342,20 @@
 					'</header>' +
 					'<p class="dy-dashboard__modal-sub">' + esc(t('assign_roles_hint')) + '</p>' +
 					'<div class="dy-dashboard__role-list">' + rolesHtml + '</div>' +
+					// Impose on the selected roles, and clear what they customized
+					// (11/11/2026). Administrators who manage RAD are never held.
+					'<div class="dy-dashboard__role-options">' +
+						'<label class="dy-dashboard__role-option">' +
+							'<input type="checkbox" class="dy-dashboard__field-toggle" data-role-enforce' + (isEnforced ? ' checked' : '') + '>' +
+							'<span><span class="dy-dashboard__role-option-name">' + esc(t('role_enforce')) + '</span>' +
+							'<span class="dy-dashboard__role-option-hint">' + esc(t('role_enforce_hint')) + '</span></span>' +
+						'</label>' +
+						'<label class="dy-dashboard__role-option">' +
+							'<input type="checkbox" class="dy-dashboard__field-toggle" data-role-reset>' +
+							'<span><span class="dy-dashboard__role-option-name">' + esc(t('role_reset')) + '</span>' +
+							'<span class="dy-dashboard__role-option-hint">' + esc(t('role_reset_hint')) + '</span></span>' +
+						'</label>' +
+					'</div>' +
 					'<footer class="dy-dashboard__modal-foot">' +
 						'<button type="button" class="dy-dashboard__btn dy-dashboard__btn--ghost" data-modal-close>' + esc(t('cancel')) + '</button>' +
 						'<button type="button" class="dy-dashboard__btn dy-dashboard__btn--primary" data-modal-save>' + esc(t('save')) + '</button>' +
@@ -2360,9 +2384,12 @@
 					if (!confirm(Util.sprintf(t('role_conflict_confirm'), list))) return;
 				}
 				saveBtn.disabled = true;
-				Api.assignDisposition(slug, selected).then(res => {
+				const enforce = !!overlay.querySelector('[data-role-enforce]:checked');
+				const reset = !!overlay.querySelector('[data-role-reset]:checked');
+				Api.assignDisposition(slug, selected, { enforce: enforce, reset: reset }).then(res => {
 					state.snapshot.role_assignments = res.assignments || {};
-					Toast.show(t('roles_assigned'), 'success');
+					state.snapshot.role_enforced = res.enforced || [];
+					Toast.show(res.cleared ? Util.sprintf(t('roles_assigned_reset'), res.cleared) : t('roles_assigned'), 'success');
 					close();
 				}).catch(err => { saveBtn.disabled = false; Toast.show(err.message || t('error'), 'error'); });
 			});

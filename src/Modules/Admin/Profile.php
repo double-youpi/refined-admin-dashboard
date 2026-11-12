@@ -3,6 +3,9 @@ namespace DoubleYoupi\Modules\Admin;
 
 use DoubleYoupi\Admin\Feedback;
 use DoubleYoupi\Admin\Access;
+use DoubleYoupi\Modules\Admin\Dashboard\Layout\Dispositions;
+use DoubleYoupi\Modules\Admin\Dashboard\Layout\LayoutValidator;
+use DoubleYoupi\Modules\Admin\Dashboard\Layout\RoleAssignments;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -15,8 +18,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Scope (deliberately tight): the General settings (accent, logo, per-user
  * mode, navigation tree, Feedback and review requests hidden), the navigation overrides and disabled screens, and
- * the Toolkit toggles. Per-user choices (theme, rail width, table modes) and
- * the dashboard layouts stay out: they belong to people or to a site.
+ * the Toolkit toggles. Since version 2 (11/11/2026), the shared dashboard too:
+ * saved dispositions, hidden built-in ones, role assignments and impositions,
+ * so a client dashboard can be reproduced from site to site. Per-user choices
+ * (theme, rail width, table modes, a person's own dashboard) stay out.
  *
  * Pinning in code: `define( 'DOUBLEYOUPI_ADMIN_PROFILE', '/path/to/profile.json' )`
  * (or an array) in wp-config.php, refined by the filter
@@ -27,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class Profile {
 
 	public const FORMAT  = 'doubleyoupi-admin-profile';
-	public const VERSION = 1;
+	public const VERSION = 2;
 
 	public const ACTION_EXPORT = 'doubleyoupi_admin_profile_export';
 	public const ACTION_IMPORT = 'doubleyoupi_admin_profile_import';
@@ -46,6 +51,7 @@ final class Profile {
 			'navigation_mode' => 'doubleyoupi_admin_navigation_mode',
 			'rail_flyout'     => 'doubleyoupi_admin_rail_flyout',
 			'hide_feedback'   => Feedback::OPTION_HIDE,
+			'notices_managers_only' => Notices::OPTION_MANAGERS_ONLY,
 		],
 		'navigation' => [
 			'overrides'        => NavigationOverrides::OPTION_KEY,
@@ -91,12 +97,19 @@ final class Profile {
 				'navigation_mode' => $settings->navigation_mode(),
 				'rail_flyout'     => Settings::rail_flyout_mode(),
 				'hide_feedback'   => Feedback::hidden(),
+				'notices_managers_only' => (bool) get_option( Notices::OPTION_MANAGERS_ONLY, false ),
 			],
 			'navigation' => [
 				'overrides'        => NavigationOverrides::get(),
 				'disabled_screens' => ScreenDisabler::get_disabled(),
 			],
 			'toolkit'    => $toolkit,
+			'dashboard'  => [
+				'dispositions'    => array_values( Dispositions::all() ),
+				'hidden_builtins' => Dispositions::hidden_builtins(),
+				'role_assignments' => RoleAssignments::all(),
+				'role_enforced'   => RoleAssignments::enforced_roles(),
+			],
 		];
 	}
 
@@ -211,6 +224,10 @@ final class Profile {
 			update_option( Feedback::OPTION_HIDE, ! empty( $s['hide_feedback'] ) );
 			$applied[] = 'hide_feedback';
 		}
+		if ( array_key_exists( 'notices_managers_only', $s ) ) {
+			update_option( Notices::OPTION_MANAGERS_ONLY, ! empty( $s['notices_managers_only'] ) );
+			$applied[] = 'notices_managers_only';
+		}
 
 		$nav = is_array( $payload['navigation'] ?? null ) ? $payload['navigation'] : [];
 		if ( is_array( $nav['overrides'] ?? null ) ) {
@@ -235,6 +252,52 @@ final class Profile {
 			} else {
 				$ignored[] = 'toolkit.' . $id;
 			}
+		}
+
+		// Shared dashboard (version 2): each layout goes through the validator,
+		// assignments only to roles that exist here.
+		$dash = is_array( $payload['dashboard'] ?? null ) ? $payload['dashboard'] : [];
+		if ( is_array( $dash['dispositions'] ?? null ) ) {
+			$out = [];
+			foreach ( array_slice( $dash['dispositions'], 0, Dispositions::MAX_CUSTOM ) as $entry ) {
+				$slug = sanitize_key( (string) ( $entry['slug'] ?? '' ) );
+				if ( $slug === '' || ! is_array( $entry['layout'] ?? null ) ) {
+					continue;
+				}
+				$layout = LayoutValidator::validate( $entry['layout'] );
+				if ( is_wp_error( $layout ) ) {
+					$ignored[] = 'dashboard.disposition.' . $slug;
+					continue;
+				}
+				$out[ $slug ] = [
+					'slug'   => $slug,
+					'name'   => sanitize_text_field( (string) ( $entry['name'] ?? $slug ) ),
+					'layout' => $layout,
+				];
+			}
+			update_option( Dispositions::OPTION_KEY, (string) wp_json_encode( $out ), false );
+			$applied[] = 'dashboard.dispositions';
+		}
+		if ( is_array( $dash['hidden_builtins'] ?? null ) ) {
+			update_option( Dispositions::HIDDEN_KEY, array_values( array_filter( array_map( 'sanitize_key', array_map( 'strval', $dash['hidden_builtins'] ) ) ) ), false );
+			$applied[] = 'dashboard.hidden_builtins';
+		}
+		if ( is_array( $dash['role_assignments'] ?? null ) ) {
+			$roles = array_keys( wp_roles()->get_names() );
+			$map   = [];
+			foreach ( $dash['role_assignments'] as $role => $slug ) {
+				$role = sanitize_key( (string) $role );
+				$slug = sanitize_key( (string) $slug );
+				if ( in_array( $role, $roles, true ) && $slug !== '' && Dispositions::layout_for_slug( $slug ) !== null ) {
+					$map[ $role ] = $slug;
+				}
+			}
+			update_option( RoleAssignments::OPTION_KEY, (string) wp_json_encode( $map ), false );
+			$applied[] = 'dashboard.role_assignments';
+		}
+		if ( is_array( $dash['role_enforced'] ?? null ) ) {
+			update_option( RoleAssignments::ENFORCED_KEY, array_values( array_filter( array_map( 'sanitize_key', array_map( 'strval', $dash['role_enforced'] ) ) ) ), false );
+			$applied[] = 'dashboard.role_enforced';
 		}
 
 		/**
@@ -372,9 +435,11 @@ final class Profile {
 			__( 'Accent color and logo', 'doubleyoupi-refined-admin-dashboard' ),
 			__( 'Per-user customization', 'doubleyoupi-refined-admin-dashboard' ),
 			__( 'Hide Feedback and review requests', 'doubleyoupi-refined-admin-dashboard' ),
+			__( 'Plugin notices for administrators only', 'doubleyoupi-refined-admin-dashboard' ),
 			__( 'Navigation tree (reimagined or native), section pages on hover, and the Reorganize layout', 'doubleyoupi-refined-admin-dashboard' ),
 			__( 'Screens left in native styling', 'doubleyoupi-refined-admin-dashboard' ),
 			__( 'Toolkit toggles', 'doubleyoupi-refined-admin-dashboard' ),
+			__( 'Shared dashboard dispositions and their roles', 'doubleyoupi-refined-admin-dashboard' ),
 		];
 	}
 }

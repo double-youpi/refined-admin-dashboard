@@ -54,27 +54,32 @@ final class LayoutResolver {
 	 * @return array<string, mixed>
 	 */
 	private static function raw_for_user( int $user_id ): array {
+		// 0. A disposition imposed on one of the user's roles wins over their
+		// own dashboard (RoleAssignments::ENFORCED_KEY, 11/11/2026).
+		$enforced = RoleAssignments::enforced_for_user( $user_id );
+		if ( $enforced !== null ) {
+			$layout = Dispositions::layout_for_slug( $enforced );
+			if ( is_array( $layout ) ) {
+				return $layout;
+			}
+		}
+
 		// 1. user_meta
 		$user_layout = LayoutStorage::get_for_user( $user_id );
 		if ( is_array( $user_layout ) ) {
 			return $user_layout;
 		}
 
-		// 2. Disposition assigned to one of the user's roles. We read the layout
-		// on the fly from the disposition (no frozen copy) → if the admin updates
-		// the disposition, the assigned roles benefit immediately.
+		// 2. Disposition of the user's roles: an explicit assignment on ANY role
+		// before a heuristic default. We read the layout on the fly from the
+		// disposition (no frozen copy) → if the admin updates the disposition,
+		// the assigned roles benefit immediately.
 		$user = $user_id ? get_userdata( $user_id ) : false;
 		if ( $user && ! empty( $user->roles ) ) {
-			foreach ( (array) $user->roles as $role ) {
-				// Explicit assignment by the admin, otherwise the role's heuristic default.
-				$assigned = RoleAssignments::effective_for_role( (string) $role );
-				if ( $assigned === null ) {
-					continue;
-				}
-				$role_layout = Dispositions::layout_for_slug( $assigned );
-				if ( is_array( $role_layout ) ) {
-					return $role_layout;
-				}
+			$slug = RoleAssignments::for_roles( (array) $user->roles );
+			$role_layout = $slug !== null ? Dispositions::layout_for_slug( $slug ) : null;
+			if ( is_array( $role_layout ) ) {
+				return $role_layout;
 			}
 		}
 

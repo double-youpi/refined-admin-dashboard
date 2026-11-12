@@ -217,11 +217,13 @@ CSS;
 			'dispositions' => $snapshot['dispositions'],
 			'role_assignments' => $snapshot['role_assignments'],
 			'role_defaults' => $snapshot['role_defaults'],
+			'role_enforced' => $snapshot['role_enforced'],
+			// « Plugin notices for administrators only » (Notices.php).
+			'notices_managers_only' => \DoubleYoupi\Modules\Admin\Notices::filtered_for_current_user(),
 			'nonce'        => wp_create_nonce( 'wp_rest' ),
 			'rest_url'     => esc_url_raw( rest_url( 'doubleyoupi/v1/dashboard' ) ),
 			'caps'         => [
-				'can_customize' => current_user_can( 'doubleyoupi_customize_dashboard' )
-					|| current_user_can( 'manage_options' ),
+				'can_customize' => Layout\RoleAssignments::current_user_can_customize(),
 				'can_manage'    => current_user_can( Access::CAP ),
 			],
 			'breakpoints' => [
@@ -440,6 +442,12 @@ CSS;
 			/* translators: %s: list of roles and their current disposition */
 			'role_conflict_confirm' => __( 'These roles are already assigned to another disposition: %s. Switch them to this one?', 'doubleyoupi-refined-admin-dashboard' ),
 			'roles_assigned'     => __( 'Roles assigned.', 'doubleyoupi-refined-admin-dashboard' ),
+			'role_enforce'       => __( 'Impose on these roles', 'doubleyoupi-refined-admin-dashboard' ),
+			'role_enforce_hint'  => __( 'They see this disposition even if they had customized their dashboard, and cannot change it. Accounts that manage Double Youpï are never held.', 'doubleyoupi-refined-admin-dashboard' ),
+			'role_reset'         => __( 'Clear their customized dashboards', 'doubleyoupi-refined-admin-dashboard' ),
+			'role_reset_hint'    => __( 'Dashboards already customized by people with these roles are removed: they get this disposition.', 'doubleyoupi-refined-admin-dashboard' ),
+			/* translators: %d: number of dashboards cleared. */
+			'roles_assigned_reset' => __( 'Roles assigned. Customized dashboards cleared: %d.', 'doubleyoupi-refined-admin-dashboard' ),
 
 			// Widgets / slots.
 			'delete_widget'      => __( 'Remove this widget', 'doubleyoupi-refined-admin-dashboard' ),

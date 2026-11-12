@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, dark theme
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.34
+Stable tag: 1.0.35
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -186,6 +186,12 @@ Privacy policy: https://doubleyoupi.com/privacy
 15. Coming from FileBird or another folder plugin? Preview its folders, then import them in one click. The source plugin is never modified.
 
 == Changelog ==
+
+= 1.0.35 =
+* New: "Impose on these roles" when assigning a dashboard disposition: people with those roles see it even if they had customized their dashboard, and cannot change it. Accounts that manage Double Youpï are never held. An option clears the dashboards they had customized.
+* New: "Plugin notices for administrators only" (Settings, Team): other accounts no longer see plugins' promotions, licence reminders or review requests, and still see errors and the result of their own actions.
+* Change: the settings profile also carries the shared dashboard (dispositions, role assignments, impositions) and the new notices setting, so a client setup can be reproduced on another site. Older profile files still import.
+* Fix: for someone with several roles, a disposition assigned to any of their roles now wins over a default guessed from another role.
 
 = 1.0.34 =
 * Change: your light or dark theme is kept on your account, not only in the browser: it follows you to another browser or computer, and after the browser's data is cleared.
@@ -439,6 +445,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.0.35 =
+Impose a dashboard on a role, keep plugin notices for administrators, and carry the dashboard in the settings profile.
 
 = 1.0.34 =
 Your light or dark theme follows your account; readable top bar links on click.

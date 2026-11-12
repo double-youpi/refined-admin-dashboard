@@ -434,8 +434,7 @@ final class Renderer {
 	}
 
 	private static function render_customize_button(): string {
-		$can_customize = current_user_can( 'doubleyoupi_customize_dashboard' )
-			|| current_user_can( 'manage_options' );
+		$can_customize = Layout\RoleAssignments::current_user_can_customize();
 		if ( ! $can_customize ) {
 			return '';
 		}

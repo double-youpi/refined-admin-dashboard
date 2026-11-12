@@ -57,6 +57,7 @@ class Settings extends AbstractModule {
 		'rail_flyout'     => self::OPTION_RAIL_FLYOUT,
 		'per_user'        => UserCustomization::OPTION_PER_USER,
 		'hide_feedback'   => Feedback::OPTION_HIDE,
+		'notices_managers_only' => Notices::OPTION_MANAGERS_ONLY,
 		'settings_owner'  => Access::OPTION_OWNER,
 	];
 
@@ -156,6 +157,11 @@ class Settings extends AbstractModule {
 			'default'           => false,
 		] );
 		register_setting( 'doubleyoupi_admin', Feedback::OPTION_HIDE, [
+			'type'              => 'boolean',
+			'sanitize_callback' => 'rest_sanitize_boolean',
+			'default'           => false,
+		] );
+		register_setting( 'doubleyoupi_admin', Notices::OPTION_MANAGERS_ONLY, [
 			'type'              => 'boolean',
 			'sanitize_callback' => 'rest_sanitize_boolean',
 			'default'           => false,
@@ -894,6 +900,15 @@ class Settings extends AbstractModule {
 							'icon'   => 'feedback',
 						] );
 						self::toggle_card( [
+							'key'    => 'notices_managers_only',
+							'option' => Notices::OPTION_MANAGERS_ONLY,
+							'on'     => (bool) get_option( Notices::OPTION_MANAGERS_ONLY, false ),
+							'locked' => $locked( Notices::OPTION_MANAGERS_ONLY ),
+							'name'   => __( 'Plugin notices for administrators only', 'doubleyoupi-refined-admin-dashboard' ),
+							'desc'   => __( 'Other accounts no longer see plugins\' promotions, licence reminders or review requests. They still see errors and the result of what they do.', 'doubleyoupi-refined-admin-dashboard' ),
+							'icon'   => 'bell',
+						] );
+						self::toggle_card( [
 							'key'    => 'settings_owner',
 							'option' => Access::OPTION_OWNER,
 							'on'     => Access::owner_id() > 0 && Access::owner_id() === get_current_user_id(),
@@ -960,7 +975,7 @@ class Settings extends AbstractModule {
 								<p class="dy-adset__list-title"><?php esc_html_e( 'Stays with each site', 'doubleyoupi-refined-admin-dashboard' ); ?></p>
 								<ul class="is-muted">
 									<li><?php esc_html_e( 'Personal choices: theme, rail width', 'doubleyoupi-refined-admin-dashboard' ); ?></li>
-									<li><?php esc_html_e( 'Dashboard layouts', 'doubleyoupi-refined-admin-dashboard' ); ?></li>
+									<li><?php esc_html_e( 'Dashboards people customized for themselves', 'doubleyoupi-refined-admin-dashboard' ); ?></li>
 								</ul>
 							</div>
 						</div>
@@ -1043,6 +1058,7 @@ class Settings extends AbstractModule {
 			'tree'     => '<path d="M4 5h6M4 12h6M4 19h6M14 5h6M14 12h3M14 19h4"/>',
 			'flyout'   => '<rect x="3" y="4" width="6" height="16" rx="1.5"/><path d="M13 7h8M13 11h6M13 15h7"/>',
 			'lock'     => '<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+			'bell'     => '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/>',
 			'feedback' => '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',
 			'team'     => '<circle cx="9" cy="8" r="3.2"/><path d="M3 19c.8-3.2 3.2-5 6-5s5.2 1.8 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16.5 14.2c2.2.2 3.8 1.8 4.5 4.3"/>',
 			'download' => '<path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 20h14"/>',
