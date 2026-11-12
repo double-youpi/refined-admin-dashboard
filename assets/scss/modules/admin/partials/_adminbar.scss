@@ -1273,3 +1273,54 @@ body.dy-admin .dy-preview-banner__stop {
 body.dy-admin .dy-preview-banner__stop:is(:hover, :focus-visible) {
   background: color-mix(in srgb, var(--dya-accent-on, #fff) 30%, transparent);
 }
+
+// Theme hint (admin.js, RAD 1.2.0): once per account, under the light/dark
+// toggle, until the person picks a theme or says "Got it".
+body.dy-admin .dy-theme-hint {
+  position: fixed;
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 320px;
+  padding: 10px 10px 10px 14px;
+  border-radius: var(--dya-r-lg, 12px);
+  background: var(--dya-accent);
+  color: var(--dya-accent-on, #fff);
+  font-size: 13px;
+  line-height: 1.4;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .28);
+  animation: dy-theme-hint-in .32s cubic-bezier(.23, 1, .32, 1) both;
+}
+body.dy-admin .dy-theme-hint::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  right: 18px;
+  width: 12px;
+  height: 12px;
+  background: inherit;
+  transform: rotate(45deg);
+  border-radius: 2px;
+}
+body.dy-admin .dy-theme-hint__ok {
+  flex: none;
+  padding: 5px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--dya-accent-on, #fff) 20%, transparent);
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+body.dy-admin .dy-theme-hint__ok:is(:hover, :focus-visible) {
+  background: color-mix(in srgb, var(--dya-accent-on, #fff) 32%, transparent);
+}
+@keyframes dy-theme-hint-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.dy-admin .dy-theme-hint { animation: none; }
+}

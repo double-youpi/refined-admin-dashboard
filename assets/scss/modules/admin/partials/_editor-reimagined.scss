@@ -434,8 +434,16 @@ body.dy-admin.dy-editor-reimagined {
   #postbox-container-1.dy-ed-inspector {
     position:sticky; top:120px; align-self:start;
     display:flex; flex-direction:column; gap:14px;
-    background:transparent; border:0; box-shadow:none; padding:0; overflow:visible;
+    background:transparent; border:0; box-shadow:none; padding:0;
+    // Taller than the window, the column scrolls on its own (12/11/2026):
+    // before, its end could only be reached at the bottom of the page.
+    // Height = the scrolling area (#wpcontent, under the top bar) minus the
+    // sticky offset and a bottom gap. Its scroll does not hand over to the page.
+    // editor-reimagined.js adds `.is-scrollable` when the column is taller
+    // (the scroll is set below, after the rule that lets tooltips overflow).
+    max-height:calc(100vh - var(--wp-admin--admin-bar--height, 32px) - 120px - 16px);
   }
+  #postbox-container-1.dy-ed-inspector > * { flex-shrink:0; }
   #postbox-container-1.dy-ed-inspector .dy-ed-inspector__card,
   #postbox-container-1.dy-ed-inspector .dy-ed-ai-card {
     background:var(--dya-paper); border:1px solid var(--dya-edge); border-radius:var(--dya-r-xl);
@@ -508,6 +516,13 @@ body.dy-admin.dy-editor-reimagined {
   &:not(.dy-ed-inspector-collapsed) #postbox-container-1.dy-ed-inspector .dy-ed-inspector__card,
   &:not(.dy-ed-inspector-collapsed) #postbox-container-1.dy-ed-inspector .postbox,
   #postbox-container-2 .postbox { overflow: visible; }
+  // Taller than the window: the column scrolls on its own (see the inspector
+  // rule above). At its end the wheel moves on to the page, which brings the
+  // column up to its sticky place, its bottom in view.
+  &:not(.dy-ed-inspector-collapsed) #postbox-container-1.dy-ed-inspector.is-scrollable {
+    overflow-y:auto; scrollbar-width:thin;
+    padding:2px 6px 8px 4px; margin:-2px -6px 0 -4px;
+  }
 
   // "Content AI" card: ONLY item in its list → no divider below the
   // header (the contrast between themed header / light .inside is enough).
@@ -832,7 +847,7 @@ body.dy-admin.dy-editor-reimagined.dy-ed-inspector-collapsed {
   body.dy-admin.dy-editor-reimagined {
     // Inspector moves below the content (no more lateral sticky, full width).
     #poststuff #post-body.columns-2 { grid-template-columns:1fr !important; grid-template-areas:"content" "side"; }
-    #postbox-container-1.dy-ed-inspector { position:static; }
+    #postbox-container-1.dy-ed-inspector { position:static; max-height:none; overflow:visible; }
     #poststuff #postbox-container-1 { width:100% !important; max-width:100% !important; }
     // In stacked layout, never show the collapsed rail.
     .dy-ed-inspector__collapse { display:none; }

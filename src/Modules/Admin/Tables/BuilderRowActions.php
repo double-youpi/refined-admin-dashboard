@@ -223,6 +223,32 @@ final class BuilderRowActions {
 	}
 
 	/**
+	 * Where to edit a post: its builder when it is built with one and the
+	 * builder lets the current user in, else the WordPress editor. With the
+	 * builder's key ('' for the WordPress editor). Used by the dashboard's
+	 * Edit widget (RAD 1.2.0).
+	 *
+	 * @return array{url: string, builder: string}
+	 */
+	public static function edit_target( \WP_Post $post ): array {
+		$plain = admin_url( 'post.php?post=' . $post->ID . '&action=edit' );
+		if ( 'trash' === $post->post_status ) {
+			return [ 'url' => $plain, 'builder' => '' ];
+		}
+		foreach ( self::builders() as $key => $builder ) {
+			if ( ! is_array( $builder ) || ! is_callable( $builder['built'] ?? null ) || ! is_callable( $builder['url'] ?? null ) ) {
+				continue;
+			}
+			if ( ! ( $builder['built'] )( $post ) ) {
+				continue;
+			}
+			$url = (string) ( $builder['url'] )( $post );
+			return '' !== $url ? [ 'url' => $url, 'builder' => (string) $key ] : [ 'url' => $plain, 'builder' => '' ];
+		}
+		return [ 'url' => $plain, 'builder' => '' ];
+	}
+
+	/**
 	 * Adds `data-dy-primary` to the action's first link.
 	 */
 	private static function flag( string $html, string $value ): string {

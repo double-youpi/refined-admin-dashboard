@@ -39,16 +39,46 @@ final class ThemePreference {
 		return in_array( $theme, [ 'light', 'dark' ], true ) ? $theme : '';
 	}
 
+	/** User meta: the account has seen the hint pointing at the theme toggle. */
+	public const HINT_META = 'doubleyoupi_admin_theme_hint_seen';
+
+	/**
+	 * The theme known on the server before the page is drawn: the account's
+	 * choice, else the site's default when it is fixed. With the default on
+	 * 'system', '' here: the browser decides (Brand.php, admin.js).
+	 */
+	public static function initial(): string {
+		$own = self::current();
+		if ( '' !== $own ) {
+			return $own;
+		}
+		$default = Settings::default_theme();
+		return 'system' === $default ? '' : $default;
+	}
+
 	/** @param string|mixed $classes */
 	public function body_class( $classes ): string {
 		$classes = is_string( $classes ) ? $classes : '';
-		return 'light' === self::current() ? $classes . ' dy-theme-light' : $classes;
+		return 'light' === self::initial() ? $classes . ' dy-theme-light' : $classes;
+	}
+
+	/**
+	 * Show the hint pointing at the theme toggle? Once per account, and only
+	 * to someone who has not picked a theme yet.
+	 */
+	public static function show_hint(): bool {
+		$user = get_current_user_id();
+		return $user && '' === self::current() && ! get_user_meta( $user, self::HINT_META, true );
 	}
 
 	/** Settings handed to admin.js. */
 	public static function script_config(): array {
 		return [
-			'theme' => self::current(),
+			'theme'   => self::current(),
+			'default' => Settings::default_theme(),
+			'hint'    => self::show_hint(),
+			'hintText' => __( 'Light or dark: it’s here. Your choice stays on your account.', 'doubleyoupi-refined-admin-dashboard' ),
+			'hintOk'  => __( 'Got it', 'doubleyoupi-refined-admin-dashboard' ),
 			'url'   => esc_url_raw( rest_url( 'doubleyoupi/v1/admin/theme' ) ),
 			'nonce' => wp_create_nonce( 'wp_rest' ),
 		];
@@ -64,9 +94,12 @@ final class ThemePreference {
 				'permission_callback' => static fn(): bool => is_user_logged_in(),
 				'args'                => [
 					'theme' => [
-						'required' => true,
-						'type'     => 'string',
-						'enum'     => [ 'light', 'dark' ],
+						'type' => 'string',
+						'enum' => [ 'light', 'dark' ],
+					],
+					// The hint pointing at the toggle was dismissed.
+					'hint'  => [
+						'type' => 'boolean',
 					],
 				],
 			]
@@ -74,7 +107,15 @@ final class ThemePreference {
 	}
 
 	public function save( \WP_REST_Request $request ): \WP_REST_Response {
-		update_user_meta( get_current_user_id(), self::META, (string) $request->get_param( 'theme' ) );
+		$user  = get_current_user_id();
+		$theme = (string) $request->get_param( 'theme' );
+		if ( in_array( $theme, [ 'light', 'dark' ], true ) ) {
+			update_user_meta( $user, self::META, $theme );
+			update_user_meta( $user, self::HINT_META, 1 ); // they found the toggle
+		}
+		if ( $request->get_param( 'hint' ) ) {
+			update_user_meta( $user, self::HINT_META, 1 );
+		}
 		return new \WP_REST_Response( [ 'theme' => self::current() ], 200 );
 	}
 }

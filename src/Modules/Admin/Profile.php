@@ -52,6 +52,7 @@ final class Profile {
 			'per_user'        => 'doubleyoupi_admin_per_user',
 			'navigation_mode' => 'doubleyoupi_admin_navigation_mode',
 			'rail_flyout'     => 'doubleyoupi_admin_rail_flyout',
+			'default_theme'   => Settings::OPTION_DEFAULT_THEME,
 			'hide_feedback'   => Feedback::OPTION_HIDE,
 			'notices_managers_only' => Notices::OPTION_MANAGERS_ONLY,
 		],
@@ -123,6 +124,7 @@ final class Profile {
 				'per_user'        => UserCustomization::is_per_user_mode(),
 				'navigation_mode' => $settings->navigation_mode(),
 				'rail_flyout'     => Settings::rail_flyout_mode(),
+				'default_theme'   => Settings::default_theme(),
 				'hide_feedback'   => Feedback::hidden(),
 				'notices_managers_only' => (bool) get_option( Notices::OPTION_MANAGERS_ONLY, false ),
 			],
@@ -247,6 +249,10 @@ final class Profile {
 		if ( array_key_exists( 'rail_flyout', $s ) ) {
 			update_option( 'doubleyoupi_admin_rail_flyout', Settings::sanitize_rail_flyout( (string) $s['rail_flyout'] ) );
 			$applied[] = 'rail_flyout';
+		}
+		if ( array_key_exists( 'default_theme', $s ) ) {
+			update_option( Settings::OPTION_DEFAULT_THEME, Settings::sanitize_default_theme( (string) $s['default_theme'] ) );
+			$applied[] = 'default_theme';
 		}
 		if ( array_key_exists( 'hide_feedback', $s ) ) {
 			update_option( Feedback::OPTION_HIDE, ! empty( $s['hide_feedback'] ) );
@@ -509,6 +515,9 @@ final class Profile {
 		if ( array_key_exists( 'rail_flyout', $s ) ) {
 			$cache['doubleyoupi_admin_rail_flyout'] = Settings::sanitize_rail_flyout( (string) $s['rail_flyout'] );
 		}
+		if ( array_key_exists( 'default_theme', $s ) ) {
+			$cache[ Settings::OPTION_DEFAULT_THEME ] = Settings::sanitize_default_theme( (string) $s['default_theme'] );
+		}
 		if ( array_key_exists( 'hide_feedback', $s ) ) {
 			$cache[ Feedback::OPTION_HIDE ] = ! empty( $s['hide_feedback'] ) ? '1' : '0';
 		}
@@ -564,6 +573,7 @@ final class Profile {
 	public static function scope_labels(): array {
 		return [
 			__( 'Accent color and logo', 'doubleyoupi-refined-admin-dashboard' ),
+			__( 'Default theme', 'doubleyoupi-refined-admin-dashboard' ),
 			__( 'Per-user customization', 'doubleyoupi-refined-admin-dashboard' ),
 			__( 'Hide Feedback and review requests', 'doubleyoupi-refined-admin-dashboard' ),
 			__( 'Plugin notices for administrators only', 'doubleyoupi-refined-admin-dashboard' ),

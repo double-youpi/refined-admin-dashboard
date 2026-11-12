@@ -28,6 +28,9 @@ final class LiteSpeedTheme {
 (function () {
 	var KEY = 'litespeed-dark-preference';
 	function ours() {
+		// The page's own class first: with no choice made, the theme comes
+		// from the site's default or the system, not from the browser's storage.
+		if (document.body) { return document.body.classList.contains('dy-theme-light') ? 'light' : 'dark'; }
 		try { return localStorage.getItem('dy-admin-theme') === 'light' ? 'light' : 'dark'; }
 		catch (e) { return 'dark'; }
 	}

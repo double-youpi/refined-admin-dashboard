@@ -89,10 +89,24 @@
       }).catch(function () {});
     } catch (_) {}
   }
-  function readTheme() {
+  // No choice yet (account or browser): the site's default; on 'system',
+  // the browser's preference, followed live (RAD 1.2.0, 12/11/2026).
+  const systemLight = window.matchMedia ? window.matchMedia('(prefers-color-scheme: light)') : null;
+  function defaultTheme() {
+    const d = THEME_CFG['default'];
+    if (d === 'light' || d === 'dark') return d;
+    return systemLight && systemLight.matches ? 'light' : 'dark';
+  }
+  function explicitTheme() {
     if (THEME_CFG.theme === 'light' || THEME_CFG.theme === 'dark') return THEME_CFG.theme;
-    try { return localStorage.getItem(STORAGE_THEME) || 'dark'; }
-    catch (e) { return 'dark'; }
+    try {
+      const t = localStorage.getItem(STORAGE_THEME);
+      if (t === 'light' || t === 'dark') return t;
+    } catch (e) {}
+    return '';
+  }
+  function readTheme() {
+    return explicitTheme() || defaultTheme();
   }
   let cachedTheme = null;
   try { cachedTheme = localStorage.getItem(STORAGE_THEME); } catch (_) {}
@@ -104,15 +118,59 @@
     saveTheme(cachedTheme);
   }
 
+  // Following the system: the theme changes with the computer, until the
+  // person picks one with the toggle.
+  if (systemLight && THEME_CFG['default'] !== 'light' && THEME_CFG['default'] !== 'dark') {
+    const follow = function () { if (!explicitTheme()) applyTheme(defaultTheme()); };
+    if (systemLight.addEventListener) systemLight.addEventListener('change', follow);
+    else if (systemLight.addListener) systemLight.addListener(follow);
+  }
+
   const themeBtn = document.querySelector('#wp-admin-bar-theme-toggle .ab-item');
+  let themeHint = null;
+  function dismissHint(save) {
+    if (!themeHint) return;
+    themeHint.remove();
+    themeHint = null;
+    if (save && THEME_CFG.url && window.fetch) {
+      try {
+        fetch(THEME_CFG.url, {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: { 'Content-Type': 'application/json', 'X-WP-Nonce': THEME_CFG.nonce || '' },
+          body: JSON.stringify({ hint: true }),
+          keepalive: true
+        }).catch(function () {});
+      } catch (_) {}
+    }
+  }
   if (themeBtn) {
     themeBtn.addEventListener('click', function (e) {
       e.preventDefault();
       const next = body.classList.contains('dy-theme-light') ? 'dark' : 'light';
       applyTheme(next);
       try { localStorage.setItem(STORAGE_THEME, next); } catch (_) {}
-      saveTheme(next);
+      saveTheme(next); // also marks the hint as seen, server side
+      dismissHint(false);
     });
+
+    // Once per account, to someone who has not picked a theme: a bubble
+    // under the toggle says where light and dark live.
+    if (THEME_CFG.hint && !explicitTheme() && THEME_CFG.hintText) {
+      const r = themeBtn.getBoundingClientRect();
+      if (r.width > 0) {
+        themeHint = document.createElement('div');
+        themeHint.className = 'dy-theme-hint';
+        themeHint.setAttribute('role', 'status');
+        themeHint.innerHTML = '<span class="dy-theme-hint__text"></span><button type="button" class="dy-theme-hint__ok"></button>';
+        themeHint.querySelector('.dy-theme-hint__text').textContent = THEME_CFG.hintText;
+        themeHint.querySelector('.dy-theme-hint__ok').textContent = THEME_CFG.hintOk || 'OK';
+        themeHint.style.top = Math.round(r.bottom + 10) + 'px';
+        themeHint.style.right = Math.max(12, Math.round(window.innerWidth - r.right - 14)) + 'px';
+        themeHint.querySelector('.dy-theme-hint__ok').addEventListener('click', function () { dismissHint(true); });
+        document.body.appendChild(themeHint);
+      }
+    }
   }
 
   // ── 1bis. Classic editor (TinyMCE): theme the iframe canvas ─────────

@@ -56,26 +56,17 @@ final class CreateButtonWidget extends AbstractDataWidget {
 	}
 
 	/**
-	 * Content types excluded from the selector (not relevant for a quick
-	 * create button): media, plus technical types from builders such as Bricks
-	 * (templates, floating elements, etc.). Filterable.
+	 * Editorial content types, for the Create and Edit widgets: public types
+	 * with an admin screen, minus media and the technical types of builders
+	 * (templates, libraries, floating elements). Filterable.
 	 *
-	 * @return array<int, string>
+	 * @return array<string, \WP_Post_Type> name => object
 	 */
-	private function excluded_post_types(): array {
-		$excluded = [ 'attachment' ];
-		/** @var array<int, string> $excluded */
-		return (array) apply_filters( 'doubleyoupi_dashboard_create_button_excluded', $excluded );
-	}
-
-	public function config_schema(): array {
-		$excluded = $this->excluded_post_types();
-		$options  = [];
+	public static function editorial_post_types(): array {
+		$excluded = (array) apply_filters( 'doubleyoupi_dashboard_create_button_excluded', [ 'attachment' ] );
+		$out      = [];
 		foreach ( get_post_types( [ 'public' => true, 'show_ui' => true ], 'objects' ) as $pt ) {
 			$name = (string) $pt->name;
-			// Exclude media + "technical" builder post types: templates,
-			// libraries and floating elements — not editorial content
-			// relevant for a "create" button.
 			if (
 				in_array( $name, $excluded, true )
 				|| strpos( $name, 'bricks' ) === 0
@@ -86,6 +77,14 @@ final class CreateButtonWidget extends AbstractDataWidget {
 			) {
 				continue;
 			}
+			$out[ $name ] = $pt;
+		}
+		return $out;
+	}
+
+	public function config_schema(): array {
+		$options = [];
+		foreach ( self::editorial_post_types() as $name => $pt ) {
 			$options[] = [
 				'value' => $name,
 				'label' => isset( $pt->labels->singular_name ) ? (string) $pt->labels->singular_name : $name,

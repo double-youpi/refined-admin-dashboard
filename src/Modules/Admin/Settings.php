@@ -32,6 +32,7 @@ class Settings extends AbstractModule {
 	private const OPTION_ACCENT_TO_LINES = 'doubleyoupi_admin_accent_to_lines';
 	public const OPTION_NAVIGATION_MODE  = 'doubleyoupi_admin_navigation_mode';
 	public const OPTION_RAIL_FLYOUT      = 'doubleyoupi_admin_rail_flyout';
+	public const OPTION_DEFAULT_THEME    = 'doubleyoupi_admin_default_theme';
 
 	private const DEFAULT_ACCENT = '#5b3efe';
 
@@ -55,6 +56,7 @@ class Settings extends AbstractModule {
 		'logo'            => self::OPTION_LOGO_URL,
 		'navigation_mode' => self::OPTION_NAVIGATION_MODE,
 		'rail_flyout'     => self::OPTION_RAIL_FLYOUT,
+		'default_theme'   => self::OPTION_DEFAULT_THEME,
 		'per_user'        => UserCustomization::OPTION_PER_USER,
 		'hide_feedback'   => Feedback::OPTION_HIDE,
 		'notices_managers_only' => Notices::OPTION_MANAGERS_ONLY,
@@ -109,6 +111,9 @@ class Settings extends AbstractModule {
 			case 'rail_flyout':
 				$value = self::sanitize_rail_flyout( $raw );
 				break;
+			case 'default_theme':
+				$value = self::sanitize_default_theme( $raw );
+				break;
 			case 'settings_owner':
 				$value = rest_sanitize_boolean( $raw ) ? get_current_user_id() : 0;
 				break;
@@ -150,6 +155,11 @@ class Settings extends AbstractModule {
 			'type'              => 'string',
 			'sanitize_callback' => [ self::class, 'sanitize_rail_flyout' ],
 			'default'           => 'one',
+		] );
+		register_setting( 'doubleyoupi_admin', self::OPTION_DEFAULT_THEME, [
+			'type'              => 'string',
+			'sanitize_callback' => [ self::class, 'sanitize_default_theme' ],
+			'default'           => 'system',
 		] );
 		register_setting( 'doubleyoupi_admin', UserCustomization::OPTION_PER_USER, [
 			'type'              => 'boolean',
@@ -401,6 +411,20 @@ class Settings extends AbstractModule {
 	 */
 	public static function rail_flyout_mode(): string {
 		return self::sanitize_rail_flyout( (string) get_option( self::OPTION_RAIL_FLYOUT, 'one' ) );
+	}
+
+	/**
+	 * Theme of the accounts that have not chosen one (RAD 1.2.0, 12/11/2026):
+	 * 'system' follows the browser (and changes with it), 'dark' or 'light'
+	 * fixes it. Each person's own choice, from the top bar, still wins.
+	 */
+	public static function default_theme(): string {
+		return self::sanitize_default_theme( (string) get_option( self::OPTION_DEFAULT_THEME, 'system' ) );
+	}
+
+	public static function sanitize_default_theme( $value ): string {
+		$value = sanitize_key( (string) $value );
+		return in_array( $value, [ 'system', 'dark', 'light' ], true ) ? $value : 'system';
 	}
 
 	public static function sanitize_rail_flyout( $value ): string {
@@ -686,7 +710,7 @@ class Settings extends AbstractModule {
 				<?php settings_fields( 'doubleyoupi_admin' ); ?>
 
 				<section class="dy-mlset__group" id="dy-brand">
-					<?php self::group_head( __( 'Brand', 'doubleyoupi-refined-admin-dashboard' ), $locked( self::OPTION_ACCENT, self::OPTION_LOGO_URL, self::OPTION_ACCENT_TO_LINES ) ); ?>
+					<?php self::group_head( __( 'Brand', 'doubleyoupi-refined-admin-dashboard' ), $locked( self::OPTION_ACCENT, self::OPTION_LOGO_URL, self::OPTION_ACCENT_TO_LINES, self::OPTION_DEFAULT_THEME ) ); ?>
 					<div class="dy-mlset__cards">
 						<div class="dy-adset__panes dy-adset__panes--brand">
 							<div class="dy-adset__cell" data-unit="accent">
@@ -803,7 +827,33 @@ class Settings extends AbstractModule {
 							'icon'   => 'lines',
 							'after'  => '<span class="dy-adset__dots" aria-hidden="true">' . str_repeat( '<i></i>', count( PluginMap::LINE_ORDER ) ) . '</span>',
 						] );
+						$default_theme = self::default_theme();
 						?>
+
+						<div class="dy-adset__cell dy-adset__cell--inline" data-unit="default_theme" id="dy-default-theme">
+							<span class="dy-mlset__icon" aria-hidden="true"><?php self::icon( 'theme' ); ?></span>
+							<span class="dy-mlset__body">
+								<span class="dy-mlset__name"><?php esc_html_e( 'Default theme', 'doubleyoupi-refined-admin-dashboard' ); ?></span>
+								<span class="dy-mlset__desc"><?php esc_html_e( 'For the accounts that have not chosen yet. System follows each person’s computer, and changes with it. Everyone can still switch from the top bar.', 'doubleyoupi-refined-admin-dashboard' ); ?></span>
+							</span>
+							<fieldset class="dy-adset__segmented"<?php disabled( Profile::is_locked( self::OPTION_DEFAULT_THEME ) ); ?>>
+								<legend class="screen-reader-text"><?php esc_html_e( 'Default theme', 'doubleyoupi-refined-admin-dashboard' ); ?></legend>
+								<?php
+								$theme_choices = [
+									'system' => __( 'System', 'doubleyoupi-refined-admin-dashboard' ),
+									'dark'   => __( 'Dark', 'doubleyoupi-refined-admin-dashboard' ),
+									'light'  => __( 'Light', 'doubleyoupi-refined-admin-dashboard' ),
+								];
+								foreach ( $theme_choices as $value => $label ) :
+									?>
+									<label>
+										<input type="radio" data-key="default_theme" name="<?php echo esc_attr( self::OPTION_DEFAULT_THEME ); ?>" value="<?php echo esc_attr( $value ); ?>" <?php checked( $value, $default_theme ); ?> />
+										<span><?php echo esc_html( $label ); ?></span>
+									</label>
+								<?php endforeach; ?>
+							</fieldset>
+							<?php self::saved_badge(); ?>
+						</div>
 					</div>
 				</section>
 
@@ -1212,6 +1262,7 @@ class Settings extends AbstractModule {
 			'lines'    => '<path d="M4 6h16M4 10h16M4 14h16M4 18h16"/>',
 			'tree'     => '<path d="M4 5h6M4 12h6M4 19h6M14 5h6M14 12h3M14 19h4"/>',
 			'flyout'   => '<rect x="3" y="4" width="6" height="16" rx="1.5"/><path d="M13 7h8M13 11h6M13 15h7"/>',
+			'theme'    => '<circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 0 0 16z" fill="currentColor"/>',
 			'lock'     => '<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
 			'bell'     => '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/>',
 			'feedback' => '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',

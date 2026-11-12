@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, dark theme
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.1.2
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -188,6 +188,13 @@ Privacy policy: https://doubleyoupi.com/privacy
 15. Coming from FileBird or another folder plugin? Preview its folders, then import them in one click. The source plugin is never modified.
 
 == Changelog ==
+
+= 1.2.0 =
+* New: "Edit" dashboard widget, the counterpart of Create: a short list of content to open in its editor, with a link to the full list. Show the latest changed entries of a type, its drafts to finish, or the content you choose (for example a client's Home and Contact pages). Each person only sees what they may edit, and content built with Bricks, Elementor, Divi, Beaver Builder, Brizy or Visual Composer opens in its builder.
+* New: the "Editor" and "Minimal" dashboard layouts carry the Edit widget. Minimal is now the pages to edit and a note, without Create.
+* New: "Default theme" (Settings, Brand): System, Dark or Light, for the accounts that have not picked a theme. System, the default, follows each person's computer and changes with it. Everyone can still switch from the top bar, and a one-time hint points to the switch.
+* Change: an account that never picked a theme now follows its computer's light or dark setting instead of always starting dark. Choose "Dark" as the default theme to keep the former behaviour.
+* Fix: in the redesigned post editor, a side column taller than the window scrolls on its own; its end no longer waits at the bottom of the page.
 
 = 1.1.2 =
 * New: a settings profile pinned in code (DOUBLEYOUPI_ADMIN_PROFILE) can carry the configurations by role, the shared dashboard (layouts, role assignments, impositions) and "Plugin notices for administrators only". They show locked in the settings.
@@ -472,6 +479,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.2.0 =
+New "Edit" dashboard widget, a default theme that can follow the system, and a scrolling editor side column.
 
 = 1.1.2 =
 A profile pinned in code carries the configurations by role and the shared dashboard.

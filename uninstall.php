@@ -49,8 +49,9 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 		29 => 'doubleyoupi_admin_notices_managers_only',
 		30 => 'doubleyoupi_admin_configurations',
 		31 => 'doubleyoupi_admin_configuration_roles',
-		32 => 'doubleyoupi_refined_admin_dashboard_installed_version',
-		33 => 'doubleyoupi_purge_on_uninstall',
+		32 => 'doubleyoupi_admin_default_theme',
+		33 => 'doubleyoupi_refined_admin_dashboard_installed_version',
+		34 => 'doubleyoupi_purge_on_uninstall',
 );
 	foreach ( $options as $option ) {
 		delete_option( $option );

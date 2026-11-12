@@ -1609,6 +1609,66 @@ body.dy-admin .dy-preview-banner__stop:is(:hover, :focus-visible) {
   background: color-mix(in srgb, var(--dya-accent-on, #fff) 30%, transparent);
 }
 
+body.dy-admin .dy-theme-hint {
+  position: fixed;
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 320px;
+  padding: 10px 10px 10px 14px;
+  border-radius: var(--dya-r-lg, 12px);
+  background: var(--dya-accent);
+  color: var(--dya-accent-on, #fff);
+  font-size: 13px;
+  line-height: 1.4;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+  animation: dy-theme-hint-in 0.32s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+body.dy-admin .dy-theme-hint::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  right: 18px;
+  width: 12px;
+  height: 12px;
+  background: inherit;
+  transform: rotate(45deg);
+  border-radius: 2px;
+}
+
+body.dy-admin .dy-theme-hint__ok {
+  flex: none;
+  padding: 5px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--dya-accent-on, #fff) 20%, transparent);
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+body.dy-admin .dy-theme-hint__ok:is(:hover, :focus-visible) {
+  background: color-mix(in srgb, var(--dya-accent-on, #fff) 32%, transparent);
+}
+
+@keyframes dy-theme-hint-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.dy-admin .dy-theme-hint {
+    animation: none;
+  }
+}
 body.dy-admin #adminmenuwrap {
   position: relative;
   --dya-rail-ground: var(--dya-bg);
@@ -11043,7 +11103,10 @@ body.dy-admin.dy-editor-reimagined #postbox-container-1.dy-ed-inspector {
   border: 0;
   box-shadow: none;
   padding: 0;
-  overflow: visible;
+  max-height: calc(100vh - var(--wp-admin--admin-bar--height, 32px) - 120px - 16px);
+}
+body.dy-admin.dy-editor-reimagined #postbox-container-1.dy-ed-inspector > * {
+  flex-shrink: 0;
 }
 body.dy-admin.dy-editor-reimagined #postbox-container-1.dy-ed-inspector .dy-ed-inspector__card,
 body.dy-admin.dy-editor-reimagined #postbox-container-1.dy-ed-inspector .dy-ed-ai-card {
@@ -11173,6 +11236,12 @@ body.dy-admin.dy-editor-reimagined .postbox.closed .dy-ed-chev {
 body.dy-admin.dy-editor-reimagined:not(.dy-ed-inspector-collapsed) #postbox-container-1.dy-ed-inspector, body.dy-admin.dy-editor-reimagined:not(.dy-ed-inspector-collapsed) #postbox-container-1.dy-ed-inspector .dy-ed-inspector__card, body.dy-admin.dy-editor-reimagined:not(.dy-ed-inspector-collapsed) #postbox-container-1.dy-ed-inspector .postbox,
 body.dy-admin.dy-editor-reimagined #postbox-container-2 .postbox {
   overflow: visible;
+}
+body.dy-admin.dy-editor-reimagined:not(.dy-ed-inspector-collapsed) #postbox-container-1.dy-ed-inspector.is-scrollable {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  padding: 2px 6px 8px 4px;
+  margin: -2px -6px 0 -4px;
 }
 body.dy-admin.dy-editor-reimagined #postbox-container-1 .dy-ed-ai-card > .postbox-header {
   border-bottom: 0 !important;
@@ -11768,6 +11837,8 @@ body.dy-admin.dy-editor-reimagined.dy-ed-inspector-collapsed #postbox-container-
   }
   body.dy-admin.dy-editor-reimagined #postbox-container-1.dy-ed-inspector {
     position: static;
+    max-height: none;
+    overflow: visible;
   }
   body.dy-admin.dy-editor-reimagined #poststuff #postbox-container-1 {
     width: 100% !important;

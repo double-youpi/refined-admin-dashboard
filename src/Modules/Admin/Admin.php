@@ -73,7 +73,11 @@ JS;
 (function () {
 	try {
 		var t = localStorage.getItem('dy-admin-theme');
-		if (t !== 'light' && t !== 'dark') { return; }
+		if (t !== 'light' && t !== 'dark') {
+			var d = '__DEFAULT_THEME__';
+			t = (d === 'light' || d === 'dark') ? d
+				: (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		}
 		var apply = function () {
 			if (!document.body) { return false; }
 			document.body.classList.toggle('dy-theme-light', t === 'light');
@@ -503,7 +507,7 @@ JS;
 		wp_add_inline_style( 'doubleyoupi-login-inline', $css );
 		wp_print_styles( 'doubleyoupi-login-inline' );
 
-		wp_print_inline_script_tag( self::LOGIN_PRE_PAINT_JS, [ 'id' => 'doubleyoupi-login-prepaint' ] );
+		wp_print_inline_script_tag( str_replace( '__DEFAULT_THEME__', Settings::default_theme(), self::LOGIN_PRE_PAINT_JS ), [ 'id' => 'doubleyoupi-login-prepaint' ] );
 		wp_print_inline_script_tag( self::LOGIN_THEME_TOGGLE_JS, [ 'id' => 'doubleyoupi-login-theme-toggle' ] );
 	}
 

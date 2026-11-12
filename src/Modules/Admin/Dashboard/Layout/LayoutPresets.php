@@ -175,21 +175,26 @@ final class LayoutPresets {
 	}
 
 	/**
-	 * "Editor" — focus on content creation. Two screens: create + quick access,
-	 * then follow-up (to-do / activity / note).
+	 * "Editor" — focus on content. Two screens: create and edit side by side
+	 * (the Edit widget, RAD 1.2.0: the latest posts), then follow-up (to-do,
+	 * activity, note).
 	 *
 	 * @return array<string, mixed>
 	 */
 	public static function editor(): array {
-		return self::wrap( 'editor', [
-			self::screen_create(
-				'scr-claviers',
-				__( 'Keyboards at the ready', 'doubleyoupi-refined-admin-dashboard' ),
-				'',
-				__( 'Blank page? Never heard of it.', 'doubleyoupi-refined-admin-dashboard' )
-			),
-			self::screen_flow( 'scr-ensuite', __( 'What\'s next?', 'doubleyoupi-refined-admin-dashboard' ), '' ),
-		] );
+		$write            = self::screen_create(
+			'scr-claviers',
+			__( 'Keyboards at the ready', 'doubleyoupi-refined-admin-dashboard' ),
+			'',
+			__( 'Blank page? Never heard of it.', 'doubleyoupi-refined-admin-dashboard' )
+		);
+		$write['widgets'] = [
+			[ 'id' => 'create_hub', 'slots' => 4, 'config' => [] ],
+			[ 'id' => 'edit_list', 'slots' => 2, 'instance' => 'edit-posts', 'config' => [ 'post_type' => 'post', 'mode' => 'recent' ] ],
+		];
+		$next              = self::screen_flow( 'scr-ensuite', __( 'What\'s next?', 'doubleyoupi-refined-admin-dashboard' ), '' );
+		$next['widgets'][] = [ 'id' => 'note', 'slots' => 2, 'instance' => 'note-create', 'config' => [] ];
+		return self::wrap( 'editor', [ $write, $next ] );
 	}
 
 	/**
@@ -231,20 +236,19 @@ final class LayoutPresets {
 	}
 
 	/**
-	 * "Minimal" — just the Editor's "Create" screen and nothing else.
-	 * For those who want to create and leave.
+	 * "Minimal": one screen, the pages to edit and a note. For a client who
+	 * comes to change a page and leave.
 	 *
 	 * @return array<string, mixed>
 	 */
 	public static function minimal(): array {
-		return self::wrap( 'minimal', [
-			self::screen_create(
-				'scr-essentiel',
-				__( 'Shall we?', 'doubleyoupi-refined-admin-dashboard' ),
-				'',
-				''
-			),
-		] );
+		// No Create (12/11/2026): the pages to edit, and a note.
+		$screen            = self::screen_create( 'scr-essentiel', __( 'Shall we?', 'doubleyoupi-refined-admin-dashboard' ), '', '' );
+		$screen['widgets'] = [
+			[ 'id' => 'edit_list', 'slots' => 2, 'instance' => 'edit-pages', 'config' => [ 'post_type' => 'page', 'mode' => 'recent' ] ],
+			[ 'id' => 'note', 'slots' => 2, 'instance' => 'note-create', 'config' => [] ],
+		];
+		return self::wrap( 'minimal', [ $screen ] );
 	}
 
 	/**
@@ -320,7 +324,7 @@ final class LayoutPresets {
 			[ 'slug' => 'standard',   'name' => __( 'Standard',      'doubleyoupi-refined-admin-dashboard' ), 'description' => __( 'Recommended by Double Youpï',      'doubleyoupi-refined-admin-dashboard' ) ],
 			[ 'slug' => 'editor',     'name' => _x( 'Editor', 'dashboard layout name', 'doubleyoupi-refined-admin-dashboard' ), 'description' => __( 'Focus on content creation',        'doubleyoupi-refined-admin-dashboard' ) ],
 			[ 'slug' => 'admin-site', 'name' => _x( 'Administrator', 'dashboard layout name', 'doubleyoupi-refined-admin-dashboard' ), 'description' => __( 'Technical health and maintenance', 'doubleyoupi-refined-admin-dashboard' ) ],
-			[ 'slug' => 'minimal',    'name' => __( 'Minimal',       'doubleyoupi-refined-admin-dashboard' ), 'description' => __( 'Just create and go',               'doubleyoupi-refined-admin-dashboard' ) ],
+			[ 'slug' => 'minimal',    'name' => __( 'Minimal',       'doubleyoupi-refined-admin-dashboard' ), 'description' => __( 'Your pages, and a note', 'doubleyoupi-refined-admin-dashboard' ) ],
 		];
 
 		if ( self::wc_active() ) {

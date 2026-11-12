@@ -77,6 +77,7 @@ final class WidgetRegistry {
 		$this->register( new Data\ToolkitWidget() );
 		$this->register( new Data\CreateButtonWidget() );
 		$this->register( new Data\CreateHubWidget() );
+		$this->register( new Data\EditListWidget() );
 		$this->register( new Data\AdminLinkWidget() );
 		$this->register( new Data\ContactWidget() );
 
@@ -215,7 +216,7 @@ final class WidgetRegistry {
 		// to most specialised. Double Youpi "suite" widgets (Modules, Toolkit)
 		// come last, then WooCommerce widgets (Tier 1 before Tier 2).
 		$order = [
-			'note', 'contact', 'create_button', 'create_hub', 'admin_link', 'shortcuts', 'quick_actions',
+			'note', 'contact', 'create_button', 'create_hub', 'edit_list', 'admin_link', 'shortcuts', 'quick_actions',
 			'site_state', 'todo', 'activity', 'disk', 'backup', 'site_health',
 			'static_site', 'modules', 'toolkit',
 			'wc_revenue', 'wc_sales_trend', 'wc_orders', 'wc_activity', 'wc_top_products', 'wc_low_stock',

@@ -252,6 +252,26 @@
 
     // Decoration of each section (icon + chevron + individual collapse).
     container.querySelectorAll('.postbox').forEach(function (boxEl) { decorateBox(boxEl, true); });
+
+    watchInspectorHeight(container);
+  }
+
+  // A column taller than the window scrolls on its own (12/11/2026): before,
+  // its end could only be reached at the bottom of the page. Only then, so
+  // that plugins' tooltips may still overflow the column the rest of the time.
+  function watchInspectorHeight(container) {
+    function update() {
+      var room = parseFloat(getComputedStyle(container).maxHeight);
+      var tall = !isNaN(room) && container.scrollHeight > room + 1;
+      container.classList.toggle('is-scrollable', tall);
+    }
+    if (window.ResizeObserver) {
+      var ro = new ResizeObserver(update);
+      ro.observe(container);
+      Array.prototype.forEach.call(container.children, function (child) { ro.observe(child); });
+    }
+    window.addEventListener('resize', update);
+    update();
   }
 
   // Decorate a metabox: icon (inspector), rename submitdiv, collapse CHEVRON

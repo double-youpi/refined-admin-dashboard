@@ -32,7 +32,13 @@ final class Brand {
 		var s = '__ACCOUNT_THEME__';
 		var t = s || localStorage.getItem('dy-admin-theme');
 		if (s) { localStorage.setItem('dy-admin-theme', s); }
-		if (t !== 'light' && t !== 'dark') return;
+		// No choice yet: the site's default (Settings, RAD 1.2.0); on
+		// 'system', the browser's preference.
+		if (t !== 'light' && t !== 'dark') {
+			var d = '__DEFAULT_THEME__';
+			t = (d === 'light' || d === 'dark') ? d
+				: (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		}
 		var apply = function () {
 			if (!document.body) return false;
 			if (!document.body.classList.contains('__READY_CLASS__')) return false;
@@ -124,8 +130,8 @@ JS;
 
 		wp_print_inline_script_tag(
 			str_replace(
-				[ '__READY_CLASS__', '__ACCOUNT_THEME__' ],
-				[ $ready_class, $is_login ? '' : ThemePreference::current() ],
+				[ '__READY_CLASS__', '__ACCOUNT_THEME__', '__DEFAULT_THEME__' ],
+				[ $ready_class, $is_login ? '' : ThemePreference::current(), Settings::default_theme() ],
 				self::THEME_PRE_PAINT_JS
 			),
 			[ 'id' => 'doubleyoupi-admin-theme-pre-paint' ]
