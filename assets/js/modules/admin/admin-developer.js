@@ -17,6 +17,16 @@
 	'use strict';
 
 	var ctx = window.doubleyoupiAdminDeveloper;
+
+	// « You are editing: » (Developer/Renderer.php): choosing reloads the
+	// editor on that target; the Open button stays for keyboards and no-JS.
+	( function () {
+		var sel = document.getElementById( 'dy-dev-target' );
+		if ( ! sel || ! sel.form ) return;
+		var btn = sel.form.querySelector( '.dy-dev-target__open' );
+		if ( btn ) btn.hidden = true;
+		sel.addEventListener( 'change', function () { sel.form.submit(); } );
+	} )();
 	if ( ! ctx || ! ctx.snapshot ) {
 		return;
 	}
@@ -1370,6 +1380,11 @@
 			headers: { 'X-WP-Nonce': ctx.restNonce, 'Content-Type': 'application/json; charset=utf-8' },
 		};
 		if ( body ) opts.body = JSON.stringify( body );
+		// Editing a configuration (Configurations.php): the server routes the
+		// read and the save to it.
+		if ( ctx.configuration ) {
+			path += ( path.indexOf( '?' ) === -1 ? '?' : '&' ) + 'dy_config=' + encodeURIComponent( ctx.configuration );
+		}
 		return fetch( ctx.restRoot + path, opts ).then( function ( r ) {
 			if ( ! r.ok ) throw new Error( 'HTTP ' + r.status );
 			return r.json();

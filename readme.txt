@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, dark theme
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.35
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,6 +42,8 @@ https://www.youtube.com/watch?v=untjaB9-KSs
 * Arrange widgets by dragging them, add headings and text, save the layout under a name.
 * Assign a default layout per role, and let each person adjust their own.
 * Ready-made presets if you would rather not start from a blank page.
+
+Configurations by role: give editors, shop managers or clients their own menu, screens and dashboard, and see the admin as they see it with "View as…". Export the whole setup and lay it on your next site.
 
 **Every notice in one place**
 
@@ -186,6 +188,12 @@ Privacy policy: https://doubleyoupi.com/privacy
 15. Coming from FileBird or another folder plugin? Preview its folders, then import them in one click. The source plugin is never modified.
 
 == Changelog ==
+
+= 1.1.0 =
+* New: configurations by role (Settings, "Configurations by role"). A configuration sets the menu, the screens left in native styling, the navigation and the dashboard for one or more roles; the brand and the Toolkit stay common to the site. Start from the site's setup or from another configuration, give it roles, and edit its menu in Reorganize with "You are editing:". Accounts that manage Double Youpï keep the site's own setup.
+* New: "View as…": see the admin as a role sees it (menu, screens, dashboard and notices) without switching accounts. Your own rights do not change, and a pill at the bottom of the screen lets you leave.
+* New: "Your contact" dashboard card: name, message, email, phone and a support link, for the people who get that dashboard. Empty fields are left out.
+* Change: the settings profile becomes an agency kit: it also carries the configurations and their roles, so a whole client setup can be laid on a new site. Older profile files still import.
 
 = 1.0.35 =
 * New: "Impose on these roles" when assigning a dashboard disposition: people with those roles see it even if they had customized their dashboard, and cannot change it. Accounts that manage Double Youpï are never held. An option clears the dashboards they had customized.
@@ -445,6 +453,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+Configurations by role, "View as…" a role, a "Your contact" dashboard card, and the agency kit.
 
 = 1.0.35 =
 Impose a dashboard on a role, keep plugin notices for administrators, and carry the dashboard in the settings profile.

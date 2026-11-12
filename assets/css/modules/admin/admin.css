@@ -1575,6 +1575,40 @@ body.dy-admin #wpadminbar .quicklinks #wp-admin-bar-woocommerce-site-visibility-
   color: var(--dya-success) !important;
 }
 
+body.dy-admin .dy-preview-banner {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  z-index: 9990;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: calc(100vw - 32px);
+  padding: 9px 10px 9px 18px;
+  border-radius: 999px;
+  background: var(--dya-accent);
+  color: var(--dya-accent-on, #fff);
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+body.dy-admin .dy-preview-banner__stop {
+  flex: 0 0 auto;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--dya-accent-on, #fff) 18%, transparent);
+  color: inherit !important;
+  text-decoration: none;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+body.dy-admin .dy-preview-banner__stop:is(:hover, :focus-visible) {
+  background: color-mix(in srgb, var(--dya-accent-on, #fff) 30%, transparent);
+}
+
 body.dy-admin #adminmenuwrap {
   position: relative;
   --dya-rail-ground: var(--dya-bg);

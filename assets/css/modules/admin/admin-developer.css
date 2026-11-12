@@ -428,3 +428,17 @@
 }
 .dy-dev-toast.is-visible { opacity: 1; transform: translateY(0); }
 .dy-dev-toast--error { background: var(--dya-danger, #dc2626); }
+
+/* « You are editing: » the site's menu or a configuration (RAD 1.1.0). */
+.dy-dev-target {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px 12px;
+	margin: 16px 0 4px;
+	padding: 12px 14px;
+	border-radius: var(--dya-r-md, 8px);
+	background: var(--dya-paper-2);
+}
+.dy-dev-target label { font-weight: 600; color: var(--dya-ink); }
+.dy-dev-target select { min-width: 280px; max-width: 100%; }

@@ -214,7 +214,7 @@ final class ScreenDisabler {
 	 * Defensive sanitization for signatures coming from the REST controller
 	 * (user payload). Rejects any character outside the URL slug whitelist.
 	 */
-	private static function sanitize_signature( string $sig ): string {
+	public static function sanitize_signature( string $sig ): string {
 		$sig = trim( $sig );
 		if ( '' === $sig ) {
 			return '';

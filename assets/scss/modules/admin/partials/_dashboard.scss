@@ -3585,6 +3585,27 @@ body.dy-admin.index-php {
 		p { margin: 0 0 0.6em; &:last-child { margin-bottom: 0; } }
 	}
 
+	// ── ContactWidget (RAD 1.1.0) ────────────────────────────────
+	.dy-dashboard__contact { font-size: var(--dya-fs-base); line-height: var(--dya-lh-base); }
+	.dy-dashboard__contact-name {
+		margin: 0 0 4px;
+		font-family: var(--dya-font-display);
+		font-size: var(--dya-fs-md);
+		font-weight: 600;
+		color: var(--dya-ink);
+	}
+	.dy-dashboard__contact-message { margin: 0 0 12px; color: var(--dya-ink-soft, var(--dya-ink)); }
+	.dy-dashboard__contact-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 6px;
+		li { margin: 0; }
+		a { color: var(--dya-accent-text); text-decoration: none; overflow-wrap: anywhere; }
+		a:hover, a:focus-visible { text-decoration: underline; }
+	}
+
 	// ── CreateButton / AdminLink (1 slot, centered button) ───────
 	.dy-dashboard__create-btn,
 	.dy-dashboard__admin-link {

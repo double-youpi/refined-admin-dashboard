@@ -169,6 +169,9 @@ final class RoleAssignments {
 	 * and no disposition imposed on their role.
 	 */
 	public static function current_user_can_customize(): bool {
+		if ( null !== \DoubleYoupi\Modules\Admin\Preview::role() ) {
+			return false; // « View as… » shows the role's dashboard, read-only
+		}
 		$can = current_user_can( 'doubleyoupi_customize_dashboard' ) || current_user_can( 'manage_options' );
 		return $can && self::enforced_for_user( get_current_user_id() ) === null;
 	}

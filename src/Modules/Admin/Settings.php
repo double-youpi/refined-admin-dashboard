@@ -288,6 +288,8 @@ class Settings extends AbstractModule {
 					'snapshot'    => $snapshot,
 					'restRoot'    => esc_url_raw( rest_url( 'doubleyoupi/v1' ) ),
 					'restNonce'   => wp_create_nonce( 'wp_rest' ),
+					// Configuration being edited (Configurations), carried by every request.
+					'configuration' => (string) Configurations::editing(),
 					'i18n'        => self::developer_i18n_strings(),
 				] ) . ';',
 				'before'
@@ -989,7 +991,152 @@ class Settings extends AbstractModule {
 					</div>
 				</div>
 			</section>
+
+			<?php $this->render_configurations(); ?>
 		</div>
+		<?php
+	}
+
+	/**
+	 * Configurations (RAD 1.1.0): named setups assigned to roles, the « View
+	 * as… » preview, all with plain forms that work without JavaScript.
+	 */
+	private function render_configurations(): void {
+		$items  = Configurations::all();
+		$roles  = wp_roles()->get_names();
+		$nonce  = wp_create_nonce( 'doubleyoupi_configuration' );
+		$post   = admin_url( 'admin-post.php' );
+		$dispos = \DoubleYoupi\Modules\Admin\Dashboard\Layout\Dispositions::catalog();
+		$state  = isset( $_GET['doubleyoupi_config'] ) ? sanitize_key( (string) wp_unslash( $_GET['doubleyoupi_config'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display of a redirect outcome.
+		$notes  = [
+			'created'      => __( 'Configuration created.', 'doubleyoupi-refined-admin-dashboard' ),
+			'saved'        => __( 'Configuration saved.', 'doubleyoupi-refined-admin-dashboard' ),
+			'deleted'      => __( 'Configuration deleted.', 'doubleyoupi-refined-admin-dashboard' ),
+			'invalid_name' => __( 'A configuration needs a name.', 'doubleyoupi-refined-admin-dashboard' ),
+			'too_many'     => __( 'Maximum number of configurations reached.', 'doubleyoupi-refined-admin-dashboard' ),
+		];
+		?>
+		<section class="dy-mlset__group" id="dy-configurations">
+			<?php self::group_head( __( 'Configurations by role', 'doubleyoupi-refined-admin-dashboard' ), false ); ?>
+			<?php if ( isset( $notes[ $state ] ) ) : ?>
+				<div class="notice <?php echo esc_attr( in_array( $state, [ 'invalid_name', 'too_many' ], true ) ? 'notice-error' : 'notice-success' ); ?> inline"><p><?php echo esc_html( $notes[ $state ] ); ?></p></div>
+			<?php endif; ?>
+			<div class="dy-mlset__cards">
+				<div class="dy-adset__cell dy-adset__cell--plain">
+					<p class="dy-mlset__desc">
+						<?php esc_html_e( 'A configuration sets the menu, the screens left in native styling, the navigation and the dashboard for one or more roles. The brand and the Toolkit stay common to the site. Accounts that manage Double Youpï keep the site’s own setup. Hiding a menu entry does not remove a right: WordPress roles still decide what each person can open.', 'doubleyoupi-refined-admin-dashboard' ); ?>
+					</p>
+				</div>
+
+				<?php foreach ( $items as $slug => $item ) : ?>
+					<?php $assigned = Configurations::roles_for( $slug ); ?>
+					<div class="dy-adset__cell dy-adset__cell--plain dy-adset__config">
+						<form method="post" action="<?php echo esc_url( $post ); ?>" class="dy-adset__config-form">
+							<input type="hidden" name="action" value="doubleyoupi_configuration_save">
+							<input type="hidden" name="slug" value="<?php echo esc_attr( $slug ); ?>">
+							<input type="hidden" name="_wpnonce" value="<?php echo esc_attr( $nonce ); ?>">
+							<p class="dy-adset__config-row">
+								<label class="dy-adset__config-label" for="dyc-name-<?php echo esc_attr( $slug ); ?>"><?php esc_html_e( 'Name', 'doubleyoupi-refined-admin-dashboard' ); ?></label>
+								<input type="text" class="regular-text" id="dyc-name-<?php echo esc_attr( $slug ); ?>" name="name" value="<?php echo esc_attr( $item['name'] ); ?>" required>
+							</p>
+							<fieldset class="dy-adset__config-row">
+								<legend class="dy-adset__config-label"><?php esc_html_e( 'Roles', 'doubleyoupi-refined-admin-dashboard' ); ?></legend>
+								<span class="dy-adset__config-roles">
+									<?php foreach ( $roles as $role => $label ) : ?>
+										<?php $other = Configurations::for_role( (string) $role ); ?>
+										<label>
+											<input type="checkbox" name="roles[]" value="<?php echo esc_attr( (string) $role ); ?>" <?php checked( in_array( $role, $assigned, true ) ); ?>>
+											<?php echo esc_html( translate_user_role( (string) $label ) ); ?>
+											<?php if ( null !== $other && $other !== $slug && isset( $items[ $other ] ) ) : ?>
+												<span class="dy-adset__config-taken">
+													<?php
+													/* translators: %s: name of the configuration that role has now. */
+													echo esc_html( sprintf( __( '(now: %s)', 'doubleyoupi-refined-admin-dashboard' ), $items[ $other ]['name'] ) );
+													?>
+												</span>
+											<?php endif; ?>
+										</label>
+									<?php endforeach; ?>
+								</span>
+							</fieldset>
+							<p class="dy-adset__config-row">
+								<label class="dy-adset__config-label" for="dyc-nav-<?php echo esc_attr( $slug ); ?>"><?php esc_html_e( 'Navigation', 'doubleyoupi-refined-admin-dashboard' ); ?></label>
+								<select id="dyc-nav-<?php echo esc_attr( $slug ); ?>" name="navigation_mode">
+									<option value="reimagined" <?php selected( 'reimagined', $item['navigation_mode'] ); ?>><?php esc_html_e( 'Reimagined', 'doubleyoupi-refined-admin-dashboard' ); ?></option>
+									<option value="native" <?php selected( 'native', $item['navigation_mode'] ); ?>><?php esc_html_e( 'Native WordPress', 'doubleyoupi-refined-admin-dashboard' ); ?></option>
+								</select>
+							</p>
+							<p class="dy-adset__config-row">
+								<label class="dy-adset__config-label" for="dyc-dash-<?php echo esc_attr( $slug ); ?>"><?php esc_html_e( 'Dashboard', 'doubleyoupi-refined-admin-dashboard' ); ?></label>
+								<select id="dyc-dash-<?php echo esc_attr( $slug ); ?>" name="disposition">
+									<option value=""><?php esc_html_e( 'Keep the roles’ current dashboard', 'doubleyoupi-refined-admin-dashboard' ); ?></option>
+									<?php foreach ( $dispos as $d ) : ?>
+										<option value="<?php echo esc_attr( (string) $d['slug'] ); ?>" <?php selected( (string) $d['slug'], $item['disposition'] ); ?>><?php echo esc_html( (string) $d['name'] ); ?></option>
+									<?php endforeach; ?>
+								</select>
+							</p>
+							<p class="dy-adset__config-actions">
+								<?php submit_button( __( 'Save', 'doubleyoupi-refined-admin-dashboard' ), 'primary', 'submit', false ); ?>
+								<a class="button" href="<?php echo esc_url( add_query_arg( [ 'page' => 'doubleyoupi-admin', 'tab' => 'reorganize', Configurations::EDIT_PARAM => $slug ], admin_url( 'admin.php' ) ) ); ?>"><?php esc_html_e( 'Edit its menu', 'doubleyoupi-refined-admin-dashboard' ); ?></a>
+								<?php foreach ( $assigned as $role ) : ?>
+									<a class="button" href="<?php echo esc_url( Preview::start_url( (string) $role ) ); ?>">
+										<?php
+										/* translators: %s: role name. */
+										echo esc_html( sprintf( __( 'View as %s', 'doubleyoupi-refined-admin-dashboard' ), translate_user_role( (string) ( $roles[ $role ] ?? $role ) ) ) );
+										?>
+									</a>
+								<?php endforeach; ?>
+								<button type="submit" class="button button-link-delete" form="dyc-delete-<?php echo esc_attr( $slug ); ?>"><?php esc_html_e( 'Delete', 'doubleyoupi-refined-admin-dashboard' ); ?></button>
+							</p>
+						</form>
+						<form id="dyc-delete-<?php echo esc_attr( $slug ); ?>" method="post" action="<?php echo esc_url( $post ); ?>">
+							<input type="hidden" name="action" value="doubleyoupi_configuration_delete">
+							<input type="hidden" name="slug" value="<?php echo esc_attr( $slug ); ?>">
+							<input type="hidden" name="_wpnonce" value="<?php echo esc_attr( $nonce ); ?>">
+						</form>
+					</div>
+				<?php endforeach; ?>
+
+				<div class="dy-adset__panes">
+					<form class="dy-adset__cell" method="post" action="<?php echo esc_url( $post ); ?>">
+						<span class="dy-mlset__icon" aria-hidden="true"><?php self::icon( 'team' ); ?></span>
+						<span class="dy-mlset__body">
+							<span class="dy-mlset__name"><?php esc_html_e( 'New configuration', 'doubleyoupi-refined-admin-dashboard' ); ?></span>
+							<span class="dy-mlset__desc"><?php esc_html_e( 'Starts from the site’s current setup, or from a configuration you choose. Then give it roles and edit its menu.', 'doubleyoupi-refined-admin-dashboard' ); ?></span>
+						</span>
+						<span class="dy-adset__extra dy-adset__config-new">
+							<input type="hidden" name="action" value="doubleyoupi_configuration_save">
+							<input type="hidden" name="_wpnonce" value="<?php echo esc_attr( $nonce ); ?>">
+							<input type="text" name="name" required placeholder="<?php esc_attr_e( 'Name, e.g. Client editor', 'doubleyoupi-refined-admin-dashboard' ); ?>" aria-label="<?php esc_attr_e( 'Name', 'doubleyoupi-refined-admin-dashboard' ); ?>">
+							<select name="from" aria-label="<?php esc_attr_e( 'Start from', 'doubleyoupi-refined-admin-dashboard' ); ?>">
+								<option value=""><?php esc_html_e( 'The site’s current setup', 'doubleyoupi-refined-admin-dashboard' ); ?></option>
+								<?php foreach ( $items as $slug => $item ) : ?>
+									<option value="<?php echo esc_attr( $slug ); ?>"><?php echo esc_html( $item['name'] ); ?></option>
+								<?php endforeach; ?>
+							</select>
+							<?php submit_button( __( 'Create', 'doubleyoupi-refined-admin-dashboard' ), 'secondary', 'submit', false ); ?>
+						</span>
+					</form>
+					<form class="dy-adset__cell" method="get" action="<?php echo esc_url( $post ); ?>">
+						<span class="dy-mlset__icon" aria-hidden="true"><?php self::icon( 'lines' ); ?></span>
+						<span class="dy-mlset__body">
+							<span class="dy-mlset__name"><?php esc_html_e( 'View as…', 'doubleyoupi-refined-admin-dashboard' ); ?></span>
+							<span class="dy-mlset__desc"><?php esc_html_e( 'See the admin as a role sees it: menu, screens, dashboard and notices. Your own rights do not change, and a banner lets you leave.', 'doubleyoupi-refined-admin-dashboard' ); ?></span>
+						</span>
+						<span class="dy-adset__extra dy-adset__config-new">
+							<input type="hidden" name="action" value="doubleyoupi_preview_start">
+							<input type="hidden" name="_wpnonce" value="<?php echo esc_attr( wp_create_nonce( 'doubleyoupi_preview' ) ); ?>">
+							<select name="role" aria-label="<?php esc_attr_e( 'Role', 'doubleyoupi-refined-admin-dashboard' ); ?>">
+								<?php foreach ( $roles as $role => $label ) : ?>
+									<option value="<?php echo esc_attr( (string) $role ); ?>"><?php echo esc_html( translate_user_role( (string) $label ) ); ?></option>
+								<?php endforeach; ?>
+							</select>
+							<?php submit_button( __( 'Preview', 'doubleyoupi-refined-admin-dashboard' ), 'secondary', '', false ); ?>
+						</span>
+					</form>
+				</div>
+			</div>
+		</section>
 		<?php
 	}
 

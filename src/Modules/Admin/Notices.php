@@ -47,7 +47,7 @@ final class Notices {
 	/** Whether the current user only sees errors and action results. */
 	public static function filtered_for_current_user(): bool {
 		return (bool) get_option( self::OPTION_MANAGERS_ONLY, false )
-			&& ! current_user_can( \DoubleYoupi\Admin\Access::CAP );
+			&& ( ! current_user_can( \DoubleYoupi\Admin\Access::CAP ) || null !== Preview::role() );
 	}
 
 	/**

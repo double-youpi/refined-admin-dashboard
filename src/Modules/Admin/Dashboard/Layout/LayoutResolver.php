@@ -54,6 +54,15 @@ final class LayoutResolver {
 	 * @return array<string, mixed>
 	 */
 	private static function raw_for_user( int $user_id ): array {
+		// « View as… » (Preview): the previewed role's dashboard, never the
+		// administrator's own.
+		$preview = $user_id === get_current_user_id() ? \DoubleYoupi\Modules\Admin\Preview::role() : null;
+		if ( null !== $preview ) {
+			$slug   = RoleAssignments::for_roles( [ $preview ] );
+			$layout = null !== $slug ? Dispositions::layout_for_slug( $slug ) : null;
+			return is_array( $layout ) ? $layout : LayoutPresets::standard();
+		}
+
 		// 0. A disposition imposed on one of the user's roles wins over their
 		// own dashboard (RoleAssignments::ENFORCED_KEY, 11/11/2026).
 		$enforced = RoleAssignments::enforced_for_user( $user_id );

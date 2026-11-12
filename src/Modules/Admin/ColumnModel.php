@@ -465,7 +465,7 @@ final class ColumnModel {
 	 */
 	private static function user_can_open( array $entry ): bool {
 		$cap = (string) ( $entry[1] ?? '' );
-		return '' === $cap || current_user_can( $cap );
+		return '' === $cap || Preview::can( $cap ); // the previewed role's rights during « View as… »
 	}
 
 	/**
@@ -686,7 +686,7 @@ final class ColumnModel {
 			[ 'slug' => 'update-core.php',   'label' => self::submenu_label( 'update-core.php', __( 'Updates', 'doubleyoupi-refined-admin-dashboard' ) ),     'line' => 'system', 'cap' => 'update_core' ],
 		];
 		foreach ( $promote as $p ) {
-			if ( ! current_user_can( $p['cap'] ) ) {
+			if ( ! Preview::can( $p['cap'] ) ) {
 				continue;
 			}
 			if ( NavigationOverrides::is_chip_hidden( $p['slug'] ) ) {
@@ -763,7 +763,7 @@ final class ColumnModel {
 			if ( null === $found ) {
 				continue;
 			}
-			if ( '' !== $found['cap'] && ! current_user_can( $found['cap'] ) ) {
+			if ( '' !== $found['cap'] && ! Preview::can( $found['cap'] ) ) {
 				continue;
 			}
 			$line_chips[ $target ][] = self::make_chip( $slug, $found['label'], $found['url'] );

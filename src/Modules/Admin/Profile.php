@@ -20,7 +20,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * mode, navigation tree, Feedback and review requests hidden), the navigation overrides and disabled screens, and
  * the Toolkit toggles. Since version 2 (11/11/2026), the shared dashboard too:
  * saved dispositions, hidden built-in ones, role assignments and impositions,
- * so a client dashboard can be reproduced from site to site. Per-user choices
+ * so a client dashboard can be reproduced from site to site. Since version 3
+ * (RAD 1.1.0), the configurations by role and their roles: the agency kit.
+ * Per-user choices
  * (theme, rail width, table modes, a person's own dashboard) stay out.
  *
  * Pinning in code: `define( 'DOUBLEYOUPI_ADMIN_PROFILE', '/path/to/profile.json' )`
@@ -32,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class Profile {
 
 	public const FORMAT  = 'doubleyoupi-admin-profile';
-	public const VERSION = 2;
+	public const VERSION = 3;
 
 	public const ACTION_EXPORT = 'doubleyoupi_admin_profile_export';
 	public const ACTION_IMPORT = 'doubleyoupi_admin_profile_import';
@@ -110,6 +112,7 @@ final class Profile {
 				'role_assignments' => RoleAssignments::all(),
 				'role_enforced'   => RoleAssignments::enforced_roles(),
 			],
+			'configurations' => Configurations::export(),
 		];
 	}
 
@@ -300,6 +303,12 @@ final class Profile {
 			$applied[] = 'dashboard.role_enforced';
 		}
 
+		// Configurations by role (version 3), after the dispositions they use.
+		if ( is_array( $payload['configurations'] ?? null ) ) {
+			Configurations::import( $payload['configurations'] );
+			$applied[] = 'configurations';
+		}
+
 		/**
 		 * Fires after a profile has been imported.
 		 *
@@ -440,6 +449,7 @@ final class Profile {
 			__( 'Screens left in native styling', 'doubleyoupi-refined-admin-dashboard' ),
 			__( 'Toolkit toggles', 'doubleyoupi-refined-admin-dashboard' ),
 			__( 'Shared dashboard dispositions and their roles', 'doubleyoupi-refined-admin-dashboard' ),
+			__( 'Configurations by role', 'doubleyoupi-refined-admin-dashboard' ),
 		];
 	}
 }

@@ -229,6 +229,8 @@ JS;
 		( new Sprite() )->boot();
 		( new Brand( $settings ) )->boot();
 		( new ThemePreference() )->boot();
+		( new Configurations() )->boot();
+		( new Preview() )->boot();
 		( new Chipbar( $this->rail ) )->boot();
 		( new Subchipbar( $this->rail ) )->boot();
 		( new Adminbar() )->boot();

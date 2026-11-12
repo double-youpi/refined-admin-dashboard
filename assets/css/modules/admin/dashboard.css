@@ -3715,6 +3715,39 @@ body.dy-admin.index-php .dy-dashboard__note-content p {
 body.dy-admin.index-php .dy-dashboard__note-content p:last-child {
   margin-bottom: 0;
 }
+body.dy-admin.index-php .dy-dashboard__contact {
+  font-size: var(--dya-fs-base);
+  line-height: var(--dya-lh-base);
+}
+body.dy-admin.index-php .dy-dashboard__contact-name {
+  margin: 0 0 4px;
+  font-family: var(--dya-font-display);
+  font-size: var(--dya-fs-md);
+  font-weight: 600;
+  color: var(--dya-ink);
+}
+body.dy-admin.index-php .dy-dashboard__contact-message {
+  margin: 0 0 12px;
+  color: var(--dya-ink-soft, var(--dya-ink));
+}
+body.dy-admin.index-php .dy-dashboard__contact-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+body.dy-admin.index-php .dy-dashboard__contact-list li {
+  margin: 0;
+}
+body.dy-admin.index-php .dy-dashboard__contact-list a {
+  color: var(--dya-accent-text);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+body.dy-admin.index-php .dy-dashboard__contact-list a:hover, body.dy-admin.index-php .dy-dashboard__contact-list a:focus-visible {
+  text-decoration: underline;
+}
 body.dy-admin.index-php .dy-dashboard__create-btn,
 body.dy-admin.index-php .dy-dashboard__admin-link {
   display: flex;

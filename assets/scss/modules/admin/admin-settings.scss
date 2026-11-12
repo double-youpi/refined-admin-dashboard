@@ -546,3 +546,51 @@ body.dy-admin .dy-accent-picker .wp-picker-container input[type="text"].iris-err
 @media (prefers-reduced-motion: reduce) {
 	.dy-adset .dy-mlset__group.is-targeted > .dy-mlset__cards { animation: none; }
 }
+
+// ── Configurations by role (RAD 1.1.0) ──────────────────────
+.dy-adset__config-form { display: grid; gap: 12px; }
+.dy-adset__config-row {
+	display: grid;
+	grid-template-columns: 140px minmax(0, 1fr);
+	align-items: start;
+	gap: 6px 16px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	min-width: 0;
+	> select, > input { justify-self: start; max-width: 100%; }
+}
+.dy-adset__config-label {
+	padding: 6px 0 0;
+	color: var(--dya-ink-soft);
+	font-size: 13px;
+}
+fieldset.dy-adset__config-row > legend.dy-adset__config-label { float: left; width: 140px; }
+.dy-adset__config-roles {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px 18px;
+	padding-top: 6px;
+	label { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+}
+.dy-adset__config-taken { color: var(--dya-ink-mute); font-size: 12px; }
+.dy-adset__config-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	margin: 4px 0 0;
+	.button-link-delete { margin-left: auto; }
+}
+.dy-adset__config + .dy-adset__config { border-top: 1px solid var(--dya-line); }
+.dy-adset__config-new {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	> input[type="text"] { flex: 1 1 200px; min-width: 0; }
+}
+@container (max-width: 640px) {
+	.dy-adset__config-row { grid-template-columns: minmax(0, 1fr); }
+	fieldset.dy-adset__config-row > legend.dy-adset__config-label { float: none; width: auto; }
+}

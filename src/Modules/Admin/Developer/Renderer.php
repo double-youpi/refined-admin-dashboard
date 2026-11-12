@@ -24,6 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class Renderer {
 
 	public static function render(): void {
+		self::render_target();
 		?>
 		<p class="description" style="margin-top:14px;">
 			<?php esc_html_e( 'Visually reorganize your admin navigation: drag chips between lines, hide items, promote sub-pages to top-level, and toggle Double Youpï styling per sub-page.', 'doubleyoupi-refined-admin-dashboard' ); ?>
@@ -54,6 +55,32 @@ final class Renderer {
 				See admin-developer.js for the rendering logic.
 			-->
 		</div>
+		<?php
+	}
+
+	/**
+	 * « You are editing: » the site's menu or a configuration (Configurations,
+	 * RAD 1.1.0). A plain GET form: choosing reloads the editor on that target.
+	 */
+	private static function render_target(): void {
+		$items = \DoubleYoupi\Modules\Admin\Configurations::all();
+		if ( ! $items ) {
+			return;
+		}
+		$current = (string) \DoubleYoupi\Modules\Admin\Configurations::editing();
+		?>
+		<form class="dy-dev-target" method="get" action="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>">
+			<input type="hidden" name="page" value="doubleyoupi-admin" />
+			<input type="hidden" name="tab" value="reorganize" />
+			<label for="dy-dev-target"><?php esc_html_e( 'You are editing:', 'doubleyoupi-refined-admin-dashboard' ); ?></label>
+			<select id="dy-dev-target" name="<?php echo esc_attr( \DoubleYoupi\Modules\Admin\Configurations::EDIT_PARAM ); ?>">
+				<option value=""><?php esc_html_e( 'The site’s menu (administrators and roles without a configuration)', 'doubleyoupi-refined-admin-dashboard' ); ?></option>
+				<?php foreach ( $items as $slug => $item ) : ?>
+					<option value="<?php echo esc_attr( $slug ); ?>" <?php selected( $slug, $current ); ?>><?php echo esc_html( $item['name'] ); ?></option>
+				<?php endforeach; ?>
+			</select>
+			<button type="submit" class="button dy-dev-target__open"><?php esc_html_e( 'Open', 'doubleyoupi-refined-admin-dashboard' ); ?></button>
+		</form>
 		<?php
 	}
 }
