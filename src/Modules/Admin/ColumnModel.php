@@ -299,18 +299,39 @@ final class ColumnModel {
 	 * (wp-admin/menu-header.php): Dashicon class, base64 SVG as background,
 	 * plain image, or nothing. Our rail styles all four forms.
 	 */
+	/** @var array<string,string> Base64 SVG icons of the native tree: class => data URI. */
+	private static array $svg_icons = [];
+
+	/**
+	 * CSS giving each base64 SVG icon of the native tree its image, as
+	 * `--dy-ni` (drawn as a mask by _rail.scss). Only base64 characters reach it.
+	 */
+	public static function svg_icons_css(): string {
+		$css = '';
+		foreach ( self::$svg_icons as $key => $uri ) {
+			$css .= '#adminmenu .wp-menu-image.' . $key . '{--dy-ni:url("' . $uri . '")}';
+		}
+		return $css;
+	}
+
 	private static function native_icon_html( string $icon ): string {
 		$img   = '';
-		$style = '';
 		$class = ' dashicons-before';
 		if ( '' !== $icon ) {
 			$img = '<img src="' . esc_url( $icon ) . '" alt="" />';
 			if ( 'none' === $icon || 'div' === $icon ) {
 				$img = '<br />';
 			} elseif ( str_starts_with( $icon, 'data:image/svg+xml;base64,' ) ) {
-				$img   = '<br />';
-				$style = ' style="background-image:url(\'' . esc_attr( $icon ) . '\')"';
-				$class = ' svg';
+				// Not a style attribute: the rail's wp_kses drops `url(data:…)`
+				// from it. A class, and its rule in svg_icons_css().
+				$img = '<br />';
+				if ( preg_match( '#^data:image/svg\+xml;base64,[A-Za-z0-9+/=]+$#', $icon ) ) {
+					$key                     = 'dy-ni-' . substr( md5( $icon ), 0, 12 );
+					self::$svg_icons[ $key ] = $icon;
+					$class                   = ' svg ' . $key;
+				} else {
+					$class = ' dashicons-before';
+				}
 			} elseif ( str_starts_with( $icon, 'dashicons-' ) ) {
 				$img   = '<br />';
 				$class = ' dashicons-before ' . sanitize_html_class( $icon );
@@ -322,7 +343,7 @@ final class ColumnModel {
 				}
 			}
 		}
-		return '<div class="wp-menu-image' . $class . '"' . $style . ' aria-hidden="true">' . $img . '</div>';
+		return '<div class="wp-menu-image' . $class . '" aria-hidden="true">' . $img . '</div>';
 	}
 
 	/**

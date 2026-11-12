@@ -592,6 +592,12 @@ JS;
 		wp_register_style( 'doubleyoupi-admin-rail-pre-paint', false, [], DOUBLEYOUPI_VERSION );
 		wp_add_inline_style( 'doubleyoupi-admin-rail-pre-paint', self::PRE_PAINT_CSS );
 		wp_print_styles( 'doubleyoupi-admin-rail-pre-paint' );
+		$icons_css = ColumnModel::svg_icons_css();
+		if ( '' !== $icons_css ) {
+			wp_register_style( 'doubleyoupi-admin-rail-icons', false, [], DOUBLEYOUPI_VERSION );
+			wp_add_inline_style( 'doubleyoupi-admin-rail-icons', $icons_css );
+			wp_print_styles( 'doubleyoupi-admin-rail-icons' );
+		}
 
 		printf(
 			'<template id="dy-admin-rail-tpl">%s</template>' . "\n",

@@ -3,7 +3,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-11-12T00:09:30+00:00\n"
+"POT-Creation-Date: 2026-11-12T01:17:17+00:00\n"
 "Language: it_IT\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
@@ -42,7 +42,7 @@ msgstr "Double Youpï"
 msgid "https://doubleyoupi.com"
 msgstr "https://doubleyoupi.com"
 
-#: doubleyoupi-refined-admin-dashboard.php:57
+#: doubleyoupi-refined-admin-dashboard.php:62
 msgid ""
 "Another Double Youpï plugin that already includes Double Youpï Refined Admin "
 "Dashboard is active, so this standalone copy stepped aside to stay out of "
@@ -596,7 +596,7 @@ msgstr ""
 "Cartelle e raccolte, drag & drop, anteprima rapida, pulizia di duplicati e "
 "file orfani, più conversione WebP/AVIF al caricamento."
 
-#: src/Modules/Admin/Admin.php:130 src/Modules/Admin/Rail.php:608
+#: src/Modules/Admin/Admin.php:130 src/Modules/Admin/Rail.php:614
 msgid "Admin"
 msgstr "Admin"
 
@@ -682,54 +682,54 @@ msgstr "Mantieni Admin Columns"
 msgid "Section navigation"
 msgstr "Navigazione di sezione"
 
-#: src/Modules/Admin/ColumnModel.php:683
+#: src/Modules/Admin/ColumnModel.php:704
 msgid "Theme Editor"
 msgstr "Editor del tema"
 
-#: src/Modules/Admin/ColumnModel.php:684
+#: src/Modules/Admin/ColumnModel.php:705
 msgid "Plugin Editor"
 msgstr "Editor dei plugin"
 
-#: src/Modules/Admin/ColumnModel.php:685
+#: src/Modules/Admin/ColumnModel.php:706
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:154
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:68
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteHealthWidget.php:199
 msgid "Site Health"
 msgstr "Salute del sito"
 
-#: src/Modules/Admin/ColumnModel.php:686
+#: src/Modules/Admin/ColumnModel.php:707
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:113
 #: src/Modules/Admin/Dashboard/Widgets/Data/TodoWidget.php:69
 msgid "Updates"
 msgstr "Aggiornamenti"
 
-#: src/Modules/Admin/ColumnModel.php:991
+#: src/Modules/Admin/ColumnModel.php:1012
 msgid "Content"
 msgstr "Contenuto"
 
-#: src/Modules/Admin/ColumnModel.php:992
+#: src/Modules/Admin/ColumnModel.php:1013
 msgid "Commerce"
 msgstr "Commercio"
 
-#: src/Modules/Admin/ColumnModel.php:993
+#: src/Modules/Admin/ColumnModel.php:1014
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:63
 msgid "Users"
 msgstr "Utenti"
 
-#: src/Modules/Admin/ColumnModel.php:994
+#: src/Modules/Admin/ColumnModel.php:1015
 msgid "Community"
 msgstr "Comunità"
 
-#: src/Modules/Admin/ColumnModel.php:995
+#: src/Modules/Admin/ColumnModel.php:1016
 #: src/Modules/MediaLibrary/Settings.php:362
 msgid "Appearance"
 msgstr "Aspetto"
 
-#: src/Modules/Admin/ColumnModel.php:996
+#: src/Modules/Admin/ColumnModel.php:1017
 msgid "System"
 msgstr "Sistema"
 
-#: src/Modules/Admin/ColumnModel.php:997
+#: src/Modules/Admin/ColumnModel.php:1018
 msgid "Developer"
 msgstr "Sviluppatore"
 
@@ -955,13 +955,13 @@ msgstr "Dai tuoi plugin"
 #. translators: %s: disposition name
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:412
 #, php-format
-msgid "Delete the disposition « %s »?"
+msgid "Delete the disposition “%s”?"
 msgstr "Eliminare la disposizione «%s»?"
 
 #. translators: %s: disposition name
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:414
 #, php-format
-msgid "Replace the current layout with « %s »? Unsaved changes will be lost."
+msgid "Replace the current layout with “%s”? Unsaved changes will be lost."
 msgstr ""
 "Sostituire la disposizione corrente con «%s»? Le modifiche non salvate "
 "andranno perse."
@@ -969,7 +969,7 @@ msgstr ""
 #. translators: %s: disposition name
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:416
 #, php-format
-msgid "Update « %s » with the current settings?"
+msgid "Update “%s” with the current settings?"
 msgstr "Aggiornare « %s » con le impostazioni attuali?"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:417
@@ -1047,7 +1047,7 @@ msgstr "Disposizione sbloccata."
 #. translators: %s: disposition name
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:436
 #, php-format
-msgid "Assign « %s » to roles"
+msgid "Assign “%s” to roles"
 msgstr "Assegna « %s » a ruoli"
 
 #: src/Modules/Admin/Dashboard/DashboardOverride.php:437
@@ -1335,16 +1335,18 @@ msgid "Recommended by Double Youpï"
 msgstr "Raccomandata Double Youpï"
 
 #: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:321
+msgctxt "dashboard layout name"
 msgid "Editor"
-msgstr "Editore"
+msgstr "Redazione"
 
 #: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:321
 msgid "Focus on content creation"
 msgstr "Focus sulla creazione di contenuti"
 
 #: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:322
+msgctxt "dashboard layout name"
 msgid "Administrator"
-msgstr "Amministratore"
+msgstr "Amministrazione"
 
 #: src/Modules/Admin/Dashboard/Layout/LayoutPresets.php:322
 msgid "Technical health and maintenance"
@@ -1451,7 +1453,7 @@ msgstr "ID widget richiesto."
 #. translators: %s is the widget identifier that could not be found.
 #: src/Modules/Admin/Dashboard/RestController.php:393
 #, php-format
-msgid "Unknown widget « %s »."
+msgid "Unknown widget “%s”."
 msgstr "Widget « %s » sconosciuto."
 
 #: src/Modules/Admin/Dashboard/RestController.php:403
@@ -2369,11 +2371,11 @@ msgstr "Stai modificando:"
 msgid "The site’s menu (administrators and roles without a configuration)"
 msgstr "Il menu del sito (amministratori e ruoli senza configurazione)"
 
-#: src/Modules/Admin/Developer/RestController.php:215
+#: src/Modules/Admin/Developer/RestController.php:248
 msgid "The overrides must be an object."
 msgstr "Le sovrascritture devono essere un oggetto."
 
-#: src/Modules/Admin/Developer/RestController.php:249
+#: src/Modules/Admin/Developer/RestController.php:282
 msgid "Signatures must be an array."
 msgstr "Le firme devono essere un array."
 
@@ -2730,15 +2732,15 @@ msgstr "Disposizioni condivise della bacheca e i loro ruoli"
 msgid "Configurations by role"
 msgstr "Configurazioni per ruolo"
 
-#: src/Modules/Admin/Rail.php:607 src/Modules/Admin/Settings.php:1070
+#: src/Modules/Admin/Rail.php:613 src/Modules/Admin/Settings.php:1070
 msgid "Dashboard"
 msgstr "Bacheca"
 
-#: src/Modules/Admin/Rail.php:784
+#: src/Modules/Admin/Rail.php:790
 msgid "Resize navigation"
 msgstr "Ridimensiona la navigazione"
 
-#: src/Modules/Admin/Rail.php:785
+#: src/Modules/Admin/Rail.php:791
 msgid "Toggle navigation width"
 msgstr "Cambia larghezza della navigazione"
 
@@ -3812,10 +3814,9 @@ msgstr "Aggiungi 1 file a una collezione"
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:91
 #, php-format
 msgid ""
-"Delete folder « %s »?\n"
+"Delete folder “%s”?\n"
 "\n"
-"Media inside won’t be deleted, they will be moved to « Media without "
-"folder »."
+"Media inside won’t be deleted, they will be moved to “Media without folder”."
 msgstr ""
 "Eliminare la cartella « %s »?\n"
 "\n"
@@ -3826,7 +3827,7 @@ msgstr ""
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:95
 #, php-format
 msgid ""
-"Delete collection « %s »?\n"
+"Delete collection “%s”?\n"
 "\n"
 "Media files won’t be deleted, they will simply be removed from this "
 "collection."
@@ -3847,13 +3848,13 @@ msgstr "questa collezione"
 #. translators: %s: folder name.
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:103
 #, php-format
-msgid "Folder « %s » deleted"
+msgid "Folder “%s” deleted"
 msgstr "Cartella « %s » eliminata"
 
 #. translators: %s: collection name.
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:105
 #, php-format
-msgid "Collection « %s » deleted"
+msgid "Collection “%s” deleted"
 msgstr "Collezione « %s » eliminata"
 
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:106
@@ -3883,37 +3884,37 @@ msgstr "collezione"
 #. translators: %s: folder name.
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:114
 #, php-format
-msgid "1 file moved to « %s »"
+msgid "1 file moved to “%s”"
 msgstr "1 file spostato in « %s »"
 
 #. translators: %1$d: number of files; %2$s: folder name.
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:116
 #, php-format
-msgid "%1$d files moved to « %2$s »"
+msgid "%1$d files moved to “%2$s”"
 msgstr "%1$d file spostati in « %2$s »"
 
 #. translators: %s: collection name.
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:118
 #, php-format
-msgid "1 file added to « %s »"
+msgid "1 file added to “%s”"
 msgstr "1 file aggiunto a « %s »"
 
 #. translators: %1$d: number of files; %2$s: collection name.
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:120
 #, php-format
-msgid "%1$d files added to « %2$s »"
+msgid "%1$d files added to “%2$s”"
 msgstr "%1$d file aggiunti a « %2$s »"
 
 #. translators: %s: collection name.
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:122
 #, php-format
-msgid "Already in « %s »"
+msgid "Already in “%s”"
 msgstr "Già in « %s »"
 
 #. translators: %s: collection name.
 #: src/Modules/MediaLibrary/FolderManagerI18n.php:124
 #, php-format
-msgid "All already in « %s »"
+msgid "All already in “%s”"
 msgstr "Tutti già in « %s »"
 
 #. translators: %1$d: number of files moved; %2$d: number already present.
@@ -4698,7 +4699,7 @@ msgid "Disable email verification"
 msgstr "Disattiva la verifica dell’e-mail"
 
 #: src/Modules/Toolkit/Features/DisableEmailVerification.php:33
-msgid "Stop the periodic « Is this admin email correct? » screen"
+msgid "Stop the periodic “Is this admin email correct?” screen"
 msgstr ""
 "Elimina la schermata periodica «Questa e-mail di amministrazione è corretta?»"
 
@@ -4738,12 +4739,12 @@ msgid "Duplicate a post/page"
 msgstr "Duplica un articolo/pagina"
 
 #: src/Modules/Toolkit/Features/DuplicatePosts.php:32
-msgid "Enable a « Duplicate » link in the admin lists"
+msgid "Enable a “Duplicate” link in the admin lists"
 msgstr "Attiva un link « Duplica » nelle liste dell’admin"
 
 #: src/Modules/Toolkit/Features/DuplicatePosts.php:36
 msgid ""
-"Adds a « Duplicate » link in the Posts/Pages/CPT lists. Clones the content, "
+"Adds a “Duplicate” link in the Posts/Pages/CPT lists. Clones the content, "
 "meta and taxonomies as a draft. Replaces Yoast Duplicate Post."
 msgstr ""
 "Aggiunge un link « Duplica » nelle liste Articoli/Pagine/CPT. Clona il "
@@ -4782,7 +4783,7 @@ msgstr "Reindirizza HTTP → HTTPS e riscrive i link interni"
 #: src/Modules/Toolkit/Features/ForceHttps.php:37
 msgid ""
 "301 redirect on front and admin, rewriting of http→https URLs in the "
-"content. Replaces Really Simple SSL. (The WordPress « Site Address » setting "
+"content. Replaces Really Simple SSL. (The WordPress “Site Address” setting "
 "is not modified: do it manually.)"
 msgstr ""
 "Redirect 301 in front e admin, riscrittura delle URL http→https nel "

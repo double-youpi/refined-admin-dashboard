@@ -88,7 +88,7 @@
   --dya-rail-icon-glyph: clamp(18px, 1.25vw, 24px);
   --dya-topbar-h: clamp(44px, 2.7vw, 54px);
   --dya-chipbar-h: clamp(50px, 3.1vw, 60px);
-  --dya-wrap-max: clamp(1280px, 78vw, 1640px);
+  --dya-wrap-max: 100%;
   --dya-wrap-pad-x: clamp(32px, 2.4vw, 48px);
   --dya-wrap-pad-y: clamp(28px, 2.0vw, 40px);
   --dya-fs-base: clamp(13.5px, 0.85vw, 15px);

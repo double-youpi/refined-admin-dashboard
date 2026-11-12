@@ -409,11 +409,11 @@ CSS;
 			'not_styled_yet'     => __( 'Not styled yet', 'doubleyoupi-refined-admin-dashboard' ),
 			'catalog_extensions' => __( 'From your plugins', 'doubleyoupi-refined-admin-dashboard' ),
 			/* translators: %s: disposition name */
-			'confirm_delete_disposition' => __( 'Delete the disposition « %s »?', 'doubleyoupi-refined-admin-dashboard' ),
+			'confirm_delete_disposition' => __( 'Delete the disposition “%s”?', 'doubleyoupi-refined-admin-dashboard' ),
 			/* translators: %s: disposition name */
-			'apply_disposition_confirm' => __( 'Replace the current layout with « %s »? Unsaved changes will be lost.', 'doubleyoupi-refined-admin-dashboard' ),
+			'apply_disposition_confirm' => __( 'Replace the current layout with “%s”? Unsaved changes will be lost.', 'doubleyoupi-refined-admin-dashboard' ),
 			/* translators: %s: disposition name */
-			'update_disposition_confirm' => __( 'Update « %s » with the current settings?', 'doubleyoupi-refined-admin-dashboard' ),
+			'update_disposition_confirm' => __( 'Update “%s” with the current settings?', 'doubleyoupi-refined-admin-dashboard' ),
 			'confirm_clear_all'  => __( 'Clear everything and start from a single blank screen?', 'doubleyoupi-refined-admin-dashboard' ),
 			'invalid_disposition_file' => __( 'This file is not a valid disposition export.', 'doubleyoupi-refined-admin-dashboard' ),
 			'imported_disposition' => __( 'Imported disposition', 'doubleyoupi-refined-admin-dashboard' ),
@@ -433,7 +433,7 @@ CSS;
 			'layout_unlocked'    => __( 'Layout unlocked.', 'doubleyoupi-refined-admin-dashboard' ),
 			// Role assignment modal.
 			/* translators: %s: disposition name */
-			'assign_roles_to'    => __( 'Assign « %s » to roles', 'doubleyoupi-refined-admin-dashboard' ),
+			'assign_roles_to'    => __( 'Assign “%s” to roles', 'doubleyoupi-refined-admin-dashboard' ),
 			'assign_roles_hint'  => __( 'Users with these roles will see this disposition (read-only).', 'doubleyoupi-refined-admin-dashboard' ),
 			/* translators: %s: another disposition name */
 			'role_already_on'    => __( 'already on %s', 'doubleyoupi-refined-admin-dashboard' ),

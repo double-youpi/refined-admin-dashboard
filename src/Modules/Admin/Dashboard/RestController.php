@@ -390,7 +390,7 @@ final class RestController {
 			return new \WP_Error(
 				'unknown_widget',
 				// translators: %s is the widget identifier that could not be found.
-				sprintf( __( 'Unknown widget « %s ».', 'doubleyoupi-refined-admin-dashboard' ), $id ),
+				sprintf( __( 'Unknown widget “%s”.', 'doubleyoupi-refined-admin-dashboard' ), $id ),
 				[ 'status' => 404 ]
 			);
 		}

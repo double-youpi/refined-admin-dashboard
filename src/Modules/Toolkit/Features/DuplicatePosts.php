@@ -29,11 +29,11 @@ final class DuplicatePosts extends AbstractFeature {
 	}
 
 	public function checkbox_label(): string {
-		return __( 'Enable a « Duplicate » link in the admin lists', 'doubleyoupi-refined-admin-dashboard' );
+		return __( 'Enable a “Duplicate” link in the admin lists', 'doubleyoupi-refined-admin-dashboard' );
 	}
 
 	public function description(): string {
-		return __( 'Adds a « Duplicate » link in the Posts/Pages/CPT lists. Clones the content, meta and taxonomies as a draft. Replaces Yoast Duplicate Post.', 'doubleyoupi-refined-admin-dashboard' );
+		return __( 'Adds a “Duplicate” link in the Posts/Pages/CPT lists. Clones the content, meta and taxonomies as a draft. Replaces Yoast Duplicate Post.', 'doubleyoupi-refined-admin-dashboard' );
 	}
 
 	public function icon_svg(): string {

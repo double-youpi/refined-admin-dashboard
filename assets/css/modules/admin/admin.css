@@ -88,7 +88,7 @@
   --dya-rail-icon-glyph: clamp(18px, 1.25vw, 24px);
   --dya-topbar-h: clamp(44px, 2.7vw, 54px);
   --dya-chipbar-h: clamp(50px, 3.1vw, 60px);
-  --dya-wrap-max: clamp(1280px, 78vw, 1640px);
+  --dya-wrap-max: 100%;
   --dya-wrap-pad-x: clamp(32px, 2.4vw, 48px);
   --dya-wrap-pad-y: clamp(28px, 2.0vw, 40px);
   --dya-fs-base: clamp(13.5px, 0.85vw, 15px);
@@ -1665,8 +1665,9 @@ body.dy-admin .dy-rail-logo {
   height: var(--dya-rail-logo-size);
   border-radius: var(--dya-r-md);
   color: var(--dya-ink);
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: var(--dya-font-mono);
   font-weight: 700;
   font-size: calc(var(--dya-rail-logo-size) * 0.4);
@@ -1853,12 +1854,13 @@ body.dy-admin #adminmenu li.menu-top > a .wp-menu-image::before {
   color: inherit;
   width: var(--dya-rail-icon-glyph);
   height: var(--dya-rail-icon-glyph);
+  padding: 0;
 }
 
 body.dy-admin.dy-nav-native #adminmenu li.menu-top > a .wp-menu-image.svg {
-  background-size: var(--dya-rail-icon-glyph) auto;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: currentColor;
+  -webkit-mask: var(--dy-ni) center/contain no-repeat;
+  mask: var(--dy-ni) center/contain no-repeat;
   opacity: 0.78;
 }
 
@@ -1893,7 +1895,6 @@ body.dy-admin.dy-nav-native #adminmenu li.menu-top > a .wp-menu-image.dashicons-
   opacity: 0.55;
 }
 
-body.dy-admin.dy-theme-light.dy-nav-native #adminmenu li.menu-top > a .wp-menu-image.svg,
 body.dy-admin.dy-theme-light.dy-nav-native #adminmenu li.menu-top > a .wp-menu-image img {
   filter: invert(1) hue-rotate(180deg);
 }
@@ -8193,7 +8194,6 @@ body.dy-admin select {
   box-shadow: none;
   min-height: 0;
   height: auto;
-  width: auto;
   max-width: 100%;
   transition: border-color var(--dya-t-fast), box-shadow var(--dya-t-fast);
 }
@@ -16026,9 +16026,11 @@ body.dy-admin .comment-status-bullet.is-trash {
   body.dy-admin input[type=url],
   body.dy-admin input[type=password],
   body.dy-admin input[type=number],
-  body.dy-admin:where(:not(.dy-native-content)) textarea,
-  body.dy-admin select {
+  body.dy-admin:where(:not(.dy-native-content)) textarea {
     padding: 9px 13px;
+  }
+  body.dy-admin select {
+    padding: 9px 32px 9px 13px;
   }
   body.dy-admin #welcome-panel.welcome-panel {
     padding: 36px 36px 28px;

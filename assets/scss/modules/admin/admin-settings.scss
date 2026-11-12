@@ -589,6 +589,9 @@ fieldset.dy-adset__config-row > legend.dy-adset__config-label { float: left; wid
 	align-items: center;
 	gap: 8px;
 	> input[type="text"] { flex: 1 1 200px; min-width: 0; }
+	// Squeezed by the row, a select lost the room of its arrow, which then
+	// covered the text (12/11/2026): it keeps its natural width.
+	> select { flex: none; }
 }
 @container (max-width: 640px) {
 	.dy-adset__config-row { grid-template-columns: minmax(0, 1fr); }

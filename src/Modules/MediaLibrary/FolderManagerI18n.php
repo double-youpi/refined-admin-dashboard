@@ -88,11 +88,11 @@ final class FolderManagerI18n {
 
 			// ── Confirms (use %s for the entity name) ─────────────────────
 			/* translators: %s: folder name. */
-			'deleteFolderConfirm'     => __( "Delete folder « %s »?
+			'deleteFolderConfirm'     => __( "Delete folder “%s”?
 
-Media inside won’t be deleted, they will be moved to « Media without folder ».", 'doubleyoupi-refined-admin-dashboard' ),
+Media inside won’t be deleted, they will be moved to “Media without folder”.", 'doubleyoupi-refined-admin-dashboard' ),
 			/* translators: %s: collection name. */
-			'deleteCollectionConfirm' => __( "Delete collection « %s »?
+			'deleteCollectionConfirm' => __( "Delete collection “%s”?
 
 Media files won’t be deleted, they will simply be removed from this collection.", 'doubleyoupi-refined-admin-dashboard' ),
 			'thisFolder'              => __( 'this folder', 'doubleyoupi-refined-admin-dashboard' ),
@@ -100,9 +100,9 @@ Media files won’t be deleted, they will simply be removed from this collection
 
 			// ── Toast messages (use %s / %d / %1$d %2$s for substitution) ─
 			/* translators: %s: folder name. */
-			'folderDeleted'           => __( 'Folder « %s » deleted', 'doubleyoupi-refined-admin-dashboard' ),
+			'folderDeleted'           => __( 'Folder “%s” deleted', 'doubleyoupi-refined-admin-dashboard' ),
 			/* translators: %s: collection name. */
-			'collectionDeleted'       => __( 'Collection « %s » deleted', 'doubleyoupi-refined-admin-dashboard' ),
+			'collectionDeleted'       => __( 'Collection “%s” deleted', 'doubleyoupi-refined-admin-dashboard' ),
 			'folderDeleteFailed'      => __( 'Could not delete folder', 'doubleyoupi-refined-admin-dashboard' ),
 			'collectionDeleteFailed'  => __( 'Could not delete collection', 'doubleyoupi-refined-admin-dashboard' ),
 			'folderMoveFailed'        => __( 'Move failed', 'doubleyoupi-refined-admin-dashboard' ),
@@ -111,17 +111,17 @@ Media files won’t be deleted, they will simply be removed from this collection
 			'collectionFallback'      => __( 'collection', 'doubleyoupi-refined-admin-dashboard' ),
 
 			/* translators: %s: folder name. */
-			'movedOne'                => __( '1 file moved to « %s »', 'doubleyoupi-refined-admin-dashboard' ),
+			'movedOne'                => __( '1 file moved to “%s”', 'doubleyoupi-refined-admin-dashboard' ),
 			/* translators: %1$d: number of files; %2$s: folder name. */
-			'movedMany'               => __( '%1$d files moved to « %2$s »', 'doubleyoupi-refined-admin-dashboard' ),
+			'movedMany'               => __( '%1$d files moved to “%2$s”', 'doubleyoupi-refined-admin-dashboard' ),
 			/* translators: %s: collection name. */
-			'addedOne'                => __( '1 file added to « %s »', 'doubleyoupi-refined-admin-dashboard' ),
+			'addedOne'                => __( '1 file added to “%s”', 'doubleyoupi-refined-admin-dashboard' ),
 			/* translators: %1$d: number of files; %2$s: collection name. */
-			'addedMany'               => __( '%1$d files added to « %2$s »', 'doubleyoupi-refined-admin-dashboard' ),
+			'addedMany'               => __( '%1$d files added to “%2$s”', 'doubleyoupi-refined-admin-dashboard' ),
 			/* translators: %s: collection name. */
-			'alreadyInOne'            => __( 'Already in « %s »', 'doubleyoupi-refined-admin-dashboard' ),
+			'alreadyInOne'            => __( 'Already in “%s”', 'doubleyoupi-refined-admin-dashboard' ),
 			/* translators: %s: collection name. */
-			'alreadyInAll'            => __( 'All already in « %s »', 'doubleyoupi-refined-admin-dashboard' ),
+			'alreadyInAll'            => __( 'All already in “%s”', 'doubleyoupi-refined-admin-dashboard' ),
 			/* translators: %1$d: number of files moved; %2$d: number already present. */
 			'movedAndDup'             => __( '%1$d moved, %2$d already present', 'doubleyoupi-refined-admin-dashboard' ),
 			/* translators: %1$d: number of files added; %2$d: number already present. */

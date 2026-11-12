@@ -223,7 +223,7 @@
 				var p = s.split( '::' );
 				hiddenSubs.push( { parent: p[0], slug: p[1], label: p[1] } );
 			} else {
-				hiddenSubs.push( { parent: s.parent, slug: s.child || s.slug, label: s.child || s.slug } );
+				hiddenSubs.push( { parent: s.parent, slug: s.child || s.slug, label: s.label || s.child || s.slug } );
 			}
 		} );
 	})();

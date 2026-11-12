@@ -766,6 +766,9 @@ fieldset.dy-adset__config-row > legend.dy-adset__config-label {
   flex: 1 1 200px;
   min-width: 0;
 }
+.dy-adset__config-new > select {
+  flex: none;
+}
 
 @container (max-width: 640px) {
   .dy-adset__config-row {

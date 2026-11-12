@@ -318,8 +318,8 @@ final class LayoutPresets {
 	public static function list(): array {
 		$presets = [
 			[ 'slug' => 'standard',   'name' => __( 'Standard',      'doubleyoupi-refined-admin-dashboard' ), 'description' => __( 'Recommended by Double Youpï',      'doubleyoupi-refined-admin-dashboard' ) ],
-			[ 'slug' => 'editor',     'name' => __( 'Editor',        'doubleyoupi-refined-admin-dashboard' ), 'description' => __( 'Focus on content creation',        'doubleyoupi-refined-admin-dashboard' ) ],
-			[ 'slug' => 'admin-site', 'name' => __( 'Administrator', 'doubleyoupi-refined-admin-dashboard' ), 'description' => __( 'Technical health and maintenance', 'doubleyoupi-refined-admin-dashboard' ) ],
+			[ 'slug' => 'editor',     'name' => _x( 'Editor', 'dashboard layout name', 'doubleyoupi-refined-admin-dashboard' ), 'description' => __( 'Focus on content creation',        'doubleyoupi-refined-admin-dashboard' ) ],
+			[ 'slug' => 'admin-site', 'name' => _x( 'Administrator', 'dashboard layout name', 'doubleyoupi-refined-admin-dashboard' ), 'description' => __( 'Technical health and maintenance', 'doubleyoupi-refined-admin-dashboard' ) ],
 			[ 'slug' => 'minimal',    'name' => __( 'Minimal',       'doubleyoupi-refined-admin-dashboard' ), 'description' => __( 'Just create and go',               'doubleyoupi-refined-admin-dashboard' ) ],
 		];
 

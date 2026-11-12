@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, dark theme
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -188,6 +188,18 @@ Privacy policy: https://doubleyoupi.com/privacy
 15. Coming from FileBird or another folder plugin? Preview its folders, then import them in one click. The source plugin is never modified.
 
 == Changelog ==
+
+= 1.1.1 =
+* Change: screens use the full width of the window, as WordPress itself now draws them (post lists, the editor, settings…), instead of a centred column. The bars above them follow.
+* Fix: text fields keep the width WordPress or the plugin gives them; they were all shrunk to their default size.
+* Fix: with the native WordPress navigation tree, plugin icons drawn as SVG (Double Youpï, Bricks, WooCommerce, WP Mail SMTP…) show in the rail again, in the colour of the theme, and every icon is centred on its label.
+* Fix: a custom logo of any proportions, even a very tall one, fits whole in the rail, centred.
+* Change: in French, the "Editor" and "Administrator" dashboard layouts are named "Édition" and "Administration", so the layout cards keep their balance.
+* Fix: in "Configurations by role", the arrow of a drop-down list no longer covers its text.
+* Fix: in Reorganize, the "Open" button next to "You are editing:" no longer shows when choosing in the list already opens the configuration.
+* Fix: the "Hidden" drawer of Reorganize names hidden entries ("Comments") instead of showing their address.
+* Fix: a note from Double Youpï Refined Media Library saying it stepped aside is shown only to those who can manage plugins.
+* Change: English texts quote names with curly quotes instead of French guillemets.
 
 = 1.1.0 =
 * New: configurations by role (Settings, "Configurations by role"). A configuration sets the menu, the screens left in native styling, the navigation and the dashboard for one or more roles; the brand and the Toolkit stay common to the site. Start from the site's setup or from another configuration, give it roles, and edit its menu in Reorganize with "You are editing:". Accounts that manage Double Youpï keep the site's own setup.
@@ -453,6 +465,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.1.1 =
+Full-width screens, text fields at their intended width, plugin icons in the native tree, tall logos.
 
 = 1.1.0 =
 Configurations by role, "View as…" a role, a "Your contact" dashboard card, and the agency kit.

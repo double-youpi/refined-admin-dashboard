@@ -1784,7 +1784,7 @@
       if (f.isSet) pills.push({ label: f.currentText, remove: function () { applyParam(f.name, ''); } });
     });
     var sb = nativeSearchInput();
-    if (sb && sb.value) pills.push({ label: '« ' + sb.value + ' »', remove: function () { applyParam('s', ''); } });
+    if (sb && sb.value) pills.push({ label: '“' + sb.value + '”', remove: function () { applyParam('s', ''); } });
     if (!pills.length) return null;
 
     var row = el('<div class="dy-tfactive"></div>');

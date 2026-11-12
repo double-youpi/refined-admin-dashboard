@@ -214,7 +214,10 @@
 
   --dya-topbar-h:         clamp(44px, 2.7vw, 54px);
   --dya-chipbar-h:        clamp(50px, 3.1vw, 60px);
-  --dya-wrap-max:         clamp(1280px, 78vw, 1640px);
+  // Full width, as WordPress itself draws its screens since 7.0 (12/11/2026):
+  // the 1280-1640px column left wide screens half empty. Every bar and panel
+  // aligned on the content column reads this token.
+  --dya-wrap-max:         100%;
   --dya-wrap-pad-x:       clamp(32px, 2.4vw, 48px);
   --dya-wrap-pad-y:       clamp(28px, 2.0vw, 40px);
 

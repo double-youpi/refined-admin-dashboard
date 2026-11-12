@@ -102,8 +102,12 @@ body.dy-admin .dy-rail-logo {
   // (--dya-ink tones, never pure black/white). Using `var(--dya-bg)` made it inverted and
   // nearly invisible (white on light background / black on dark background).
   color: var(--dya-ink);
-  display: grid;
-  place-items: center;
+  // Flex, not grid: in a grid the image's `height: 100%` resolved as auto, so
+  // a tall logo grew to its own height and was cut (12/11/2026). In a flex box
+  // of definite height it fits, centred, whatever its proportions.
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: var(--dya-font-mono);
   font-weight: 700;
   font-size: calc(var(--dya-rail-logo-size) * 0.4);
@@ -382,6 +386,9 @@ body.dy-admin #adminmenu li.menu-top > a .wp-menu-image::before {
   color: inherit;
   width:  var(--dya-rail-icon-glyph);
   height: var(--dya-rail-icon-glyph);
+  // Core pads the glyph (`#adminmenu div.wp-menu-image:before { padding: 7px 0 }`)
+  // for its 34px tile: in our 20px box it sat 7px under the label (12/11/2026).
+  padding: 0;
 }
 
 // ── Native tree (Settings → Navigation tree: native) ───────────
@@ -389,10 +396,15 @@ body.dy-admin #adminmenu li.menu-top > a .wp-menu-image::before {
 // Dashicon classes (glyph via ::before, already styled above), a base64
 // SVG as background, a plain <img>, or the 7.2 Icon API. Separators keep
 // their line (`.dy-rail-divider`).
+// Base64 SVG icons: the rail goes through wp_kses, which drops `url(data:…)`
+// from a style attribute, so the icon comes as `--dy-ni` from a class rule
+// printed beside the rail (Rail::output_rail_template). Drawn as a mask of
+// the text colour, the way WordPress repaints them for its own menu: it
+// follows both themes (12/11/2026).
 body.dy-admin.dy-nav-native #adminmenu li.menu-top > a .wp-menu-image.svg {
-  background-size: var(--dya-rail-icon-glyph) auto;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: currentColor;
+  -webkit-mask: var(--dy-ni) center / contain no-repeat;
+  mask: var(--dy-ni) center / contain no-repeat;
   opacity: .78;
 }
 body.dy-admin.dy-nav-native #adminmenu li.menu-top.current > a .wp-menu-image.svg,
@@ -411,10 +423,9 @@ body.dy-admin.dy-nav-native #adminmenu li.menu-top > a .wp-menu-image.dashicons-
 body.dy-admin.dy-nav-native #adminmenu li.menu-top > a .wp-menu-image.dashicons-before[class="wp-menu-image dashicons-before"]::after {
   content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: .55;
 }
-// Plugin icons are drawn white for the dark WordPress menu (base64 SVGs,
-// PNGs): on the light theme they vanish. Inverting flips white to ink and
+// Plugin image icons are drawn white for the dark WordPress menu (PNGs):
+// on the light theme they vanish. Inverting flips white to ink and
 // keeps a coloured icon's hue.
-body.dy-admin.dy-theme-light.dy-nav-native #adminmenu li.menu-top > a .wp-menu-image.svg,
 body.dy-admin.dy-theme-light.dy-nav-native #adminmenu li.menu-top > a .wp-menu-image img {
   filter: invert(1) hue-rotate(180deg);
 }

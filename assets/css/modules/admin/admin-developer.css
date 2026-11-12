@@ -442,3 +442,5 @@
 }
 .dy-dev-target label { font-weight: 600; color: var(--dya-ink); }
 .dy-dev-target select { min-width: 280px; max-width: 100%; }
+/* The script hides Open (choosing reloads); `.button` would show it again. */
+.dy-dev-target .dy-dev-target__open[hidden] { display: none; }

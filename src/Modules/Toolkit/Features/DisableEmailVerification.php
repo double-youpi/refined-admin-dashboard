@@ -30,7 +30,7 @@ final class DisableEmailVerification extends AbstractFeature {
 	}
 
 	public function checkbox_label(): string {
-		return __( 'Stop the periodic « Is this admin email correct? » screen', 'doubleyoupi-refined-admin-dashboard' );
+		return __( 'Stop the periodic “Is this admin email correct?” screen', 'doubleyoupi-refined-admin-dashboard' );
 	}
 
 	public function description(): string {

@@ -38,7 +38,9 @@ body.dy-admin select {
   box-shadow: none;
   min-height: 0;
   height: auto;
-  width: auto;
+  // No `width: auto` (removed 12/11/2026): it beat WordPress' own widths
+  // (`.regular-text`, `.large-text`, `.widefat`, plugin fields) and shrank
+  // every field to its default size.
   max-width: 100%;
   transition: border-color var(--dya-t-fast), box-shadow var(--dya-t-fast);
 }

@@ -34,7 +34,7 @@ final class ForceHttps extends AbstractFeature {
 	}
 
 	public function description(): string {
-		return __( '301 redirect on front and admin, rewriting of http→https URLs in the content. Replaces Really Simple SSL. (The WordPress « Site Address » setting is not modified: do it manually.)', 'doubleyoupi-refined-admin-dashboard' );
+		return __( '301 redirect on front and admin, rewriting of http→https URLs in the content. Replaces Really Simple SSL. (The WordPress “Site Address” setting is not modified: do it manually.)', 'doubleyoupi-refined-admin-dashboard' );
 	}
 
 	public function icon_svg(): string {

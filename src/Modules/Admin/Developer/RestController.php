@@ -142,7 +142,7 @@ final class RestController {
 				continue;
 			}
 			[ $parent, $child ] = explode( '::', $key, 2 );
-			$hidden_subs[] = [ 'key' => $key, 'parent' => $parent, 'child' => $child ];
+			$hidden_subs[] = [ 'key' => $key, 'parent' => $parent, 'child' => $child, 'label' => self::wp_menu_label( $child, $parent ) ];
 		}
 
 		// Detected: unknown plugins captured by NavigationDetector.
@@ -196,6 +196,39 @@ final class RestController {
 				foreach ( (array) ( $chip['subitems'] ?? [] ) as $si ) {
 					if ( ( $si['slug'] ?? '' ) === $slug ) {
 						return (string) $si['label'];
+					}
+				}
+			}
+		}
+		return self::wp_menu_label( $slug );
+	}
+
+	/**
+	 * Label of an entry in WordPress' own menu, else its address. A hidden
+	 * entry is off the board, so the board cannot name it: the Hidden drawer
+	 * showed `edit-comments.php` instead of "Comments" (12/11/2026). The menu
+	 * is there on the Reorganize page, which seeds the drawer.
+	 */
+	private static function wp_menu_label( string $slug, string $parent = '' ): string {
+		global $menu, $submenu;
+		$want = PluginMap::normalize_slug( $slug );
+		if ( '' === $parent && is_array( $menu ) ) {
+			foreach ( $menu as $entry ) {
+				if ( is_array( $entry ) && isset( $entry[2] ) && PluginMap::normalize_slug( (string) $entry[2] ) === $want ) {
+					$label = ColumnModel::strip_label( (string) ( $entry[0] ?? '' ) );
+					return '' !== $label ? $label : $slug;
+				}
+			}
+		}
+		if ( is_array( $submenu ) ) {
+			foreach ( $submenu as $top => $items ) {
+				if ( '' !== $parent && PluginMap::normalize_slug( (string) $top ) !== PluginMap::normalize_slug( $parent ) ) {
+					continue;
+				}
+				foreach ( (array) $items as $sub ) {
+					if ( is_array( $sub ) && isset( $sub[2] ) && PluginMap::normalize_slug( (string) $sub[2] ) === $want ) {
+						$label = ColumnModel::strip_label( (string) ( $sub[0] ?? '' ) );
+						return '' !== $label ? $label : $slug;
 					}
 				}
 			}
