@@ -26056,6 +26056,16 @@ body.dy-admin.dy-theme-light:is(.toplevel_page_bricksforge, .bricks_page_bricksf
   color-scheme: dark;
 }
 
+body.dy-admin.admin_page_ws-form-edit {
+  --wsf-admin-menu-width: var(--dya-rail-w-current);
+  --wp-admin--admin-bar--height: var(--dya-topbar-h);
+}
+body.dy-admin.admin_page_ws-form-edit .dy-chipbar,
+body.dy-admin.admin_page_ws-form-edit .dy-subchipbar,
+body.dy-admin.admin_page_ws-form-edit .dy-notice-dock {
+  display: none !important;
+}
+
 body.dy-admin [data-dy-adopt=toolbar-widget] {
   padding: 0 !important;
   margin: 0 0 12px !important;

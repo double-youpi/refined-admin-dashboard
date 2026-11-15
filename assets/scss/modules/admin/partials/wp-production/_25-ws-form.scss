@@ -1,0 +1,22 @@
+// =============================================================
+// WS Form (retour de Chris Green, 14/11/2026, fb_20261114T095454_00e512)
+//
+// WS Form draws its form editor (`admin_page_ws-form-edit`) as a fixed,
+// full-height app: `#wsf-layout-editor` and its side panels sit at
+// `top: var(--wp-admin--admin-bar--height)` and
+// `left: var(--wsf-admin-menu-width)` (160px, WordPress' menu). Under RAD
+// the top bar is taller than WordPress' 32px and our chip bars sit at the
+// top of the content: they covered WS Form's header (form name, Save,
+// Publish) and its fields panel.
+// Here, like the other full-screen apps: no chip bars, and WS Form's two
+// measures told the truth, our rail's width and our top bar's height.
+// =============================================================
+
+body.dy-admin.admin_page_ws-form-edit {
+  --wsf-admin-menu-width: var(--dya-rail-w-current);
+  --wp-admin--admin-bar--height: var(--dya-topbar-h);
+
+  .dy-chipbar,
+  .dy-subchipbar,
+  .dy-notice-dock { display: none !important; }
+}

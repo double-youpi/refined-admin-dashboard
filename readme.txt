@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, dark theme
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -188,6 +188,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 15. Coming from FileBird or another folder plugin? Preview its folders, then import them in one click. The source plugin is never modified.
 
 == Changelog ==
+
+= 1.2.2 =
+* Fix: WS Form: the form editor's header (form name, Save, Publish) and its fields panel are no longer covered by the top bars.
 
 = 1.2.1 =
 * Fix: ACF and Secure Custom Fields: the Save button is back on the screens that edit a post type, a taxonomy or an options page. Only field groups kept it.
@@ -482,6 +485,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.2.2 =
+WS Form: the form editor's header and Save button are visible again.
 
 = 1.2.1 =
 ACF: the Save button is back on post types, taxonomies and options pages.
