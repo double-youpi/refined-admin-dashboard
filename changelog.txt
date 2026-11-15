@@ -1,0 +1,302 @@
+=== Double Youpï Refined Admin Dashboard ===
+
+== Changelog ==
+
+= 1.2.3 =
+* Change: this readme lists the latest versions only; the complete history is in changelog.txt, in the plugin folder, and on GitHub.
+
+= 1.2.2 =
+* Fix: WS Form: the form editor's header (form name, Save, Publish) and its fields panel are no longer covered by the top bars.
+
+= 1.2.1 =
+* Fix: ACF and Secure Custom Fields: the Save button is back on the screens that edit a post type, a taxonomy or an options page. Only field groups kept it.
+
+= 1.2.0 =
+* New: "Edit" dashboard widget, the counterpart of Create: a short list of content to open in its editor, with a link to the full list. Show the latest changed entries of a type, its drafts to finish, or the content you choose (for example a client's Home and Contact pages). Each person only sees what they may edit, and content built with Bricks, Elementor, Divi, Beaver Builder, Brizy or Visual Composer opens in its builder.
+* New: the "Editor" and "Minimal" dashboard layouts carry the Edit widget. Minimal is now the pages to edit and a note, without Create.
+* New: "Default theme" (Settings, Brand): System, Dark or Light, for the accounts that have not picked a theme. System, the default, follows each person's computer and changes with it. Everyone can still switch from the top bar, and a one-time hint points to the switch.
+* Change: an account that never picked a theme now follows its computer's light or dark setting instead of always starting dark. Choose "Dark" as the default theme to keep the former behaviour.
+* Fix: in the redesigned post editor, a side column taller than the window scrolls on its own; its end no longer waits at the bottom of the page.
+
+= 1.1.2 =
+* New: a settings profile pinned in code (DOUBLEYOUPI_ADMIN_PROFILE) can carry the configurations by role, the shared dashboard (layouts, role assignments, impositions) and "Plugin notices for administrators only". They show locked in the settings.
+* Fix: with a profile pinned in code, the configurations by role shape their roles again: the pinned menu is the site's setup, and each configuration applies over it. Before, the pinned menu applied to everyone.
+* Fix: what is pinned in code can no longer be changed from Reorganize or the dashboard, where the change was lost without a word; the screen says it is pinned.
+* Fix: in Reorganize, "Reset" while editing a configuration resets that configuration only, no longer the site's menu.
+* Fix: with a custom accent colour, the "Report or suggest" button of the Overview and the glow of WordPress' welcome panel no longer keep traces of the default violet.
+
+= 1.1.1 =
+* Change: screens use the full width of the window, as WordPress itself now draws them (post lists, the editor, settings…), instead of a centred column. The bars above them follow.
+* Fix: text fields keep the width WordPress or the plugin gives them; they were all shrunk to their default size.
+* Fix: with the native WordPress navigation tree, plugin icons drawn as SVG (Double Youpï, Bricks, WooCommerce, WP Mail SMTP…) show in the rail again, in the colour of the theme, and every icon is centred on its label.
+* Fix: a custom logo of any proportions, even a very tall one, fits whole in the rail, centred.
+* Change: in French, the "Editor" and "Administrator" dashboard layouts are named "Édition" and "Administration", so the layout cards keep their balance.
+* Fix: in "Configurations by role", the arrow of a drop-down list no longer covers its text.
+* Fix: in Reorganize, the "Open" button next to "You are editing:" no longer shows when choosing in the list already opens the configuration.
+* Fix: the "Hidden" drawer of Reorganize names hidden entries ("Comments") instead of showing their address.
+* Fix: a note from Double Youpï Refined Media Library saying it stepped aside is shown only to those who can manage plugins.
+* Change: English texts quote names with curly quotes instead of French guillemets.
+
+= 1.1.0 =
+* New: configurations by role (Settings, "Configurations by role"). A configuration sets the menu, the screens left in native styling, the navigation and the dashboard for one or more roles; the brand and the Toolkit stay common to the site. Start from the site's setup or from another configuration, give it roles, and edit its menu in Reorganize with "You are editing:". Accounts that manage Double Youpï keep the site's own setup.
+* New: "View as…": see the admin as a role sees it (menu, screens, dashboard and notices) without switching accounts. Your own rights do not change, and a pill at the bottom of the screen lets you leave.
+* New: "Your contact" dashboard card: name, message, email, phone and a support link, for the people who get that dashboard. Empty fields are left out.
+* Change: the settings profile becomes an agency kit: it also carries the configurations and their roles, so a whole client setup can be laid on a new site. Older profile files still import.
+
+= 1.0.35 =
+* New: "Impose on these roles" when assigning a dashboard disposition: people with those roles see it even if they had customized their dashboard, and cannot change it. Accounts that manage Double Youpï are never held. An option clears the dashboards they had customized.
+* New: "Plugin notices for administrators only" (Settings, Team): other accounts no longer see plugins' promotions, licence reminders or review requests, and still see errors and the result of their own actions.
+* Change: the settings profile also carries the shared dashboard (dispositions, role assignments, impositions) and the new notices setting, so a client setup can be reproduced on another site. Older profile files still import.
+* Fix: for someone with several roles, a disposition assigned to any of their roles now wins over a default guessed from another role.
+
+= 1.0.34 =
+* Change: your light or dark theme is kept on your account, not only in the browser: it follows you to another browser or computer, and after the browser's data is cleared.
+* Fix: in the light theme, a plugin's link in the top bar no longer turns black on black when clicked.
+
+= 1.0.33 =
+* Fix: Bricksforge stays readable in the light theme: its app, always dark, keeps light text.
+
+= 1.0.32 =
+* Fix: FluentAuth, FluentSMTP and FluentSnippets follow the dark or light theme, like FluentCart, and FluentAuth's top bar sits under the navigation bars.
+* Fix: SEOPress follows the dark or light theme on all its screens.
+* Fix: Bricks' AI screen follows the dark or light theme, its switches included.
+* Fix: Bricksforge's screens no longer sit on a light page in the dark theme.
+
+= 1.0.31 =
+* New: in the lists of posts, pages and custom post types, content built with Bricks, Elementor, Divi, Beaver Builder, Brizy or Visual Composer opens in its builder: "Edit with …" comes first and stands out, the row title opens the builder too, and "Edit in WordPress" moves to the end. Content without a builder is unchanged (filter `doubleyoupi_filter_builder_row_actions` for other builders).
+* Fix: with Beaver Builder, the list rows show one "Duplicate" link instead of two.
+* Change: the Menus screen is laid out again: menu items as full-width rows with a drag handle and one-line titles, sub-items joined to their parent, the open item's fields in a grid, a tidier "Add menu items" column, the menu settings in rows, and a save bar that no longer covers the list. The screen no longer scrolls sideways on narrow windows.
+
+= 1.0.30 =
+* Fix: MailerPress: its full-screen screens keep their own look in both themes (readable side menu and titles), without the menu toggle or the corner of the rail showing.
+* Fix: dashboard widgets from other plugins (MailerPress Overview, WooCommerce and others) keep their icons and their inner margin.
+* Fix: FluentSMTP and FluentSnippets: their top bar sits under the navigation bars instead of covering them.
+* Fix: FluentCRM: its content no longer touches the rail, its top bar stays under ours when scrolling, and the sub-navigation steps aside for its own menu.
+* Fix: fields of the Element interface library (Fluent plugins): FluentSnippets' search no longer covers its button, and Fluent Forms' selects keep their full width.
+* Fix: buttons and titles that a plugin hides or colours itself (WordPress components) are left as the plugin draws them.
+
+= 1.0.29 =
+* Fix: the Classic Editor tool keeps the block editor for content that only exists in blocks: Modern Fields field groups and WordPress patterns (filter `doubleyoupi_filter_classic_editor_block_only_post_types` to add others).
+* Fix: Modern Fields boxes: fields at full width, drawn as fields, on the ground of their box; readable labels in the dark theme; readable location rules in the field group builder.
+* Fix: text fields drawn with WordPress components (plugin boxes and sidebars) keep their full width.
+* Fix: on plugin screens that draw their own tabs after the page loads, the sub-navigation steps aside, and only one of its entries shows as current.
+
+= 1.0.28 =
+* Fix: duplicating an Elementor page no longer copies Elementor's generated styles and caches, so the copy shows with its styles on the site.
+* Fix: with Bricks, the list rows show one "Duplicate" link instead of two.
+* Fix: Quick Edit: in the redesigned lists, the time no longer slides under the next field; in the native lists, labels such as "Author" and "Password" stay on one line in every language, and the date fits on one line.
+
+= 1.0.27 =
+* Fix: WooCommerce Stripe settings: the "Get Stripe Tax" button no longer overlaps the next one, the account name and the bank statement preview are readable in dark mode, and the layout choice shows its dot in the middle.
+* Fix: WordPress components with an icon and a label keep their width, and their radio buttons keep their centred dot, on every screen.
+* Fix: the admin email check and new password screens of the login page are drawn like the sign-in screen, with readable text and buttons, in the dark and light themes.
+
+= 1.0.26 =
+* Fix: "Disable update emails" now reads the update results WordPress sends: successful plugin and theme updates send no email, failures still do.
+* Change: in the redesigned lists, row titles and row actions (Edit, View, Trash, plugins' links) are real links: right-click "Open in new tab", middle click and Cmd/Ctrl-click work.
+* Change: ACF rich text (WYSIWYG) fields have the same ground as the other ACF fields, white in the light theme.
+* Fix: the descriptions of the SVG upload and update email tools match what they do.
+* Fix: the redesign keeps working when another plugin hands back an unexpected value to a WordPress filter it also uses (admin body classes, post content, image metadata).
+* Fix: in the media library settings, a setting the server cannot use (AVIF) no longer shows a stray checkbox next to its switch.
+
+= 1.0.25 =
+* Security: the SVG upload tool now keeps only known SVG elements and attributes, checked after namespaces and control characters are resolved, and is limited to administrators by default (filter `doubleyoupi_filter_svg_upload_capability`). SVG files already in the media library are checked once and cleaned if needed.
+* Fix: Cmd+S / Ctrl+S in the classic editor works again, and on a draft it saves the draft instead of publishing it.
+* Fix: duplicating a page keeps Elementor and Bricks data intact.
+* Fix: ACF location rules: each field fills its column, and each rule group sits in its own panel.
+* Fix: in the native view of the post editor, the boxes stay in the main column and the side column on the right, also on post types without a content editor (ACF flexible content).
+* Fix: the "Add Row" button of ACF flexible content keeps a readable label.
+* Change: in the redesigned editor, with ACF labels on the left, flexible content, repeater and group fields put their label above and use the full width, instead of a label column left empty down their whole height.
+
+= 1.0.24 =
+* Fix: in the classic editor, the Rank Math and Yoast SEO boxes have the same card ground as the other boxes, and their content looks as it does without the redesign (button, links, help icons, headings).
+* Fix: Advanced Custom Fields fields take the full width again (options pages, editor, terms, profile, field group editor), and stand out from their card so they read as editable.
+* Fix: ACF buttons read as buttons (Add Row, Add Image, Close Field, Add Field), button groups and the true / false switch are readable in dark mode, and the field type selector and settings tabs no longer show a stray frame.
+
+= 1.0.23 =
+* Change: About WordPress, Documentation, Support and Get Involved are back, in the account menu at the top right.
+* Change: on the dashboard, the Notifications button sits at the top right, where it is on every other screen, with Customize just before it.
+
+= 1.0.22 =
+* Fix: plugin screens left on WordPress's light canvas no longer take the dark theme's colours through WordPress's design tokens (Jetpack's modules), and their switches are visible again.
+* Fix: Jetpack's app screens (Jetpack AI, Backup, Search…) start below the navigation instead of under it.
+* Fix: LiteSpeed Cache's CDN and Image Optimization screens are drawn like its other screens, and read well in dark mode.
+* Fix: a plugin's own empty list keeps its picture and its "Add" button (Secure Custom Fields).
+* Fix: a form a plugin places in its page stays where it is instead of going to the notifications (BoldGrid Connect in Total Upkeep).
+* Fix: with a single theme installed, the Themes screen shows its sheet on the full width.
+* Fix: Hello Elementor's bar no longer covers the tabs, and its welcome notice goes to the notifications; GeneratePress's header, Astra's and Neve's editor panels read well in dark mode.
+* Fix: the block editor's title uses the room it has, and the media list's "Attach" link reads as a link.
+
+= 1.0.21 =
+* Fix: right-to-left languages (Arabic, Hebrew, Persian): the top bar, the content, the dashboard and the media library run along the menu on the right, without covering it or leaving a strip.
+* Fix: the "Skip to main content" links appear when they receive keyboard focus.
+* Fix: keyboard focus is visible on the settings cards and in the media library's search and filters; the hidden "Add Media File" button no longer takes the focus.
+* Fix: better contrast for inactive plugins' descriptions, comment dates and theme tags.
+* Fix: Editors, Authors and Contributors find Tools and their Profile in the menu again.
+* Fix: the dashboard's slide dots stay visible in high contrast mode, and screens no longer fade in when the system asks for less motion.
+
+= 1.0.20 =
+* Fix: on plugin screens shown on WordPress's light canvas, headings, links and checkboxes look as they do without the redesign (WP Super Cache, Fluent Forms).
+* Fix: the WooCommerce cards on the dashboard's last screen keep their inner margin, and the lines of the "Status" grid are discreet in dark mode.
+* Fix: a link that comes with a dashboard widget's title (Independent Analytics' "Open Dashboard") is shown as a link, next to the title.
+* Fix: a link drawn as a button inside a box keeps its own colours (TablePress).
+* Fix: the arrows of WooCommerce's articles carousel on the Coupons screen are visible in dark mode.
+
+= 1.0.19 =
+* Faster: the stylesheet loaded on every admin screen is 15 KB lighter (compressed): the dashboard's styles are no longer sent to the other screens.
+* Faster: the plugin's settings are read with WordPress's own settings in one database query, instead of up to 16 separate queries per screen (9 on the public site).
+
+= 1.0.18 =
+* Change: on the dashboard, notices are gathered in a "Notifications" button, as on the other screens. They unfold above it on click, and no longer cover the widgets.
+* Fix: plugin panels filled after the page has loaded (Independent Analytics and Limit Login Attempts widgets) keep dark text on their white ground in dark mode.
+* Fix: plugin panels and windows shown next to the page are readable in dark mode (The Events Calendar's notifications, Image Optimization's connection window, Otter's banner).
+* Fix: notices that a plugin keeps hidden no longer show up in the notifications, and settings rows a plugin hides stay hidden (Backuply, Autoptimize).
+* Fix: links in boxes read as links. On plugin screens shown on WordPress's light canvas, menus, tabs and buttons are no longer underlined.
+* Fix: WooCommerce's coupon recommendations and articles are readable in dark mode.
+* Fix: in Reorganize, the link to the plugin pages section still leads there when the section is empty.
+* Fix: the label of WP Super Cache's "Install Jetpack Boost" button is readable, and WooCommerce's "Coming soon" badge stays on one line.
+* Compatibility: the Contact Form CFDB7 list and the Members settings take the redesign.
+
+= 1.0.17 =
+* Fix: in the media list, every file shows its own thumbnail again (WordPress 7.1 changed the table's markup and they piled up in one place).
+* Fix: "Move to Trash" is back in the classic editor, at the foot of the publish box.
+* Fix: boxes can be moved up and down from the keyboard again. Buttons that plugins put in a box's header show again.
+* Fix: an empty list says so ("No posts found.") instead of ending at its header.
+* Fix: "WordPress Events and News" loads its events and news on the dashboard.
+* Fix: notices on the dashboard show in their stack again. WordPress moved them back under the carousel, where they could not be seen.
+* Fix: a plugin page that holds nothing but a notice keeps it on the page, instead of looking empty once the notice went to the counter.
+* Fix: the setup assistant of UpdraftPlus, All-In-One Security and WP-Optimize is readable in dark mode, "Exit setup" included.
+* Fix: WooCommerce's "Coming soon" badge stays in the top bar: it is the only sign that the shop is not public yet.
+* Fix: links read as links. On plugin screens shown on WordPress's light canvas they take WordPress's blue, and in settings tables and form labels they are underlined.
+* Fix: WordPress's help bubbles are readable in dark mode, and so are the dates of the dashboard's "Activity" and the block editor's reading time.
+* Fix: the "Attach" link of the media list looks like a link.
+* Compatibility: 21 more plugins with their own design keep it on WordPress's light canvas (MailPoet, UpdraftPlus, WPCode, Loginizer, Backuply, OptinMonster, SeedProd, Members, Easy Updates Manager, WP Statistics and others), and Antispam Bee, Admin Menu Editor and a few others take the redesign.
+
+= 1.0.16 =
+* Fix: in Reorganize, "Assign" under Plugin pages now saves: the plugin moves to the group you chose.
+* New: the line that splits the rail shows in Reorganize as "Bottom of the rail". Drag it, or move it with the arrow keys, to choose what sits at the bottom. A new group is created above it.
+* Fix: dragging in Reorganize scrolls the board and the page when you reach their edge, so a group off screen can be reached.
+* Fix: a plugin's "View details" window is readable again in dark mode.
+* Fix: avatars in "Recent comments" keep their size on the dashboard's WordPress screen.
+* Fix: MailPoet screens keep the redesigned admin.
+* Fix: Ninja Forms opens its dashboard instead of "Cannot load nf-welcome". More broadly, the rail no longer links to a page that a plugin removes after building its menu.
+* Fix: FluentCart follows your dark or light theme. Its header, and SEOPress's, now sit under the bars instead of over them.
+* Fix: with HappyFiles in charge of the media library, its folder column no longer covers the list, and Add Media File is reachable again.
+* Fix: the Plugins screen says "Inactive" next to inactive plugins, and its auto-updates header is no longer cut.
+* Fix: the rail's section dot no longer grows into a large disc on some plugin pages (Events Manager bookings).
+* Thanks to the translator and to the users who sent these reports.
+
+= 1.0.15 =
+* Faster: moving between admin screens no longer waits for the page transition. The next screen is requested on the click, and the transitions are shorter.
+* Faster: admin screens linked from the navigation are fetched as soon as you hover the link, in browsers that support it. Links that do something (delete, create, log out) are never fetched in advance.
+* Fix: with "reduce motion" turned on in your system, admin screens change without any animation.
+
+= 1.0.14 =
+* New for developers (beta): add your plugin's own cards to the dashboard with the doubleyoupi_dashboard_widgets_registered action. They get their own section in the palette, "From your plugins". A card can add to the palette, never replace one of ours.
+
+= 1.0.13 =
+* New: keep Double Youpï settings to yourself (Settings, Team). Other administrators keep the redesigned admin, without its settings, the Feedback button or review requests. The plugin stays listed in Plugins. Locked out? Add define( 'DOUBLEYOUPI_UNLOCK_SETTINGS', true ); to wp-config.php. The doubleyoupi_filter_can_manage filter sets your own rule.
+* Change: creating, renaming, moving and deleting media folders and collections is now for editors and administrators. Anyone who can upload still files media into folders and collections. The doubleyoupi_filter_manage_folders_cap filter sets another capability.
+* Fix: the navigation rail no longer shows pages a user cannot open. Authors saw Settings, Plugins and other screens that answered "not allowed".
+
+= 1.0.12 =
+* New: hide the Feedback button and review requests in one click (Settings, Team). Handy on sites you hand over to clients. The setting travels with the settings profile and can be pinned in code.
+* New: the doubleyoupi_filter_review_ask_enabled filter turns the review request off in code.
+
+= 1.0.11 =
+* Fix: plugins that draw their screens on their own white panels now show them in light, clean and readable, instead of half dark (Limit Login Attempts, WP Go Maps, WP Fastest Cache, Independent Analytics, and others in the same case, recognised on their own). Their buttons keep their own colours.
+* Fix: links in text are underlined and use your accent colour, in light and dark.
+* Fix: plugin sub-pages with tabs and external links in the menus open correctly, and a plugin's tab bar no longer appears twice.
+* Fix: Independent Analytics is no longer cut on the left, and its dashboard chart keeps its size.
+* Translations: Spanish, Brazilian Portuguese and Russian now follow the glossary and style guide of each WordPress translation team; French follows the versions validated by its team, with non-breaking spaces.
+* Thanks to the translator who reported these.
+
+= 1.0.10 =
+* New: WPGraphQL IDE follows your theme, dark or light, syntax colours included.
+* New: media folders, collections and the WebP/AVIF copies are available to headless fronts through WPGraphQL and the REST API. Folder names can be kept private with the doubleyoupi_filter_media_folders_public filter.
+
+= 1.0.9 =
+* New: Russian translation. It follows WordPress's own Russian vocabulary but has not yet been reviewed by a native speaker: corrections are welcome on translate.wordpress.org.
+
+= 1.0.8 =
+* Improvement: accessibility, after a full audit. Icon buttons, checkboxes and fields have names for screen readers, contrasts reach WCAG AA in both themes (the media library included), click targets are at least 24px, and no text is smaller than 11px (12px for column headings).
+* Fix: on multisite, "My Sites" opens on two levels again, and the network admin shows the right plugin counts.
+* Fix: every drop-down menu of the top bar opens again, including those that plugins add.
+* Fix: on WordPress 7.2, a single magnifying glass sits next to the command palette shortcut instead of two.
+* Fix: in the block editor, the publish panel no longer sits under the top bar, and it is readable in dark mode.
+* Improvement: in the editor header, the Rank Math scores match the admin design, and the Yoast SEO score colours are back.
+* Fix: Google Fonts previews are readable in dark mode.
+* Fix: on a dashboard screen with its own accent colour, the accented word of the title takes that colour.
+* Improvement: when the redesigned list cannot show its rows, it falls back to the native list instead of staying empty.
+
+= 1.0.7 =
+* Fix: in dark mode, the screens of Yoast SEO (Tools), WPForms and Elementor and the Bricks settings are easy to read, and so are the Yoast SEO and Rank Math boxes in the editor.
+* Fix: the screens of BackWPup, Duplicator, WPvivid, All-in-One WP Migration, Backup Migration, Total Upkeep and XCloner keep their own colours, and stay readable in dark mode.
+* Fix: in the redesigned post list, the Comments column and the Yoast SEO columns have proper headings instead of technical names, and Rank Math's inline edit buttons no longer show in every row.
+* Fix: the Backup widget now shows when a WPvivid backup has completed, and when a Backup Migration backup has failed.
+* Fix: Backup Migration now appears in the menu and the section bar, and its banner joins the notifications centre.
+* Fix: the radio buttons of All-in-One WP Migration no longer show a second circle.
+* Translations: a German sentence of the Developer page was reworded.
+
+= 1.0.6 =
+* New: a single review request after a week of use, in the notifications centre. "No thanks" closes it for good.
+* New: a "Leave a review" link beside the Feedback button.
+* Fix: on W3 Total Cache screens the footer is back in place, and the section bars no longer show a light strip on their right edge.
+
+= 1.0.5 =
+* New: the Backup widget of the dashboard reads the backup plugin your site already uses (UpdraftPlus, All-in-One WP Migration, Duplicator, WPvivid, BackWPup, Backup Migration, Total Upkeep, XCloner, Jetpack Backup or BlogVault) and shows your last backup. It only reads what that plugin has saved.
+* New: the media library follows your light or dark theme, switched live, including an open media window.
+* Fix: warning and danger colours show again on the dashboard and the Overview. Badges, buttons and toasts had turned grey.
+* Fix: the dashboard no longer offers a widget or an action for a feature this plugin does not include, the Toolkit link opens the Tools page, and the Site status widget says "Update available" when WordPress has an update waiting.
+* Fix: in light mode, captions under the thumbnails of media windows are readable, and the "Add Media File" button takes your accent colour.
+* The "Shop Pro" dashboard layout is now called "Sales".
+* Translations: the bundled language files no longer carry strings the plugin does not use, and plurals follow the rule of each language (in French and Portuguese, zero is now singular).
+
+= 1.0.4 =
+* Fix: in the block editor, the block inserter shows each block name under its own icon again (since WordPress 7.1 it slipped onto the row below). In dark mode the inserter panel is dark too, and its search field is one piece.
+* Fix: in the Divi 5 Theme Builder, template names show as plain labels again instead of text boxes.
+* Fix: in the top bar, the EDD counter is centred, and W3 Total Cache keeps its icon, counter and label, readable in light mode too.
+* Fix: W3 Total Cache screens keep their own native look, with the rail and section bars around them.
+* New: plugin screens that ship their own app (Animation Addons for Elementor, for example) are recognised on their own and left exactly as their authors designed them, in light and dark mode.
+* Fix: your accent colour now reaches the whole media library: folders, hovers, selection, focus, the detail panel and the media windows.
+* Fix: the list view pagination buttons no longer show a dropdown arrow.
+
+= 1.0.3 =
+* New: your folders and collections now appear in the Bricks 2.4 media browser. Open a folder or a collection to filter, create, rename, move and delete folders, and move files, all from the builder.
+* New: a file uploaded from the Bricks media browser lands in the folder you have open.
+* New: in the builder's "WordPress: Media library" window, the folder panel is there too.
+* Improvement: a section bar too long for the screen now shows arrows and scrolls, and the notifications badge no longer hides its last entries.
+* Fix: on the dashboard, the Create widget keeps a set height and scrolls when the site has many content types.
+* Translations: the French interface was updated after review by the WordPress French translation team.
+
+= 1.0.2 =
+* New: a Settings link in the plugin's row on the Plugins screen.
+* Fix: the duplicate badge now shows on duplicate files, in the media grid and in media windows. It did not appear before.
+* Fix: the duplicate badge and its column are translated, and read as a noun in German, Spanish, Italian and Portuguese.
+* The Duplicate column is back in the list view when the duplicate badge is on, with a link to the original file.
+* Fix: the "Duplicate" link of the post lists has its own translation, so it no longer reads "Doublon" in French.
+* Translations: the French interface was reviewed against the official WordPress French glossary, and a few Hindi lines were tidied.
+
+= 1.0.1 =
+* Fix: dashboard widgets no longer appear twice while the page loads.
+* Fix: in the media library, the details panel no longer overlaps the section bar.
+* Fix: media windows (such as "Choose a logo" or "Add Media") have even spacing and a single selection ring, and in "Load more" mode the folder column no longer covers the first thumbnails.
+* Fix: typing an accent colour no longer shows an error at every keystroke.
+* Improvement: the classic editor loads in one smooth step instead of jumping into place.
+* Fix: without JavaScript, the classic editor shows the title field and the Publish button again.
+* Improvement: the block editor shows its frame from the very first moment and appears in one step; the featured image no longer pushes the sidebar down.
+* Fix: menu icons from plugins such as WPForms or WP Mail SMTP show again in the section bar and the flyouts (regression in 1.0.0).
+* Fix: with debug logging on, an unknown menu entry is logged once a day instead of on every screen; Background and Header from classic themes now sit under Appearance.
+* Fix: a rail flyout taller than the screen now opens below the admin bar and scrolls, its title kept in view.
+* Fix: the dashboard presets no longer offer a widget that has nothing to show on your site.
+* Fix: an empty note no longer tells people without the Customize button to click it.
+
+= 1.0.0 =
+* First public release. Dark and light themes applied before the first paint, a themed design system across every native screen, a themed login screen, your accent colour and logo.
+* A themed navigation rail with grouped lines, resizable and collapsible, plus a bar for the sub-pages and tabs of the current screen.
+* An editor to reorder, move, hide, promote or demote menu entries, with a one-click reset.
+* A composable dashboard: drag widgets, name layouts, assign them per role.
+* One notices centre for WordPress and plugin notices, with immediate toasts for action feedback.
+* List tables and the classic editor reimagined, keeping every native and third-party action.
+* The whole Double Youpï Refined Media Library built in: folders and collections, a detail panel beside the grid, where each file is used, unused media, WebP and AVIF on upload, and import from other folder plugins.
+* Built-in toolkit, and per-user opt-out when you want it.
