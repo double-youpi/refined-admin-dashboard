@@ -721,7 +721,11 @@ body.dy-admin.post-type-acf-field-group .postbox h3.hndle {
   border-bottom: 0 !important;
 }
 
-// ── A1: field group editing banner (name + actions) ──────────
+// ── A1: editing banner of ACF's own items (name + actions) ──────
+// Field groups, and since 13/11/2026 post types, taxonomies and options
+// pages too (`acf-internal-post-type`): they share this headerbar, and it
+// holds their only Save button. Scoped to field groups, the reveal left
+// the three others without a way to save (Chris Green, fb_20261113T190721).
 // The ACF headerbar (`.acf-headerbar`) holds the group NAME field
 // (`.acf-headerbar-title-field`, = post_title), the "Add Field" button,
 // and the "Save" button. It is hidden by default (above) because its
@@ -731,8 +735,8 @@ body.dy-admin.post-type-acf-field-group .postbox h3.hndle {
 // `.acf-page-title`. The WP H1 keeps the relocated ACF logos + the "Add"
 // button. (The headerbar is outside `<form>`: ACF syncs the name value via
 // its own JS, so we move no fields — pure CSS reveal/restyle.)
-body.dy-admin.post-type-acf-field-group.post-php .acf-headerbar,
-body.dy-admin.post-type-acf-field-group.post-new-php .acf-headerbar {
+body.dy-admin.acf-internal-post-type.post-php .acf-headerbar,
+body.dy-admin.acf-internal-post-type.post-new-php .acf-headerbar {
   display: block !important;
   position: static !important;
   background: var(--dya-paper) !important;
@@ -750,8 +754,8 @@ body.dy-admin.post-type-acf-field-group.post-new-php .acf-headerbar {
   height: auto !important;
   min-height: 0 !important;
 }
-body.dy-admin.post-type-acf-field-group.post-php .acf-headerbar .acf-headerbar-inner,
-body.dy-admin.post-type-acf-field-group.post-new-php .acf-headerbar .acf-headerbar-inner {
+body.dy-admin.acf-internal-post-type.post-php .acf-headerbar .acf-headerbar-inner,
+body.dy-admin.acf-internal-post-type.post-new-php .acf-headerbar .acf-headerbar-inner {
   display: flex !important;
   align-items: center !important;
   gap: 14px !important;
@@ -762,8 +766,8 @@ body.dy-admin.post-type-acf-field-group.post-new-php .acf-headerbar .acf-headerb
   box-shadow: none !important;
 }
 // The ACF internal H1 duplicates the WP H1 → remove it.
-body.dy-admin.post-type-acf-field-group .acf-headerbar .acf-page-title { display: none !important; }
-body.dy-admin.post-type-acf-field-group .acf-headerbar .acf-headerbar-content {
+body.dy-admin.acf-internal-post-type .acf-headerbar .acf-page-title { display: none !important; }
+body.dy-admin.acf-internal-post-type .acf-headerbar .acf-headerbar-content {
   flex: 1 1 auto !important;
   min-width: 0 !important;
   display: flex !important;
@@ -771,14 +775,14 @@ body.dy-admin.post-type-acf-field-group .acf-headerbar .acf-headerbar-content {
   background: transparent !important;
   padding: 0 !important;
 }
-body.dy-admin.post-type-acf-field-group .acf-headerbar .acf-title-wrap {
+body.dy-admin.acf-internal-post-type .acf-headerbar .acf-title-wrap {
   flex: 1 1 auto !important;
   min-width: 0 !important;
   margin: 0 !important;
 }
-body.dy-admin.post-type-acf-field-group .acf-headerbar .acf-title-wrap > label { display: none !important; }
+body.dy-admin.acf-internal-post-type .acf-headerbar .acf-title-wrap > label { display: none !important; }
 // Group NAME field → editable DS title input.
-body.dy-admin.post-type-acf-field-group .acf-headerbar-title-field {
+body.dy-admin.acf-internal-post-type .acf-headerbar-title-field {
   width: 100% !important;
   background: var(--dya-paper-2) !important;
   border: 1px solid var(--dya-edge) !important;
@@ -792,34 +796,34 @@ body.dy-admin.post-type-acf-field-group .acf-headerbar-title-field {
   height: auto !important;
   box-shadow: none !important;
 }
-body.dy-admin.post-type-acf-field-group .acf-headerbar-title-field:focus {
+body.dy-admin.acf-internal-post-type .acf-headerbar-title-field:focus {
   border-color: var(--dya-accent) !important;
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--dya-accent) 25%, transparent) !important;
   outline: none !important;
 }
-body.dy-admin.post-type-acf-field-group .acf-headerbar-title-field::placeholder { color: var(--dya-ink-fade) !important; }
+body.dy-admin.acf-internal-post-type .acf-headerbar-title-field::placeholder { color: var(--dya-ink-fade) !important; }
 // Actions (Add Field = secondary, Save = primary accent).
-body.dy-admin.post-type-acf-field-group .acf-headerbar .acf-headerbar-actions {
+body.dy-admin.acf-internal-post-type .acf-headerbar .acf-headerbar-actions {
   display: flex !important;
   align-items: center !important;
   gap: 8px !important;
   flex: 0 0 auto !important;
 }
-body.dy-admin.post-type-acf-field-group .acf-headerbar .acf-btn.acf-btn-secondary,
-body.dy-admin.post-type-acf-field-group .acf-headerbar .acf-btn.add-field {
+body.dy-admin.acf-internal-post-type .acf-headerbar .acf-btn.acf-btn-secondary,
+body.dy-admin.acf-internal-post-type .acf-headerbar .acf-btn.add-field {
   background: var(--dya-paper-2) !important;
   border: 1px solid var(--dya-edge) !important;
   color: var(--dya-ink) !important;
   border-radius: var(--dya-r-md) !important;
   box-shadow: none !important;
 }
-body.dy-admin.post-type-acf-field-group .acf-headerbar .acf-btn.acf-btn-secondary:hover,
-body.dy-admin.post-type-acf-field-group .acf-headerbar .acf-btn.add-field:hover {
+body.dy-admin.acf-internal-post-type .acf-headerbar .acf-btn.acf-btn-secondary:hover,
+body.dy-admin.acf-internal-post-type .acf-headerbar .acf-btn.add-field:hover {
   background: var(--dya-paper-3) !important;
   border-color: var(--dya-accent) !important;
 }
-body.dy-admin.post-type-acf-field-group .acf-headerbar .acf-btn.acf-publish,
-body.dy-admin.post-type-acf-field-group .acf-headerbar .acf-btn.acf-btn-primary {
+body.dy-admin.acf-internal-post-type .acf-headerbar .acf-btn.acf-publish,
+body.dy-admin.acf-internal-post-type .acf-headerbar .acf-btn.acf-btn-primary {
   background: var(--dya-accent) !important;
   border: 1px solid var(--dya-accent) !important;
   color: var(--dya-accent-on, var(--dya-bg)) !important;

@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, dark theme
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -188,6 +188,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 15. Coming from FileBird or another folder plugin? Preview its folders, then import them in one click. The source plugin is never modified.
 
 == Changelog ==
+
+= 1.2.1 =
+* Fix: ACF and Secure Custom Fields: the Save button is back on the screens that edit a post type, a taxonomy or an options page. Only field groups kept it.
 
 = 1.2.0 =
 * New: "Edit" dashboard widget, the counterpart of Create: a short list of content to open in its editor, with a link to the full list. Show the latest changed entries of a type, its drafts to finish, or the content you choose (for example a client's Home and Contact pages). Each person only sees what they may edit, and content built with Bricks, Elementor, Divi, Beaver Builder, Brizy or Visual Composer opens in its builder.
@@ -479,6 +482,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Built-in toolkit, and per-user opt-out when you want it.
 
 == Upgrade Notice ==
+
+= 1.2.1 =
+ACF: the Save button is back on post types, taxonomies and options pages.
 
 = 1.2.0 =
 New "Edit" dashboard widget, a default theme that can follow the system, and a scrolling editor side column.
