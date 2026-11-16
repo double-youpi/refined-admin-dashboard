@@ -3,7 +3,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-11-16T13:16:59+00:00\n"
+"POT-Creation-Date: 2026-11-16T19:06:33+00:00\n"
 "Language: hi_IN\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
@@ -586,7 +586,7 @@ msgstr ""
 "फ़ोल्डर और संग्रह, ड्रैग एंड ड्रॉप, त्वरित पूर्वावलोकन, डुप्लिकेट और अनाथ फ़ाइलों की सफ़ाई, "
 "और अपलोड पर WebP/AVIF रूपांतरण।"
 
-#: src/Modules/Admin/Admin.php:134 src/Modules/Admin/Rail.php:614
+#: src/Modules/Admin/Admin.php:134 src/Modules/Admin/Rail.php:663
 msgid "Admin"
 msgstr "एडमिन"
 
@@ -671,54 +671,54 @@ msgstr "Admin Columns रखें"
 msgid "Section navigation"
 msgstr "अनुभाग नेविगेशन"
 
-#: src/Modules/Admin/ColumnModel.php:704
+#: src/Modules/Admin/ColumnModel.php:709
 msgid "Theme Editor"
 msgstr "थीम संपादक"
 
-#: src/Modules/Admin/ColumnModel.php:705
+#: src/Modules/Admin/ColumnModel.php:710
 msgid "Plugin Editor"
 msgstr "प्लगइन संपादक"
 
-#: src/Modules/Admin/ColumnModel.php:706
+#: src/Modules/Admin/ColumnModel.php:711
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:154
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:68
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteHealthWidget.php:199
 msgid "Site Health"
 msgstr "साइट स्वास्थ्य"
 
-#: src/Modules/Admin/ColumnModel.php:707
+#: src/Modules/Admin/ColumnModel.php:712
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:113
 #: src/Modules/Admin/Dashboard/Widgets/Data/TodoWidget.php:69
 msgid "Updates"
 msgstr "अपडेट"
 
-#: src/Modules/Admin/ColumnModel.php:1012
+#: src/Modules/Admin/ColumnModel.php:1049
 msgid "Content"
 msgstr "कंटेंट"
 
-#: src/Modules/Admin/ColumnModel.php:1013
+#: src/Modules/Admin/ColumnModel.php:1050
 msgid "Commerce"
 msgstr "कॉमर्स"
 
-#: src/Modules/Admin/ColumnModel.php:1014
+#: src/Modules/Admin/ColumnModel.php:1051
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:63
 msgid "Users"
 msgstr "उपयोगकर्ता"
 
-#: src/Modules/Admin/ColumnModel.php:1015
+#: src/Modules/Admin/ColumnModel.php:1052
 msgid "Community"
 msgstr "समुदाय"
 
-#: src/Modules/Admin/ColumnModel.php:1016
+#: src/Modules/Admin/ColumnModel.php:1053
 #: src/Modules/MediaLibrary/Settings.php:362
 msgid "Appearance"
 msgstr "दिखावट"
 
-#: src/Modules/Admin/ColumnModel.php:1017 src/Modules/Admin/Settings.php:843
+#: src/Modules/Admin/ColumnModel.php:1054 src/Modules/Admin/Settings.php:843
 msgid "System"
 msgstr "सिस्टम"
 
-#: src/Modules/Admin/ColumnModel.php:1018
+#: src/Modules/Admin/ColumnModel.php:1055
 msgid "Developer"
 msgstr "डेवलपर"
 
@@ -2800,15 +2800,15 @@ msgstr "डैशबोर्ड के साझा डिस्पोज़ि
 msgid "Configurations by role"
 msgstr "भूमिका के अनुसार कॉन्फ़िगरेशन"
 
-#: src/Modules/Admin/Rail.php:613 src/Modules/Admin/Settings.php:1123
+#: src/Modules/Admin/Rail.php:662 src/Modules/Admin/Settings.php:1123
 msgid "Dashboard"
 msgstr "डैशबोर्ड"
 
-#: src/Modules/Admin/Rail.php:790
+#: src/Modules/Admin/Rail.php:839
 msgid "Resize navigation"
 msgstr "नेविगेशन का आकार बदलें"
 
-#: src/Modules/Admin/Rail.php:791
+#: src/Modules/Admin/Rail.php:840
 msgid "Toggle navigation width"
 msgstr "नेविगेशन चौड़ाई बदलें"
 

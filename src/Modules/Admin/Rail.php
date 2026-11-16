@@ -486,6 +486,21 @@ JS;
 	 *      via `add_submenu_page('bricks', …, 'edit.php?post_type=…')`.
 	 *   4. Fallback: the candidate as-is.
 	 */
+	/**
+	 * "page|path" of a menu slug carrying a `path` (`wc-admin&path=/customers`,
+	 * `admin.php?page=wc-admin&path=%2Fmarketing`), decoded; '' otherwise.
+	 */
+	private static function page_path_key( string $slug ): string {
+		$slug = html_entity_decode( $slug );
+		if ( ! str_contains( $slug, 'path=' ) ) {
+			return '';
+		}
+		$query = str_contains( $slug, '?' ) ? substr( $slug, strpos( $slug, '?' ) + 1 ) : 'page=' . $slug;
+		$args  = [];
+		parse_str( $query, $args );
+		return isset( $args['page'], $args['path'] ) ? (string) $args['page'] . '|' . (string) $args['path'] : '';
+	}
+
 	public static function resolve_top_level_slug(): ?string {
 		global $parent_file, $plugin_page, $pagenow, $menu, $submenu, $typenow;
 
@@ -517,6 +532,40 @@ JS;
 				foreach ( (array) ( $submenu[ $split ] ?? [] ) as $item ) {
 					if ( is_array( $item ) && ( $item[2] ?? '' ) === $own ) {
 						return $own;
+					}
+				}
+			}
+		}
+
+		// Lifted sub-pages (PluginMap::LIFTED_SUBPAGES, WooCommerce Orders and
+		// Customers): chips of their own in the reimagined tree, so the screen
+		// resolves to them, not to "WooCommerce".
+		if ( ! Settings::is_native_navigation() ) {
+			$query  = array_map( static fn( $v ) => is_string( $v ) ? sanitize_text_field( wp_unslash( $v ) ) : '', $_GET ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only: which chip is lit.
+			$lifted = PluginMap::current_lifted( (string) $plugin_page, (string) $pagenow, (string) $typenow, $query );
+			if ( null !== $lifted ) {
+				return $lifted;
+			}
+		}
+
+		// One page, several menus (WooCommerce's `wc-admin`: Home, Analytics,
+		// Marketing, Customers are all `?page=wc-admin&path=…`): the top-level
+		// entry whose own slug or sub-pages carry this `path`. Without it,
+		// Analytics lit the "WooCommerce" chip (16/11/2026).
+		if ( $plugin_page && isset( $_GET['path'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only: which chip is lit.
+			$path = sanitize_text_field( wp_unslash( (string) $_GET['path'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$own  = $plugin_page . '|' . $path;
+			foreach ( (array) $menu as $entry ) {
+				$top = is_array( $entry ) ? (string) ( $entry[2] ?? '' ) : '';
+				if ( '' === $top || ! str_contains( $top, 'path=' ) && empty( $submenu[ $top ] ) ) {
+					continue;
+				}
+				if ( self::page_path_key( $top ) === $own ) {
+					return $top;
+				}
+				foreach ( (array) ( $submenu[ $top ] ?? [] ) as $item ) {
+					if ( is_array( $item ) && self::page_path_key( (string) ( $item[2] ?? '' ) ) === $own ) {
+						return $top;
 					}
 				}
 			}

@@ -2,6 +2,10 @@
 
 == Changelog ==
 
+= 1.2.5 =
+* Change: with WooCommerce, the Commerce section opens on what a shop is run with: Orders first, then Products, Customers, Analytics, Marketing and Payments, and "WooCommerce" (home, reports, settings, status) last. Orders and Customers are entries of their own instead of sitting under "WooCommerce".
+* Fix: WooCommerce Analytics and Marketing light their own entry, no longer "WooCommerce".
+
 = 1.2.4 =
 * Fix: in the redesigned lists, the Trash shows each item's title again; every row read "Restore".
 

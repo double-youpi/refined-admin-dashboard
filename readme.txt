@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, dark theme
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.2.4
+Stable tag: 1.2.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -189,6 +189,10 @@ Privacy policy: https://doubleyoupi.com/privacy
 
 == Changelog ==
 
+= 1.2.5 =
+* Change: with WooCommerce, the Commerce section opens on what a shop is run with: Orders first, then Products, Customers, Analytics, Marketing and Payments, and "WooCommerce" (home, reports, settings, status) last. Orders and Customers are entries of their own instead of sitting under "WooCommerce".
+* Fix: WooCommerce Analytics and Marketing light their own entry, no longer "WooCommerce".
+
 = 1.2.4 =
 * Fix: in the redesigned lists, the Trash shows each item's title again; every row read "Restore".
 
@@ -208,16 +212,12 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Change: an account that never picked a theme now follows its computer's light or dark setting instead of always starting dark. Choose "Dark" as the default theme to keep the former behaviour.
 * Fix: in the redesigned post editor, a side column taller than the window scrolls on its own; its end no longer waits at the bottom of the page.
 
-= 1.1.2 =
-* New: a settings profile pinned in code (DOUBLEYOUPI_ADMIN_PROFILE) can carry the configurations by role, the shared dashboard (layouts, role assignments, impositions) and "Plugin notices for administrators only". They show locked in the settings.
-* Fix: with a profile pinned in code, the configurations by role shape their roles again: the pinned menu is the site's setup, and each configuration applies over it. Before, the pinned menu applied to everyone.
-* Fix: what is pinned in code can no longer be changed from Reorganize or the dashboard, where the change was lost without a word; the screen says it is pinned.
-* Fix: in Reorganize, "Reset" while editing a configuration resets that configuration only, no longer the site's menu.
-* Fix: with a custom accent colour, the "Report or suggest" button of the Overview and the glow of WordPress' welcome panel no longer keep traces of the default violet.
-
 The complete history is in changelog.txt, in the plugin folder, and on GitHub: https://github.com/double-youpi/refined-admin-dashboard
 
 == Upgrade Notice ==
+
+= 1.2.5 =
+WooCommerce: Orders and Customers come first in the Commerce section.
 
 = 1.2.4 =
 The Trash shows titles again in the redesigned lists.
@@ -233,6 +233,3 @@ ACF: the Save button is back on post types, taxonomies and options pages.
 
 = 1.2.0 =
 New "Edit" dashboard widget, a default theme that can follow the system, and a scrolling editor side column.
-
-= 1.1.2 =
-A profile pinned in code carries the configurations by role and the shared dashboard.

@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Youpï Refined Admin Dashboard 1.2.4\n"
+"Project-Id-Version: Double Youpï Refined Admin Dashboard 1.2.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-refined-admin-dashboard\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-16T13:16:59+00:00\n"
+"POT-Creation-Date: 2026-11-16T19:06:33+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: doubleyoupi-refined-admin-dashboard\n"
@@ -556,7 +556,7 @@ msgid "Folders and collections, drag & drop, quick preview, duplicate & orphan c
 msgstr ""
 
 #: src/Modules/Admin/Admin.php:134
-#: src/Modules/Admin/Rail.php:614
+#: src/Modules/Admin/Rail.php:663
 msgid "Admin"
 msgstr ""
 
@@ -636,55 +636,55 @@ msgstr ""
 msgid "Section navigation"
 msgstr ""
 
-#: src/Modules/Admin/ColumnModel.php:704
+#: src/Modules/Admin/ColumnModel.php:709
 msgid "Theme Editor"
 msgstr ""
 
-#: src/Modules/Admin/ColumnModel.php:705
+#: src/Modules/Admin/ColumnModel.php:710
 msgid "Plugin Editor"
 msgstr ""
 
-#: src/Modules/Admin/ColumnModel.php:706
+#: src/Modules/Admin/ColumnModel.php:711
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:154
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:68
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteHealthWidget.php:199
 msgid "Site Health"
 msgstr ""
 
-#: src/Modules/Admin/ColumnModel.php:707
+#: src/Modules/Admin/ColumnModel.php:712
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:113
 #: src/Modules/Admin/Dashboard/Widgets/Data/TodoWidget.php:69
 msgid "Updates"
 msgstr ""
 
-#: src/Modules/Admin/ColumnModel.php:1012
+#: src/Modules/Admin/ColumnModel.php:1049
 msgid "Content"
 msgstr ""
 
-#: src/Modules/Admin/ColumnModel.php:1013
+#: src/Modules/Admin/ColumnModel.php:1050
 msgid "Commerce"
 msgstr ""
 
-#: src/Modules/Admin/ColumnModel.php:1014
+#: src/Modules/Admin/ColumnModel.php:1051
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:63
 msgid "Users"
 msgstr ""
 
-#: src/Modules/Admin/ColumnModel.php:1015
+#: src/Modules/Admin/ColumnModel.php:1052
 msgid "Community"
 msgstr ""
 
-#: src/Modules/Admin/ColumnModel.php:1016
+#: src/Modules/Admin/ColumnModel.php:1053
 #: src/Modules/MediaLibrary/Settings.php:362
 msgid "Appearance"
 msgstr ""
 
-#: src/Modules/Admin/ColumnModel.php:1017
+#: src/Modules/Admin/ColumnModel.php:1054
 #: src/Modules/Admin/Settings.php:843
 msgid "System"
 msgstr ""
 
-#: src/Modules/Admin/ColumnModel.php:1018
+#: src/Modules/Admin/ColumnModel.php:1055
 msgid "Developer"
 msgstr ""
 
@@ -2707,16 +2707,16 @@ msgstr ""
 msgid "Configurations by role"
 msgstr ""
 
-#: src/Modules/Admin/Rail.php:613
+#: src/Modules/Admin/Rail.php:662
 #: src/Modules/Admin/Settings.php:1123
 msgid "Dashboard"
 msgstr ""
 
-#: src/Modules/Admin/Rail.php:790
+#: src/Modules/Admin/Rail.php:839
 msgid "Resize navigation"
 msgstr ""
 
-#: src/Modules/Admin/Rail.php:791
+#: src/Modules/Admin/Rail.php:840
 msgid "Toggle navigation width"
 msgstr ""
 

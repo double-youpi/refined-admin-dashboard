@@ -132,7 +132,16 @@ JS;
 
 	private function current_url(): string {
 		// Reconstruct the URL with query string the user is currently on.
-		$qs = isset( $_SERVER['QUERY_STRING'] ) ? sanitize_text_field( wp_unslash( $_SERVER['QUERY_STRING'] ) ) : '';
+		// From the decoded parameters: sanitize_text_field() on the raw query
+		// string dropped encoded octets, `path=%2Fmarketing` became
+		// `path=marketing` and no sub-chip was lit (16/11/2026).
+		$args = [];
+		foreach ( $_GET as $key => $value ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only: which sub-chip is lit.
+			if ( is_string( $value ) ) {
+				$args[ sanitize_key( (string) $key ) ] = sanitize_text_field( wp_unslash( $value ) );
+			}
+		}
+		$qs = http_build_query( $args );
 		$base = admin_url( basename( sanitize_text_field( wp_unslash( $_SERVER['SCRIPT_NAME'] ?? '' ) ) ) );
 		return $qs ? $base . '?' . $qs : $base;
 	}
@@ -197,6 +206,10 @@ JS;
 				}
 			}
 			if ( $skip || in_array( $slug, $skip_slug_exact, true ) ) {
+				continue;
+			}
+			// A lifted sub-page is a chip of its own (PluginMap::LIFTED_SUBPAGES).
+			if ( ! Settings::is_native_navigation() && in_array( PluginMap::normalize_slug( $slug ), PluginMap::lifted_subpages( $parent_slug ), true ) ) {
 				continue;
 			}
 

@@ -5,7 +5,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-11-16T13:16:59+00:00\n"
+"POT-Creation-Date: 2026-11-16T19:06:33+00:00\n"
 "Language: fr_FR\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
@@ -602,7 +602,7 @@ msgstr ""
 "Dossiers et collections, glisser-déposer, aperçu rapide, nettoyage des "
 "doublons et des orphelins, plus conversion WebP/AVIF au téléversement."
 
-#: src/Modules/Admin/Admin.php:134 src/Modules/Admin/Rail.php:614
+#: src/Modules/Admin/Admin.php:134 src/Modules/Admin/Rail.php:663
 msgid "Admin"
 msgstr "Admin"
 
@@ -687,54 +687,54 @@ msgstr "Garder Admin Columns"
 msgid "Section navigation"
 msgstr "Navigation de section"
 
-#: src/Modules/Admin/ColumnModel.php:704
+#: src/Modules/Admin/ColumnModel.php:709
 msgid "Theme Editor"
 msgstr "Éditeur de thème"
 
-#: src/Modules/Admin/ColumnModel.php:705
+#: src/Modules/Admin/ColumnModel.php:710
 msgid "Plugin Editor"
 msgstr "Éditeur d’extensions"
 
-#: src/Modules/Admin/ColumnModel.php:706
+#: src/Modules/Admin/ColumnModel.php:711
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:154
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:68
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteHealthWidget.php:199
 msgid "Site Health"
 msgstr "Santé du site"
 
-#: src/Modules/Admin/ColumnModel.php:707
+#: src/Modules/Admin/ColumnModel.php:712
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:113
 #: src/Modules/Admin/Dashboard/Widgets/Data/TodoWidget.php:69
 msgid "Updates"
 msgstr "Mises à jour"
 
-#: src/Modules/Admin/ColumnModel.php:1012
+#: src/Modules/Admin/ColumnModel.php:1049
 msgid "Content"
 msgstr "Contenu"
 
-#: src/Modules/Admin/ColumnModel.php:1013
+#: src/Modules/Admin/ColumnModel.php:1050
 msgid "Commerce"
 msgstr "Commerce"
 
-#: src/Modules/Admin/ColumnModel.php:1014
+#: src/Modules/Admin/ColumnModel.php:1051
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:63
 msgid "Users"
 msgstr "Comptes"
 
-#: src/Modules/Admin/ColumnModel.php:1015
+#: src/Modules/Admin/ColumnModel.php:1052
 msgid "Community"
 msgstr "Communauté"
 
-#: src/Modules/Admin/ColumnModel.php:1016
+#: src/Modules/Admin/ColumnModel.php:1053
 #: src/Modules/MediaLibrary/Settings.php:362
 msgid "Appearance"
 msgstr "Apparence"
 
-#: src/Modules/Admin/ColumnModel.php:1017 src/Modules/Admin/Settings.php:843
+#: src/Modules/Admin/ColumnModel.php:1054 src/Modules/Admin/Settings.php:843
 msgid "System"
 msgstr "Système"
 
-#: src/Modules/Admin/ColumnModel.php:1018
+#: src/Modules/Admin/ColumnModel.php:1055
 msgid "Developer"
 msgstr "Développement"
 
@@ -2863,15 +2863,15 @@ msgstr "Mises en page partagées du tableau de bord et leurs rôles"
 msgid "Configurations by role"
 msgstr "Configurations par rôle"
 
-#: src/Modules/Admin/Rail.php:613 src/Modules/Admin/Settings.php:1123
+#: src/Modules/Admin/Rail.php:662 src/Modules/Admin/Settings.php:1123
 msgid "Dashboard"
 msgstr "Tableau de bord"
 
-#: src/Modules/Admin/Rail.php:790
+#: src/Modules/Admin/Rail.php:839
 msgid "Resize navigation"
 msgstr "Redimensionner la navigation"
 
-#: src/Modules/Admin/Rail.php:791
+#: src/Modules/Admin/Rail.php:840
 msgid "Toggle navigation width"
 msgstr "Basculer la largeur de navigation"
 

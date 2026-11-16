@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Double Youpi 0.9.40-dev\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/doubleyoupi-"
 "refined-admin-dashboard\n"
-"POT-Creation-Date: 2026-11-16T13:16:59+00:00\n"
+"POT-Creation-Date: 2026-11-16T19:06:33+00:00\n"
 "PO-Revision-Date: 2026-05-20 22:34+0000\n"
 "Last-Translator: Double Youpï\n"
 "Language-Team: Double Youpï (English (United Kingdom))\n"
@@ -573,7 +573,7 @@ msgid ""
 "cleanup, plus WebP/AVIF conversion on upload."
 msgstr ""
 
-#: src/Modules/Admin/Admin.php:134 src/Modules/Admin/Rail.php:614
+#: src/Modules/Admin/Admin.php:134 src/Modules/Admin/Rail.php:663
 msgid "Admin"
 msgstr "Admin"
 
@@ -658,54 +658,54 @@ msgstr "Keep Admin Columns"
 msgid "Section navigation"
 msgstr "Section navigation"
 
-#: src/Modules/Admin/ColumnModel.php:704
+#: src/Modules/Admin/ColumnModel.php:709
 msgid "Theme Editor"
 msgstr "Theme Editor"
 
-#: src/Modules/Admin/ColumnModel.php:705
+#: src/Modules/Admin/ColumnModel.php:710
 msgid "Plugin Editor"
 msgstr "Plugin Editor"
 
-#: src/Modules/Admin/ColumnModel.php:706
+#: src/Modules/Admin/ColumnModel.php:711
 #: src/Modules/Admin/Dashboard/Widgets/Data/QuickActionsWidget.php:154
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:68
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteHealthWidget.php:199
 msgid "Site Health"
 msgstr "Site Health"
 
-#: src/Modules/Admin/ColumnModel.php:707
+#: src/Modules/Admin/ColumnModel.php:712
 #: src/Modules/Admin/Dashboard/Widgets/Data/SiteStateWidget.php:113
 #: src/Modules/Admin/Dashboard/Widgets/Data/TodoWidget.php:69
 msgid "Updates"
 msgstr "Updates"
 
-#: src/Modules/Admin/ColumnModel.php:1012
+#: src/Modules/Admin/ColumnModel.php:1049
 msgid "Content"
 msgstr "Content"
 
-#: src/Modules/Admin/ColumnModel.php:1013
+#: src/Modules/Admin/ColumnModel.php:1050
 msgid "Commerce"
 msgstr "Commerce"
 
-#: src/Modules/Admin/ColumnModel.php:1014
+#: src/Modules/Admin/ColumnModel.php:1051
 #: src/Modules/Admin/Dashboard/Widgets/Data/ShortcutsWidget.php:63
 msgid "Users"
 msgstr "Users"
 
-#: src/Modules/Admin/ColumnModel.php:1015
+#: src/Modules/Admin/ColumnModel.php:1052
 msgid "Community"
 msgstr "Community"
 
-#: src/Modules/Admin/ColumnModel.php:1016
+#: src/Modules/Admin/ColumnModel.php:1053
 #: src/Modules/MediaLibrary/Settings.php:362
 msgid "Appearance"
 msgstr "Appearance"
 
-#: src/Modules/Admin/ColumnModel.php:1017 src/Modules/Admin/Settings.php:843
+#: src/Modules/Admin/ColumnModel.php:1054 src/Modules/Admin/Settings.php:843
 msgid "System"
 msgstr "System"
 
-#: src/Modules/Admin/ColumnModel.php:1018
+#: src/Modules/Admin/ColumnModel.php:1055
 msgid "Developer"
 msgstr "Developer"
 
@@ -2796,15 +2796,15 @@ msgstr "Shared dashboard dispositions and their roles"
 msgid "Configurations by role"
 msgstr "Configurations by role"
 
-#: src/Modules/Admin/Rail.php:613 src/Modules/Admin/Settings.php:1123
+#: src/Modules/Admin/Rail.php:662 src/Modules/Admin/Settings.php:1123
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#: src/Modules/Admin/Rail.php:790
+#: src/Modules/Admin/Rail.php:839
 msgid "Resize navigation"
 msgstr "Resize navigation"
 
-#: src/Modules/Admin/Rail.php:791
+#: src/Modules/Admin/Rail.php:840
 msgid "Toggle navigation width"
 msgstr "Toggle navigation width"
 

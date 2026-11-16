@@ -316,6 +316,76 @@ final class PluginMap {
 		return self::SPLIT_MENUS[ self::map_key( $slug ) ] ?? 'site';
 	}
 
+	// ── Lifted sub-pages ────────────────────────────────────────
+	// Sub-pages important enough to be chips of their own, next to their
+	// parent instead of inside it (16/11/2026): a shop owner opens Orders
+	// first, and it sat under "WooCommerce" between Home and Coupons. The
+	// parent keeps its other sub-pages. Reimagined tree only.
+	private const LIFTED_SUBPAGES = [
+		'woocommerce' => [
+			'wc-orders',                     // orders, HPOS storage (default)
+			'edit.php?post_type=shop_order', // orders, legacy post storage
+			'wc-admin&path=/customers',
+		],
+	];
+
+	/** @return string[] Sub-pages of a top-level menu that become chips of its line. */
+	public static function lifted_subpages( string $slug ): array {
+		return self::LIFTED_SUBPAGES[ self::map_key( $slug ) ] ?? [];
+	}
+
+	/** The top-level menu a lifted sub-page comes from, or null. */
+	public static function lifted_parent( string $slug ): ?string {
+		$key = self::map_key( $slug );
+		foreach ( self::LIFTED_SUBPAGES as $parent => $children ) {
+			foreach ( $children as $child ) {
+				if ( self::map_key( $child ) === $key ) {
+					return $parent;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * The lifted sub-page showing now, or null: matched on the screen's own
+	 * page (`?page=`) and query, or on its post type for the legacy orders list.
+	 *
+	 * @param array<string,string> $query The request's query (sanitized).
+	 */
+	public static function current_lifted( string $plugin_page, string $pagenow, string $typenow, array $query ): ?string {
+		foreach ( self::LIFTED_SUBPAGES as $children ) {
+			foreach ( $children as $child ) {
+				if ( str_contains( $child, '.php' ) ) {
+					// edit.php?post_type=shop_order: the list, and an order opened from it.
+					if ( preg_match( '/post_type=([a-z0-9_-]+)/', $child, $m ) && $typenow === $m[1] && in_array( $pagenow, [ 'edit.php', 'post.php', 'post-new.php' ], true ) ) {
+						return $child;
+					}
+					continue;
+				}
+				$parts = explode( '&', $child, 2 );
+				if ( $parts[0] !== $plugin_page ) {
+					continue;
+				}
+				$want = [];
+				if ( isset( $parts[1] ) ) {
+					parse_str( $parts[1], $want );
+				}
+				$match = true;
+				foreach ( $want as $k => $v ) {
+					if ( ! isset( $query[ $k ] ) || ! str_starts_with( (string) $query[ $k ], (string) $v ) ) {
+						$match = false;
+						break;
+					}
+				}
+				if ( $match ) {
+					return $child;
+				}
+			}
+		}
+		return null;
+	}
+
 	// ── Standalone page builders ────────────────────────────────
 	// Display a dedicated slot (brand icon + label) ABOVE the 7 lines,
 	// separated by a divider. Only builders actively registered at the
@@ -413,6 +483,17 @@ final class PluginMap {
 		// Custom post types (post_type=project etc.) fall to 30 via heuristic below
 		'upload.php'                           => 90,  // Media last
 
+		// Commerce (WooCommerce): orders first, the order a shop is run in;
+		// "WooCommerce" (home, reports, settings, status) last.
+		'wc-orders'                            => 10,
+		'edit.php?post_type=shop_order'        => 10,
+		'edit.php?post_type=product'           => 20,
+		'wc-admin&path=/customers'             => 30,
+		'wc-admin&path=/analytics/overview'    => 40,
+		'woocommerce-marketing'                => 50,
+		'admin.php?from=PAYMENTS_MENU_ITEM&page=wc-settings&tab=checkout' => 60,
+		'woocommerce'                          => 90,
+
 		// System — Site Health at the TOP (default chip when entering the System
 		// line, user request 2026-05-20), then Settings + sub-options,
 		// Updates at the bottom.
@@ -468,6 +549,11 @@ final class PluginMap {
 		// column) is NOT applied here, so those pages do not vanish from the live
 		// rail while Rail cannot yet absorb them. The column model (snapshot v2 /
 		// Rail v2) uses it explicitly upstream. Here, classify stays "source line".
+		// 0. A lifted sub-page lives on its parent's line.
+		$lifted_from = self::lifted_parent( $menu_slug );
+		if ( null !== $lifted_from ) {
+			return self::classify( $lifted_from );
+		}
 		// 1. Standalone builders (exact top-level) — absolute priority.
 		if ( isset( self::STANDALONE_BUILDERS[ $menu_slug ] ) ) {
 			$line = 'standalone';

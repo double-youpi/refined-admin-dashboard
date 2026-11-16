@@ -176,7 +176,12 @@ final class ColumnModel {
 				if ( ! isset( $line_chips[ $classification ] ) ) {
 					$line_chips[ $classification ] = [];
 				}
-				$line_chips[ $classification ][] = self::make_chip( $slug, $label, $open_url );
+				$chip = self::make_chip( $slug, $label, $open_url );
+				$lift = PluginMap::lifted_subpages( $slug );
+				if ( $lift ) {
+					self::lift_subpages( $line_chips, $chip, $lift, $classification );
+				}
+				$line_chips[ $classification ][] = $chip;
 			}
 		}
 
@@ -723,6 +728,38 @@ final class ColumnModel {
 			}
 			$line_chips[ $line ][] = self::make_chip( $p['slug'], $p['label'], admin_url( $p['slug'] ) );
 		}
+	}
+
+	/**
+	 * Lifts some sub-pages of a chip (PluginMap::LIFTED_SUBPAGES) to chips of
+	 * their own on the same line: out of the parent's sub-pages, into the line.
+	 * Built from the parent's sub-pages, so the rights, hidden entries and
+	 * re-parented sub-pages already apply; a sub-page the user hid or moved
+	 * stays where the user put it.
+	 *
+	 * @param array<string,array> $line_chips
+	 * @param array<string,mixed> $chip  The parent chip, updated.
+	 * @param string[]            $lift  Sub-page slugs to lift.
+	 */
+	private static function lift_subpages( array &$line_chips, array &$chip, array $lift, string $line ): void {
+		$keep = [];
+		foreach ( (array) ( $chip['subitems'] ?? [] ) as $sub ) {
+			$sub_slug = (string) ( $sub['slug'] ?? '' );
+			if ( ! in_array( $sub_slug, $lift, true ) || NavigationOverrides::is_chip_hidden( $sub_slug ) ) {
+				$keep[] = $sub;
+				continue;
+			}
+			$target = NavigationOverrides::apply_to_line( $sub_slug, $line );
+			if ( ! isset( $line_chips[ $target ] ) ) {
+				$line_chips[ $target ] = [];
+			}
+			if ( ! self::has_chip( $line_chips[ $target ], $sub_slug ) ) {
+				$lifted                  = self::make_chip( $sub_slug, (string) ( $sub['label'] ?? '' ), (string) ( $sub['url'] ?? '' ) );
+				$lifted['subitems']      = [];
+				$line_chips[ $target ][] = $lifted;
+			}
+		}
+		$chip['subitems'] = $keep;
 	}
 
 	/**
