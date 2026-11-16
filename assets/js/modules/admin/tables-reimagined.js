@@ -248,7 +248,25 @@
   }
   function titleLink(cell) {
     if (!cell) return null;
-    return cell.querySelector('a.row-title') || cell.querySelector('strong > a') || cell.querySelector('a');
+    var own = cell.querySelector('a.row-title') || cell.querySelector('strong > a');
+    if (own) return own;
+    // Any other link, but never a row action: in the Trash WordPress prints
+    // the title as plain text, and "Restore" became every row's title
+    // (Chris Green, fb_20261116T122947_1f4fc5).
+    var links = cell.querySelectorAll('a');
+    for (var i = 0; i < links.length; i++) {
+      if (!links[i].closest('.row-actions')) return links[i];
+    }
+    return null;
+  }
+  // The title without a link (Trash): WordPress' own text, without the row
+  // actions, the post states ("Draft") and the screen-reader-only words.
+  function titleText(cell) {
+    if (!cell) return '';
+    var src = cell.querySelector('.row-title') || cell.querySelector('strong') || cell;
+    var copy = src.cloneNode(true);
+    copy.querySelectorAll('.row-actions, .post-state, .post-states, .screen-reader-text, .hidden, button').forEach(function (n) { n.remove(); });
+    return (copy.textContent || '').replace(/\s+/g, ' ').replace(/^[\s\u2014\u2013-]+|[\s\u2014\u2013-]+$/g, '').trim();
   }
   function statusOf(tr) {
     var m = (tr.className || '').match(/status-([a-z_-]+)/);
@@ -323,7 +341,7 @@
       rows.push({
         tr: tr,
         id: id,
-        title: link ? txt(link) : txt(cell),
+        title: link ? txt(link) : titleText(cell),
         editHref: link ? link.getAttribute('href') : '',
         status: statusOf(tr),
         author: colText(tr, 'column-author'),

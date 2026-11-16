@@ -4,7 +4,7 @@ Tags: admin theme, dark mode, admin menu, dashboard, dark theme
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.2.3
+Stable tag: 1.2.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -189,6 +189,9 @@ Privacy policy: https://doubleyoupi.com/privacy
 
 == Changelog ==
 
+= 1.2.4 =
+* Fix: in the redesigned lists, the Trash shows each item's title again; every row read "Restore".
+
 = 1.2.3 =
 * Change: this readme lists the latest versions only; the complete history is in changelog.txt, in the plugin folder, and on GitHub.
 
@@ -212,21 +215,12 @@ Privacy policy: https://doubleyoupi.com/privacy
 * Fix: in Reorganize, "Reset" while editing a configuration resets that configuration only, no longer the site's menu.
 * Fix: with a custom accent colour, the "Report or suggest" button of the Overview and the glow of WordPress' welcome panel no longer keep traces of the default violet.
 
-= 1.1.1 =
-* Change: screens use the full width of the window, as WordPress itself now draws them (post lists, the editor, settings…), instead of a centred column. The bars above them follow.
-* Fix: text fields keep the width WordPress or the plugin gives them; they were all shrunk to their default size.
-* Fix: with the native WordPress navigation tree, plugin icons drawn as SVG (Double Youpï, Bricks, WooCommerce, WP Mail SMTP…) show in the rail again, in the colour of the theme, and every icon is centred on its label.
-* Fix: a custom logo of any proportions, even a very tall one, fits whole in the rail, centred.
-* Change: in French, the "Editor" and "Administrator" dashboard layouts are named "Édition" and "Administration", so the layout cards keep their balance.
-* Fix: in "Configurations by role", the arrow of a drop-down list no longer covers its text.
-* Fix: in Reorganize, the "Open" button next to "You are editing:" no longer shows when choosing in the list already opens the configuration.
-* Fix: the "Hidden" drawer of Reorganize names hidden entries ("Comments") instead of showing their address.
-* Fix: a note from Double Youpï Refined Media Library saying it stepped aside is shown only to those who can manage plugins.
-* Change: English texts quote names with curly quotes instead of French guillemets.
-
 The complete history is in changelog.txt, in the plugin folder, and on GitHub: https://github.com/double-youpi/refined-admin-dashboard
 
 == Upgrade Notice ==
+
+= 1.2.4 =
+The Trash shows titles again in the redesigned lists.
 
 = 1.2.3 =
 A shorter changelog in the readme; the full history moves to changelog.txt.
@@ -242,6 +236,3 @@ New "Edit" dashboard widget, a default theme that can follow the system, and a s
 
 = 1.1.2 =
 A profile pinned in code carries the configurations by role and the shared dashboard.
-
-= 1.1.1 =
-Full-width screens, text fields at their intended width, plugin icons in the native tree, tall logos.

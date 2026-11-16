@@ -2,6 +2,9 @@
 
 == Changelog ==
 
+= 1.2.4 =
+* Fix: in the redesigned lists, the Trash shows each item's title again; every row read "Restore".
+
 = 1.2.3 =
 * Change: this readme lists the latest versions only; the complete history is in changelog.txt, in the plugin folder, and on GitHub.
 
